@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<!--
+	COPYRIGHT (c) IEC, 2016. This version of this code component is part of IEC 62351-90-1; see the IEC 62351-90-1; for full legal notices. In case of any differences between the here-below code and the IEC published content, the here-below definition supersedes the IEC publication; it may contain updates. See history files. The whole document has to be taken into account to have a full description of this code component.
+	See www.iec.ch/CCv1 for copyright details.-->
+
+<PolicySet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicySetId="PPS:Permissions-list" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" Version="2">
+<Target/>
+	<PolicySet PolicySetId="Permission:VIEW" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Logical Device</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">View</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+	<PolicySet PolicySetId="Permission:READ" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Logical Device</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Read</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+	<PolicySet PolicySetId="Permission:CONFIG" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Configuration</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Write</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Read</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+	<PolicySet PolicySetId="Permission:CONTROL" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="IEC62351:Permission-to-Control-objects" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="Rule-for-Control" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Logical Device</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Control</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+	<PolicySet PolicySetId="Permission:DATASET" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="IEC62351:Permission-to-Dataset-objects" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="Rule-for-Dataset" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Dataset</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Read</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Create</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+	<PolicySet PolicySetId="Permission:REPORTING" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Report</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Subscribe</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Unsuscribe</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+	<PolicySet PolicySetId="Permission:FILEMNGT" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">File</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Create</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Delete</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Read</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Write</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+	<PolicySet PolicySetId="Permission:FILEWRITE" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">File</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Read</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Write</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+	<PolicySet PolicySetId="Permission:FILEREAD" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="IEC62351:Permission-to-File-objects" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="Rule-for-File" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">File</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Read</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+	<PolicySet PolicySetId="Permission:SECURITY" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">RBAC</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Create</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Delete</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Read</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Write</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+	<PolicySet PolicySetId="Permission:SETTINGGROUP" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+		<Target/>
+		<Policy PolicyId="IEC62351:Permission-to-Setting-objects" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+			<Target/>
+			<Rule RuleId="Rule-for-Setting" Effect="Permit">
+				<Target>
+					<Resources>
+						<Resource>
+							<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Setting</AttributeValue>
+								<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ResourceMatch>
+						</Resource>
+					</Resources>
+					<Actions>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Read</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+						<Action>
+							<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+								<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Write</AttributeValue>
+								<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+							</ActionMatch>
+						</Action>
+					</Actions>
+				</Target>
+			</Rule>
+		</Policy>
+	</PolicySet>
+</PolicySet>
