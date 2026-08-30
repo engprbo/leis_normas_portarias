@@ -1,0 +1,45 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H2><A NAME="HDR14"> 4      Connectivity</A></H2>
+<P>This chapter describes the concept of connectivity in EDIF. The view types that support connectivity definitions are connectivity, schematic, PCB/MCM, masklayout and symboliclayout. The concepts of logical connectivity and structural connectivity are explicitly introduced.
+<H3><A NAME="REF28718"> 4.1    Logical connectivity</A></H3>
+<P>The logical connectivity information describes the connectivity for a given level of hierarchy. It is defined in terms of <A HREF="IMEX0009.HTM#instance" TARGET=ModelArea>instances</A> (see section <A HREF="IMINT000.HTM#REF74291">2.6</A>), <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signals</A> and <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_groups</A>. The information carried in the logical connectivity section is similar in each of the connectivity-carrying types of view. The <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signals</A> and <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_groups</A> are used to describe the overall connectivity for the entire view. The model for the logical connectivity section can be found in the <A HREF="IMEX0012.HTM#logical_connectivity_model" TARGET=ModelArea>logical_connectivity_model</A> schema.
+<H4><A NAME="HDR15"> 4.1.1     Signals</A></H4>
+<P>A <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A> is defined as an object which lists all the <A HREF="IMEX0007.HTM#global_port" TARGET=ModelArea>global_ports</A> (defined in <A HREF="IMEX0007.HTM#edif" TARGET=ModelArea>edif</A>), <A HREF="IMEX0009.HTM#instance_member_port" TARGET=ModelArea>instance_member_ports</A> (ports on members of <A HREF="IMEX0009.HTM#instance" TARGET=ModelArea>instances</A>) and <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_ports</A> (ports defined in the <A HREF="IMEX0009.HTM#cluster_interface" TARGET=ModelArea>cluster_interface</A>) which are electrically common at a given level of hierarchy. A <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A> is always one-bit wide and is defined within a view, i.e. <A HREF="IMEX0002.HTM#internal_connectivity_view" TARGET=ModelArea>internal_connectivity_view</A>, <A HREF="IMEX0028.HTM#internal_schematic_view" TARGET=ModelArea>internal_schematic_view</A> and <A HREF="IMEX0021.HTM#internal_pcb_mcm_view" TARGET=ModelArea>internal_pcb_mcm_view</A>. All <A HREF="IMEX0007.HTM#global_port" TARGET=ModelArea>global_ports</A> joined by a <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A> are defined in the containing <A HREF="IMEX0007.HTM#edif" TARGET=ModelArea>edif</A>. All <A HREF="IMEX0009.HTM#instance_member_port" TARGET=ModelArea>instance_member_ports</A> joined by a <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A> must refer to <A HREF="IMEX0009.HTM#instance" TARGET=ModelArea>instances</A> in the containing view. Finally, all <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_ports</A> joined by a <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A> must be defined in the interface of the containing <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A>. Figure <A HREF="IMINT002.HTM#REF24450">4.1</A> shows the model of <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A>.
+<P><A NAME="REF24450"><CENTER><IMG SRC="FIG0007.GIF">
+</CENTER></A>
+<P><CENTER> Figure 4.1:  The model of signal</CENTER>
+<H4><A NAME="HDR16"> 4.1.2     Signal groups</A></H4>
+<P>A <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> provides a grouping mechanism for <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signals</A>. A <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> does not establish connectivity. It is defined within a view and is used to support structural connectivity. A <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> is specified in terms of an ordered list of one or more <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signals</A> or <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_groups</A> in the same containing view. The structure of a <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> is independent of port ordering or port structure. No two <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_groups</A> may have the same structure of members. The same <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A> may be referenced in the ordered signal list of more than one <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A>. The same signal may be referenced more than once in a single <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A>. 
+
+<P>Figure <A HREF="IMINT002.HTM#REF15495">4.2</A> shows an example of <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_groups</A> and <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signals</A>. Boxes with thick borders represent <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_groups</A> and those with narrow borders represent <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signals</A>. The figure shows how <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signals</A> can be built up into <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_groups</A>, and these in turn included in further <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_groups</A>. This hierarchical structure can then be used to support the structural connectivity expressed by busses.
+<P><A NAME="REF15495"><CENTER><IMG SRC="FIG0008.GIF">
+</CENTER></A>
+<P><CENTER> Figure 4.2:  An example of the structure of a signal_group</CENTER>
+<H3><A NAME="HDR17"> 4.2    Structural connectivity</A></H3>
+<P>The structural connectivity describes the structural implementation of the logical connectivity for a given level of hierarchy. It is defined in terms of nets, busses, rippers and junctions. The structural connectivity section is viewtype specific. Table <A HREF="IMINT002.HTM#REF26722">4.1</A> shows which structural connectivity items are allowed in different view types. In connectivity or schematic views, wide instances are available. Connection to a wide instance is discussed in chapter <A HREF="IMINT007.HTM#REF34413">10</A>. The structural connectivity of connectivity views is described in chapter <A HREF="IMINT008.HTM#REF20821">11</A> and the structural connectivity of schematic views is described in chapter <A HREF="IMINT009.HTM#REF26502">13</A>.
+<P><A NAME="REF26722"> Table 4.1: Structural connectivity items allowed in different types of view</A> 
+<CENTER>
+<TABLE BORDER>
+<TR><TD ALIGN=LEFT><BR> <TD ALIGN=CENTER>connectivity<BR> <TD ALIGN=CENTER>schematic<BR> <TD ALIGN=CENTER>symbolic<BR> <TD ALIGN=CENTER>masklayout<BR> 
+<TR><TD ALIGN=LEFT>net, subnet<BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> 
+<TR><TD ALIGN=LEFT>bus, sub-bus, bus-slice<BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> 
+<TR><TD ALIGN=LEFT>ripper<BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> 
+<TR><TD ALIGN=LEFT>junction<BR> <TD ALIGN=LEFT><BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER>yes<BR> 
+<TR><TD ALIGN=LEFT>interconnect_terminator<BR> <TD ALIGN=CENTER><BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER><BR> <TD ALIGN=CENTER><BR> 
+<TR><TD ALIGN=LEFT>offpageconnector<BR> <TD ALIGN=CENTER><BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER><BR> <TD ALIGN=CENTER><BR> 
+<TR><TD ALIGN=LEFT>onpageconnector<BR> <TD ALIGN=CENTER><BR> <TD ALIGN=CENTER>yes<BR> <TD ALIGN=CENTER><BR> <TD ALIGN=CENTER><BR> 
+</TABLE>
+</CENTER>
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

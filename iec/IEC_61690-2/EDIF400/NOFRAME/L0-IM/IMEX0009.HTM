@@ -1,0 +1,2231 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="hierarchy_model">hierarchy_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A> schema describes the hierarchical information of a
+ <A HREF="IMEX0009.HTM#cell">cell</A> which is the basic unit of design.  A <A HREF="IMEX0009.HTM#cell">cell</A> can have multiple views
+ of the same type.  Views and symbols which share the same interface are
+ grouped into a <A HREF="IMEX0009.HTM#cluster">cluster</A>.  Views and symbols may also be grouped into a
+ <A HREF="IMEX0009.HTM#view_group">view_group</A> to indicate a particularly close relationship to each other.
+</P><HR>
+<!-- Start of ENTITY: cell -->
+<H2><A NAME="cell">cell</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#cell">cell</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0009.HTM#internal_cell">internal_cell</A>, 
+                                   <A HREF="IMEX0009.HTM#external_cell">external_cell</A>));
+    clusters            : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#cluster">cluster</A>;
+    document            : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name                : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties          : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    status_of_copyright : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#copyright">copyright</A>;
+    status_of_written   : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+    view_groups         : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#view_group">view_group</A>;             
+  DERIVE
+    containing_library : <A HREF="IMEX0011.HTM#library">library</A> -- reference
+                         := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+                            '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.cells');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#cell">cell</A> contains <A HREF="IMEX0009.HTM#cluster">clusters</A> which may be instantiated later in another
+ <A HREF="IMEX0009.HTM#cell">cell</A> to build a design hierarchy.  A <A HREF="IMEX0009.HTM#cell">cell</A> is allowed to have multiple
+ symbols as well as multiple views of the same type.  Views and symbols which
+ share the same interface are grouped into a <A HREF="IMEX0009.HTM#cluster">cluster</A>.  Views and symbols
+ may also be grouped into a <A HREF="IMEX0009.HTM#view_group">view_group</A> to indicate a particularly close
+ relationship to each other.  A <A HREF="IMEX0009.HTM#cell">cell</A> is classified into <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A> and
+ <A HREF="IMEX0009.HTM#external_cell">external_cell</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cluster">cluster</A> <A HREF="IMEX0003.HTM#design">design</A> <A HREF="IMEX0011.HTM#library">library</A> <A HREF="IMEX0009.HTM#view_group">view_group</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_cell -->
+<H2><A NAME="internal_cell">internal_cell</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#cell">cell</A>);
+    SELF\<A HREF="IMEX0009.HTM#cell">cell</A>.clusters    : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A>;
+    SELF\<A HREF="IMEX0009.HTM#cell">cell</A>.view_groups : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#internal_view_group">internal_view_group</A>;
+  WHERE
+    <A NAME="internal_cell.containment_constraint">containment_constraint</A> :
+      (* An internal_cell belongs to one internal_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#internal_library">internal_library</A>.cells');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A> is a <A HREF="IMEX0009.HTM#cell">cell</A> which can be found in an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.
+ An <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A> may contain implementation information.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#internal_library">internal_library</A> </P>
+<HR>
+<!-- Start of ENTITY: external_cell -->
+<H2><A NAME="external_cell">external_cell</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#external_cell">external_cell</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#cell">cell</A>);
+    SELF\<A HREF="IMEX0009.HTM#cell">cell</A>.clusters    : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#external_cluster">external_cluster</A>;
+    SELF\<A HREF="IMEX0009.HTM#cell">cell</A>.view_groups : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#external_view_group">external_view_group</A>;
+  WHERE
+    <A NAME="external_cell.containment_constraint">containment_constraint</A> :
+      (* An external_cell belongs to one external_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#external_library">external_library</A>.cells');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#external_cell">external_cell</A> is a <A HREF="IMEX0009.HTM#cell">cell</A> found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  An
+ <A HREF="IMEX0009.HTM#external_cell">external_cell</A> does not have implementation information and therefore only
+ <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representations</A> are allowed in an <A HREF="IMEX0009.HTM#external_cell">external_cell</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#external_library">external_library</A> </P>
+<HR>
+<!-- Start of ENTITY: cluster -->
+<H2><A NAME="cluster">cluster</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#cluster">cluster</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A>,
+                                   <A HREF="IMEX0009.HTM#external_cluster">external_cluster</A>));
+    cell_representations   : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>;
+    cluster_configurations : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A>;
+    document               : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name                   : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    interface              : <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>;
+    properties             : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    status_of_copyright    : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#copyright">copyright</A>;
+    status_of_written      : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+  DERIVE
+    containing_cell : <A HREF="IMEX0009.HTM#cell">cell</A> -- reference
+                      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+                         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cell">cell</A>.clusters');
+  WHERE
+    <A NAME="cluster.valid_cluster_configurations">valid_cluster_configurations</A> :
+      (* All expandable_cluster_configurations must choose cell_representations
+         which are defined in the cluster, and the chosen cell_representations
+         must be view representations. *)
+    <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(configuration &lt;* 
+      QUERY(config &lt;* cluster_configurations |
+      <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(config, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>')) |
+      (NOT (configuration\<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>
+            .chosen_cell_representation IN cell_representations))
+       OR
+      ((TYPEOF(configuration\<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>
+               .chosen_cell_representation)
+        * -- set intersection operator
+        ['<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0028.HTM#internal_schematic_symbol">internal_schematic_symbol</A>',
+         '<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0028.HTM#external_schematic_symbol">external_schematic_symbol</A>']) = [])));
+
+    <A NAME="cluster.valid_optional_attributes">valid_optional_attributes</A> :
+       (* The dependencies of these optional attributes are stated as follows:
+          1. A <A HREF="IMEX0009.HTM#cluster">cluster</A> cannot have expandable_cluster_configurations if it does
+             not define any cell_representations. *)
+       EXISTS(cell_representations) OR 
+         <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(config &lt;* cluster_configurations |
+         <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(config, 
+                   '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>')));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#cluster">cluster</A> is a group of views and symbols which have the same interface.
+ Those views and symbols must belong to the same <A HREF="IMEX0009.HTM#cell">cell</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cell">cell</A> <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A> <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> <A HREF="IMEX0009.HTM#instance">instance</A> <A HREF="IMEX0024.HTM#part_function">part_function</A> <A HREF="IMEX0012.HTM#signal">signal</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_cluster -->
+<H2><A NAME="internal_cluster">internal_cluster</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#cluster">cluster</A>);
+    SELF\<A HREF="IMEX0009.HTM#cluster">cluster</A>.cell_representations : OPTIONAL SET [1:?] OF 
+                                        <A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A>;
+  WHERE
+    <A NAME="internal_cluster.containment_constraint">containment_constraint</A> :
+      (* An internal_cluster belongs to one internal_cell. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#internal_cell">internal_cell</A>.clusters');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A> is a <A HREF="IMEX0009.HTM#cluster">cluster</A> found in an <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A>.  Internal
+ views and internal symbols which share the same interface are grouped into
+ an <A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#internal_cell">internal_cell</A> <A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A> <A HREF="IMEX0009.HTM#internal_cluster_instance">internal_cluster_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: external_cluster -->
+<H2><A NAME="external_cluster">external_cluster</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#external_cluster">external_cluster</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#cluster">cluster</A>);
+    SELF\<A HREF="IMEX0009.HTM#cluster">cluster</A>.cell_representations : OPTIONAL SET [1:?] OF 
+                                        <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representation</A>;
+  WHERE
+    <A NAME="external_cluster.containment_constraint">containment_constraint</A> :
+      (* An external_cluster belongs to one external_cell. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#external_cell">external_cell</A>.clusters');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#external_cluster">external_cluster</A> is a <A HREF="IMEX0009.HTM#cluster">cluster</A> found in an <A HREF="IMEX0009.HTM#external_cell">external_cell</A>.  External
+ views and external symbols which share the same interface are grouped into
+ an <A HREF="IMEX0009.HTM#external_cluster">external_cluster</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#external_cell">external_cell</A> <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representation</A> <A HREF="IMEX0009.HTM#external_cluster_instance">external_cluster_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: cluster_configuration -->
+<H2><A NAME="cluster_configuration">cluster_configuration</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>,
+                                   <A HREF="IMEX0009.HTM#leaf_configuration">leaf_configuration</A>));
+    name       : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_cluster : <A HREF="IMEX0009.HTM#cluster">cluster</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,'<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster">cluster</A>.cluster_configurations');
+  WHERE
+    <A NAME="cluster_configuration.containment_constraint">containment_constraint</A> :
+      (* A cluster_configuration belongs to one cluster. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster">cluster</A>.cluster_configurations');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A> can be either an
+ <A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> or a <A HREF="IMEX0009.HTM#leaf_configuration">leaf_configuration</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cluster">cluster</A> <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A> <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A> </P>
+<HR>
+<!-- Start of ENTITY: expandable_cluster_configuration -->
+<H2><A NAME="expandable_cluster_configuration">expandable_cluster_configuration</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A>);
+    chosen_cell_representation : <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>;               -- reference
+    global_port_scopes         : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#global_port">global_port</A>; -- reference
+    instance_configurations    : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A>;
+    unconfigured_instances     : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#unconfigured_instance">unconfigured_instance</A>;
+  WHERE
+    <A NAME="expandable_cluster_configuration.valid_instance_configurations">valid_instance_configurations</A> :
+      (* Each instance defined within the chosen cell_representation must be
+         either given an instance_configuration or chosen to be unconfigured. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(instanceConfiguration &lt;* instance_configurations |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(unconfiguredInstance &lt;* unconfigured_instances |
+          instanceConfiguration.configured_instance
+          :=: unconfiguredInstance.referenced_instance))));
+
+    <A NAME="expandable_cluster_configuration.valid_chosen_cell_representation">valid_chosen_cell_representation</A> :
+      (* The chosen cell_representation must be a view. *)
+      NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(chosen_cell_representation, 
+                     '<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0028.HTM#internal_schematic_symbol">internal_schematic_symbol</A>')
+           OR 
+           <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(chosen_cell_representation,
+                     '<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0028.HTM#external_schematic_symbol">external_schematic_symbol</A>'));
+
+    <A NAME="expandable_cluster_configuration.valid_global_port_scopes">valid_global_port_scopes</A> :
+      (* The referenced global_ports are defined in the containing edif. *)
+      global_port_scopes  &lt;= containing_cluster.containing_cell
+                             .containing_library.containing_edif.global_ports;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> gives enough information to expand the
+ hierarchy from that point onwards.  It chooses which view to look at and
+ then for each instance of that view, it is either given an
+ <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A> or defines that <A HREF="IMEX0009.HTM#instance">instance</A> as unconfigured.
+ Global_port_scopes are established on <A HREF="IMEX0007.HTM#global_port">global_ports</A> in an occurrence
+ hierarchy.  If a <A HREF="IMEX0007.HTM#global_port">global_port</A> is scoped, this indicates that any references
+ to that <A HREF="IMEX0007.HTM#global_port">global_port</A> within the occurrence hierarchy are connected together,
+ except in any lower branch that scopes the same <A HREF="IMEX0007.HTM#global_port">global_port</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A> <A HREF="IMEX0009.HTM#unconfigured_instance">unconfigured_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: leaf_configuration -->
+<H2><A NAME="leaf_configuration">leaf_configuration</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#leaf_configuration">leaf_configuration</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#leaf_configuration">leaf_configuration</A> specifies that there is no further substructure in an
+ expanded design.  If an <A HREF="IMEX0009.HTM#instance">instance</A> is given an <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A>
+ which points to a <A HREF="IMEX0009.HTM#leaf_configuration">leaf_configuration</A>, it means that there is no further
+ structure in the design tree below that instance. 
+</P><HR>
+<!-- Start of ENTITY: instance_configuration -->
+<H2><A NAME="instance_configuration">instance_configuration</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A>;
+    configured_instance          : <A HREF="IMEX0009.HTM#instance">instance</A>;              -- reference
+    chosen_cluster_configuration : <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A>; -- reference
+  DERIVE
+    containing_configuration : <A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> -- reference
+    := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+    '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>.instance_configurations');
+  UNIQUE
+    uniqueness_constraint :
+    (* There is only one instance_configuration for a particular instance
+       within the containing expandable_cluster_configuration. *)
+    configured_instance, containing_configuration;
+  WHERE
+    <A NAME="instance_configuration.valid_existence">valid_existence</A> :
+      (* An instance_configuration belongs to one
+         expandable_cluster_configuration. *)
+    <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+    '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>.instance_configurations');
+
+    <A NAME="instance_configuration.valid_configured_instance">valid_configured_instance</A> :
+      (* The configured instance must be defined in the chosen
+         cell_representation of the containing
+         expandable_cluster_configuration. *)
+      configured_instance.containing_view
+      :=: containing_configuration.chosen_cell_representation;
+
+    <A NAME="instance_configuration.valid_chosen_cluster_configuration">valid_chosen_cluster_configuration</A> :
+      (* The chosen cluster_configuration is defined in the instantiated
+         cluster of the chosen instance. *) 
+      EXISTS(configured_instance.instantiated_cluster.cluster_configurations)
+      AND
+      (chosen_cluster_configuration IN 
+         configured_instance.instantiated_cluster.cluster_configurations);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A> selects a <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A> for an
+ <A HREF="IMEX0009.HTM#instance">instance</A>. The chosen <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A> is defined in the
+ instantiated cluster of the configured <A HREF="IMEX0009.HTM#instance">instance</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> <A HREF="IMEX0003.HTM#leaf_occurrence_annotate">leaf_occurrence_annotate</A> <A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: unconfigured_instance -->
+<H2><A NAME="unconfigured_instance">unconfigured_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#unconfigured_instance">unconfigured_instance</A>;
+    referenced_instance : <A HREF="IMEX0009.HTM#instance">instance</A>; -- reference
+  DERIVE
+    containing_configuration : <A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> -- reference
+    := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+    '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>.unconfigured_instances');
+  UNIQUE
+    uniqueness_constraint :
+    (* There is only one unconfigured_instance for a particular instance within
+       the containing expandable_cluster_configuration. *)
+    referenced_instance, containing_configuration;
+  WHERE
+    <A NAME="unconfigured_instance.valid_existence">valid_existence</A> :
+      (* An unconfigured_instance belongs to one
+         expandable_cluster_configuration. *)
+    <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+    '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>.unconfigured_instances');
+
+    <A NAME="unconfigured_instance.valid_referenced_instance">valid_referenced_instance</A> :
+      (* The referenced instance must be defined in the chosen
+         cell_representation of the containing
+         expandable_cluster_configuration. *)
+      referenced_instance.containing_view
+      :=: containing_configuration.chosen_cell_representation;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#unconfigured_instance">unconfigured_instance</A> specifies that an <A HREF="IMEX0009.HTM#instance">instance</A> is deliberately
+ specified to be unconfigured.  It is not possible to expand completely a
+ design containing one or more <A HREF="IMEX0009.HTM#unconfigured_instance">unconfigured_instances</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> </P>
+<HR>
+<!-- Start of ENTITY: view_group -->
+<H2><A NAME="view_group">view_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#view_group">view_group</A>
+      SUPERTYPE OF (ONEOF(<A HREF="IMEX0009.HTM#internal_view_group">internal_view_group</A>,
+                          <A HREF="IMEX0009.HTM#external_view_group">external_view_group</A>));
+    cell_representations : OPTIONAL SET [1:?] OF             -- reference
+                           <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>;
+    document             : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name                 : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    nested_view_groups   : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#view_group">view_group</A>; -- reference
+    properties           : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#private_property">private_property</A>;
+    reason               : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+  DERIVE
+    containing_cell : <A HREF="IMEX0009.HTM#cell">cell</A> -- reference
+                      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+                         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cell">cell</A>.view_groups');
+  WHERE
+    <A NAME="view_group.valid_cell_representations">valid_cell_representations</A> :
+      (* All member views and symbols are defined in the containing cell of the
+         view_group. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(memberCellRepresentation &lt;* cell_representations |
+        memberCellRepresentation.containing_cluster.containing_cell 
+        :&lt;&gt;: containing_cell));
+
+    <A NAME="view_group.valid_nested_view_groups">valid_nested_view_groups</A> :
+      (* All cell_representations within nested_view_groups must belong to the
+         containing cell of the view_group. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(viewGroup &lt;* nested_view_groups |
+        viewGroup.containing_cell :&lt;&gt;: containing_cell));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#view_group">view_group</A> is a group of views and symbols which belong to the same
+ <A HREF="IMEX0009.HTM#cell">cell</A>. There are various reasons for grouping. It is used to express a
+ relationship between any number of views of any type.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cell">cell</A> <A HREF="IMEX0009.HTM#view_group">view_group</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_view_group -->
+<H2><A NAME="internal_view_group">internal_view_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#internal_view_group">internal_view_group</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#view_group">view_group</A>);
+    SELF\<A HREF="IMEX0009.HTM#view_group">view_group</A>.cell_representations : OPTIONAL SET [1:?] OF -- reference
+                                           <A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A>;  
+    SELF\<A HREF="IMEX0009.HTM#view_group">view_group</A>.nested_view_groups   : OPTIONAL SET [1:?] OF -- reference
+                                           <A HREF="IMEX0009.HTM#internal_view_group">internal_view_group</A>;           
+  WHERE
+    <A NAME="internal_view_group.containment_constraint">containment_constraint</A> :
+      (* An internal_view_group belongs to one internal_cell. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#internal_cell">internal_cell</A>.view_groups');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#internal_view_group">internal_view_group</A> specifies a grouping of views and symbols that
+ belong to an <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A>.  There are various reasons for grouping, e.g.
+ an old version of a netlist and a related schematic, a flattened netlist and
+ derived layout implementation. It is used to express a relationship between
+ any number of views and symbols.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#internal_cell">internal_cell</A> <A HREF="IMEX0009.HTM#internal_view_group">internal_view_group</A> </P>
+<HR>
+<!-- Start of ENTITY: external_view_group -->
+<H2><A NAME="external_view_group">external_view_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#external_view_group">external_view_group</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#view_group">view_group</A>);
+    SELF\<A HREF="IMEX0009.HTM#view_group">view_group</A>.cell_representations : OPTIONAL SET [1:?] OF -- reference
+                                           <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representation</A>;  
+    SELF\<A HREF="IMEX0009.HTM#view_group">view_group</A>.nested_view_groups   : OPTIONAL SET [1:?] OF -- reference
+                                           <A HREF="IMEX0009.HTM#external_view_group">external_view_group</A>;           
+  WHERE
+    <A NAME="external_view_group.containment_constraint">containment_constraint</A> :
+      (* An external_view_group belongs to one external_cell. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#external_cell">external_cell</A>.view_groups');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#external_view_group">external_view_group</A> specifies a grouping of views and symbols that
+ belong to an <A HREF="IMEX0009.HTM#external_cell">external_cell</A>.  There are various reasons for grouping, e.g.
+ an old version of a netlist and a related schematic, a flattened netlist and
+ derived layout implementation. It is used to express a relationship between
+ any number of views and symbols.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#external_cell">external_cell</A> <A HREF="IMEX0009.HTM#external_view_group">external_view_group</A> </P>
+<HR>
+<!-- Start of ENTITY: cluster_interface -->
+<H2><A NAME="cluster_interface">cluster_interface</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>;
+    designator            : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    joined_port_sets      : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#joined_port_set">joined_port_set</A>;
+    must_join_port_sets   : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#must_join_port_set">must_join_port_set</A>;
+    permutables           : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>;
+    port_bundles          : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>;
+    ports                 : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#master_port">master_port</A>;
+    timings               : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#timing">timing</A>;
+    units                 : <A HREF="IMEX0009.HTM#cluster_interface_units">cluster_interface_units</A>;
+    weak_joined_port_sets : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#weak_joined_port_set">weak_joined_port_set</A>;
+  DERIVE
+    containing_cluster : <A HREF="IMEX0009.HTM#cluster">cluster</A> -- reference
+                         := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+                            '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster">cluster</A>.interface');
+  WHERE
+    <A NAME="cluster_interface.containment_constraint">containment_constraint</A> :
+      (* A cluster_interface belongs to one cluster. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster">cluster</A>.interface');
+
+    <A NAME="cluster_interface.valid_permutables">valid_permutables</A> :
+      (* A port may be referenced at most once within a permutable or
+         non_permutable in an interface. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(port &lt;* ports |
+       (SIZEOF(USEDIN(port, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#permutable_port_set">permutable_port_set</A>.members'))
+        +
+        SIZEOF(USEDIN(port, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#non_permutable_port_set">non_permutable_port_set</A>.members'))
+       ) &gt; 1));
+
+    <A NAME="cluster_interface.valid_port_relationships">valid_port_relationships</A> :
+      (* A port may be referenced at most once in joined, must_join and
+         weak_joined. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(port &lt;* ports |
+      (SIZEOF(USEDIN(port, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#joined_port_set">joined_port_set</A>.member_ports'))
+       +
+       SIZEOF(USEDIN(port, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#must_join_port_set">must_join_port_set</A>.member_ports'))
+       +
+       SIZEOF(USEDIN(port, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#weak_joined_port_set">weak_joined_port_set</A>.member_ports'))
+      ) &gt; 1));
+
+    <A NAME="cluster_interface.valid_optional_attributes">valid_optional_attributes</A> :
+       (* The dependencies of these optional attributes are stated as follows:
+          1. A <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> cannot have joined_port_sets,
+             must_join_port_sets, weak_joined_port_sets, permutables or
+             port_bundles if it does not define any ports. *)
+       EXISTS(ports) OR
+         NOT EXISTS(joined_port_sets) AND NOT EXISTS(must_join_port_sets) AND
+         NOT EXISTS(permutables) AND NOT EXISTS(port_bundles) AND
+         NOT EXISTS(weak_joined_port_sets);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> defines objects which can be seen and relationships
+ which must hold for all views and symbols within a <A HREF="IMEX0009.HTM#cluster">cluster</A>.  It includes
+ definitions of <A HREF="IMEX0009.HTM#master_port">master_ports</A> and <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundles</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> <A HREF="IMEX0009.HTM#cluster">cluster</A> <A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_group</A> <A HREF="IMEX0009.HTM#master_port">master_port</A> <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> </P>
+<HR>
+<!-- Start of ENTITY: cluster_interface_units -->
+<H2><A NAME="cluster_interface_units">cluster_interface_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#cluster_interface_units">cluster_interface_units</A>;
+    set_capacitance : <A HREF="IMEX0029.HTM#capacitance_unit">capacitance_unit</A>;
+    set_time        : <A HREF="IMEX0029.HTM#time_unit">time_unit</A>;
+  WHERE
+    <A NAME="cluster_interface_units.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.units',
+         '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A>.default_interface_units']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#cluster_interface_units">cluster_interface_units</A> is used to set the scaling for the interface of
+ a <A HREF="IMEX0009.HTM#cluster">cluster</A>.  In a <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>, it is appropriate to set a
+ capacitance scale and a timing scale.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> <A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A> </P>
+<HR>
+<!-- Start of ENTITY: master_port -->
+<H2><A NAME="master_port">master_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#master_port">master_port</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0009.HTM#input_master_port">input_master_port</A>, 
+                                   <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A>,
+                                   <A HREF="IMEX0009.HTM#bidirectional_master_port">bidirectional_master_port</A>, 
+                                   <A HREF="IMEX0009.HTM#unspecified_direction_master_port">unspecified_direction_master_port</A>)); 
+    ac_load                   : OPTIONAL <A HREF="IMEX0029.HTM#capacitance_value">capacitance_value</A>;
+    default_connection        : OPTIONAL <A HREF="IMEX0007.HTM#global_port">global_port</A>; -- reference
+    delays                    : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_delay">port_delay</A>;
+    designator                : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    load_delays               : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A>;
+    name                      : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties                : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    schematic_port_attributes : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#schematic_port_attribute">schematic_port_attribute</A>;
+    unused_internally         : <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  DERIVE
+    containing_interface : <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> -- reference
+                           := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+                              '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.ports');
+    size                 : INTEGER := 1;
+  WHERE
+    <A NAME="master_port.containment_constraint">containment_constraint</A> :
+      (* A master_port belongs to one cluster_interface. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.ports');
+
+    <A NAME="master_port.valid_default_connection">valid_default_connection</A> :
+      (* The referenced global_port must be defined in the containing edif. *)
+      default_connection 
+        IN containing_interface.containing_cluster.containing_cell.
+           containing_library.containing_edif.global_ports;
+
+    <A NAME="master_port.valid_unused">valid_unused</A> :
+      (* If a master_port is unused internally, it is not allowed to have a
+         default_connection. *) 
+      NOT (unused_internally AND EXISTS(default_connection));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#master_port">master_port</A> can be defined within the interface of a <A HREF="IMEX0009.HTM#cluster">cluster</A> of a
+ <A HREF="IMEX0009.HTM#cell">cell</A>.  The size of a <A HREF="IMEX0009.HTM#master_port">master_port</A> is always one.  A <A HREF="IMEX0009.HTM#master_port">master_port</A> may
+ optionally have a direction characteristic, which can be input, output or
+ bidirectional.  It also has information about its external load capacitance,
+ delays for the given set of transitions and its designator name.  The
+ unused_internally attribute is a boolean flag indicating whether or not the
+ <A HREF="IMEX0009.HTM#master_port">master_port</A> is being used by the views.  If a <A HREF="IMEX0009.HTM#master_port">master_port</A> is declared to
+ be unused, it indicates that this port may be used by the instantiating view
+ for any purpose without influencing the operation of the cell in any way.
+ The default_connection indicates a connection to a <A HREF="IMEX0007.HTM#global_port">global_port</A> which is to
+ be made if no other connection is specified for the port when the cluster is
+ instantiated.  If a <A HREF="IMEX0009.HTM#master_port">master_port</A> is defined to be unused, it is not allowed
+ to have a default_connection.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#board_terminal">board_terminal</A> <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> <A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A> <A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A> <A HREF="IMEX0009.HTM#instance_member_port">instance_member_port</A> <A HREF="IMEX0009.HTM#instance_port">instance_port</A> <A HREF="IMEX0009.HTM#joined_port_set">joined_port_set</A> <A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_group</A> <A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A> <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> <A HREF="IMEX0009.HTM#master_port_or_master_port_bundle">master_port_or_master_port_bundle</A> <A HREF="IMEX0009.HTM#must_join_port_set">must_join_port_set</A> <A HREF="IMEX0009.HTM#non_permutable_port_set">non_permutable_port_set</A> <A HREF="IMEX0024.HTM#part_function_terminal">part_function_terminal</A> <A HREF="IMEX0009.HTM#permutable_port_set">permutable_port_set</A> <A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A> <A HREF="IMEX0027.HTM#schematic_generic_net">schematic_generic_net</A> <A HREF="IMEX0027.HTM#schematic_master_port_representation">schematic_master_port_representation</A> <A HREF="IMEX0028.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A> <A HREF="IMEX0012.HTM#signal">signal</A> <A HREF="IMEX0009.HTM#weak_joined_port_set">weak_joined_port_set</A> </P>
+<HR>
+<!-- Start of ENTITY: input_master_port -->
+<H2><A NAME="input_master_port">input_master_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#input_master_port">input_master_port</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#master_port">master_port</A>);                                     
+    dc_fanout_load : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    dc_max_fanin   : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#input_master_port">input_master_port</A> describes an input port which is defined in the
+ interface. The signal information flows into the cell at an
+ <A HREF="IMEX0009.HTM#input_master_port">input_master_port</A>. The dc_fanout_load attribute specifies the amount
+ contributed by an <A HREF="IMEX0009.HTM#input_master_port">input_master_port</A> towards the fan-out load of any
+ connected output or bidirectional port. The dc_max_fanin attribute specifies
+ an upper bound for the sum of all dc_fanin_loads of all output or
+ bidirectional ports which drive the given input port.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#input_instance_port">input_instance_port</A> <A HREF="IMEX0003.HTM#input_master_port_annotate">input_master_port_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: output_master_port -->
+<H2><A NAME="output_master_port">output_master_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#master_port">master_port</A>);                                     
+    dc_fanin_load : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    dc_max_fanout : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A> describes an output port which is defined in the 
+ interface. The signal information flows out of the cell at an
+ <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A>. The dc_fanin_load attribute specifies the amount
+ contributed by an <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A> towards the fan-in load of any
+ connected input or bidirectional port.  The dc_max_fanout attribute
+ specifies an upper bound for the sum of all dc_fanout_load of all input or
+ bidirectional ports which are driven by the given <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#output_instance_port">output_instance_port</A> <A HREF="IMEX0003.HTM#output_master_port_annotate">output_master_port_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: bidirectional_master_port -->
+<H2><A NAME="bidirectional_master_port">bidirectional_master_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#bidirectional_master_port">bidirectional_master_port</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#master_port">master_port</A>);
+    dc_fanin_load  : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    dc_fanout_load : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    dc_max_fanin   : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    dc_max_fanout  : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#bidirectional_master_port">bidirectional_master_port</A> describes a bidirectional port which is
+ defined in the interface.  The signal information flows both ways through
+ the port.  Explanations of attributes can be found in <A HREF="IMEX0009.HTM#input_master_port">input_master_port</A>
+ and <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#bidirectional_instance_port">bidirectional_instance_port</A> <A HREF="IMEX0003.HTM#bidirectional_master_port_annotate">bidirectional_master_port_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: unspecified_direction_master_port -->
+<H2><A NAME="unspecified_direction_master_port">unspecified_direction_master_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#unspecified_direction_master_port">unspecified_direction_master_port</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#master_port">master_port</A>);                                          
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#unspecified_direction_master_port">unspecified_direction_master_port</A> describe a <A HREF="IMEX0009.HTM#master_port">master_port</A> for which
+ the direction of the signal information flow is not defined.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#unspecified_direction_instance_port">unspecified_direction_instance_port</A> <A HREF="IMEX0003.HTM#unspecified_direction_master_port_annotate">unspecified_direction_master_port_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: master_port_bundle -->
+<H2><A NAME="master_port_bundle">master_port_bundle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>;
+    member_ports : LIST [1:?] OF UNIQUE -- reference
+                   <A HREF="IMEX0009.HTM#master_port_or_master_port_bundle">master_port_or_master_port_bundle</A>;
+    name         : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties   : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_interface : <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> -- reference
+                           := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+                              '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.port_bundles');
+    flattened_port_list  : LIST OF UNIQUE <A HREF="IMEX0009.HTM#master_port">master_port</A> -- reference
+                           := <A HREF="IMEX0009.HTM#flatten_master_port_bundle">flatten_master_port_bundle</A>(member_ports);
+    size                 : INTEGER := SIZEOF(flattened_port_list);
+  WHERE
+    <A NAME="master_port_bundle.containment_constraint">containment_constraint</A> :
+      (* A master_port_bundle belongs to one cluster_interface. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.port_bundles');
+
+    <A NAME="master_port_bundle.valid_member_ports">valid_member_ports</A> :
+      (* All member master_ports or master_port_bundles are defined in the 
+         containing cluster_interface. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(port &lt;* member_ports |
+        port.containing_interface :&lt;&gt;: containing_interface));
+
+    <A NAME="master_port_bundle.valid_size">valid_size</A> :
+      (* The size of the flattened master_port list must be greater than
+         one. *)
+      size &gt;= 1;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> can be defined within the interface of a <A HREF="IMEX0009.HTM#cluster">cluster</A> of
+ a <A HREF="IMEX0009.HTM#cell">cell</A>.  It provides a structuring mechanism of <A HREF="IMEX0009.HTM#master_port">master_ports</A>. The size
+ of a <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> is greater than or equal to one.  A
+ <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> can contain nested <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundles</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> <A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A> <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A> <A HREF="IMEX0027.HTM#master_port_bundle_or_local_master_port_group">master_port_bundle_or_local_master_port_group</A> <A HREF="IMEX0009.HTM#master_port_or_master_port_bundle">master_port_or_master_port_bundle</A> <A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A> <A HREF="IMEX0028.HTM#schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: local_master_port_group -->
+<H2><A NAME="local_master_port_group">local_master_port_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_group</A>;
+    member_ports : LIST [2:?] OF UNIQUE -- reference
+                   <A HREF="IMEX0009.HTM#master_port_or_master_port_bundle">master_port_or_master_port_bundle</A>;
+    name         : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties   : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_interface : <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> -- reference
+                           := <A HREF="IMEX0009.HTM#containing_interface_of_port_group">containing_interface_of_port_group</A>(SELF);
+    flattened_port_list  : LIST OF UNIQUE <A HREF="IMEX0009.HTM#master_port">master_port</A> -- reference
+                           := <A HREF="IMEX0009.HTM#flatten_master_port_bundle">flatten_master_port_bundle</A>(member_ports);
+    size                 : INTEGER := SIZEOF(flattened_port_list);
+  WHERE
+    <A NAME="local_master_port_group.containment_constraint">containment_constraint</A> :
+      (* A local_master_port_group belongs to one internal_connectivity_view
+         or one page. *) 
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+       ['<A HREF="IMEX0002.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>.local_port_groups',
+        '<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0027.HTM#page">page</A>.local_port_groups']);
+
+    <A NAME="local_master_port_group.valid_member_ports">valid_member_ports</A> :
+      (* All member master_ports or master_port_bundles are defined in the 
+         containing cluster_interface. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(port &lt;* member_ports |
+        port.containing_interface :&lt;&gt;: containing_interface));
+
+    <A NAME="local_master_port_group.valid_size">valid_size</A> :
+      (* The size of the flattened master_port list must be greater than
+         two. *)
+      size &gt;= 2;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_group</A> is defined within an
+ <A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A> or a <A HREF="IMEX0027.HTM#page">page</A>.  It provides an arbitrary grouping 
+ of <A HREF="IMEX0009.HTM#master_port">master_ports</A> and <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundles</A> which can be used to support
+ structural connectivity. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A> <A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A> <A HREF="IMEX0027.HTM#master_port_bundle_or_local_master_port_group">master_port_bundle_or_local_master_port_group</A> <A HREF="IMEX0027.HTM#page">page</A> <A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A> </P>
+<HR>
+<!-- Start of TYPE: master_port_or_master_port_bundle -->
+<H2><A NAME="master_port_or_master_port_bundle">master_port_or_master_port_bundle</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0009.HTM#master_port_or_master_port_bundle">master_port_or_master_port_bundle</A> 
+    = SELECT (<A HREF="IMEX0009.HTM#master_port">master_port</A>, <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#master_port_or_master_port_bundle">master_port_or_master_port_bundle</A> can be either a <A HREF="IMEX0009.HTM#master_port">master_port</A> or a 
+ <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_group</A> <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> </P>
+<HR>
+<!-- Start of FUNCTION: flatten_master_port_bundle -->
+<H2><A NAME="flatten_master_port_bundle">flatten_master_port_bundle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0009.HTM#flatten_master_port_bundle">flatten_master_port_bundle</A>
+    (bundle_members : LIST OF UNIQUE <A HREF="IMEX0009.HTM#master_port_or_master_port_bundle">master_port_or_master_port_bundle</A>) 
+       : LIST OF UNIQUE <A HREF="IMEX0009.HTM#master_port">master_port</A>;
+    LOCAL
+      i, j        : INTEGER;
+      position    : INTEGER := 1;
+      port_list   : LIST OF <A HREF="IMEX0009.HTM#master_port">master_port</A> := [ ];
+      member_list : LIST OF <A HREF="IMEX0009.HTM#master_port">master_port</A> := [ ];
+    END_LOCAL;
+
+    REPEAT i := 1 TO SIZEOF(bundle_members);
+      IF '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#master_port">master_port</A>' IN TYPEOF(bundle_members[i]) THEN
+        INSERT(port_list, bundle_members[i], position);
+        position := position + 1;
+      ELSE
+        member_list:=<A HREF="IMEX0009.HTM#flatten_master_port_bundle">flatten_master_port_bundle</A>(bundle_members[i].member_ports);
+        REPEAT j := 1 TO SIZEOF(member_list);
+          INSERT(port_list, member_list[j], position);
+          position := position + 1;
+        END_REPEAT;
+      END_IF;
+    END_REPEAT;
+    RETURN(port_list);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#flatten_master_port_bundle">flatten_master_port_bundle</A> function returns the flattened list of
+ <A HREF="IMEX0009.HTM#master_port">master_ports</A> of a <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_group</A> <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> </P>
+<HR>
+<!-- Start of FUNCTION: containing_interface_of_port_group -->
+<H2><A NAME="containing_interface_of_port_group">containing_interface_of_port_group</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0009.HTM#containing_interface_of_port_group">containing_interface_of_port_group</A>
+    (portGroup : <A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_group</A>) : <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>;
+    LOCAL
+      containingView : <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>;
+    END_LOCAL;
+    IF <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(portGroup,
+       '<A HREF="IMEX0002.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>.local_port_groups')
+    THEN
+       containingView := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(portGroup,
+       '<A HREF="IMEX0002.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>.local_port_groups');
+    END_IF;
+
+    IF <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(portGroup,
+       '<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0027.HTM#page">page</A>.local_port_groups')
+    THEN
+       containingView := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(portGroup,
+       '<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0027.HTM#page">page</A>.local_port_groups').containing_view;
+    END_IF;
+
+    RETURN(containingView.interface);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#containing_interface_of_port_group">containing_interface_of_port_group</A> returns the <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> of
+ the <A HREF="IMEX0009.HTM#cluster">cluster</A> which contains the <A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_group</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_group</A> </P>
+<HR>
+<!-- Start of ENTITY: permutable_relationship -->
+<H2><A NAME="permutable_relationship">permutable_relationship</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A>, 
+                                   <A HREF="IMEX0009.HTM#permutable_port_set">permutable_port_set</A>));
+    size : INTEGER;
+  WHERE
+    <A NAME="permutable_relationship.containment_constraint">containment_constraint</A> :
+      (* A permutable_relationship belongs to either one cluster_interface, one
+         permutable_structure or one non_permutable_structure. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+       ['<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.permutables',
+        '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A>.permutable_members',
+        '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#non_permutable_structure">non_permutable_structure</A>.permutable_members']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A> is used to describe ports or groups of ports
+ which can be interchanged. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> <A HREF="IMEX0009.HTM#non_permutable_structure">non_permutable_structure</A> <A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A> </P>
+<HR>
+<!-- Start of ENTITY: permutable_port_set -->
+<H2><A NAME="permutable_port_set">permutable_port_set</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#permutable_port_set">permutable_port_set</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>);
+    members : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#master_port">master_port</A>; -- reference
+  DERIVE
+    SELF\<A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>.size : INTEGER 
+                                        := SIZEOF(members);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#permutable_port_set">permutable_port_set</A> is used to describe a relationship between a set of
+ <A HREF="IMEX0009.HTM#master_port">master_ports</A> in which each member of the set is interchangeable.
+</P><HR>
+<!-- Start of ENTITY: permutable_structure -->
+<H2><A NAME="permutable_structure">permutable_structure</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>);
+    non_permutable_members : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#non_permutable_relationship">non_permutable_relationship</A>;
+    permutable_members     : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>;
+  DERIVE
+    SELF\<A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>.size : INTEGER
+        := <A HREF="IMEX0009.HTM#permutable_structure_size">permutable_structure_size</A> (non_permutable_members,
+                                      permutable_members);
+  WHERE
+    <A NAME="permutable_structure.same_member_size">same_member_size</A> :
+      (* Each permutable_member and non_permutable_member within a
+         permutable_structure must be the same size. *) 
+      <A HREF="IMEX0009.HTM#permutable_structure_equal_member_size">permutable_structure_equal_member_size</A>(non_permutable_members, 
+                                             permutable_members);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A> is used to indicate that its member structures may
+ be exchanged as a whole but not partially.
+</P><HR>
+<!-- Start of FUNCTION: permutable_structure_size -->
+<H2><A NAME="permutable_structure_size">permutable_structure_size</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0009.HTM#permutable_structure_size">permutable_structure_size</A> 
+    (non_permutable_members : SET OF <A HREF="IMEX0009.HTM#non_permutable_relationship">non_permutable_relationship</A>;
+     permutable_members     : SET OF <A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>) : INTEGER;
+    LOCAL
+      i         : INTEGER;
+      temp_size : INTEGER := 0;
+    END_LOCAL;
+
+    REPEAT i := 1 TO HIINDEX(permutable_members);
+        temp_size := temp_size + permutable_members[i].size;
+    END_REPEAT;
+
+    REPEAT i := 1 TO HIINDEX(non_permutable_members);
+        temp_size := temp_size + non_permutable_members[i].size;
+    END_REPEAT;
+    RETURN(temp_size);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#permutable_structure_size">permutable_structure_size</A> function returns the size of a
+ <A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A>.  The size is the sum of all its member structure
+ sizes.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A> </P>
+<HR>
+<!-- Start of FUNCTION: permutable_structure_equal_member_size -->
+<H2><A NAME="permutable_structure_equal_member_size">permutable_structure_equal_member_size</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0009.HTM#permutable_structure_equal_member_size">permutable_structure_equal_member_size</A>
+    (non_permutable_members : SET OF <A HREF="IMEX0009.HTM#non_permutable_relationship">non_permutable_relationship</A>;
+     permutable_members     : SET OF <A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>) : BOOLEAN;
+    LOCAL
+      i          : INTEGER;
+      valid_size : INTEGER;
+    END_LOCAL; 
+
+    IF <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(non_permutable_members) THEN
+      valid_size:= non_permutable_members[1].size;
+    ELSE 
+      IF <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(permutable_members) THEN
+         valid_size := permutable_members[1].size;
+      END_IF;
+    END_IF;
+    RETURN(<A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(non_permutable_member &lt;* non_permutable_members |
+             non_permutable_member.size &lt;&gt; valid_size))
+               AND 
+           <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(permutable_member &lt;* permutable_members |
+             permutable_member.size &lt;&gt; valid_size)));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#permutable_structure_equal_member_size">permutable_structure_equal_member_size</A> function returns true if all
+ member structures of a <A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A> has the same size.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A> </P>
+<HR>
+<!-- Start of ENTITY: non_permutable_relationship -->
+<H2><A NAME="non_permutable_relationship">non_permutable_relationship</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#non_permutable_relationship">non_permutable_relationship</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0009.HTM#non_permutable_structure">non_permutable_structure</A>, 
+                                   <A HREF="IMEX0009.HTM#non_permutable_port_set">non_permutable_port_set</A>));
+    size : INTEGER;
+  WHERE
+    <A NAME="non_permutable_relationship.containment_constraint">containment_constraint</A> :
+      (* A non_permutable_relationship belongs to one permutable_structure. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A>.non_permutable_members');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#non_permutable_relationship">non_permutable_relationship</A> is used to describe ports or groups of ports
+ which cannot be interchanged.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#permutable_structure">permutable_structure</A> </P>
+<HR>
+<!-- Start of ENTITY: non_permutable_port_set -->
+<H2><A NAME="non_permutable_port_set">non_permutable_port_set</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#non_permutable_port_set">non_permutable_port_set</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#non_permutable_relationship">non_permutable_relationship</A>);
+    members : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#master_port">master_port</A>; -- reference
+  DERIVE
+    SELF\<A HREF="IMEX0009.HTM#non_permutable_relationship">non_permutable_relationship</A>.size : INTEGER
+                                            := SIZEOF(members);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#non_permutable_port_set">non_permutable_port_set</A> is used to describe a relationship in which a
+ set of <A HREF="IMEX0009.HTM#master_port">master_ports</A> cannot be interchanged.
+</P><HR>
+<!-- Start of ENTITY: non_permutable_structure -->
+<H2><A NAME="non_permutable_structure">non_permutable_structure</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#non_permutable_structure">non_permutable_structure</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#non_permutable_relationship">non_permutable_relationship</A>);
+    permutable_members : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>;
+  DERIVE
+    SELF\<A HREF="IMEX0009.HTM#non_permutable_relationship">non_permutable_relationship</A>.size : INTEGER
+        := <A HREF="IMEX0009.HTM#non_permutable_structure_size">non_permutable_structure_size</A>(permutable_members);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#non_permutable_structure">non_permutable_structure</A> is used to indicate that its member structures
+ may not be exchanged.
+</P><HR>
+<!-- Start of FUNCTION: non_permutable_structure_size -->
+<H2><A NAME="non_permutable_structure_size">non_permutable_structure_size</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0009.HTM#non_permutable_structure_size">non_permutable_structure_size</A> 
+    (permutable_members : SET OF <A HREF="IMEX0009.HTM#permutable_relationship">permutable_relationship</A>) : INTEGER;
+    LOCAL
+      i         : INTEGER;
+      temp_size : INTEGER := 0;
+    END_LOCAL;
+
+    REPEAT i:= 1 TO HIINDEX(permutable_members);
+        temp_size := temp_size + permutable_members[i].size;
+    END_REPEAT;
+    RETURN(temp_size);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#non_permutable_structure_size">non_permutable_structure_size</A> function returns the size of a
+ <A HREF="IMEX0009.HTM#non_permutable_structure">non_permutable_structure</A>.  The size is the sum of all its member structure 
+ sizes.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#non_permutable_structure">non_permutable_structure</A> </P>
+<HR>
+<!-- Start of ENTITY: joined_port_set -->
+<H2><A NAME="joined_port_set">joined_port_set</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#joined_port_set">joined_port_set</A>;
+    member_ports : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#master_port">master_port</A>; -- reference
+  WHERE
+    <A NAME="joined_port_set.containment_constraint">containment_constraint</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.joined_port_sets',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#must_join_port_set">must_join_port_set</A>.nested_joined_sets',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#weak_joined_port_set">weak_joined_port_set</A>.nested_joined_sets']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#joined_port_set">joined_port_set</A> is used to specify that certain <A HREF="IMEX0009.HTM#master_port">master_ports</A> are
+ shorted together.  Since the ports are shorted internally, a connection to
+ one of them implies that a connection has been made to any of the other
+ ports. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> <A HREF="IMEX0009.HTM#must_join_port_set">must_join_port_set</A> <A HREF="IMEX0009.HTM#weak_joined_port_set">weak_joined_port_set</A> </P>
+<HR>
+<!-- Start of ENTITY: weak_joined_port_set -->
+<H2><A NAME="weak_joined_port_set">weak_joined_port_set</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#weak_joined_port_set">weak_joined_port_set</A>;
+    member_ports        : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#master_port">master_port</A>; -- reference
+    nested_joined_sets  : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#joined_port_set">joined_port_set</A>;
+  WHERE
+    <A NAME="weak_joined_port_set.containment_constraint">containment_constraint</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+        ['<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.weak_joined_port_sets',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#must_join_port_set">must_join_port_set</A>.nested_weak_joined_sets']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#weak_joined_port_set">weak_joined_port_set</A> is used to specify that certain <A HREF="IMEX0009.HTM#master_port">master_ports</A> are
+ shorted internally so that an external connection can be made to any one of
+ them, but they cannot be used as feedthroughs.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> <A HREF="IMEX0009.HTM#must_join_port_set">must_join_port_set</A> </P>
+<HR>
+<!-- Start of ENTITY: must_join_port_set -->
+<H2><A NAME="must_join_port_set">must_join_port_set</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#must_join_port_set">must_join_port_set</A>;
+    member_ports            : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#master_port">master_port</A>; -- reference
+    nested_joined_sets      : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#joined_port_set">joined_port_set</A>;
+    nested_weak_joined_sets : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#weak_joined_port_set">weak_joined_port_set</A>;
+  WHERE
+    <A NAME="must_join_port_set.containment_constraint">containment_constraint</A> :
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.must_join_port_sets');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#must_join_port_set">must_join_port_set</A> is used to specify that certain <A HREF="IMEX0009.HTM#master_port">master_ports</A> must
+ be connected externally for correct operation.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> </P>
+<HR>
+<!-- Start of ENTITY: cell_representation -->
+<H2><A NAME="cell_representation">cell_representation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>
+    ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A>,
+                                 <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representation</A>));
+    derived_from        : OPTIONAL <A HREF="IMEX0009.HTM#related_cell_representation">related_cell_representation</A>;
+    document            : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name                : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    previous_version    : OPTIONAL <A HREF="IMEX0009.HTM#related_cell_representation">related_cell_representation</A>;
+    properties          : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    status_of_copyright : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#copyright">copyright</A>;
+    status_of_written   : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+  DERIVE
+    interface : <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> -- reference
+                (* The interface is inherited from the containing cluster. *)
+                := containing_cluster.interface;
+    containing_cluster : <A HREF="IMEX0009.HTM#cluster">cluster</A>  -- reference
+                         := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+                            '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster">cluster</A>.cell_representations');
+  WHERE
+    <A NAME="cell_representation.valid_non_recursive_derive_from">valid_non_recursive_derive_from</A> :
+      (* A cell_representation cannot derive from itself either directly or
+         indirectly. *) 
+      <A HREF="IMEX0029.HTM#non_recursive_derive_from">non_recursive_derive_from</A>(SELF, []);
+
+    <A NAME="cell_representation.valid_non_recursive_previous_version">valid_non_recursive_previous_version</A> :
+      (* A cell_representation cannot be a new version of itself either
+         directly or indirectly. *) 
+      <A HREF="IMEX0029.HTM#non_recursive_previous_version">non_recursive_previous_version</A>(SELF, []);
+
+    <A NAME="cell_representation.valid_derive_from">valid_derive_from</A> :
+      (* The cell_representation and its derived cell_representation are
+         defined in the same cell. *)
+      containing_cluster.containing_cell :=: 
+        derived_from.related_representation.containing_cluster.containing_cell;
+
+    <A NAME="cell_representation.valid_previous_version">valid_previous_version</A> :
+      (* The cell_representation and its previous version are defined in the 
+         same cell and they must be of the same type. *)
+      (containing_cluster.containing_cell :=: 
+         previous_version
+         .related_representation
+         .containing_cluster
+         .containing_cell
+      ) AND (TYPEOF(SELF) = TYPEOF(previous_version));
+
+    <A NAME="cell_representation.valid_status_in_previous_version">valid_status_in_previous_version</A> :
+      (* The earliest timestamp of the cell_representation is later than the 
+         latest timestamp of its previous version. *)
+      <A HREF="IMEX0004.HTM#valid_timestamp_in_previous_version">valid_timestamp_in_previous_version</A>(status_of_written,
+        previous_version.related_representation.status_of_written);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> specifies a representation, or perspective of a
+ <A HREF="IMEX0009.HTM#cell">cell</A>. It is classified into <A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A> and 
+ <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representation</A>.  An <A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A> belongs
+ to one <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A> and may include implementation details.  An 
+ <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representation</A> belongs to one <A HREF="IMEX0009.HTM#external_cell">external_cell</A> and is not
+ allowed to have implementation information.  A <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> may be
+ derived from another <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>.  It may also be a new version of
+ another <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cluster">cluster</A> <A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> <A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> <A HREF="IMEX0009.HTM#related_cell_representation">related_cell_representation</A> <A HREF="IMEX0027.HTM#schematic_instance_implementation">schematic_instance_implementation</A> <A HREF="IMEX0012.HTM#signal">signal</A> <A HREF="IMEX0012.HTM#signal_group">signal_group</A> <A HREF="IMEX0009.HTM#view_group">view_group</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_cell_representation -->
+<H2><A NAME="internal_cell_representation">internal_cell_representation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0030.HTM#internal_behavior_view">internal_behavior_view</A>, 
+                                   <A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>, 
+                                   <A HREF="IMEX0030.HTM#internal_logicmodel_view">internal_logicmodel_view</A>, 
+                                   <A HREF="IMEX0030.HTM#internal_masklayout_view">internal_masklayout_view</A>, 
+                                   <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>, 
+                                   <A HREF="IMEX0028.HTM#internal_schematic_symbol">internal_schematic_symbol</A>,
+                                   <A HREF="IMEX0028.HTM#internal_schematic_view">internal_schematic_view</A>, 
+                                   <A HREF="IMEX0030.HTM#internal_symboliclayout_view">internal_symboliclayout_view</A>))
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>);
+  DERIVE
+    SELF\<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>.containing_cluster : <A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A>.cell_representations');
+  WHERE
+    <A NAME="internal_cell_representation.containment_constraint">containment_constraint</A> :
+      (* An internal_cell_representation belongs to one internal_cluster. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A>.cell_representations');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A> is a <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> found in an
+ <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A>.  It can be either an internal view or an internal symbol.
+ An <A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A> is allowed to contain implementation
+ information. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#instance">instance</A> <A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A> <A HREF="IMEX0009.HTM#internal_view_group">internal_view_group</A> </P>
+<HR>
+<!-- Start of ENTITY: external_cell_representation -->
+<H2><A NAME="external_cell_representation">external_cell_representation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representation</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0030.HTM#external_behavior_view">external_behavior_view</A>, 
+                                   <A HREF="IMEX0002.HTM#external_connectivity_view">external_connectivity_view</A>, 
+                                   <A HREF="IMEX0030.HTM#external_logicmodel_view">external_logicmodel_view</A>, 
+                                   <A HREF="IMEX0030.HTM#external_masklayout_view">external_masklayout_view</A>, 
+                                   <A HREF="IMEX0021.HTM#external_pcb_mcm_view">external_pcb_mcm_view</A>, 
+                                   <A HREF="IMEX0028.HTM#external_schematic_symbol">external_schematic_symbol</A>,
+                                   <A HREF="IMEX0028.HTM#external_schematic_view">external_schematic_view</A>, 
+                                   <A HREF="IMEX0030.HTM#external_symboliclayout_view">external_symboliclayout_view</A>))
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>);
+  DERIVE
+    SELF\<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>.containing_cluster : <A HREF="IMEX0009.HTM#external_cluster">external_cluster</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#external_cluster">external_cluster</A>.cell_representations');
+  WHERE
+    <A NAME="external_cell_representation.containment_constraint">containment_constraint</A> :
+      (* An external_cell_representation belongs to one external_cluster. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#external_cluster">external_cluster</A>.cell_representations');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representation</A> is a <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> found in an
+ <A HREF="IMEX0009.HTM#external_cell">external_cell</A>.  It can be either an external view or an external symbol.
+ An <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representation</A> is not allowed to contain implementation
+ information.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#external_cluster">external_cluster</A> <A HREF="IMEX0009.HTM#external_view_group">external_view_group</A> </P>
+<HR>
+<!-- Start of ENTITY: related_cell_representation -->
+<H2><A NAME="related_cell_representation">related_cell_representation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#related_cell_representation">related_cell_representation</A>;
+    reason                 : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    related_representation : <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>; -- reference
+  WHERE
+    <A NAME="related_cell_representation.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>.derived_from');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#related_cell_representation">related_cell_representation</A> specifies a related cell representation.
+ This is used in defining the relationship between two cell representations
+ where one is a new version of another, or where one is derived from another.
+ A slot is provided which may be used to annotate the reason for this close
+ relationship. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: instance -->
+<H2><A NAME="instance">instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#instance">instance</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0009.HTM#external_cluster_instance">external_cluster_instance</A>, 
+                                   <A HREF="IMEX0009.HTM#internal_cluster_instance">internal_cluster_instance</A>));
+    instantiated_cluster          : <A HREF="IMEX0009.HTM#cluster">cluster</A>; -- reference
+    instance_ports                : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#instance_port">instance_port</A>;
+    instance_port_bundles         : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A>;
+    name                          : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    overriding_cell_properties    : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property_override">property_override</A>;
+    overriding_cluster_properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property_override">property_override</A>;
+    overriding_designator         : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    overriding_timings            : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#timing">timing</A>;
+    properties                    : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    width                         : <A HREF="IMEX0029.HTM#positive_integer_token">positive_integer_token</A>;
+  DERIVE
+    containing_view : <A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_any_one_role">usedin_any_one_role</A>(SELF,
+         ['<A HREF="IMEX0002.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>.instances', 
+          '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.instances',
+          '<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0028.HTM#internal_schematic_view">internal_schematic_view</A>.instances']); 
+  WHERE
+    <A NAME="instance.containment_constraint">containment_constraint</A> :
+      (* An instance belongs to either one internal_connectivity_view, one
+         internal_pcb_mcm_view or one internal_schematic_view. *)  
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+       ['<A HREF="IMEX0002.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>.instances', 
+        '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.instances',
+        '<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0028.HTM#internal_schematic_view">internal_schematic_view</A>.instances']); 
+
+    <A NAME="instance.valid_instance_ports">valid_instance_ports</A> :
+      (* Each instance_port must reference a master_port defined in the
+         interface of the instantiated_cluster. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(instancePort &lt;* instance_ports |
+           (NOT (instancePort.referenced_master_port 
+                IN instantiated_cluster.interface.ports))
+        OR (instancePort.referenced_instance :&lt;&gt;: SELF)));
+
+    <A NAME="instance.valid_instance_port_bundles">valid_instance_port_bundles</A> :
+      (* Each instance_port_bundle must reference a master_port_bundle defined
+         in the interface of the instantiated_cluster. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(instancePortBundle &lt;* instance_port_bundles |
+           (NOT (instancePortBundle.referenced_master_port_bundle
+                IN instantiated_cluster.interface.port_bundles))
+        OR (instancePortBundle.referenced_instance :&lt;&gt;: SELF)));
+
+    <A NAME="instance.valid_overriding_cell_properties">valid_overriding_cell_properties</A> :
+      (* The overridden properties are defined in the containing cell of the
+         instantiated_cluster. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(cellPropertyOverride &lt;* overriding_cell_properties |
+        NOT (cellPropertyOverride.overridden_property
+             IN instantiated_cluster.containing_cell.properties)));
+
+    <A NAME="instance.valid_overriding_cluster_properties">valid_overriding_cluster_properties</A> :
+      (* The overridden properties are defined in the instantiated_cluster. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(clusterPropertyOverride&lt;*overriding_cluster_properties|
+        NOT (clusterPropertyOverride.overridden_property
+             IN instantiated_cluster.properties)));
+
+    <A NAME="instance.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. An <A HREF="IMEX0009.HTM#instance">instance</A> cannot have overriding_cell_properties if the
+            containing <A HREF="IMEX0009.HTM#cell">cell</A> of the instantiated <A HREF="IMEX0009.HTM#cluster">cluster</A> does not define any
+            properties. 
+         2. An <A HREF="IMEX0009.HTM#instance">instance</A> cannot have overriding_cluster_properties if the
+            instantiated <A HREF="IMEX0009.HTM#cluster">cluster</A> does not define any properties. *)
+      (EXISTS(instantiated_cluster.containing_cell.properties) OR
+         NOT EXISTS(overriding_cell_properties))
+      AND
+      (EXISTS(instantiated_cluster.properties) OR 
+         NOT EXISTS(overriding_cluster_properties));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#instance">instance</A> allows a <A HREF="IMEX0009.HTM#cluster">cluster</A> to be referenced within another view to
+ create the instance hierarchy of a design. 
+</P>
+<P>
+ If the width of an <A HREF="IMEX0009.HTM#instance">instance</A> is greater than 1, all attributes of the
+ <A HREF="IMEX0009.HTM#instance">instance</A> apply equally to each member of the set.  However, the
+ <A HREF="IMEX0029.HTM#name_information">name_information</A> is only applied to the <A HREF="IMEX0009.HTM#instance">instance</A> but not its members.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A> <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A> <A HREF="IMEX0009.HTM#instance_member_port">instance_member_port</A> <A HREF="IMEX0009.HTM#instance_port">instance_port</A> <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A> <A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A> <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> <A HREF="IMEX0028.HTM#internal_schematic_view">internal_schematic_view</A> <A HREF="IMEX0003.HTM#leaf_occurrence_annotate">leaf_occurrence_annotate</A> <A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> <A HREF="IMEX0027.HTM#schematic_instance_implementation">schematic_instance_implementation</A> <A HREF="IMEX0021.HTM#swap_group">swap_group</A> <A HREF="IMEX0009.HTM#unconfigured_instance">unconfigured_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: external_cluster_instance -->
+<H2><A NAME="external_cluster_instance">external_cluster_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#external_cluster_instance">external_cluster_instance</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#instance">instance</A>);
+    SELF\<A HREF="IMEX0009.HTM#instance">instance</A>.instantiated_cluster : <A HREF="IMEX0009.HTM#external_cluster">external_cluster</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#external_cluster_instance">external_cluster_instance</A> describes an instance of an
+ <A HREF="IMEX0009.HTM#external_cluster">external_cluster</A>. 
+</P><HR>
+<!-- Start of ENTITY: internal_cluster_instance -->
+<H2><A NAME="internal_cluster_instance">internal_cluster_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#internal_cluster_instance">internal_cluster_instance</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#instance">instance</A>);
+    SELF\<A HREF="IMEX0009.HTM#instance">instance</A>.instantiated_cluster : <A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#internal_cluster_instance">internal_cluster_instance</A> describes an instance of an
+ <A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A>. 
+</P><HR>
+<!-- Start of ENTITY: instance_port -->
+<H2><A NAME="instance_port">instance_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#instance_port">instance_port</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0009.HTM#input_instance_port">input_instance_port</A>,
+                                   <A HREF="IMEX0009.HTM#output_instance_port">output_instance_port</A>,
+                                   <A HREF="IMEX0009.HTM#bidirectional_instance_port">bidirectional_instance_port</A>, 
+                                   <A HREF="IMEX0009.HTM#unspecified_direction_instance_port">unspecified_direction_instance_port</A>)); 
+    referenced_instance    : <A HREF="IMEX0009.HTM#instance">instance</A>;    -- reference
+    referenced_master_port : <A HREF="IMEX0009.HTM#master_port">master_port</A>; -- reference
+    new_delays             : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_delay">port_delay</A>;
+    new_load_delays        : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A>;
+    new_properties         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    overriding_ac_load     : OPTIONAL <A HREF="IMEX0029.HTM#capacitance_value">capacitance_value</A>;
+    overriding_delays      : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_delay_override">port_delay_override</A>;
+    overriding_designator  : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    overriding_load_delays : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_load_delay_override">port_load_delay_override</A>;
+    overriding_properties  : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property_override">property_override</A>;
+    unused_externally      : <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  DERIVE
+    flattened_port_list : LIST [1:?] OF UNIQUE <A HREF="IMEX0009.HTM#instance_member_port">instance_member_port</A>
+                           := <A HREF="IMEX0009.HTM#flatten_instance_port">flatten_instance_port</A>(SELF);
+    size                : INTEGER := SIZEOF(flattened_port_list);
+  UNIQUE
+    uniqueness_constraint :
+      (* There is only one instance_port for a particular master_port on 
+         an instance. *)
+      referenced_master_port, referenced_instance;
+  WHERE
+    <A NAME="instance_port.valid_port_and_instance">valid_port_and_instance</A> :
+      (* The referenced master_port must be defined in the interface of the
+         instantiated cluster of the referenced instance. *)
+      EXISTS(referenced_instance.instantiated_cluster.interface.ports) 
+      AND
+      (referenced_master_port IN 
+         referenced_instance.instantiated_cluster.interface.ports);
+
+    <A NAME="instance_port.valid_overriding_delays">valid_overriding_delays</A> :
+      (* The overridden delays are defined in the referenced master_port. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(delayOverride &lt;* overriding_delays |
+        NOT (delayOverride.overridden_delay IN referenced_master_port.delays)));
+
+    <A NAME="instance_port.valid_overriding_load_delays">valid_overriding_load_delays</A> :
+      (* The overridden load_delays are defined in the referenced
+         master_port. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(delayOverride &lt;* overriding_load_delays |
+        NOT (delayOverride.overridden_load_delay
+             IN referenced_master_port.load_delays)));
+
+    <A NAME="instance_port.valid_overriding_properties">valid_overriding_properties</A> :
+      (* The overridden properties are defined in the referenced master_port. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyOverride &lt;* overriding_properties |
+        NOT (propertyOverride.overridden_property
+             IN referenced_master_port.properties)));
+
+    <A NAME="instance_port.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. An <A HREF="IMEX0009.HTM#instance_port">instance_port</A> cannot have overriding_delays if its referenced
+            port does not define any delays. 
+         2. An <A HREF="IMEX0009.HTM#instance_port">instance_port</A> cannot have overriding_load_delays if its
+            referenced port does not define any load delays. 
+         3. An <A HREF="IMEX0009.HTM#instance_port">instance_port</A> cannot have overriding_properties if its
+            referenced port does not define any properties. *) 
+
+      (EXISTS(referenced_master_port.delays) OR 
+         NOT EXISTS(overriding_delays))
+      AND
+      (EXISTS(referenced_master_port.load_delays) OR 
+         NOT EXISTS(overriding_load_delays))
+      AND
+      (EXISTS(referenced_master_port.properties) OR 
+         NOT EXISTS(overriding_properties));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#instance_port">instance_port</A> describes a port on an <A HREF="IMEX0009.HTM#instance">instance</A>.  It may override the
+ delays, load delays or properties specified in the referenced <A HREF="IMEX0009.HTM#master_port">master_port</A>
+ definition.  Furthermore, it may define new delays, load delays or
+ properties.  The referenced <A HREF="IMEX0009.HTM#master_port">master_port</A> must be defined in the interface
+ of the <A HREF="IMEX0009.HTM#cluster">cluster</A> from which the <A HREF="IMEX0009.HTM#instance">instance</A> is made.  The unused_externally
+ attribute is a boolean flag indicating whether or not the port is being used
+ by the instantiating view.  When an <A HREF="IMEX0009.HTM#instance_port">instance_port</A> is declared to be
+ unused, it means that it is not connected to any <A HREF="IMEX0012.HTM#signal">signal</A> in the
+ instantiating view.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#allocated_component_function_terminal">allocated_component_function_terminal</A> <A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A> <A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A> <A HREF="IMEX0009.HTM#instance">instance</A> <A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A> <A HREF="IMEX0027.HTM#instance_port_display">instance_port_display</A> <A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A> <A HREF="IMEX0027.HTM#schematic_generic_net">schematic_generic_net</A> <A HREF="IMEX0027.HTM#schematic_instance_port_representation">schematic_instance_port_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: input_instance_port -->
+<H2><A NAME="input_instance_port">input_instance_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#input_instance_port">input_instance_port</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#instance_port">instance_port</A>);
+    SELF\<A HREF="IMEX0009.HTM#instance_port">instance_port</A>.referenced_master_port -- reference
+                              : <A HREF="IMEX0009.HTM#input_master_port">input_master_port</A>; 
+    overriding_dc_fanout_load : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanin   : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#input_instance_port">input_instance_port</A> describes an input port on an <A HREF="IMEX0009.HTM#instance">instance</A>.  It is
+ used as the point of attachment for new properties and attributes and as the
+ point at which properties and attributes inherited from the
+ <A HREF="IMEX0009.HTM#input_master_port">input_master_port</A> may be modified.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#input_instance_port_annotate">input_instance_port_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: output_instance_port -->
+<H2><A NAME="output_instance_port">output_instance_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#output_instance_port">output_instance_port</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#instance_port">instance_port</A>);
+    SELF\<A HREF="IMEX0009.HTM#instance_port">instance_port</A>.referenced_master_port -- reference
+                              : <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A>;
+    overriding_dc_fanin_load  : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanout  : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#output_instance_port">output_instance_port</A> describes an output port on an <A HREF="IMEX0009.HTM#instance">instance</A>.  It is
+ used as the point of attachment for new properties and attributes and as the
+ point at which properties and attributes inherited from the
+ <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A> may be modified.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#output_instance_port_annotate">output_instance_port_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: bidirectional_instance_port -->
+<H2><A NAME="bidirectional_instance_port">bidirectional_instance_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#bidirectional_instance_port">bidirectional_instance_port</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#instance_port">instance_port</A>);
+    SELF\<A HREF="IMEX0009.HTM#instance_port">instance_port</A>.referenced_master_port -- reference
+                              : <A HREF="IMEX0009.HTM#bidirectional_master_port">bidirectional_master_port</A>;
+    overriding_dc_fanin_load  : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_fanout_load : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanin   : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanout  : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#bidirectional_instance_port">bidirectional_instance_port</A> describes a bidirectional port on an
+ <A HREF="IMEX0009.HTM#instance">instance</A>.  It is used as the point of attachment for new properties and
+ attributes and as the point at which properties and attributes inherited
+ from the <A HREF="IMEX0009.HTM#bidirectional_master_port">bidirectional_master_port</A> may be modified.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#bidirectional_instance_port_annotate">bidirectional_instance_port_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: unspecified_direction_instance_port -->
+<H2><A NAME="unspecified_direction_instance_port">unspecified_direction_instance_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#unspecified_direction_instance_port">unspecified_direction_instance_port</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#instance_port">instance_port</A>);
+    SELF\<A HREF="IMEX0009.HTM#instance_port">instance_port</A>.referenced_master_port -- reference
+                              : <A HREF="IMEX0009.HTM#unspecified_direction_master_port">unspecified_direction_master_port</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#unspecified_direction_instance_port">unspecified_direction_instance_port</A> describes an unspecified direction
+ port on an <A HREF="IMEX0009.HTM#instance">instance</A>.  It is used as the point of attachment for new
+ properties and attributes and as the point at which properties and
+ attributes inherited from the <A HREF="IMEX0009.HTM#unspecified_direction_master_port">unspecified_direction_master_port</A> may be
+ modified. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#unspecified_direction_instance_port_annotate">unspecified_direction_instance_port_annotate</A> </P>
+<HR>
+<!-- Start of FUNCTION: flatten_instance_port -->
+<H2><A NAME="flatten_instance_port">flatten_instance_port</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0009.HTM#flatten_instance_port">flatten_instance_port</A>
+    (instancePort : <A HREF="IMEX0009.HTM#instance_port">instance_port</A>) : LIST [1:?] OF UNIQUE <A HREF="IMEX0009.HTM#instance_member_port">instance_member_port</A>;
+    LOCAL
+      memberSize : INTEGER := instancePort.referenced_instance.width;
+      members    : LIST [1:memberSize] OF UNIQUE <A HREF="IMEX0009.HTM#instance_member_port">instance_member_port</A>; 
+    END_LOCAL;
+
+    REPEAT i := 1 TO memberSize;
+      members[i].referenced_instance := instancePort.referenced_instance;
+      members[i].referenced_instance_member_index := i DIV 1;
+      members[i].referenced_master_port := instancePort.referenced_master_port;
+    END_REPEAT;
+    RETURN(members);    
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#flatten_instance_port">flatten_instance_port</A> function returns the flattened list of
+ <A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A> of an <A HREF="IMEX0009.HTM#instance_port">instance_port</A>.  The size of the list must be
+ equal to the width of the <A HREF="IMEX0009.HTM#instance">instance</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#instance_port">instance_port</A> </P>
+<HR>
+<!-- Start of ENTITY: instance_member_port -->
+<H2><A NAME="instance_member_port">instance_member_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#instance_member_port">instance_member_port</A>;
+    referenced_instance              : <A HREF="IMEX0009.HTM#instance">instance</A>;
+    referenced_instance_member_index : <A HREF="IMEX0029.HTM#integer_token">integer_token</A>;
+    referenced_master_port           : <A HREF="IMEX0009.HTM#master_port">master_port</A>;
+  DERIVE
+    size  : INTEGER := 1;
+  WHERE
+    <A NAME="instance_member_port.valid_referenced_instance_member_index">valid_referenced_instance_member_index</A> :
+      (* The member_index is within the range defined by the width of the
+         referenced_instance. *) 
+      {0 &lt;= referenced_instance_member_index &lt; referenced_instance.width};
+
+    <A NAME="instance_member_port.valid_port_and_instance">valid_port_and_instance</A> :
+      (* The referenced master_port must be defined in the interface of the
+         instantiated cluster of the referenced instance. *)
+      EXISTS(referenced_instance.instantiated_cluster.interface.ports) 
+      AND
+      (referenced_master_port IN 
+         referenced_instance.instantiated_cluster.interface.ports);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#instance_member_port">instance_member_port</A> describes a port on an <A HREF="IMEX0009.HTM#instance">instance</A> member.  A
+ member of an <A HREF="IMEX0009.HTM#instance">instance</A> is accessed by giving the member index value.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A> <A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A> <A HREF="IMEX0009.HTM#instance_port">instance_port</A> <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A> <A HREF="IMEX0012.HTM#signal">signal</A> </P>
+<HR>
+<!-- Start of ENTITY: instance_port_bundle -->
+<H2><A NAME="instance_port_bundle">instance_port_bundle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A>;
+    referenced_instance           : <A HREF="IMEX0009.HTM#instance">instance</A>;           -- reference
+    referenced_master_port_bundle : <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>; -- reference
+    new_properties                : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    overriding_properties         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property_override">property_override</A>;
+  DERIVE
+    flattened_port_list : LIST [1:?] OF UNIQUE <A HREF="IMEX0009.HTM#instance_member_port">instance_member_port</A>
+                          := <A HREF="IMEX0009.HTM#flatten_instance_port_bundle">flatten_instance_port_bundle</A>(SELF);
+    size                : INTEGER := SIZEOF(flattened_port_list);
+  UNIQUE
+    uniqueness_constraint :
+      (* There is only one instance_port_bundle for a particular
+         master_port_bundle on an instance. *)
+      referenced_master_port_bundle, referenced_instance;
+  WHERE
+    <A NAME="instance_port_bundle.valid_port_and_instance">valid_port_and_instance</A> :
+      (* The referenced master_port_bundle must be defined in the interface of
+         the instantiated cluster of the referenced instance. *)
+    EXISTS(referenced_instance.instantiated_cluster.interface.port_bundles)
+    AND
+    (referenced_master_port_bundle IN 
+       referenced_instance.instantiated_cluster.interface.port_bundles);
+
+    <A NAME="instance_port_bundle.valid_overriding_properties">valid_overriding_properties</A> :
+      (* The overridden properties are defined in the referenced
+         master_port_bundle. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyOverride &lt;* overriding_properties |
+        NOT (propertyOverride.overridden_property
+             IN referenced_master_port_bundle.properties)));
+
+    <A NAME="instance_port_bundle.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. An <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A> cannot have overriding_properties if its
+            referenced port bundle does not define any properties. *)
+      EXISTS(referenced_master_port_bundle.properties) OR
+        NOT EXISTS(overriding_properties);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A> describes a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A>.  It may
+ override the properties specified in the referenced <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>
+ definition.  Furthermore, it may define new properties.  The referenced
+ <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> must be defined in the interface of the <A HREF="IMEX0009.HTM#cluster">cluster</A> from
+ which the <A HREF="IMEX0009.HTM#instance">instance</A> is made.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A> <A HREF="IMEX0009.HTM#instance">instance</A> <A HREF="IMEX0027.HTM#instance_port_bundle_display">instance_port_bundle_display</A> <A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A> <A HREF="IMEX0027.HTM#schematic_instance_port_bundle_representation">schematic_instance_port_bundle_representation</A> </P>
+<HR>
+<!-- Start of FUNCTION: flatten_instance_port_bundle -->
+<H2><A NAME="flatten_instance_port_bundle">flatten_instance_port_bundle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0009.HTM#flatten_instance_port_bundle">flatten_instance_port_bundle</A>
+    (instancePortBundle : <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A>) 
+      : LIST [1:?] OF UNIQUE <A HREF="IMEX0009.HTM#instance_member_port">instance_member_port</A>;
+    LOCAL
+      masterPortList : LIST OF UNIQUE <A HREF="IMEX0009.HTM#master_port">master_port</A>
+        := instancePortBundle.referenced_master_port_bundle.flattened_port_list;
+      memberSize     : INTEGER 
+                       := instancePortBundle.referenced_instance.width *
+                          instancePortBundle.referenced_master_port_bundle.size;
+      members        : LIST [1:memberSize] OF UNIQUE <A HREF="IMEX0009.HTM#instance_member_port">instance_member_port</A>;
+    END_LOCAL;
+
+    REPEAT i := 1 TO instancePortBundle.referenced_instance.width;
+      REPEAT j := 1 TO SIZEOF(masterPortList);
+      members[i*j].referenced_instance := instancePortBundle
+                                          .referenced_instance;
+      members[i*j].referenced_instance_member_index := i DIV 1;
+      members[i*j].referenced_master_port := masterPortList[j];
+      END_REPEAT;
+    END_REPEAT;
+    RETURN(members);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#flatten_instance_port_bundle">flatten_instance_port_bundle</A> function returns the flattened list of
+ <A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A> of an <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A>.  When flattened, the
+ size of the list must be equal to the product of the referenced <A HREF="IMEX0009.HTM#instance">instance</A>
+ width and the referenced <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> size.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A> </P>
+<HR>
+<!-- Start of FUNCTION: find_instance_port -->
+<H2><A NAME="find_instance_port">find_instance_port</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0009.HTM#find_instance_port">find_instance_port</A> 
+    (port : <A HREF="IMEX0009.HTM#master_port">master_port</A>; 
+     inst : <A HREF="IMEX0009.HTM#instance">instance</A>) : <A HREF="IMEX0009.HTM#instance_port">instance_port</A>;
+    LOCAL
+      instancePorts : BAG OF <A HREF="IMEX0009.HTM#instance_port">instance_port</A> := [ ];
+    END_LOCAL;
+    instancePorts := QUERY(instancePort &lt;*
+      USEDIN(port, '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#instance_port">instance_port</A>.referenced_master_port') |
+        instancePort.referenced_instance :=: inst);
+
+    IF (SIZEOF(instancePorts) = 1) THEN
+        RETURN(instancePorts[1]);
+    ELSE
+        RETURN(?);
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#find_instance_port">find_instance_port</A> function returns the <A HREF="IMEX0009.HTM#instance_port">instance_port</A> given the
+ referenced <A HREF="IMEX0009.HTM#master_port">master_port</A> and the referenced <A HREF="IMEX0009.HTM#instance">instance</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#instance_port_bundle_display">instance_port_bundle_display</A> <A HREF="IMEX0027.HTM#instance_port_display">instance_port_display</A> <A HREF="IMEX0027.HTM#schematic_instance_port_representation">schematic_instance_port_representation</A> <A HREF="IMEX0012.HTM#signal">signal</A> </P>
+<HR>
+<!-- Start of FUNCTION: find_instance_port_bundle -->
+<H2><A NAME="find_instance_port_bundle">find_instance_port_bundle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0009.HTM#find_instance_port_bundle">find_instance_port_bundle</A> 
+    (portBundle : <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>; 
+     inst       : <A HREF="IMEX0009.HTM#instance">instance</A>) : <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A>;
+    LOCAL
+      instancePortBundles : BAG OF <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A> := [ ];
+    END_LOCAL;
+    instancePortBundles := QUERY(instancePortBundle &lt;*
+      USEDIN(portBundle, 
+        '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A>.referenced_master_port_bundle') |
+        instancePortBundle.referenced_instance :=: inst);
+
+    IF (SIZEOF(instancePortBundles) = 1) THEN
+        RETURN(instancePortBundles[1]);
+    ELSE
+        RETURN(?);
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#find_instance_port_bundle">find_instance_port_bundle</A> function returns the <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A>
+ given the referenced <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> and the referenced <A HREF="IMEX0009.HTM#instance">instance</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#instance_port_bundle_display">instance_port_bundle_display</A> <A HREF="IMEX0027.HTM#schematic_instance_port_bundle_representation">schematic_instance_port_bundle_representation</A> </P>
+<HR>
+<!-- Start of TYPE: referenced_interconnect -->
+<H2><A NAME="referenced_interconnect">referenced_interconnect</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0009.HTM#referenced_interconnect">referenced_interconnect</A>
+    = SELECT (<A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A>, <A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A>,
+              <A HREF="IMEX0027.HTM#schematic_generic_net">schematic_generic_net</A>, <A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#referenced_interconnect">referenced_interconnect</A> is used to reference a net structure or a bus
+ structure in a connectivity view or on a schematic page. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#interconnect_annotate">interconnect_annotate</A> </P>
+<HR>
+<!-- Start of TYPE: load_value -->
+<H2><A NAME="load_value">load_value</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0009.HTM#load_value">load_value</A> 
+    = <A HREF="IMEX0029.HTM#number_token">number_token</A>;
+  WHERE
+    <A NAME="load_value.constraint_on_value">constraint_on_value</A> :
+      (* The load_value must not be negative. *)
+      SELF &gt;= 0;
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#load_value">load_value</A> is used to describe the value of fan-in/fan-out load
+ contributed by a port.  A <A HREF="IMEX0009.HTM#load_value">load_value</A> must not be negative.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#bidirectional_instance_port">bidirectional_instance_port</A> <A HREF="IMEX0003.HTM#bidirectional_instance_port_annotate">bidirectional_instance_port_annotate</A> <A HREF="IMEX0009.HTM#bidirectional_master_port">bidirectional_master_port</A> <A HREF="IMEX0003.HTM#bidirectional_master_port_annotate">bidirectional_master_port_annotate</A> <A HREF="IMEX0009.HTM#input_instance_port">input_instance_port</A> <A HREF="IMEX0003.HTM#input_instance_port_annotate">input_instance_port_annotate</A> <A HREF="IMEX0009.HTM#input_master_port">input_master_port</A> <A HREF="IMEX0003.HTM#input_master_port_annotate">input_master_port_annotate</A> <A HREF="IMEX0009.HTM#output_instance_port">output_instance_port</A> <A HREF="IMEX0003.HTM#output_instance_port_annotate">output_instance_port_annotate</A> <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A> <A HREF="IMEX0003.HTM#output_master_port_annotate">output_master_port_annotate</A> </P>
+<HR>
+<!-- Start of TYPE: derivation_type -->
+<H2><A NAME="derivation_type">derivation_type</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0009.HTM#derivation_type">derivation_type</A>
+    = ENUMERATION OF (calculated, measured, required);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#derivation_type">derivation_type</A> is used to specify how a value has been derived.  It may
+ have been calculated, measured or is a required value.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#interconnect_delay">interconnect_delay</A> <A HREF="IMEX0009.HTM#port_delay">port_delay</A> <A HREF="IMEX0009.HTM#port_delay_override">port_delay_override</A> <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A> <A HREF="IMEX0009.HTM#port_load_delay_override">port_load_delay_override</A> <A HREF="IMEX0009.HTM#timing">timing</A> </P>
+<HR>
+<!-- Start of ENTITY: port_delay -->
+<H2><A NAME="port_delay">port_delay</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#port_delay">port_delay</A>;
+    becomes_or_transition : <A HREF="IMEX0029.HTM#undefined_type">undefined_type</A>;
+    derivation            : <A HREF="IMEX0009.HTM#derivation_type">derivation_type</A>;
+    time_delay            : <A HREF="IMEX0029.HTM#time_value">time_value</A>;
+  WHERE
+    <A NAME="port_delay.valid_existence">valid_existence</A> :
+      (* A port_delay belongs to one instance_port, one instance_port_annotate,
+         one master_port or one master_port_annotate. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+        ['<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>.new_delays',
+         '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>.new_delays',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#instance_port">instance_port</A>.new_delays',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#master_port">master_port</A>.delays']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#port_delay">port_delay</A> is used to specify the amount of delay associated with a port 
+ and its derivation for the given set of transitions.  It is not fully
+ defined in the model.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#instance_port">instance_port</A> <A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A> <A HREF="IMEX0009.HTM#master_port">master_port</A> <A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A> <A HREF="IMEX0009.HTM#port_delay_display">port_delay_display</A> <A HREF="IMEX0009.HTM#port_delay_override">port_delay_override</A> </P>
+<HR>
+<!-- Start of ENTITY: port_delay_override -->
+<H2><A NAME="port_delay_override">port_delay_override</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#port_delay_override">port_delay_override</A>;
+    overridden_delay      : <A HREF="IMEX0009.HTM#port_delay">port_delay</A>; -- reference
+    becomes_or_transition : <A HREF="IMEX0029.HTM#undefined_type">undefined_type</A>;
+    derivation            : <A HREF="IMEX0009.HTM#derivation_type">derivation_type</A>;
+    time_delay            : <A HREF="IMEX0029.HTM#time_value">time_value</A>;
+  WHERE
+    <A NAME="port_delay_override.valid_existence">valid_existence</A> :
+      (* A port_delay_override belongs to one instance_port, one
+         instance_port_annotate or one master_port_annotate. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>.overriding_delays',
+         '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>.overriding_delays',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#instance_port">instance_port</A>.overriding_delays']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#port_delay_override">port_delay_override</A> is used to override a <A HREF="IMEX0009.HTM#port_delay">port_delay</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#instance_port">instance_port</A> <A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A> <A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: port_delay_display -->
+<H2><A NAME="port_delay_display">port_delay_display</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#port_delay_display">port_delay_display</A>;
+    displayed_delay     : <A HREF="IMEX0009.HTM#port_delay">port_delay</A>; -- reference
+    display_information : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  WHERE
+    <A NAME="port_delay_display.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        [<A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#instance_port_bundle_display">instance_port_bundle_display</A>',
+                        'delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#instance_port_display">instance_port_display</A>',
+                        'delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#schematic_master_port_bundle_representation">schematic_master_port_bundle_representation</A>',
+                        'delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#schematic_master_port_representation">schematic_master_port_representation</A>',
+                        'delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>',
+                        '<A HREF="IMEX0028.HTM#schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A>',
+                        'delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>',
+                        '<A HREF="IMEX0028.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A>',
+                        'delay_displays')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#port_delay_display">port_delay_display</A> is used to provide display information for a
+ <A HREF="IMEX0009.HTM#port_delay">port_delay</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#instance_port_bundle_display">instance_port_bundle_display</A> <A HREF="IMEX0027.HTM#instance_port_display">instance_port_display</A> <A HREF="IMEX0027.HTM#schematic_master_port_bundle_representation">schematic_master_port_bundle_representation</A> <A HREF="IMEX0027.HTM#schematic_master_port_representation">schematic_master_port_representation</A> <A HREF="IMEX0028.HTM#schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A> <A HREF="IMEX0028.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: port_load_delay -->
+<H2><A NAME="port_load_delay">port_load_delay</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A>;
+    ac_load_time_factor        : <A HREF="IMEX0029.HTM#time_value">time_value</A>;
+    ac_load_capacitance_factor : <A HREF="IMEX0029.HTM#capacitance_value">capacitance_value</A>;
+    becomes_or_transition      : <A HREF="IMEX0029.HTM#undefined_type">undefined_type</A>;
+    derivation                 : <A HREF="IMEX0009.HTM#derivation_type">derivation_type</A>;
+  WHERE
+    <A NAME="port_load_delay.valid_existence">valid_existence</A> :
+      (* A port_load_delay belongs to one instance_port, one
+         instance_port_annotate, one master_port or one
+         master_port_annotate. *) 
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+        ['<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>.new_load_delays',
+         '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>.new_load_delays',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#instance_port">instance_port</A>.new_load_delays',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#master_port">master_port</A>.load_delays']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A> specifies a load-dependent propagation delay associated
+ with a port.  It is not fully defined in the model.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#instance_port">instance_port</A> <A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A> <A HREF="IMEX0009.HTM#master_port">master_port</A> <A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A> <A HREF="IMEX0009.HTM#port_load_delay_display">port_load_delay_display</A> <A HREF="IMEX0009.HTM#port_load_delay_override">port_load_delay_override</A> </P>
+<HR>
+<!-- Start of ENTITY: port_load_delay_override -->
+<H2><A NAME="port_load_delay_override">port_load_delay_override</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#port_load_delay_override">port_load_delay_override</A>;
+    overridden_load_delay      : <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A>; -- reference
+    ac_load_time_factor        : <A HREF="IMEX0029.HTM#time_value">time_value</A>;
+    ac_load_capacitance_factor : <A HREF="IMEX0029.HTM#capacitance_value">capacitance_value</A>;
+    becomes_or_transition      : <A HREF="IMEX0029.HTM#undefined_type">undefined_type</A>;
+    derivation                 : <A HREF="IMEX0009.HTM#derivation_type">derivation_type</A>;
+  WHERE
+    <A NAME="port_load_delay_override.valid_existence">valid_existence</A> :
+      (* A port_load_delay_override belongs to one instance_port, one
+         instance_port_annotate or one master_port_annotate. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>.overriding_load_delays',
+         '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>.overriding_load_delays',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#instance_port">instance_port</A>.overriding_load_delays']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#port_load_delay_override">port_load_delay_override</A> is used to override a <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#instance_port">instance_port</A> <A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A> <A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: port_load_delay_display -->
+<H2><A NAME="port_load_delay_display">port_load_delay_display</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#port_load_delay_display">port_load_delay_display</A>;
+    displayed_load_delay : <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A>; -- reference
+    display_information  : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  WHERE
+    <A NAME="port_load_delay_display.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        [<A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#instance_port_bundle_display">instance_port_bundle_display</A>',
+                        'load_delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#instance_port_display">instance_port_display</A>',
+                        'load_delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#schematic_master_port_bundle_representation">schematic_master_port_bundle_representation</A>',
+                        'load_delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#schematic_master_port_representation">schematic_master_port_representation</A>',
+                        'load_delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>',
+                        '<A HREF="IMEX0028.HTM#schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A>',
+                        'load_delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>',
+                        '<A HREF="IMEX0028.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A>',
+                        'load_delay_displays')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#port_load_delay_display">port_load_delay_display</A> is used to provide display information for a
+ <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#instance_port_bundle_display">instance_port_bundle_display</A> <A HREF="IMEX0027.HTM#instance_port_display">instance_port_display</A> <A HREF="IMEX0027.HTM#schematic_master_port_bundle_representation">schematic_master_port_bundle_representation</A> <A HREF="IMEX0027.HTM#schematic_master_port_representation">schematic_master_port_representation</A> <A HREF="IMEX0028.HTM#schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A> <A HREF="IMEX0028.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: interconnect_delay -->
+<H2><A NAME="interconnect_delay">interconnect_delay</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#interconnect_delay">interconnect_delay</A>;
+    becomes_or_transition : <A HREF="IMEX0029.HTM#undefined_type">undefined_type</A>;
+    derivation            : <A HREF="IMEX0009.HTM#derivation_type">derivation_type</A>;
+    time_delay            : <A HREF="IMEX0029.HTM#time_value">time_value</A>;
+  WHERE
+    <A NAME="interconnect_delay.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0001.HTM#connectivity_structure_model">connectivity_structure_model</A>.<A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A>.delays',
+         '<A HREF="IMEX0001.HTM#connectivity_structure_model">connectivity_structure_model</A>.<A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A>.delays',
+         '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#interconnect_annotate">interconnect_annotate</A>.new_delays',
+         '<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A>.delays',
+         '<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0027.HTM#schematic_generic_net">schematic_generic_net</A>.delays']);
+
+    <A NAME="interconnect_delay.valid_time_delay">valid_time_delay</A> :
+      (* The time_delay must not be negative. *)
+      (('<A HREF="IMEX0029.HTM#support_definition_model">support_definition_model</A>.<A HREF="IMEX0029.HTM#not_fixed">not_fixed</A>' IN TYPEOF(time_delay.range.min))
+        OR (time_delay.range.min &gt;= 0))
+      AND     
+      (('<A HREF="IMEX0029.HTM#support_definition_model">support_definition_model</A>.<A HREF="IMEX0029.HTM#not_fixed">not_fixed</A>' IN TYPEOF(time_delay.range.nom))
+        OR (time_delay.range.nom &gt;= 0))
+      AND
+      (('<A HREF="IMEX0029.HTM#support_definition_model">support_definition_model</A>.<A HREF="IMEX0029.HTM#not_fixed">not_fixed</A>' IN TYPEOF(time_delay.range.max))
+        OR (time_delay.range.max &gt;= 0));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#interconnect_delay">interconnect_delay</A> is used to specify the amount of delay associated
+ with a net structure or a bus structure, and its derivation for the given
+ set of transitions.  The value of associated delay time must not be
+ negative.  It is not fully defined in the model.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A> <A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A> <A HREF="IMEX0003.HTM#interconnect_annotate">interconnect_annotate</A> <A HREF="IMEX0009.HTM#interconnect_delay_display">interconnect_delay_display</A> <A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A> <A HREF="IMEX0027.HTM#schematic_generic_net">schematic_generic_net</A> </P>
+<HR>
+<!-- Start of ENTITY: interconnect_delay_display -->
+<H2><A NAME="interconnect_delay_display">interconnect_delay_display</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#interconnect_delay_display">interconnect_delay_display</A>;
+    displayed_delay     : <A HREF="IMEX0009.HTM#interconnect_delay">interconnect_delay</A>; -- reference
+    display_information : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  WHERE
+    <A NAME="interconnect_delay_display.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        [<A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#schematic_interconnect_attached_text">schematic_interconnect_attached_text</A>',
+                        'interconnect_delay_displays'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#schematic_interconnect_implementation">schematic_interconnect_implementation</A>',
+                        'interconnect_delay_displays')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0009.HTM#interconnect_delay_display">interconnect_delay_display</A> is used to provide display information for
+ an <A HREF="IMEX0009.HTM#interconnect_delay">interconnect_delay</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#schematic_interconnect_attached_text">schematic_interconnect_attached_text</A> <A HREF="IMEX0027.HTM#schematic_interconnect_implementation">schematic_interconnect_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: timing -->
+<H2><A NAME="timing">timing</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#timing">timing</A>;
+    derivation : <A HREF="IMEX0009.HTM#derivation_type">derivation_type</A>;
+  WHERE
+    <A NAME="timing.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0002.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>.timings',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.timings',
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#instance">instance</A>.overriding_timings',
+         '<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0028.HTM#internal_schematic_view">internal_schematic_view</A>.timings']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#timing">timing</A> is used to provide a set of path delays or simulation timing 
+ constraints.  It is not fully defined in the model.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> <A HREF="IMEX0009.HTM#instance">instance</A> <A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A> <A HREF="IMEX0028.HTM#internal_schematic_view">internal_schematic_view</A> <A HREF="IMEX0009.HTM#timing_display">timing_display</A> </P>
+<HR>
+<!-- Start of ENTITY: timing_display -->
+<H2><A NAME="timing_display">timing_display</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#timing_display">timing_display</A>;
+    displayed_timing    : <A HREF="IMEX0009.HTM#timing">timing</A>; -- reference
+    display_information : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  WHERE
+    <A NAME="timing_display.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                       '<A HREF="IMEX0027.HTM#schematic_instance_implementation">schematic_instance_implementation</A>',
+                       'timing_displays'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0009.HTM#timing_display">timing_display</A> is used to display <A HREF="IMEX0009.HTM#timing">timing</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#schematic_instance_implementation">schematic_instance_implementation</A> </P>
+<HR>
+<!-- Start of FUNCTION: non_recursive_cell -->
+<H2><A NAME="non_recursive_cell">non_recursive_cell</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0009.HTM#non_recursive_cell">non_recursive_cell</A>
+    (containingCell : <A HREF="IMEX0009.HTM#cell">cell</A>;
+     instances      : SET OF <A HREF="IMEX0009.HTM#instance">instance</A>) : BOOLEAN;
+    LOCAL
+      views    : SET OF <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>;
+      viewType : SET OF STRING;
+    END_LOCAL;
+
+    REPEAT i := 1 TO SIZEOF(instances);
+      IF containingCell :=: instances[i].instantiated_cluster.containing_cell
+         THEN RETURN(FALSE);
+      ELSE
+         views := instances[i].instantiated_cluster.cell_representations;
+         REPEAT j := 1 TO SIZEOF(views);
+           viewType := TYPEOF(views[j]);
+           IF '<A HREF="IMEX0002.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>' 
+              IN viewType THEN
+              IF NOT <A HREF="IMEX0009.HTM#non_recursive_cell">non_recursive_cell</A>(containingCell,
+                     views[j]\<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>.instances) THEN
+                 RETURN(FALSE);
+              END_IF;
+           ELSE
+           IF '<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0028.HTM#internal_schematic_view">internal_schematic_view</A>' IN viewType THEN
+              IF NOT <A HREF="IMEX0009.HTM#non_recursive_cell">non_recursive_cell</A>(containingCell,
+                     views[j]\<A HREF="IMEX0028.HTM#internal_schematic_view">internal_schematic_view</A>.instances) THEN
+                 RETURN(FALSE);
+              END_IF;
+           ELSE
+           IF '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>' IN viewType THEN
+              IF NOT <A HREF="IMEX0009.HTM#non_recursive_cell">non_recursive_cell</A>(containingCell,
+                     views[j]\<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.instances) THEN
+                 RETURN(FALSE);
+              END_IF;
+           END_IF;
+           END_IF;
+           END_IF;
+         END_REPEAT;
+      END_IF;
+    END_REPEAT;
+    RETURN(TRUE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#non_recursive_cell">non_recursive_cell</A> function returns true if a <A HREF="IMEX0009.HTM#cell">cell</A> does not contain
+ <A HREF="IMEX0009.HTM#instance">instances</A> of itself, either directly or indirectly.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A> <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> <A HREF="IMEX0028.HTM#internal_schematic_view">internal_schematic_view</A> </P>
+
+<HR>
+
+<!-- Start of schema: instantiatable_object_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

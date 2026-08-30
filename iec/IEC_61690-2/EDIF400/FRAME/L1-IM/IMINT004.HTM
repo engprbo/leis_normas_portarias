@@ -1,0 +1,44 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H2><A NAME="HDR13"> 6      Parameterized connectivity</A></H2>
+<P>In Level 1, a mechanism is provided which controls how an individual element of an expanded <A HREF="IMEX0012.HTM#instance_port" TARGET=ModelArea>instance_port</A> is to be connected to a element of the expanded <A HREF="IMEX0015.HTM#signal" TARGET=ModelArea>signal</A>. It is done by specifying an <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expression</A> on each joined <A HREF="IMEX0012.HTM#instance_port" TARGET=ModelArea>instance_port</A> of a <A HREF="IMEX0015.HTM#signal" TARGET=ModelArea>signal</A>. That <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expression</A>, known as a connected_signal_index_generator (see entity <A HREF="IMEX0015.HTM#instance_port_expression" TARGET=ModelArea>instance_port_expression</A>), specifies which element of an expanded <A HREF="IMEX0015.HTM#signal" TARGET=ModelArea>signal</A> is to connect to an element of an expanded <A HREF="IMEX0012.HTM#instance_port" TARGET=ModelArea>instance_port</A> during the design expansion process. 
+<P>Suppose a <A HREF="IMEX0012.HTM#cluster" TARGET=ModelArea>cluster</A> has an interface which defines two <A HREF="IMEX0018.HTM#parameter" TARGET=ModelArea>parameters</A>, known as IW and SW. Within that <A HREF="IMEX0012.HTM#cluster" TARGET=ModelArea>cluster</A>, a view is defined which contains an <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> I and a <A HREF="IMEX0015.HTM#signal" TARGET=ModelArea>signal</A> S. The width of the <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> I is controlled by an <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expression</A> which references <A HREF="IMEX0018.HTM#parameter" TARGET=ModelArea>parameter</A> IW. The width of the <A HREF="IMEX0015.HTM#signal" TARGET=ModelArea>signal</A> S is determined by an <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expression</A> which references <A HREF="IMEX0018.HTM#parameter" TARGET=ModelArea>parameter</A> SW. Suppose <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> I references a <A HREF="IMEX0012.HTM#cluster" TARGET=ModelArea>cluster</A> in which a <A HREF="IMEX0018.HTM#parameter" TARGET=ModelArea>parameter</A> PW and a <A HREF="IMEX0012.HTM#master_port" TARGET=ModelArea>master_port</A> P are defined. The width of the port P is determined by an <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expression</A> which references <A HREF="IMEX0018.HTM#parameter" TARGET=ModelArea>parameter</A> PW. After expansion, IW, SW and PW each evaluate to an integer value. 
+<P>Figure <A HREF="IMINT004.HTM#REF68315">6.1</A> illustrates an example of a wide <A HREF="IMEX0015.HTM#signal" TARGET=ModelArea>signal</A> S joining a wide port P on a wide <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> I. For example, the connected_signal_index_generator expression on port P of <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> I may be defined as <A HREF="IMEX0009.HTM#port_index" TARGET=ModelArea>port_index</A>(P). The table lists the values returned by evaluating the connected_signal_index_generator expression given IW=3, PW=5 and SW=5. The <A HREF="IMEX0009.HTM#port_index" TARGET=ModelArea>port_index</A> returns a different integer for each expanded port element. After expansion, if the width expression of a port is evaluated to be 5, five port occurrences will be created and each has a different <A HREF="IMEX0009.HTM#port_index" TARGET=ModelArea>port_index</A> value, i.e. 0, 1, 2, 3 and 4.
+
+<P><CENTER><IMG SRC="FIG0001.GIF">
+</CENTER>
+<P><A NAME="REF68315"><CENTER><IMG SRC="FIG0004.GIF">
+</CENTER></A>
+<P><CENTER> Figure 6.1:  An example of parameterized connectivity using a simple connected_signal_index_generator expression</CENTER>
+
+<P>Figure  <A HREF="IMINT004.HTM#REF16917">6.2</A> illustrates another example of a wide <A HREF="IMEX0015.HTM#signal" TARGET=ModelArea>signal</A> S joining a wide port P on a wide <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> I. In this case, the connected_signal_index_generator expression on port P of <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> I is defined as <A HREF="IMEX0009.HTM#remainder_expression" TARGET=ModelArea>remainder_expression</A>(<A HREF="IMEX0009.HTM#integer_sum_expression" TARGET=ModelArea>integer_sum_expression</A>(<A HREF="IMEX0009.HTM#port_index" TARGET=ModelArea>port_index</A>(P), <A HREF="IMEX0009.HTM#integer_product_expression" TARGET=ModelArea>integer_product_expression</A>(<A HREF="IMEX0009.HTM#instance_index" TARGET=ModelArea>instance_index</A>(I), PW)), SW). The table lists the values returned by evaluating the connected_signal_index_generator expression given IW=3, PW=5 and SW=15. The <A HREF="IMEX0009.HTM#instance_index" TARGET=ModelArea>instance_index</A> returns a different integer for each expanded <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> element. After expansion, if the width expression of an <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> is evaluated to be 3, three <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> occurrences will be created and each has a different <A HREF="IMEX0009.HTM#instance_index" TARGET=ModelArea>instance_index</A> value, i.e. 0, 1 and 2. Similarly, the <A HREF="IMEX0009.HTM#port_index" TARGET=ModelArea>port_index</A> returns a different integer for each expanded port element. 
+
+<P><CENTER><IMG SRC="FIG0005.GIF">
+</CENTER>
+<P><A NAME="REF16917"><CENTER><IMG SRC="FIG0006.GIF">
+</CENTER></A>
+<P><CENTER> Figure 6.2:  An example of parameterized connectivity using a complex connected_signal_index_generator expression</CENTER>
+
+<H1><A NAME="HDR14"> Part III:   PCB/MCM domain</A></H1>
+
+<H2><A NAME="HDR15"> 7      Restrictions for PCB/MCM views</A></H2>
+<P>For the PCB/MCM domain, there are a number of limitations listed below.
+<H3><A NAME="HDR16"> 7.1    Clusters</A></H3>
+<P>As stated in section <A HREF="IMINT001.HTM#REF63406">3.1</A>, the interface of a <A HREF="IMEX0012.HTM#cluster" TARGET=ModelArea>cluster</A> is allowed to have <A HREF="IMEX0018.HTM#parameter" TARGET=ModelArea>parameters</A>. However, if a <A HREF="IMEX0012.HTM#cluster" TARGET=ModelArea>cluster</A> contains any PCB/MCM views, its interface must not have any <A HREF="IMEX0018.HTM#parameter" TARGET=ModelArea>parameter</A> definitions. 
+<P>As stated in section <A HREF="IMINT001.HTM#REF97406">3.2</A>, the width of a <A HREF="IMEX0012.HTM#master_port" TARGET=ModelArea>master_port</A> can be varied. However, if a <A HREF="IMEX0012.HTM#cluster" TARGET=ModelArea>cluster</A> contains any PCB/MCM views, all <A HREF="IMEX0012.HTM#master_port" TARGET=ModelArea>master_ports</A> defined in its <A HREF="IMEX0012.HTM#cluster_interface" TARGET=ModelArea>cluster_interface</A> must have a fixed width of one.
+<H3><A NAME="HDR17"> 7.2    PCB/MCM views</A></H3>
+<P>In a PCB/MCM view, it may contain instances of other cells. Within an <A HREF="IMEX0025.HTM#internal_pcb_mcm_view" TARGET=ModelArea>internal_pcb_mcm_view</A>, all <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instances</A> must not instantiate <A HREF="IMEX0012.HTM#cluster" TARGET=ModelArea>clusters</A> which have <A HREF="IMEX0018.HTM#parameter" TARGET=ModelArea>parameters</A> in their interface definitions.
+<P>As stated in section <A HREF="IMINT001.HTM#REF53170">3.4</A>, the width of an <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instance</A> can be varied. Within an <A HREF="IMEX0025.HTM#internal_pcb_mcm_view" TARGET=ModelArea>internal_pcb_mcm_view</A>, all <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instances</A> must have a fixed width of one. 
+<P>As stated in section <A HREF="IMINT001.HTM#REF24403">3.5</A>, the width of a <A HREF="IMEX0015.HTM#signal" TARGET=ModelArea>signal</A> can be varied. Within an <A HREF="IMEX0025.HTM#internal_pcb_mcm_view" TARGET=ModelArea>internal_pcb_mcm_view</A>, all signals must have a fixed width of one.
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,196 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1>Chapter 1</H1>
+<H1><A NAME="SECTION03100000000000000000">Introduction</A></H1>
+<P>
+This document describes the information model of EDIF Version
+3&nbsp;0&nbsp;0, a new version beyond EDIF Version
+2&nbsp;0&nbsp;0[<A HREF="IMBIBLIO.HTM#EDIF200ReferenceManual2ndEdition">1</A>, <A HREF="IMBIBLIO.HTM#EDIFIntroduction">2</A>].  The goals of
+EDIF Version 3&nbsp;0&nbsp;0 include :
+<P>
+<UL><LI> More accurate design transfer<LI> Correction of known problem areas and anomalies in EDIF Version 2&nbsp;0&nbsp;0<LI> Focus on the requirements of schematics and connectivity<LI> Provision of a sound basis for future planned extensions for PCB and Test
+</UL>
+<P>
+EDIF Version 3&nbsp;0&nbsp;0 descriptions can be specified at two different
+levels of complexity: Level 0 and Level 1.  The Level 0 description is
+useful for sending static descriptions of electronic design data.  The bulk of
+normal design transfer is expected to be done in Level 0.  The 
+Level 1 description supports parameterization of cells and schematic frames.
+<P>
+The model presented in this document
+covers the concepts of EDIF Version 3&nbsp;0&nbsp;0 Level&nbsp;1. A brief
+summary of the changes from Level&nbsp;0 to Level&nbsp;1 is provided in
+appendix&nbsp;<A HREF="IMAPPA.HTM#changesfromlevel0">A</A>.  Appendix&nbsp;<A HREF="IMAPPB.HTM#applistsyntaxtomodel">B</A>
+identifies whether or not an EDIF Version 3&nbsp;0&nbsp;0 Level&nbsp;1 construct
+has been modelled in the Information Model.  Appendix&nbsp;<A HREF="IMIND.HTM">C</A>
+gives the permuted index of entities defined in the model.
+Appendix&nbsp;<A HREF="IMIX.HTM">D</A> states the point of definition of an <I>EXPRESS</I>
+object (including all schemas, entities, types and functions) in this document.
+<P>
+<H1><A NAME="SECTION03110000000000000000">1.1 Purposes of an information model for EDIF Version 3&nbsp;0&nbsp;0</A></H1>
+<P>
+The aim of the information modelling activity has been to create a formal
+description of the design information carried by the new version of EDIF.  This
+model represents formally the semantics of EDIF Version 3&nbsp;0&nbsp;0.  It
+is intended to be used to improve the understanding of EDIF Version
+3&nbsp;0&nbsp;0 and to ensure that the fundamental objects in EDIF Version
+3&nbsp;0&nbsp;0 map as accurately as possible to the objects commonly found
+in CAE systems (e.g. nets, busses, ports and signals).  In addition, the
+modelling process itself is valuable in helping to identify ambiguities in
+proposals for EDIF Version 3&nbsp;0&nbsp;0.  This information model of EDIF
+Version 3&nbsp;0&nbsp;0 is the basis from which the EDIF Version
+3&nbsp;0&nbsp;0 syntax has been derived.
+<P>
+The language which has been chosen for the modelling of EDIF Version
+3&nbsp;0&nbsp;0 is <I>EXPRESS</I>[<A HREF="IMBIBLIO.HTM#EXPRESSN14">3</A>] - an information modelling
+language. It is neither a programming language nor a database design language.
+It is designed to be the formal language used to describe a new proposed
+International Standard (ISO 10303) for the exchange of product definition data
+between computer application systems.
+<P>
+<H1><A NAME="SECTION03120000000000000000">1.2 Scope of EDIF Version 3&nbsp;0&nbsp;0 (Level 1)</A></H1>
+<P>
+<H2><A NAME="SECTION03121000000000000000">1.2.1 Categories of design information</A></H2>
+<P>
+The first phase of the modelling activity was to identify the set of
+information which is relevant.  At present, twelve categories of design
+information have been identified in Level&nbsp;1 EDIF.  Ten of these are extension
+of the concepts in Level&nbsp;0 and two new concepts are introduced.  The ten
+categories developed for the Level&nbsp;0 model are:
+<P>
+<UL><LI> <B>Hierarchy information</B>. This describes how a circuit is broken down
+      into a number of cells. It also gives details about the aspects of a 
+      cell representation which are provided to an instance. This information
+      includes the port definitions and relationships between them.
+<LI> <B>Connectivity information</B>.  This defines how circuits are connected.
+      In EDIF Version 3&nbsp;0&nbsp;0, the connectivity information is
+      subdivided into :
+<DL>
+<DD>a) <B>Logical connectivity information.</B> This describes the connectivity for
+a given level of hierarchy. It is specified in terms of signals and signal groups.
+<DD>b) <B>Structural connectivity information.</B> This describes the structural
+implementation of the logical connectivity for a given level of hierarchy. It is specified
+in terms of nets, busses, rippers and junctions.
+</DL>
+<LI> <B>Library information</B>. This provides technology information which
+      includes scaling information and definitions of figure groups.<LI> <B>Display information</B>. This provides graphical primitives which can be
+      used to describe ``dumb graphics'', symbols, interconnects or layout.<LI> <B>Instantiatable object information</B>. This provides template definitions
+      whose occurrences can be used to support the implementation part of cell
+      views.<LI> <B>Design management information</B>.  This provides the information needed
+      to track back to the source or the owner of the data.<LI> <B>Model behavior information</B>.  This explains the event-driven behavior
+      of a cell which includes defining groups of actions which should take
+      place whenever a specified trigger is activated.  It is not defined in
+      the model.<LI> <B>Simulation information</B>.  This is used to check the operation of the
+      circuit by giving a collection of simulation stimuli and expected
+      responses.  It is not defined in the model.<LI> <B>Annotation information</B>.  This is used to hold the annotation data
+      relating to an occurrence hierarchy. 
+</UL>
+<P>
+In addition, EDIF Version 3&nbsp;0&nbsp;0 Level&nbsp;1, two new categories of
+design information are identified.
+<P>
+<UL><LI> <B>Frame information</B>.  This describes how the replication of
+      subcircuits in a design is defined or how the existence of a subcircuit
+      in a design may be made dependent on some conditions.<LI> <B>Parameterized cell information</B>  This describes how various aspects
+      of a cell can be parameterized.
+
+</UL><H2><A NAME="SECTION03122000000000000000">1.2.2 Categories of cell representation</A></H2>
+<P>
+In EDIF Version 3&nbsp;0&nbsp;0, different representation techniques are
+available to describe various aspects of a cell.  Each representation (i.e.
+view or symbol) conveys a different set of design information as identified
+above.  At present, EDIF Version 3&nbsp;0&nbsp;0 supports the following
+types of view: connectivity (analogous to the EDIF Version 2&nbsp;0&nbsp;0 netlist
+viewtype), schematic, symboliclayout, masklayout, pcblayout, logicmodel and
+behavior.  In addition, EDIF Version 3&nbsp;0&nbsp;0 allows a symbol to be
+a form of cell representation in its own right.  There may be a symbol for each
+type of view for which a coordinate space exists, i.e. schematic, masklayout,
+pcblayout and symboliclayout.
+<P>
+<H2><A NAME="SECTION03123000000000000000">1.2.3 Organisation of the information model</A></H2>
+<P>
+Each category of design information is modelled as an <I>EXPRESS</I> <I>SCHEMA</I>. A
+schema provides a context for the definition of things of similar interest.
+Each schema has been made independent of other schemas whenever possible so
+that the schema definition is more robust.  Each EDIF Version
+3&nbsp;0&nbsp;0 viewtype is also modelled separately in a different schema.
+<P>
+At present, the information model for EDIF Version 3&nbsp;0&nbsp;0 
+Level 1 consists of a total of 21 schemas. Note that the information
+model includes schemas which are unmodified from the EDIF 3&nbsp;0&nbsp;0
+Level&nbsp;0 model, schemas which exists in the Level&nbsp;0 model but are modified in
+the Level&nbsp;1 information model and some new schemas.
+Figure&nbsp;<A HREF="#figinformationmodelstructure">1.1</A> shows the structuring of the
+schemas in the information model.
+<P><A NAME="1659">&#160;</A><A NAME="figinformationmodelstructure">&#160;</A><BR>
+<CENTER>
+<IMG ALT="gif" SRC="FIG_1_1.GIF"><BR>
+<STRONG>Figure 1.1:</STRONG> The structuring of schemas in the information model for EDIF Version
+3&nbsp;0&nbsp;0 (Level 1)<BR>
+</CENTER>
+
+<P>
+Some schemas contain general information which is useful in the definition of
+other schemas.  The <A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A> schema provides the information held
+by an EDIF file.  The <A HREF="IMEX0014.HTM#library_model">library_model</A> schema contains the technology information
+of a library. The <A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A> schema describes the hierarchical
+information of a cell.  The <A HREF="IMEX0004.HTM#design_hierarchy_model">design_hierarchy_model</A> schema holds the annotation
+data relating to a design hierarchy.  The <A HREF="IMEX0013.HTM#instantiatable_object_model">instantiatable_object_model</A> schema
+defines various types of reusable template.  The <A HREF="IMEX0015.HTM#logical_connectivity_model">logical_connectivity_model</A>
+schema specifies the view-wide connectivity.  The <A HREF="IMEX0005.HTM#design_management_model">design_management_model</A>
+schema provides the design management information.  The <A HREF="IMEX0007.HTM#documentation_model">documentation_model</A>
+schema describes the documentation provided for an object.  The <A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>
+schema describes the geometrical concepts.  It is used by the <A HREF="IMEX0006.HTM#display_model">display_model</A>
+which associates geometry with display attributes to describe graphical
+primitives.  Finally, the <A HREF="IMEX0020.HTM#support_definition_model">support_definition_model</A> schema provides general
+entity, type and function definitions which are used by other schemas.
+<P>
+Other schemas are viewtype specific. At present, the information model
+completely describes the connectivity and schematic viewtypes.  The information
+for the connectivity viewtype is specified in the <A HREF="IMEX0003.HTM#connectivity_view_model">connectivity_view_model</A> and
+the <A HREF="IMEX0002.HTM#connectivity_structure_model">connectivity_structure_model</A> schemas.  The <A HREF="IMEX0002.HTM#connectivity_structure_model">connectivity_structure_model</A>
+schema describes the structural connectivity of the connectivity view.  The
+information for the schematic viewtype is specified in the <A HREF="IMEX0019.HTM#schematic_view_model">schematic_view_model</A>
+and the <A HREF="IMEX0018.HTM#schematic_implementation_model">schematic_implementation_model</A> schemas.  The
+<A HREF="IMEX0018.HTM#schematic_implementation_model">schematic_implementation_model</A> describes the structural implementation of a
+schematic view.  Other viewtypes, such as pcblayout, masklayout,
+symboliclayout, logicmodel and behavior are given as ``stubs'' in the
+<A HREF="IMEX0021.HTM#unfinished_view_model">unfinished_view_model</A> schema.
+<P>
+The following new schemas are specific to EDIF Version 3&nbsp;0&nbsp;0
+Level&nbsp;1.  The <A HREF="IMEX0010.HTM#frame_model">frame_model</A> schema defines frames which allow users to
+repeatedly or conditionally include a subcircuit in a design.  The
+<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A> schema describes the structural connectivity of a
+frame in a connectivity view.  The <A HREF="IMEX0017.HTM#schematic_frame_model">schematic_frame_model</A> schema describes the
+structural connectivity and the implementation information of a frame in a
+schematic view.  The <A HREF="IMEX0009.HTM#expression_model">expression_model</A> schema describes different types of
+expressions supported by Level&nbsp;1 EDIF.  Finally The <A HREF="IMEX0016.HTM#parameter_model">parameter_model</A> schema
+defines various types of parameters which are used to support parameterization
+of cells.
+<P>
+<H1><A NAME="SECTION04000000000000000000">Part I: EDIF concepts (Level 1)</A></H1>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

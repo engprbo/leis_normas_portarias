@@ -1,0 +1,670 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="stringExtent">stringExtent</A></H1>
+<PRE>
+<I>stringExtent ::= '(' 'stringExtent'</I>
+&#09;<I><A HREF="RMRF0015.HTM#maximumLength">maximumLength</A></I>
+&#09;<I><A HREF="RMRF0015.HTM#maximumHeight">maximumHeight</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A>  !<A HREF="RMRF0053.HTM#pcbTextAppearance">pcbTextAppearance</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#string">string</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the maximum length and height of a text string. If necessary, the text must be shrunk to satisfy these limits. This is to ensure that the text does not interfere with useful circuitry situated nearby.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPhysicalTextImplementation</B>
+<B>   (pcbTextAppearance GA_Courier</B>
+<B>      (pcbTextAttributeOverride)</B>
+<B>      (stringExtent 10 1)</B>
+<B>      (unscaledTransform (origin (pt 100 100)))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="stringLength">stringLength</A></H1>
+<PRE>
+<I>stringLength ::= '(' 'stringLength'</I>
+&#09;<I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#length">length</A> <A HREF="RMRF0015.HTM#minimumStringLength">minimumStringLength</A> <A HREF="RMRF0062.HTM#string">string</A> 
+</I>
+<H3>Description:</H3>
+<P>This <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> returns the number of characters in <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(stringLength</B>
+<B>   (stringConcatenate</B>
+<B>      (stringParameterRef s)</B>
+<B>      (stringParameterRef t)))</B>
+</PRE>
+<P>The above example yields 6 if s has the value "ab" and t has the value "cdef". 
+<P><HR>
+<H1><A NAME="stringParameter">stringParameter</A></H1>
+<PRE>
+<I>stringParameter ::= '(' 'stringParameter'</I>
+&#09;<I><A HREF="RMRF0019.HTM#parameterNameDef">parameterNameDef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | &lt;<A HREF="RMRF0062.HTM#string">string</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0012.HTM#interface">interface</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0063.HTM#stringParameterAssign">stringParameterAssign</A> <A HREF="RMRF0063.HTM#stringParameterRef">stringParameterRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a <I><A HREF="RMRF0063.HTM#stringParameter">stringParameter</A></I> and optionally specifies its default value. <I><A HREF="RMRF0019.HTM#parameterNameDef">ParameterNameDef</A></I> may be referenced by a corresponding <I><A HREF="RMRF0019.HTM#parameterNameRef">parameterNameRef</A></I> in string expressions within the containing cluster, including in subsequent parameter definitions. The parameter may be assigned a new value using <I><A HREF="RMRF0063.HTM#stringParameterAssign">stringParameterAssign</A></I>.
+<P>If no default is specified there must be a corresponding parameter assignment in all instances of the containing cluster. The parameter is used during expansion of the design hierarchy only. 
+<H3>Example:</H3>
+<PRE>
+<B>(stringParameter TCmembers </B>
+<B>   (string "Hilary, Jonathan, Laurence, Rachel, Rich, Robin, Steve")) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="stringParameterAssign">stringParameterAssign</A></H1>
+<PRE>
+<I>stringParameterAssign ::= '(' 'stringParameterAssign'</I>
+&#09;<I><A HREF="RMRF0019.HTM#parameterNameRef">parameterNameRef</A></I>
+&#09;<I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0005.HTM#designHierarchyHeader">designHierarchyHeader</A>  *<A HREF="RMRF0011.HTM#instance">instance</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#string">string</A> <A HREF="RMRF0063.HTM#stringParameter">stringParameter</A> 
+</I>
+<H3>Description:</H3>
+<P>Assigns a value to an <I><A HREF="RMRF0063.HTM#stringParameter">stringParameter</A></I> which has been defined within the interface of the instantiated cluster.
+<H3>Example:</H3>
+<PRE>
+<B>(instance ...</B>
+<B>   (stringParameterAssign </B>
+<B>      arraySeries ".35uBiCMOSTriplePoly"))</B>
+</PRE>
+<P>This assigns the value ".35uBiCMOSTriplePoly" to the <I><A HREF="RMRF0063.HTM#stringParameter">stringParameter</A></I> named arraySeries. 
+<P><HR>
+<H1><A NAME="stringParameterRef">stringParameterRef</A></H1>
+<PRE>
+<I>stringParameterRef ::= '(' 'stringParameterRef'</I>
+&#09;<I><A HREF="RMRF0019.HTM#parameterNameRef">parameterNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#string">string</A> <A HREF="RMRF0063.HTM#stringParameter">stringParameter</A> 
+</I>
+<H3>Description:</H3>
+<P>This refers to a parameter defined by a <I><A HREF="RMRF0063.HTM#stringParameter">stringParameter</A></I> construct in the interface of the containing cluster.
+<H3>Example:</H3>
+<PRE>
+<B>(stringConcatenate</B>
+<B>   (stringParameterRef gndNameStem)</B>
+<B>   (stringParameterRef gndPadNumber)) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="stringPrefix">stringPrefix</A></H1>
+<PRE>
+<I>stringPrefix ::= '(' 'stringPrefix'</I>
+&#09;<I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I>
+&#09;<I><A HREF="RMRF0063.HTM#substringLength">substringLength</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#string">string</A> 
+</I>
+<H3>Description:</H3>
+<P>This returns a specified number of characters from the beginning (left hand side) of <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A> </I>The number of characters to return, and hence the length of the result is specified by <I><A HREF="RMRF0063.HTM#substringLength">substringLength</A></I>.
+<P>If <I><A HREF="RMRF0063.HTM#substringLength">substringLength</A></I> is greater than the number of characters in <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I>, the value of <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I> is returned. In this case, the number of characters in the <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I> is also unchanged. 
+<P>If <I><A HREF="RMRF0063.HTM#substringLength">substringLength</A></I> is less than or equal to zero, the empty string ("") is returned.
+<P>Note that for any string s, the following expression always returns s:
+<P>     (stringConcatenate (stringPrefix s n) (stringSuffix s n))
+<H3>Example:</H3>
+<PRE>
+<B>(stringPrefix "abcdef" 4)</B>
+</PRE>
+<P>The above example yields "abcd". 
+<P><HR>
+<H1><A NAME="stringSuffix">stringSuffix</A></H1>
+<PRE>
+<I>stringSuffix ::= '(' 'stringSuffix'</I>
+&#09;<I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I>
+&#09;<I><A HREF="RMRF0063.HTM#substringOffset">substringOffset</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#string">string</A> 
+</I>
+<H3>Description:</H3>
+<P>This returns a number of characters from the end (right hand side) of <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I>. The offset (i.e. the number of characters to ignore) from the left hand side of <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I> is specified by <I><A HREF="RMRF0063.HTM#substringOffset">substringOffset</A></I>.
+<P>If <I><A HREF="RMRF0063.HTM#substringOffset">substringOffset</A></I> is greater than the number of characters in <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I>, the empty string ("") is returned. 
+<P>If <I><A HREF="RMRF0063.HTM#substringOffset">substringOffset</A></I> is less than or equal to zero, the entire <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I> is returned.
+<H3>Example:</H3>
+<PRE>
+<B>(stringSuffix "abcde" 2)</B>
+</PRE>
+<P>The above example yields "cde".
+<PRE>
+<B>(stringSuffix "abcde" 0)</B>
+</PRE>
+<P>The above example yields "abcde".
+<PRE>
+<B>(stringSuffix "abcde" 6)</B>
+</PRE>
+<P>The above example yields "". 
+<P><HR>
+<H1><A NAME="stringToken">stringToken</A></H1>
+<PRE>
+<B>'"'</B>
+<B>{ <A HREF="RMRF0000.HTM#alpha">alpha</A> | <A HREF="RMRF0007.HTM#encodedCharacter">encodedCharacter</A> | <A HREF="RMRF0005.HTM#digit">digit</A> | <A HREF="RMRF0062.HTM#specialCharacter">specialCharacter</A> | <A HREF="RMRF0066.HTM#whiteSpace">whiteSpace</A> }</B>
+<B>'"'</B>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0000.HTM#author">author</A>  <A HREF="RMRF0002.HTM#character">character</A>  *<A HREF="RMRF0002.HTM#comment">comment</A>  !<A HREF="RMRF0002.HTM#companyName">companyName</A>  !<A HREF="RMRF0004.HTM#contract">contract</A>  *<A HREF="RMRF0004.HTM#copyright">copyright</A>  !<A HREF="RMRF0004.HTM#dataOrigin">dataOrigin</A>  <A HREF="RMRF0005.HTM#description">description</A>  !<A HREF="RMRF0005.HTM#displayName">displayName</A>  !<A HREF="RMRF0005.HTM#displayNameOverride">displayNameOverride</A>  !<A HREF="RMRF0006.HTM#drawingDescription">drawingDescription</A>  !<A HREF="RMRF0006.HTM#drawingIdentification">drawingIdentification</A>  !<A HREF="RMRF0006.HTM#drawingSize">drawingSize</A>  <A HREF="RMRF0008.HTM#fontFamily">fontFamily</A>  <A HREF="RMRF0010.HTM#ieeeDesignation">ieeeDesignation</A>  *<A HREF="RMRF0013.HTM#k2Literal">k2Literal</A>  !<A HREF="RMRF0016.HTM#namePartSeparator">namePartSeparator</A>  <A HREF="RMRF0018.HTM#originalName">originalName</A>  !<A HREF="RMRF0018.HTM#pageIdentification">pageIdentification</A>  !<A HREF="RMRF0018.HTM#pageTitle">pageTitle</A>  <A HREF="RMRF0033.HTM#pcbDrawingScaleFactorDisplayString">pcbDrawingScaleFactorDisplayString</A>  <A HREF="RMRF0033.HTM#pcbDrawingTextString">pcbDrawingTextString</A>  !<A HREF="RMRF0036.HTM#pcbIbisComponentIdentification">pcbIbisComponentIdentification</A>  !<A HREF="RMRF0036.HTM#pcbIbisFileIdentification">pcbIbisFileIdentification</A>  !<A HREF="RMRF0036.HTM#pcbIbisPinIdentification">pcbIbisPinIdentification</A>  !<A HREF="RMRF0049.HTM#pcbPhysicalText">pcbPhysicalText</A>  !<A HREF="RMRF0056.HTM#reason">reason</A>  !<A HREF="RMRF0057.HTM#revision">revision</A>  !<A HREF="RMRF0061.HTM#sectionTitle">sectionTitle</A>  <A HREF="RMRF0062.HTM#simpleName">simpleName</A>  !<A HREF="RMRF0062.HTM#stringConstant">stringConstant</A>  <A HREF="RMRF0062.HTM#stringExpression">stringExpression</A>  <A HREF="RMRF0063.HTM#stringValue">stringValue</A>  !<A HREF="RMRF0064.HTM#typefaceSuffix">typefaceSuffix</A>  *<A HREF="RMRF0065.HTM#userData">userData</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#string">string</A> 
+</I>
+<H3>Description:</H3>
+<P>This is a basic token type and is described as a sequence of printable characters surrounded by quotation marks. This is normally recognized by a lexical scanner.
+<P>A space or tab character represents itself within string tokens; other white space characters (newline and carriage return) are ignored; these can be included in a string by using <I><A HREF="RMRF0007.HTM#encodedCharacter">encodedCharacter</A></I>. The quote and percent characters cannot be specified directly, but may be represented using the <I><A HREF="RMRF0007.HTM#encodedCharacter">encodedCharacter</A></I> notation.
+<P>There is no limit to the length of a <I><A HREF="RMRF0063.HTM#stringToken">stringToken</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>"a string token"</B>
+<B>"quote% 34 %character"</B>
+<B>""</B>
+</PRE>
+<P>This example illustrates three string tokens. The first is typical, the second contains an embedded description of quote character, and the third is a null string.
+<P><HR>
+<H1><A NAME="stringValue">stringValue</A></H1>
+<PRE>
+<I>stringValue ::= <A HREF="RMRF0063.HTM#stringToken">stringToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0000.HTM#annotate">annotate</A>  !<A HREF="RMRF0005.HTM#designator">designator</A>  !<A HREF="RMRF0006.HTM#drawingDate">drawingDate</A>  !<A HREF="RMRF0006.HTM#drawingFirstUsedDate">drawingFirstUsedDate</A>  !<A HREF="RMRF0006.HTM#drawingGeneralTolerances">drawingGeneralTolerances</A>  !<A HREF="RMRF0006.HTM#drawingIssueInformation">drawingIssueInformation</A>  !<A HREF="RMRF0006.HTM#drawingNumberOfSheets">drawingNumberOfSheets</A>  !<A HREF="RMRF0006.HTM#drawingReferenceToStandard">drawingReferenceToStandard</A>  !<A HREF="RMRF0018.HTM#owner">owner</A>  !<A HREF="RMRF0056.HTM#program">program</A>  *<A HREF="RMRF0061.HTM#section">section</A>  !<A HREF="RMRF0065.HTM#version">version</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#string">string</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0063.HTM#stringValue">StringValue</A></I> describes a primitive string value. In Level 0 the set includes only string tokens. 
+<H3>Example:</H3>
+<PRE>
+<B>"Hello world"</B>
+<B>"simulated by SPICE4 using the %34%CSIM%34% MOS model"</B>
+</PRE>
+<P>The second example is a string with the word CSIM embedded in quotes.
+<P><HR>
+<H1><A NAME="strokeFont">strokeFont</A></H1>
+<PRE>
+<I>strokeFont ::= '(' 'strokeFont'</I>
+&#09;<I><A HREF="RMRF0008.HTM#fontNameDef">fontNameDef</A></I>
+&#09;<I><A HREF="RMRF0061.HTM#setDistance">setDistance</A></I>
+&#09;<I><A HREF="RMRF0064.HTM#typeface">typeface</A></I>
+&#09;<I><A HREF="RMRF0063.HTM#strokeFontHeight">strokeFontHeight</A></I>
+&#09;<I><A HREF="RMRF0063.HTM#strokeFontWidth">strokeFontWidth</A></I>
+&#09;<I>{ <A HREF="RMRF0056.HTM#property">property</A> | <A HREF="RMRF0063.HTM#strokeFontCharacter">strokeFontCharacter</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0063.HTM#strokeFonts">strokeFonts</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#font">font</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one <I><A HREF="RMRF0063.HTM#strokeFontCharacter">strokeFontCharacter</A></I> in a <I><A HREF="RMRF0063.HTM#strokeFont">strokeFont</A></I>.
+</DL>
+<H3>Description:</H3>
+<P>Defines a stroke font. Each <I><A HREF="RMRF0063.HTM#strokeFontCharacter">strokeFontCharacter</A></I> must define a separate character of the font.
+<H3>Example:</H3>
+<PRE>
+<B>(strokeFont NONPROP_TIMES</B>
+<B>   (setDistance (unitRef micro_m))</B>
+<B>   (typeface "NPTIMES" </B>
+<B>      (typefaceSuffix "-Bold-O-Normal"))</B>
+<B>   (strokeFontHeight 10)</B>
+<B>   (strokeFontWidth 1)</B>
+<B>   (strokeFontCharacter "A"</B>
+<B>      (unfilledOrOpenElementSet</B>
+<B>         (path ...)))</B>
+<B>   (strokeFontCharacter "B"</B>
+<B>      (unfilledOrOpenElementSet</B>
+<B>         (path ...))) ...)</B>
+</PRE>
+<P>Here, the font NONPROP_TIMES is being defined. Each character is defined by a <I><A HREF="RMRF0019.HTM#path">path</A></I>.
+<P><HR>
+<H1><A NAME="strokeFontCharacter">strokeFontCharacter</A></H1>
+<PRE>
+<I>strokeFontCharacter ::= '(' 'strokeFontCharacter'</I>
+&#09;<I><A HREF="RMRF0002.HTM#character">character</A></I>
+&#09;<I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0063.HTM#strokeFont">strokeFont</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#font">font</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0002.HTM#character">character</A></I> string within <I><A HREF="RMRF0063.HTM#strokeFontCharacter">strokeFontCharacter</A></I> must not be the same as the <I><A HREF="RMRF0002.HTM#character">character</A></I> string of another <I><A HREF="RMRF0063.HTM#strokeFontCharacter">strokeFontCharacter</A></I> within the same <I><A HREF="RMRF0063.HTM#strokeFont">strokeFont</A></I>.
+</DL>
+<H3>Description:</H3>
+<P>Identifies the name and defines the shape of a character within a stroke font.
+<P>The origin of a stroke font character is the lower left corner of the character.
+<H3>Example:</H3>
+<PRE>
+<B>(strokeFontCharacter "A"</B>
+<B>   (unfilledOrOpenElementSet</B>
+<B>      (path ...)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="strokeFontHeight">strokeFontHeight</A></H1>
+<PRE>
+<I>strokeFontHeight ::= '(' 'strokeFontHeight'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0063.HTM#strokeFont">strokeFont</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#font">font</A> <A HREF="RMRF0008.HTM#fontHeight">fontHeight</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the height of the stroke font, excluding line spacing. This attribute determines the scaling that needs to be applied to achieve a specified text height when the stroke font is used. For example, if a stroke font has a <I><A HREF="RMRF0063.HTM#strokeFontHeight">strokeFontHeight</A></I> of 94mm and a text height of 5mm is required for the drawing of a particular string of characters, each character will be scaled by 5/94.
+<P><HR>
+<H1><A NAME="strokeFonts">strokeFonts</A></H1>
+<PRE>
+<I>strokeFonts ::= '(' 'strokeFonts'</I>
+&#09;<I>{ <A HREF="RMRF0063.HTM#strokeFont">strokeFont</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0008.HTM#fontDefinitions">fontDefinitions</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#fonts">fonts</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines stroke fonts. A stroke font is a nonstandard font. Each character in the font has its shape formally defined.
+<H3>Example:</H3>
+<PRE>
+<B>(strokeFonts</B>
+<B>   (strokeFont NONPROP_TIMES</B>
+<B>      (setDistance (unitRef micro_m))</B>
+<B>      (typeface "NPTIMES" </B>
+<B>         (typefaceSuffix "-Bold-O-Normal"))</B>
+<B>      (strokeFontHeight 10)</B>
+<B>      (strokeFontWidth 1)</B>
+<B>      (strokeFontCharacter "A"</B>
+<B>         (unfilledOrOpenElementSet</B>
+<B>            (path ...)))</B>
+<B>      (strokeFontCharacter "B"</B>
+<B>         (unfilledOrOpenElementSet</B>
+<B>            (path ...))) ...))</B>
+</PRE>
+<P>Here, the font NONPROP_TIMES is being defined. Each character is defined by a <I><A HREF="RMRF0019.HTM#path">path</A></I>.
+<P><HR>
+<H1><A NAME="strokeFontWidth">strokeFontWidth</A></H1>
+<PRE>
+<I>strokeFontWidth ::= '(' 'strokeFontWidth'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0063.HTM#strokeFont">strokeFont</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#font">font</A> <A HREF="RMRF0008.HTM#fontWidth">fontWidth</A> <A HREF="RMRF0066.HTM#width">width</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the width of each character in a stroke font excluding the gap between characters, see <I><A HREF="RMRF0036.HTM#pcbGapWidth">pcbGapWidth</A></I>.
+<P><HR>
+<H1><A NAME="strong">strong</A></H1>
+<PRE>
+<I>strong ::= '(' 'strong'</I>
+&#09;<I><A HREF="RMRF0015.HTM#logicNameRef">logicNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0015.HTM#logicValue">logicValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0063.HTM#strong">Strong</A></I> is an attribute of a logic value which is used to indicate that the current logic value is stronger than the referenced logic value. <I><A HREF="RMRF0063.HTM#strong">Strong</A></I> also implies that the present logic value <I><A HREF="RMRF0006.HTM#dominates">dominates</A></I> the referenced value.
+<H3>Example:</H3>
+<PRE>
+<B>(logicDefinitions ...</B>
+<B>   (logicValue F)</B>
+<B>   (logicValue T</B>
+<B>      (dominates F))</B>
+<B>   ...</B>
+<B>   (logicValue ST</B>
+<B>      (strong T)))</B>
+</PRE>
+<P>The above example states that the logic value ST is stronger than the logic value T. 
+<P><HR>
+<H1><A NAME="subIssue">subIssue</A></H1>
+<PRE>
+<I>subIssue ::= <A HREF="RMRF0012.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#edifVersion">edifVersion</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#issue">issue</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Numeric constraints: 
+<DD>Equal to: 0 
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0063.HTM#subIssue">SubIssue</A></I> is the third value in the definition of <I><A HREF="RMRF0007.HTM#edifVersion">edifVersion</A></I>.
+<P><HR>
+<H1><A NAME="substring">substring</A></H1>
+<PRE>
+<I>substring ::= '(' 'substring'</I>
+&#09;<I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I>
+&#09;<I><A HREF="RMRF0063.HTM#substringLength">substringLength</A></I>
+&#09;<I><A HREF="RMRF0063.HTM#substringOffset">substringOffset</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A>  
+</I>
+<H3>Description:</H3>
+<P>This evaluates to a substring of <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I>. <I><A HREF="RMRF0063.HTM#substringLength">SubstringLength</A></I> specifies the length of the substring. The offset (i.e. the number of characters to ignore) from the left hand side of <I><A HREF="RMRF0062.HTM#stringExpression">stringExpression</A></I> is specified by <I><A HREF="RMRF0063.HTM#substringOffset">substringOffset</A></I>.
+<P>For (substring S L F), if S has a string length N, then:
+<P>1. If F &gt;= N, <I><A HREF="RMRF0063.HTM#substring">substring</A></I> returns "".
+<P>2. If L &lt;= 0, <I><A HREF="RMRF0063.HTM#substring">substring</A></I> returns "".
+<P>3. If F + L &gt; N, <I><A HREF="RMRF0063.HTM#substring">substring</A></I> returns all the characters from the offset position, and the string returned has a length equal to N - F.
+<P>Note that the following two constructs are equivalent:
+<P>(substring string length offset)
+<P>(stringPrefix  (stringSuffix string offset) length)
+<H3>Example:</H3>
+<PRE>
+<B>(substring "abcdefg" 4 2 )</B>
+</PRE>
+<P>This yields "cdef". 
+<P><HR>
+<H1><A NAME="substringLength">substringLength</A></H1>
+<PRE>
+<I>substringLength ::= <A HREF="RMRF0012.HTM#integerExpression">integerExpression</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#minimumStringLength">minimumStringLength</A>  !<A HREF="RMRF0063.HTM#stringPrefix">stringPrefix</A>  !<A HREF="RMRF0063.HTM#substring">substring</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#length">length</A> 
+</I>
+<H3>Description:</H3>
+<P>An <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> which specifies the length of a string.
+<H3>Example:</H3>
+<PRE>
+<B>(stringSuffix "abcde" 2)</B>
+</PRE>
+<P>In the above example, 2 is the <I><A HREF="RMRF0063.HTM#substringLength">substringLength</A></I>. 
+<P><HR>
+<H1><A NAME="substringOffset">substringOffset</A></H1>
+<PRE>
+<I>substringOffset ::= <A HREF="RMRF0012.HTM#integerExpression">integerExpression</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0063.HTM#stringSuffix">stringSuffix</A>  !<A HREF="RMRF0063.HTM#substring">substring</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the offset (i.e. the number of characters to ignore) from the left hand side of a string expression. See <I><A HREF="RMRF0063.HTM#substring">substring</A></I> for an example. 
+<P><HR>
+<H1><A NAME="subtrahend">subtrahend</A></H1>
+<PRE>
+<I>subtrahend ::= <A HREF="RMRF0012.HTM#integerExpression">integerExpression</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0012.HTM#integerSubtract">integerSubtract</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#pcbSubtrahendGeometricShapes">pcbSubtrahendGeometricShapes</A> 
+</I>
+<H3>Description:</H3>
+<P>An <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> which is subtracted from another <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(integerSubtract 6 (integerParameterRef v))</B>
+</PRE>
+<P>The result of the above example is 6 minus the value of v, where the (integerParameterRef v) is the <I><A HREF="RMRF0063.HTM#subtrahend">subtrahend</A></I>. 
+<P><HR>
+<H1><A NAME="symbolicLayoutUnits">symbolicLayoutUnits</A></H1>
+<PRE>
+<I>symbolicLayoutUnits ::= '(' 'symbolicLayoutUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0061.HTM#setAngle">setAngle</A>&gt; | &lt;<A HREF="RMRF0061.HTM#setCapacitance">setCapacitance</A>&gt; | &lt;<A HREF="RMRF0061.HTM#setDistance">setDistance</A>&gt; | &lt;<A HREF="RMRF0061.HTM#setTime">setTime</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0054.HTM#physicalScaling">physicalScaling</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0063.HTM#symbolicLayoutUnits">SymbolicLayoutUnits</A></I> defines the units for <I><A HREF="RMRF0063.HTM#symbolicLayoutView">symbolicLayoutView</A></I>. It may be specified as a default for the entire data in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or for a library in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. Refer to <I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A></I> for a full example.
+<P><HR>
+<H1><A NAME="symbolicLayoutView">symbolicLayoutView</A></H1>
+<PRE>
+<I>symbolicLayoutView ::= '(' 'symbolicLayoutView'</I>
+&#09;<I><A HREF="RMRF0066.HTM#viewNameDef">viewNameDef</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0065.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0002.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0063.HTM#symbolicLayoutView">SymbolicLayoutView</A></I> is presented as a stub in this version of EDIF. It will be completed in a later version.
+<P><HR>
+<H1><A NAME="symbolPortImplementationNameDef">symbolPortImplementationNameDef</A></H1>
+<PRE>
+<I>symbolPortImplementationNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0060.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0010.HTM#implementationNameDef">implementationNameDef</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0055.HTM#portNameDef">portNameDef</A> <A HREF="RMRF0063.HTM#symbolPortImplementationNameRef">symbolPortImplementationNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setFrequency">SetFrequency</A></I> sets the units for frequency values in a particular context.
+<P>The default is that frequency is measured in the SI unit of hertz. The underlying unit of <I><A HREF="RMRF0061.HTM#setFrequency">setFrequency</A></I> must by hertz.
+<H3>Example:</H3>
+<PRE>
+<B>(unit hz 1 1 (hertz 1))</B>
+<B>...</B>
+<B>(schematicUnits ...</B>
+<B>   (setFrequency (unitRef hz))...)</B>
+</PRE>
+<P>This example defines the frequency units for <I><A HREF="RMRF0061.HTM#schematicUnits">schematicUnits</A></I> to be hz.
+<P><HR>
+<H1><A NAME="symbolPortImplementationNameRef">symbolPortImplementationNameRef</A></H1>
+<PRE>
+<I>symbolPortImplementationNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0011.HTM#instancePortAttributeDisplay">instancePortAttributeDisplay</A>  !<A HREF="RMRF0060.HTM#schematicSymbolPortImplementationRef">schematicSymbolPortImplementationRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#implementationNameRef">implementationNameRef</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0055.HTM#portNameRef">portNameRef</A> <A HREF="RMRF0056.HTM#portRef">portRef</A> <A HREF="RMRF0063.HTM#symbolPortImplementationNameDef">symbolPortImplementationNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a <I><A HREF="RMRF0063.HTM#symbolPortImplementationNameDef">symbolPortImplementationNameDef</A></I>. 
+<P><HR>
+<H1><A NAME="technology">technology</A></H1>
+<PRE>
+<I>technology ::= '(' 'technology'</I>
+&#09;<I><A HREF="RMRF0054.HTM#physicalScaling">physicalScaling</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0008.HTM#figureGroup">figureGroup</A> | &lt;<A HREF="RMRF0015.HTM#logicDefinitions">logicDefinitions</A>&gt; | 
+&#09;<A HREF="RMRF0030.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A> | <A HREF="RMRF0036.HTM#pcbGeometricAttributeDefault">pcbGeometricAttributeDefault</A> | <A HREF="RMRF0065.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0021.HTM#pcbBareBoardLayerTechnologyRule">pcbBareBoardLayerTechnologyRule</A> <A HREF="RMRF0021.HTM#pcbBareBoardRegionTechnologyRule">pcbBareBoardRegionTechnologyRule</A> <A HREF="RMRF0021.HTM#pcbBareBoardTechnology">pcbBareBoardTechnology</A> <A HREF="RMRF0021.HTM#pcbBareBoardTechnologyHeader">pcbBareBoardTechnologyHeader</A> <A HREF="RMRF0021.HTM#pcbBareBoardTechnologyPreviousVersion">pcbBareBoardTechnologyPreviousVersion</A> <A HREF="RMRF0021.HTM#pcbBareBoardTechnologyRef">pcbBareBoardTechnologyRef</A> <A HREF="RMRF0021.HTM#pcbBareBoardTechnologyRule">pcbBareBoardTechnologyRule</A> <A HREF="RMRF0052.HTM#pcbSubLayoutBareBoardTechnology">pcbSubLayoutBareBoardTechnology</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleCheckOnSameNet">pcbTechnologyRuleCheckOnSameNet</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleHeader">pcbTechnologyRuleHeader</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleNameCaseSensitive">pcbTechnologyRuleNameCaseSensitive</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleNameDef">pcbTechnologyRuleNameDef</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleNameRef">pcbTechnologyRuleNameRef</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleRef">pcbTechnologyRuleRef</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleRoutingStrategy">pcbTechnologyRuleRoutingStrategy</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleViasAllowed">pcbTechnologyRuleViasAllowed</A> 
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0063.HTM#technology">technology</A></I> construct contains the information related to the intended implementation of the library. The description applies to every object of the library. The <I><A HREF="RMRF0063.HTM#technology">technology</A></I> block is required for every library. It includes scaling information, definitions of the figure groups, and the default figure group attributes, and simulation information. <I><A HREF="RMRF0054.HTM#physicalScaling">PhysicalScaling</A></I> is required to ensure that scaling information is defined before any values which may need to be scaled. 
+<H3>Example:</H3>
+<PRE>
+<B>(library LIB1</B>
+<B>   (libraryHeader (edifLevel 0)</B>
+<B>      (nameCaseSensitivity ...)</B>
+<B>      (technology</B>
+<B>         (physicalScaling</B>
+<B>            (pcbLayoutUnits</B>
+<B>               (setDistance (unitRef micron))))</B>
+<B>         (figureGroup FG1 ...)</B>
+<B>         (figureGroup FG2 ...) ...)) ...)</B>
+</PRE>
+<P>In the above example, the <I><A HREF="RMRF0063.HTM#technology">technology</A></I> block defines the scaling and figure group defaults for the library named LIB1. 
+<P><HR>
+<H1><A NAME="temperatureRange">temperatureRange</A></H1>
+<PRE>
+<I>temperatureRange ::= '(' 'temperatureRange'</I>
+&#09;<I><A HREF="RMRF0015.HTM#miNoMaxValue">miNoMaxValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDieEnvironmentalConditions">pcbDieEnvironmentalConditions</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a range of temperatures in units as defined by <I><A HREF="RMRF0061.HTM#setTemperature">setTemperature</A></I>. 
+<P><HR>
+<H1><A NAME="temperatureValue">temperatureValue</A></H1>
+<PRE>
+<I>temperatureValue ::= <A HREF="RMRF0017.HTM#numberValue">numberValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0015.HTM#maximumTemperature">maximumTemperature</A>  <A HREF="RMRF0015.HTM#minimumTemperature">minimumTemperature</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a temperature value in units as defined by <I><A HREF="RMRF0061.HTM#setTemperature">setTemperature</A></I>.
+<P><HR>
+<H1><A NAME="textHeight">textHeight</A></H1>
+<PRE>
+<I>textHeight ::= '(' 'textHeight'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0005.HTM#displayAttributes">displayAttributes</A>  &lt;<A HREF="RMRF0028.HTM#pcbDimensionDrawingAttributeOverride">pcbDimensionDrawingAttributeOverride</A>  !<A HREF="RMRF0030.HTM#pcbDimensionToleranceNominalWithDeltas">pcbDimensionToleranceNominalWithDeltas</A>  &lt;<A HREF="RMRF0030.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  &lt;<A HREF="RMRF0033.HTM#pcbDrawingTextDrawingAttributeOverride">pcbDrawingTextDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0036.HTM#pcbGeometricAttributeDefault">pcbGeometricAttributeDefault</A>  &lt;<A HREF="RMRF0053.HTM#pcbTextAttributeOverride">pcbTextAttributeOverride</A>  !<A HREF="RMRF0060.HTM#schematicRequiredDefaults">schematicRequiredDefaults</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0063.HTM#textHeight">TextHeight</A></I> is used to specify the height of text. 
+<H3>Example:</H3>
+<PRE>
+<B>(setDistance (unitRef mm))</B>
+<B>...</B>
+<B>(figureGroup TextDisplay</B>
+<B>   (displayAttributes (textHeight 8) ...) ...)</B>
+</PRE>
+<P>The first example in a <I><A HREF="RMRF0063.HTM#technology">technology</A></I> construct defines a default text height of 8 mm. 
+<P> 
+<PRE>
+<B>(display</B>
+<B>   (figureGroupOverride TextDisplay</B>
+<B>      (displayAttributes (textHeight 15))) </B>
+<B>   (transform ...))</B>
+</PRE>
+<P>The second example overrides the default text height with a value of 15 mm for this display.
+<P><HR>
+<H1><A NAME="thermalConductivity">thermalConductivity</A></H1>
+<PRE>
+<I>thermalConductivity ::= '(' 'thermalConductivity'</I>
+&#09;<I><A HREF="RMRF0063.HTM#thermalConductivityValue">thermalConductivityValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  &lt;<A HREF="RMRF0044.HTM#pcbNonStandardMaterial">pcbNonStandardMaterial</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#setThermalConductivity">setThermalConductivity</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateHeader">pcbDiePhysicalTemplateHeader</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies an thermal conductivity value.
+<H3>Example:</H3>
+<PRE>
+<B>(thermalConductivity 385)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="thermalConductivityValue">thermalConductivityValue</A></H1>
+<PRE>
+<I>thermalConductivityValue ::= <A HREF="RMRF0017.HTM#nonNegativeNumber">nonNegativeNumber</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0063.HTM#thermalConductivity">thermalConductivity</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a thermal conductivity value in units as specified by <I><A HREF="RMRF0061.HTM#setThermalConductivity">setThermalConductivity</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(thermalConductivity 385)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="thickness">thickness</A></H1>
+<PRE>
+<I>thickness ::= '(' 'thickness'</I>
+&#09;<I><A HREF="RMRF0064.HTM#tolerancedDistanceValue">tolerancedDistanceValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0049.HTM#pcbPhysicalLayer">pcbPhysicalLayer</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0022.HTM#pcbBoardThickness">pcbBoardThickness</A> <A HREF="RMRF0027.HTM#pcbDieThicknessTolerance">pcbDieThicknessTolerance</A> <A HREF="RMRF0034.HTM#pcbDrillRulePlatingThickness">pcbDrillRulePlatingThickness</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies a thickness value.
+<H3>Example:</H3>
+<PRE>
+<B>(thickness (mnm 2 3 4))</B>
+</PRE>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

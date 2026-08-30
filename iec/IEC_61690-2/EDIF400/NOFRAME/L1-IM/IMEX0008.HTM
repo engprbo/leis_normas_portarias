@@ -1,0 +1,853 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMCHG.HTM">Changes from Level 0</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="edif_information_model">edif_information_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A> schema describes the information held by an
+ EDIF file.  An EDIF file may contain several designs and several libraries
+ of cell definitions.  An EDIF file also specifies <A HREF="IMEX0008.HTM#physical_scaling">physical_scaling</A> which
+ collects all scaling information.  Consequently, it is possible that the
+ same unit can be used in more than one library.  In addition, it may specify
+ the interpretation of the data contained in quoted strings. 
+</P><HR>
+<!-- Start of ENTITY: edif -->
+<H2><A NAME="edif">edif</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#edif">edif</A>;
+    character_encoding  : <A HREF="IMEX0008.HTM#character_encoding">character_encoding</A>;       
+    designs             : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#design">design</A>;
+    document            : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>;
+    fonts               : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#text_font">text_font</A>;
+    global_ports        : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#global_port">global_port</A>;
+    global_port_bundles : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A>;
+    libraries           : OPTIONAL SET [1:?] OF <A HREF="IMEX0014.HTM#library">library</A>;
+    name                : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties          : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#private_property">private_property</A>;
+    scaling_information : OPTIONAL <A HREF="IMEX0008.HTM#physical_scaling">physical_scaling</A>;
+    schematic_defaults  : OPTIONAL <A HREF="IMEX0008.HTM#schematic_required_defaults">schematic_required_defaults</A>;
+    status_of_copyright : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#copyright">copyright</A>;
+    status_of_written   : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#written">written</A>;
+    unit_definitions    : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#unit">unit</A>;
+
+  (* The following attribute is added for the PCB domain. *)
+    fabricate_figure_collectors : OPTIONAL SET [1:?] OF
+                                  <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>; 
+    drawing_figure_collectors   : OPTIONAL SET [1:?] OF
+                                  <A HREF="IMEX0008.HTM#drawing_figure_collector">drawing_figure_collector</A>; 
+    drawing_fill_patterns       : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;
+    drawing_line_styles         : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#drawing_line_style">drawing_line_style</A>;
+  WHERE
+    <A NAME="edif.valid_fonts">valid_fonts</A> :
+      (* All fonts must have the same set_distance. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(font1 &lt;* fonts |
+        <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(font2 &lt;* fonts - font1 |
+          font1.set_distance &lt;&gt; font2.set_distance))));
+
+    <A NAME="edif.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. An <A HREF="IMEX0008.HTM#edif">edif</A> cannot have global_port_bundles if it does not define any
+             global_ports. *)
+      EXISTS(global_ports) OR NOT EXISTS(global_port_bundles);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0008.HTM#edif">edif</A> specifies what kind of information can be found directly in an
+ EDIF file.  An EDIF file may contain <A HREF="IMEX0004.HTM#design">designs</A>, <A HREF="IMEX0007.HTM#documentation">documentation</A>, <A HREF="IMEX0034.HTM#unit">units</A> and
+ libraries of <A HREF="IMEX0012.HTM#cell">cell</A> definitions.  An EDIF file allows the same <A HREF="IMEX0034.HTM#unit">unit</A> to be
+ used in more than one <A HREF="IMEX0014.HTM#library">library</A>.  In addition, it may specify the
+ interpretation of the data contained in quoted strings.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> <A HREF="IMEX0008.HTM#global_port">global_port</A> <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A> <A HREF="IMEX0014.HTM#library">library</A> <A HREF="IMEX0015.HTM#signal">signal</A> </P>
+<HR>
+<!-- Start of ENTITY: text_font -->
+<H2><A NAME="text_font">text_font</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#text_font">text_font</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0008.HTM#font">font</A>, 
+                                    <A HREF="IMEX0008.HTM#stroke_font">stroke_font</A>));
+    font_family     : <A HREF="IMEX0034.HTM#string_token">string_token</A>;
+    typeface_suffix : <A HREF="IMEX0034.HTM#string_token">string_token</A>;
+    font_height     : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    font_width      : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    properties      : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#private_property">private_property</A>;
+    set_distance    : <A HREF="IMEX0034.HTM#distance_unit">distance_unit</A>;
+  WHERE
+    <A NAME="text_font.containment_constraint">containment_constraint</A> :
+      (* A text_font belongs to one edif. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.fonts');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#text_font">text_font</A> describes a set of rules for drawing individual text
+ characters either directly, or by reference to a standard (externally
+ defined) text font.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#angular_dimension_item">angular_dimension_item</A> <A HREF="IMEX0021.HTM#circular_dimension">circular_dimension</A> <A HREF="IMEX0021.HTM#drawing_text_display">drawing_text_display</A> <A HREF="IMEX0008.HTM#edif">edif</A> <A HREF="IMEX0014.HTM#geometric_attribute_default">geometric_attribute_default</A> <A HREF="IMEX0021.HTM#linear_dimension_item">linear_dimension_item</A> <A HREF="IMEX0022.HTM#text_appearance">text_appearance</A> </P>
+<HR>
+<!-- Start of ENTITY: font -->
+<H2><A NAME="font">font</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#font">font</A> 
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#text_font">text_font</A>);
+    font_capital_height : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    font_descent        : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    font_styles         : OPTIONAL SET [1:2] OF <A HREF="IMEX0008.HTM#font_style">font_style</A>;
+    proportional_font   : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#font">font</A> defines the information needed to access font data on a system
+ which defines how text strings are to be rendered.  If an exact match for a
+ font cannot be found, information is provided to find a substitute font.
+ When substituting fonts or changing justifications, sufficient information
+ is provided to adjust the text heights, origins and justifications to
+ identify a substitute font. 
+</P>
+<P>
+ The font_family defines a string name used to identify a family of
+ typefaces.  The typeface_suffix defines a suffix in a typeface name used to
+ identify attributes of the typeface such as bold and italic.  The
+ font_capital_height is the height of capital letters.  The font_descent is a
+ characteristic of the font.  It is the distance between the baseline (the
+ bottom of capital letters) and the bottom of the font bounding box.  It is
+ the area in which the bottom parts of letters with descenders, e.g. gjpqy
+ are drawn.  The font_height is defined as the distance between the top and
+ bottom of the font bounding box, and is used as the line to line spacing.
+ The font bounding box includes whitespace above and possibly below the
+ characters used in normal line spacing.  The font_width defines the average
+ separation of the characters in a rendered string.  For fixed pitch fonts,
+ the character separation is the same for all characters.  For proportional
+ fonts, this distance varies so the average value defined by the font is
+ used.  It is defined as the average of the widths (character to character
+ spacing) of all characters defined in the font.  The font_styles indicate
+ that a font contains bold or italic characters.  The proportional_font is a
+ boolean flag which indicates whether a font contains proportionally spaced
+ or fixed pitch characters.   
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0006.HTM#display">display</A> <A HREF="IMEX0014.HTM#figure_group">figure_group</A> <A HREF="IMEX0008.HTM#schematic_required_defaults">schematic_required_defaults</A> </P>
+<HR>
+<!-- Start of ENTITY: stroke_font -->
+<H2><A NAME="stroke_font">stroke_font</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#stroke_font">stroke_font</A> 
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#text_font">text_font</A>);
+    characters : SET [1:?] OF <A HREF="IMEX0008.HTM#text_font_character">text_font_character</A>;
+  WHERE
+    <A NAME="stroke_font.valid_characters">valid_characters</A> : 
+    (* Each text_font_character object owned by a given stroke_font object
+       must describe a different letter. *) 
+    <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(character1 &lt;* characters |
+      <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(character2 &lt;* characters - character1 |
+        character1.letter = character2.letter))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#stroke_font">stroke_font</A> describes a set of rules for drawing individual text
+ characters directly.  
+</P><HR>
+<!-- Start of ENTITY: text_font_character -->
+<H2><A NAME="text_font_character">text_font_character</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#text_font_character">text_font_character</A>;
+    is_described_by : SET [1:?] OF <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A>;
+    letter          : STRING (1);
+  WHERE
+    <A NAME="text_font_character.valid_existence">valid_existence</A> :
+      (* A text_font_character belongs to one stroke_font. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#stroke_font">stroke_font</A>.characters');
+
+    <A NAME="text_font_character.valid_is_described_by">valid_is_described_by</A> :
+      (* The geometry_elements can be open_element or unfilled_element only. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(geometryElement &lt;* is_described_by |
+        NOT (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(geometryElement, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#open_element">open_element</A>')
+             OR
+             <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(geometryElement, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A>'))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#text_font_character">text_font_character</A> object describes a set of rules for drawing an
+ individual text character (in terms of a set of <A HREF="IMEX0011.HTM#open_element">open_elements</A> or
+ <A HREF="IMEX0011.HTM#unfilled_element">unfilled_elements</A>).  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#stroke_font">stroke_font</A> </P>
+<HR>
+<!-- Start of TYPE: font_style -->
+<H2><A NAME="font_style">font_style</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0008.HTM#font_style">font_style</A>
+    = ENUMERATION OF (bold_style, italic_style);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The bold_style indicates that the characters in the <A HREF="IMEX0008.HTM#font">font</A> are bold, and
+ when a string is rendered it will be in bold.  The italic_style indicates
+ that the characters in the <A HREF="IMEX0008.HTM#font">font</A> are italic, and when a string is rendered
+ it will be in italic. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#font">font</A> </P>
+<HR>
+<!-- Start of ENTITY: physical_scaling -->
+<H2><A NAME="physical_scaling">physical_scaling</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#physical_scaling">physical_scaling</A>;
+    default_connectivity_units   : <A HREF="IMEX0003.HTM#connectivity_units">connectivity_units</A>;
+    default_documentation_units  : <A HREF="IMEX0007.HTM#documentation_units">documentation_units</A>;
+    default_geometry_macro_units : <A HREF="IMEX0013.HTM#geometry_macro_units">geometry_macro_units</A>;
+    default_interface_units      : <A HREF="IMEX0012.HTM#cluster_interface_units">cluster_interface_units</A>;
+    default_material_units       : <A HREF="IMEX0023.HTM#material_units">material_units</A>;
+    default_part_units           : <A HREF="IMEX0028.HTM#part_units">part_units</A>;
+    default_pcb_drawing_units    : <A HREF="IMEX0021.HTM#pcb_drawing_units">pcb_drawing_units</A>;
+    default_pcb_layout_units     : <A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A>;
+    default_schematic_units      : <A HREF="IMEX0033.HTM#schematic_units">schematic_units</A>;
+  WHERE
+    <A NAME="physical_scaling.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.scaling_information',
+         '<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#library">library</A>.scaling_information']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0008.HTM#physical_scaling">physical_scaling</A> is used to collect all scaling information for an
+ <A HREF="IMEX0008.HTM#edif">edif</A> file or a <A HREF="IMEX0014.HTM#library">library</A>.  It may provide default scales for
+ <A HREF="IMEX0013.HTM#geometry_macro_template">geometry_macro_templates</A> and different types of <A HREF="IMEX0012.HTM#cell_representation">cell_representation</A>
+ defined within an <A HREF="IMEX0008.HTM#edif">edif</A> file or a <A HREF="IMEX0014.HTM#library">library</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#edif">edif</A> <A HREF="IMEX0014.HTM#library">library</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_required_defaults -->
+<H2><A NAME="schematic_required_defaults">schematic_required_defaults</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#schematic_required_defaults">schematic_required_defaults</A>;
+    default_font : <A HREF="IMEX0008.HTM#font">font</A>; -- reference
+    hotspot_grid : OPTIONAL <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    set_distance : <A HREF="IMEX0034.HTM#distance_unit">distance_unit</A>;
+    text_height  : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+  WHERE
+    <A NAME="schematic_required_defaults.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.schematic_defaults');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0008.HTM#schematic_required_defaults">schematic_required_defaults</A> is used to provide default values for
+ hotspot grid, distance scale, text height for schematic views in an edif
+ file. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#edif">edif</A> </P>
+<HR>
+<!-- Start of ENTITY: global_port -->
+<H2><A NAME="global_port">global_port</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#global_port">global_port</A>;
+    name                             : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties                       : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#private_property">private_property</A>;
+    schematic_global_port_attributes : OPTIONAL SET [1:?] OF
+                                       <A HREF="IMEX0033.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A>; 
+  DERIVE
+    containing_edif      : <A HREF="IMEX0008.HTM#edif">edif</A> -- reference
+                           := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+                              '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.global_ports');
+    size                 : INTEGER := 1;
+  WHERE
+    <A NAME="global_port.containment_constraint">containment_constraint</A> :
+      (* A global_port belongs to one edif. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.global_ports');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#global_port">global_port</A> is used to establish connectivity across instances within an
+ instance hierarchy without passing signals through the ports of the cell
+ clusters instantiated in the hierarchy.  All <A HREF="IMEX0015.HTM#signal">signals</A> in an instance
+ hierarchy which refer to the same <A HREF="IMEX0008.HTM#global_port">global_port</A> are connected together,
+ unless the <A HREF="IMEX0008.HTM#global_port">global_port</A> is scoped. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> <A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A> <A HREF="IMEX0002.HTM#connectivity_generic_bus">connectivity_generic_bus</A> <A HREF="IMEX0002.HTM#connectivity_generic_net">connectivity_generic_net</A> <A HREF="IMEX0008.HTM#edif">edif</A> <A HREF="IMEX0012.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A> <A HREF="IMEX0008.HTM#global_port_or_global_port_bundle">global_port_or_global_port_bundle</A> <A HREF="IMEX0012.HTM#master_port">master_port</A> <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A> <A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A> <A HREF="IMEX0032.HTM#schematic_generic_bus">schematic_generic_bus</A> <A HREF="IMEX0032.HTM#schematic_generic_net">schematic_generic_net</A> <A HREF="IMEX0015.HTM#signal">signal</A> </P>
+<HR>
+<!-- Start of ENTITY: global_port_bundle -->
+<H2><A NAME="global_port_bundle">global_port_bundle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A>;
+    member_ports : LIST [1:?] OF UNIQUE -- reference
+                   <A HREF="IMEX0008.HTM#global_port_or_global_port_bundle">global_port_or_global_port_bundle</A>;   
+    name         : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties   : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#private_property">private_property</A>;
+  DERIVE
+    containing_edif     : <A HREF="IMEX0008.HTM#edif">edif</A> -- reference
+                          := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+                             '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.global_port_bundles');
+    flattened_port_list : LIST OF UNIQUE <A HREF="IMEX0008.HTM#global_port">global_port</A> -- reference
+                          := <A HREF="IMEX0008.HTM#flatten_global_port_bundle">flatten_global_port_bundle</A>(member_ports);
+    size                : INTEGER := SIZEOF(flattened_port_list);
+  WHERE
+    <A NAME="global_port_bundle.containment_constraint">containment_constraint</A> :
+      (* A global_port_bundle belongs to one edif. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.global_port_bundles');
+
+    <A NAME="global_port_bundle.valid_member_ports_in_same_edif">valid_member_ports_in_same_edif</A> :
+      (* All member global_ports or global_port_bundles are defined in the same
+         containing_edif. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(memberPort &lt;* member_ports |
+        NOT ((memberPort IN containing_edif.global_ports)
+             OR (memberPort IN containing_edif.global_port_bundles))));
+
+    <A NAME="global_port_bundle.valid_member_ports">valid_member_ports</A> :
+      (* A global_port_bundle cannot contain itself either directly or
+         indirectly. *) 
+      <A HREF="IMEX0008.HTM#non_recursive_global_port_bundle">non_recursive_global_port_bundle</A>([SELF], [ ]);
+
+    <A NAME="global_port_bundle.valid_size">valid_size</A> :
+      (* The size of the flattened global_port list must be greater than
+         one. *) 
+      size &gt;= 1;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A> provides a structuring mechanism to describe a wide
+ global port.  The size of a <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A> can be greater than or
+ equal to one.  A <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A> can contain nested
+ <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundles</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> <A HREF="IMEX0002.HTM#connectivity_generic_bus">connectivity_generic_bus</A> <A HREF="IMEX0008.HTM#edif">edif</A> <A HREF="IMEX0008.HTM#global_port_or_global_port_bundle">global_port_or_global_port_bundle</A> <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A> <A HREF="IMEX0032.HTM#schematic_generic_bus">schematic_generic_bus</A> </P>
+<HR>
+<!-- Start of TYPE: global_port_or_global_port_bundle -->
+<H2><A NAME="global_port_or_global_port_bundle">global_port_or_global_port_bundle</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0008.HTM#global_port_or_global_port_bundle">global_port_or_global_port_bundle</A>
+    = SELECT (<A HREF="IMEX0008.HTM#global_port">global_port</A>, <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#global_port_or_global_port_bundle">global_port_or_global_port_bundle</A> can be either a <A HREF="IMEX0008.HTM#global_port">global_port</A> or a 
+ <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A> <A HREF="IMEX0032.HTM#schematic_global_port_representation">schematic_global_port_representation</A> </P>
+<HR>
+<!-- Start of FUNCTION: flatten_global_port_bundle -->
+<H2><A NAME="flatten_global_port_bundle">flatten_global_port_bundle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0008.HTM#flatten_global_port_bundle">flatten_global_port_bundle</A>
+    (bundle_members : LIST OF UNIQUE <A HREF="IMEX0008.HTM#global_port_or_global_port_bundle">global_port_or_global_port_bundle</A>) 
+       : LIST OF UNIQUE <A HREF="IMEX0008.HTM#global_port">global_port</A>;
+    LOCAL
+      i, j        : INTEGER;
+      position    : INTEGER := 1;
+      port_list   : LIST OF <A HREF="IMEX0008.HTM#global_port">global_port</A> := [ ];
+      member_list : LIST OF <A HREF="IMEX0008.HTM#global_port">global_port</A> := [ ];
+    END_LOCAL;
+
+    REPEAT i := 1 TO SIZEOF(bundle_members);
+      IF '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#global_port">global_port</A>' IN TYPEOF(bundle_members[i]) THEN
+        INSERT(port_list, bundle_members[i], position);
+        position := position + 1;
+      ELSE
+        member_list:=<A HREF="IMEX0008.HTM#flatten_global_port_bundle">flatten_global_port_bundle</A>(bundle_members[i].member_ports);
+        REPEAT j := 1 TO SIZEOF(member_list);
+          INSERT(port_list, member_list[j], position);
+          position := position + 1;
+        END_REPEAT;
+      END_IF;
+    END_REPEAT;
+    RETURN(port_list);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0008.HTM#flatten_global_port_bundle">flatten_global_port_bundle</A> function returns the flattened list of
+ <A HREF="IMEX0008.HTM#global_port">global_ports</A> of a <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A> </P>
+<HR>
+<!-- Start of FUNCTION: non_recursive_global_port_bundle -->
+<H2><A NAME="non_recursive_global_port_bundle">non_recursive_global_port_bundle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0008.HTM#non_recursive_global_port_bundle">non_recursive_global_port_bundle</A>
+    (parents, invalidAncestors : SET OF <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A>) : BOOLEAN;
+    LOCAL
+      descendents : SET OF <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A> := [];
+    END_LOCAL;
+
+    REPEAT i := 1 TO SIZEOF(parents);
+      descendents := descendents + 
+                     QUERY(memberPort &lt;* parents[i].member_ports |
+                     '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A>'
+                     IN TYPEOF(memberPort));
+    END_REPEAT;
+    invalidAncestors := parents + invalidAncestors;
+    RETURN(<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(descendents)
+           XOR
+           (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(descendents * invalidAncestors)
+            AND 
+            <A HREF="IMEX0008.HTM#non_recursive_global_port_bundle">non_recursive_global_port_bundle</A>(descendents, invalidAncestors)));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0008.HTM#non_recursive_global_port_bundle">non_recursive_global_port_bundle</A> function returns true if a
+ <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A> does not contain members which reference itself.  It
+ prevents cyclic definition of a <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A> </P>
+<HR>
+<!-- Start of RULE: only_one_instance -->
+<H2><A NAME="only_one_instance">only_one_instance</A></H2>
+<PRE>
+  RULE <A HREF="IMEX0008.HTM#only_one_instance">only_one_instance</A> FOR (<A HREF="IMEX0008.HTM#edif">edif</A>);
+  WHERE
+    <A NAME="only_one_instance.valid_size">valid_size</A> :
+      (* There is only one instance of edif in the information base. *)
+      SIZEOF(<A HREF="IMEX0008.HTM#edif">edif</A>) = 1;
+  END_RULE;
+</PRE>
+<H3>Description:</H3>
+<P> A constraint is required for entity <A HREF="IMEX0008.HTM#edif">edif</A> to check that there is only one
+ instance of <A HREF="IMEX0008.HTM#edif">edif</A> in the information base.
+</P><HR>
+<!-- Start of TYPE: character_encoding -->
+<H2><A NAME="character_encoding">character_encoding</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0008.HTM#character_encoding">character_encoding</A> =
+    ENUMERATION OF (ascii, iso8859_part_1, iso8859_part_2, iso8859_part_3,
+                    iso8859_part_4, iso8859_part_5, iso8859_part_6,
+                    iso8859_part_7, iso8859_part_8, jisx0201, jisx0208);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#character_encoding">character_encoding</A> is used to specify an interpretation for special
+ character encodings in strings in an EDIF file.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#edif">edif</A> </P>
+<HR>
+<!-- Start of ENTITY: fabricate_figure_collector -->
+<H2><A NAME="fabricate_figure_collector">fabricate_figure_collector</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0008.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>,
+                                    <A HREF="IMEX0008.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A>,
+                                    <A HREF="IMEX0008.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A>,
+                                    <A HREF="IMEX0008.HTM#resized_fabricate_figure_collector">resized_fabricate_figure_collector</A>,
+                                    <A HREF="IMEX0008.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A>,
+                                    <A HREF="IMEX0008.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A>,
+                                    <A HREF="IMEX0008.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A>));
+  WHERE
+    <A NAME="fabricate_figure_collector.valid_existence">valid_existence</A> :
+      (* A fabricate_figure_collector belongs to one edif. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.fabricate_figure_collectors');
+
+    <A NAME="fabricate_figure_collector.non_recursion">non_recursion</A> :
+      (* A fabricate_figure_collector cannot reference itself in a
+         geometrical operation, either directly or indirectly. *)
+      <A HREF="IMEX0008.HTM#non_recursive_fabricate_figure_collector">non_recursive_fabricate_figure_collector</A>(SELF, [SELF]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A> describes a set of combined geometrical
+ shapes.  The geometrical shapes may be the result of a union of all
+ geometrical shapes belonged to a <A HREF="IMEX0008.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>, or the
+ result of a series of complex geometrical operation on a set of other
+ <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collectors</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A> <A HREF="IMEX0008.HTM#edif">edif</A> <A HREF="IMEX0020.HTM#fabricate_figure_collector_inclusion">fabricate_figure_collector_inclusion</A> <A HREF="IMEX0008.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A> <A HREF="IMEX0030.HTM#physical_layer">physical_layer</A> <A HREF="IMEX0029.HTM#plane">plane</A> <A HREF="IMEX0008.HTM#resized_fabricate_figure_collector">resized_fabricate_figure_collector</A> <A HREF="IMEX0008.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A> <A HREF="IMEX0008.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A> <A HREF="IMEX0008.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A> </P>
+<HR>
+<!-- Start of ENTITY: simple_fabricate_figure_collector -->
+<H2><A NAME="simple_fabricate_figure_collector">simple_fabricate_figure_collector</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A> describes a set of combined
+ geometrical shapes which is constructed from <A HREF="IMEX0022.HTM#fabricate_element">fabricate_elements</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#fabricate_element">fabricate_element</A> <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A> <A HREF="IMEX0022.HTM#fabricate_text_implementation">fabricate_text_implementation</A> <A HREF="IMEX0030.HTM#physical_layer">physical_layer</A> </P>
+<HR>
+<!-- Start of ENTITY: differenced_fabricate_figure_collector -->
+<H2><A NAME="differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>);
+    initial_geometric_shapes    : <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>; -- reference
+    subtrahend_geometric_shapes : <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A> represents the results of a
+ geometrical difference between the shapes in two
+ <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collectors</A>.
+</P><HR>
+<!-- Start of ENTITY: mirrored_fabricate_figure_collector -->
+<H2><A NAME="mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>);
+    initial_geometric_shapes : <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>; -- reference
+    mirroring_axis           : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A> represents the results of a
+ geometrical mirroring operation on the shapes in a
+ <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>.  The mirroring_axis attribute specifies the
+ axis about which the mirroring operation is to be performed. 
+</P><HR>
+<!-- Start of ENTITY: resized_fabricate_figure_collector -->
+<H2><A NAME="resized_fabricate_figure_collector">resized_fabricate_figure_collector</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#resized_fabricate_figure_collector">resized_fabricate_figure_collector</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>);
+    initial_geometric_shapes : <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>; -- reference
+    resize                   : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>;
+    resize_corner_type       : <A HREF="IMEX0006.HTM#path_corner_type">path_corner_type</A>;
+  WHERE
+    <A NAME="resized_fabricate_figure_collector.valid_resize">valid_resize</A> :
+      (* The resize value cannot be zero; otherwise there would be no resize. *)
+      resize &lt;&gt; 0;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#resized_fabricate_figure_collector">resized_fabricate_figure_collector</A> represents the results of a
+ geometrical oversize or undersize of the shapes in a
+ <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>.  The resize attribute specifies the amount by
+ which the shapes in the <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A> are to be oversized or
+ undersized.  A positive resize value indicates growing and a negative resize
+ value indicates shrinking.  The resize_corner_type attribute specifies the
+ corner type to be used when resizing the shapes. 
+</P><HR>
+<!-- Start of ENTITY: rotated_fabricate_figure_collector -->
+<H2><A NAME="rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>);
+    initial_geometric_shapes : <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>; -- reference
+    offset                   : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    rotation                 : <A HREF="IMEX0034.HTM#angle_value">angle_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A> represents the results of a
+ geometrical rotation of the shapes in a <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>.  The
+ offset attribute specifies the centre point of the rotation to be applied
+ and the rotation attribute specifies the rotation angle to be applied. 
+</P><HR>
+<!-- Start of ENTITY: translated_fabricate_figure_collector -->
+<H2><A NAME="translated_fabricate_figure_collector">translated_fabricate_figure_collector</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>);
+    initial_geometric_shapes : <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>; -- reference
+    offset                   : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A> represents the results of a
+ geometrical translation of the shapes in a <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>. 
+</P><HR>
+<!-- Start of ENTITY: unioned_fabricate_figure_collector -->
+<H2><A NAME="unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>);
+    unioned_geometric_shapes 
+      : SET [2:?] OF <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>; --reference 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A> represents the results of a
+ geometrical union between the shapes in two or more
+ <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collectors</A>.  
+</P><HR>
+<!-- Start of ENTITY: drawing_figure_collector -->
+<H2><A NAME="drawing_figure_collector">drawing_figure_collector</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#drawing_figure_collector">drawing_figure_collector</A>;
+    name : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+  WHERE
+    <A NAME="drawing_figure_collector.valid_existence">valid_existence</A> :
+      (* A drawing_figure_collector belongs to one edif. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.drawing_figure_collectors');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#drawing_figure_collector">drawing_figure_collector</A> describes a set of combined geometrical shapes
+ which may be included into a <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#drawing_element">drawing_element</A> <A HREF="IMEX0020.HTM#drawing_figure_collector_inclusion">drawing_figure_collector_inclusion</A> <A HREF="IMEX0008.HTM#edif">edif</A> <A HREF="IMEX0022.HTM#fabricate_element">fabricate_element</A> <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A> <A HREF="IMEX0022.HTM#fabricate_text_implementation">fabricate_text_implementation</A> </P>
+<HR>
+<!-- Start of FUNCTION: non_recursive_fabricate_figure_collector -->
+<H2><A NAME="non_recursive_fabricate_figure_collector">non_recursive_fabricate_figure_collector</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0008.HTM#non_recursive_fabricate_figure_collector">non_recursive_fabricate_figure_collector</A>
+    (parent     : <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>;
+     collectors : SET OF <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>) : BOOLEAN;
+    LOCAL
+      collectorType : SET OF STRING;
+    END_LOCAL;
+
+    REPEAT i := 1 TO SIZEOF(collectors);
+      collectorType := TYPEOF(collectors[i]);
+      IF '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A>'
+         IN collectorType THEN
+         IF (collectors[i]\<A HREF="IMEX0008.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A>
+                          .initial_geometric_shapes :=: parent)
+            OR
+            (collectors[i]\<A HREF="IMEX0008.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A>
+                          .subtrahend_geometric_shapes :=: parent)
+            OR
+            NOT <A HREF="IMEX0008.HTM#non_recursive_fabricate_figure_collector">non_recursive_fabricate_figure_collector</A>(parent, 
+                 [collectors[i]\<A HREF="IMEX0008.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A>
+                               .initial_geometric_shapes,
+                  collectors[i]\<A HREF="IMEX0008.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A>
+                               .subtrahend_geometric_shapes]) THEN
+            RETURN(FALSE);
+         END_IF;
+      ELSE
+      IF '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A>'
+         IN collectorType THEN
+         IF (collectors[i]\<A HREF="IMEX0008.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A>
+                          .initial_geometric_shapes :=: parent)
+            OR
+            NOT <A HREF="IMEX0008.HTM#non_recursive_fabricate_figure_collector">non_recursive_fabricate_figure_collector</A>(parent, 
+                 [collectors[i]\<A HREF="IMEX0008.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A>
+                               .initial_geometric_shapes]) THEN
+            RETURN(FALSE);
+         END_IF;
+      ELSE
+      IF '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#resized_fabricate_figure_collector">resized_fabricate_figure_collector</A>'
+         IN collectorType THEN
+         IF (collectors[i]\<A HREF="IMEX0008.HTM#resized_fabricate_figure_collector">resized_fabricate_figure_collector</A>
+                          .initial_geometric_shapes :=: parent)
+            OR
+            NOT <A HREF="IMEX0008.HTM#non_recursive_fabricate_figure_collector">non_recursive_fabricate_figure_collector</A>(parent, 
+                 [collectors[i]\<A HREF="IMEX0008.HTM#resized_fabricate_figure_collector">resized_fabricate_figure_collector</A>
+                               .initial_geometric_shapes]) THEN
+            RETURN(FALSE);
+         END_IF;
+      ELSE
+      IF '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A>'
+         IN collectorType THEN
+         IF (collectors[i]\<A HREF="IMEX0008.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A>
+                          .initial_geometric_shapes :=: parent)
+            OR
+            NOT <A HREF="IMEX0008.HTM#non_recursive_fabricate_figure_collector">non_recursive_fabricate_figure_collector</A>(parent, 
+                 [collectors[i]\<A HREF="IMEX0008.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A>
+                               .initial_geometric_shapes]) THEN
+            RETURN(FALSE);
+         END_IF;
+      ELSE
+      IF '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A>'
+         IN collectorType THEN
+         IF (collectors[i]\<A HREF="IMEX0008.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A>
+                          .initial_geometric_shapes :=: parent)
+            OR
+            NOT <A HREF="IMEX0008.HTM#non_recursive_fabricate_figure_collector">non_recursive_fabricate_figure_collector</A>(parent, 
+                 [collectors[i]\<A HREF="IMEX0008.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A>
+                               .initial_geometric_shapes]) THEN
+            RETURN(FALSE);
+         END_IF;
+      ELSE
+      IF '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A>'
+         IN collectorType THEN
+         IF <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(col 
+                         &lt;* collectors[i]\<A HREF="IMEX0008.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A>
+                                         .unioned_geometric_shapes |
+                         col :=: parent))
+            OR
+            NOT <A HREF="IMEX0008.HTM#non_recursive_fabricate_figure_collector">non_recursive_fabricate_figure_collector</A>(parent, 
+                 collectors[i]\<A HREF="IMEX0008.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A>
+                              .unioned_geometric_shapes) THEN
+            RETURN(FALSE);
+         END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+    END_REPEAT;
+    RETURN(TRUE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0008.HTM#non_recursive_fabricate_figure_collector">non_recursive_fabricate_figure_collector</A> returns true if a
+ <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A> does not reference itself in a geometrical
+ operation, either directly or indirectly.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A> </P>
+<HR>
+<!-- Start of ENTITY: drawing_fill_pattern -->
+<H2><A NAME="drawing_fill_pattern">drawing_fill_pattern</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;
+    border           : <A HREF="IMEX0011.HTM#rectangle">rectangle</A>;
+    drawing_units    : <A HREF="IMEX0021.HTM#pcb_drawing_units">pcb_drawing_units</A>;
+    pattern_graphics : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#drawing_figure">drawing_figure</A>;
+    properties       : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  WHERE
+    <A NAME="drawing_fill_pattern.valid_existence">valid_existence</A>:
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.drawing_fill_patterns');
+
+    <A NAME="drawing_fill_pattern.valid_pattern_graphics">valid_pattern_graphics</A>:
+      (* The drawing figures do not reference SELF either directly
+         or indirectly. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(pattern &lt;* pattern_graphics |
+        (pattern.overriding_border_pattern :=: SELF)
+         OR
+        (pattern.overriding_fill_pattern :=: SELF)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0008.HTM#drawing_fill_pattern">drawing_fill_pattern</A> entity describes the fill pattern for drawings.
+ The drawing_units attribute provides the distance unit for the geometric
+ figures that define the pattern.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#angular_dimension_item">angular_dimension_item</A> <A HREF="IMEX0021.HTM#circular_dimension">circular_dimension</A> <A HREF="IMEX0021.HTM#dimension_end_geometry">dimension_end_geometry</A> <A HREF="IMEX0021.HTM#drawing_figure">drawing_figure</A> <A HREF="IMEX0021.HTM#drawing_symbol_placement">drawing_symbol_placement</A> <A HREF="IMEX0008.HTM#edif">edif</A> <A HREF="IMEX0021.HTM#leader_line">leader_line</A> <A HREF="IMEX0021.HTM#linear_dimension_item">linear_dimension_item</A> <A HREF="IMEX0014.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A> </P>
+<HR>
+<!-- Start of ENTITY: drawing_line_style -->
+<H2><A NAME="drawing_line_style">drawing_line_style</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#drawing_line_style">drawing_line_style</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0008.HTM#drawing_continuous_line_style">drawing_continuous_line_style</A>,
+                                   <A HREF="IMEX0008.HTM#drawing_dashed_line_style">drawing_dashed_line_style</A>,
+                                   <A HREF="IMEX0008.HTM#drawing_double_dashed_line_style">drawing_double_dashed_line_style</A>));
+    drawing_units : <A HREF="IMEX0021.HTM#pcb_drawing_units">pcb_drawing_units</A>;
+    properties    : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  WHERE
+    <A NAME="drawing_line_style.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.drawing_line_styles');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#drawing_line_style">drawing_line_style</A> is used to specify the style used in drawing lines,
+ arcs or circle.  The basic line styles are continuous, dashed and
+ dot-dashed.  When a non-continuous line style is chosen, the drawing of
+ lines, arcs and circles is system-dependent.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#drawing_figure">drawing_figure</A> <A HREF="IMEX0008.HTM#edif">edif</A> <A HREF="IMEX0014.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A> </P>
+<HR>
+<!-- Start of ENTITY: drawing_continuous_line_style -->
+<H2><A NAME="drawing_continuous_line_style">drawing_continuous_line_style</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#drawing_continuous_line_style">drawing_continuous_line_style</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#drawing_line_style">drawing_line_style</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#drawing_continuous_line_style">drawing_continuous_line_style</A> is used to state that lines, arcs or
+ circles are drawn in a style of continuous lines which are gap-less.
+</P><HR>
+<!-- Start of ENTITY: drawing_dashed_line_style -->
+<H2><A NAME="drawing_dashed_line_style">drawing_dashed_line_style</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#drawing_dashed_line_style">drawing_dashed_line_style</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#drawing_line_style">drawing_line_style</A>);
+    dash_length : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    gap_length  : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#drawing_dashed_line_style">drawing_dashed_line_style</A> is used to state that lines, arcs or circles
+ are drawn in a style of dashed lines which is an ever repeating set of
+ (dash, gap).  All gaps are the same size; all dashes are the same size.
+</P><HR>
+<!-- Start of ENTITY: drawing_double_dashed_line_style -->
+<H2><A NAME="drawing_double_dashed_line_style">drawing_double_dashed_line_style</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#drawing_double_dashed_line_style">drawing_double_dashed_line_style</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#drawing_line_style">drawing_line_style</A>);
+    gap_length        : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    long_dash_length  : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    short_dash_length : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+  WHERE
+    <A NAME="drawing_double_dashed_line_style.valid_dash_length">valid_dash_length</A> :
+      (* The short-dash length is less than the long-dash length. *)
+      short_dash_length &lt; long_dash_length;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#drawing_double_dashed_line_style">drawing_double_dashed_line_style</A> is used to state that lines, arcs or
+ circles are drawn in a style of dot-dashed lines which is an ever repeating
+ set of (long-dash, gap, short-dash, gap).  All gaps are the same size; all
+ short-dashes are the same size; all long-dashes are the same size.
+</P>
+<HR>
+
+<!-- Start of schema: expression_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

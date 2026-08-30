@@ -1,0 +1,759 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="miNoMaxValue">miNoMaxValue</A></H1>
+<PRE>
+<I>miNoMaxValue ::= ( <A HREF="RMRF0015.HTM#numberValue">numberValue</A> | <A HREF="RMRF0014.HTM#mnm">mnm</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#capacitanceValue">capacitanceValue</A>  <A HREF="RMRF0003.HTM#currentValue">currentValue</A>  <A HREF="RMRF0007.HTM#frequencyValue">frequencyValue</A>  <A HREF="RMRF0013.HTM#miNoMax">miNoMax</A>  <A HREF="RMRF0024.HTM#timeValue">timeValue</A>  <A HREF="RMRF0026.HTM#voltageValue">voltageValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#miNoMaxValue">MiNoMaxValue</A> </I>describes the primitive set of constructs used to specify a minimal-nominal-maximal value set. A single <I><A HREF="RMRF0015.HTM#numberValue">numberValue</A> </I>is equivalent to: 
+<BR>&#09;<B>(mnm (undefined)</B> <I><A HREF="RMRF0015.HTM#numberValue">numberValue</A> </I><B>(undefined)) 
+</B>
+<H3>Example:</H3>
+<PRE>
+<B>    (mnm 2 (e 55 -1) (e 755 -2))</B>
+</PRE>
+<P>In the above example, a <I><A HREF="RMRF0014.HTM#miNoMaxValue">miNoMaxValue</A> </I>of <B>2 </B>minimum, <B>5.5 </B>nominal and <B>7.55 </B>maximum is specified.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#mnm">mnm</A>
+</I>
+<P><HR>
+<H1><A NAME="minuend">minuend</A></H1>
+<PRE>
+<I>minuend ::= <A HREF="RMRF0010.HTM#integerExpression">integerExpression</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#integerSubtract">integerSubtract</A>  
+</I>
+<H3>Description:</H3>
+<P>An <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I> which has the value of another <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I> subtracted from it.
+<H3>Example:</H3>
+<PRE>
+<B>(integerSubtract 6 (integerParameterRef v))</B>
+</PRE>
+<P>The result of the above example is <B>6</B> minus the value of <B>v</B>, where <B>6</B> is the <I><A HREF="RMRF0014.HTM#minuend">minuend</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0024.HTM#subtrahend">subtrahend</A>
+</I>
+<P><HR>
+<H1><A NAME="minuteNumber">minuteNumber</A></H1>
+<PRE>
+<I>minuteNumber ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0024.HTM#time">time</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#minuteNumber">MinuteNumber</A></I> represents a number of minutes within <I><A HREF="RMRF0024.HTM#time">time</A></I>. Its value must be a minimum of 0 and maximum of 59.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dayNumber">dayNumber</A> <A HREF="RMRF0008.HTM#hourNumber">hourNumber</A> <A HREF="RMRF0014.HTM#monthNumber">monthNumber</A> <A HREF="RMRF0022.HTM#secondNumber">secondNumber</A> <A HREF="RMRF0027.HTM#yearNumber">yearNumber</A> 
+</I>
+<P><HR>
+<H1><A NAME="mixedDirection">mixedDirection</A></H1>
+<PRE>
+<I>mixedDirection ::= '(' 'mixedDirection'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portDirectionIndicator">portDirectionIndicator</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#mixedDirection">MixedDirection</A></I> is a <I><A HREF="RMRF0017.HTM#portDirectionIndicator">portDirectionIndicator</A></I> which specifies that a particular template is suitable for use with <I><A HREF="RMRF0017.HTM#portBundle">portBundles</A></I> of mixed direction, i.e. containing ports with different directions. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortTemplate </B>
+<B>   MIXED_PORTBUNDLE</B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (hotspot ...)</B>
+<B>   (mixedDirection)</B>
+<B>   ...)</B>
+<B>(cell C1</B>
+<B>   ...</B>
+<B>   (cluster CL1</B>
+<B>      (interface (interfaceUnits)</B>
+<B>         (port P1 (inputPort))</B>
+<B>         (port P2 (outputPort))</B>
+<B>         (portBundle PB </B>
+<B>            (portList (portRef P1) (portRef P2 )))</B>
+<B>         ...)</B>
+<B>      ...</B>
+<B>      (schematicSymbol SYMBOL</B>
+<B>         (schematicSymbolHeader ...)</B>
+<B>         (schematicSymbolPortImplementation IN</B>
+<B>            (portRef PB)</B>
+<B>            (schematicSymbolPortTemplateRef </B>
+<B>               MIXED_PORTBUNDLE)</B>
+<B>            (transform ...)</B>
+<B>            ...))))</B>
+</PRE>
+<P>The <I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I> <B>MIXED_PORTBUNDLE</B> has a <I><A HREF="RMRF0017.HTM#portDirectionIndicator">portDirectionIndicator</A></I> of <I><A HREF="RMRF0014.HTM#mixedDirection">mixedDirection</A></I> which matches the specification of the port <B>PB</B> in <I><A HREF="RMRF0001.HTM#cluster">cluster</A></I> <B>CL1</B> of <I><A HREF="RMRF0001.HTM#cell">cell</A></I> <B>C1.</B> The use of this template in the <I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I> of <B>PB</B> is consistent with this. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#input">input</A>   <A HREF="RMRF0015.HTM#output">output</A>   <A HREF="RMRF0000.HTM#bidirectional">bidirectional</A>  <A HREF="RMRF0025.HTM#unspecified">unspecified</A>  <A HREF="RMRF0025.HTM#unrestricted">unrestricted</A>
+</I>
+<P><HR>
+<H1><A NAME="mnm">mnm</A></H1>
+<PRE>
+<I>mnm ::= '(' 'mnm'</I>
+&#09;<I>( <A HREF="RMRF0015.HTM#numberValue">numberValue</A> | <A HREF="RMRF0025.HTM#undefined">undefined</A> | <A HREF="RMRF0025.HTM#unconstrained">unconstrained</A> )</I>
+&#09;<I>( <A HREF="RMRF0015.HTM#numberValue">numberValue</A> | <A HREF="RMRF0025.HTM#undefined">undefined</A> | <A HREF="RMRF0025.HTM#unconstrained">unconstrained</A> )</I>
+&#09;<I>( <A HREF="RMRF0015.HTM#numberValue">numberValue</A> | <A HREF="RMRF0025.HTM#undefined">undefined</A> | <A HREF="RMRF0025.HTM#unconstrained">unconstrained</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#miNoMaxValue">miNoMaxValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#mnm">Mnm</A> </I>is used to specify a minimum, nominal and maximum range of values. The <I><A HREF="RMRF0025.HTM#unconstrained">unconstrained</A> </I>construct states that there is no restriction specified. The <I><A HREF="RMRF0025.HTM#undefined">undefined</A> </I>construct states that no information is provided and no value should be assumed.
+<H3>Example:</H3>
+<PRE>
+<B>    (mnm 25 30 (e 335 -1))</B>
+</PRE>
+<P>This example specifies a range of <B>25 </B>minimum and <B>33.5 </B>maximum, with a nominal value of <B>30. 
+</B><PRE>
+<B>    (mnm (unconstrained) (undefined) 60)</B>
+</PRE>
+<P>The above example specifies a range of values with an upper limit of <B>60, </B>no lower limit, and an unspecified nominal value.
+
+<P><HR>
+<H1><A NAME="mole">mole</A></H1>
+<PRE>
+<I>mole ::= '(' 'mole'</I>
+&#09;<I><A HREF="RMRF0025.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0025.HTM#unit">unit</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#mole">Mole</A></I> is used to specify a user-defined unit in terms of the SI unit, mole. See <I><A HREF="RMRF0025.HTM#unit">unit</A></I> for examples of the definition of units.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#ampere">ampere</A> <A HREF="RMRF0001.HTM#candela">candela</A>  <A HREF="RMRF0001.HTM#celsius">celsius</A>  <A HREF="RMRF0003.HTM#coulomb">coulomb</A>  <A HREF="RMRF0004.HTM#degree">degree</A>  <A HREF="RMRF0006.HTM#fahrenheit">fahrenheit</A>  <A HREF="RMRF0006.HTM#farad">farad</A>  <A HREF="RMRF0008.HTM#henry">henry</A>  <A HREF="RMRF0008.HTM#hertz">hertz</A>  <A HREF="RMRF0011.HTM#joule">joule</A>  <A HREF="RMRF0012.HTM#kelvin">kelvin</A>  <A HREF="RMRF0012.HTM#kilogram">kilogram</A>  <A HREF="RMRF0013.HTM#meter">meter</A>  <A HREF="RMRF0015.HTM#ohm">ohm</A>  <A HREF="RMRF0018.HTM#radian">radian</A>  <A HREF="RMRF0022.HTM#second">second</A>  <A HREF="RMRF0023.HTM#siemens">siemens</A>  <A HREF="RMRF0026.HTM#volt">volt</A>  <A HREF="RMRF0026.HTM#watt">watt</A>  <A HREF="RMRF0026.HTM#weber">weber</A>
+</I>
+<P><HR>
+<H1><A NAME="monthNumber">monthNumber</A></H1>
+<PRE>
+<I>monthNumber ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0003.HTM#date">date</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#monthNumber">MonthNumber</A></I> represents a number of months within <I><A HREF="RMRF0003.HTM#date">date</A></I>. Its value must be a minimum of 1 and maximum of 12. Month number 1 represents January, 2 represents February, etc.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dayNumber">dayNumber</A> <A HREF="RMRF0008.HTM#hourNumber">hourNumber</A> <A HREF="RMRF0014.HTM#minuteNumber">minuteNumber</A> <A HREF="RMRF0022.HTM#secondNumber">secondNumber</A> <A HREF="RMRF0027.HTM#yearNumber">yearNumber</A> 
+</I>
+<P><HR>
+<H1><A NAME="msbToLsb">msbToLsb</A></H1>
+<PRE>
+<I>msbToLsb ::= '(' 'msbToLsb'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#bitOrder">bitOrder</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#msbToLsb">MsbToLsb</A></I> specifies that the bit order is from the most-significant bit to the least-significant bit.
+<H3>Example:</H3>
+<PRE>
+<B>(nameInformation</B>
+<B>   (primaryName "a[5:1:-2]"</B>
+<B>      (nameStructure</B>
+<B>         (complexName "a"</B>
+<B>            (nameDimension</B>
+<B>               (nameDimensionStructure</B>
+<B>                       (sequence 5 1 (step 2)))</B>
+<B>                  (bitOrder (msbTolsb)))))))</B>
+</PRE>
+<P>Here, the one-dimensional object "<B>a</B>" is specified to be a three-bit object with bit 5 being the most significant and bit 1 being the least significant.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0013.HTM#lsbToMsb">lsbToMsb</A>
+</I>
+<P><HR>
+<H1><A NAME="mustJoin">mustJoin</A></H1>
+<PRE>
+<I>mustJoin ::= '(' 'mustJoin'</I>
+&#09;<I>{ <A HREF="RMRF0011.HTM#interfaceJoined">interfaceJoined</A> | <A HREF="RMRF0018.HTM#portRef">portRef</A> | <A HREF="RMRF0026.HTM#weakJoined">weakJoined</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0011.HTM#interface">interface</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#mustJoin">MustJoin</A> </I>is used in <I><A HREF="RMRF0011.HTM#interface">interface</A> </I>to specify ports of a cell cluster which must be connected externally for correct operation. Only <I><A HREF="RMRF0017.HTM#port">ports</A> </I>defined in the <I><A HREF="RMRF0011.HTM#interface">interface</A> </I>of the local <I><A HREF="RMRF0001.HTM#cluster">cluster</A> </I>(master ports) may be referenced within a <I><A HREF="RMRF0014.HTM#mustJoin">mustJoin</A>. <A HREF="RMRF0011.HTM#interfaceJoined">InterfaceJoined</A> </I>and <I><A HREF="RMRF0026.HTM#weakJoined">weakJoined</A> </I>constructs may be nested with a <I><A HREF="RMRF0014.HTM#mustJoin">mustJoin</A> </I>to state more complex relationships between master ports. This relationship forms a tree structure. Within the interface, a port may be referenced only once in <I><A HREF="RMRF0011.HTM#interfaceJoined">interfaceJoined</A>, <A HREF="RMRF0014.HTM#mustJoin">mustJoin</A> </I>and <I><A HREF="RMRF0026.HTM#weakJoined">weakJoined</A>. 
+</I><P>The <I><A HREF="RMRF0018.HTM#portRef">portRef</A></I> may refer to <I><A HREF="RMRF0017.HTM#port">ports</A></I> and not to <I><A HREF="RMRF0017.HTM#portBundle">portBundles</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(mustJoin (portRef A) (portRef B))</B>
+</PRE>
+<P>The first example states that the master ports <B>A </B>and <B>B</B>must be connected externally for the cell to operate properly.
+<PRE>
+<B>(mustJoin</B>
+<B>   (interfaceJoined (portRef W1) (portRef W2))</B>
+<B>   (interfaceJoined (portRef J1) (portRef J2)))</B>
+</PRE>
+<P>The second example states that <B>W1 </B>and <B>W2 </B>are joined internally, <B>J1 </B>and <B>J2 </B>are joined internally, and that the pair <B>W1, W2 </B>must be connected externally to the pair <B>J1, J2. </B>Since <B>J1 </B>and <B>J2 </B>are joined internally, either one may be connected to satisfy a connection to the other. This is also true for <B>W1 </B>and <B>W2</B>. Therefore, to satisfy the <I><A HREF="RMRF0014.HTM#mustJoin">mustJoin</A> </I>construct, <B>W1 </B>must be connected externally to either <B>J1 </B>or <B>J2, </B>or <B>W2 </B>must be connected externally to <B>J1 </B>or <B>J2.
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0011.HTM#interfaceJoined">interfaceJoined</A>  <A HREF="RMRF0026.HTM#weakJoined">weakJoined</A> 
+</I>
+<P><HR>
+<H1><A NAME="nameAlias">nameAlias</A></H1>
+<PRE>
+<I>nameAlias ::= '(' 'nameAlias'</I>
+&#09;<I><A HREF="RMRF0015.HTM#originalName">originalName</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0005.HTM#displayName">displayName</A>&gt; | &lt;<A HREF="RMRF0008.HTM#generated">generated</A>&gt; | &lt;<A HREF="RMRF0014.HTM#nameStructure">nameStructure</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameAlias">NameAlias</A></I> provides a mechanism for representing alternative names for an object.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicNet  VCC (signalRef A)</B>
+<B>   (schematicInterconnectHeader</B>
+<B>      (nameInformation </B>
+<B>         (primaryName "VCC")</B>
+<B>         (nameAlias "POWER")))</B>
+<B>   (schematicNetJoined ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>In this example, the schematic net <B>VCC</B> was called "<B>VCC</B>" and also "<B>POWER</B>" in the originating system. <B>VCC</B> is the primary name.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0018.HTM#primaryName">primaryName</A>
+</I>
+<P><HR>
+<H1><A NAME="nameCaseSensitivity">nameCaseSensitivity</A></H1>
+<PRE>
+<I>nameCaseSensitivity ::= '(' 'nameCaseSensitivity'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0002.HTM#clusterConfigurationNameCaseSensitive">clusterConfigurationNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>&gt; 
+&#09;| &lt;<A HREF="RMRF0004.HTM#designHierarchyNameCaseSensitive">designHierarchyNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0004.HTM#designNameCaseSensitive">designNameCaseSensitive</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0005.HTM#documentationNameCaseSensitive">documentationNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0006.HTM#figureGroupNameCaseSensitive">figureGroupNameCaseSensitive</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0007.HTM#forFrameIndexNameCaseSensitive">forFrameIndexNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0007.HTM#frameNameCaseSensitive">frameNameCaseSensitive</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0008.HTM#globalPortNameCaseSensitive">globalPortNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0008.HTM#hotspotNameCaseSensitive">hotspotNameCaseSensitive</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0009.HTM#implementationNameCaseSensitive">implementationNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0009.HTM#instanceNameCaseSensitive">instanceNameCaseSensitive</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0011.HTM#interconnectNameCaseSensitive">interconnectNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0012.HTM#libraryNameCaseSensitive">libraryNameCaseSensitive</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0012.HTM#libraryObjectNameCaseSensitive">libraryObjectNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0013.HTM#localPortGroupNameCaseSensitive">localPortGroupNameCaseSensitive</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0016.HTM#pageNameCaseSensitive">pageNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0016.HTM#parameterNameCaseSensitive">parameterNameCaseSensitive</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0017.HTM#portNameCaseSensitive">portNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0018.HTM#propertyNameCaseSensitive">propertyNameCaseSensitive</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0023.HTM#signalGroupNameCaseSensitive">signalGroupNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0023.HTM#signalNameCaseSensitive">signalNameCaseSensitive</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0026.HTM#viewGroupNameCaseSensitive">viewGroupNameCaseSensitive</A>&gt; | &lt;<A HREF="RMRF0026.HTM#viewNameCaseSensitive">viewNameCaseSensitive</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A>  <A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameCaseSensitivity">NameCaseSensitivity</A></I> is used to define whether particular classes of names are to be compared on a case-sensitive or case-insensitive basis. This only applies to names that are defined as strings within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I>, and not to the identifier.
+<P>It is assumed that the precise meaning of "case sensitivity" is defined by the character definition, e.g. ascii, JIS X 0201.
+<P>The value defined in a <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I> overrides that defined in the <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I> for objects within the library. The default is that names are case sensitive.
+<P><I><A HREF="RMRF0004.HTM#designNameCaseSensitive">DesignNameCaseSensitive</A></I> and <I><A HREF="RMRF0012.HTM#libraryNameCaseSensitive">libraryNameCaseSensitive</A></I> may not appear in <I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A></I> within <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I> because these names occur outside the scope of a library.
+<H3>Example:</H3>
+<PRE>
+<B>(nameCaseSensitivity</B>
+<B>   (libraryNameCaseSensitive (false)))</B>
+</PRE>
+<P>This example shows that the names of libraries are to be compared on a case-insensitive basis. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>
+</I>
+<P><HR>
+<H1><A NAME="nameDef">nameDef</A></H1>
+<PRE>
+<I>nameDef ::= <A HREF="RMRF0008.HTM#identifier">identifier</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#clusterConfigurationNameDef">clusterConfigurationNameDef</A>  <A HREF="RMRF0002.HTM#clusterNameDef">clusterNameDef</A>  <A HREF="RMRF0003.HTM#connectivityFrameStructureNameDef">connectivityFrameStructureNameDef</A>  <A HREF="RMRF0003.HTM#connectivityRipperNameDef">connectivityRipperNameDef</A>  <A HREF="RMRF0003.HTM#constantNameDef">constantNameDef</A>  <A HREF="RMRF0004.HTM#designHierarchyNameDef">designHierarchyNameDef</A>  <A HREF="RMRF0004.HTM#designNameDef">designNameDef</A>  <A HREF="RMRF0004.HTM#diagramNameDef">diagramNameDef</A>  <A HREF="RMRF0005.HTM#documentationNameDef">documentationNameDef</A>  <A HREF="RMRF0005.HTM#edifNameDef">edifNameDef</A>  <A HREF="RMRF0006.HTM#figureGroupNameDef">figureGroupNameDef</A>  <A HREF="RMRF0007.HTM#fontNameDef">fontNameDef</A>  <A HREF="RMRF0007.HTM#frameNameDef">frameNameDef</A>  <A HREF="RMRF0008.HTM#globalPortNameDef">globalPortNameDef</A>  <A HREF="RMRF0008.HTM#hotspotNameDef">hotspotNameDef</A>  <A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A>  <A HREF="RMRF0009.HTM#indexNameDef">indexNameDef</A>  <A HREF="RMRF0009.HTM#instanceNameDef">instanceNameDef</A>  <A HREF="RMRF0010.HTM#interconnectDelayNameDef">interconnectDelayNameDef</A>  <A HREF="RMRF0011.HTM#interconnectNameDef">interconnectNameDef</A>  <A HREF="RMRF0012.HTM#libraryNameDef">libraryNameDef</A>  <A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A>  <A HREF="RMRF0013.HTM#localPortGroupNameDef">localPortGroupNameDef</A>  <A HREF="RMRF0013.HTM#logicNameDef">logicNameDef</A>  <A HREF="RMRF0016.HTM#pageNameDef">pageNameDef</A>  <A HREF="RMRF0016.HTM#parameterNameDef">parameterNameDef</A>  <A HREF="RMRF0017.HTM#portDelayNameDef">portDelayNameDef</A>  <A HREF="RMRF0017.HTM#portLoadDelayNameDef">portLoadDelayNameDef</A>  <A HREF="RMRF0017.HTM#portNameDef">portNameDef</A>  <A HREF="RMRF0018.HTM#propertyNameDef">propertyNameDef</A>  <A HREF="RMRF0022.HTM#sectionNameDef">sectionNameDef</A>  <A HREF="RMRF0023.HTM#signalGroupNameDef">signalGroupNameDef</A>  <A HREF="RMRF0023.HTM#signalNameDef">signalNameDef</A>  <A HREF="RMRF0024.HTM#symbolPortImplementationNameDef">symbolPortImplementationNameDef</A>  <A HREF="RMRF0025.HTM#timingNameDef">timingNameDef</A>  <A HREF="RMRF0025.HTM#unitNameDef">unitNameDef</A>  <A HREF="RMRF0026.HTM#viewGroupNameDef">viewGroupNameDef</A>  <A HREF="RMRF0026.HTM#viewNameDef">viewNameDef</A>  
+</I>
+<H3>Description:</H3>
+<P>Every named object must have a defining occurrence as a <I><A HREF="RMRF0014.HTM#nameDef">nameDef</A>. </I>Subsequent references may be made to the object so named, using the same identifier in the role of a <I><A HREF="RMRF0014.HTM#nameRef">nameRef</A>. </I>Named constructs, i.e. constructs which have <I><A HREF="RMRF0014.HTM#nameDef">nameDef</A></I> (directly or indirectly) as their first required item, provide a scope for any nested name definitions.
+<P>A named object is not fully defined, and may not be referenced explicitly, until the closing parenthesis of the definition.
+<P>All names in EDIF must be defined before use. The name should be unique for the scope of the defining construct, which is the next higher-named construct, and for its class, which is determined by the type of the <I><A HREF="RMRF0014.HTM#nameDef">nameDef</A></I>. 
+<P>There are no reserved names in EDIF. There is no semantic significance to the choice of identifier spelling within a <I><A HREF="RMRF0014.HTM#nameDef">nameDef</A>, </I>except for the structure established through corresponding <I><A HREF="RMRF0014.HTM#nameRef">nameRefs</A> </I>and the display of such names.
+<H3>Example:</H3>
+<PRE>
+<B>(cell TWOS_COMPLEMENT </B>
+<B>   (cellHeader </B>
+<B>      (nameInformation </B>
+<B>         (primaryName "2s-complement")))</B>
+<B>   ...)</B>
+</PRE>
+<P>This example illustrates a cell defined to be <B>TWOS_COMPLEMENT, </B>a legal EDIF identifier, serving as an alias for the original illegal (in EDIF) name, <B>"2s-complement". 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>
+</I>
+<P><HR>
+<H1><A NAME="nameDimension">nameDimension</A></H1>
+<PRE>
+<I>nameDimension ::= '(' 'nameDimension'</I>
+&#09;<I><A HREF="RMRF0014.HTM#nameDimensionStructure">nameDimensionStructure</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#bitOrder">bitOrder</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#complementedName">complementedName</A>  <A HREF="RMRF0002.HTM#complexName">complexName</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameDimension">NameDimension</A></I> is used to specify an ordered list of indices of a dimensioned object, such as a <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A></I>. The indices specified in <I><A HREF="RMRF0014.HTM#nameDimensionStructure">nameDimensionStructure</A></I> can be names of other objects, integers, or an integer range called a <I><A HREF="RMRF0022.HTM#sequence">sequence</A></I>. If the indices are associated with bits, then the <I><A HREF="RMRF0000.HTM#bitOrder">bitOrder</A></I> should be specified. A <I><A HREF="RMRF0000.HTM#bitOrder">bitOrder</A></I> of <I><A HREF="RMRF0013.HTM#lsbToMsb">lsbToMsb</A></I> indicates that the first index is the least-significant bit and that the last index is the most-significant bit. A <I><A HREF="RMRF0000.HTM#bitOrder">bitOrder</A></I> of <I><A HREF="RMRF0014.HTM#msbToLsb">msbToLsb</A></I> indicates that the first index is the most-significant bit and that the last index is the least-significant bit. If no <I><A HREF="RMRF0000.HTM#bitOrder">bitOrder</A></I> is specified, then no bit ordering of the indices is implied.
+<P>Multiple <I><A HREF="RMRF0014.HTM#nameDimension">nameDimensions</A></I> in the same list indicate that the object has multiple dimensions. 
+<H3>Example:</H3>
+<PRE>
+<B>(nameInformation</B>
+<B>   (primaryName "a[b,c,d][3:0]"</B>
+<B>      (nameStructure</B>
+<B>         (complexName "a"</B>
+<B>            (nameDimension </B>
+<B>               (nameDimensionStructure "b" "c" "d"))</B>
+<B>            (nameDimension</B>
+<B>               (nameDimensionStructure</B>
+<B>                  (sequence 3 0 (step 1) ))</B>
+<B>               (bitOrder (msbToLsb)))))))</B>
+</PRE>
+<P>In the above example, a two-dimensional object named "<B>a</B>" is specified.  The indices of the first dimension are "<B>b</B>", "<B>c</B>" and "<B>d</B>".  The indices of the second dimension are 3, 2, 1 and 0, with 3 being the most-significant bit and 0 the least-significant bit.
+<PRE>
+<B>(nameInformation</B>
+<B>   (primaryName "a[b[3:0],c[3:0],d[3:0]]"</B>
+<B>      (nameStructure</B>
+<B>         (complexName "a"</B>
+<B>            (nameDimension</B>
+<B>            (nameDimensionStructure</B>
+<B>               (complexName "b"</B>
+<B>                  (nameDimension</B>
+<B>                     (nameDimensionStructure</B>
+<B>                        (sequence 3 0 (step 1) ))</B>
+<B>                     (bitOrder (msbToLsb))))</B>
+<B>               (complexName "c"</B>
+<B>                  (nameDimension</B>
+<B>                     (nameDimensionStructure</B>
+<B>                        (sequence 3 0 (step 1) ))</B>
+<B>                     (bitOrder (msbToLsb))))</B>
+<B>               (complexName "d"</B>
+<B>                  (nameDimension</B>
+<B>                     (nameDimensionStructure</B>
+<B>                        (sequence 3 0 (step 1) ))</B>
+<B>                     (bitOrder (msbToLsb))))))))))</B>
+</PRE>
+<P>In this example, a one-dimensional object named "<B>a</B>" is specified.  It has indices of "<B>b</B>", "<B>c</B>" and "<B>d</B>".  Each of these indices is a one-dimensional object name with indices of 3, 2, 1 and 0.  In the original system "<B>b</B>", "<B>c</B>" and "<B>d</B>" are related to bits, with 3 being the most-significant bit and 0 the least-significant bit.  Note that it is possible that the name in the first example is a different way of specifying the name represented in the second example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0002.HTM#complementedNamePart">complementedNamePart</A>  <A HREF="RMRF0014.HTM#namePartSeparator">namePartSeparator</A> 
+</I>
+<P><HR>
+<H1><A NAME="nameDimensionStructure">nameDimensionStructure</A></H1>
+<PRE>
+<I>nameDimensionStructure ::= '(' 'nameDimensionStructure'</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#complementedName">complementedName</A> | <A HREF="RMRF0002.HTM#complexName">complexName</A> | <A HREF="RMRF0010.HTM#integerValue">integerValue</A> | <A HREF="RMRF0022.HTM#sequence">sequence</A> | 
+&#09;<A HREF="RMRF0023.HTM#simpleName">simpleName</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameDimension">nameDimension</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameDimensionStructure">NameDimensionStructure</A></I> is used to specify an ordered list of indices of a dimensioned object, such as a <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A></I>. See <I><A HREF="RMRF0014.HTM#nameDimension">nameDimension</A></I> for further details.
+
+<P><HR>
+<H1><A NAME="nameInformation">nameInformation</A></H1>
+<PRE>
+<I>nameInformation ::= '(' 'nameInformation'</I>
+&#09;<I><A HREF="RMRF0018.HTM#primaryName">primaryName</A></I>
+&#09;<I>{ <A HREF="RMRF0014.HTM#nameAlias">nameAlias</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#behaviorView">behaviorView</A>  <A HREF="RMRF0001.HTM#booleanParameter">booleanParameter</A>  <A HREF="RMRF0001.HTM#cellHeader">cellHeader</A>  <A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>  <A HREF="RMRF0002.HTM#clusterHeader">clusterHeader</A>  <A HREF="RMRF0003.HTM#connectivityViewHeader">connectivityViewHeader</A>  <A HREF="RMRF0004.HTM#designHeader">designHeader</A>  <A HREF="RMRF0004.HTM#designHierarchyHeader">designHierarchyHeader</A>  <A HREF="RMRF0005.HTM#documentationHeader">documentationHeader</A>  <A HREF="RMRF0005.HTM#edifHeader">edifHeader</A>  <A HREF="RMRF0006.HTM#figureGroup">figureGroup</A>  <A HREF="RMRF0007.HTM#forFrame">forFrame</A>  <A HREF="RMRF0007.HTM#forFrameIndex">forFrameIndex</A>  <A HREF="RMRF0008.HTM#geometryMacroHeader">geometryMacroHeader</A>  <A HREF="RMRF0008.HTM#globalPort">globalPort</A>  <A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A>  <A HREF="RMRF0008.HTM#hotspot">hotspot</A>  <A HREF="RMRF0009.HTM#ifFrame">ifFrame</A>  <A HREF="RMRF0009.HTM#instance">instance</A>  <A HREF="RMRF0010.HTM#integerParameter">integerParameter</A>  <A HREF="RMRF0011.HTM#interconnectHeader">interconnectHeader</A>  <A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A>  <A HREF="RMRF0013.HTM#localPortGroup">localPortGroup</A>  <A HREF="RMRF0013.HTM#logicModelView">logicModelView</A>  <A HREF="RMRF0013.HTM#logicValue">logicValue</A>  <A HREF="RMRF0013.HTM#maskLayoutView">maskLayoutView</A>  <A HREF="RMRF0014.HTM#numberParameter">numberParameter</A>  <A HREF="RMRF0015.HTM#otherwiseFrame">otherwiseFrame</A>  <A HREF="RMRF0015.HTM#pageHeader">pageHeader</A>  <A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>  <A HREF="RMRF0016.HTM#pcbLayoutView">pcbLayoutView</A>  <A HREF="RMRF0017.HTM#port">port</A>  <A HREF="RMRF0017.HTM#portBundle">portBundle</A>  <A HREF="RMRF0018.HTM#property">property</A>  <A HREF="RMRF0019.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A>  <A HREF="RMRF0020.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  <A HREF="RMRF0020.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A>  <A HREF="RMRF0020.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A>  <A HREF="RMRF0020.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A>  <A HREF="RMRF0020.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A>  <A HREF="RMRF0020.HTM#schematicOffPageConnectorImplementation">schematicOffPageConnectorImplementation</A>  <A HREF="RMRF0020.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A>  <A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A>  <A HREF="RMRF0022.HTM#schematicSubInterconnectHeader">schematicSubInterconnectHeader</A>  <A HREF="RMRF0022.HTM#schematicSymbolHeader">schematicSymbolHeader</A>  <A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A>  <A HREF="RMRF0022.HTM#schematicViewHeader">schematicViewHeader</A>  <A HREF="RMRF0023.HTM#signal">signal</A>  <A HREF="RMRF0023.HTM#signalGroup">signalGroup</A>  <A HREF="RMRF0024.HTM#stringParameter">stringParameter</A>  <A HREF="RMRF0024.HTM#symbolicLayoutView">symbolicLayoutView</A>  <A HREF="RMRF0026.HTM#viewGroupHeader">viewGroupHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">NameInformation</A></I> is used when there is name information to be conveyed in addition to the basic EDIF identifier for an object. This construct is to be used if and only if the object in the original system has a name. It must not be used if the object in the original system did not have a name.
+<H3>Example:</H3>
+<PRE>
+<B>(nameInformation </B>
+<B>   (primaryName "I$1"))</B>
+</PRE>
+<P>This example shows that the name <B>I$1</B> is the name that the originating system had for an object.
+<PRE>
+<B>(port &amp;1 ... (nameInformation  (primaryName "1")) ...)</B>
+</PRE>
+<P>The above example shows how a port with the name "<B>1</B>" in the originating system should be represented. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#displayNameOverride">displayNameOverride</A>  <A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<P><HR>
+<H1><A NAME="namePartSeparator">namePartSeparator</A></H1>
+<PRE>
+<I>namePartSeparator ::= '(' 'namePartSeparator'</I>
+&#09;<I><A HREF="RMRF0024.HTM#stringToken">stringToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#complementedName">complementedName</A>  <A HREF="RMRF0002.HTM#complementedNamePart">complementedNamePart</A>  <A HREF="RMRF0002.HTM#complexName">complexName</A>  
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0014.HTM#namePartSeparator">namePartSeparator</A></I> is one or more characters which is used in the original system to separate parts of a complex name or complemented name. EDIF associates no semantics with these characters, only that the original system knows that they are part of the original name only as a name part separator.  Although the original system may imply additional meaning to the separator, EDIF at this time does not.
+<H3>Example:</H3>
+<PRE>
+<B>(nameInformation</B>
+<B>   (primaryName "clock&amp;enable"</B>
+<B>      (nameStructure</B>
+<B>         (complexName "clock"</B>
+<B>              (namePartSeparator "&amp;" )</B>
+<B>         "enable" ))))</B>
+</PRE>
+<P>Here in the <I><A HREF="RMRF0015.HTM#originalName">originalName</A></I> <B>clock&amp;enable</B>, the character "<B>&amp;</B>" separates the name parts "<B>clock</B>" and "<B>enable</B>".
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0002.HTM#complementedNamePart">complementedNamePart</A>  <A HREF="RMRF0014.HTM#nameDimension">nameDimension</A>  <A HREF="RMRF0023.HTM#simpleName">simpleName</A>
+</I>
+<P><HR>
+<H1><A NAME="nameRef">nameRef</A></H1>
+<PRE>
+<I>nameRef ::= <A HREF="RMRF0008.HTM#identifier">identifier</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#clusterConfigurationNameRef">clusterConfigurationNameRef</A>  <A HREF="RMRF0002.HTM#clusterNameRef">clusterNameRef</A>  <A HREF="RMRF0003.HTM#connectivityRipperNameRef">connectivityRipperNameRef</A>  <A HREF="RMRF0003.HTM#constantNameRef">constantNameRef</A>  <A HREF="RMRF0006.HTM#figureGroupNameRef">figureGroupNameRef</A>  <A HREF="RMRF0007.HTM#fontNameRef">fontNameRef</A>  <A HREF="RMRF0007.HTM#frameNameRef">frameNameRef</A>  <A HREF="RMRF0008.HTM#globalPortNameRef">globalPortNameRef</A>  <A HREF="RMRF0008.HTM#hotspotNameRef">hotspotNameRef</A>  <A HREF="RMRF0009.HTM#implementationNameRef">implementationNameRef</A>  <A HREF="RMRF0009.HTM#indexNameRef">indexNameRef</A>  <A HREF="RMRF0010.HTM#instanceNameRef">instanceNameRef</A>  <A HREF="RMRF0010.HTM#interconnectDelayNameRef">interconnectDelayNameRef</A>  <A HREF="RMRF0011.HTM#interconnectNameRef">interconnectNameRef</A>  <A HREF="RMRF0012.HTM#libraryNameRef">libraryNameRef</A>  <A HREF="RMRF0013.HTM#libraryObjectNameRef">libraryObjectNameRef</A>  <A HREF="RMRF0013.HTM#localPortGroupNameRef">localPortGroupNameRef</A>  <A HREF="RMRF0013.HTM#logicNameRef">logicNameRef</A>  <A HREF="RMRF0016.HTM#pageNameRef">pageNameRef</A>  <A HREF="RMRF0016.HTM#parameterNameRef">parameterNameRef</A>  <A HREF="RMRF0017.HTM#portDelayNameRef">portDelayNameRef</A>  <A HREF="RMRF0017.HTM#portLoadDelayNameRef">portLoadDelayNameRef</A>  <A HREF="RMRF0017.HTM#portNameRef">portNameRef</A>  <A HREF="RMRF0018.HTM#propertyNameRef">propertyNameRef</A>  <A HREF="RMRF0023.HTM#signalGroupNameRef">signalGroupNameRef</A>  <A HREF="RMRF0023.HTM#signalNameRef">signalNameRef</A>  <A HREF="RMRF0024.HTM#symbolPortImplementationNameRef">symbolPortImplementationNameRef</A>  <A HREF="RMRF0025.HTM#timingNameRef">timingNameRef</A>  <A HREF="RMRF0025.HTM#unitNameRef">unitNameRef</A>  <A HREF="RMRF0026.HTM#viewGroupNameRef">viewGroupNameRef</A>  <A HREF="RMRF0026.HTM#viewNameRef">viewNameRef</A>  
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>always corresponds to a previously-defined <I><A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>of the same class and within the same scope. The class of the name is indicated by the prefix to the category, such as <I><A HREF="RMRF0026.HTM#viewNameRef">viewNameRef</A> </I>or <I><A HREF="RMRF0017.HTM#portNameRef">portNameRef</A>. 
+</I><P>The scope of a name is defined for each <I><A HREF="RMRF0014.HTM#nameDef">nameDef</A>. 
+</I><P>Certain reference mechanisms such as <I><A HREF="RMRF0001.HTM#cellRef">cellRef</A> </I>and <I><A HREF="RMRF0018.HTM#portRef">portRef</A> </I>explicitly identify the required name class, and may access an indirect scope by including a nested reference.
+<H3>Example:</H3>
+<PRE>
+<B>(permutable (portRef p1) (portRef p2) (portRef p3))</B>
+</PRE>
+<P>The names <B>p1, p2 </B>and <B>p3 </B>are references to three previously-defined <I><A HREF="RMRF0017.HTM#port">ports</A> </I>named <B>p1</B>, <B>p2</B> and <B>p3</B>.
+
+<P><HR>
+<H1><A NAME="nameStructure">nameStructure</A></H1>
+<PRE>
+<I>nameStructure ::= '(' 'nameStructure'</I>
+&#09;<I>( <A HREF="RMRF0023.HTM#simpleName">simpleName</A> | <A HREF="RMRF0002.HTM#complexName">complexName</A> | <A HREF="RMRF0002.HTM#complementedName">complementedName</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameAlias">nameAlias</A>  <A HREF="RMRF0018.HTM#primaryName">primaryName</A>  
+</I>
+<H3>Description:</H3>
+<P>Many systems use special characters and sub-strings embedded within an object name to indicate information about the object, e.g. logical complement, boolean relationships, dimensionality, bit ranges, indices,  etc. <I><A HREF="RMRF0014.HTM#nameStructure">NameStructure</A></I> is used to specify in detail the structural parts of a name without the use of special characters. <I><A HREF="RMRF0014.HTM#nameStructure">NameStructure</A></I> is also used to apply a certain semantic meaning to each of the name's parts.
+<P><I><A HREF="RMRF0014.HTM#nameStructure">NameStructure</A></I> should be used if the sending system uses the name structure to specify the structure of the design object. For example, a <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A></I> might have a name in the original system "DATA(a, b, c)", which implies that the bus "DATA" contains the signals "a","b" and "c". The characters '(', ')' and ',' are used to specify structure. This name should be specified in EDIF as a <I><A HREF="RMRF0002.HTM#complexName">complexName</A></I>.
+<P>Suppose a signal name "a" in the original system contains no structural information. This should be specified in EDIF as an <I><A HREF="RMRF0015.HTM#originalName">originalName</A></I> with no <I><A HREF="RMRF0014.HTM#nameStructure">nameStructure</A></I>. A name such as "~a", where the character '~' implies complement in the original system, should be specified in EDIF as a <I><A HREF="RMRF0002.HTM#complementedName">complementedName</A></I> within <I><A HREF="RMRF0014.HTM#nameStructure">nameStructure</A></I>.
+<P>Where EDIF has provided syntax for representing the semantics implied by special characters, the special characters should be represented by the appropriate EDIF syntax. 
+<P>When reading EDIF, a translator should re-assemble the name in the receiving system using the naming rules of that system. For example, a bus name "~DATA[0:3]" might be translated to "NDATA(0-3)".
+<P>There are no rules in EDIF about the uniqueness of a <I><A HREF="RMRF0014.HTM#nameStructure">nameStructure</A></I> specification, because the scope of <I><A HREF="RMRF0014.HTM#nameStructure">nameStructure</A></I> is dependent on the originating system. 
+<H3>Examples:</H3>
+<PRE>
+<B>(nameInformation</B>
+<B>   (primaryName "B1"</B>
+<B>      (nameStructure</B>
+<B>         (complexName "B"</B>
+<B>            (nameDimension </B>
+<B>               (nameDimensionStructure 1))))))</B>
+</PRE>
+<P>In this first example, the receiving system may use the <I><A HREF="RMRF0023.HTM#simpleName">simpleName</A> </I><B>B</B> and the index value <B>1</B> to generate a name according to its own conventions, e.g. "B(1)" or "B1".
+<PRE>
+<B>(nameInformation</B>
+<B>   (primaryName "~(a.~b)[m,d[0:3],n]"</B>
+<B>      (nameStructure</B>
+<B>         (complementedName </B>
+<B>            "a"</B>
+<B>            (namePartSeparator "." )</B>
+<B>            (complementedNamePart "b" )</B>
+<B>            (nameDimension  </B>
+<B>               (nameDimensionStructure </B>
+<B>                  "m"</B>
+<B>                  (complexName "d"</B>
+<B>                     (nameDimension</B>
+<B>                        (nameDimensionStructure</B>
+<B>                           (sequence 0 3))))</B>
+<B>                  "n"))))))</B>
+</PRE>
+<P>In this second example, the receiving system might map this name to ".NOT.(a.AND..NOT.b)[m,d0,d1,d2,d3,n]", assuming that the translator maps the <I><A HREF="RMRF0014.HTM#namePartSeparator">namePartSeparator</A></I> "." to ".AND.".
+<PRE>
+<B>(nameInformation</B>
+<B>   (primaryName "a[1,5,7][0:8:2]"</B>
+<B>      (nameStructure</B>
+<B>         (complexName "a"</B>
+<B>            (nameDimension </B>
+<B>               (nameDimensionStructure 1 5 7))</B>
+<B>              (nameDimension </B>
+<B>               (nameDimensionStructure</B>
+<B>                      (sequence 0 8 (step 2))))))))</B>
+</PRE>
+<P>In this third example, the specification indicates that the object is two dimensional.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0015.HTM#originalName">originalName</A>
+</I>
+<P><HR>
+<H1><A NAME="narrowPort">narrowPort</A></H1>
+<PRE>
+<I>narrowPort ::= '(' 'narrowPort'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortStyle">schematicPortStyle</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#narrowPort">NarrowPort</A></I> is one of the port styles used in schematics. See <I><A HREF="RMRF0021.HTM#schematicPortStyle">schematicPortStyle</A></I> for a full example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0026.HTM#widePort">widePort</A>
+</I>
+<P><HR>
+<H1><A NAME="narrowWire">narrowWire</A></H1>
+<PRE>
+<I>narrowWire ::= '(' 'narrowWire'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#schematicWireAffinity">schematicWireAffinity</A>  <A HREF="RMRF0022.HTM#schematicWireStyle">schematicWireStyle</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#narrowWire">NarrowWire</A></I> is one of the wire (schematic connection) styles used in schematics. If a schematic interconnect has a <I><A HREF="RMRF0022.HTM#schematicWireStyle">schematicWireStyle</A></I> of <I><A HREF="RMRF0014.HTM#narrowWire">narrowWire</A></I> then it may only be connected to a hotspot that has a <I><A HREF="RMRF0022.HTM#schematicWireAffinity">schematicWireAffinity</A></I> of <I><A HREF="RMRF0014.HTM#narrowWire">narrowWire</A></I> or <I><A HREF="RMRF0025.HTM#unrestricted">unrestricted</A></I>.
+<P>See <I><A HREF="RMRF0022.HTM#schematicWireStyle">schematicWireStyle</A></I> for a full example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0026.HTM#wideWire">wideWire</A>
+</I>
+<P><HR>
+<H1><A NAME="noHotspotGrid">noHotspotGrid</A></H1>
+<PRE>
+<I>noHotspotGrid ::= '(' 'noHotspotGrid'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#schematicMetric">schematicMetric</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#noHotspotGrid">NoHotspotGrid</A></I> indicates that there is no defined grid on which hotspots are guaranteed to lie.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicUnits</B>
+<B>   (schematicMetric</B>
+<B>      (setDistance (unitRef mm))</B>
+<B>      (noHotspotGrid)))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0008.HTM#hotspotGrid">hotspotGrid</A>
+</I>
+<P><HR>
+<H1><A NAME="nominalHotspotGrid">nominalHotspotGrid</A></H1>
+<PRE>
+<I>nominalHotspotGrid ::= '(' 'nominalHotspotGrid'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#schematicMetric">schematicMetric</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#nominalHotspotGrid">NominalHotspotGrid</A></I> specifies a hotspot grid which is not guaranteed to be adhered to, but was the nominal grid used by the originating system. The default value for <I><A HREF="RMRF0014.HTM#nominalHotspotGrid">nominalHotspotGrid</A></I> is the value specified by <I><A HREF="RMRF0008.HTM#hotspotGrid">hotspotGrid</A></I> if present.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicMetric</B>
+<B>   (setDistance (unitRef mm))</B>
+<B>   (hotspotGrid 2)</B>
+<B>   (nominalHotspotGrid 4))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0008.HTM#hotspotGrid">hotspotGrid</A>
+</I>
+<P><HR>
+<H1><A NAME="nonPermutable">nonPermutable</A></H1>
+<PRE>
+<I>nonPermutable ::= '(' 'nonPermutable'</I>
+&#09;<I>{ <A HREF="RMRF0016.HTM#permutable">permutable</A> | <A HREF="RMRF0018.HTM#portRef">portRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#permutable">permutable</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#nonPermutable">NonPermutable</A> </I>is used to describe ports or groups of ports which cannot be interchanged. Used in conjunction, the <I><A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A> </I>and <I><A HREF="RMRF0016.HTM#permutable">permutable</A> </I>constructs define a permutability tree structure of ports within the <I><A HREF="RMRF0011.HTM#interface">interface</A>. </I>A port may be referenced no more than once within a <I><A HREF="RMRF0016.HTM#permutable">permutable</A> </I>or <I><A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A> </I>in an interface. The order of <I><A HREF="RMRF0018.HTM#portRef">portRefs</A></I> is significant, as in the schematic below.
+<P>References to <I><A HREF="RMRF0017.HTM#portBundle">portBundles</A> </I>are treated as if they were expanded to individual members. In the context of a <I><A HREF="RMRF0016.HTM#permutable">permutable</A> </I>construct, corresponding ports may be exchanged as a whole or not at all; partial exchanges are not permitted.
+<P>&#09;
+<P><CENTER><IMG SRC="FIG0011.GIF">
+</CENTER>
+<P>&#09;<I><A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A></I> schematic
+<H3>Example:</H3>
+<PRE>
+<B>(permutable</B>
+<B>   (nonPermutable (portRef A) (portRef B))</B>
+<B>   (nonPermutable (portRef C) (portRef D)))</B>
+</PRE>
+<P>The example states that the ports <B>A </B>and <B>B </B>are not permutable, and also that the ports <B>C </B>and <B>D </B>are not permutable. However, the ports <B>A </B>and <B>C </B>may be permuted as long as the ports <B>B </B>and <B>D </B>are permuted at the same time. This structure could be appropriate for the previously-illustrated schematic.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0011.HTM#interface">interface</A>  <A HREF="RMRF0017.HTM#port">port</A>
+</I>
+<P><HR>
+<H1><A NAME="not">not</A></H1>
+<PRE>
+<I>not ::= '(' 'not'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A>  
+</I>
+<H3>Description:</H3>
+<P>This returns the logical inverse of the <I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(not (integerEqual (integerParameterRef n) 2))</B>
+</PRE>
+<P>This returns <I><A HREF="RMRF0025.HTM#true">true</A></I> whenever <B>n</B> is not equal to <B>2</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#and">and</A>  <A HREF="RMRF0015.HTM#or">or</A>  <A HREF="RMRF0026.HTM#xor">xor</A>  
+</I>
+<P><HR>
+<H1><A NAME="notInherited">notInherited</A></H1>
+<PRE>
+<I>notInherited ::= '(' 'notInherited'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0018.HTM#propertyInheritanceControl">propertyInheritanceControl</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#notInherited">NotInherited</A></I> is used to indicate that a particular <I><A HREF="RMRF0018.HTM#property">property</A></I> is not inherited by any object created by creating an instance of the object to which the <I><A HREF="RMRF0018.HTM#property">property</A></I> belongs. Therefore, the <I><A HREF="RMRF0018.HTM#property">property</A></I> is not seen by any instances of the object, in much the same way as <I><A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A></I> is not inherited.
+<P>It is a semantic error to override a <I><A HREF="RMRF0018.HTM#property">property</A></I> that is <I><A HREF="RMRF0014.HTM#notInherited">notInherited</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(property a (string "abc") </B>
+<B>   (propertyInheritanceControl (notInherited)))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0018.HTM#propertyOverride">propertyOverride</A>  
+</I>
+<P><HR>
+<H1><A NAME="number">number</A></H1>
+<PRE>
+<I>number ::= '(' 'number'</I>
+&#09;<I><A HREF="RMRF0014.HTM#numberExpression">numberExpression</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#numberParameter">numberParameter</A>  <A HREF="RMRF0025.HTM#typedValue">typedValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#number">Number</A> </I>provides a number value.
+<H3>Example:</H3>
+<PRE>
+<B>(property elementWidth (number (e 52 -1)))</B>
+</PRE>
+<P>In this example, property <B>elementWidth </B>is of type <B>number</B>, and has a number value of<B> 5.2. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#boolean">boolean</A>  <A HREF="RMRF0010.HTM#integer">integer</A>  <A HREF="RMRF0013.HTM#miNoMax">miNoMax</A>  <A HREF="RMRF0015.HTM#numberValue">numberValue</A>  <A HREF="RMRF0016.HTM#point">point</A>  <A HREF="RMRF0023.HTM#string">string</A>
+</I>
+<P><HR>
+<H1><A NAME="numberExpression">numberExpression</A></H1>
+<PRE>
+<I>numberExpression ::= ( <A HREF="RMRF0015.HTM#numberValue">numberValue</A> | <A HREF="RMRF0015.HTM#numberParameterRef">numberParameterRef</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#number">number</A>  <A HREF="RMRF0014.HTM#numberParameterAssign">numberParameterAssign</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#numberExpression">NumberExpressions</A></I> are evaluated only during the process of design hierarchy expansion, not during transfer of the data between systems.
+<P><I><A HREF="RMRF0014.HTM#numberExpression">NumberExpression</A></I> may reference a number parameter, and hence number values can be passed down the design hierarchy.
+<H3>Example:</H3>
+<PRE>
+<B>(property RESISTANCE</B>
+<B>   (number (numberParameterRef RESVAL)))</B>
+</PRE>
+<P>In this example, the value of the property <B>RESISTANCE</B> is set to be defined by the parameter <B>RESVAL</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A>
+</I>
+<P><HR>
+<H1><A NAME="numberOfBasicUnits">numberOfBasicUnits</A></H1>
+<PRE>
+<I>numberOfBasicUnits ::= <A HREF="RMRF0019.HTM#scaledInteger">scaledInteger</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0025.HTM#unit">unit</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#numberOfBasicUnits">NumberOfBasicUnits</A></I> is used in the definition of <I><A HREF="RMRF0025.HTM#unit">unit</A></I>. See <I><A HREF="RMRF0025.HTM#unit">unit</A></I> for examples of its use. Its value must be greater than zero.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0025.HTM#unit">unit</A>
+</I>
+<P><HR>
+<H1><A NAME="numberOfNewUnits">numberOfNewUnits</A></H1>
+<PRE>
+<I>numberOfNewUnits ::= <A HREF="RMRF0019.HTM#scaledInteger">scaledInteger</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0025.HTM#unit">unit</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#numberOfNewUnits">NumberOfNewUnits</A></I> is used in the definition of <I><A HREF="RMRF0025.HTM#unit">unit</A></I>. See <I><A HREF="RMRF0025.HTM#unit">unit</A></I> for examples of its use. Its value must be greater than zero.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0025.HTM#unit">unit</A>
+</I>
+<P><HR>
+<H1><A NAME="numberParameter">numberParameter</A></H1>
+<PRE>
+<I>numberParameter ::= '(' 'numberParameter'</I>
+&#09;<I><A HREF="RMRF0016.HTM#parameterNameDef">parameterNameDef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | &lt;<A HREF="RMRF0014.HTM#number">number</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0011.HTM#interface">interface</A>  
+</I>
+<H3>Description:</H3>
+<P>Defines a <I><A HREF="RMRF0014.HTM#numberParameter">numberParameter</A></I> and optionally specifies its default value. A <I><A HREF="RMRF0016.HTM#parameterNameRef">parameterNameRef</A></I> corresponding to the <I><A HREF="RMRF0016.HTM#parameterNameDef">parameterNameDef</A></I> may be used in number expressions within the containing cluster, including in subsequent parameter definitions. The parameter may be assigned a value using <I><A HREF="RMRF0014.HTM#numberParameterAssign">numberParameterAssign</A></I>.
+<P>If no default is specified there must be a corresponding parameter assignment in all instances of the containing cluster. The parameter is used during expansion of the design hierarchy only. 
+<H3>Example:</H3>
+<PRE>
+<B>(numberParameter RESISTANCE) </B>
+</PRE>
+<P>This defines the <I><A HREF="RMRF0014.HTM#numberParameter">numberParameter</A></I> named <B>RESISTANCE</B>. Since no default value is specified it would be necessary for an instance to specify the value of this parameter.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0010.HTM#integerParameter">integerParameter</A>
+</I>
+<P><HR>
+<H1><A NAME="numberParameterAssign">numberParameterAssign</A></H1>
+<PRE>
+<I>numberParameterAssign ::= '(' 'numberParameterAssign'</I>
+&#09;<I><A HREF="RMRF0016.HTM#parameterNameRef">parameterNameRef</A></I>
+&#09;<I><A HREF="RMRF0014.HTM#numberExpression">numberExpression</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#designHierarchyHeader">designHierarchyHeader</A>  <A HREF="RMRF0009.HTM#instance">instance</A>  
+</I>
+<H3>Description:</H3>
+<P>Assigns a value to a <I><A HREF="RMRF0014.HTM#numberParameter">numberParameter</A></I> which has been defined within the interface of the instantiated cluster.
+<H3>Example:</H3>
+<PRE>
+<B>(instance ...</B>
+<B>   (numberParameterAssign RESISTANCE</B>
+<B>      (e 47 -1)))</B>
+</PRE>
+<P>This assigns the value <B>4.7</B> to the <I><A HREF="RMRF0014.HTM#numberParameter">numberParameter</A></I> named <B>RESISTANCE</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#numberParameter">numberParameter</A>
+</I>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

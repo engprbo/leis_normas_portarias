@@ -1,0 +1,356 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMCHG.HTM">Changes from Level 0</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="parameter_model">parameter_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0018.HTM#parameter_model">parameter_model</A> schema defines different types of <A HREF="IMEX0018.HTM#parameter">parameters</A> and 
+ <A HREF="IMEX0018.HTM#parameter_assign">parameter_assigns</A> supported by Level 1 EDIF.  
+</P><HR>
+<!-- Start of ENTITY: parameter -->
+<H2><A NAME="parameter">parameter</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#parameter">parameter</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0018.HTM#boolean_parameter">boolean_parameter</A>,
+                                   <A HREF="IMEX0018.HTM#integer_parameter">integer_parameter</A>,
+                                   <A HREF="IMEX0018.HTM#number_parameter">number_parameter</A>,
+                                   <A HREF="IMEX0018.HTM#string_parameter">string_parameter</A>));
+    name          : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    default_value : OPTIONAL <A HREF="IMEX0009.HTM#expression">expression</A>;
+  DERIVE
+    containing_interface : <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF, '<A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A>.parameters');
+  WHERE
+    <A NAME="parameter.containment_constraint">containment_constraint</A>:
+      (* A parameter belongs to one cluster_interface. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A>.parameters');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0018.HTM#parameter">parameter</A> is defined within the interface of a <A HREF="IMEX0012.HTM#cluster">cluster</A>.  It can be
+ either a <A HREF="IMEX0018.HTM#boolean_parameter">boolean_parameter</A>, an <A HREF="IMEX0018.HTM#integer_parameter">integer_parameter</A>, a <A HREF="IMEX0018.HTM#number_parameter">number_parameter</A>
+ or a <A HREF="IMEX0018.HTM#string_parameter">string_parameter</A>.  A default value may be specified in the definition
+ of a <A HREF="IMEX0018.HTM#parameter">parameter</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A> <A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A> <A HREF="IMEX0018.HTM#parameter_display">parameter_display</A> <A HREF="IMEX0018.HTM#parameter_display_override">parameter_display_override</A> </P>
+<HR>
+<!-- Start of ENTITY: boolean_parameter -->
+<H2><A NAME="boolean_parameter">boolean_parameter</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#boolean_parameter">boolean_parameter</A>
+      SUBTYPE OF (<A HREF="IMEX0018.HTM#parameter">parameter</A>);
+    SELF\<A HREF="IMEX0018.HTM#parameter">parameter</A>.default_value : OPTIONAL <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>;
+  WHERE
+    <A NAME="boolean_parameter.valid_default_value">valid_default_value</A>:
+      (* The default value expression may reference other parameters defined in
+         the containing cluster_interface only. *) 
+      <A HREF="IMEX0009.HTM#valid_boolean_expression">valid_boolean_expression</A>([default_value], 
+                               containing_interface.parameters - SELF,
+                               [ ],
+                               ['<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A>',
+                                '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A>',
+                                '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#instance_index">instance_index</A>',
+                                '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#port_index">port_index</A>',
+                                '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#signal_index">signal_index</A>']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0018.HTM#boolean_parameter">boolean_parameter</A> describes a <A HREF="IMEX0018.HTM#parameter">parameter</A> which its value is a
+ <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> <A HREF="IMEX0018.HTM#boolean_parameter_assign">boolean_parameter_assign</A> </P>
+<HR>
+<!-- Start of ENTITY: integer_parameter -->
+<H2><A NAME="integer_parameter">integer_parameter</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#integer_parameter">integer_parameter</A>
+      SUBTYPE OF (<A HREF="IMEX0018.HTM#parameter">parameter</A>);
+    SELF\<A HREF="IMEX0018.HTM#parameter">parameter</A>.default_value : OPTIONAL <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  WHERE
+    <A NAME="integer_parameter.valid_default_value">valid_default_value</A>:
+      (* The default value expression may reference other parameters defined in
+         the containing cluster_interface only. *) 
+      <A HREF="IMEX0009.HTM#valid_integer_expression">valid_integer_expression</A>([default_value], 
+                               containing_interface.parameters - SELF,
+                               [ ],
+                               ['<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A>',
+                                '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A>',
+                                '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#instance_index">instance_index</A>',
+                                '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#port_index">port_index</A>',
+                                '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#signal_index">signal_index</A>']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0018.HTM#integer_parameter">integer_parameter</A> describes a <A HREF="IMEX0018.HTM#parameter">parameter</A> which its value is an 
+ <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> <A HREF="IMEX0018.HTM#integer_parameter_assign">integer_parameter_assign</A> </P>
+<HR>
+<!-- Start of ENTITY: number_parameter -->
+<H2><A NAME="number_parameter">number_parameter</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#number_parameter">number_parameter</A>
+      SUBTYPE OF (<A HREF="IMEX0018.HTM#parameter">parameter</A>);
+    SELF\<A HREF="IMEX0018.HTM#parameter">parameter</A>.default_value : OPTIONAL <A HREF="IMEX0009.HTM#number_expression">number_expression</A>;
+  WHERE
+    <A NAME="number_parameter.valid_default_value">valid_default_value</A>:
+      (* The default value expression may reference other parameters defined in
+         the containing cluster_interface only. *) 
+      <A HREF="IMEX0009.HTM#valid_number_expression">valid_number_expression</A>([default_value], 
+                              containing_interface.parameters - SELF);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0018.HTM#number_parameter">number_parameter</A> describes a <A HREF="IMEX0018.HTM#parameter">parameter</A> which its value is a
+ <A HREF="IMEX0009.HTM#number_expression">number_expression</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#number_expression">number_expression</A> <A HREF="IMEX0018.HTM#number_parameter_assign">number_parameter_assign</A> </P>
+<HR>
+<!-- Start of ENTITY: string_parameter -->
+<H2><A NAME="string_parameter">string_parameter</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#string_parameter">string_parameter</A>
+      SUBTYPE OF (<A HREF="IMEX0018.HTM#parameter">parameter</A>);
+    SELF\<A HREF="IMEX0018.HTM#parameter">parameter</A>.default_value : OPTIONAL <A HREF="IMEX0009.HTM#string_expression">string_expression</A>;
+  WHERE
+    <A NAME="string_parameter.valid_default_value">valid_default_value</A>:
+      (* The default value expression may reference other parameters defined in
+         the containing cluster_interface only. *) 
+      <A HREF="IMEX0009.HTM#valid_string_expression">valid_string_expression</A>([default_value], 
+                              containing_interface.parameters - SELF,
+                              [ ],
+                              ['<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A>',
+                               '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A>',
+                               '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#instance_index">instance_index</A>',
+                               '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#port_index">port_index</A>',
+                               '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#signal_index">signal_index</A>']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0018.HTM#string_parameter">string_parameter</A> describes a <A HREF="IMEX0018.HTM#parameter">parameter</A> which its value is a
+ <A HREF="IMEX0009.HTM#string_expression">string_expression</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#string_expression">string_expression</A> <A HREF="IMEX0018.HTM#string_parameter_assign">string_parameter_assign</A> </P>
+<HR>
+<!-- Start of ENTITY: parameter_assign -->
+<H2><A NAME="parameter_assign">parameter_assign</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0018.HTM#boolean_parameter_assign">boolean_parameter_assign</A>,
+                                   <A HREF="IMEX0018.HTM#integer_parameter_assign">integer_parameter_assign</A>,
+                                   <A HREF="IMEX0018.HTM#number_parameter_assign">number_parameter_assign</A>,
+                                   <A HREF="IMEX0018.HTM#string_parameter_assign">string_parameter_assign</A>));
+    assigned_parameter : <A HREF="IMEX0018.HTM#parameter">parameter</A>; -- reference
+    assigned_value     : <A HREF="IMEX0009.HTM#expression">expression</A>;
+  DERIVE
+    containing_instance : <A HREF="IMEX0012.HTM#instance">instance</A>  -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF, '<A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0012.HTM#instance">instance</A>.parameter_assigns');
+  WHERE
+    <A NAME="parameter_assign.containment_constraint">containment_constraint</A>:
+      (* A parameter_assign belongs to one instance. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0012.HTM#instance">instance</A>.parameter_assigns');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A> is used within the instance to supply values to
+ <A HREF="IMEX0018.HTM#parameter">parameters</A> defined within the interface of the instantiated <A HREF="IMEX0012.HTM#cluster">cluster</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0004.HTM#design_hierarchy">design_hierarchy</A> <A HREF="IMEX0012.HTM#instance">instance</A> </P>
+<HR>
+<!-- Start of ENTITY: boolean_parameter_assign -->
+<H2><A NAME="boolean_parameter_assign">boolean_parameter_assign</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#boolean_parameter_assign">boolean_parameter_assign</A>
+      SUBTYPE OF (<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>);
+    SELF\<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>.assigned_parameter : <A HREF="IMEX0018.HTM#boolean_parameter">boolean_parameter</A>; -- reference
+    SELF\<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>.assigned_value     : <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>;
+  WHERE
+    <A NAME="boolean_parameter_assign.valid_assigned_value">valid_assigned_value</A>:
+      (* The assigned value expression may reference the instance_index of the
+         containing instance, the for_frame_indexes of any containing
+         for_frames, or other parameters defined in the cluster_interface of
+         the containing view. *) 
+      <A HREF="IMEX0009.HTM#valid_boolean_expression">valid_boolean_expression</A>
+        ([assigned_value], 
+         containing_instance.containing_view.containing_cluster.interface
+           .parameters,
+         <A HREF="IMEX0010.HTM#find_nested_for_frame_index">find_nested_for_frame_index</A>(containing_instance.containing_frame),
+         ['<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A>',
+          '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#port_index">port_index</A>',
+          '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#signal_index">signal_index</A>']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0018.HTM#boolean_parameter_assign">boolean_parameter_assign</A> is used to assign value to a
+ <A HREF="IMEX0018.HTM#boolean_parameter">boolean_parameter</A>.  The assigned value must be a <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>.
+</P><HR>
+<!-- Start of ENTITY: integer_parameter_assign -->
+<H2><A NAME="integer_parameter_assign">integer_parameter_assign</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#integer_parameter_assign">integer_parameter_assign</A>
+      SUBTYPE OF (<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>);
+    SELF\<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>.assigned_parameter : <A HREF="IMEX0018.HTM#integer_parameter">integer_parameter</A>; -- reference
+    SELF\<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>.assigned_value     : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  WHERE
+    <A NAME="integer_parameter_assign.valid_assigned_value">valid_assigned_value</A>:
+      (* The assigned value expression may reference the instance_index of the
+         containing instance, the for_frame_indexes of any containing
+         for_frames, or other parameters defined in the cluster_interface of
+         the containing view. *) 
+      <A HREF="IMEX0009.HTM#valid_integer_expression">valid_integer_expression</A>
+        ([assigned_value], 
+         containing_instance.containing_view.containing_cluster.interface
+           .parameters,
+         <A HREF="IMEX0010.HTM#find_nested_for_frame_index">find_nested_for_frame_index</A>(containing_instance.containing_frame),
+         ['<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A>',
+          '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#port_index">port_index</A>',
+          '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#signal_index">signal_index</A>']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0018.HTM#integer_parameter_assign">integer_parameter_assign</A> is used to assign value to an
+ <A HREF="IMEX0018.HTM#integer_parameter">integer_parameter</A>. The assigned value must be an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>. 
+</P><HR>
+<!-- Start of ENTITY: number_parameter_assign -->
+<H2><A NAME="number_parameter_assign">number_parameter_assign</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#number_parameter_assign">number_parameter_assign</A>
+      SUBTYPE OF (<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>);
+    SELF\<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>.assigned_parameter : <A HREF="IMEX0018.HTM#number_parameter">number_parameter</A>;  -- reference
+    SELF\<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>.assigned_value     : <A HREF="IMEX0009.HTM#number_expression">number_expression</A>;
+  WHERE
+    <A NAME="number_parameter_assign.valid_assigned_value">valid_assigned_value</A>:
+      (* The assigned value expression may reference the instance_index of the
+         containing instance, the for_frame_indexes of any containing
+         for_frames, or other parameters defined in the cluster_interface of
+         the containing view. *) 
+      <A HREF="IMEX0009.HTM#valid_number_expression">valid_number_expression</A>
+        ([assigned_value], 
+         containing_instance.containing_view.containing_cluster.interface
+           .parameters);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0018.HTM#number_parameter_assign">number_parameter_assign</A> is used to assign value to a <A HREF="IMEX0018.HTM#number_parameter">number_parameter</A>.
+ The assigned value must be a <A HREF="IMEX0009.HTM#number_expression">number_expression</A>.
+</P><HR>
+<!-- Start of ENTITY: string_parameter_assign -->
+<H2><A NAME="string_parameter_assign">string_parameter_assign</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#string_parameter_assign">string_parameter_assign</A>
+      SUBTYPE OF (<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>);
+    SELF\<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>.assigned_parameter : <A HREF="IMEX0018.HTM#string_parameter">string_parameter</A>;  -- reference
+    SELF\<A HREF="IMEX0018.HTM#parameter_assign">parameter_assign</A>.assigned_value     : <A HREF="IMEX0009.HTM#string_expression">string_expression</A>;
+  WHERE
+    <A NAME="string_parameter_assign.valid_assigned_value">valid_assigned_value</A>:
+      (* The assigned value expression may reference the instance_index of the
+         containing instance, the for_frame_indexes of any containing
+         for_frames, or other parameters defined in the cluster_interface of
+         the containing view. *) 
+      <A HREF="IMEX0009.HTM#valid_string_expression">valid_string_expression</A>
+        ([assigned_value], 
+         containing_instance.containing_view.containing_cluster.interface
+           .parameters,
+         <A HREF="IMEX0010.HTM#find_nested_for_frame_index">find_nested_for_frame_index</A>(containing_instance.containing_frame),
+         ['<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A>',
+          '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#port_index">port_index</A>',
+          '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#signal_index">signal_index</A>']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0018.HTM#string_parameter_assign">string_parameter_assign</A> is used to assign value to a <A HREF="IMEX0018.HTM#string_parameter">string_parameter</A>.
+ The assigned value must be a <A HREF="IMEX0009.HTM#string_expression">string_expression</A>.
+</P><HR>
+<!-- Start of ENTITY: parameter_display -->
+<H2><A NAME="parameter_display">parameter_display</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#parameter_display">parameter_display</A>;
+    displayed_parameter : <A HREF="IMEX0018.HTM#parameter">parameter</A>; -- reference
+    name_display        : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#display">display</A>;
+    value_display       : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#display">display</A>; 
+  WHERE
+    <A NAME="parameter_display.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0033.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0033.HTM#internal_schematic_symbol">internal_schematic_symbol</A>.parameter_displays');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0018.HTM#parameter_display">parameter_display</A> is used to specify display locations and display
+ attributes for the display of <A HREF="IMEX0018.HTM#parameter">parameter</A> value and name.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0033.HTM#internal_schematic_symbol">internal_schematic_symbol</A> </P>
+<HR>
+<!-- Start of ENTITY: parameter_display_override -->
+<H2><A NAME="parameter_display_override">parameter_display_override</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0018.HTM#parameter_display_override">parameter_display_override</A>;
+    displayed_parameter      : <A HREF="IMEX0018.HTM#parameter">parameter</A>; -- reference
+    overriding_name_display  : <A HREF="IMEX0034.HTM#display_name_override">display_name_override</A>;
+    overriding_value_display : <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0018.HTM#parameter_display_override">parameter_display_override</A> is used to override the display locations and
+ display attributes for the display of a <A HREF="IMEX0018.HTM#parameter">parameter</A> value and name. 
+</P>
+<HR>
+
+<!-- Start of schema: pcb_assembled_board_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

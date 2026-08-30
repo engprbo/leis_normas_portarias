@@ -1,0 +1,132 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="connectivity_view_model">connectivity_view_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0003.HTM#connectivity_view_model">connectivity_view_model</A> schema describes what information can be found
+ in an EDIF connectivity view.  The connectivity view conveys hierarchical
+ and connectivity information.  The hierarchy information describes how a
+ circuit is broken down into a number of sub-circuits.  The connectivity
+ information defines how circuits are connected.  No details of connectivity
+ implementation are specified in a connectivity view.  The connectivity view
+ is analogous to the netlist viewtype in EDIF Version 2 0 0.
+</P><HR>
+<!-- Start of ENTITY: internal_connectivity_view -->
+<H2><A NAME="internal_connectivity_view">internal_connectivity_view</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A>
+      SUBTYPE OF (<A HREF="IMEX0012.HTM#internal_cell_representation">internal_cell_representation</A>);
+    busses                        : OPTIONAL SET [1:?] OF <A HREF="IMEX0002.HTM#connectivity_bus">connectivity_bus</A>;
+    frames                        : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#frame">frame</A>;
+    frame_connectivity_structures : OPTIONAL SET [1:?] OF
+                                    <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>;
+    instances                     : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#instance">instance</A>;
+    local_port_groups             : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#local_master_port_group">local_master_port_group</A>;
+    nets                          : OPTIONAL SET [1:?] OF <A HREF="IMEX0002.HTM#connectivity_net">connectivity_net</A>;
+    rippers                       : OPTIONAL SET [1:?] OF <A HREF="IMEX0002.HTM#connectivity_ripper">connectivity_ripper</A>;
+    signals                       : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#signal">signal</A>;
+    signal_groups                 : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#signal_group">signal_group</A>;
+    timings                       : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#timing">timing</A>;
+    units                         : <A HREF="IMEX0003.HTM#connectivity_units">connectivity_units</A>;
+  WHERE
+    <A NAME="internal_connectivity_view.valid_instances">valid_instances</A> :
+      (* An internal_connectivity_view should not contain instances of clusters
+         of the containing_cell either directly or indirectly. *) 
+      <A HREF="IMEX0020.HTM#not_defined">not_defined</A>;
+
+    <A NAME="internal_connectivity_view.valid_signals">valid_signals</A> :
+      (* All signals are disjoint.  That is only one signal may connect to a 
+         particular global_port, instance_member_port_member, instance_port,
+         master_port or master_port_member.  Also, the same port cannot be
+         referenced by more than one signal.  Therefore, if a wide port has
+         been referenced by a signal, it is illegal to reference members of
+         that wide port from other signals.  Conversely, if a member port has
+         been referenced by a signal, it is illegal to reference the wide port
+         containing that member port from another signal. *)  
+
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(sig1 &lt;* signals |
+        <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(QUERY(sig2 &lt;* signals - sig1 |
+          <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(sig1.joined_global_ports * sig2.joined_global_ports)
+       OR <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(sig1.joined_instance_member_port_members 
+                       * sig2.joined_instance_member_port_members)
+       OR <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(sig1.joined_instance_ports * sig2.joined_instance_ports)
+       OR <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(sig1.joined_master_ports * sig2.joined_master_ports)
+       OR <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(sig1.joined_master_port_members 
+                       * sig2.joined_master_port_members)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A> is a <A HREF="IMEX0012.HTM#cell_representation">cell_representation</A> which describes
+ connectivity.  It conveys hierarchy information and connectivity
+ information.  The hierarchy information describes how a circuit is broken
+ down into a number of cells.  The connectivity information defines how
+ circuits are connected.  No connectivity implementation details are
+ specified in an <A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A>.
+<PRE>
+ CHANGES (from LEVEL 0)
+ ======================
+ Added   : frames (explicit attribute)
+         : connectivity_frame_structures (explicit attribute)
+ Changed : valid_signals (constraint)
+</PRE>
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0002.HTM#connectivity_bus">connectivity_bus</A> <A HREF="IMEX0002.HTM#connectivity_bus_slice">connectivity_bus_slice</A> <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A> <A HREF="IMEX0002.HTM#connectivity_net">connectivity_net</A> </P>
+<HR>
+<!-- Start of ENTITY: external_connectivity_view -->
+<H2><A NAME="external_connectivity_view">external_connectivity_view</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#external_connectivity_view">external_connectivity_view</A>
+      SUBTYPE OF (<A HREF="IMEX0012.HTM#external_cell_representation">external_cell_representation</A>);
+    units                       : <A HREF="IMEX0003.HTM#connectivity_units">connectivity_units</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#external_connectivity_view">external_connectivity_view</A> is a connectivity view found in an
+ <A HREF="IMEX0012.HTM#external_cell">external_cell</A>. 
+</P><HR>
+<!-- Start of ENTITY: connectivity_units -->
+<H2><A NAME="connectivity_units">connectivity_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#connectivity_units">connectivity_units</A>;
+    set_capacitance             : <A HREF="IMEX0020.HTM#capacitance_unit">capacitance_unit</A>;
+    set_time                    : <A HREF="IMEX0020.HTM#time_unit">time_unit</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0003.HTM#connectivity_units">connectivity_units</A> is used to set the scaling for a connectivity view.
+ In a connectivity view, it is appropriate to set a capacitance scale and a
+ timing scale.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#external_connectivity_view">external_connectivity_view</A> <A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A> <A HREF="IMEX0008.HTM#physical_scaling">physical_scaling</A> </P>
+
+<HR>
+
+<!-- Start of schema: design_hierarchy_model -->
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

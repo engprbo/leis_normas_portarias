@@ -1,0 +1,822 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">General Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcbEllipticalBodyProfile">pcbEllipticalBodyProfile</A></H1>
+<PRE>
+<I>pcbEllipticalBodyProfile ::= '(' 'pcbEllipticalBodyProfile'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0044.HTM#pcbPackageBodyProfile">pcbPackageBodyProfile</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0051.HTM#pcbRectangularBodyProfile">pcbRectangularBodyProfile</A> <A HREF="RMRF0051.HTM#pcbRoundBodyProfile">pcbRoundBodyProfile</A> <A HREF="RMRF0052.HTM#pcbSquareBodyProfile">pcbSquareBodyProfile</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the shape of the body's profile is elliptical.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage CAP_SOLID_TANTALUM ...</B>
+<B>   (pcbPackageShape </B>
+<B>      (pcbEllipticalBodyProfile)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbEmbeddedComponentImplementation">pcbEmbeddedComponentImplementation</A></H1>
+<PRE>
+<I>pcbEmbeddedComponentImplementation ::= '(' 'pcbEmbeddedComponentImplementation'</I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbComponentImplementationNameDef">pcbComponentImplementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0026.HTM#pcbDieElectricalComponentRef">pcbDieElectricalComponentRef</A></I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbEmbeddedDieRef">pcbEmbeddedDieRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0019.HTM#pcbAssembledBoard">pcbAssembledBoard</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0023.HTM#pcbComponentImplementationRef">pcbComponentImplementationRef</A> <A HREF="RMRF0025.HTM#pcbDieComponentImplementation">pcbDieComponentImplementation</A> <A HREF="RMRF0037.HTM#pcbJumperComponentImplementation">pcbJumperComponentImplementation</A> <A HREF="RMRF0039.HTM#pcbMechanicalComponentImplementation">pcbMechanicalComponentImplementation</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The implemented component referenced by <I><A HREF="RMRF0026.HTM#pcbDieElectricalComponentRef">pcbDieElectricalComponentRef</A></I> must instantiate the same die electrical part as the embedded die that is referenced by <I><A HREF="RMRF0035.HTM#pcbEmbeddedDieRef">pcbEmbeddedDieRef</A></I>.
+</DL>
+<H3>Description:</H3>
+<P>Describes how the die component referenced by <I><A HREF="RMRF0026.HTM#pcbDieElectricalComponentRef">pcbDieElectricalComponentRef</A></I> is embedded into the bare board.
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDieRef">PcbEmbeddedDieRef</A></I> references the embedded die, which provides details of how the die is embedded. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbEmbeddedComponentImplementation ECI1</B>
+<B>   (pcbDieElectricalComponentRef DieComp1)</B>
+<B>   (pcbEmbeddedDieRef EDie1))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbEmbeddedDie">pcbEmbeddedDie</A></H1>
+<PRE>
+<I>pcbEmbeddedDie ::= '(' 'pcbEmbeddedDie'</I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbEmbeddedDieNameDef">pcbEmbeddedDieNameDef</A></I>
+&#09;<I><A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A></I>
+&#09;<I>( <A HREF="RMRF0035.HTM#pcbEmbeddedDieDetails">pcbEmbeddedDieDetails</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDieNameCaseSensitive">pcbEmbeddedDieNameCaseSensitive</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieNameRef">pcbEmbeddedDieNameRef</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDiePlacement">pcbEmbeddedDiePlacement</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieRef">pcbEmbeddedDieRef</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminal">pcbEmbeddedDieTerminal</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalNameDef">pcbEmbeddedDieTerminalNameDef</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalReferencedPadstack">pcbEmbeddedDieTerminalReferencedPadstack</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalToeprintInstanceRef">pcbEmbeddedDieTerminalToeprintInstanceRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Describes a die electrical part that is embedded inside a bare board. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbEmbeddedDie ED1</B>
+<B>   (pcbDieElectricalPartRef D1)</B>
+<B>   (pcbEmbeddedDieDetails</B>
+<B>      (pcbEmbeddedDiePlacement</B>
+<B>         (pcbBareBoardCavityWellRef CAVW1</B>
+<B>            (pcbBareBoardCavityRef CAV1)))</B>
+<B>      (unscaledTransform (origin (pt 600 700)))</B>
+<B>      (pcbMountableDiePhysicalTemplateRef MDPT1)</B>
+<B>      (pcbFootPrintInstanceRef FOOTP21)</B>
+<B>      (pcbEmbeddedDieTerminal T1</B>
+<B>         (pcbMountableBondPadRef BP1)</B>
+<B>         (pcbEmbeddedDieTerminalReferencedPadstack PS1</B>
+<B>            (pcbEmbeddedDieTerminalToeprintInstanceRef TP1)))</B>
+<B>      (pcbEmbeddedDieTerminal T2</B>
+<B>         (pcbMountableBondPadRef BP2)</B>
+<B>         (pcbEmbeddedDieTerminalReferencedPadstack PS1</B>
+<B>            (pcbEmbeddedDieTerminalToeprintInstanceRef TP2))) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbEmbeddedDieDetails">pcbEmbeddedDieDetails</A></H1>
+<PRE>
+<I>pcbEmbeddedDieDetails ::= '(' 'pcbEmbeddedDieDetails'</I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbEmbeddedDiePlacement">pcbEmbeddedDiePlacement</A></I>
+&#09;<I><A HREF="RMRF0065.HTM#unscaledTransform">unscaledTransform</A></I>
+&#09;<I><A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateRef">pcbMountableDiePhysicalTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0036.HTM#pcbFootprintInstanceRef">pcbFootprintInstanceRef</A></I>
+&#09;<I>{ <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminal">pcbEmbeddedDieTerminal</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDieRef">pcbEmbeddedDieRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Provides details of a die that is embedded into a bare board.
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDiePlacement">PcbEmbeddedDiePlacement</A></I> gives details of how the die is embedded. 
+<P><I><A HREF="RMRF0065.HTM#unscaledTransform">UnscaledTransform</A></I> specifies the position of the embedded die.
+<P><I><A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateRef">PcbMountableDiePhysicalTemplateRef</A></I> references a template that specifies the manner in which the die is to be mounted on the bare board. 
+<P><I><A HREF="RMRF0036.HTM#pcbFootprintInstanceRef">PcbFootprintInstanceRef</A></I> references the bare board's footprint on which the die is to be placed.
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminal">PcbEmbeddedDieTerminal</A></I> describes how a mountable bond pad of the mountable die physical template used by the embedded die is placed on the bare board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbEmbeddedDie ED1</B>
+<B>   (pcbDieElectricalPartRef D1)</B>
+<B>   (pcbEmbeddedDieDetails</B>
+<B>      (pcbEmbeddedDiePlacement</B>
+<B>         (pcbBareBoardCavityWellRef CAVW1</B>
+<B>            (pcbBareBoardCavityRef CAV1)))</B>
+<B>      (unscaledTransform (origin (pt 600 700)))</B>
+<B>      (pcbMountableDiePhysicalTemplateRef MDPT1)</B>
+<B>      (pcbFootPrintInstanceRef FOOTP21)</B>
+<B>      (pcbEmbeddedDieTerminal T1</B>
+<B>         (pcbMountableBondPadRef BP1)</B>
+<B>         (pcbEmbeddedDieTerminalReferencedPadstack PS1</B>
+<B>            (pcbEmbeddedDieTerminalToeprintInstanceRef TP1)))</B>
+<B>      (pcbEmbeddedDieTerminal T2</B>
+<B>         (pcbMountableBondPadRef BP2)</B>
+<B>         (pcbEmbeddedDieTerminalReferencedPadstack PS1</B>
+<B>            (pcbEmbeddedDieTerminalToeprintInstanceRef TP2))) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbEmbeddedDieNameCaseSensitive">pcbEmbeddedDieNameCaseSensitive</A></H1>
+<PRE>
+<I>pcbEmbeddedDieNameCaseSensitive ::= '(' 'pcbEmbeddedDieNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for items with a <I><A HREF="RMRF0035.HTM#pcbEmbeddedDieNameDef">pcbEmbeddedDieNameDef</A></I> are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example. 
+<P><HR>
+<H1><A NAME="pcbEmbeddedDieNameDef">pcbEmbeddedDieNameDef</A></H1>
+<PRE>
+<I>pcbEmbeddedDieNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieFiducialNameDef">pcbDieFiducialNameDef</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieNameRef">pcbEmbeddedDieNameRef</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalNameDef">pcbEmbeddedDieTerminalNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of an embedded die. 
+<P><HR>
+<H1><A NAME="pcbEmbeddedDieNameRef">pcbEmbeddedDieNameRef</A></H1>
+<PRE>
+<I>pcbEmbeddedDieNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbEmbeddedDieRef">pcbEmbeddedDieRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieNameDef">pcbEmbeddedDieNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a previously-defined embedded die. 
+<P><HR>
+<H1><A NAME="pcbEmbeddedDiePlacement">pcbEmbeddedDiePlacement</A></H1>
+<PRE>
+<I>pcbEmbeddedDiePlacement ::= '(' 'pcbEmbeddedDiePlacement'</I>
+&#09;<I>( <A HREF="RMRF0049.HTM#pcbPhysicalLayerRef">pcbPhysicalLayerRef</A> | <A HREF="RMRF0020.HTM#pcbBareBoardCavityWellRef">pcbBareBoardCavityWellRef</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbEmbeddedDieDetails">pcbEmbeddedDieDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieRef">pcbEmbeddedDieRef</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminal">pcbEmbeddedDieTerminal</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the layer or cavity in which a die is embedded in the bare board. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbEmbeddedDie ED1</B>
+<B>   (pcbDieElectricalPartRef D1)</B>
+<B>   (pcbEmbeddedDieDetails</B>
+<B>      (pcbEmbeddedDiePlacement</B>
+<B>         (pcbBareBoardCavityWellRef CAVW1</B>
+<B>            (pcbBareBoardCavityRef CAV1))) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbEmbeddedDieRef">pcbEmbeddedDieRef</A></H1>
+<PRE>
+<I>pcbEmbeddedDieRef ::= '(' 'pcbEmbeddedDieRef'</I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbEmbeddedDieNameRef">pcbEmbeddedDieNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbEmbeddedComponentImplementation">pcbEmbeddedComponentImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieDetails">pcbEmbeddedDieDetails</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDiePlacement">pcbEmbeddedDiePlacement</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminal">pcbEmbeddedDieTerminal</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalToeprintInstanceRef">pcbEmbeddedDieTerminalToeprintInstanceRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a previously-defined embedded die.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbEmbeddedComponentImplementation ECI1</B>
+<B>   (pcbDieElectricalComponentRef DieComp1)</B>
+<B>   (pcbEmbeddedDieRef EDie1))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbEmbeddedDieTerminal">pcbEmbeddedDieTerminal</A></H1>
+<PRE>
+<I>pcbEmbeddedDieTerminal ::= '(' 'pcbEmbeddedDieTerminal'</I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalNameDef">pcbEmbeddedDieTerminalNameDef</A></I>
+&#09;<I><A HREF="RMRF0041.HTM#pcbMountableBondPadRef">pcbMountableBondPadRef</A></I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalReferencedPadstack">pcbEmbeddedDieTerminalReferencedPadstack</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0035.HTM#pcbEmbeddedDieDetails">pcbEmbeddedDieDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDiePlacement">pcbEmbeddedDiePlacement</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieRef">pcbEmbeddedDieRef</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalToeprintInstanceRef">pcbEmbeddedDieTerminalToeprintInstanceRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Describes how a mountable bond pad of a mountable die physical template used by an embedded die is placed on the bare board.
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalReferencedPadstack">PcbEmbeddedDieTerminalReferencedPadstack</A></I> specifies the padstack that is intended to receive the mountable bond pad.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbEmbeddedDie ED1</B>
+<B>   (pcbDieElectricalPartRef D1)</B>
+<B>   (pcbEmbeddedDieDetails</B>
+<B>      (pcbEmbeddedDiePlacement ...)</B>
+<B>      (unscaledTransform (origin (pt 600 700)))</B>
+<B>      (pcbMountableDiePhysicalTemplateRef MDPT1)</B>
+<B>      (pcbFootPrintInstanceRef FOOTP21)</B>
+<B>      (pcbEmbeddedDieTerminal T1</B>
+<B>         (pcbMountableBondPadRef BP1)</B>
+<B>         (pcbEmbeddedDieTerminalReferencedPadstack PS1</B>
+<B>            (pcbEmbeddedDieTerminalToeprintInstanceRef TP1)))</B>
+<B>      (pcbEmbeddedDieTerminal T2</B>
+<B>         (pcbMountableBondPadRef BP2)</B>
+<B>         (pcbEmbeddedDieTerminalReferencedPadstack PS1</B>
+<B>            (pcbEmbeddedDieTerminalToeprintInstanceRef TP2))) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbEmbeddedDieTerminalNameDef">pcbEmbeddedDieTerminalNameDef</A></H1>
+<PRE>
+<I>pcbEmbeddedDieTerminalNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminal">pcbEmbeddedDieTerminal</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieNameDef">pcbEmbeddedDieNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>This is a name definition for an embedded die terminal. 
+<P><HR>
+<H1><A NAME="pcbEmbeddedDieTerminalReferencedPadstack">pcbEmbeddedDieTerminalReferencedPadstack</A></H1>
+<PRE>
+<I>pcbEmbeddedDieTerminalReferencedPadstack ::= '(' 
+&#09;'pcbEmbeddedDieTerminalReferencedPadstack'</I>
+&#09;<I><A HREF="RMRF0052.HTM#pcbSubLayoutInstanceNameRef">pcbSubLayoutInstanceNameRef</A></I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalToeprintInstanceRef">pcbEmbeddedDieTerminalToeprintInstanceRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminal">pcbEmbeddedDieTerminal</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the padstack inside the toeprint that is intended to receive a mountable bond pad.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbEmbeddedDieTerminal T1</B>
+<B>   (pcbMountableBondPadRef BP1)</B>
+<B>   (pcbEmbeddedDieTerminalReferencedPadstack PS1</B>
+<B>      (pcbEmbeddedDieTerminalToeprintInstanceRef TP1)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbEmbeddedDieTerminalToeprintInstanceRef">pcbEmbeddedDieTerminalToeprintInstanceRef</A></H1>
+<PRE>
+<I>pcbEmbeddedDieTerminalToeprintInstanceRef ::= '(' 
+&#09;'pcbEmbeddedDieTerminalToeprintInstanceRef'</I>
+&#09;<I><A HREF="RMRF0052.HTM#pcbSubLayoutInstanceNameRef">pcbSubLayoutInstanceNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminalReferencedPadstack">pcbEmbeddedDieTerminalReferencedPadstack</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#instance">instance</A> <A HREF="RMRF0011.HTM#instanceRef">instanceRef</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieRef">pcbEmbeddedDieRef</A> <A HREF="RMRF0035.HTM#pcbEmbeddedDieTerminal">pcbEmbeddedDieTerminal</A> <A HREF="RMRF0054.HTM#pcbToeprintInstance">pcbToeprintInstance</A> <A HREF="RMRF0054.HTM#pcbToeprintInstanceRef">pcbToeprintInstanceRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the toeprint that is intended to receive a mountable bond pad.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbEmbeddedDieTerminal T1</B>
+<B>   (pcbMountableBondPadRef BP1)</B>
+<B>   (pcbEmbeddedDieTerminalReferencedPadstack PS1</B>
+<B>      (pcbEmbeddedDieTerminalToeprintInstanceRef TP1)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbFabricateFigure">pcbFabricateFigure</A></H1>
+<PRE>
+<I>pcbFabricateFigure ::= '(' 'pcbFabricateFigure'</I>
+&#09;<I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>
+&#09;<I>{ <A HREF="RMRF0023.HTM#pcbComplexPhysicalFigure">pcbComplexPhysicalFigure</A> | &lt;<A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A>&gt; | 
+&#09;<A HREF="RMRF0048.HTM#pcbPhysicalFigure">pcbPhysicalFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0021.HTM#pcbBareBoardOutline">pcbBareBoardOutline</A>  *<A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A>  &lt;<A HREF="RMRF0043.HTM#pcbNonSpecificLayoutShape">pcbNonSpecificLayoutShape</A>  &lt;<A HREF="RMRF0047.HTM#pcbPad">pcbPad</A>  <A HREF="RMRF0050.HTM#pcbPlaneOutline">pcbPlaneOutline</A>  !<A HREF="RMRF0053.HTM#pcbTeardrop">pcbTeardrop</A>  &lt;<A HREF="RMRF0054.HTM#pcbTrace">pcbTrace</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#figure">figure</A> <A HREF="RMRF0027.HTM#pcbDifferencedFabricateFigureCollector">pcbDifferencedFabricateFigureCollector</A> <A HREF="RMRF0035.HTM#pcbFabricateFigureCollectorNameDef">pcbFabricateFigureCollectorNameDef</A> <A HREF="RMRF0035.HTM#pcbFabricateFigureCollectorNameRef">pcbFabricateFigureCollectorNameRef</A> <A HREF="RMRF0035.HTM#pcbFabricateFigureCollectorRef">pcbFabricateFigureCollectorRef</A> <A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollector">pcbIncludedFabricateFigureCollector</A> <A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A> <A HREF="RMRF0040.HTM#pcbMirroredFabricateFigureCollector">pcbMirroredFabricateFigureCollector</A> <A HREF="RMRF0051.HTM#pcbResizedFabricateFigureCollector">pcbResizedFabricateFigureCollector</A> <A HREF="RMRF0051.HTM#pcbRotatedFabricateFigureCollector">pcbRotatedFabricateFigureCollector</A> <A HREF="RMRF0052.HTM#pcbSimpleFabricateFigureCollector">pcbSimpleFabricateFigureCollector</A> <A HREF="RMRF0052.HTM#pcbSimpleFabricateFigureCollectorRef">pcbSimpleFabricateFigureCollectorRef</A> <A HREF="RMRF0054.HTM#pcbTranslatedFabricateFigureCollector">pcbTranslatedFabricateFigureCollector</A> <A HREF="RMRF0054.HTM#pcbUnionedFabricateFigureCollector">pcbUnionedFabricateFigureCollector</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the fabrication (and possibly the drawing) of a set of geometrical shapes.
+<P>The geometrical shapes are defined by <I><A HREF="RMRF0048.HTM#pcbPhysicalFigure">pcbPhysicalFigures</A></I> and/or <I><A HREF="RMRF0023.HTM#pcbComplexPhysicalFigure">pcbComplexPhysicalFigures</A></I>.
+<P>The <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I> construct defines which fabricate figure collectors that the geometrical shapes are contributed to; if the shapes also contribute to drawing figure collectors, then this is indicated within the <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I> construct.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbFabricateFigure</B>
+<B>   (pcbContributesToFabrication</B>
+<B>      (pcbSimpleFabricateFigureCollectorRef FC1))</B>
+<B>   (pcbPhysicalFigure OTHERS</B>
+<B>      (geometryElementSet</B>
+<B>         (rectangle (pt 0 0) (pt 20 10)))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbFabricateFigureCollectorNameDef">pcbFabricateFigureCollectorNameDef</A></H1>
+<PRE>
+<I>pcbFabricateFigureCollectorNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0027.HTM#pcbDifferencedFabricateFigureCollector">pcbDifferencedFabricateFigureCollector</A>  !<A HREF="RMRF0040.HTM#pcbMirroredFabricateFigureCollector">pcbMirroredFabricateFigureCollector</A>  !<A HREF="RMRF0051.HTM#pcbResizedFabricateFigureCollector">pcbResizedFabricateFigureCollector</A>  !<A HREF="RMRF0051.HTM#pcbRotatedFabricateFigureCollector">pcbRotatedFabricateFigureCollector</A>  !<A HREF="RMRF0052.HTM#pcbSimpleFabricateFigureCollector">pcbSimpleFabricateFigureCollector</A>  !<A HREF="RMRF0054.HTM#pcbTranslatedFabricateFigureCollector">pcbTranslatedFabricateFigureCollector</A>  !<A HREF="RMRF0054.HTM#pcbUnionedFabricateFigureCollector">pcbUnionedFabricateFigureCollector</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#figure">figure</A> <A HREF="RMRF0032.HTM#pcbDrawingFigureCollectorNameDef">pcbDrawingFigureCollectorNameDef</A> <A HREF="RMRF0035.HTM#pcbFabricateFigure">pcbFabricateFigure</A> <A HREF="RMRF0035.HTM#pcbFabricateFigureCollectorNameRef">pcbFabricateFigureCollectorNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of a fabricate figure collector.
+<P><HR>
+<H1><A NAME="pcbFabricateFigureCollectorNameRef">pcbFabricateFigureCollectorNameRef</A></H1>
+<PRE>
+<I>pcbFabricateFigureCollectorNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbFabricateFigureCollectorRef">pcbFabricateFigureCollectorRef</A>  !<A HREF="RMRF0052.HTM#pcbSimpleFabricateFigureCollectorRef">pcbSimpleFabricateFigureCollectorRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#figure">figure</A> <A HREF="RMRF0032.HTM#pcbDrawingFigureCollectorNameRef">pcbDrawingFigureCollectorNameRef</A> <A HREF="RMRF0035.HTM#pcbFabricateFigure">pcbFabricateFigure</A> <A HREF="RMRF0035.HTM#pcbFabricateFigureCollectorNameDef">pcbFabricateFigureCollectorNameDef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0052.HTM#pcbSimpleFabricateFigureCollectorRef">pcbSimpleFabricateFigureCollectorRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0052.HTM#pcbSimpleFabricateFigureCollector">pcbSimpleFabricateFigureCollector</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>References a <I><A HREF="RMRF0035.HTM#pcbFabricateFigureCollectorNameDef">pcbFabricateFigureCollectorNameDef</A></I>.
+<P><HR>
+<H1><A NAME="pcbFabricateFigureCollectorRef">pcbFabricateFigureCollectorRef</A></H1>
+<PRE>
+<I>pcbFabricateFigureCollectorRef ::= '(' 'pcbFabricateFigureCollectorRef'</I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbFabricateFigureCollectorNameRef">pcbFabricateFigureCollectorNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollector">pcbIncludedFabricateFigureCollector</A>  <A HREF="RMRF0036.HTM#pcbInitialGeometricShapes">pcbInitialGeometricShapes</A>  !<A HREF="RMRF0050.HTM#pcbPlane">pcbPlane</A>  !<A HREF="RMRF0051.HTM#pcbReferencedFigureCollector">pcbReferencedFigureCollector</A>  <A HREF="RMRF0052.HTM#pcbSubtrahendGeometricShapes">pcbSubtrahendGeometricShapes</A>  *<A HREF="RMRF0054.HTM#pcbUnionedFabricateFigureCollector">pcbUnionedFabricateFigureCollector</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#figure">figure</A> <A HREF="RMRF0027.HTM#pcbDifferencedFabricateFigureCollector">pcbDifferencedFabricateFigureCollector</A> <A HREF="RMRF0032.HTM#pcbDrawingFigureCollectorRef">pcbDrawingFigureCollectorRef</A> <A HREF="RMRF0035.HTM#pcbFabricateFigure">pcbFabricateFigure</A> <A HREF="RMRF0040.HTM#pcbMirroredFabricateFigureCollector">pcbMirroredFabricateFigureCollector</A> <A HREF="RMRF0051.HTM#pcbResizedFabricateFigureCollector">pcbResizedFabricateFigureCollector</A> <A HREF="RMRF0051.HTM#pcbRotatedFabricateFigureCollector">pcbRotatedFabricateFigureCollector</A> <A HREF="RMRF0052.HTM#pcbSimpleFabricateFigureCollector">pcbSimpleFabricateFigureCollector</A> <A HREF="RMRF0052.HTM#pcbSimpleFabricateFigureCollectorRef">pcbSimpleFabricateFigureCollectorRef</A> <A HREF="RMRF0054.HTM#pcbTranslatedFabricateFigureCollector">pcbTranslatedFabricateFigureCollector</A> 
+</I>
+<H3>Description:</H3>
+<P>References a previously-defined fabricate figure collector.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbReferencedFigureCollector</B>
+<B>   (pcbFabricateFigureCollectorRef FC1))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbFabricateText">pcbFabricateText</A></H1>
+<PRE>
+<I>pcbFabricateText ::= '(' 'pcbFabricateText'</I>
+&#09;<I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>
+&#09;<I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearance">pcbFabricateTextAppearance</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceOverride">pcbFabricateTextAppearanceOverride</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceRemove">pcbFabricateTextAppearanceRemove</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A> <A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a text item to fabricate. The appearance of the text item is defined by <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>. The text can also contribute to drawing figure collectors (<I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>).
+<H3>Example:</H3>
+<PRE>
+<B>(pcbFabricateTextSet</B>
+<B>   (pcbFabricateText</B>
+<B>      (pcbContributesToFabrication</B>
+<B>         (pcbSimpleFabricateFigureCollectorRef FC1))</B>
+<B>      (pcbPhysicalTextSet</B>
+<B>         (pcbPhysicalText</B>
+<B>            "Text String"</B>
+<B>            (pcbPhysicalTextImplementation</B>
+<B>               (pcbTextAppearance GA_Courier</B>
+<B>                  (pcbTextAttributeOverride)</B>
+<B>                  (stringExtent 10 1)</B>
+<B>                  (unscaledTransform (origin (pt 100 100)))))))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbFabricateTextAppearance">pcbFabricateTextAppearance</A></H1>
+<PRE>
+<I>pcbFabricateTextAppearance ::= '(' 'pcbFabricateTextAppearance'</I>
+&#09;<I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>
+&#09;<I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0019.HTM#pcbAssembledBoardNameFabrication">pcbAssembledBoardNameFabrication</A>  *<A HREF="RMRF0024.HTM#pcbComponentNameFabrication">pcbComponentNameFabrication</A>  *<A HREF="RMRF0025.HTM#pcbDesignatorFabrication">pcbDesignatorFabrication</A>  *<A HREF="RMRF0043.HTM#pcbNameFabrication">pcbNameFabrication</A>  *<A HREF="RMRF0045.HTM#pcbPackageNameFabrication">pcbPackageNameFabrication</A>  *<A HREF="RMRF0048.HTM#pcbPartNameFabrication">pcbPartNameFabrication</A>  *<A HREF="RMRF0049.HTM#pcbPinGroupNameFabrication">pcbPinGroupNameFabrication</A>  *<A HREF="RMRF0049.HTM#pcbPinNameFabrication">pcbPinNameFabrication</A>  *<A HREF="RMRF0051.HTM#pcbPropertyValueFabrication">pcbPropertyValueFabrication</A>  *<A HREF="RMRF0053.HTM#pcbTerminalNameFabrication">pcbTerminalNameFabrication</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFabricateText">pcbFabricateText</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceOverride">pcbFabricateTextAppearanceOverride</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceRemove">pcbFabricateTextAppearanceRemove</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A> <A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A> <A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A> <A HREF="RMRF0053.HTM#pcbTextAppearance">pcbTextAppearance</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the appearance and location of the text of a display item.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAssembledBoardNameFabrication</B>
+<B>   (pcbFabricateTextAppearance</B>
+<B>      (pcbContributesToFabrication</B>
+<B>         (pcbSimpleFabricateFigureCollectorRef FC1))</B>
+<B>      (pcbTextAppearanceSet</B>
+<B>         (pcbTextAppearance GA_Courier</B>
+<B>            (pcbTextAttributeOverride)</B>
+<B>            (stringExtent 10 1)</B>
+<B>            (unscaledTransform (origin (pt 100 100)))))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></H1>
+<PRE>
+<I>pcbFabricateTextAppearanceAdd ::= '(' 'pcbFabricateTextAppearanceAdd'</I>
+&#09;<I>{ <A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceOverride">pcbFabricateTextAppearanceOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFabricateText">pcbFabricateText</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearance">pcbFabricateTextAppearance</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceRemove">pcbFabricateTextAppearanceRemove</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A> <A HREF="RMRF0053.HTM#pcbTextAppearance">pcbTextAppearance</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Specifies additional appearances of text for fabrication. 
+<P>See <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceOverride">pcbFabricateTextAppearanceOverride</A></I> for an example. 
+<P><HR>
+<H1><A NAME="pcbFabricateTextAppearanceOverride">pcbFabricateTextAppearanceOverride</A></H1>
+<PRE>
+<I>pcbFabricateTextAppearanceOverride ::= '(' 'pcbFabricateTextAppearanceOverride'</I>
+&#09;<I>( <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A> | <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceRemove">pcbFabricateTextAppearanceRemove</A> | 
+&#09;<A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0025.HTM#pcbDesignatorFabricationOverride">pcbDesignatorFabricationOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFabricateText">pcbFabricateText</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearance">pcbFabricateTextAppearance</A> <A HREF="RMRF0053.HTM#pcbTextAppearance">pcbTextAppearance</A> 
+</I>
+<H3>Description:</H3>
+<P>Allows fabricated text appearances, typically those specified in a template, to be supplemented (added), replaced or removed. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDesignatorFabricationOverride</B>
+<B>   (pcbFabricateTextAppearanceOverride</B>
+<B>      (pcbFabricateTextAppearanceAdd</B>
+<B>         (pcbFabricateTextImplementation</B>
+<B>            (pcbContributesToFabrication</B>
+<B>               (pcbSimpleFabricateFigureCollectorRef FC1))</B>
+<B>            (pcbPhysicalTextImplementation</B>
+<B>               (pcbTextAppearance GA_Courier</B>
+<B>                  (pcbTextAttributeOverride)</B>
+<B>                  (stringExtent 10 1)</B>
+<B>                  (unscaledTransform (origin (pt 100 100)))))))))</B>
+</PRE>
+<P>In this example, an additional fabrication is specified for the designator text. 
+<P><HR>
+<H1><A NAME="pcbFabricateTextAppearanceRemove">pcbFabricateTextAppearanceRemove</A></H1>
+<PRE>
+<I>pcbFabricateTextAppearanceRemove ::= '(' 'pcbFabricateTextAppearanceRemove'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceOverride">pcbFabricateTextAppearanceOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFabricateText">pcbFabricateText</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearance">pcbFabricateTextAppearance</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A> <A HREF="RMRF0053.HTM#pcbTextAppearance">pcbTextAppearance</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that appearances of text for fabrication for an item are to be removed. 
+<P>See <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceOverride">pcbFabricateTextAppearanceOverride</A></I> for an example. 
+<P><HR>
+<H1><A NAME="pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></H1>
+<PRE>
+<I>pcbFabricateTextAppearanceReplace ::= '(' 'pcbFabricateTextAppearanceReplace'</I>
+&#09;<I>{ <A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceOverride">pcbFabricateTextAppearanceOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFabricateText">pcbFabricateText</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearance">pcbFabricateTextAppearance</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceRemove">pcbFabricateTextAppearanceRemove</A> <A HREF="RMRF0053.HTM#pcbTextAppearance">pcbTextAppearance</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Specifies that appearances of text for fabrication are to be removed and replaced by those specified in this construct.
+<P>See <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceOverride">pcbFabricateTextAppearanceOverride</A></I> for an example. 
+<P><HR>
+<H1><A NAME="pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></H1>
+<PRE>
+<I>pcbFabricateTextImplementation ::= '(' 'pcbFabricateTextImplementation'</I>
+&#09;<I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A>&gt; | <A HREF="RMRF0049.HTM#pcbPhysicalTextImplementation">pcbPhysicalTextImplementation</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A>  *<A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFabricateText">pcbFabricateText</A> <A HREF="RMRF0035.HTM#pcbFabricateTextAppearance">pcbFabricateTextAppearance</A> <A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Specifies the fabrication of text. <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">PcbContributesToFabrication</A></I> indicates the simple figure collectors that the graphics are assigned to and each <I><A HREF="RMRF0049.HTM#pcbPhysicalTextImplementation">pcbPhysicalTextImplementation</A></I> represents the implementation of the text.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbFabricateTextImplementation</B>
+<B>    (pcbContributesToFabrication</B>
+<B>      (pcbSimpleFabricateFigureCollectorRef SILK_1)</B>
+<B>      (pcbSimpleFabricateFigureCollectorRef SILK_2))</B>
+<B>   (pcbPhysicalTextImplementation</B>
+<B>      ...)) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbFabricateTextSet">pcbFabricateTextSet</A></H1>
+<PRE>
+<I>pcbFabricateTextSet ::= '(' 'pcbFabricateTextSet'</I>
+&#09;<I>{ <A HREF="RMRF0035.HTM#pcbFabricateText">pcbFabricateText</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0038.HTM#pcbLayoutText">pcbLayoutText</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearance">pcbFabricateTextAppearance</A> <A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A> <A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A> <A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Defines a set of text items that are to be fabricated.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbFabricateTextSet</B>
+<B>   (pcbFabricateText</B>
+<B>      (pcbContributesToFabrication</B>
+<B>         (pcbSimpleFabricateFigureCollectorRef FC1))</B>
+<B>      (pcbPhysicalTextSet</B>
+<B>         (pcbPhysicalText "Text String"</B>
+<B>            (pcbPhysicalTextImplementation</B>
+<B>               (pcbTextAppearance GA_Courier</B>
+<B>                  (pcbTextAttributeOverride)</B>
+<B>                  (stringExtent 10 1)</B>
+<B>                  (unscaledTransform (origin (pt 100 100)))))))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbFigureAttributeOverride">pcbFigureAttributeOverride</A></H1>
+<PRE>
+<I>pcbFigureAttributeOverride ::= '(' 'pcbFigureAttributeOverride'</I>
+&#09;<I><A HREF="RMRF0036.HTM#pcbGeometricAttributeDefaultNameRef">pcbGeometricAttributeDefaultNameRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0002.HTM#color">color</A>&gt; | &lt;<A HREF="RMRF0004.HTM#cornerType">cornerType</A>&gt; | &lt;<A HREF="RMRF0007.HTM#endType">endType</A>&gt; | &lt;<A HREF="RMRF0019.HTM#pathWidth">pathWidth</A>&gt; | 
+&#09;<A HREF="RMRF0056.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0048.HTM#pcbPhysicalFigure">pcbPhysicalFigure</A>  !<A HREF="RMRF0053.HTM#pcbTextAppearance">pcbTextAppearance</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#figure">figure</A> <A HREF="RMRF0032.HTM#pcbDrawingFigureDrawingAttributeOverride">pcbDrawingFigureDrawingAttributeOverride</A> <A HREF="RMRF0053.HTM#pcbTextAttributeOverride">pcbTextAttributeOverride</A> 
+</I>
+<H3>Description:</H3>
+<P>Overrides the default attributes of, for example, a physical figure.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPhysicalFigure </B>
+<B>   (pcbFigureAttributeOverride GA1</B>
+<B>      (pathWidth 10)) ...)</B>
+</PRE>
+<P>This sets the path width to be 10.
+<P><HR>
+<H1><A NAME="pcbFigureCollectorDefinitions">pcbFigureCollectorDefinitions</A></H1>
+<PRE>
+<I>pcbFigureCollectorDefinitions ::= '(' 'pcbFigureCollectorDefinitions'</I>
+&#09;<I>{ <A HREF="RMRF0027.HTM#pcbDifferencedFabricateFigureCollector">pcbDifferencedFabricateFigureCollector</A> | <A HREF="RMRF0032.HTM#pcbDrawingFigureCollector">pcbDrawingFigureCollector</A> | 
+&#09;<A HREF="RMRF0040.HTM#pcbMirroredFabricateFigureCollector">pcbMirroredFabricateFigureCollector</A> | <A HREF="RMRF0051.HTM#pcbResizedFabricateFigureCollector">pcbResizedFabricateFigureCollector</A> 
+&#09;| <A HREF="RMRF0051.HTM#pcbRotatedFabricateFigureCollector">pcbRotatedFabricateFigureCollector</A> | <A HREF="RMRF0052.HTM#pcbSimpleFabricateFigureCollector">pcbSimpleFabricateFigureCollector</A> | 
+&#09;<A HREF="RMRF0054.HTM#pcbTranslatedFabricateFigureCollector">pcbTranslatedFabricateFigureCollector</A> | 
+&#09;<A HREF="RMRF0054.HTM#pcbUnionedFabricateFigureCollector">pcbUnionedFabricateFigureCollector</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0007.HTM#edifHeader">edifHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#figure">figure</A> <A HREF="RMRF0051.HTM#pcbReferencedFigureCollector">pcbReferencedFigureCollector</A> 
+</I>
+<H3>Description:</H3>
+<P>Contains the definitions of figure collectors for a set of EDIF data. <I><A HREF="RMRF0032.HTM#pcbDrawingFigureCollector">PcbDrawingFigureCollector</A></I> is used to collect drawing data. The other figure collectors can form part of the fabrication of an mcm or pcb.
+<P>Each <I><A HREF="RMRF0052.HTM#pcbSimpleFabricateFigureCollector">pcbSimpleFabricateFigureCollector</A></I> collects geometric primitives defined in a design. The other fabricate figure collectors allow for combinations of figure collectors to achieve a desired piece of artwork, i.e they represent the definition of how a two-dimensional geometric shape is constructed from other two-dimensional geometric shapes. 
+<P>For example, a figure collector named A could be defined as the union of figure collectors B and C. A, B and C could correspond to layers L1, L2 and L3 on the board, which means that the geometric shapes on L1 are derived automatically from the union of L2 and L3.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbFigureCollectorDefinitions</B>
+<B>   (pcbSimpleFabricateFigureCollector GG1)</B>
+<B>   (pcbSimpleFabricateFigureCollector GG2)</B>
+<B>   (pcbSimpleFabricateFigureCollector GG5)</B>
+<B>   (pcbResizedFabricateFigureCollector GG3</B>
+<B>      (pcbFabricateFigureCollectorRef GG5)</B>
+<B>      (resizeDistance 100)</B>
+<B>      (cornerType (round)))</B>
+<B>   (pcbResizedFabricateFigureCollector GG4</B>
+<B>      (pcbFabricateFigureCollectorRef GG3)</B>
+<B>      (resizeDistance 100)</B>
+<B>      (cornerType (round)))</B>
+<B>   (pcbDifferencedFabricateFigureCollector GG6</B>
+<B>      (pcbFabricateFigureCollectorRef GG1)</B>
+<B>      (pcbFabricateFigureCollectorRef GG3))</B>
+<B>   (pcbDifferencedFabricateFigureCollector GG7</B>
+<B>      (pcbFabricateFigureCollectorRef GG2)</B>
+<B>      (pcbFabricateFigureCollectorRef GG4))</B>
+<B>   (pcbUnionedfabricateFigureCollector GG8</B>
+<B>      (pcbFabricateFigureCollectorRef GG5)</B>
+<B>      (pcbFabricateFigureCollectorRef GG6)</B>
+<B>      (pcbFabricateFigureCollectorRef GG7)))</B>
+</PRE>
+<P>A layer is to consist of two separate and disjoint signal planes; each one carries a different signal. A route is to pass through a part of both of these planes, but is required to be isolated from each plane (with different isolation spacings).
+<P><CENTER><IMG SRC="FIG0008.GIF">
+</CENTER>
+<P>Split plane; can be defined by using figure collector GG8
+<P>To create the above artwork, the following needs to be done:
+<P>1.&#09;Associate each positive-image signal plane and route layer with a figure collector, as shown below.
+<P><CENTER><IMG SRC="FIG0009.GIF">
+</CENTER>
+<P>2.&#09;Oversize GG5 to produce the following.
+<P><CENTER><IMG SRC="FIG0010.GIF">
+</CENTER>
+<P>3.&#09;Oversize GG3 to produce the following.
+<P><CENTER><IMG SRC="FIG0011.GIF">
+</CENTER>
+<P>&#09;Note that in more complex examples it would be easier to define simple figure collectors for GG3 and GG4. The geometry that goes into them could be a clearance around GG5 (using <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>).
+<P>4.&#09;Perform a difference operation on GG1 and GG3 to produce the following.
+<P><CENTER><IMG SRC="FIG0013.GIF">
+</CENTER>
+<P>5.&#09;Perform a difference operation on GG2 and GG4 to produce the following.
+<P><CENTER><IMG SRC="FIG0014.GIF">
+</CENTER>
+<P>6.&#09;Perform a union operation on GG5, GG6 and GG7 to produce the final artwork.
+<P><HR>
+<H1><A NAME="pcbFillPattern">pcbFillPattern</A></H1>
+<PRE>
+<I>pcbFillPattern ::= '(' 'pcbFillPattern'</I>
+&#09;<I><A HREF="RMRF0032.HTM#pcbDrawingFillPatternRef">pcbDrawingFillPatternRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0028.HTM#pcbDimensionDrawingAttributeOverride">pcbDimensionDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0029.HTM#pcbDimensionEndGeometry">pcbDimensionEndGeometry</A>  &lt;<A HREF="RMRF0030.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  &lt;<A HREF="RMRF0032.HTM#pcbDrawingFigureDrawingAttributeOverride">pcbDrawingFigureDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0033.HTM#pcbDrawingSymbolPlacementDrawingAttributeOverride">pcbDrawingSymbolPlacementDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0038.HTM#pcbLeaderLineDrawingAttributeOverride">pcbLeaderLineDrawingAttributeOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#fillPattern">fillPattern</A> <A HREF="RMRF0032.HTM#pcbDrawingFillPattern">pcbDrawingFillPattern</A> <A HREF="RMRF0032.HTM#pcbDrawingFillPatternGraphics">pcbDrawingFillPatternGraphics</A> <A HREF="RMRF0032.HTM#pcbDrawingFillPatternNameDef">pcbDrawingFillPatternNameDef</A> <A HREF="RMRF0032.HTM#pcbDrawingFillPatternNameRef">pcbDrawingFillPatternNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References the fill pattern to be used.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDimensionDrawingAttributeOverride</B>
+<B>   (pcbFillPattern</B>
+<B>      (pcbDrawingFillPatternRef Solid_Black)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbFirstHoleInformation">pcbFirstHoleInformation</A></H1>
+<PRE>
+<I>pcbFirstHoleInformation ::= ( <A HREF="RMRF0034.HTM#pcbDrillRuleRef">pcbDrillRuleRef</A> | <A HREF="RMRF0019.HTM#pcbAnyHole">pcbAnyHole</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0036.HTM#pcbHoleClearanceRule">pcbHoleClearanceRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#pcbSecondHoleInformation">pcbSecondHoleInformation</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies whether the first type of hole in a clearance rule belongs to a referenced drill rule, or is a hole of any type.
+<P><HR>
+<H1><A NAME="pcbFootprintDefinition">pcbFootprintDefinition</A></H1>
+<PRE>
+<I>pcbFootprintDefinition ::= '(' 'pcbFootprintDefinition'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0052.HTM#pcbSubLayoutDefinitionHeader">pcbSubLayoutDefinitionHeader</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0024.HTM#pcbComponentNameFabrication">pcbComponentNameFabrication</A>&gt; | &lt;<A HREF="RMRF0025.HTM#pcbDesignatorFabrication">pcbDesignatorFabrication</A>&gt; | 
+&#09;<A HREF="RMRF0038.HTM#pcbLayoutFeature">pcbLayoutFeature</A> | <A HREF="RMRF0038.HTM#pcbLayoutText">pcbLayoutText</A> | &lt;<A HREF="RMRF0043.HTM#pcbNameFabrication">pcbNameFabrication</A>&gt; | 
+&#09;<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutInstance">pcbNonSpecificSubLayoutInstance</A> | &lt;<A HREF="RMRF0045.HTM#pcbPackageNameFabrication">pcbPackageNameFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0048.HTM#pcbPartNameFabrication">pcbPartNameFabrication</A>&gt; | <A HREF="RMRF0049.HTM#pcbPhysicalNet">pcbPhysicalNet</A> | <A HREF="RMRF0051.HTM#pcbPropertyFabrication">pcbPropertyFabrication</A> | 
+&#09;<A HREF="RMRF0054.HTM#pcbToeprintInstance">pcbToeprintInstance</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFootprintDefinitionRef">pcbFootprintDefinitionRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>When a <I><A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A></I> or a sublayout definition instances a sublayout, that sublayout must have the same bare board technology as the instantiating object.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A></I>, <I><A HREF="RMRF0036.HTM#pcbFootprintInstance">pcbFootprintInstance</A></I>, <I><A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A></I>, <I><A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutInstance">pcbNonSpecificSubLayoutInstance</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadstackDefinition">pcbPadstackDefinition</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadstackInstance">pcbPadstackInstance</A></I>, <I><A HREF="RMRF0053.HTM#pcbTestCouponDefinition">pcbTestCouponDefinition</A></I>, <I><A HREF="RMRF0053.HTM#pcbTestCouponInstance">pcbTestCouponInstance</A></I>, <I><A HREF="RMRF0054.HTM#pcbToeprintDefinition">pcbToeprintDefinition</A></I>, <I><A HREF="RMRF0054.HTM#pcbToeprintInstance">pcbToeprintInstance</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Defines a footprint. A footprint is a collection of layout items (toeprints and non-specific sublayouts) that is specifically reserved for connection to the pins of a component; for example, a footprint for a 14-pin DIL package.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbFootprintDefinition FP_SMD_RESISTOR</B>
+<B>   (pcbSubLayoutDefinitionHeader ...)</B>
+<B>   (pcbNonSpecificSubLayoutInstance SMD_PAD1</B>
+<B>      (pcbNonSpecificSubLayoutDefinitionRef SMD_PAD)</B>
+<B>      (fixedScaleTransform ...))</B>
+<B>   (pcbNonSpecificSubLayoutInstance SMD_PAD2</B>
+<B>      (pcbNonSpecificSubLayoutDefinitionRef SMD_PAD)</B>
+<B>      (fixedScaleTransform ...)))</B>
+</PRE>
+<P>This example describes a simple footprint for a surface-mount resistor.
+<P><HR>
+<H1><A NAME="pcbFootprintDefinitionRef">pcbFootprintDefinitionRef</A></H1>
+<PRE>
+<I>pcbFootprintDefinitionRef ::= '(' 'pcbFootprintDefinitionRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0036.HTM#pcbFootprintInstance">pcbFootprintInstance</A>  !<A HREF="RMRF0052.HTM#pcbSubLayoutPreviousVersion">pcbSubLayoutPreviousVersion</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFootprintDefinition">pcbFootprintDefinition</A> <A HREF="RMRF0036.HTM#pcbFootprintInstanceRef">pcbFootprintInstanceRef</A> <A HREF="RMRF0047.HTM#pcbPadstackDefinitionRef">pcbPadstackDefinitionRef</A> <A HREF="RMRF0054.HTM#pcbToeprintDefinitionRef">pcbToeprintDefinitionRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a footprint definition.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbFootprintInstance DIL14_FP1</B>
+<B>   (pcbFootprintDefinitionRef DIL14) ...)</B>
+</PRE>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

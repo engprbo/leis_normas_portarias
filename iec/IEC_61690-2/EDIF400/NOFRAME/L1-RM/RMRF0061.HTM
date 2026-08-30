@@ -1,0 +1,778 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">General Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="schematicUnits">schematicUnits</A></H1>
+<PRE>
+<I>schematicUnits ::= '(' 'schematicUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0059.HTM#schematicMetric">schematicMetric</A>&gt; | &lt;<A HREF="RMRF0061.HTM#setAngle">setAngle</A>&gt; | &lt;<A HREF="RMRF0061.HTM#setCapacitance">setCapacitance</A>&gt; | &lt;<A HREF="RMRF0061.HTM#setFrequency">setFrequency</A>&gt; 
+&#09;| &lt;<A HREF="RMRF0061.HTM#setTime">setTime</A>&gt; | &lt;<A HREF="RMRF0061.HTM#setVoltage">setVoltage</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0054.HTM#physicalScaling">physicalScaling</A>  !<A HREF="RMRF0060.HTM#schematicSymbolHeader">schematicSymbolHeader</A>  !<A HREF="RMRF0060.HTM#schematicTemplateHeader">schematicTemplateHeader</A>  !<A HREF="RMRF0061.HTM#schematicViewHeader">schematicViewHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#schematicUnits">SchematicUnits</A></I> defines the units for <I><A HREF="RMRF0061.HTM#schematicView">schematicViews</A></I> and schematic templates. It may be specified as a default for the entire data in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, for a library in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I> or for a particular template or view in the view or template header. Refer to <I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A></I> for a full example. 
+<P><HR>
+<H1><A NAME="schematicView">schematicView</A></H1>
+<PRE>
+<I>schematicView ::= '(' 'schematicView'</I>
+&#09;<I><A HREF="RMRF0066.HTM#viewNameDef">viewNameDef</A></I>
+&#09;<I><A HREF="RMRF0061.HTM#schematicViewHeader">schematicViewHeader</A></I>
+&#09;<I><A HREF="RMRF0015.HTM#logicalConnectivity">logicalConnectivity</A></I>
+&#09;<I><A HREF="RMRF0058.HTM#schematicImplementation">schematicImplementation</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0065.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0002.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#schematicView">SchematicView</A></I> introduces a view of type schematic to describe the schematic representation and connectivity of a cell.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicView VIEW_1</B>
+<B>   (schematicViewHeader ...)</B>
+<B>   (logicalConnectivity </B>
+<B>      (instance ...)</B>
+<B>      (signal ...))</B>
+<B>   (schematicImplementation</B>
+<B>      (page ...)</B>
+<B>      ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicViewHeader">schematicViewHeader</A></H1>
+<PRE>
+<I>schematicViewHeader ::= '(' 'schematicViewHeader'</I>
+&#09;<I><A HREF="RMRF0061.HTM#schematicUnits">schematicUnits</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0005.HTM#derivedFrom">derivedFrom</A>&gt; | <A HREF="RMRF0006.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0056.HTM#previousVersion">previousVersion</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> | &lt;<A HREF="RMRF0062.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#schematicView">schematicView</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#schematicViewHeader">SchematicViewHeader</A></I> contains data that relates to the schematic view as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicViewHeader</B>
+<B>   (schematicUnits (setTime (unitRef ms)))</B>
+<B>   (status ...)</B>
+<B>   (documentation ...)</B>
+<B>   ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicWireAffinity">schematicWireAffinity</A></H1>
+<PRE>
+<I>schematicWireAffinity ::= '(' 'schematicWireAffinity'</I>
+&#09;<I>( <A HREF="RMRF0016.HTM#narrowWire">narrowWire</A> | <A HREF="RMRF0066.HTM#wideWire">wideWire</A> | <A HREF="RMRF0065.HTM#unrestricted">unrestricted</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0010.HTM#hotspot">hotspot</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#schematicWireAffinity">SchematicWireAffinity</A></I> specifies the type of schematic wire that is appropriate for a hotspot. The hotspot is intended to be connected to a schematic interconnect with a corresponding <I><A HREF="RMRF0061.HTM#schematicWireStyle">schematicWireStyle</A></I>. This is not a semantic rule. The default is <I><A HREF="RMRF0065.HTM#unrestricted">unrestricted</A></I>.
+<P>See <I><A HREF="RMRF0061.HTM#schematicWireStyle">schematicWireStyle</A></I> for a full example.
+<P><HR>
+<H1><A NAME="schematicWireStyle">schematicWireStyle</A></H1>
+<PRE>
+<I>schematicWireStyle ::= '(' 'schematicWireStyle'</I>
+&#09;<I>( <A HREF="RMRF0016.HTM#narrowWire">narrowWire</A> | <A HREF="RMRF0066.HTM#wideWire">wideWire</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0058.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#schematicWireStyle">SchematicWireStyle</A></I> indicates the style of schematic wire that is appropriate to represent a particular schematic interconnect. 
+<P>If <I><A HREF="RMRF0061.HTM#schematicWireStyle">schematicWireStyle</A></I> is specified for an interconnect, then the <I><A HREF="RMRF0061.HTM#schematicWireAffinity">schematicWireAffinity</A></I> of any hotspots connected to the schematic interconnect would usually correspond with this, according to the table below.
+<CENTER>
+<TABLE BORDER>
+<TR><TD ALIGN=LEFT><I>SchematicWireStyle</I><BR> <TD ALIGN=LEFT>Corresponding <I><A HREF="RMRF0061.HTM#schematicWireAffinity">schematicWireAffinity</A></I> for <BR> 
+ hotspots<BR> 
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0016.HTM#narrowWire">narrowWire</A></I><BR> <TD ALIGN=LEFT><I><A HREF="RMRF0016.HTM#narrowWire">narrowWire</A></I> or <I><A HREF="RMRF0065.HTM#unrestricted">unrestricted</A></I><BR> 
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0066.HTM#wideWire">wideWire</A></I><BR> <TD ALIGN=LEFT><I><A HREF="RMRF0066.HTM#wideWire">wideWire</A></I> or <I><A HREF="RMRF0065.HTM#unrestricted">unrestricted</A></I><BR> 
+</TABLE>
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(schematicMasterPortTemplate A </B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (hotspot (pt 0 0) </B>
+<B>      (schematicWireAffinity (wideWire)))</B>
+<B>   (input)</B>
+<B>   (schematicPortStyle (widePort)))</B>
+<B>...</B>
+<B>(schematicBus B (signalGroupRef ...)</B>
+<B>   (schematicInterconnectHeader ...</B>
+<B>      (schematicWireStyle (wideWire)) ...)</B>
+<B>   (schematicBusJoined ...) ...)</B>
+</PRE>
+<P>In this example the master port template A could be connected only to schematic interconnects with <I><A HREF="RMRF0061.HTM#schematicWireStyle">schematicWireStyle</A></I> of <I><A HREF="RMRF0066.HTM#wideWire">wideWire</A></I>, for example the bus B.
+<P><HR>
+<H1><A NAME="second">second</A></H1>
+<PRE>
+<I>second ::= '(' 'second'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0065.HTM#unit">unit</A>  &lt;<A HREF="RMRF0065.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#pcbSecondHoleInformation">pcbSecondHoleInformation</A> <A HREF="RMRF0061.HTM#secondIntegerExpression">secondIntegerExpression</A> <A HREF="RMRF0061.HTM#secondNumber">secondNumber</A> <A HREF="RMRF0061.HTM#secondStringExpression">secondStringExpression</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#second">Second</A></I> is used to specify a user-defined unit in terms of the SI time unit, second. See <I><A HREF="RMRF0065.HTM#unit">unit</A></I> for examples of the definition of units.
+<P><HR>
+<H1><A NAME="secondIntegerExpression">secondIntegerExpression</A></H1>
+<PRE>
+<I>secondIntegerExpression ::= <A HREF="RMRF0012.HTM#integerExpression">integerExpression</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0012.HTM#integerEqual">integerEqual</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> <A HREF="RMRF0061.HTM#second">second</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the second integer expression in <I><A HREF="RMRF0012.HTM#integerEqual">integerEqual</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(integerEqual</B>
+<B>   (integerParameterRef x)</B>
+<B>   (integerParameterRef y))</B>
+</PRE>
+<P>Here, (integerParameterRef y) is the second integer expression. 
+<P><HR>
+<H1><A NAME="secondNumber">secondNumber</A></H1>
+<PRE>
+<I>secondNumber ::= <A HREF="RMRF0012.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0064.HTM#time">time</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#number">number</A> <A HREF="RMRF0061.HTM#second">second</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Numeric constraints: 
+<DD>Minimum value: 0   Maximum value: 59   
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#secondNumber">SecondNumber</A></I> represents a number of seconds within <I><A HREF="RMRF0064.HTM#time">time</A></I>. 
+<P><HR>
+<H1><A NAME="secondStringExpression">secondStringExpression</A></H1>
+<PRE>
+<I>secondStringExpression ::= <A HREF="RMRF0062.HTM#stringExpression">stringExpression</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0062.HTM#stringEqual">stringEqual</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#second">second</A> <A HREF="RMRF0062.HTM#string">string</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the second string expression in <I><A HREF="RMRF0062.HTM#stringEqual">stringEqual</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(condition</B>
+<B>   (stringEqual  </B>
+<B>      (stringParameterRef processType)</B>
+<B>      "cmos1u"))</B>
+</PRE>
+<P>In this example, "cmos1u" is the second string expression. 
+<P><HR>
+<H1><A NAME="section">section</A></H1>
+<PRE>
+<I>section ::= '(' 'section'</I>
+&#09;<I><A HREF="RMRF0061.HTM#sectionNameDef">sectionNameDef</A></I>
+&#09;<I><A HREF="RMRF0061.HTM#sectionTitle">sectionTitle</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#diagram">diagram</A> | <A HREF="RMRF0061.HTM#section">section</A> | <A HREF="RMRF0063.HTM#stringValue">stringValue</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0006.HTM#documentation">documentation</A>  *<A HREF="RMRF0061.HTM#section">section</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0010.HTM#ieeeSection">ieeeSection</A> <A HREF="RMRF0036.HTM#pcbHoleCrossSection">pcbHoleCrossSection</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#section">Section</A></I> is used to divide a document into sections. 
+<P>Sections may be nested with other sections. This nesting can be used by a document processor to give hierarchical number schemes to sections.
+<P>The body of the section is implemented using any number of EDIF strings and diagrams.
+<P>The order of items within <I><A HREF="RMRF0061.HTM#section">section</A></I> is significant.
+<H3>Example:</H3>
+<PRE>
+<B>(section S1 (sectionTitle "Hierarchical Design")</B>
+<B>   (section S1_1 </B>
+<B>      (sectionTitle "Why it does not work") </B>
+<B>      "..." ...)</B>
+<B>   (section S1_2 </B>
+<B>      (sectionTitle "An alternative: Matrix Design")</B>
+<B>      ". . . . "</B>
+<B>      (section S1_2_1</B>
+<B>          (sectionTitle </B>
+<B>            "Each circuit has two functions" ) </B>
+<B>         ". . . . ")</B>
+<B>      (section S1_2_2 </B>
+<B>         (sectionTitle "Early results")</B>
+<B>         ". . . . " ...))</B>
+<B>   (section S1_3 (sectionTitle "Summary")</B>
+<B>       ". . . . "))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="sectionNameDef">sectionNameDef</A></H1>
+<PRE>
+<I>sectionNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#section">section</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#sectionNameDef">SectionNameDef</A></I> represents the name of a section.
+<P><HR>
+<H1><A NAME="sectionTitle">sectionTitle</A></H1>
+<PRE>
+<I>sectionTitle ::= '(' 'sectionTitle'</I>
+&#09;<I><A HREF="RMRF0063.HTM#stringToken">stringToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#section">section</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#sectionTitle">SectionTitle</A></I> is the title of a <I><A HREF="RMRF0061.HTM#section">section</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(section S1_2_2 </B>
+<B>   (sectionTitle "Early results")</B>
+<B>   ". . . . " ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="semiconductiveMaterial">semiconductiveMaterial</A></H1>
+<PRE>
+<I>semiconductiveMaterial ::= '(' 'semiconductiveMaterial'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#electricalMaterialType">electricalMaterialType</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies that the material is predominantly used as a semiconductor.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbMaterial Germanium</B>
+<B>   (pcbMaterialHeader)</B>
+<B>   (semiconductiveMaterial)</B>
+<B>   (pcbStandardMaterial))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="sequence">sequence</A></H1>
+<PRE>
+<I>sequence ::= '(' 'sequence'</I>
+&#09;<I><A HREF="RMRF0009.HTM#fromInteger">fromInteger</A></I>
+&#09;<I><A HREF="RMRF0064.HTM#toInteger">toInteger</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0062.HTM#step">step</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0016.HTM#nameDimensionStructure">nameDimensionStructure</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0025.HTM#pcbDieBondingSequence">pcbDieBondingSequence</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#sequence">Sequence</A></I> is used to specify a range of integer values that start at <I><A HREF="RMRF0009.HTM#fromInteger">fromInteger</A></I> and end at <I><A HREF="RMRF0064.HTM#toInteger">toInteger</A></I>, and are incremented up or down by the absolute value of the <I><A HREF="RMRF0012.HTM#integerValue">integerValue</A></I> given by <I><A HREF="RMRF0062.HTM#step">step</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(sequence 3 5)</B>
+</PRE>
+<P>This defines the series of integers 3, 4, 5.
+<PRE>
+<B>(sequence 3 18 (step 5))</B>
+</PRE>
+<P>This defines the series of integers 3, 8, 13, 18.
+<PRE>
+<B>(sequence 7 3 (step -2))</B>
+</PRE>
+<P>Here the ordered range of integers 7, 5 and 3 is specified.
+<PRE>
+<B>(sequence 7 3 (step 2))</B>
+</PRE>
+<P>Just as in the previous example, here the ordered range of integers 7, 5 and 3 is specified.
+<P><HR>
+<H1><A NAME="setAngle">setAngle</A></H1>
+<PRE>
+<I>setAngle ::= '(' 'setAngle'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0006.HTM#documentationUnits">documentationUnits</A>  &lt;<A HREF="RMRF0009.HTM#geometryMacroUnits">geometryMacroUnits</A>  &lt;<A HREF="RMRF0015.HTM#maskLayoutUnits">maskLayoutUnits</A>  &lt;<A HREF="RMRF0033.HTM#pcbDrawingUnits">pcbDrawingUnits</A>  &lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  &lt;<A HREF="RMRF0061.HTM#schematicUnits">schematicUnits</A>  &lt;<A HREF="RMRF0063.HTM#symbolicLayoutUnits">symbolicLayoutUnits</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The underlying unit associated with <I><A HREF="RMRF0061.HTM#setAngle">setAngle</A></I> should be either the <I><A HREF="RMRF0004.HTM#degree">degree</A></I> or <I><A HREF="RMRF0056.HTM#radian">radian</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setAngle">SetAngle</A></I> sets the units for angular values in a particular context.
+<P>The default is that angles are measured in the SI unit of radians. 
+<H3>Example:</H3>
+<PRE>
+<B>(unit milli_degree 1000 1 (degree 1))</B>
+<B>...</B>
+<B>(pcbLayoutUnits (setAngle (unitRef milli_degree)) ...)</B>
+</PRE>
+<P>This example defines the angle units for pcb layout to be milli_degree.
+<P><HR>
+<H1><A NAME="setCapacitance">setCapacitance</A></H1>
+<PRE>
+<I>setCapacitance ::= '(' 'setCapacitance'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A>  &lt;<A HREF="RMRF0005.HTM#designUnits">designUnits</A>  &lt;<A HREF="RMRF0012.HTM#interfaceUnits">interfaceUnits</A>  &lt;<A HREF="RMRF0015.HTM#logicModelUnits">logicModelUnits</A>  &lt;<A HREF="RMRF0015.HTM#maskLayoutUnits">maskLayoutUnits</A>  &lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  &lt;<A HREF="RMRF0048.HTM#pcbPartUnits">pcbPartUnits</A>  &lt;<A HREF="RMRF0061.HTM#schematicUnits">schematicUnits</A>  &lt;<A HREF="RMRF0063.HTM#symbolicLayoutUnits">symbolicLayoutUnits</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The underlying unit associated with <I><A HREF="RMRF0061.HTM#setCapacitance">setCapacitance</A></I> should be the <I><A HREF="RMRF0008.HTM#farad">farad</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setCapacitance">SetCapacitance</A></I> sets the units for capacitance values in a particular context.
+<P>The default is that capacitance is measured in the SI unit of farads. 
+<H3>Example:</H3>
+<PRE>
+<B>(unit pF 1 (e 1 -12) (farad 1))</B>
+<B>...</B>
+<B>(schematicUnits (setCapacitance (unitRef pF)) ...)</B>
+</PRE>
+<P>This example defines the capacitance units for <I><A HREF="RMRF0061.HTM#schematicView">schematicViews</A></I> to be pF.
+<P><HR>
+<H1><A NAME="setCurrent">setCurrent</A></H1>
+<PRE>
+<I>setCurrent ::= '(' 'setCurrent'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#logicDefinitions">logicDefinitions</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The underlying unit associated with <I><A HREF="RMRF0061.HTM#setCurrent">setCurrent</A></I> should be the <I><A HREF="RMRF0000.HTM#ampere">ampere</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setCurrent">SetCurrent</A></I> sets the units for current values in a particular context.
+<P>The default is that current is measured in the SI unit of amperes. 
+<H3>Example:</H3>
+<PRE>
+<B>(unit ma 1000 1 (ampere 1))</B>
+<B>...</B>
+<B>(logicDefinitions (setVoltage ...)</B>
+<B>   (setCurrent (unitRef ma)) ...)</B>
+</PRE>
+<P>This example defines the current units for <I><A HREF="RMRF0015.HTM#logicDefinitions">logicDefinitions</A></I> to be ma.
+<P><HR>
+<H1><A NAME="setDensity">setDensity</A></H1>
+<PRE>
+<I>setDensity ::= '(' 'setDensity'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  &lt;<A HREF="RMRF0039.HTM#pcbMaterialUnits">pcbMaterialUnits</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#density">density</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The underlying unit associated with <I><A HREF="RMRF0061.HTM#setDensity">setDensity</A></I> should be kilograms per cubic meter.
+</DL>
+<H3>Description:</H3>
+<P>Sets the units for density values in a particular context.
+<H3>Example:</H3>
+<PRE>
+<B>(unit kgpcm 1 1 (kilogram 1) (meter -3))</B>
+<B>...</B>
+<B>(setDensity (unitRef kgpcm))</B>
+</PRE>
+<P>This example defines the density units to be kgpcm.
+<P><HR>
+<H1><A NAME="setDistance">setDistance</A></H1>
+<PRE>
+<I>setDistance ::= '(' 'setDistance'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0006.HTM#documentationUnits">documentationUnits</A>  !<A HREF="RMRF0008.HTM#fonts">fonts</A>  &lt;<A HREF="RMRF0015.HTM#maskLayoutUnits">maskLayoutUnits</A>  &lt;<A HREF="RMRF0033.HTM#pcbDrawingUnits">pcbDrawingUnits</A>  &lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  !<A HREF="RMRF0059.HTM#schematicMetric">schematicMetric</A>  !<A HREF="RMRF0063.HTM#strokeFont">strokeFont</A>  &lt;<A HREF="RMRF0063.HTM#symbolicLayoutUnits">symbolicLayoutUnits</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The underlying unit associated with <I><A HREF="RMRF0061.HTM#setDistance">setDistance</A></I> should be the <I><A HREF="RMRF0015.HTM#meter">meter</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setDistance">SetDistance</A></I> sets the units for distance values in a particular context.
+<P>The default is that distance is measured in the SI unit of meter. 
+<H3>Example:</H3>
+<PRE>
+<B>(unit mm 1000 1 (meter 1))</B>
+<B>...</B>
+<B>(documentationUnits (setDistance (unitRef mm)) ...)</B>
+</PRE>
+<P>This example defines the distance units for <I><A HREF="RMRF0006.HTM#documentation">documentation</A></I> to be mm.
+<P><HR>
+<H1><A NAME="setElectricalConductivity">setElectricalConductivity</A></H1>
+<PRE>
+<I>setElectricalConductivity ::= '(' 'setElectricalConductivity'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0039.HTM#pcbMaterialUnits">pcbMaterialUnits</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#electricalConductivity">electricalConductivity</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The unit referenced must have dimensions of siemens per meter
+</DL>
+<H3>Description:</H3>
+<P>Sets the units for electrical conductivity values in a particular context.
+<H3>Example:</H3>
+<PRE>
+<B>(unit mhos 1 1 (ohm -1))</B>
+<B>...</B>
+<B>(setElectricalConductivity (unitRef mhos))</B>
+</PRE>
+<P>This example defines the conductivity units to be mhos.
+<P><HR>
+<H1><A NAME="setFrequency">setFrequency</A></H1>
+<PRE>
+<I>setFrequency ::= '(' 'setFrequency'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0061.HTM#schematicUnits">schematicUnits</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The underlying unit associated with <I><A HREF="RMRF0061.HTM#setFrequency">setFrequency</A></I> should be the <I><A HREF="RMRF0010.HTM#hertz">hertz</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setFrequency">SetFrequency</A></I> sets the units for frequency values in a particular context.
+<P>The default is that frequency is measured in the SI unit of hertz.
+<H3>Example:</H3>
+<PRE>
+<B>(unit hz 1 1 (hertz 1))</B>
+<B>...</B>
+<B>(schematicUnits ...</B>
+<B>   (setFrequency (unitRef hz))...)</B>
+</PRE>
+<P>This example defines the frequency units for <I><A HREF="RMRF0061.HTM#schematicUnits">schematicUnits</A></I> to be hz.
+<P><HR>
+<H1><A NAME="setInductance">setInductance</A></H1>
+<PRE>
+<I>setInductance ::= '(' 'setInductance'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0048.HTM#pcbPartUnits">pcbPartUnits</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The unit referenced must have the dimension of henry
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setInductance">SetInductance</A></I> sets the units for inductance values in a particular context.
+<P>The default is that inductance is measured in the SI unit of henry.
+<H3>Example:</H3>
+<PRE>
+<B>(unit mh 1000 1 (henry 1)) </B>
+<B>...</B>
+<B>(setInductance (unitRef mh))</B>
+</PRE>
+<P>This example defines the inductance units to be milli-henry. 
+<P><HR>
+<H1><A NAME="setPower">setPower</A></H1>
+<PRE>
+<I>setPower ::= '(' 'setPower'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The unit referenced must have dimensions of watts.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setPower">SetPower</A></I> sets the units for power values in a particular context.
+<P>The default is that power is measured in the SI unit of watts.  
+<H3>Example:</H3>
+<PRE>
+<B>(unit mW 1000 1 (watt 1)) </B>
+<B>...</B>
+<B>(setPower (unitRef mW))</B>
+</PRE>
+<P>This example defines the power units to be mW.
+<P><HR>
+<H1><A NAME="setPressure">setPressure</A></H1>
+<PRE>
+<I>setPressure ::= '(' 'setPressure'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The unit referenced must have dimensions of kilogram per meter per second per second, i.e. Pascals or Newtons per square meter.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setPressure">SetPressure</A></I> sets the units for pressure values in a particular context.
+<P>The default is that pressure is measured in the SI unit of pascals (kilograms per meter per second per second), which must also be the underlying unit of <I><A HREF="RMRF0061.HTM#setPressure">setPressure</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(unit mPa 1000 1 (kilogram 1) (meter -1) (second -2)) </B>
+<B>...</B>
+<B>(setPressure (unitRef mPa))</B>
+</PRE>
+<P>This example defines the pressure units to be mPa.
+<P><HR>
+<H1><A NAME="setResistance">setResistance</A></H1>
+<PRE>
+<I>setResistance ::= '(' 'setResistance'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0048.HTM#pcbPartUnits">pcbPartUnits</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The unit referenced must have the dimension of ohm
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setResistance">SetResistance</A></I> sets the units for resistance values in a particular context.
+<P>The default is that resistance is measured in the SI unit of ohm.  
+<H3>Example:</H3>
+<PRE>
+<B>(unit MEGOHM 1 1000 (ohm 1)) </B>
+<B>...</B>
+<B>(setResistance (unitRef MEGOHM))</B>
+</PRE>
+<P>This example defines the resistance units to be megohm. 
+<P><HR>
+<H1><A NAME="setSpecificHeatCapacity">setSpecificHeatCapacity</A></H1>
+<PRE>
+<I>setSpecificHeatCapacity ::= '(' 'setSpecificHeatCapacity'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  &lt;<A HREF="RMRF0039.HTM#pcbMaterialUnits">pcbMaterialUnits</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#specificHeatCapacity">specificHeatCapacity</A> <A HREF="RMRF0062.HTM#specificHeatCapacityValue">specificHeatCapacityValue</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The unit referenced must have dimensions of joule per kilogram per kelvin
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setSpecificHeatCapacity">SetSpecificHeatCapacity</A></I> sets the units for specific heat capacity values in a particular context.
+<P>The default is that specific heat capacity is measured in the SI unit of joules per kilogram per kelvin. The underlying unit of <I><A HREF="RMRF0061.HTM#setSpecificHeatCapacity">setSpecificHeatCapacity</A></I> must be joules per kilogram per kelvin. 
+<H3>Example:</H3>
+<PRE>
+<B>(unit sh 1 1 (joule 1) (kilogram -1) (kelvin -1)) </B>
+<B>...</B>
+<B>(setSpecificHeatCapacity (unitRef sh))</B>
+</PRE>
+<P>This example defines the specific heat capacity units to be sh.
+<P><HR>
+<H1><A NAME="setTemperature">setTemperature</A></H1>
+<PRE>
+<I>setTemperature ::= '(' 'setTemperature'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The unit referenced must have dimensions of kelvin, celsius or fahrenheit.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setTemperature">SetTemperature</A></I> sets the units for temperature values in a particular context.
+<P>The default is that temperature is measured in the SI unit of kelvin. The underlying unit of <I><A HREF="RMRF0061.HTM#setTemperature">setTemperature</A></I> must be kelvin. 
+<H3>Example:</H3>
+<PRE>
+<B>(unit k 1 1 (kelvin 1)) </B>
+<B>...</B>
+<B>(setTemperature (unitRef k))</B>
+</PRE>
+<P>This example defines the temperature units to be k.
+<P><HR>
+<H1><A NAME="setThermalConductivity">setThermalConductivity</A></H1>
+<PRE>
+<I>setThermalConductivity ::= '(' 'setThermalConductivity'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  &lt;<A HREF="RMRF0039.HTM#pcbMaterialUnits">pcbMaterialUnits</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0063.HTM#thermalConductivity">thermalConductivity</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The underlying unit associated with <I><A HREF="RMRF0061.HTM#setThermalConductivity">setThermalConductivity</A></I> should be watts per meter per kelvin.
+</DL>
+<H3>Description:</H3>
+<P>Sets the units for thermal conductivity values in a particular context.
+<H3>Example:</H3>
+<PRE>
+<B>(unit wpmpk 1 1 (watt 1) (meter -1) (kelvin -1))</B>
+<B>...</B>
+<B>(setThermalConductivity (unitRef wpmpk))</B>
+</PRE>
+<P>This example defines the conductivity units to be mhos.
+<P><HR>
+<H1><A NAME="setTime">setTime</A></H1>
+<PRE>
+<I>setTime ::= '(' 'setTime'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A>  &lt;<A HREF="RMRF0005.HTM#designUnits">designUnits</A>  &lt;<A HREF="RMRF0012.HTM#interfaceUnits">interfaceUnits</A>  &lt;<A HREF="RMRF0015.HTM#logicModelUnits">logicModelUnits</A>  &lt;<A HREF="RMRF0015.HTM#maskLayoutUnits">maskLayoutUnits</A>  &lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  &lt;<A HREF="RMRF0061.HTM#schematicUnits">schematicUnits</A>  &lt;<A HREF="RMRF0063.HTM#symbolicLayoutUnits">symbolicLayoutUnits</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0064.HTM#time">time</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The underlying unit associated with <I><A HREF="RMRF0061.HTM#setTime">setTime</A></I> should be the <I><A HREF="RMRF0061.HTM#second">second</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setTime">SetTime</A></I> sets the units for time values in a particular context.
+<P>The default is that time is measured in the SI unit of seconds. 
+<H3>Example:</H3>
+<PRE>
+<B>(unit ms 1000 1 (second 1))</B>
+<B>...</B>
+<B>(pcbLayoutUnits (setTime (unitRef ms)) ...)</B>
+</PRE>
+<P>This example defines the time units for pcb layout to be ms.
+<P><HR>
+<H1><A NAME="setVoltage">setVoltage</A></H1>
+<PRE>
+<I>setVoltage ::= '(' 'setVoltage'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#logicDefinitions">logicDefinitions</A>  &lt;<A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  &lt;<A HREF="RMRF0061.HTM#schematicUnits">schematicUnits</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The underlying unit associated with <I><A HREF="RMRF0061.HTM#setVoltage">setVoltage</A></I> should be the <I><A HREF="RMRF0066.HTM#volt">volt</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#setVoltage">SetVoltage</A></I> sets the units for voltage values in a particular context.
+<P>The default is that voltage is measured in the SI unit of volts. 
+<H3>Example:</H3>
+<PRE>
+<B>(unit mv 1000 1 (volt 1))</B>
+<B>...</B>
+<B>(setVoltage (unitRef mv))</B>
+</PRE>
+<P>This example defines the voltage units to be mv.
+<P><HR>
+<H1><A NAME="shape">shape</A></H1>
+<PRE>
+<I>shape ::= '(' 'shape'</I>
+&#09;<I><A HREF="RMRF0004.HTM#curve">curve</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A>  <A HREF="RMRF0002.HTM#closedAreaElement">closedAreaElement</A>  *<A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A>  <A HREF="RMRF0002.HTM#closedAreaOutline">closedAreaOutline</A>  *<A HREF="RMRF0008.HTM#figure">figure</A>  *<A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A>  *<A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#openShape">openShape</A> <A HREF="RMRF0040.HTM#pcbMinimumLayoutShapeToBoardEdge">pcbMinimumLayoutShapeToBoardEdge</A> <A HREF="RMRF0040.HTM#pcbMinimumLayoutShapeToLayoutShape">pcbMinimumLayoutShapeToLayoutShape</A> <A HREF="RMRF0040.HTM#pcbMinimumSurfaceMountPadToLayoutShape">pcbMinimumSurfaceMountPadToLayoutShape</A> <A HREF="RMRF0040.HTM#pcbMinimumThroughHolePadToLayoutShape">pcbMinimumThroughHolePadToLayoutShape</A> <A HREF="RMRF0040.HTM#pcbMinimumTraceToLayoutShape">pcbMinimumTraceToLayoutShape</A> <A HREF="RMRF0040.HTM#pcbMinimumViaPadToLayoutShape">pcbMinimumViaPadToLayoutShape</A> <A HREF="RMRF0043.HTM#pcbNonSpecificLayoutShape">pcbNonSpecificLayoutShape</A> <A HREF="RMRF0044.HTM#pcbNonSpecificLayoutShapeClass">pcbNonSpecificLayoutShapeClass</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceToLayoutShape">pcbOptimumTraceToLayoutShape</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineSpecialShape">pcbPackageOutlineSpecialShape</A> <A HREF="RMRF0047.HTM#pcbPackageShape">pcbPackageShape</A> <A HREF="RMRF0056.HTM#projectionShape">projectionShape</A> <A HREF="RMRF0065.HTM#unfilledShape">unfilledShape</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A polygon or shape must not intersect or touch itself, nor have coincident segments.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0055.HTM#polygon">polygon</A></I>, <I><A HREF="RMRF0065.HTM#unfilledPolygon">unfilledPolygon</A></I>, <I><A HREF="RMRF0065.HTM#unfilledShape">unfilledShape</A></I>)
+<BR><BR><DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#shape">Shape</A></I> is similar to <I><A HREF="RMRF0055.HTM#polygon">polygon</A></I>, except that it may include arcs in its perimeter. <I><A HREF="RMRF0061.HTM#shape">Shape</A></I> is closed by definition. If the last point specified is not the same as the first point specified, a straight line is used to close the <I><A HREF="RMRF0061.HTM#shape">shape</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(shape</B>
+<B>   (curve</B>
+<B>      (pt 20 100)</B>
+<B>      (arc</B>
+<B>         (pt 40 100)</B>
+<B>         (numberPoint 50 110)</B>
+<B>         (pt 40 120))</B>
+<B>      (pt 20 120)))</B>
+</PRE>
+<P>This example consists of one arc from (40, 100) through (50, 110) to (40, 120), and three straight line segments: from (40, 120) to (20, 120), from (20, 120) back to (20, 100), and from (20, 100) to (40, 100). This is shown in the figure below, assuming hollow filled.
+<P><CENTER><IMG SRC="FIG0046.GIF">
+</CENTER>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,870 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="pcbDrawingProjectionLineGap">pcbDrawingProjectionLineGap</A></H1>
+<PRE>
+<I>pcbDrawingProjectionLineGap ::= '(' 'pcbDrawingProjectionLineGap'</I>
+&#09;<I><A HREF="RMRF0016.HTM#nonNegativeDistanceValue">nonNegativeDistanceValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0032.HTM#pcbDrawingHeader">pcbDrawingHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingProjectionLineOvershoot">pcbDrawingProjectionLineOvershoot</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the gap that is to be left between the end of the projection line and the item it is related to (i.e. that it is dimensioning). The default value is zero.
+<P><CENTER><IMG SRC="FIG0126.GIF">
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingHeader</B>
+<B>   (pcbDrawingUnits ...)</B>
+<B>   (pcbDimensionDistanceUnit (unitRef mm))</B>
+<B>   (pcbDrawingScaleFactor ...)</B>
+<B>   (pcbDrawingDimensioningStandard ...)</B>
+<B>   (pcbDrawingProjectionLineGap 2) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingProjectionLineOvershoot">pcbDrawingProjectionLineOvershoot</A></H1>
+<PRE>
+<I>pcbDrawingProjectionLineOvershoot ::= '(' 'pcbDrawingProjectionLineOvershoot'</I>
+&#09;<I><A HREF="RMRF0016.HTM#nonNegativeDistanceValue">nonNegativeDistanceValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0032.HTM#pcbDrawingHeader">pcbDrawingHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingProjectionLineGap">pcbDrawingProjectionLineGap</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the overshoot of the projection line from the dimension line/arc, as shown below. The default value is zero.
+<P><CENTER><IMG SRC="FIG0127.GIF">
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingHeader</B>
+<B>   (pcbDrawingUnits ...)</B>
+<B>   (pcbDimensionDistanceUnit (unitRef mm))</B>
+<B>   (pcbDrawingScaleFactor ...)</B>
+<B>   (pcbDrawingDimensioningStandard ...)</B>
+<B>   (pcbDrawingProjectionLineOvershoot 2) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingScaleFactor">pcbDrawingScaleFactor</A></H1>
+<PRE>
+<I>pcbDrawingScaleFactor ::= '(' 'pcbDrawingScaleFactor'</I>
+&#09;<I><A HREF="RMRF0017.HTM#numeratorNumber">numeratorNumber</A></I>
+&#09;<I><A HREF="RMRF0005.HTM#denominatorNumber">denominatorNumber</A></I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrawingScaleFactorDisplayString">pcbDrawingScaleFactorDisplayString</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0022.HTM#pcbBoardSubsetPlacementScaled">pcbBoardSubsetPlacementScaled</A>  !<A HREF="RMRF0032.HTM#pcbDrawingHeader">pcbDrawingHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0032.HTM#pcbDrawingFactorScaleDrawing">pcbDrawingFactorScaleDrawing</A> <A HREF="RMRF0033.HTM#pcbDrawingScaleFactorDrawing">pcbDrawingScaleFactorDrawing</A> <A HREF="RMRF0057.HTM#scale">scale</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>Either the <I><A HREF="RMRF0017.HTM#numeratorNumber">numeratorNumber</A></I> is one and the <I><A HREF="RMRF0005.HTM#denominatorNumber">denominatorNumber</A></I> is greater than or equal to one or the <I><A HREF="RMRF0017.HTM#numeratorNumber">numeratorNumber</A></I> is greater than or equal to one and the <I><A HREF="RMRF0005.HTM#denominatorNumber">denominatorNumber</A></I> is one.
+<BR><BR><DT>2. The following constraint applies to this context:  When required within <I><A HREF="RMRF0022.HTM#pcbBoardSubsetPlacementScaled">pcbBoardSubsetPlacementScaled</A></I>; When present within <I><A HREF="RMRF0032.HTM#pcbDrawingHeader">pcbDrawingHeader</A>
+</I>
+<DD>The scale factor in the <I><A HREF="RMRF0022.HTM#pcbBoardSubsetPlacementScaled">pcbBoardSubsetPlacementScaled</A></I> is different from the scale of the containing <I><A HREF="RMRF0030.HTM#pcbDrawing">pcbDrawing</A></I>.
+</DL>
+<H3>Description:</H3>
+<P>Defines a drawing scale factor and a text string that can be used to represent that scale factor, if it is displayed on a pcb drawing.
+<H3>Example:</H3>
+<P><CENTER><IMG SRC="FIG0128.GIF">
+</CENTER>
+<PRE>
+<B>(pcbBoardSubsetPlacement BOARDREP_01</B>
+<B>   (pcbBoardSubsetRef SUBSET_01)</B>
+<B>   (uniformScaleTransform ...)</B>
+<B>   (pcbBoardSubsetPlacementScaled</B>
+<B>      (pcbDrawingScaleFactor 1 1 "1:1")</B>
+<B>      (pcbDrawingTextDisplay DWGATTR_01</B>
+<B>         (unscaledTransform (origin (pt 28000 112000)))</B>
+<B>         (stringExtent 9600 5000))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingScaleFactorDisplayString">pcbDrawingScaleFactorDisplayString</A></H1>
+<PRE>
+<I>pcbDrawingScaleFactorDisplayString ::= <A HREF="RMRF0063.HTM#stringToken">stringToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrawingScaleFactor">pcbDrawingScaleFactor</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0032.HTM#pcbDrawingFactorScaleDrawing">pcbDrawingFactorScaleDrawing</A> <A HREF="RMRF0033.HTM#pcbDrawingScaleFactorDrawing">pcbDrawingScaleFactorDrawing</A> <A HREF="RMRF0057.HTM#scale">scale</A> <A HREF="RMRF0062.HTM#string">string</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a text string that can be used to represent a scale factor, if it is displayed on a pcb drawing.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBoardSubsetPlacementScaled</B>
+<B>   (pcbDrawingScaleFactor 1 2 "Half Scale") ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingScaleFactorDrawing">pcbDrawingScaleFactorDrawing</A></H1>
+<PRE>
+<I>pcbDrawingScaleFactorDrawing ::= '(' 'pcbDrawingScaleFactorDrawing'</I>
+&#09;<I>{ <A HREF="RMRF0033.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0033.HTM#pcbDrawingTitleBlockAttributeDisplay">pcbDrawingTitleBlockAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0032.HTM#pcbDrawingFactorScaleDrawing">pcbDrawingFactorScaleDrawing</A> <A HREF="RMRF0033.HTM#pcbDrawingScaleFactor">pcbDrawingScaleFactor</A> <A HREF="RMRF0033.HTM#pcbDrawingScaleFactorDisplayString">pcbDrawingScaleFactorDisplayString</A> <A HREF="RMRF0057.HTM#scale">scale</A> 
+</I>
+<H3>Description:</H3>
+<P>Describes how and where the text denoting the scale factor of the pcb drawing is to be drawn. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingScaleFactor 1 2 "Half Scale")</B>
+<B>...</B>
+<B>(pcbDrawingScaleFactorDrawing</B>
+<B>   (pcbDrawingTextDisplay Default_Attrs</B>
+<B>      (unscaledTransform (origin (pt 1000 1000)))</B>
+<B>      (stringExtent 100 10)))</B>
+</PRE>
+<P>In this example, the string "Half Scale" will be displayed at point 1000 1000. 
+<P><HR>
+<H1><A NAME="pcbDrawingStyleDefinitions">pcbDrawingStyleDefinitions</A></H1>
+<PRE>
+<I>pcbDrawingStyleDefinitions ::= '(' 'pcbDrawingStyleDefinitions'</I>
+&#09;<I>{ <A HREF="RMRF0032.HTM#pcbDrawingFillPattern">pcbDrawingFillPattern</A> | <A HREF="RMRF0032.HTM#pcbDrawingLineStyle">pcbDrawingLineStyle</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0007.HTM#edifHeader">edifHeader</A>  
+</I>
+<H3>Description:</H3>
+<P>Line styles and fill patterns for use in drawings are defined within this construct.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingStyleDefinitions</B>
+<B>   (pcbDrawingLineStyle CENTER_LINE</B>
+<B>      (pcbDrawingUnits ...)</B>
+<B>      (pcbDrawingLineStyleDoubleDashed</B>
+<B>         (pcbDrawingLineStyleDashLength 10)</B>
+<B>         (pcbDrawingLineStyleGapLength 4)</B>
+<B>         (pcbDrawingLineStyleShortDashLength 2)))</B>
+<B>   (pcbDrawingLineStyle DASHED</B>
+<B>      (pcbDrawingUnits ...)</B>
+<B>      (pcbDrawingLineStyleDashed</B>
+<B>         (pcbDrawingLineStyleDashLength 10)</B>
+<B>         (pcbDrawingLineStyleGapLength 4)))</B>
+<B>   (pcbDrawingFillPattern &amp;50PC ...) ...)</B>
+<B> </B>
+</PRE>
+<P>This example shows two line styles and a fill pattern being defined. These may then be referenced from PCB drawings. 
+<P><HR>
+<H1><A NAME="pcbDrawingSymbolNameDef">pcbDrawingSymbolNameDef</A></H1>
+<PRE>
+<I>pcbDrawingSymbolNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A>  !<A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateSymbol">pcbMountableDiePhysicalTemplateSymbol</A>  !<A HREF="RMRF0042.HTM#pcbMountablePackageSymbol">pcbMountablePackageSymbol</A>  !<A HREF="RMRF0051.HTM#pcbPrintedPartSymbol">pcbPrintedPartSymbol</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingSymbolNameRef">pcbDrawingSymbolNameRef</A> <A HREF="RMRF0033.HTM#pcbDrawingSymbolPlacementNameDef">pcbDrawingSymbolPlacementNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of a drawing symbol.
+<P><HR>
+<H1><A NAME="pcbDrawingSymbolNameRef">pcbDrawingSymbolNameRef</A></H1>
+<PRE>
+<I>pcbDrawingSymbolNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0024.HTM#pcbComponentSymbolRef">pcbComponentSymbolRef</A>  !<A HREF="RMRF0034.HTM#pcbDrillRuleSymbolRef">pcbDrillRuleSymbolRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingSymbolNameDef">pcbDrawingSymbolNameDef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0034.HTM#pcbDrillRuleSymbolRef">pcbDrillRuleSymbolRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>References a previously-defined <I><A HREF="RMRF0033.HTM#pcbDrawingSymbolNameDef">pcbDrawingSymbolNameDef</A></I>. 
+<P><HR>
+<H1><A NAME="pcbDrawingSymbolPlacement">pcbDrawingSymbolPlacement</A></H1>
+<PRE>
+<I>pcbDrawingSymbolPlacement ::= '(' 'pcbDrawingSymbolPlacement'</I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrawingSymbolPlacementNameDef">pcbDrawingSymbolPlacementNameDef</A></I>
+&#09;<I>( <A HREF="RMRF0024.HTM#pcbComponentSymbolRef">pcbComponentSymbolRef</A> | <A HREF="RMRF0034.HTM#pcbDrillRuleSymbolRef">pcbDrillRuleSymbolRef</A> )</I>
+&#09;<I><A HREF="RMRF0065.HTM#uniformScaleTransform">uniformScaleTransform</A></I>
+&#09;<I>( <A HREF="RMRF0031.HTM#pcbDrawingAttributeDefaultRef">pcbDrawingAttributeDefaultRef</A> | 
+&#09;<A HREF="RMRF0033.HTM#pcbDrawingSymbolPlacementDrawingAttributeOverride">pcbDrawingSymbolPlacementDrawingAttributeOverride</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0030.HTM#pcbDrawingAnnotation">pcbDrawingAnnotation</A>  
+</I>
+<H3>Description:</H3>
+<P>Describes the placement of a component symbol or drill symbol as annotation within a pcb drawing. The placement of the symbol is independent of any component or drilled hole represented elsewhere within the drawing and is often used as a way to create a legend of used symbols within the drawing.
+<H3>Example:</H3>
+<P><CENTER><IMG SRC="FIG0129.GIF">
+</CENTER>
+<PRE>
+<B>(pcbDrawingAnnotation DWGANNO_01</B>
+<B>   (pcbDrawingText "Legend"</B>
+<B>      (pcbDrawingTextDisplay ...))</B>
+<B>   (pcbDrawingSymbolPlacement DRILL_01</B>
+<B>      (pcbDrillRuleSymbolRef ACME_SYMBOL</B>
+<B>         (pcbDrillRuleRef DRILL_37))</B>
+<B>      (uniformScaleTransform (origin (pt 601000 95000)))</B>
+<B>      (pcbDrawingSymbolPlacementDrawingAttributeOverride DWGATTR_01</B>
+<B>         (pathWidth (minimalWidth))))</B>
+<B>   (pcbDrawingText "47 thou plated"</B>
+<B>      (pcbDrawingTextDisplay ...))</B>
+<B>   (pcbDrawingSymbolPlacement DRILL_02</B>
+<B>      (pcbDrillRuleSymbolRef ACME_SYMBOL</B>
+<B>         (pcbDrillRuleRef DRILL_13))</B>
+<B>      (uniformScaleTransform (origin (pt 601000 92000)))</B>
+<B>      (pcbDrawingSymbolPlacementDrawingAttributeOverride DWGATTR_01</B>
+<B>         (pathWidth (minimalWidth))))</B>
+<B>   (pcbDrawingText "50 thou plated"</B>
+<B>      (pcbDrawingTextDisplay ...)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingSymbolPlacementDrawingAttributeOverride">pcbDrawingSymbolPlacementDrawingAttributeOverride</A></H1>
+<PRE>
+<I>pcbDrawingSymbolPlacementDrawingAttributeOverride ::= '(' 
+&#09;'pcbDrawingSymbolPlacementDrawingAttributeOverride'</I>
+&#09;<I><A HREF="RMRF0031.HTM#pcbDrawingAttributeDefaultNameRef">pcbDrawingAttributeDefaultNameRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0001.HTM#borderPatternVisible">borderPatternVisible</A>&gt; | &lt;<A HREF="RMRF0001.HTM#borderWidth">borderWidth</A>&gt; | &lt;<A HREF="RMRF0002.HTM#color">color</A>&gt; | &lt;<A HREF="RMRF0004.HTM#cornerType">cornerType</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0007.HTM#endType">endType</A>&gt; | &lt;<A HREF="RMRF0008.HTM#fillPatternVisible">fillPatternVisible</A>&gt; | &lt;<A HREF="RMRF0019.HTM#pathWidth">pathWidth</A>&gt; | &lt;<A HREF="RMRF0023.HTM#pcbBorderPattern">pcbBorderPattern</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0035.HTM#pcbFillPattern">pcbFillPattern</A>&gt; | &lt;<A HREF="RMRF0066.HTM#visible">visible</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrawingSymbolPlacement">pcbDrawingSymbolPlacement</A>  
+</I>
+<H3>Description:</H3>
+<P>Overrides the default drawing attributes for the drawing symbol.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingSymbolPlacementDrawingAttributeOverride</B>
+<B>   DEFAULT_ATTRS</B>
+<B>   (pcbFillPattern</B>
+<B>      (pcbDrawingFillPatternRef Solid_Black)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingSymbolPlacementNameDef">pcbDrawingSymbolPlacementNameDef</A></H1>
+<PRE>
+<I>pcbDrawingSymbolPlacementNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrawingSymbolPlacement">pcbDrawingSymbolPlacement</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingSymbolNameDef">pcbDrawingSymbolNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of a drawing symbol placement. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingSymbolPlacement Sym1 ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingTemplateHeader">pcbDrawingTemplateHeader</A></H1>
+<PRE>
+<I>pcbDrawingTemplateHeader ::= '(' 'pcbDrawingTemplateHeader'</I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrawingUnits">pcbDrawingUnits</A></I>
+&#09;<I>{ <A HREF="RMRF0006.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> | &lt;<A HREF="RMRF0062.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0022.HTM#pcbBondPadDrawingTemplate">pcbBondPadDrawingTemplate</A>  !<A HREF="RMRF0031.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>  !<A HREF="RMRF0032.HTM#pcbDrawingFigureMacro">pcbDrawingFigureMacro</A>  !<A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A>  !<A HREF="RMRF0047.HTM#pcbPackageTerminalDrawingTemplate">pcbPackageTerminalDrawingTemplate</A>  !<A HREF="RMRF0051.HTM#pcbPrintedPartTerminalDrawingTemplate">pcbPrintedPartTerminalDrawingTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0032.HTM#pcbDrawingHeader">pcbDrawingHeader</A> <A HREF="RMRF0053.HTM#pcbTemplateHeader">pcbTemplateHeader</A> 
+</I>
+<H3>Description:</H3>
+<P>Contains data that relates to the entire drawing template.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingTitleBlockTemplate Std_Title</B>
+<B>   (pcbDrawingTemplateHeader</B>
+<B>      (pcbDrawingUnits</B>
+<B>         (setDistance (unitRef mm))</B>
+<B>         (setAngle (unitRef degree)))) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingText">pcbDrawingText</A></H1>
+<PRE>
+<I>pcbDrawingText ::= '(' 'pcbDrawingText'</I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrawingTextString">pcbDrawingTextString</A></I>
+&#09;<I>{ <A HREF="RMRF0033.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0022.HTM#pcbBondPadDrawingTemplate">pcbBondPadDrawingTemplate</A>  *<A HREF="RMRF0030.HTM#pcbDrawingAnnotation">pcbDrawingAnnotation</A>  *<A HREF="RMRF0031.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>  *<A HREF="RMRF0031.HTM#pcbDrawingElement">pcbDrawingElement</A>  *<A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A>  *<A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A>  *<A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateSymbol">pcbMountableDiePhysicalTemplateSymbol</A>  *<A HREF="RMRF0042.HTM#pcbMountablePackageSymbol">pcbMountablePackageSymbol</A>  *<A HREF="RMRF0047.HTM#pcbPackageTerminalDrawingTemplate">pcbPackageTerminalDrawingTemplate</A>  *<A HREF="RMRF0051.HTM#pcbPrintedPartSymbol">pcbPrintedPartSymbol</A>  *<A HREF="RMRF0051.HTM#pcbPrintedPartTerminalDrawingTemplate">pcbPrintedPartTerminalDrawingTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingTextDrawingAttributeOverride">pcbDrawingTextDrawingAttributeOverride</A> <A HREF="RMRF0033.HTM#pcbDrawingTextEnclosureClearance">pcbDrawingTextEnclosureClearance</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0051.HTM#pcbPrintedPartTerminalDrawingTemplate">pcbPrintedPartTerminalDrawingTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+<BR><BR></I>
+<DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0047.HTM#pcbPackageTerminalDrawingTemplate">pcbPackageTerminalDrawingTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+<BR><BR></I>
+<DT>3. This construct is illegal in this context:  <I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+<BR><BR></I>
+<DT>4. This construct is illegal in this context:  <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+<BR><BR></I>
+<DT>5. This construct is illegal in this context:  <I><A HREF="RMRF0022.HTM#pcbBondPadDrawingTemplate">pcbBondPadDrawingTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines a text string and its appearance on a drawing.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingTitleBlockTemplate Std_Title</B>
+<B>   (pcbDrawingTemplateHeader ...)</B>
+<B>   (pcbDrawingText "IF IN DOUBT ASK"</B>
+<B>      (pcbDrawingTextDisplay Default_Attrs</B>
+<B>         (unscaledTransform (origin ...))</B>
+<B>         (stringExtent 10 1))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingTextDisplay">pcbDrawingTextDisplay</A></H1>
+<PRE>
+<I>pcbDrawingTextDisplay ::= '(' 'pcbDrawingTextDisplay'</I>
+&#09;<I>( <A HREF="RMRF0031.HTM#pcbDrawingAttributeDefaultNameRef">pcbDrawingAttributeDefaultNameRef</A> | 
+&#09;<A HREF="RMRF0033.HTM#pcbDrawingTextDrawingAttributeOverride">pcbDrawingTextDrawingAttributeOverride</A> )</I>
+&#09;<I><A HREF="RMRF0065.HTM#unscaledTransform">unscaledTransform</A></I>
+&#09;<I><A HREF="RMRF0063.HTM#stringExtent">stringExtent</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0016.HTM#mirroredText">mirroredText</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0003.HTM#companyNameDrawing">companyNameDrawing</A>  *<A HREF="RMRF0004.HTM#copyrightDrawing">copyrightDrawing</A>  *<A HREF="RMRF0006.HTM#drawingDateDrawing">drawingDateDrawing</A>  *<A HREF="RMRF0006.HTM#drawingDescriptionDrawing">drawingDescriptionDrawing</A>  *<A HREF="RMRF0006.HTM#drawingFirstUsedDateDrawing">drawingFirstUsedDateDrawing</A>  *<A HREF="RMRF0006.HTM#drawingGeneralTolerancesDrawing">drawingGeneralTolerancesDrawing</A>  *<A HREF="RMRF0006.HTM#drawingIdentificationDrawing">drawingIdentificationDrawing</A>  *<A HREF="RMRF0006.HTM#drawingIssueInformationDrawing">drawingIssueInformationDrawing</A>  *<A HREF="RMRF0006.HTM#drawingNumberOfSheetsDrawing">drawingNumberOfSheetsDrawing</A>  *<A HREF="RMRF0006.HTM#drawingReferenceToStandardDrawing">drawingReferenceToStandardDrawing</A>  *<A HREF="RMRF0006.HTM#drawingSizeDrawing">drawingSizeDrawing</A>  *<A HREF="RMRF0006.HTM#drawingUnitsDrawing">drawingUnitsDrawing</A>  *<A HREF="RMRF0018.HTM#pageIdentificationDrawing">pageIdentificationDrawing</A>  *<A HREF="RMRF0022.HTM#pcbBondPadNameDrawing">pcbBondPadNameDrawing</A>  *<A HREF="RMRF0024.HTM#pcbComponentNameDrawing">pcbComponentNameDrawing</A>  *<A HREF="RMRF0025.HTM#pcbDesignatorDrawing">pcbDesignatorDrawing</A>  *<A HREF="RMRF0027.HTM#pcbDieTemplateNameDrawing">pcbDieTemplateNameDrawing</A>  *<A HREF="RMRF0028.HTM#pcbDimensionDistanceUnitDrawing">pcbDimensionDistanceUnitDrawing</A>  <A HREF="RMRF0032.HTM#pcbDrawingFactorScaleDrawing">pcbDrawingFactorScaleDrawing</A>  *<A HREF="RMRF0033.HTM#pcbDrawingScaleFactorDrawing">pcbDrawingScaleFactorDrawing</A>  *<A HREF="RMRF0033.HTM#pcbDrawingText">pcbDrawingText</A>  *<A HREF="RMRF0034.HTM#pcbDrillRuleNameDrawing">pcbDrillRuleNameDrawing</A>  *<A HREF="RMRF0041.HTM#pcbMountableDieTemplateNameDrawing">pcbMountableDieTemplateNameDrawing</A>  *<A HREF="RMRF0042.HTM#pcbMountablePackageNameDrawing">pcbMountablePackageNameDrawing</A>  *<A HREF="RMRF0042.HTM#pcbMountableTerminalNameDrawing">pcbMountableTerminalNameDrawing</A>  *<A HREF="RMRF0043.HTM#pcbMountedBondPadNameDrawing">pcbMountedBondPadNameDrawing</A>  *<A HREF="RMRF0045.HTM#pcbPackageNameDrawing">pcbPackageNameDrawing</A>  *<A HREF="RMRF0047.HTM#pcbPackageTerminalNameDrawing">pcbPackageTerminalNameDrawing</A>  *<A HREF="RMRF0048.HTM#pcbPartNameDrawing">pcbPartNameDrawing</A>  *<A HREF="RMRF0048.HTM#pcbPartTerminalNameDrawing">pcbPartTerminalNameDrawing</A>  *<A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A>  *<A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0033.HTM#pcbDrawingTextString">pcbDrawingTextString</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the position and appearance of a text string on a drawing.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingTitleBlockTemplate Std_Title</B>
+<B>   (pcbDrawingTemplateHeader ...)</B>
+<B>   (pcbDrawingText "IF IN DOUBT ASK"</B>
+<B>      (pcbDrawingTextDisplay Default_Attrs</B>
+<B>         (unscaledTransform (origin ...))</B>
+<B>         (stringExtent 10 1))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingTextDrawingAttributeOverride">pcbDrawingTextDrawingAttributeOverride</A></H1>
+<PRE>
+<I>pcbDrawingTextDrawingAttributeOverride ::= '(' 
+&#09;'pcbDrawingTextDrawingAttributeOverride'</I>
+&#09;<I><A HREF="RMRF0031.HTM#pcbDrawingAttributeDefaultNameRef">pcbDrawingAttributeDefaultNameRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0002.HTM#color">color</A>&gt; | &lt;<A HREF="RMRF0008.HTM#fontRef">fontRef</A>&gt; | &lt;<A HREF="RMRF0010.HTM#horizontalJustification">horizontalJustification</A>&gt; | &lt;<A HREF="RMRF0036.HTM#pcbGapWidth">pcbGapWidth</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0038.HTM#pcbLineSpacing">pcbLineSpacing</A>&gt; | &lt;<A HREF="RMRF0051.HTM#pcbRightReadable">pcbRightReadable</A>&gt; | &lt;<A HREF="RMRF0052.HTM#pcbSpaceWidth">pcbSpaceWidth</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0052.HTM#pcbStrokeWidth">pcbStrokeWidth</A>&gt; | &lt;<A HREF="RMRF0063.HTM#textHeight">textHeight</A>&gt; | &lt;<A HREF="RMRF0065.HTM#verticalJustification">verticalJustification</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDimensionDrawingAttributeOverride">pcbDimensionDrawingAttributeOverride</A> <A HREF="RMRF0032.HTM#pcbDrawingFigureDrawingAttributeOverride">pcbDrawingFigureDrawingAttributeOverride</A> <A HREF="RMRF0033.HTM#pcbDrawingText">pcbDrawingText</A> <A HREF="RMRF0053.HTM#pcbTextAttributeOverride">pcbTextAttributeOverride</A> 
+</I>
+<H3>Description:</H3>
+<P>Overrides the default attributes of drawing text.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingTextDisplay</B>
+<B>   (pcbDrawingTextDrawingAttributeOverride TA1</B>
+<B>      (textHeight 15)) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingTextEnclosureClearance">pcbDrawingTextEnclosureClearance</A></H1>
+<PRE>
+<I>pcbDrawingTextEnclosureClearance ::= '(' 'pcbDrawingTextEnclosureClearance'</I>
+&#09;<I><A HREF="RMRF0016.HTM#nonNegativeDistanceValue">nonNegativeDistanceValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0032.HTM#pcbDrawingHeader">pcbDrawingHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingText">pcbDrawingText</A> <A HREF="RMRF0053.HTM#pcbTextEnclosure">pcbTextEnclosure</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the clearance between the dimensioning text (dimension value with the tolerancing text, if appropriate) and the lines of its enclosure; see <I><A HREF="RMRF0053.HTM#pcbTextEnclosure">pcbTextEnclosure</A></I>. The default value is zero.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingHeader</B>
+<B>   (pcbDrawingUnits ...)</B>
+<B>   (pcbDimensionDistanceUnit (unitRef mm))</B>
+<B>   (pcbDrawingScaleFactor ...)</B>
+<B>   (pcbDrawingDimensioningStandard ...)</B>
+<B>   (pcbDrawingTextEnclosureClearance 2) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingTextString">pcbDrawingTextString</A></H1>
+<PRE>
+<I>pcbDrawingTextString ::= <A HREF="RMRF0063.HTM#stringToken">stringToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrawingText">pcbDrawingText</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A> <A HREF="RMRF0062.HTM#string">string</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a text string on a drawing.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingText "IF IN DOUBT ASK" ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingTitleBlock">pcbDrawingTitleBlock</A></H1>
+<PRE>
+<I>pcbDrawingTitleBlock ::= '(' 'pcbDrawingTitleBlock'</I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplateRef">pcbDrawingTitleBlockTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0065.HTM#unscaledTransform">unscaledTransform</A></I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlockAttributes">pcbDrawingTitleBlockAttributes</A></I>
+&#09;<I>{ <A HREF="RMRF0056.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0030.HTM#pcbDrawing">pcbDrawing</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlockAttributeDisplay">pcbDrawingTitleBlockAttributeDisplay</A> <A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A> 
+</I>
+<H3>Description:</H3>
+<P>Positions the referenced title block template onto the drawing. The title block template specifies the drawing's title information.
+<H3>Example:</H3>
+<P><CENTER><IMG SRC="FIG0002.GIF">
+</CENTER>
+<PRE>
+<B>(library TEMPLATES</B>
+<B>   ...</B>
+<B>   (pcbDrawingBorderTemplate DBTEMP1 ...)</B>
+<B>   (pcbDrawingTitleBlockTemplate TBTEMP5</B>
+<B>      (pcbDrawingTemplateHeader ...)</B>
+<B>      (pcbDrawingTitleBlockAttributes</B>
+<B>         (companyName "ACME Inc, Ewehorn, USA")</B>
+<B>         (drawingReferenceToStandard "BS308"))</B>
+<B>      (pcbDrawingFigure DWGATTR_01</B>
+<B>         (geometryElementSet</B>
+<B>            (unfilledRectangle ...)</B>
+<B>            (path ...) ...))</B>
+<B>      (pcbDrawingText "Drg No:"</B>
+<B>         (pcbDrawingTextDisplay ...))</B>
+<B>      (pcbDrawingText "Drg Iss:"</B>
+<B>         (pcbDrawingTextDisplay ...))</B>
+<B>      ...</B>
+<B>      (pcbDrawingTitleBlockAttributeDisplay</B>
+<B>         (companyNameDrawing</B>
+<B>            (pcbDrawingTextDisplay ...))</B>
+<B>         (drawingDescriptionDrawing</B>
+<B>            (pcbDrawingTextDisplay ...))</B>
+<B>         (drawingIdentificationDrawing</B>
+<B>            (pcbDrawingTextDisplay ...)) ...)</B>
+<B>      (pcbPropertyDrawing DRAWN_BY</B>
+<B>         (pcbPropertyValueDrawing</B>
+<B>            (pcbDrawingTextDisplay ...)))</B>
+<B>      (pcbPropertyDrawing CHKD_BY</B>
+<B>         (pcbPropertyValueDrawing</B>
+<B>            (pcbDrawingTextDisplay ...)))))</B>
+<B>...</B>
+<B>(pcbDrawing DRAWING_1</B>
+<B>   (pcbDrawingHeader</B>
+<B>      ...</B>
+<B>      (pageSize (rectangle (pt 0 0) (pt 420000 297000)))</B>
+<B>      (pcbDrawingBorder ...))</B>
+<B>   (pcbDrawingTitleBlock</B>
+<B>      (pcbDrawingTitleBlockTemplateRef TBTEMP5 </B>
+<B>         (libraryRef TEMPLATES))</B>
+<B>      (unscaledTransform (origin (pt 10000 10000)))</B>
+<B>      (pcbDrawingTitleBlockAttributes</B>
+<B>         (drawingDescription "ACME Ezee-PC Mother Board")</B>
+<B>         (drawingIdentification "752/02/28734") ...)</B>
+<B>      (propertyOverride DRAWN_BY (string "MRC"))</B>
+<B>      (propertyOverride CHKD_BY (string "HJK"))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingTitleBlockAttributeDisplay">pcbDrawingTitleBlockAttributeDisplay</A></H1>
+<PRE>
+<I>pcbDrawingTitleBlockAttributeDisplay ::= '(' 'pcbDrawingTitleBlockAttributeDisplay'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0003.HTM#companyNameDrawing">companyNameDrawing</A>&gt; | &lt;<A HREF="RMRF0004.HTM#copyrightDrawing">copyrightDrawing</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0006.HTM#drawingDateDrawing">drawingDateDrawing</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingDescriptionDrawing">drawingDescriptionDrawing</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0006.HTM#drawingFirstUsedDateDrawing">drawingFirstUsedDateDrawing</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingGeneralTolerancesDrawing">drawingGeneralTolerancesDrawing</A>&gt; 
+&#09;| &lt;<A HREF="RMRF0006.HTM#drawingIdentificationDrawing">drawingIdentificationDrawing</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingIssueInformationDrawing">drawingIssueInformationDrawing</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0006.HTM#drawingNumberOfSheetsDrawing">drawingNumberOfSheetsDrawing</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0006.HTM#drawingReferenceToStandardDrawing">drawingReferenceToStandardDrawing</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingSizeDrawing">drawingSizeDrawing</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0006.HTM#drawingUnitsDrawing">drawingUnitsDrawing</A>&gt; | &lt;<A HREF="RMRF0018.HTM#pageIdentificationDrawing">pageIdentificationDrawing</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0028.HTM#pcbDimensionDistanceUnitDrawing">pcbDimensionDistanceUnitDrawing</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0033.HTM#pcbDrawingScaleFactorDrawing">pcbDrawingScaleFactorDrawing</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0033.HTM#pcbDrawingTitleBlock">pcbDrawingTitleBlock</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines title-block display slots for attributes of the drawing. Each display slot specifies the display position of the attribute's text string.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingTitleBlockTemplate Std_Title</B>
+<B>   (pcbDrawingTemplateHeader ...)</B>
+<B>   (pcbDrawingTitleBlockAttributeDisplay</B>
+<B>      (companyNameDrawing</B>
+<B>         (pcbDrawingTextDisplay Default_Attrs</B>
+<B>            (unscaledTransform (origin (pt 500 50)))</B>
+<B>            (stringExtent 30 3)))</B>
+<B>      (copyrightDrawing</B>
+<B>         (pcbDrawingTextDisplay ...)) ...) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingTitleBlockAttributes">pcbDrawingTitleBlockAttributes</A></H1>
+<PRE>
+<I>pcbDrawingTitleBlockAttributes ::= '(' 'pcbDrawingTitleBlockAttributes'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0002.HTM#companyName">companyName</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingDate">drawingDate</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingDescription">drawingDescription</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0006.HTM#drawingFirstUsedDate">drawingFirstUsedDate</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingGeneralTolerances">drawingGeneralTolerances</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0006.HTM#drawingIdentification">drawingIdentification</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingIssueInformation">drawingIssueInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0006.HTM#drawingNumberOfSheets">drawingNumberOfSheets</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingReferenceToStandard">drawingReferenceToStandard</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0018.HTM#pageIdentification">pageIdentification</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrawingTitleBlock">pcbDrawingTitleBlock</A>  &lt;<A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines various title-block attributes. They can be displayed by using <I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlockAttributeDisplay">pcbDrawingTitleBlockAttributeDisplay</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingTitleBlockTemplate Std_Title</B>
+<B>   (pcbDrawingTemplateHeader ...)</B>
+<B>   (pcbDrawingTitleBlockAttributes</B>
+<B>      (companyName "EDIF Inc.")</B>
+<B>      (drawingDate "11/12/95") ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A></H1>
+<PRE>
+<I>pcbDrawingTitleBlockTemplate ::= '(' 'pcbDrawingTitleBlockTemplate'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrawingTemplateHeader">pcbDrawingTemplateHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0031.HTM#pcbDrawingComplexFigure">pcbDrawingComplexFigure</A> | <A HREF="RMRF0032.HTM#pcbDrawingFigure">pcbDrawingFigure</A> | <A HREF="RMRF0033.HTM#pcbDrawingText">pcbDrawingText</A> | 
+&#09;&lt;<A HREF="RMRF0033.HTM#pcbDrawingTitleBlockAttributeDisplay">pcbDrawingTitleBlockAttributeDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0033.HTM#pcbDrawingTitleBlockAttributes">pcbDrawingTitleBlockAttributes</A>&gt; | <A HREF="RMRF0051.HTM#pcbPropertyDrawing">pcbPropertyDrawing</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlock">pcbDrawingTitleBlock</A> <A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplateRef">pcbDrawingTitleBlockTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a template for the graphics associated with the title block of a drawing.
+<P>See <I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlock">pcbDrawingTitleBlock</A></I> for an example.
+<P><HR>
+<H1><A NAME="pcbDrawingTitleBlockTemplateRef">pcbDrawingTitleBlockTemplateRef</A></H1>
+<PRE>
+<I>pcbDrawingTitleBlockTemplateRef ::= '(' 'pcbDrawingTitleBlockTemplateRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrawingTitleBlock">pcbDrawingTitleBlock</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A> 
+</I>
+<H3>Description:</H3>
+<P>References a title block template. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingTitleBlock</B>
+<B>   (pcbDrawingTitleBlockTemplateRef TITLE1)</B>
+<B>   (unscaledTransform (origin (pt 10 70)))</B>
+<B>   (pcbDrawingTitleBlockAttributes ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingUnits">pcbDrawingUnits</A></H1>
+<PRE>
+<I>pcbDrawingUnits ::= '(' 'pcbDrawingUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0061.HTM#setAngle">setAngle</A>&gt; | &lt;<A HREF="RMRF0061.HTM#setDistance">setDistance</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0030.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  !<A HREF="RMRF0032.HTM#pcbDrawingFillPattern">pcbDrawingFillPattern</A>  !<A HREF="RMRF0032.HTM#pcbDrawingHeader">pcbDrawingHeader</A>  !<A HREF="RMRF0032.HTM#pcbDrawingLineStyle">pcbDrawingLineStyle</A>  !<A HREF="RMRF0033.HTM#pcbDrawingTemplateHeader">pcbDrawingTemplateHeader</A>  &lt;<A HREF="RMRF0054.HTM#physicalScaling">physicalScaling</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0006.HTM#drawingUnitsDrawing">drawingUnitsDrawing</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>If any pcb drawings are present, then <I><A HREF="RMRF0033.HTM#pcbDrawingUnits">pcbDrawingUnits</A></I> must appear in <I><A HREF="RMRF0054.HTM#physicalScaling">physicalScaling</A></I> with <I><A HREF="RMRF0061.HTM#setDistance">setDistance</A></I> and <I><A HREF="RMRF0061.HTM#setAngle">setAngle</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0030.HTM#pcbDrawing">pcbDrawing</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Specifies the drawing units. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingTitleBlockTemplate Std_Title</B>
+<B>   (pcbDrawingTemplateHeader</B>
+<B>      (pcbDrawingUnits</B>
+<B>         (setDistance (unitRef mm))</B>
+<B>         (setAngle (unitRef degree)))) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRule">pcbDrillRule</A></H1>
+<PRE>
+<I>pcbDrillRule ::= '(' 'pcbDrillRule'</I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrillRuleNameDef">pcbDrillRuleNameDef</A></I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrillRuleHeader">pcbDrillRuleHeader</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbDrillRuleType">pcbDrillRuleType</A></I>
+&#09;<I>( <A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I>( <A HREF="RMRF0033.HTM#pcbDrillRuleHoleSize">pcbDrillRuleHoleSize</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0021.HTM#pcbBareBoardTechnology">pcbBareBoardTechnology</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A> <A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A> <A HREF="RMRF0033.HTM#pcbDrillRuleNameCaseSensitive">pcbDrillRuleNameCaseSensitive</A> <A HREF="RMRF0034.HTM#pcbDrillRuleNameDrawing">pcbDrillRuleNameDrawing</A> <A HREF="RMRF0034.HTM#pcbDrillRuleNameRef">pcbDrillRuleNameRef</A> <A HREF="RMRF0034.HTM#pcbDrillRulePlatingMaterial">pcbDrillRulePlatingMaterial</A> <A HREF="RMRF0034.HTM#pcbDrillRulePlatingThickness">pcbDrillRulePlatingThickness</A> <A HREF="RMRF0034.HTM#pcbDrillRuleRef">pcbDrillRuleRef</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSymbolRef">pcbDrillRuleSymbolRef</A> <A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A> <A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A> <A HREF="RMRF0043.HTM#pcbNonPlatedDrillRule">pcbNonPlatedDrillRule</A> <A HREF="RMRF0050.HTM#pcbPlatedDrillRule">pcbPlatedDrillRule</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a drill-hole rule. Holes can reference this rule to indicate that they conform to (i.e. use) the rules specified here.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRule DR1</B>
+<B>   (pcbDrillRuleHeader)</B>
+<B>   (pcbPlatedDrillRule</B>
+<B>      (pcbDrillRulePlatingMaterial</B>
+<B>         (pcbMaterialRef MAT1))</B>
+<B>      (pcbDrillRulePlatingThickness</B>
+<B>         (mnm 6756 7112 7468)))</B>
+<B>   (pcbDrillRuleLayers</B>
+<B>      (pcbDrillRuleFromLayer </B>
+<B>         (pcbPhysicalLayerRef LAYER1))</B>
+<B>      (pcbDrillRuleToLayer </B>
+<B>         (pcbPhysicalLayerRef LAYER2)))</B>
+<B>   (pcbDrillRuleHoleSize (mnm 67564 71120 74676)))</B>
+</PRE>
+<P>This example defines the rules for DR1 plated-through drill holes.
+<P><HR>
+<H1><A NAME="pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></H1>
+<PRE>
+<I>pcbDrillRuleFromLayer ::= '(' 'pcbDrillRuleFromLayer'</I>
+&#09;<I>{ <A HREF="RMRF0049.HTM#pcbPhysicalLayerRef">pcbPhysicalLayerRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A>  !<A HREF="RMRF0043.HTM#pcbNonConformantHole">pcbNonConformantHole</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A> <A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>If more than one layer is referenced within a <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I> or a <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> in <I><A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A></I>, all the layers must be from the same co-planar layer group.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>References the layer(s) from which a drill hole must start. The layer(s) must be closer to the top of the board than any layer(s) defined in <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I> or <I><A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A></I>.
+<P>If more than one layer is referenced, all layers referenced must be in the same coplanar layer group.
+<P>A hole that conforms to the enclosing drill rule must pass through one of the layers referenced in the <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I> construct.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRuleLayers</B>
+<B>   (pcbDrillRuleFromLayer </B>
+<B>      (pcbPhysicalLayerRef LAYER1))</B>
+<B>   (pcbDrillRuleToLayer </B>
+<B>      (pcbPhysicalLayerRef LAYER2)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleHeader">pcbDrillRuleHeader</A></H1>
+<PRE>
+<I>pcbDrillRuleHeader ::= '(' 'pcbDrillRuleHeader'</I>
+&#09;<I>{ <A HREF="RMRF0006.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A> <A HREF="RMRF0034.HTM#pcbDrillRuleRef">pcbDrillRuleRef</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A> <A HREF="RMRF0034.HTM#pcbDrillRuleType">pcbDrillRuleType</A> <A HREF="RMRF0050.HTM#pcbPlatedDrillRule">pcbPlatedDrillRule</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleHeader">pcbTechnologyRuleHeader</A> 
+</I>
+<H3>Description:</H3>
+<P>Gathers together data relating to the drill rule as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRuleHeader</B>
+<B>   (nameInformation ...)</B>
+<B>   (documentation reason ...</B>
+<B>      (section ... "Requiring modification")))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleHoleSize">pcbDrillRuleHoleSize</A></H1>
+<PRE>
+<I>pcbDrillRuleHoleSize ::= '(' 'pcbDrillRuleHoleSize'</I>
+&#09;<I><A HREF="RMRF0064.HTM#tolerancedDistanceValue">tolerancedDistanceValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the minimum, nominal and maximum allowed size of any hole that conforms to (i.e. uses) the enclosing drill rule.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRuleHoleSize (mnm 67564 71120 74676))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleLayers">pcbDrillRuleLayers</A></H1>
+<PRE>
+<I>pcbDrillRuleLayers ::= '(' 'pcbDrillRuleLayers'</I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRuleHeader">pcbDrillRuleHeader</A> <A HREF="RMRF0034.HTM#pcbDrillRuleRef">pcbDrillRuleRef</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A> <A HREF="RMRF0034.HTM#pcbDrillRuleType">pcbDrillRuleType</A> <A HREF="RMRF0050.HTM#pcbPlatedDrillRule">pcbPlatedDrillRule</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>In the context of <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A></I>, a layer referenced within a <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> must not be coplanar, directly or indirectly, with a layer in a different <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> or with any layer defined in the <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I> or <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>.
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>If more than one layer is referenced within a <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I> or a <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> in <I><A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A></I>, all the layers must be from the same co-planar layer group.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>)
+<BR><BR><DT>3. The following constraint applies to this context:  All contexts  
+<DD>Each layer referenced in <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I> and <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> must be closer to the top of the board than any of the layers referenced in each subsequent <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> or <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>.
+<BR><BR><DT>4. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>References the layer(s) that a drilled hole conforming to the enclosing drill rule must start from, go to and pass through.
+<P>When a <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I> references more than one layer, the drilled hole may start from any of the layers referenced in that construct. Similarly, if a <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I> references more than one layer, the drilled hole may go to any of the layers referenced in that construct. Also, if a <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> within the <I><A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A></I> references more than one layer, the drilled hole may go through any of the layers referenced in that construct.
+<P>A layer referenced in <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I> must not be coplanar with any layer referenced in <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I> nor with any other layer referenced in <I><A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRuleLayers</B>
+<B>   (pcbDrillRuleFromLayer </B>
+<B>      (pcbPhysicalLayerRef LAYER1))</B>
+<B>   (pcbDrillRuleToLayer </B>
+<B>      (pcbPhysicalLayerRef LAYER2)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></H1>
+<PRE>
+<I>pcbDrillRuleLayerSet ::= '(' 'pcbDrillRuleLayerSet'</I>
+&#09;<I>{ <A HREF="RMRF0049.HTM#pcbPhysicalLayerRef">pcbPhysicalLayerRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A> <A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  When present within <I><A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A>
+</I>
+<DD>If more than one layer is referenced within a <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I> or a <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> in <I><A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A></I>, all the layers must be from the same co-planar layer group.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>References a set of layers. All layers referenced must be in the same coplanar layer group.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRuleThroughLayerList</B>
+<B>   (pcbDrillRuleLayerSet </B>
+<B>      (pcbPhysicalLayerRef LAYER2A))</B>
+<B>   (pcbDrillRuleLayerSet </B>
+<B>      (pcbPhysicalLayerRef LAYER3A)</B>
+<B>      (pcbPhysicalLayerRef LAYER3B)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleNameCaseSensitive">pcbDrillRuleNameCaseSensitive</A></H1>
+<PRE>
+<I>pcbDrillRuleNameCaseSensitive ::= '(' 'pcbDrillRuleNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleNameCaseSensitive">pcbTechnologyRuleNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for items with a <I><A HREF="RMRF0033.HTM#pcbDrillRuleNameDef">pcbDrillRuleNameDef</A></I> are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example. 
+<P><HR>
+<H1><A NAME="pcbDrillRuleNameDef">pcbDrillRuleNameDef</A></H1>
+<PRE>
+<I>pcbDrillRuleNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbDrillRuleNameDrawing">pcbDrillRuleNameDrawing</A> <A HREF="RMRF0034.HTM#pcbDrillRuleNameRef">pcbDrillRuleNameRef</A> <A HREF="RMRF0051.HTM#pcbRuleNameDef">pcbRuleNameDef</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleNameDef">pcbTechnologyRuleNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of a drill rule.
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

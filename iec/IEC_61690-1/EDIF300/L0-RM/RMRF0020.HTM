@@ -1,0 +1,640 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="signalNameRef">signalNameRef</A></H1>
+<PRE>
+<I>signalNameRef ::= <A HREF="RMRF0012.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#extendSignalDef">extendSignalDef</A>  <A HREF="RMRF0020.HTM#signalRef">signalRef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#signalNameRef">SignalNameRef</A></I> is used to reference previously-defined <I><A HREF="RMRF0019.HTM#signal">signals</A></I>. It is a reference to a <I><A HREF="RMRF0019.HTM#signalNameDef">signalNameDef</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0019.HTM#signalNameDef">signalNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="signalRef">signalRef</A></H1>
+<PRE>
+<I>signalRef ::= '(' 'signalRef'</I>
+&#09;<I><A HREF="RMRF0020.HTM#signalNameRef">signalNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#connectivityNet">connectivityNet</A>  <A HREF="RMRF0017.HTM#schematicNet">schematicNet</A>  <A HREF="RMRF0019.HTM#signalList">signalList</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#signalRef">SignalRef</A></I> is used to reference a <I><A HREF="RMRF0019.HTM#signal">signal</A></I> or <I><A HREF="RMRF0019.HTM#signalGroup">signalGroup</A></I>. For example, it is used by <I><A HREF="RMRF0017.HTM#schematicNet">schematicNet</A></I> to establish a relationship between the <I><A HREF="RMRF0017.HTM#schematicNet">schematicNet</A></I> and a <I><A HREF="RMRF0019.HTM#signal">signal</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(signalRef SIG1)</B>
+</PRE>
+<P>This example represents a reference to a <I><A HREF="RMRF0019.HTM#signal">signal</A></I> named <B>SIG1</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#interconnectRef">interconnectRef</A>  <A HREF="RMRF0019.HTM#signalGroupRef">signalGroupRef</A>
+</I>
+<P><HR>
+<H1><A NAME="simpleName">simpleName</A></H1>
+<PRE>
+<I>simpleName ::= <A HREF="RMRF0020.HTM#stringToken">stringToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#complementedName">complementedName</A>  <A HREF="RMRF0002.HTM#complementedNamePart">complementedNamePart</A>  <A HREF="RMRF0002.HTM#complexName">complexName</A>  <A HREF="RMRF0012.HTM#nameDimensionStructure">nameDimensionStructure</A>  <A HREF="RMRF0012.HTM#nameStructure">nameStructure</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#simpleName">SimpleName</A></I> is used to specify a name which contains no special characters or structure as defined in the original system.
+<H3>Example:</H3>
+<PRE>
+<B>(nameInformation</B>
+<B>   (primaryName "enable"</B>
+<B>      (nameStructure "enable" )))</B>
+</PRE>
+<P>Here the name <B>enable</B> in <I><A HREF="RMRF0012.HTM#nameStructure">nameStructure</A></I>, as specified, contains no special characters or structure.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0002.HTM#complementedName">complementedName</A>  <A HREF="RMRF0002.HTM#complexName">complexName</A>  
+</I>
+<P><HR>
+<H1><A NAME="specialCharacter">specialCharacter</A></H1>
+<PRE>
+<B>'!' | '#' | '$' | '&amp;' | ''' | '(' | ')' | '*'</B>
+<B>| '+'| ',' | '-' | '.' | '/' | ':' | ';' |</B>
+<B>'&lt;' | '=' | '&gt;' | '?' | '@' | '[' | '\' | ']'</B>
+<B>| '^' | '_' | '`' | '{' | '|' | '}' | '~' </B>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#stringToken">stringToken</A> 
+</I>
+<H3>Description:</H3>
+<P>These are the punctuation characters that are legal within string tokens.
+<P>The quote and percent characters are explicitly excluded from this list, as they have special significance within <I><A HREF="RMRF0020.HTM#stringToken">stringTokens</A>. </I>If required, such characters must be expressed with an <I><A HREF="RMRF0005.HTM#encodedCharacter">encodedCharacter</A> </I>escape sequence.
+<H3>Example:</H3>
+<PRE>
+<B>"!#$&amp;'()*+,-./:;&lt;=&gt;?@[\]}^_`|~"</B>
+<B>"%37%"</B>
+<B>"%34%"</B>
+</PRE>
+<P>The last two strings represent strings each with a single character, % (percent) in the first and " (quote) in the second.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#alpha">alpha</A>  <A HREF="RMRF0005.HTM#encodedCharacter">encodedCharacter</A>  <A HREF="RMRF0004.HTM#digit">digit</A>
+</I>
+<P><HR>
+<H1><A NAME="startPoint">startPoint</A></H1>
+<PRE>
+<I>startPoint ::= <A HREF="RMRF0014.HTM#pointValue">pointValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#arc">arc</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#startPoint">StartPoint</A></I> is the start point of an <I><A HREF="RMRF0000.HTM#arc">arc</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#throughPoint">throughPoint</A>  <A HREF="RMRF0005.HTM#endPoint">endPoint</A>
+</I>
+<P><HR>
+<H1><A NAME="status">status</A></H1>
+<PRE>
+<I>status ::= '(' 'status'</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0003.HTM#copyright">copyright</A> | <A HREF="RMRF0021.HTM#userData">userData</A> | <A HREF="RMRF0022.HTM#written">written</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cellHeader">cellHeader</A>  <A HREF="RMRF0001.HTM#clusterHeader">clusterHeader</A>  <A HREF="RMRF0002.HTM#connectivityViewHeader">connectivityViewHeader</A>  <A HREF="RMRF0004.HTM#designHeader">designHeader</A>  <A HREF="RMRF0004.HTM#documentationHeader">documentationHeader</A>  <A HREF="RMRF0005.HTM#edifHeader">edifHeader</A>  <A HREF="RMRF0006.HTM#geometryMacroHeader">geometryMacroHeader</A>  <A HREF="RMRF0010.HTM#libraryHeader">libraryHeader</A>  <A HREF="RMRF0013.HTM#pageHeader">pageHeader</A>  <A HREF="RMRF0018.HTM#schematicSymbolHeader">schematicSymbolHeader</A>  <A HREF="RMRF0018.HTM#schematicTemplateHeader">schematicTemplateHeader</A>  <A HREF="RMRF0019.HTM#schematicViewHeader">schematicViewHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#status">Status</A> </I>may appear in a variety of EDIF sections. Its primary purpose is to convey accounting and problem analysis information for the design. <I><A HREF="RMRF0020.HTM#status">Status</A> </I>provides the information needed to trace back to the source of each piece of data, the human author or organization which owns the data, the program name, and the software revision used for creation of specific parts of the EDIF data. 
+<P><I><A HREF="RMRF0020.HTM#status">Status</A> </I>applies to the immediately-enclosing form unless overridden by a lower-level <I><A HREF="RMRF0020.HTM#status">status</A> </I>in an enclosed named form. For example, a status within a given library applies to the whole of that library unless a cell within the library has a status, in which case the cell's status applies to that cell. Also, for example, if any <I><A HREF="RMRF0001.HTM#cell">cell</A> </I>in a <I><A HREF="RMRF0010.HTM#library">library</A> </I>is modified, then that <I><A HREF="RMRF0010.HTM#library">library</A> </I>should be considered to have changed. 
+<P>Several <I><A HREF="RMRF0022.HTM#written">written</A> </I>statements may be used to record a history of modifications. 
+<H3>Example:</H3>
+<PRE>
+<B>(library L1</B>
+<B>   (libraryHeader</B>
+<B>      (edifLevel 0)</B>
+<B>      (nameCaseSensitivity)</B>
+<B>      (technology  ...)</B>
+<B>      (status</B>
+<B>         (written</B>
+<B>            (timeStamp (date 1987 6 1) </B>
+<B>               (time 12 0 0))</B>
+<B>            (program "EDIF_$Schem_out"))))</B>
+<B>   (cell C1 </B>
+<B>      (cellHeader</B>
+<B>         (status</B>
+<B>            (written</B>
+<B>               (timeStamp (date 1987 5 11) </B>
+<B>                  (time 3 12 0))</B>
+<B>               (program </B>
+<B>                  "EDIF_$IncrementalSchem_out"))))</B>
+<B>      ...))</B>
+</PRE>
+<P>In the above example, the information contained within the library <B>L1 </B>was last modified on <B>June 1, 1987, </B>at <B>12:00:00 UTC </B>using the program <B>EDIF_$Schem_out. </B>The cell <B>C1 </B>within the library <B>L1 </B>was produced or modified on <B>May 11, 1987, </B>at <B>3:12:00 UTC, </B>using the program <B>EDIF_$IncrementalSchem_out. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#author">author</A>  <A HREF="RMRF0003.HTM#dataOrigin">dataOrigin</A>  <A HREF="RMRF0015.HTM#program">program</A>  <A HREF="RMRF0020.HTM#timeStamp">timeStamp</A>  <A HREF="RMRF0021.HTM#version">version</A>
+</I>
+<P><HR>
+<H1><A NAME="step">step</A></H1>
+<PRE>
+<I>step ::= '(' 'step'</I>
+&#09;<I><A HREF="RMRF0008.HTM#integerValue">integerValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#sequence">sequence</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#step">Step</A></I> specifies the absolute difference between each adjacent integer in an ordered list. <I><A HREF="RMRF0020.HTM#step">Step</A></I> must not be zero. The default value for <I><A HREF="RMRF0020.HTM#step">step</A></I> is one.
+<H3>Example:</H3>
+<PRE>
+<B>(sequence 7 1 (step 2))</B>
+</PRE>
+<P>Here, the sequence starts at 7 and ends at 1, counting down by 2, the value specified by <I><A HREF="RMRF0020.HTM#step">step</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0006.HTM#fromInteger">fromInteger</A>  <A HREF="RMRF0020.HTM#toInteger">toInteger</A>  
+</I>
+<P><HR>
+<H1><A NAME="string">string</A></H1>
+<PRE>
+<I>string ::= '(' 'string'</I>
+&#09;<I><A HREF="RMRF0020.HTM#stringValue">stringValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#typedValue">typedValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#string">String</A> </I>provides a string value.
+<H3>Example:</H3>
+<PRE>
+<B>(property sigName (string "VDD"))</B>
+</PRE>
+<P>In this example, property <B>sigName </B>is of type <I><A HREF="RMRF0020.HTM#string">string</A> </I>and is given a value of <B>"VDD"</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#boolean">boolean</A>  <A HREF="RMRF0008.HTM#integer">integer</A>  <A HREF="RMRF0011.HTM#miNoMax">miNoMax</A>  <A HREF="RMRF0012.HTM#number">number</A>  <A HREF="RMRF0014.HTM#point">point</A> 
+</I>
+<P><HR>
+<H1><A NAME="stringToken">stringToken</A></H1>
+<PRE>
+<B>'"'</B>
+<B>{ <A HREF="RMRF0000.HTM#alpha">alpha</A> | <A HREF="RMRF0005.HTM#encodedCharacter">encodedCharacter</A> | <A HREF="RMRF0004.HTM#digit">digit</A> | <A HREF="RMRF0020.HTM#specialCharacter">specialCharacter</A> | <A HREF="RMRF0022.HTM#whiteSpace">whiteSpace</A> }</B>
+<B>'"'</B>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#author">author</A>  <A HREF="RMRF0002.HTM#comment">comment</A>  <A HREF="RMRF0002.HTM#companyName">companyName</A>  <A HREF="RMRF0002.HTM#contract">contract</A>  <A HREF="RMRF0003.HTM#copyright">copyright</A>  <A HREF="RMRF0003.HTM#dataOrigin">dataOrigin</A>  <A HREF="RMRF0004.HTM#displayName">displayName</A>  <A HREF="RMRF0004.HTM#displayNameOverride">displayNameOverride</A>  <A HREF="RMRF0004.HTM#drawingDescription">drawingDescription</A>  <A HREF="RMRF0004.HTM#drawingIdentification">drawingIdentification</A>  <A HREF="RMRF0004.HTM#drawingSize">drawingSize</A>  <A HREF="RMRF0006.HTM#fontFamily">fontFamily</A>  <A HREF="RMRF0007.HTM#ieeeDesignation">ieeeDesignation</A>  <A HREF="RMRF0009.HTM#k2Literal">k2Literal</A>  <A HREF="RMRF0012.HTM#namePartSeparator">namePartSeparator</A>  <A HREF="RMRF0012.HTM#originalName">originalName</A>  <A HREF="RMRF0013.HTM#pageIdentification">pageIdentification</A>  <A HREF="RMRF0013.HTM#pageTitle">pageTitle</A>  <A HREF="RMRF0015.HTM#reason">reason</A>  <A HREF="RMRF0016.HTM#revision">revision</A>  <A HREF="RMRF0019.HTM#sectionTitle">sectionTitle</A>  <A HREF="RMRF0020.HTM#simpleName">simpleName</A>  <A HREF="RMRF0020.HTM#stringValue">stringValue</A>  <A HREF="RMRF0021.HTM#typefaceSuffix">typefaceSuffix</A>  <A HREF="RMRF0021.HTM#userData">userData</A>  
+</I>
+<H3>Description:</H3>
+<P>This is a basic token type and is described as a sequence of printable characters surrounded by quotation marks. This is normally recognized by a lexical scanner.
+<P>A space or tab character represents itself within string tokens; other white space characters (newline and carriage return) are ignored. The quote and percent characters cannot be specified directly, but may be represented using the <I><A HREF="RMRF0005.HTM#encodedCharacter">encodedCharacter</A> </I>notation.
+<P>There is no limit to the length of a <I><A HREF="RMRF0020.HTM#stringToken">stringToken</A>. 
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>"a string token"</B>
+<B>"quote% 34 %character"</B>
+<B>""</B>
+</PRE>
+<P>This example illustrates three string tokens. The first is typical, the second contains an embedded description of quote character, and the third is a null string.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#encodedCharacter">encodedCharacter</A>  <A HREF="RMRF0007.HTM#identifier">identifier</A>  <A HREF="RMRF0008.HTM#integerToken">integerToken</A>  <A HREF="RMRF0020.HTM#specialCharacter">specialCharacter</A>
+</I>
+<P><HR>
+<H1><A NAME="stringValue">stringValue</A></H1>
+<PRE>
+<I>stringValue ::= <A HREF="RMRF0020.HTM#stringToken">stringToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#annotate">annotate</A>  <A HREF="RMRF0003.HTM#designator">designator</A>  <A HREF="RMRF0013.HTM#owner">owner</A>  <A HREF="RMRF0015.HTM#program">program</A>  <A HREF="RMRF0019.HTM#section">section</A>  <A HREF="RMRF0020.HTM#string">string</A>  <A HREF="RMRF0021.HTM#version">version</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#stringValue">StringValue</A> </I>describes a primitive string value. In Level 0 the set includes only string tokens. 
+<H3>Example:</H3>
+<PRE>
+<B>"Hello world"</B>
+<B>"simulated by SPICE4 using the %34%CSIM%34% MOS model"</B>
+</PRE>
+<P>The second example is a string with the word <B>CSIM </B>embedded in quotes.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#encodedCharacter">encodedCharacter</A>  <A HREF="RMRF0008.HTM#integerValue">integerValue</A>  <A HREF="RMRF0012.HTM#numberValue">numberValue</A> 
+</I>
+<P><HR>
+<H1><A NAME="strong">strong</A></H1>
+<PRE>
+<I>strong ::= '(' 'strong'</I>
+&#09;<I><A HREF="RMRF0011.HTM#logicNameRef">logicNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0011.HTM#logicValue">logicValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#strong">Strong</A> </I>is an attribute of a logic value which is used to indicate that the current logic value is stronger than the referenced logic value. <I><A HREF="RMRF0020.HTM#strong">Strong</A> </I>also implies that the present logic value <I><A HREF="RMRF0004.HTM#dominates">dominates</A> </I>the referenced value.
+<H3>Example:</H3>
+<PRE>
+<B>(logicDefinitions ...</B>
+<B>   (logicValue F)</B>
+<B>   (logicValue T</B>
+<B>      (dominates F))</B>
+<B>   ...</B>
+<B>   (logicValue ST</B>
+<B>      (strong T)))</B>
+</PRE>
+<P>The above example states that the logic value <B>ST </B>is stronger than the logic value <B>T. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dominates">dominates</A>  <A HREF="RMRF0015.HTM#resolves">resolves</A>  <A HREF="RMRF0011.HTM#logicDefinitions">logicDefinitions</A>  <A HREF="RMRF0022.HTM#weak">weak</A>
+</I>
+<P><HR>
+<H1><A NAME="subIssue">subIssue</A></H1>
+<PRE>
+<I>subIssue ::= <A HREF="RMRF0008.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#edifVersion">edifVersion</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#subIssue">SubIssue</A></I> is the third value in the definition of <I><A HREF="RMRF0005.HTM#edifVersion">edifVersion</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0011.HTM#mark">mark</A>  <A HREF="RMRF0009.HTM#issue">issue</A>
+</I>
+<P><HR>
+<H1><A NAME="symbolicLayoutUnits">symbolicLayoutUnits</A></H1>
+<PRE>
+<I>symbolicLayoutUnits ::= '(' 'symbolicLayoutUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0019.HTM#setAngle">setAngle</A>&gt; | &lt;<A HREF="RMRF0019.HTM#setCapacitance">setCapacitance</A>&gt; | &lt;<A HREF="RMRF0019.HTM#setDistance">setDistance</A>&gt; | &lt;<A HREF="RMRF0019.HTM#setTime">setTime</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#physicalScaling">physicalScaling</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#symbolicLayoutUnits">SymbolicLayoutUnits</A></I> defines the units for <I><A HREF="RMRF0020.HTM#symbolicLayoutView">symbolicLayoutView</A></I>. It may be specified as a default for the entire data in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, or for a library in <I><A HREF="RMRF0010.HTM#libraryHeader">libraryHeader</A></I>. Refer to <I><A HREF="RMRF0002.HTM#connectivityUnits">connectivityUnits</A></I> for a full example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0002.HTM#connectivityUnits">connectivityUnits</A> <A HREF="RMRF0004.HTM#documentationUnits">documentationUnits</A> <A HREF="RMRF0009.HTM#interfaceUnits">interfaceUnits</A> <A HREF="RMRF0011.HTM#logicModelUnits">logicModelUnits</A>  <A HREF="RMRF0011.HTM#maskLayoutUnits">maskLayoutUnits</A> <A HREF="RMRF0013.HTM#pcbLayoutUnits">pcbLayoutUnits</A> <A HREF="RMRF0018.HTM#schematicUnits">schematicUnits</A> 
+</I>
+<P><HR>
+<H1><A NAME="symbolicLayoutView">symbolicLayoutView</A></H1>
+<PRE>
+<I>symbolicLayoutView ::= '(' 'symbolicLayoutView'</I>
+&#09;<I><A HREF="RMRF0022.HTM#viewNameDef">viewNameDef</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0012.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0021.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#symbolicLayoutView">SymbolicLayoutView</A></I> is presented as a stub in this version of EDIF. It will be completed in a later version.
+
+<P><HR>
+<H1><A NAME="symbolPortImplementationNameDef">symbolPortImplementationNameDef</A></H1>
+<PRE>
+<I>symbolPortImplementationNameDef ::= <A HREF="RMRF0012.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0018.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A>  
+</I>
+<H3>Description:</H3>
+<P>Used to name <I><A HREF="RMRF0018.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementations</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#symbolPortImplementationNameRef">symbolPortImplementationNameRef</A>
+</I>
+<P><HR>
+<H1><A NAME="symbolPortImplementationNameRef">symbolPortImplementationNameRef</A></H1>
+<PRE>
+<I>symbolPortImplementationNameRef ::= <A HREF="RMRF0012.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0008.HTM#instancePortAttributeDisplay">instancePortAttributeDisplay</A>  <A HREF="RMRF0018.HTM#schematicSymbolPortImplementationRef">schematicSymbolPortImplementationRef</A>  
+</I>
+<H3>Description:</H3>
+<P>Used to reference a <I><A HREF="RMRF0018.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#symbolPortImplementationNameDef">symbolPortImplementationNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="technology">technology</A></H1>
+<PRE>
+<I>technology ::= '(' 'technology'</I>
+&#09;<I><A HREF="RMRF0014.HTM#physicalScaling">physicalScaling</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0005.HTM#figureGroup">figureGroup</A> | &lt;<A HREF="RMRF0011.HTM#logicDefinitions">logicDefinitions</A>&gt; | <A HREF="RMRF0021.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#libraryHeader">libraryHeader</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0020.HTM#technology">technology</A> </I>construct contains the information related to the intended implementation of the library. The description applies to every object of the library. The <I><A HREF="RMRF0020.HTM#technology">technology</A> </I>block is required for every library. It includes scaling information, definitions of the figure groups, and the default figure group attributes, and simulation information. <I><A HREF="RMRF0014.HTM#physicalScaling">PhysicalScaling</A> </I>is required to ensure that scaling information is defined before any values which may need to be scaled. 
+<H3>Example:</H3>
+<PRE>
+<B>(library LIB1</B>
+<B>   (libraryHeader (edifLevel 0)</B>
+<B>      (nameCaseSensitivity  ...)</B>
+<B>      (technology</B>
+<B>         (physicalScaling</B>
+<B>            (pcbLayoutUnits</B>
+<B>               (setDistance (unitRef micron))))</B>
+<B>         (figureGroup FG1  ...)</B>
+<B>         (figureGroup FG2   ...) ...))  ...)</B>
+</PRE>
+<P>In the above example, the <I><A HREF="RMRF0020.HTM#technology">technology</A> </I>block defines the scaling and figure group defaults for the library named <B>LIB1</B>. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#unitDefinitions">unitDefinitions</A>
+</I>
+<P><HR>
+<H1><A NAME="textHeight">textHeight</A></H1>
+<PRE>
+<I>textHeight ::= '(' 'textHeight'</I>
+&#09;<I><A HREF="RMRF0010.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#displayAttributes">displayAttributes</A>  <A HREF="RMRF0018.HTM#schematicRequiredDefaults">schematicRequiredDefaults</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#textHeight">TextHeight</A> </I>is used to express the height of text in a figure group. 
+<P><I><A HREF="RMRF0020.HTM#textHeight">TextHeight</A> </I>may be specified within <I><A HREF="RMRF0005.HTM#figureGroup">figureGroup</A> </I>in the technology block of a library. In this case, the text height is the default text height value to be used for text in the figure group. <I><A HREF="RMRF0020.HTM#textHeight">TextHeight</A> </I>may also be specified in the <I><A HREF="RMRF0006.HTM#figureGroupOverride">figureGroupOverride</A> </I>within a <I><A HREF="RMRF0004.HTM#display">display</A>. </I>In this case, the text height value is used to override the default text height value for a single display. 
+<H3>Example:</H3>
+<PRE>
+<B>(setDistance (unitRef mm))</B>
+<B>...</B>
+<B>(figureGroup TextDisplay</B>
+<B>   (displayAttributes (textHeight 8) ...) ...)</B>
+</PRE>
+<P>The first example in a <I><A HREF="RMRF0020.HTM#technology">technology</A> </I>construct defines a default text height of <B>8 mm. 
+</B><P>
+<PRE>
+<B>(display</B>
+<B>   (figureGroupOverride TextDisplay</B>
+<B>      (displayAttributes (textHeight 15))) </B>
+<B>   (transform ...))</B>
+</PRE>
+<P>The second example overrides the default text height with a value of <B>15 mm </B>for this display.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#display">display</A>   <A HREF="RMRF0006.HTM#fontRef">fontRef</A>  <A HREF="RMRF0007.HTM#horizontalJustification">horizontalJustification</A>  <A HREF="RMRF0019.HTM#setDistance">setDistance</A>  <A HREF="RMRF0021.HTM#verticalJustification">verticalJustification</A>
+</I>
+<P><HR>
+<H1><A NAME="throughPoint">throughPoint</A></H1>
+<PRE>
+<I>throughPoint ::= <A HREF="RMRF0012.HTM#numberPoint">numberPoint</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#arc">arc</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#throughPoint">ThroughPoint</A></I> is the a point on an arc between the start point and the end point. The coordinate may be specified using <I><A HREF="RMRF0016.HTM#scaledInteger">scaledInteger</A></I> for a more accurate specification than is possible using integers.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#startPoint">startPoint</A>  <A HREF="RMRF0005.HTM#endPoint">endPoint</A>
+</I>
+<P><HR>
+<H1><A NAME="time">time</A></H1>
+<PRE>
+<I>time ::= '(' 'time'</I>
+&#09;<I><A HREF="RMRF0007.HTM#hourNumber">hourNumber</A></I>
+&#09;<I><A HREF="RMRF0011.HTM#minuteNumber">minuteNumber</A></I>
+&#09;<I><A HREF="RMRF0019.HTM#secondNumber">secondNumber</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#timeStamp">timeStamp</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#time">Time</A></I> specifies the time in hours, minutes and seconds.
+<H3>Example:</H3>
+<PRE>
+<B>(time 14 33 0)</B>
+</PRE>
+<P>This represents a time of 14:33:00 hrs, or 2.33 p.m. in UTC.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0003.HTM#date">date</A>
+</I>
+<P><HR>
+<H1><A NAME="timeDelay">timeDelay</A></H1>
+<PRE>
+<I>timeDelay ::= <A HREF="RMRF0020.HTM#timeValue">timeValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0003.HTM#delay">delay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#timeDelay">TimeDelay</A></I> is the time delay in units set by <I><A HREF="RMRF0019.HTM#setTime">setTime</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#timeInterval">timeInterval</A>
+</I>
+<P><HR>
+<H1><A NAME="timeInterval">timeInterval</A></H1>
+<PRE>
+<I>timeInterval ::= '(' 'timeInterval'</I>
+&#09;<I>( <A HREF="RMRF0005.HTM#event">event</A> | <A HREF="RMRF0012.HTM#offsetEvent">offsetEvent</A> )</I>
+&#09;<I>( <A HREF="RMRF0005.HTM#event">event</A> | <A HREF="RMRF0012.HTM#offsetEvent">offsetEvent</A> | <A HREF="RMRF0004.HTM#duration">duration</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#forbiddenEvent">forbiddenEvent</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#timeInterval">TimeInterval</A></I> is used to describe an interval between two times. Times can be described by events or offset events. The first construct gives the beginning of the time interval. The second construct gives the end of the time interval, or its duration.
+<P>A <I><A HREF="RMRF0004.HTM#duration">duration</A></I> can be used instead of the second event to specify explicitly the length of the interval.
+<H3>Example:</H3>
+<PRE>
+<B>(timeInterval</B>
+<B>   (event (portRef A) (transition I O))</B>
+<B>   (duration 17))</B>
+</PRE>
+<P>In the first example, the time interval described is from the time when port <B>A</B> changes from <B>I</B> to <B>O</B>, to a time <B>17</B> time units after the event. Both the event time, and the point <B>17</B> time units after, are included in the window.
+<PRE>
+<B>(timeInterval</B>
+<B>   (event (portRef ENA) (transition H L))</B>
+<B>   (offsetEvent</B>
+<B>      (event (portRef P1) (becomes Z))</B>
+<B>      (e 14 -1)))</B>
+</PRE>
+<P>In the second example, the time interval is from the time when port <B>ENA</B> changes from <B>H</B> to <B>L</B>, to <B>1.4 </B>time units after the port <B>P1</B> next becomes <B>Z.
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#duration">duration</A>  <A HREF="RMRF0005.HTM#event">event</A>  <A HREF="RMRF0012.HTM#offsetEvent">offsetEvent</A>
+</I>
+<P><HR>
+<H1><A NAME="timeStamp">timeStamp</A></H1>
+<PRE>
+<I>timeStamp ::= '(' 'timeStamp'</I>
+&#09;<I><A HREF="RMRF0003.HTM#date">date</A></I>
+&#09;<I><A HREF="RMRF0020.HTM#time">time</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#written">written</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0020.HTM#timeStamp">timeStamp</A> </I>identifies the time in Universal Time Coordinated when the data was created or last modified. The year includes the century. If part of a file is created and then modified, a new <I><A HREF="RMRF0022.HTM#written">written</A> </I>with a new <I><A HREF="RMRF0020.HTM#timeStamp">timeStamp</A> </I>may be inserted to indicate this. <I><A HREF="RMRF0020.HTM#timeStamp">TimeStamp</A> </I>is required in <I><A HREF="RMRF0022.HTM#written">written</A>. 
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(status</B>
+<B>   (written</B>
+<B>      (timeStamp (date 1986 12 31) </B>
+<B>         (time 23 59 59))))</B>
+</PRE>
+<P>The above <I><A HREF="RMRF0020.HTM#status">status</A> </I>indicates that the associated data was created or modified on <B>December 31st 1986 </B>at <B>23:59:59 UTC. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#status">status</A>
+</I>
+<P><HR>
+<H1><A NAME="timeValue">timeValue</A></H1>
+<PRE>
+<I>timeValue ::= <A HREF="RMRF0011.HTM#miNoMaxValue">miNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#acLoadFactorTime">acLoadFactorTime</A>  <A HREF="RMRF0004.HTM#duration">duration</A>  <A HREF="RMRF0020.HTM#timeDelay">timeDelay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#timeValue">TimeValue</A></I> is a time measured in units defined by <I><A HREF="RMRF0019.HTM#setTime">setTime</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#timeDelay">timeDelay</A> <A HREF="RMRF0020.HTM#timeInterval">timeInterval</A>  <A HREF="RMRF0019.HTM#setTime">setTime</A>
+</I>
+<P><HR>
+<H1><A NAME="timing">timing</A></H1>
+<PRE>
+<I>timing ::= '(' 'timing'</I>
+&#09;<I><A HREF="RMRF0020.HTM#timingNameDef">timingNameDef</A></I>
+&#09;<I><A HREF="RMRF0003.HTM#derivation">derivation</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0006.HTM#forbiddenEvent">forbiddenEvent</A> | <A HREF="RMRF0013.HTM#pathDelay">pathDelay</A> | <A HREF="RMRF0015.HTM#property">property</A> | <A HREF="RMRF0021.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#connectivityStructure">connectivityStructure</A>  <A HREF="RMRF0008.HTM#instance">instance</A>  <A HREF="RMRF0009.HTM#interface">interface</A>  <A HREF="RMRF0012.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  <A HREF="RMRF0012.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#timing">Timing</A> </I>is used to provide a set of path delays or simulation timing constraints (forbidden events). It is named so that it may be referenced from <I><A HREF="RMRF0020.HTM#timingDisplay">timingDisplay</A>. <A HREF="RMRF0003.HTM#derivation">Derivation</A></I> indicates whether the value is calculated, measured or a required value.
+<H3>Example:</H3>
+<PRE>
+<B>(timing T1 (calculated)</B>
+<B>   (pathDelay</B>
+<B>      (delay (mnm (e 18 -1) (e 37 -1) (e 84 -1)))</B>
+<B>      (event (portRef CK) (transition L H))</B>
+<B>      (event (portRef Q) (transition L H)))</B>
+<B>   (forbiddenEvent</B>
+<B>      (timeInterval</B>
+<B>         (offsetEvent (event (portRef CK) </B>
+<B>            (transition H L)) (e -48 -1))</B>
+<B>         (duration (e 72 -1)))</B>
+<B>      (event (portRef D))))</B>
+</PRE>
+<P>This example describes a calculated path delay from port <B>CK </B>to port <B>Q</B>, with a logic transition from L to H<B>. </B>The delay required has a minimum value of <B>1.8 </B>time units, a nominal value of <B>3.7 </B>time units, and a maximum value of <B>8.4 </B>time units.
+<P>The <I><A HREF="RMRF0006.HTM#forbiddenEvent">forbiddenEvent</A> </I>statement requires that port <B>D </B>is stable for at least <B>4.8 </B>time units before a falling <B>(H </B>to <B>L) </B>transition of <B>CK</B>, and remains stable for at least <B>2.4 </B>time units after the <B>CK </B>transition, giving a stability requirement of <B>7.2 </B>time units.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#timingDisplay">timingDisplay</A>
+</I>
+<P><HR>
+<H1><A NAME="timingDisplay">timingDisplay</A></H1>
+<PRE>
+<I>timingDisplay ::= '(' 'timingDisplay'</I>
+&#09;<I><A HREF="RMRF0020.HTM#timingNameRef">timingNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0004.HTM#display">display</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#timingDisplay">TimingDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0020.HTM#timing">timing</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#timing">timing</A>
+</I>
+<P><HR>
+<H1><A NAME="timingNameDef">timingNameDef</A></H1>
+<PRE>
+<I>timingNameDef ::= <A HREF="RMRF0012.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#timing">timing</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#timingNameDef">TimingNameDef</A></I> is the name definition for a set of timing information. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#timingNameRef">timingNameRef</A> <A HREF="RMRF0012.HTM#nameInformation">nameInformation</A>  
+</I>
+<P><HR>
+<H1><A NAME="timingNameRef">timingNameRef</A></H1>
+<PRE>
+<I>timingNameRef ::= <A HREF="RMRF0012.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#timingDisplay">timingDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#timingNameRef">TimingNameRef</A></I> is a reference to <I><A HREF="RMRF0020.HTM#timingNameDef">timingNameDef</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#timingNameDef">timingNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="toInteger">toInteger</A></H1>
+<PRE>
+<I>toInteger ::= <A HREF="RMRF0008.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#sequence">sequence</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#toInteger">ToInteger</A></I> specifies the end of a sequence of integers.
+<H3>Example:</H3>
+<PRE>
+<B>(sequence 7 2 (step 1))</B>
+</PRE>
+<P>Here, the sequence ends at 2, the value specified by <I><A HREF="RMRF0020.HTM#toInteger">toInteger</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0006.HTM#fromInteger">fromInteger</A>  <A HREF="RMRF0020.HTM#step">step</A>
+</I>
+<P><HR>
+<H1><A NAME="topJustify">topJustify</A></H1>
+<PRE>
+<I>topJustify ::= '(' 'topJustify'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#verticalJustification">verticalJustification</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#topJustify">TopJustify</A></I> indicates that the Y origin point of the text is at the top edge of the text bounding box. See <I><A HREF="RMRF0021.HTM#verticalJustification">verticalJustification</A></I> for more details.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#horizontalJustification">horizontalJustification</A>
+</I>
+<P><HR>
+<H1><A NAME="totalPages">totalPages</A></H1>
+<PRE>
+<I>totalPages ::= '(' 'totalPages'</I>
+&#09;<I><A HREF="RMRF0008.HTM#integerToken">integerToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#schematicImplementation">schematicImplementation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0020.HTM#totalPages">TotalPages</A></I> is the total number of pages for the schematic view. It is not a semantic error if the <I><A HREF="RMRF0008.HTM#integerValue">integerValue</A></I> is not the same as the number of <I><A HREF="RMRF0013.HTM#page">page</A></I> constructs within the view.
+<H3>Example:</H3>
+<PRE>
+<B>(totalPages 3)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#approvedDate">approvedDate</A>  <A HREF="RMRF0002.HTM#companyName">companyName</A>  <A HREF="RMRF0002.HTM#contract">contract</A>  <A HREF="RMRF0012.HTM#originalDrawingDate">originalDrawingDate</A>  <A HREF="RMRF0004.HTM#drawingDescription">drawingDescription</A>  <A HREF="RMRF0004.HTM#drawingIdentification">drawingIdentification</A>  <A HREF="RMRF0004.HTM#drawingSize">drawingSize</A>  <A HREF="RMRF0005.HTM#engineeringDate">engineeringDate</A>  <A HREF="RMRF0013.HTM#pageIdentification">pageIdentification</A>  <A HREF="RMRF0016.HTM#revision">revision</A>  <A HREF="RMRF0013.HTM#pageTitle">pageTitle</A>  
+</I>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

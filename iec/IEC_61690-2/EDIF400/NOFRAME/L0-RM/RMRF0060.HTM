@@ -1,0 +1,669 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMSTART.HTM">General Introduction</A>
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="timeValue">timeValue</A></H1>
+<PRE>
+<I>timeValue ::= <A HREF="RMRF0013.HTM#miNoMaxValue">miNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#acLoadFactorTime">acLoadFactorTime</A>  !<A HREF="RMRF0006.HTM#duration">duration</A>  !<A HREF="RMRF0013.HTM#maximumDuration">maximumDuration</A>  <A HREF="RMRF0059.HTM#timeDelay">timeDelay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0059.HTM#time">time</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#timeValue">TimeValue</A></I> is a time measured in units defined by <I><A HREF="RMRF0058.HTM#setTime">setTime</A></I>.
+<P><HR>
+<H1><A NAME="timing">timing</A></H1>
+<PRE>
+<I>timing ::= '(' 'timing'</I>
+&#09;<I><A HREF="RMRF0060.HTM#timingNameDef">timingNameDef</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#derivation">derivation</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0008.HTM#forbiddenEvent">forbiddenEvent</A> | <A HREF="RMRF0016.HTM#pathDelay">pathDelay</A> | <A HREF="RMRF0053.HTM#property">property</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0003.HTM#connectivityStructure">connectivityStructure</A>  *<A HREF="RMRF0009.HTM#instance">instance</A>  *<A HREF="RMRF0010.HTM#interface">interface</A>  *<A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  *<A HREF="RMRF0015.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0060.HTM#timingDisplay">timingDisplay</A> <A HREF="RMRF0060.HTM#timingNameRef">timingNameRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0003.HTM#connectivityStructure">connectivityStructure</A></I> &lt;<I><A HREF="RMRF0003.HTM#connectivityView">connectivityView</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#timing">Timing</A></I> is used to provide a set of path delays or simulation timing constraints (forbidden events). It is named so that it may be referenced from <I><A HREF="RMRF0060.HTM#timingDisplay">timingDisplay</A></I>. <I><A HREF="RMRF0004.HTM#derivation">Derivation</A></I> indicates whether the value is calculated, measured or a required value.
+<H3>Example:</H3>
+<PRE>
+<B>(timing T1 (calculated)</B>
+<B>   (pathDelay</B>
+<B>      (delay (mnm (e 18 -1) (e 37 -1) (e 84 -1)))</B>
+<B>      (event (portRef CK) (transition L H))</B>
+<B>      (event (portRef Q) (transition L H)))</B>
+<B>   (forbiddenEvent</B>
+<B>      (timeInterval</B>
+<B>         (offsetEvent </B>
+<B>            (event (portRef CK) </B>
+<B>               (transition H L)) (e -48 -1))</B>
+<B>         (duration (e 72 -1)))</B>
+<B>      (event (portRef D))))</B>
+</PRE>
+<P>This example describes a calculated path delay from port CK to port Q, with a logic transition from L to H. The delay required has a minimum value of 1.8 time units, a nominal value of 3.7 time units, and a maximum value of 8.4 time units.
+<P>The <I><A HREF="RMRF0008.HTM#forbiddenEvent">forbiddenEvent</A></I> statement requires that port D is stable for at least 4.8 time units before a falling (H to L) transition of CK, and remains stable for at least 2.4 time units after the CK transition, giving a stability requirement of 7.2 time units.
+<P><HR>
+<H1><A NAME="timingDisplay">timingDisplay</A></H1>
+<PRE>
+<I>timingDisplay ::= '(' 'timingDisplay'</I>
+&#09;<I><A HREF="RMRF0060.HTM#timingNameRef">timingNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0060.HTM#timing">timing</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#timingDisplay">TimingDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0060.HTM#timing">timing</A></I>.
+<P><HR>
+<H1><A NAME="timingNameDef">timingNameDef</A></H1>
+<PRE>
+<I>timingNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0060.HTM#timing">timing</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#timingNameDef">TimingNameDef</A></I> is the name definition for a set of timing information. 
+<P><HR>
+<H1><A NAME="timingNameRef">timingNameRef</A></H1>
+<PRE>
+<I>timingNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0060.HTM#timingDisplay">timingDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0060.HTM#timing">timing</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#timingNameRef">TimingNameRef</A></I> is a reference to <I><A HREF="RMRF0060.HTM#timingNameDef">timingNameDef</A></I>.
+<P><HR>
+<H1><A NAME="toInteger">toInteger</A></H1>
+<PRE>
+<I>toInteger ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0057.HTM#sequence">sequence</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0010.HTM#integer">integer</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#toInteger">ToInteger</A></I> specifies the end of a sequence of integers.
+<H3>Example:</H3>
+<PRE>
+<B>(sequence 7 2 (step 1))</B>
+</PRE>
+<P>Here, the sequence ends at 2, the value specified by <I><A HREF="RMRF0060.HTM#toInteger">toInteger</A></I>.
+<P><HR>
+<H1><A NAME="tolerancedAngleValue">tolerancedAngleValue</A></H1>
+<PRE>
+<I>tolerancedAngleValue ::= <A HREF="RMRF0014.HTM#nonNegativeMiNoMaxValue">nonNegativeMiNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0020.HTM#pcbCavityWellWallAngle">pcbCavityWellWallAngle</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0000.HTM#angleValue">angleValue</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a minimum, nominal and maximum range of angle values in units as defined by <I><A HREF="RMRF0057.HTM#setAngle">setAngle</A></I>. See <I><A HREF="RMRF0018.HTM#pcbBareBoardTechnologyRule">pcbBareBoardTechnologyRule</A></I> for a diagrammatic representation.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBTR</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails ...)</B>
+<B>   (pcbCavityWellWallAngle (mnm 70 80 90)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="tolerancedDistanceValue">tolerancedDistanceValue</A></H1>
+<PRE>
+<I>tolerancedDistanceValue ::= <A HREF="RMRF0014.HTM#nonNegativeMiNoMaxValue">nonNegativeMiNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0004.HTM#depth">depth</A>  !<A HREF="RMRF0019.HTM#pcbBoardThickness">pcbBoardThickness</A>  !<A HREF="RMRF0020.HTM#pcbCavitySize">pcbCavitySize</A>  !<A HREF="RMRF0020.HTM#pcbCavityToBoardEdgeSpacing">pcbCavityToBoardEdgeSpacing</A>  !<A HREF="RMRF0020.HTM#pcbCavityToCavitySpacing">pcbCavityToCavitySpacing</A>  !<A HREF="RMRF0023.HTM#pcbDieBondPadToDieEdgeSpacing">pcbDieBondPadToDieEdgeSpacing</A>  !<A HREF="RMRF0024.HTM#pcbDiePositionToleranceWidth">pcbDiePositionToleranceWidth</A>  !<A HREF="RMRF0024.HTM#pcbDieToCavityWellEdgeSpacing">pcbDieToCavityWellEdgeSpacing</A>  !<A HREF="RMRF0024.HTM#pcbDieToCavityWellWallSpacing">pcbDieToCavityWellWallSpacing</A>  !<A HREF="RMRF0024.HTM#pcbDieToDieHeightTolerance">pcbDieToDieHeightTolerance</A>  !<A HREF="RMRF0024.HTM#pcbDieToDieSpacing">pcbDieToDieSpacing</A>  !<A HREF="RMRF0024.HTM#pcbDieToLayerSurfaceTolerance">pcbDieToLayerSurfaceTolerance</A>  !<A HREF="RMRF0031.HTM#pcbDrillRuleHoleSize">pcbDrillRuleHoleSize</A>  !<A HREF="RMRF0031.HTM#pcbDrillRulePlatingThickness">pcbDrillRulePlatingThickness</A>  !<A HREF="RMRF0033.HTM#pcbHoleToCavitySpacing">pcbHoleToCavitySpacing</A>  !<A HREF="RMRF0037.HTM#pcbMetalArtifactToCavitySpacing">pcbMetalArtifactToCavitySpacing</A>  !<A HREF="RMRF0042.HTM#pcbPackageMountingHeight">pcbPackageMountingHeight</A>  !<A HREF="RMRF0051.HTM#pcbTraceWidthIntoCavity">pcbTraceWidthIntoCavity</A>  !<A HREF="RMRF0051.HTM#pcbWirebondDiameter">pcbWirebondDiameter</A>  !<A HREF="RMRF0051.HTM#pcbWirebondLength">pcbWirebondLength</A>  !<A HREF="RMRF0059.HTM#thickness">thickness</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#distanceValue">distanceValue</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The minimum, nominal and maximum values must be greater than or equal to zero. The minimum value must not exceed the nominal value and the nominal value must not exceed the maximum value.
+</DL>
+<H3>Description:</H3>
+<P>Specifies a minimum, nominal and maximum range of distance values.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRuleHoleSize (mnm 67564 71120 74676))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="tolerancedInductanceValue">tolerancedInductanceValue</A></H1>
+<PRE>
+<I>tolerancedInductanceValue ::= <A HREF="RMRF0014.HTM#nonNegativeMiNoMaxValue">nonNegativeMiNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0046.HTM#pcbPassivePartInductance">pcbPassivePartInductance</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies an inductance value which may be toleranced. The units are those set by <I><A HREF="RMRF0058.HTM#setInductance">setInductance</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPassivePartInductance</B>
+<B>   (mnm 92 100 105))</B>
+<B>(pcbPassivePartInductance 100) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="tolerancedResistanceValue">tolerancedResistanceValue</A></H1>
+<PRE>
+<I>tolerancedResistanceValue ::= <A HREF="RMRF0014.HTM#nonNegativeMiNoMaxValue">nonNegativeMiNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0046.HTM#pcbPassivePartResistance">pcbPassivePartResistance</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a resistance value which may be toleranced. The units are those set by <I><A HREF="RMRF0058.HTM#setResistance">setResistance.</A></I> 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPassivePartResistance</B>
+<B>   (mnm 92 100 105))</B>
+<B>(pcbPassivePartResistance 100) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="topJustify">topJustify</A></H1>
+<PRE>
+<I>topJustify ::= '(' 'topJustify'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#verticalJustification">verticalJustification</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#topJustify">TopJustify</A></I> indicates that the Y origin point of the text is at the top edge of the text bounding box. See <I><A HREF="RMRF0061.HTM#verticalJustification">verticalJustification</A></I> for more details.
+<P><HR>
+<H1><A NAME="totalPages">totalPages</A></H1>
+<PRE>
+<I>totalPages ::= '(' 'totalPages'</I>
+&#09;<I><A HREF="RMRF0010.HTM#integerToken">integerToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0060.HTM#totalPagesDisplay">totalPagesDisplay</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#totalPages">TotalPages</A></I> is the total number of pages for the schematic view. It is not a semantic error if the <I><A HREF="RMRF0010.HTM#integerValue">integerValue</A></I> is not the same as the number of <I><A HREF="RMRF0015.HTM#page">page</A></I> constructs within the view.
+<H3>Example:</H3>
+<PRE>
+<B>(totalPages 3)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="totalPagesDisplay">totalPagesDisplay</A></H1>
+<PRE>
+<I>totalPagesDisplay ::= '(' 'totalPagesDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0054.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0060.HTM#totalPages">totalPages</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#totalPagesDisplay">TotalPagesDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0060.HTM#totalPages">totalPages</A></I>. When used in the context of <I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A></I>, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<P><HR>
+<H1><A NAME="transform">transform</A></H1>
+<PRE>
+<I>transform ::= '(' 'transform'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0015.HTM#origin">origin</A>&gt; | &lt;<A HREF="RMRF0054.HTM#rotation">rotation</A>&gt; | &lt;<A HREF="RMRF0054.HTM#scaleX">scaleX</A>&gt; | &lt;<A HREF="RMRF0054.HTM#scaleY">scaleY</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0002.HTM#complexGeometry">complexGeometry</A>  !<A HREF="RMRF0005.HTM#display">display</A>  !<A HREF="RMRF0015.HTM#pageBorder">pageBorder</A>  !<A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>  !<A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A>  !<A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A>  !<A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  !<A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A>  !<A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A>  !<A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A>  !<A HREF="RMRF0056.HTM#schematicOffPageConnectorImplementation">schematicOffPageConnectorImplementation</A>  !<A HREF="RMRF0056.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A>  !<A HREF="RMRF0056.HTM#schematicRipperImplementation">schematicRipperImplementation</A>  !<A HREF="RMRF0057.HTM#schematicSymbolBorder">schematicSymbolBorder</A>  !<A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#fixedScaleTransform">fixedScaleTransform</A> <A HREF="RMRF0060.HTM#uniformScaleTransform">uniformScaleTransform</A> <A HREF="RMRF0061.HTM#unscaledTransform">unscaledTransform</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#transform">Transform</A></I> is used to locate an implementation of a symbol or other object that can be instantiated, and to specify the location and scaling of text. 
+<P><I><A HREF="RMRF0054.HTM#scaleX">ScaleX</A></I> and <I><A HREF="RMRF0054.HTM#scaleY">scaleY</A></I> are used to indicate scale factors. The default scaling is 1 for <I><A HREF="RMRF0054.HTM#scaleX">scaleX</A></I> and <I><A HREF="RMRF0054.HTM#scaleY">scaleY</A></I>. Negative values indicate mirroring.
+<P><I><A HREF="RMRF0054.HTM#rotation">Rotation</A></I> is used to describe the rotation of the object, and rotation angle is measured in units defined by <I><A HREF="RMRF0057.HTM#setAngle">setAngle</A></I>. The default rotation is zero radians. 
+<P><I><A HREF="RMRF0015.HTM#origin">Origin</A></I> is used to describe the translation point of an instance. The default origin is (pt 0 0).
+<P>Each operation within <I><A HREF="RMRF0060.HTM#transform">transform</A></I> is applied in the following order: <I><A HREF="RMRF0054.HTM#scaleX">scaleX</A></I>, <I><A HREF="RMRF0054.HTM#scaleY">scaleY</A></I>, <I><A HREF="RMRF0054.HTM#rotation">rotation</A></I> and finally translation (<I><A HREF="RMRF0015.HTM#origin">origin</A></I>). This order is not affected by the ordering within <I><A HREF="RMRF0060.HTM#transform">transform</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(instance INST_1</B>
+<B>   (clusterRef CL1 (cellRef CELL1)))</B>
+<B>...</B>
+<B>(schematicInstanceImplementation IMPL_1 </B>
+<B>   (instanceRef INST_1)</B>
+<B>   (schematicSymbolRef SYM1)</B>
+<B>   (transform</B>
+<B>      (scaleX 2 1)</B>
+<B>      (scaleY 3 1)</B>
+<B>      (rotation 90)</B>
+<B>      (origin (pt 10 70))))</B>
+</PRE>
+<P>In the above example, the instance is scaled by 2 in the x direction and by 3 in the y direction. The instance is then rotated 90 degrees and placed at (10, 70). 
+<P>A typical point such as (100, 500) in SYM1 would map to (-1490, 270). 
+<P><HR>
+<H1><A NAME="transition">transition</A></H1>
+<PRE>
+<I>transition ::= '(' 'transition'</I>
+&#09;<I><A HREF="RMRF0053.HTM#previousLogicValue">previousLogicValue</A></I>
+&#09;<I><A HREF="RMRF0053.HTM#presentLogicValue">presentLogicValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0006.HTM#event">event</A>  *<A HREF="RMRF0010.HTM#interconnectDelay">interconnectDelay</A>  *<A HREF="RMRF0052.HTM#portDelay">portDelay</A>  *<A HREF="RMRF0052.HTM#portDelayOverride">portDelayOverride</A>  *<A HREF="RMRF0052.HTM#portLoadDelay">portLoadDelay</A>  *<A HREF="RMRF0052.HTM#portLoadDelayOverride">portLoadDelayOverride</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>When a <I><A HREF="RMRF0012.HTM#logicList">logicList</A></I> is used the size of the list should match that of the <I><A HREF="RMRF0052.HTM#port">port</A></I> or <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I> or other logic lists associated with the enclosing construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0000.HTM#becomes">becomes</A></I>, <I><A HREF="RMRF0006.HTM#event">event</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#transition">Transition</A></I> is used to describe a logic state transition from the previous logic value to the present value. 
+<P>In the case of a <I><A HREF="RMRF0060.HTM#transition">transition</A></I> which contains a <I><A HREF="RMRF0012.HTM#logicList">logicList</A></I>, the transition occurs as soon as the following conditions are met. At some previous time each associated port had a logic value equal to the corresponding value of the first <I><A HREF="RMRF0012.HTM#logicList">logicList</A>;</I> each port has a logic value equal to the corresponding value of the second <I><A HREF="RMRF0012.HTM#logicList">logicList</A>;</I> each individual port has had no more than one logic transition between these times. 
+<P><I><A HREF="RMRF0013.HTM#logicOneOf">LogicOneOf</A></I> is used to provide a choice of logic values or logic lists. Any match in the <I><A HREF="RMRF0013.HTM#logicOneOf">logicOneOf</A></I> is considered a match for the <I><A HREF="RMRF0060.HTM#transition">transition</A></I> statement. 
+<H3>Example:</H3>
+<PRE>
+<B>(transition L H)</B>
+</PRE>
+<P>The first example specifies the transition from the logic value L to the logic value H. 
+<PRE>
+<B>(transition Z (logicOneOf H L))</B>
+</PRE>
+<P>The second example specifies the transition from the logic value Z to the logic value H or the transition from the logic value Z to the logic value L. 
+<P><HR>
+<H1><A NAME="true">true</A></H1>
+<PRE>
+<I>true ::= '(' 'true'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#true">True</A></I> represents a TRUE value for a boolean.
+<H3>Example:</H3>
+<PRE>
+<B>(property LLL</B>
+<B>   (boolean</B>
+<B>      (true)))</B>
+</PRE>
+<P>The above example defines a property named LLL which has the value true. 
+<P><HR>
+<H1><A NAME="truncate">truncate</A></H1>
+<PRE>
+<I>truncate ::= '(' 'truncate'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#cornerType">cornerType</A>  !<A HREF="RMRF0006.HTM#endType">endType</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#truncate">Truncate</A></I> specifies that a corner type or end type is of type truncate. See <I><A HREF="RMRF0003.HTM#cornerType">cornerType</A></I> and <I><A HREF="RMRF0006.HTM#endType">endType</A></I> for details.
+<H3>Example:</H3>
+<PRE>
+<B>(cornerType (truncate))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="typedValue">typedValue</A></H1>
+<PRE>
+<I>typedValue ::= ( <A HREF="RMRF0001.HTM#boolean">boolean</A> | <A HREF="RMRF0010.HTM#integer">integer</A> | <A HREF="RMRF0013.HTM#miNoMax">miNoMax</A> | <A HREF="RMRF0014.HTM#number">number</A> | <A HREF="RMRF0052.HTM#point">point</A> | <A HREF="RMRF0059.HTM#string">string</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A>  !<A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A>  !<A HREF="RMRF0010.HTM#instancePropertyOverride">instancePropertyOverride</A>  !<A HREF="RMRF0053.HTM#portPropertyOverride">portPropertyOverride</A>  !<A HREF="RMRF0053.HTM#property">property</A>  !<A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A>  !<A HREF="RMRF0062.HTM#viewPropertyOverride">viewPropertyOverride</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#typedValue">TypedValue</A></I> is used to declare the type and value of a <I><A HREF="RMRF0053.HTM#property">property</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(property wordWidth (integer 16))</B>
+</PRE>
+<P>In this example, the property wordWidth is of type <I><A HREF="RMRF0010.HTM#integer">integer</A></I>, and has a value of 16.
+<P><HR>
+<H1><A NAME="typeface">typeface</A></H1>
+<PRE>
+<I>typeface ::= '(' 'typeface'</I>
+&#09;<I><A HREF="RMRF0007.HTM#fontFamily">fontFamily</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0060.HTM#typefaceSuffix">typefaceSuffix</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#font">font</A>  !<A HREF="RMRF0059.HTM#strokeFont">strokeFont</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#typeface">Typeface</A></I> defines the string name which identifies a font in the sending system. The typeface consists of a font family name along with a suffix which identifies a particular set of typeface characteristics such as bold and italic. 
+<H3>Example:</H3>
+<PRE>
+<B>(typeface "Courier" </B>
+<B>   (typefaceSuffix "-Bold-O-Normal"))</B>
+</PRE>
+<P>This example might be produced by an X11 system for the Courier Bold Oblique font.
+<P><HR>
+<H1><A NAME="typefaceSuffix">typefaceSuffix</A></H1>
+<PRE>
+<I>typefaceSuffix ::= '(' 'typefaceSuffix'</I>
+&#09;<I><A HREF="RMRF0059.HTM#stringToken">stringToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0060.HTM#typeface">typeface</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#typefaceSuffix">TypefaceSuffix</A></I> defines a suffix in a typeface name used to identify attributes of the typeface, such as bold and italic. 
+<P>The format of the <I><A HREF="RMRF0060.HTM#typefaceSuffix">typefaceSuffix</A></I> string is system dependent, and might not produce a legal typeface name when combined with the <I><A HREF="RMRF0007.HTM#fontFamily">fontFamily</A></I> on a target system. 
+<P><HR>
+<H1><A NAME="unconfigured">unconfigured</A></H1>
+<PRE>
+<I>unconfigured ::= '(' 'unconfigured'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#unconfigured">Unconfigured</A></I> means that the configuration of the cluster has not yet been fully specified. Further expansion or termination of the hierarchy has not yet been decided. This could be used to transfer incomplete work. 
+<H3>Example:</H3>
+<PRE>
+<B>(cell A ...</B>
+<B>   (cluster B ...</B>
+<B>      (clusterConfiguration C (unconfigured))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="unconstrained">unconstrained</A></H1>
+<PRE>
+<I>unconstrained ::= '(' 'unconstrained'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0013.HTM#mnm">mnm</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#unconstrained">Unconstrained</A></I> is a special value used only within <I><A HREF="RMRF0013.HTM#mnm">mnm</A></I> to indicate the absence of a bound.
+<H3>Example:</H3>
+<PRE>
+<B>(mnm</B>
+<B>   5</B>
+<B>   15</B>
+<B>   (unconstrained))</B>
+</PRE>
+<P>This example indicates a minimal value of 5, a nominal value of 15, and no maximal value.
+<P><HR>
+<H1><A NAME="undefined">undefined</A></H1>
+<PRE>
+<I>undefined ::= '(' 'undefined'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0013.HTM#mnm">mnm</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0060.HTM#undefined">Undefined</A></I> is a special value to indicate the lack of any defined value. 
+<H3>Example:</H3>
+<PRE>
+<B>(mnm</B>
+<B>   5</B>
+<B>   (undefined)</B>
+<B>   10)</B>
+</PRE>
+<P>This example indicates that the nominal value is not defined.
+<P><HR>
+<H1><A NAME="unfilledCircle">unfilledCircle</A></H1>
+<PRE>
+<I>unfilledCircle ::= '(' 'unfilledCircle'</I>
+&#09;<I><A HREF="RMRF0053.HTM#pt1">pt1</A></I>
+&#09;<I><A HREF="RMRF0053.HTM#pt2">pt2</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0008.HTM#geometryElementSet">geometryElementSet</A>  *<A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A>  <A HREF="RMRF0060.HTM#unfilledElement">unfilledElement</A>  *<A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0001.HTM#circle">circle</A> <A HREF="RMRF0060.HTM#unfilledCircleByCenter">unfilledCircleByCenter</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines a circle by two points on its diameter. The circle is not filled. The width of the line defining the circumference is specified by <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(unfilledCircle (pt -5 0) (pt 5 0)) </B>
+</PRE>
+<P>This example describes a circle with center at the origin and radius 5 units. 
+<P><HR>
+<H1><A NAME="unfilledCircleByCenter">unfilledCircleByCenter</A></H1>
+<PRE>
+<I>unfilledCircleByCenter ::= '(' 'unfilledCircleByCenter'</I>
+&#09;<I><A HREF="RMRF0001.HTM#centerPoint">centerPoint</A></I>
+&#09;<I><A HREF="RMRF0005.HTM#diameter">diameter</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0008.HTM#geometryElementSet">geometryElementSet</A>  *<A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A>  <A HREF="RMRF0060.HTM#unfilledElement">unfilledElement</A>  *<A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0001.HTM#circle">circle</A> <A HREF="RMRF0001.HTM#circleByCenter">circleByCenter</A> <A HREF="RMRF0060.HTM#unfilledCircle">unfilledCircle</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines a circle by its center and diameter. The circle is not filled. The width of the line defining the circumference is specified by <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(unfilledCircleByCenter (pt 0 0) 10) </B>
+</PRE>
+<P>This example describes a circle with center at the origin and diameter 10 units. 
+<P><HR>
+<H1><A NAME="unfilledElement">unfilledElement</A></H1>
+<PRE>
+<I>unfilledElement ::= ( <A HREF="RMRF0060.HTM#unfilledCircle">unfilledCircle</A> | <A HREF="RMRF0060.HTM#unfilledCircleByCenter">unfilledCircleByCenter</A> | <A HREF="RMRF0060.HTM#unfilledRectangle">unfilledRectangle</A> | 
+&#09;<A HREF="RMRF0060.HTM#unfilledShape">unfilledShape</A> | <A HREF="RMRF0060.HTM#unfilledPolygon">unfilledPolygon</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0020.HTM#pcbClippingOutline">pcbClippingOutline</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A> 
+</I>
+<H3>Description:</H3>
+<P>A closed shape which is not filled. The width of the path defining its perimeter is defined by <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A></I>. 
+<P><HR>
+<H1><A NAME="unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></H1>
+<PRE>
+<I>unfilledOrOpenElementSet ::= '(' 'unfilledOrOpenElementSet'</I>
+&#09;<I>{ <A HREF="RMRF0015.HTM#openShape">openShape</A> | <A HREF="RMRF0016.HTM#path">path</A> | <A HREF="RMRF0060.HTM#unfilledCircle">unfilledCircle</A> | <A HREF="RMRF0060.HTM#unfilledCircleByCenter">unfilledCircleByCenter</A> | 
+&#09;<A HREF="RMRF0060.HTM#unfilledPolygon">unfilledPolygon</A> | <A HREF="RMRF0060.HTM#unfilledRectangle">unfilledRectangle</A> | <A HREF="RMRF0060.HTM#unfilledShape">unfilledShape</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0059.HTM#strokeFontCharacter">strokeFontCharacter</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0015.HTM#openElement">openElement</A> <A HREF="RMRF0060.HTM#unfilledElement">unfilledElement</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0001.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0002.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0008.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0008.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0016.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0016.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0018.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0020.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0021.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0021.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0022.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0022.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0023.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0026.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0028.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0033.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0033.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0033.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0038.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0039.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0041.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0045.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0046.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0048.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0048.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0052.HTM#portList">portList</A></I>, <I><A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0058.HTM#signalList">signalList</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Defines a set of unfilled or open geometric elements. 
+<P><HR>
+<H1><A NAME="unfilledPolygon">unfilledPolygon</A></H1>
+<PRE>
+<I>unfilledPolygon ::= '(' 'unfilledPolygon'</I>
+&#09;<I><A HREF="RMRF0052.HTM#pointList">pointList</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0008.HTM#geometryElementSet">geometryElementSet</A>  *<A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A>  <A HREF="RMRF0060.HTM#unfilledElement">unfilledElement</A>  *<A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#polygon">polygon</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A polygon or shape must not intersect or touch itself, nor have coincident segments.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0052.HTM#polygon">polygon</A></I>, <I><A HREF="RMRF0058.HTM#shape">shape</A></I>, <I><A HREF="RMRF0060.HTM#unfilledShape">unfilledShape</A></I>)
+<BR><BR><DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>An unfilled polygon represents a figure bounded by line segments joining consecutive points, including the line segment from the last point to the first point. If the first and last point are not the same, then the polygon contains the line segment between those two points as an implicit final line. All polygons are closed by definition. 
+<P>The figure is not filled and the width of the line defining its perimeter is defined by <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(unfilledPolygon</B>
+<B>   (pointList</B>
+<B>      (pt 0 1)</B>
+<B>      (pt 1 4)</B>
+<B>      (pt 0 3)))</B>
+<B>(unfilledPolygon</B>
+<B>   (pointList</B>
+<B>      (pt 0 1)</B>
+<B>      (pt 1 4)</B>
+<B>      (pt 0 3)</B>
+<B>      (pt 0 1)))</B>
+</PRE>
+<P>This example shows two equivalent representations of the same triangle. 
+<P><HR>
+<H1><A NAME="unfilledRectangle">unfilledRectangle</A></H1>
+<PRE>
+<I>unfilledRectangle ::= '(' 'unfilledRectangle'</I>
+&#09;<I><A HREF="RMRF0053.HTM#pt1">pt1</A></I>
+&#09;<I><A HREF="RMRF0053.HTM#pt2">pt2</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0008.HTM#geometryElementSet">geometryElementSet</A>  *<A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A>  <A HREF="RMRF0060.HTM#unfilledElement">unfilledElement</A>  *<A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0054.HTM#rectangle">rectangle</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines an unfilled rectangle, i.e. four-sided polygon with sides parallel to the axes, by two points at opposite corners of the rectangle. The width of the line defining the outside of the rectangle is specified by <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A></I>. 
+<P><HR>
+<H1><A NAME="unfilledShape">unfilledShape</A></H1>
+<PRE>
+<I>unfilledShape ::= '(' 'unfilledShape'</I>
+&#09;<I><A HREF="RMRF0003.HTM#curve">curve</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0008.HTM#geometryElementSet">geometryElementSet</A>  *<A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A>  <A HREF="RMRF0060.HTM#unfilledElement">unfilledElement</A>  *<A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0058.HTM#shape">shape</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A polygon or shape must not intersect or touch itself, nor have coincident segments.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0052.HTM#polygon">polygon</A></I>, <I><A HREF="RMRF0058.HTM#shape">shape</A></I>, <I><A HREF="RMRF0060.HTM#unfilledPolygon">unfilledPolygon</A></I>)
+<BR><BR><DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description: </H3>
+<P>Unfilled shape is similar to unfilled polygon except that it may include arcs in its perimeter. <I><A HREF="RMRF0060.HTM#unfilledShape">UnfilledShape</A></I> is closed by definition. If the last point specified is not the same as the first point specified, a straight line is used to close the <I><A HREF="RMRF0058.HTM#shape">shape</A></I>. 
+<P>The figure is not filled and the width of the line defining its perimeter is defined by <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(unfilledShape</B>
+<B>   (curve</B>
+<B>      (pt 20 100)</B>
+<B>      (arc</B>
+<B>         (pt 40 100)</B>
+<B>         (numberPoint 50 110)</B>
+<B>         (pt 40 120))</B>
+<B>      (pt 20 120)))</B>
+</PRE>
+<P>This example consists of one arc from (40, 100) through (50, 110) to (40, 120), and three straight line segments: from (40, 120) to (20, 120), from (20, 120) back to (20, 100), and from (20, 100) to (40, 100). 
+<P><HR>
+<H1><A NAME="uniformScaleTransform">uniformScaleTransform</A></H1>
+<PRE>
+<I>uniformScaleTransform ::= '(' 'uniformScaleTransform'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0013.HTM#mirroring">mirroring</A>&gt; | &lt;<A HREF="RMRF0015.HTM#origin">origin</A>&gt; | &lt;<A HREF="RMRF0054.HTM#rotation">rotation</A>&gt; | &lt;<A HREF="RMRF0054.HTM#scale">scale</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0019.HTM#pcbBoardSubsetPlacement">pcbBoardSubsetPlacement</A>  !<A HREF="RMRF0028.HTM#pcbDrawingComplexFigure">pcbDrawingComplexFigure</A>  !<A HREF="RMRF0030.HTM#pcbDrawingSymbolPlacement">pcbDrawingSymbolPlacement</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0060.HTM#transform">transform</A> 
+</I>
+<H3>Description:</H3>
+<P>This transform provides the ability to transform an object with a uniform scale in addition to rotation, translation and mirroring. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingBorderTemplate A4_Landscape_Border</B>
+<B>   (pcbDrawingTemplateHeader ...)</B>
+<B>   (usableArea ...)</B>
+<B>   (pcbDrawingBorderTemplateTrimmingRectangle</B>
+<B>      (rectangle ...))</B>
+<B>   (pcbDrawingComplexFigure</B>
+<B>      (pcbDrawingFigureMacroRef Fig_Mac1)</B>
+<B>      (uniformScaleTransform </B>
+<B>         (scale 1000 1414)</B>
+<B>         (origin (pt 100 700)))) ...) </B>
+</PRE>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

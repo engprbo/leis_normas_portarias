@@ -1,0 +1,1081 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMCHG.HTM">Changes from Level 0</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcb_mountable_package_model">pcb_mountable_package_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A> describes the ways in which <A HREF="IMEX0027.HTM#package">packages</A> can
+ be mounted onto a bare board. 
+</P><HR>
+<!-- Start of ENTITY: mountable_package -->
+<H2><A NAME="mountable_package">mountable_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A>,
+                                   <A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>));
+    document            : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>;
+    mountable_fixings   : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A>;
+    mountable_terminals : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#mountable_package_terminal">mountable_package_terminal</A>;
+    name                : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties          : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+    symbols             : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#mountable_package_symbol">mountable_package_symbol</A>;
+    units               : <A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A>;
+    written_status      : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#written">written</A>;
+  WHERE
+    <A NAME="mountable_package.valid_existence">valid_existence</A> :
+      (* A mountable_package belongs to one library. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#library">library</A>.mountable_packages');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> object describes a particular <A HREF="IMEX0027.HTM#package">package</A> prepared for
+ mounting in a particular way on a bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0014.HTM#library">library</A> <A HREF="IMEX0026.HTM#mountable_package_orientation_rule">mountable_package_orientation_rule</A> <A HREF="IMEX0019.HTM#packaged_component_implementation">packaged_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: external_mountable_package -->
+<H2><A NAME="external_mountable_package">external_mountable_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>);
+    SELF\<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.mountable_fixings 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#external_mountable_mechanical_fixing">external_mountable_mechanical_fixing</A>;
+    SELF\<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.mountable_terminals 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#external_mountable_package_terminal">external_mountable_package_terminal</A>;
+    SELF\<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.symbols
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#external_mountable_package_symbol">external_mountable_package_symbol</A>;
+  WHERE
+    <A NAME="external_mountable_package.valid_existence">valid_existence</A> :
+      (* An external_mountable_package belongs to one external_library. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#external_library">external_library</A>.mountable_packages');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A> is a <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> defined in an
+ <A HREF="IMEX0014.HTM#external_library">external_library</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0014.HTM#external_library">external_library</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_mountable_package -->
+<H2><A NAME="internal_mountable_package">internal_mountable_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#internal_mountable_ball_package">internal_mountable_ball_package</A>,
+                                   <A HREF="IMEX0026.HTM#internal_mountable_mechanical_package">internal_mountable_mechanical_package</A>,
+                                   <A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A>))
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>);
+    SELF\<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.mountable_fixings 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A>;
+    SELF\<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.mountable_terminals 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#internal_mountable_package_terminal">internal_mountable_package_terminal</A>;
+    SELF\<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.symbols
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>;
+    referenced_package   : <A HREF="IMEX0027.HTM#package">package</A>; -- reference
+    auxiliary_components : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#auxiliary_component">auxiliary_component</A>; 
+    body_volume          : OPTIONAL SET [1:?] OF <A HREF="IMEX0011.HTM#extrusion_volume">extrusion_volume</A>;
+    occupied_space       : OPTIONAL SET [1:?] OF <A HREF="IMEX0011.HTM#extrusion_volume">extrusion_volume</A>;
+    mounting_class_type  : OPTIONAL <A HREF="IMEX0026.HTM#mounting_class">mounting_class</A>;
+    mounting_height      : OPTIONAL <A HREF="IMEX0034.HTM#toleranced_distance">toleranced_distance</A>;
+    sub_mounting_type    : OPTIONAL <A HREF="IMEX0026.HTM#sub_mounting">sub_mounting</A>;
+  WHERE
+    <A NAME="internal_mountable_package.valid_existence">valid_existence</A> :
+      (* An internal_mountable_package belongs to one internal_library. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#internal_library">internal_library</A>.mountable_packages');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A> is a <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> defined in an
+ <A HREF="IMEX0014.HTM#internal_library">internal_library</A>.  It describes the result of mounting a particular
+ <A HREF="IMEX0027.HTM#package">package</A> in a particular way.  It also records the additional components
+ (if any) that should be added to the assembly parts list to achieve this
+ mounting. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0014.HTM#internal_library">internal_library</A> <A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> <A HREF="IMEX0026.HTM#internal_mountable_package_terminal">internal_mountable_package_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_mountable_ball_package -->
+<H2><A NAME="internal_mountable_ball_package">internal_mountable_ball_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_mountable_ball_package">internal_mountable_ball_package</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>);
+    SELF\<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.mountable_terminals
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#internal_mountable_solder_ball">internal_mountable_solder_ball</A>;
+    SELF\<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>.referenced_package 
+        : <A HREF="IMEX0027.HTM#ball_package">ball_package</A>;
+    SELF\<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>.auxiliary_components
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#auxiliary_mechanical_component">auxiliary_mechanical_component</A>;
+    side_of_mounting : <A HREF="IMEX0026.HTM#mounting_side">mounting_side</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_mountable_ball_package">internal_mountable_ball_package</A> describes how a <A HREF="IMEX0027.HTM#ball_package">ball_package</A> is
+ mounted. 
+</P><HR>
+<!-- Start of ENTITY: internal_mountable_mechanical_package -->
+<H2><A NAME="internal_mountable_mechanical_package">internal_mountable_mechanical_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_mountable_mechanical_package">internal_mountable_mechanical_package</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>);
+    SELF\<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>.referenced_package 
+        : <A HREF="IMEX0027.HTM#mechanical_package">mechanical_package</A>;
+    referenced_mounting_method : <A HREF="IMEX0026.HTM#mounting_method">mounting_method</A>; -- reference
+    default_fixing_mounting    : <A HREF="IMEX0026.HTM#mechanical_fixing_mounting">mechanical_fixing_mounting</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_mountable_mechanical_package">internal_mountable_mechanical_package</A> describes how a
+ <A HREF="IMEX0027.HTM#mechanical_package">mechanical_package</A> is mounted.
+</P><HR>
+<!-- Start of ENTITY: internal_mountable_pin_package -->
+<H2><A NAME="internal_mountable_pin_package">internal_mountable_pin_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>);
+    SELF\<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.mountable_terminals
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#internal_mountable_pin">internal_mountable_pin</A>;
+    SELF\<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>.referenced_package 
+        : <A HREF="IMEX0027.HTM#pin_package">pin_package</A>;
+    referenced_mounting_method : <A HREF="IMEX0026.HTM#mounting_method">mounting_method</A>; -- reference
+    overriding_pin_form        : OPTIONAL <A HREF="IMEX0027.HTM#pin_form">pin_form</A>;
+    overriding_mounting_class  : OPTIONAL <A HREF="IMEX0027.HTM#package_mounting_class">package_mounting_class</A>;
+    overriding_terminal_pitch  : OPTIONAL <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    pin_group_mountings        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#pin_group_mounting">pin_group_mounting</A>;
+    default_pin_mounting       : <A HREF="IMEX0026.HTM#pin_mounting">pin_mounting</A>;
+  WHERE
+    <A NAME="internal_mountable_pin_package.valid_pin_group_mountings">valid_pin_group_mountings</A> :
+      (* All referenced pin_groups are defined in the referenced
+         pin_package. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(pinGroupMounting &lt;* pin_group_mountings |
+         NOT (pinGroupMounting.referenced_pin_group
+              IN referenced_package.pin_groups)));
+
+    <A NAME="internal_mountable_pin_package.valid_optional_attributes">valid_optional_attributes</A> :
+       (* The dependencies of these optional attributes are stated as follows:
+          1. Pin_group_mountings cannot be defined if the mounted <A HREF="IMEX0027.HTM#pin">pin</A> <A HREF="IMEX0027.HTM#package">package</A>
+             does not define any pin_groups. *)
+       EXISTS(referenced_package.pin_groups) OR
+         NOT EXISTS(pin_group_mountings);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A> describes how a <A HREF="IMEX0027.HTM#pin_package">pin_package</A> is
+ mounted.  It records the change in pin pattern (if any) of a <A HREF="IMEX0027.HTM#pin_package">pin_package</A>
+ when mounted onto the bare board in a particular way. 
+</P><HR>
+<!-- Start of ENTITY: mountable_package_terminal -->
+<H2><A NAME="mountable_package_terminal">mountable_package_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#mountable_package_terminal">mountable_package_terminal</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#external_mountable_package_terminal">external_mountable_package_terminal</A>,
+                                   <A HREF="IMEX0026.HTM#internal_mountable_package_terminal">internal_mountable_package_terminal</A>));
+    name       : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;                        
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  WHERE
+    <A NAME="mountable_package_terminal.valid_existence">valid_existence</A> :
+      (* A mountable_package_terminal belongs to one mountable_package. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.mountable_terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mountable_package_terminal">mountable_package_terminal</A> is a terminal of a <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> <A HREF="IMEX0019.HTM#mountable_package_terminal_implementation">mountable_package_terminal_implementation</A> <A HREF="IMEX0019.HTM#packaged_component_terminal_implementation">packaged_component_terminal_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: external_mountable_package_terminal -->
+<H2><A NAME="external_mountable_package_terminal">external_mountable_package_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#external_mountable_package_terminal">external_mountable_package_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#mountable_package_terminal">mountable_package_terminal</A>);
+  WHERE
+    <A NAME="external_mountable_package_terminal.valid_existence">valid_existence</A> :
+      (* An external_mountable_package_terminal belongs to an
+         external_mountable_package. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                       '<A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A>',
+                       'mountable_terminals'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#external_mountable_package_terminal">external_mountable_package_terminal</A> is a terminal of an
+ <A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_mountable_package_terminal -->
+<H2><A NAME="internal_mountable_package_terminal">internal_mountable_package_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_mountable_package_terminal">internal_mountable_package_terminal</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#internal_mountable_solder_ball">internal_mountable_solder_ball</A>,
+                                   <A HREF="IMEX0026.HTM#internal_mountable_pin">internal_mountable_pin</A>))
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#mountable_package_terminal">mountable_package_terminal</A>);
+  DERIVE
+    containing_mountable_package : <A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+                         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                                        '<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>',
+                                        'mountable_terminals'));
+  WHERE
+    <A NAME="internal_mountable_package_terminal.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                       '<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>',
+                       'mountable_terminals'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_mountable_package_terminal">internal_mountable_package_terminal</A> is a terminal of an
+ <A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A> <A HREF="IMEX0026.HTM#mountable_terminal_representation">mountable_terminal_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_mountable_solder_ball -->
+<H2><A NAME="internal_mountable_solder_ball">internal_mountable_solder_ball</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_mountable_solder_ball">internal_mountable_solder_ball</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_mountable_package_terminal">internal_mountable_package_terminal</A>);
+    referenced_terminal : <A HREF="IMEX0027.HTM#solder_ball">solder_ball</A>; -- reference
+  WHERE
+    <A NAME="internal_mountable_solder_ball.valid_existence">valid_existence</A> :
+      (* An internal_mountable_solder_ball belongs to one
+         internal_mountable_ball_package. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                       '<A HREF="IMEX0026.HTM#internal_mountable_ball_package">internal_mountable_ball_package</A>',
+                       'mountable_terminals'));
+
+    <A NAME="internal_mountable_solder_ball.valid_referenced_terminal">valid_referenced_terminal</A> :
+      (* The referenced terminal must be a terminal of the package which the
+         mountable_package uses. *) 
+      EXISTS(containing_mountable_package.referenced_package.terminals)
+      AND
+      (referenced_terminal
+         IN containing_mountable_package.referenced_package.terminals);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_mountable_solder_ball">internal_mountable_solder_ball</A> describes how a <A HREF="IMEX0027.HTM#solder_ball">solder_ball</A> of a
+ <A HREF="IMEX0027.HTM#ball_package">ball_package</A> is mounted.  
+</P>
+<P>
+ NOTE: In Ceramic BGA, eutectic solder is used to join the high melting point
+ solder ball to the board.  In Tape BGA, the package is attached to the board
+ using a standard SMT solder reflow process.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_ball_package">internal_mountable_ball_package</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_mountable_pin -->
+<H2><A NAME="internal_mountable_pin">internal_mountable_pin</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_mountable_pin">internal_mountable_pin</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A>,
+                                   <A HREF="IMEX0026.HTM#internal_extra_mountable_pin">internal_extra_mountable_pin</A>))
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_mountable_package_terminal">internal_mountable_package_terminal</A>);
+    overriding_default_pin_mounting : OPTIONAL <A HREF="IMEX0026.HTM#pin_mounting">pin_mounting</A>;
+  WHERE
+    <A NAME="internal_mountable_pin.valid_existence">valid_existence</A> :
+      (* An internal_mountable_pin belongs to one
+         internal_mountable_pin_package. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                       '<A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A>',
+                       'mountable_terminals'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_mountable_pin">internal_mountable_pin</A> describes a mountable pin of an
+ <A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A>. 
+</P>
+<P>
+ The overriding_default_pin_mounting attribute is used to override the
+ default <A HREF="IMEX0026.HTM#pin_mounting">pin_mounting</A> specified in the <A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_prepared_mountable_pin -->
+<H2><A NAME="internal_prepared_mountable_pin">internal_prepared_mountable_pin</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_mountable_pin">internal_mountable_pin</A>);
+    referenced_terminal     : <A HREF="IMEX0027.HTM#pin">pin</A>; -- reference
+    overriding_contact_area : OPTIONAL <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>;
+    overriding_length       : OPTIONAL <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    overriding_position     : OPTIONAL <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+  WHERE
+    <A NAME="internal_prepared_mountable_pin.valid_referenced_terminal">valid_referenced_terminal</A> :
+      (* The referenced terminal must be a terminal of the package which the
+         mountable_package uses. *) 
+      EXISTS(containing_mountable_package.referenced_package.terminals)
+      AND
+      (referenced_terminal
+         IN containing_mountable_package.referenced_package.terminals);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A> describes a mountable pin for an
+ <A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A>.  It may override the default position,
+ length and contact area specified in the mounted <A HREF="IMEX0027.HTM#pin">pin</A>. 
+</P><HR>
+<!-- Start of ENTITY: internal_extra_mountable_pin -->
+<H2><A NAME="internal_extra_mountable_pin">internal_extra_mountable_pin</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_extra_mountable_pin">internal_extra_mountable_pin</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_mountable_pin">internal_mountable_pin</A>);
+    instantiated_template : <A HREF="IMEX0024.HTM#pin_template">pin_template</A>; -- reference
+    pin_position          : <A HREF="IMEX0011.HTM#unscaled_transform">unscaled_transform</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_extra_mountable_pin">internal_extra_mountable_pin</A> describes an extra mountable pin for an
+ <A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A>.  These extra mountable pins refer to no
+ <A HREF="IMEX0027.HTM#pin">pin</A> in the <A HREF="IMEX0027.HTM#pin_package">pin_package</A> which is mounted.  An example would be the case
+ where a 14-DIP component is mounted into an 18-pin socket (i.e. 4 of the
+ socket pins would be the extra pins in this case).
+</P><HR>
+<!-- Start of ENTITY: mountable_mechanical_fixing -->
+<H2><A NAME="mountable_mechanical_fixing">mountable_mechanical_fixing</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#external_mountable_mechanical_fixing">external_mountable_mechanical_fixing</A>,
+                                   <A HREF="IMEX0026.HTM#internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A>));
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  WHERE
+    <A NAME="mountable_mechanical_fixing.valid_existence">valid_existence</A> :
+      (* A mountable_mechanical_fixing belongs to one mountable_package. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.mountable_fixings');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A> describes how a <A HREF="IMEX0027.HTM#mechanical_fixing">mechanical_fixing</A> of a
+ <A HREF="IMEX0027.HTM#package">package</A> is mounted.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#mountable_mechanical_fixing_implementation">mountable_mechanical_fixing_implementation</A> <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> </P>
+<HR>
+<!-- Start of ENTITY: external_mountable_mechanical_fixing -->
+<H2><A NAME="external_mountable_mechanical_fixing">external_mountable_mechanical_fixing</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#external_mountable_mechanical_fixing">external_mountable_mechanical_fixing</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A>);
+  WHERE
+    <A NAME="external_mountable_mechanical_fixing.valid_existence">valid_existence</A> :
+      (* An external_mountable_mechanical_fixing belongs to an
+         external_mountable_package. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                       '<A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A>',
+                       'mountable_fixings'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#external_mountable_mechanical_fixing">external_mountable_mechanical_fixing</A> is a mechanical fixing of an
+ <A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_mountable_mechanical_fixing -->
+<H2><A NAME="internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A>);
+    referenced_fixing          : <A HREF="IMEX0027.HTM#mechanical_fixing">mechanical_fixing</A>; -- reference
+    overriding_contact_area    : OPTIONAL <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>;
+    overriding_fixing_mounting : OPTIONAL <A HREF="IMEX0026.HTM#mechanical_fixing_mounting">mechanical_fixing_mounting</A>;
+  WHERE
+    <A NAME="internal_mountable_mechanical_fixing.valid_existence">valid_existence</A> :
+      (* An internal_mountable_mechanical_fixing belongs to an
+         internal_mountable_package. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                       '<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>',
+                       'mountable_fixings'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A> is a mechanical fixing of an
+ <A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A> <A HREF="IMEX0026.HTM#mountable_fixing_representation">mountable_fixing_representation</A> </P>
+<HR>
+<!-- Start of TYPE: mechanical_fixing_mounting -->
+<H2><A NAME="mechanical_fixing_mounting">mechanical_fixing_mounting</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#mechanical_fixing_mounting">mechanical_fixing_mounting</A>
+    = ENUMERATION OF (top_side,
+                      bottom_side,
+                      through_board,
+                      unmounted);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mechanical_fixing_mounting">mechanical_fixing_mounting</A> specifies how a mechanical fixing is mounted
+ onto a bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A> <A HREF="IMEX0026.HTM#internal_mountable_mechanical_package">internal_mountable_mechanical_package</A> </P>
+<HR>
+<!-- Start of TYPE: mounting_class -->
+<H2><A NAME="mounting_class">mounting_class</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#mounting_class">mounting_class</A>
+    = SELECT (<A HREF="IMEX0026.HTM#standard_mounting_class">standard_mounting_class</A>,
+              <A HREF="IMEX0034.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mounting_class">mounting_class</A> describes the mounting class of a <A HREF="IMEX0027.HTM#package">package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A> </P>
+<HR>
+<!-- Start of TYPE: standard_mounting_class -->
+<H2><A NAME="standard_mounting_class">standard_mounting_class</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#standard_mounting_class">standard_mounting_class</A>
+    = ENUMERATION OF (insertion, 
+                      onsertion, 
+                      manual);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#standard_mounting_class">standard_mounting_class</A> describes the standard mounting class of a
+ <A HREF="IMEX0027.HTM#package">package</A>.   It can be either insertion, onsertion or manual.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#mounting_class">mounting_class</A> </P>
+<HR>
+<!-- Start of TYPE: sub_mounting -->
+<H2><A NAME="sub_mounting">sub_mounting</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#sub_mounting">sub_mounting</A>
+    = SELECT (<A HREF="IMEX0026.HTM#standard_sub_mounting">standard_sub_mounting</A>,
+              <A HREF="IMEX0034.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#sub_mounting">sub_mounting</A> describes the type of sub-mounting required for a
+ <A HREF="IMEX0027.HTM#package">package</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A> </P>
+<HR>
+<!-- Start of TYPE: standard_sub_mounting -->
+<H2><A NAME="standard_sub_mounting">standard_sub_mounting</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#standard_sub_mounting">standard_sub_mounting</A>
+    = ENUMERATION OF (socket);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#standard_sub_mounting">standard_sub_mounting</A> describes the standard type of sub-mounting
+ required for a <A HREF="IMEX0027.HTM#package">package</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#sub_mounting">sub_mounting</A> </P>
+<HR>
+<!-- Start of ENTITY: pin_group_mounting -->
+<H2><A NAME="pin_group_mounting">pin_group_mounting</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#pin_group_mounting">pin_group_mounting</A>;
+    referenced_pin_group : <A HREF="IMEX0027.HTM#pin_group">pin_group</A>; -- reference
+    default_pin_mounting : <A HREF="IMEX0026.HTM#pin_mounting">pin_mounting</A>;
+  WHERE
+    <A NAME="pin_group_mounting.valid_existence">valid_existence</A> :
+      (* A pin_group_mounting belongs to one internal_mountable_pin_package. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                       '<A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A>',
+                       'pin_group_mountings'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#pin_group_mounting">pin_group_mounting</A> describes how a group of <A HREF="IMEX0027.HTM#pin">pins</A> is mounted with
+ respect to the <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> body.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A> </P>
+<HR>
+<!-- Start of TYPE: pin_mounting -->
+<H2><A NAME="pin_mounting">pin_mounting</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#pin_mounting">pin_mounting</A>
+    = ENUMERATION OF (top_side,
+                      bottom_side,
+                      both_sides, 
+                      through_board,
+                      socketed,
+                      unmounted);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#pin_mounting">pin_mounting</A> describes the side of the mountable pin, with respect to
+ the <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> body. A value of top_side indicates that pins are
+ mounted to the top side of the bare board.  A value of both_sides indicates
+ that pins are mounted in unplated holes and the electrical contact between
+ the circuit connected to the top of the pin and the circuit connected to the
+ bottom of the pin is achieved by the pin itself.  Therefore the pin must be
+ electrically connected at the top side and at the bottom side.  A value of
+ through_board indicates that pins are mounted in plated holes and the
+ electrical contact between the circuit connected to the top of the board and
+ the circuit connected to the bottom of the board is achieved by the plating
+ rather than the pin.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_pin">internal_mountable_pin</A> <A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A> <A HREF="IMEX0026.HTM#pin_group_mounting">pin_group_mounting</A> </P>
+<HR>
+<!-- Start of ENTITY: auxiliary_component -->
+<H2><A NAME="auxiliary_component">auxiliary_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#auxiliary_component">auxiliary_component</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#auxiliary_mechanical_component">auxiliary_mechanical_component</A>,
+                                   <A HREF="IMEX0026.HTM#auxiliary_connector_component">auxiliary_connector_component</A>));
+    name                  : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    placement_information : <A HREF="IMEX0026.HTM#auxiliary_component_placement_method">auxiliary_component_placement_method</A>;
+    properties            : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  WHERE
+    <A NAME="auxiliary_component.valid_existence">valid_existence</A> :
+      (* An auxiliary_component_definition belongs to one
+         one internal_mountable_die_physical_template or one
+         internal_mountable_package. *) 
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+        [<A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0017.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                        '<A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>',
+                        'auxiliary_components'),
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                        '<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>',
+                        'auxiliary_components')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#auxiliary_component">auxiliary_component</A> object describes a packaged part, which
+ is used as an additional component when mounting a particular package in a
+ particular way.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A> <A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A> </P>
+<HR>
+<!-- Start of ENTITY: auxiliary_mechanical_component -->
+<H2><A NAME="auxiliary_mechanical_component">auxiliary_mechanical_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#auxiliary_mechanical_component">auxiliary_mechanical_component</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#auxiliary_component">auxiliary_component</A>);
+    referenced_part : <A HREF="IMEX0028.HTM#mechanical_part">mechanical_part</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#auxiliary_mechanical_component">auxiliary_mechanical_component</A> object describes a mechanical part which
+ is used as an additional (non-electrical) component when mounting a
+ particular package in a particular way. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_ball_package">internal_mountable_ball_package</A> </P>
+<HR>
+<!-- Start of ENTITY: auxiliary_connector_component -->
+<H2><A NAME="auxiliary_connector_component">auxiliary_connector_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#auxiliary_connector_component">auxiliary_connector_component</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#auxiliary_component">auxiliary_component</A>);
+    referenced_part : <A HREF="IMEX0028.HTM#packaged_connector_part">packaged_connector_part</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#auxiliary_connector_component">auxiliary_connector_component</A> object describes a packaged connector
+ part which is used as an additional (electrical) component when mounting a
+ particular package in a particular way.
+</P><HR>
+<!-- Start of TYPE: auxiliary_component_placement_method -->
+<H2><A NAME="auxiliary_component_placement_method">auxiliary_component_placement_method</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#auxiliary_component_placement_method">auxiliary_component_placement_method</A>
+    = ENUMERATION OF (above, below, alongside);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#auxiliary_component_placement_method">auxiliary_component_placement_method</A> describes how an
+ <A HREF="IMEX0026.HTM#auxiliary_component">auxiliary_component</A> is placed in respect to the <A HREF="IMEX0027.HTM#package">package</A> being mounted.
+ An auxiliary component may be placed above, below or alongside the package
+ being mounted.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#auxiliary_component">auxiliary_component</A> </P>
+<HR>
+<!-- Start of ENTITY: mounting_method -->
+<H2><A NAME="mounting_method">mounting_method</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#mounting_method">mounting_method</A>;
+    document         : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>;
+    name             : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    orientation      : <A HREF="IMEX0026.HTM#mounting_orientation">mounting_orientation</A>;
+    previous_version : OPTIONAL <A HREF="IMEX0026.HTM#mounting_method">mounting_method</A>; -- reference
+    properties       : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+    side             : <A HREF="IMEX0026.HTM#mounting_side">mounting_side</A>;
+    written_status   : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#written">written</A>;
+  WHERE
+    <A NAME="mounting_method.valid_existence">valid_existence</A> :
+      (* A mounting_method belongs to one library. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#library">library</A>.mounting_methods');
+
+    <A NAME="mounting_method.valid_previous_version">valid_previous_version</A> :
+      (* A mounting_method cannot be a new version of itself, either directly
+         or indirectly. *)
+      <A HREF="IMEX0034.HTM#non_recursive_previous_version">non_recursive_previous_version</A>(SELF, []);
+
+    <A NAME="mounting_method.valid_written_in_previous_version">valid_written_in_previous_version</A> :
+      (* The earliest timestamp of a mounting_method is later than the latest
+         timestamp of its previous version. *)  
+      <A HREF="IMEX0005.HTM#valid_timestamp_in_previous_version">valid_timestamp_in_previous_version</A>(written_status,
+                                          previous_version.written_status);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mounting_method">mounting_method</A> object describes a method of mounting packages onto a
+ bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_mechanical_package">internal_mountable_mechanical_package</A> <A HREF="IMEX0026.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A> <A HREF="IMEX0014.HTM#library">library</A> <A HREF="IMEX0026.HTM#mounting_method">mounting_method</A> </P>
+<HR>
+<!-- Start of TYPE: mounting_orientation -->
+<H2><A NAME="mounting_orientation">mounting_orientation</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#mounting_orientation">mounting_orientation</A>
+    = SELECT (<A HREF="IMEX0026.HTM#standard_mounting_orientation">standard_mounting_orientation</A>,
+              <A HREF="IMEX0034.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mounting_orientation">mounting_orientation</A> describes the orientation of the <A HREF="IMEX0027.HTM#package">package</A> body.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#mounting_method">mounting_method</A> </P>
+<HR>
+<!-- Start of TYPE: standard_mounting_orientation -->
+<H2><A NAME="standard_mounting_orientation">standard_mounting_orientation</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#standard_mounting_orientation">standard_mounting_orientation</A>
+    = ENUMERATION OF (normal,
+                      upside_down,
+                      vertical_on_end,
+                      vertical_on_edge);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#standard_mounting_orientation">standard_mounting_orientation</A> describes the standard orientation of the
+ <A HREF="IMEX0027.HTM#package">package</A> body. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#mounting_orientation">mounting_orientation</A> </P>
+<HR>
+<!-- Start of TYPE: mounting_side -->
+<H2><A NAME="mounting_side">mounting_side</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#mounting_side">mounting_side</A>
+    = ENUMERATION OF (top, 
+                      bottom,
+                      edge);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mounting_side">mounting_side</A> describes the side of the mounting, either top, bottom or
+ edge of the board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_ball_package">internal_mountable_ball_package</A> <A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A> <A HREF="IMEX0026.HTM#mounting_method">mounting_method</A> </P>
+<HR>
+<!-- Start of ENTITY: mountable_package_orientation_rule -->
+<H2><A NAME="mountable_package_orientation_rule">mountable_package_orientation_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#mountable_package_orientation_rule">mountable_package_orientation_rule</A>;
+    allowed_rotations             : SET [1:?] OF <A HREF="IMEX0034.HTM#angle_value">angle_value</A>;
+    properties                    : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+    referenced_mountable_packages : SET [1:?] OF <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>; -- reference
+  WHERE
+    <A NAME="mountable_package_orientation_rule.valid_existence">valid_existence</A> :
+      (* A mountable_package_orientation_rule belongs to one library. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#library">library</A>.mountable_package_orientation_rules');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> PCB assembly processes and tools need to know how to place components onto
+ the bare board.  Most of that information can be found in the
+ <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> entity.  A <A HREF="IMEX0026.HTM#mountable_package_orientation_rule">mountable_package_orientation_rule</A> further
+ defines assembly information by specifying the allowable angles of rotation
+ for a <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.  The rotation angle is measured counter-clockwise
+ as seen from the top side of the board.
+</P>
+<P>
+ EXAMPLE: 14-Pin Surface Mount Technology (SMT) Dual In Line Packages (DIPs)
+ on the top side (non-solder) may be rotated at 45 degrees increments. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#assembled_board">assembled_board</A> <A HREF="IMEX0014.HTM#library">library</A> </P>
+<HR>
+<!-- Start of ENTITY: mountable_package_symbol -->
+<H2><A NAME="mountable_package_symbol">mountable_package_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#mountable_package_symbol">mountable_package_symbol</A>
+    ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>,
+                                <A HREF="IMEX0026.HTM#external_mountable_package_symbol">external_mountable_package_symbol</A>));
+  WHERE
+    <A NAME="mountable_package_symbol.valid_existence">valid_existence</A>:
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.symbols');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mountable_package_symbol">mountable_package_symbol</A> is a representation of a <A HREF="IMEX0027.HTM#package">package</A> with a
+ specific way of mounting.  A <A HREF="IMEX0026.HTM#mountable_package_symbol">mountable_package_symbol</A> is intended to be
+ used within a drawing to represent the presence of a <A HREF="IMEX0025.HTM#component">component</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#component_symbol">component_symbol</A> <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> </P>
+<HR>
+<!-- Start of ENTITY: external_mountable_package_symbol -->
+<H2><A NAME="external_mountable_package_symbol">external_mountable_package_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#external_mountable_package_symbol">external_mountable_package_symbol</A>
+    SUBTYPE OF(<A HREF="IMEX0026.HTM#mountable_package_symbol">mountable_package_symbol</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#external_mountable_package_symbol">external_mountable_package_symbol</A> is a representation of a
+ <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> within an <A HREF="IMEX0014.HTM#external_library">external_library</A>.  An
+ <A HREF="IMEX0026.HTM#external_mountable_package_symbol">external_mountable_package_symbol</A> does not contain any additional
+ information; it exists to match up with a
+ <A HREF="IMEX0026.HTM#mountable_package_symbol">mountable_package_symbol</A> which has been specified externally.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_mountable_package_symbol -->
+<H2><A NAME="internal_mountable_package_symbol">internal_mountable_package_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>
+    SUBTYPE OF(<A HREF="IMEX0026.HTM#mountable_package_symbol">mountable_package_symbol</A>);
+    associated_figures                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#drawing_figure">drawing_figure</A>;
+    associated_figure_macros            : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0024.HTM#drawing_figure_macro">drawing_figure_macro</A>; 
+    associated_text                     : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#drawing_text">drawing_text</A>;
+    component_designator_drawing_slot   : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0021.HTM#drawing_text_display">drawing_text_display</A>;
+    component_name_drawing_slot         : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0021.HTM#drawing_text_display">drawing_text_display</A>;
+    mountable_package_name_drawing      : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0021.HTM#drawing_text_display">drawing_text_display</A>;
+    mountable_package_property_drawings : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0021.HTM#property_drawing">property_drawing</A>;
+    mountable_fixing_representations    : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0026.HTM#mountable_fixing_representation">mountable_fixing_representation</A>;
+    mountable_terminal_representations  : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0026.HTM#mountable_terminal_representation">mountable_terminal_representation</A>;
+    package_name_drawing                : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0021.HTM#drawing_text_display">drawing_text_display</A>;
+    package_property_drawings           : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0021.HTM#property_drawing">property_drawing</A>;
+    part_name_drawing_slot              : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0021.HTM#drawing_text_display">drawing_text_display</A>;
+  DERIVE
+    containing_package : <A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+           '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>.symbols');
+  WHERE
+    <A NAME="internal_mountable_package_symbol.valid_mountable_package_property_drawings">valid_mountable_package_property_drawings</A>:
+      (* The referenced properties must belong to the mountable package that
+         contains this symbol. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(propertyDrawing &lt;* mountable_package_property_drawings |
+                 NOT(propertyDrawing.drawn_property IN
+                     containing_package.properties)));
+
+    <A NAME="internal_mountable_package_symbol.valid_package_property_drawings">valid_package_property_drawings</A>:
+      (* The referenced properties must belong to the package referenced by the
+         mountable_package which contains this symbol *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(propertyDrawing &lt;* package_property_drawings |
+                 NOT(propertyDrawing.drawn_property IN
+                     containing_package.referenced_package.properties)));
+
+    <A NAME="internal_mountable_package_symbol.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A symbol cannot have mountable_package_property_drawings if its
+            containing <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> does not define any properties.
+         2. A symbol cannot have package_property_drawings if the <A HREF="IMEX0027.HTM#package">package</A>
+            referenced from the <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> does not define any
+            properties. *) 
+      (EXISTS(containing_package.properties) OR 
+         NOT EXISTS(mountable_package_property_drawings))
+      AND
+      (EXISTS(containing_package.referenced_package.properties) OR
+        NOT EXISTS(package_property_drawings));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> is a representation of a
+ <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> within an <A HREF="IMEX0014.HTM#internal_library">internal_library</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A> <A HREF="IMEX0026.HTM#mountable_fixing_representation">mountable_fixing_representation</A> <A HREF="IMEX0026.HTM#mountable_terminal_representation">mountable_terminal_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: mountable_terminal_representation -->
+<H2><A NAME="mountable_terminal_representation">mountable_terminal_representation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#mountable_terminal_representation">mountable_terminal_representation</A>;
+    drawn_terminal        : <A HREF="IMEX0026.HTM#internal_mountable_package_terminal">internal_mountable_package_terminal</A>; -- reference
+    instantiated_template : <A HREF="IMEX0024.HTM#package_terminal_drawing_template">package_terminal_drawing_template</A>; -- reference
+    mountable_terminal_property_drawings : OPTIONAL SET [1:?] OF
+                                           <A HREF="IMEX0021.HTM#property_drawing">property_drawing</A>; 
+    template_position     : <A HREF="IMEX0011.HTM#fixed_scale_transform">fixed_scale_transform</A>;
+  DERIVE
+    containing_symbol : <A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+           <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                          '<A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                          'mountable_terminal_representations'));
+  UNIQUE
+    unique_representation:
+      (* In a given symbol, a mountable terminal has a unique
+         representation. *) 
+      drawn_terminal, containing_symbol;
+  WHERE
+    <A NAME="mountable_terminal_representation.valid_existence">valid_existence</A>:
+      (* A mountable_terminal_representation belongs to one
+         internal_mountable_package_symbol. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                       '<A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                       'mountable_terminal_representations'));
+
+    <A NAME="mountable_terminal_representation.valid_drawn_terminal">valid_drawn_terminal</A>:
+      (* The drawn mountable_package_terminal must be defined in the
+         mountable_package which owns the symbol. *)
+      EXISTS(containing_symbol.containing_package.mountable_terminals)
+      AND
+      (drawn_terminal IN
+         containing_symbol.containing_package.mountable_terminals);
+
+    <A NAME="mountable_terminal_representation.valid_mountable_terminal_property_drawings">valid_mountable_terminal_property_drawings</A> :
+      (* The drawn properties must be defined in the referenced
+         mountable_package_terminal. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(propertyDrawing &lt;* mountable_terminal_property_drawings |
+        NOT (propertyDrawing.drawn_property 
+             IN drawn_terminal\<A HREF="IMEX0026.HTM#mountable_package_terminal">mountable_package_terminal</A>.properties)));
+
+    <A NAME="mountable_terminal_representation.valid_drawing_template_type">valid_drawing_template_type</A>:
+      (* The template type should be consistent with the terminal type.  If the
+         drawn terminal is an internal_prepared_mountable_pin or an
+         internal_mountable_solder_ball,  the indicator value of the template
+         must be either prepared_terminal or unrestricted.  If the drawn
+         terminal is an internal_extra_mountable_pin, the indicator value of
+         the template must be either extra_terminal or unrestricted. *)
+
+      (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(drawn_terminal,
+                 '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A>')
+       OR
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(drawn_terminal,
+                 '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#internal_mountable_solder_ball">internal_mountable_solder_ball</A>')
+       AND
+       ((instantiated_template.terminal_indicator = 
+         <A HREF="IMEX0024.HTM#package_terminal_drawing_template_indicator">package_terminal_drawing_template_indicator</A>.prepared_terminal)
+        OR
+        (instantiated_template.terminal_indicator = 
+         <A HREF="IMEX0024.HTM#package_terminal_drawing_template_indicator">package_terminal_drawing_template_indicator</A>.unrestricted)))
+      OR
+      (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(drawn_terminal,
+                 '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#internal_extra_mountable_pin">internal_extra_mountable_pin</A>')
+       AND
+       ((instantiated_template.terminal_indicator = 
+         <A HREF="IMEX0024.HTM#package_terminal_drawing_template_indicator">package_terminal_drawing_template_indicator</A>.extra_terminal)
+        OR
+        (instantiated_template.terminal_indicator = 
+         <A HREF="IMEX0024.HTM#package_terminal_drawing_template_indicator">package_terminal_drawing_template_indicator</A>.unrestricted)));
+
+    <A NAME="mountable_terminal_representation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A terminal representation cannot have
+            mountable_terminal_property_drawings if its referenced terminal
+            does not define any properties. *)
+      EXISTS(drawn_terminal\<A HREF="IMEX0026.HTM#mountable_package_terminal">mountable_package_terminal</A>.properties) OR
+        NOT EXISTS(mountable_terminal_property_drawings);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mountable_terminal_representation">mountable_terminal_representation</A> is the part of a
+ <A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> which represents a specific
+ <A HREF="IMEX0026.HTM#mountable_package_terminal">mountable_package_terminal</A> of the <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> </P>
+<HR>
+<!-- Start of ENTITY: mountable_fixing_representation -->
+<H2><A NAME="mountable_fixing_representation">mountable_fixing_representation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#mountable_fixing_representation">mountable_fixing_representation</A>;
+    associated_figures       : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#drawing_figure">drawing_figure</A>;
+    associated_figure_macros : OPTIONAL SET [1:?] OF <A HREF="IMEX0024.HTM#drawing_figure_macro">drawing_figure_macro</A>;
+    associated_text          : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#drawing_text">drawing_text</A>;
+    drawn_fixing             : <A HREF="IMEX0026.HTM#internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A>;-- reference
+    mechanical_fixing_name_drawings               : OPTIONAL SET [1:?] OF
+                                                    <A HREF="IMEX0021.HTM#drawing_text_display">drawing_text_display</A>;
+    mechanical_fixing_property_drawings           : OPTIONAL SET [1:?] OF 
+                                                    <A HREF="IMEX0021.HTM#property_drawing">property_drawing</A>;
+    mountable_mechanical_fixing_property_drawings : OPTIONAL SET [1:?] OF
+                                                    <A HREF="IMEX0021.HTM#property_drawing">property_drawing</A>; 
+  DERIVE
+    containing_symbol : <A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+           <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                          '<A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                          'mountable_fixing_representations'));
+  UNIQUE
+    unique_representation:
+      (* In a given symbol, a mountable fixing has a unique representation. *)
+      drawn_fixing, containing_symbol;
+  WHERE
+    <A NAME="mountable_fixing_representation.valid_existence">valid_existence</A>:
+      (* A mountable_fixing_representation belongs to one
+         internal_mountable_package_symbol. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                       '<A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                       'mountable_fixing_representations'));
+
+    <A NAME="mountable_fixing_representation.valid_drawn_fixing">valid_drawn_fixing</A>:
+      (* The drawn mountable_mechanical_fixing must be defined in the
+         mountable_package which owns the symbol. *)
+      EXISTS(containing_symbol.containing_package.mountable_fixings)
+      AND
+      (drawn_fixing IN
+         containing_symbol.containing_package.mountable_fixings);
+
+    <A NAME="mountable_fixing_representation.valid_mechanical_fixing_property_drawings">valid_mechanical_fixing_property_drawings</A> :
+      (* The drawn properties must be defined in the mechanical_fixing
+         referenced by the mountable_mechanical_fixing. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(pd &lt;* mechanical_fixing_property_drawings |
+        NOT (pd.drawn_property 
+             IN drawn_fixing.referenced_fixing.properties)));
+
+    <A NAME="mountable_fixing_representation.valid_mountable_mechanical_fixing_property_drawings">valid_mountable_mechanical_fixing_property_drawings</A> :
+      (* The drawn properties must be defined in the referenced
+         mountable_mechanical_fixing. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(pd &lt;* mountable_mechanical_fixing_property_drawings |
+        NOT (pd.drawn_property 
+             IN drawn_fixing\<A HREF="IMEX0026.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A>.properties)));
+
+    <A NAME="mountable_fixing_representation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A fixing representation cannot have
+            mechanical_fixing_property_drawings if its referenced
+            <A HREF="IMEX0027.HTM#mechanical_fixing">mechanical_fixing</A> does not define any properties.
+         2. A fixing representation cannot have
+            mountable_mechanical_fixing_property_drawings if its referenced
+            <A HREF="IMEX0026.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A> does not define any properties. *)
+      (EXISTS(drawn_fixing.referenced_fixing.properties) OR
+        NOT EXISTS(mechanical_fixing_property_drawings))
+      AND
+      (EXISTS(drawn_fixing\<A HREF="IMEX0026.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A>.properties) OR
+        NOT EXISTS(mountable_mechanical_fixing_property_drawings));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#mountable_fixing_representation">mountable_fixing_representation</A> is the part of a
+ <A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> which represents a specific
+ <A HREF="IMEX0026.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A> of the <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> </P>
+
+<HR>
+
+<!-- Start of schema: pcb_package_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

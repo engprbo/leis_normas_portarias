@@ -1,0 +1,824 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="pcb_board_subset_model">pcb_board_subset_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A> schema describes the objects which are
+ used by a <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A> to display a part of a board.
+</P><HR>
+<!-- Start of ENTITY: board_subset -->
+<H2><A NAME="board_subset">board_subset</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#board_subset">board_subset</A>
+    ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A>,
+                                <A HREF="IMEX0020.HTM#board_subset_extra_detail">board_subset_extra_detail</A>));
+    construction_figures : OPTIONAL SET [1:?] OF
+                           <A HREF="IMEX0020.HTM#board_subset_construction_figure">board_subset_construction_figure</A>; 
+    dimensioned_figures  : OPTIONAL SET [1:?] OF <A HREF="IMEX0020.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A>;
+    clipping_outline     : OPTIONAL <A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A>;
+  DERIVE
+    containing_assembled_board : <A HREF="IMEX0019.HTM#assembled_board">assembled_board</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0019.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0019.HTM#assembled_board">assembled_board</A>.drawing_board_subsets');
+    containing_bare_board : <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>',
+                        '<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>',
+                        'drawing_board_subsets'));
+  WHERE
+    <A NAME="board_subset.valid_existence">valid_existence</A>:
+      (* A board_subset belong to either one assembled_board or one
+         internal_bare_board_definition. *) 
+    <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+    ['<A HREF="IMEX0019.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0019.HTM#assembled_board">assembled_board</A>.drawing_board_subsets',
+     <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>',
+                    '<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>',
+                    'drawing_board_subsets')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#board_subset">board_subset</A> can be either a <A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A> or a
+ <A HREF="IMEX0020.HTM#board_subset_extra_detail">board_subset_extra_detail</A>.
+</P>
+<P>
+ The clipping_outline attribute can be used in order to display only a part
+ of the <A HREF="IMEX0020.HTM#board_subset">board_subset</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#assembled_board">assembled_board</A> <A HREF="IMEX0021.HTM#board_subset_placement">board_subset_placement</A> <A HREF="IMEX0020.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A> <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: board_subset_definition -->
+<H2><A NAME="board_subset_definition">board_subset_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A>
+    SUBTYPE OF(<A HREF="IMEX0020.HTM#board_subset">board_subset</A>);
+    includes_drawing_figure_collectors   : OPTIONAL SET [1:?] OF
+                                           <A HREF="IMEX0020.HTM#drawing_figure_collector_inclusion">drawing_figure_collector_inclusion</A>;
+    includes_fabricate_figure_collectors : OPTIONAL SET [1:?] OF
+                                           <A HREF="IMEX0020.HTM#fabricate_figure_collector_inclusion">fabricate_figure_collector_inclusion</A>;
+    chosen_component_symbols             : OPTIONAL SET [1:?] OF
+                                           <A HREF="IMEX0020.HTM#component_symbol_selection">component_symbol_selection</A>;
+    chosen_drill_symbols                 : OPTIONAL SET [1:?] OF
+                                           <A HREF="IMEX0020.HTM#drill_symbol_selection">drill_symbol_selection</A>;
+  WHERE
+    <A NAME="board_subset_definition.valid_fabricate_figure_collectors">valid_fabricate_figure_collectors</A>:
+      (* The fabricate_figure_collector_inclusions must reference the
+         fabricate_figure_collectors which are used in the physical_layers in
+         which the containing assembled board or bare board is implemented. *)
+      (EXISTS(SELF\<A HREF="IMEX0020.HTM#board_subset">board_subset</A>.containing_assembled_board)
+       AND
+       (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(fc &lt;* includes_fabricate_figure_collectors |
+          <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(layer &lt;* SELF\<A HREF="IMEX0020.HTM#board_subset">board_subset</A>.containing_assembled_board
+                                    .is_based_on.instantiated_bare_board
+                                    \<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>
+                                    .is_implemented_in.layers |
+          EXISTS(layer.referenced_figure_collector)
+          AND 
+          (fc.inclusion_of :=: layer.referenced_figure_collector)))))))
+      OR
+      (EXISTS(SELF\<A HREF="IMEX0020.HTM#board_subset">board_subset</A>.containing_bare_board)
+       AND
+       (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(fc &lt;* includes_fabricate_figure_collectors |
+          <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(layer &lt;* SELF\<A HREF="IMEX0020.HTM#board_subset">board_subset</A>.containing_bare_board
+                                    \<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>
+                                    .is_implemented_in.layers |
+          EXISTS(layer.referenced_figure_collector)
+          AND 
+          (fc.inclusion_of :=: layer.referenced_figure_collector)))))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A> is a subset of the components that describe a
+ board. Its main purpose is to allow the visualisation of chosen aspects of
+ the board e.g. tracks or component outlines.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#component_symbol_selection">component_symbol_selection</A> </P>
+<HR>
+<!-- Start of ENTITY: board_subset_extra_detail -->
+<H2><A NAME="board_subset_extra_detail">board_subset_extra_detail</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#board_subset_extra_detail">board_subset_extra_detail</A>
+    SUBTYPE OF(<A HREF="IMEX0020.HTM#board_subset">board_subset</A>);
+    details : OPTIONAL SET [1:?] OF <A HREF="IMEX0020.HTM#board_subset_extra_detail_figure">board_subset_extra_detail_figure</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#board_subset_extra_detail">board_subset_extra_detail</A> allows the definition of construction figures
+ which may be used to represent information related to the board, in a
+ non-standard way.
+</P><HR>
+<!-- Start of ENTITY: drawing_figure_collector_inclusion -->
+<H2><A NAME="drawing_figure_collector_inclusion">drawing_figure_collector_inclusion</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#drawing_figure_collector_inclusion">drawing_figure_collector_inclusion</A>;
+    inclusion_of : <A HREF="IMEX0008.HTM#drawing_figure_collector">drawing_figure_collector</A>; -- reference
+  WHERE
+    <A NAME="drawing_figure_collector_inclusion.valid_existence">valid_existence</A>:
+      (* The drawing figure collector inclusion is within one
+         board_subset_definition *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>',
+                       '<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A>',
+                       'includes_drawing_figure_collectors'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#drawing_figure_collector_inclusion">drawing_figure_collector_inclusion</A> is the inclusion of the drawing
+ geometry of a <A HREF="IMEX0008.HTM#drawing_figure_collector">drawing_figure_collector</A> within a <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: fabricate_figure_collector_inclusion -->
+<H2><A NAME="fabricate_figure_collector_inclusion">fabricate_figure_collector_inclusion</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#fabricate_figure_collector_inclusion">fabricate_figure_collector_inclusion</A>;
+    inclusion_of        : <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>;    -- reference
+    referenced_defaults : <A HREF="IMEX0014.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A>; -- reference
+  WHERE
+    <A NAME="fabricate_figure_collector_inclusion.valid_existence">valid_existence</A>:
+      (* The fabricate figure collector inclusion is within one
+         board_subset_definition *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>',
+                       '<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A>',
+                       'includes_fabricate_figure_collectors'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#fabricate_figure_collector_inclusion">fabricate_figure_collector_inclusion</A> is the inclusion of the fabricate
+ geometry of a <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A> within a <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: component_symbol_selection -->
+<H2><A NAME="component_symbol_selection">component_symbol_selection</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#component_symbol_selection">component_symbol_selection</A>;
+    referenced_component : <A HREF="IMEX0019.HTM#component_implementation">component_implementation</A>; -- reference
+    selected_symbol      : <A HREF="IMEX0020.HTM#component_symbol">component_symbol</A>; -- reference
+  DERIVE
+    containing_board_subset : <A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>',
+                        '<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A>',
+                        'chosen_component_symbols'));
+    containing_assembled_board : <A HREF="IMEX0019.HTM#assembled_board">assembled_board</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(containing_board_subset,
+         '<A HREF="IMEX0019.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0019.HTM#assembled_board">assembled_board</A>.drawing_board_subsets');
+  WHERE
+    <A NAME="component_symbol_selection.valid_existence">valid_existence</A> :
+      (* A component_symbol_selection belongs to one
+         board_subset_definition. *) 
+    <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+    '<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A>.chosen_component_symbols');
+
+    <A NAME="component_symbol_selection.valid_referenced_component">valid_referenced_component</A> :
+      (* The referenced component_implementation must be defined in the
+         assembled_board which owns the containing board_subset_definition via
+         pcb_drawing. *)
+      EXISTS(containing_assembled_board.component_implementations)
+      AND
+      (referenced_component
+         IN containing_assembled_board.component_implementations);
+
+    <A NAME="component_symbol_selection.valid_selected_symbol">valid_selected_symbol</A>:
+      (* If the component_implementation is a
+         packaged_component_implementation, then the selected component_symbol
+         must be a symbol of the mountable_package used by the
+         packaged_component_implementation.  If the component_implementation is
+         a die_component_implementation, then the selected component_symbol
+         must be a symbol of the mountable_die_physical_template used by the
+         die_component_implementation.  If the component_implementation is a
+         printed_component_implementation, the selected component_symbol must be
+         a symbol of the printed part. *)
+
+     (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(referenced_component, 
+                '<A HREF="IMEX0019.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0019.HTM#packaged_component_implementation">packaged_component_implementation</A>')
+      AND
+      EXISTS(referenced_component\<A HREF="IMEX0019.HTM#packaged_component_implementation">packaged_component_implementation</A>
+                                 .uses_mountable_package.symbols)
+      AND
+      (selected_symbol 
+       IN referenced_component\<A HREF="IMEX0019.HTM#packaged_component_implementation">packaged_component_implementation</A>
+                              .uses_mountable_package.symbols))
+     OR
+     (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(referenced_component,
+                '<A HREF="IMEX0019.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0019.HTM#die_component_implementation">die_component_implementation</A>')
+      AND
+      EXISTS(referenced_component\<A HREF="IMEX0019.HTM#die_component_implementation">die_component_implementation</A>
+                                  .mountable_template.symbols)
+      AND
+      (selected_symbol 
+       IN referenced_component\<A HREF="IMEX0019.HTM#die_component_implementation">die_component_implementation</A>
+                              .mountable_template.symbols))
+     OR
+     (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(referenced_component,
+      '<A HREF="IMEX0019.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0019.HTM#printed_electrical_component_implementation">printed_electrical_component_implementation</A>')
+      AND
+      EXISTS(referenced_component\<A HREF="IMEX0019.HTM#printed_electrical_component_implementation">printed_electrical_component_implementation</A>
+                                 .implemented_component
+                                 .instantiated_part.symbols)
+      AND
+      (selected_symbol 
+       IN referenced_component\<A HREF="IMEX0019.HTM#printed_electrical_component_implementation">printed_electrical_component_implementation</A>
+                               .implemented_component
+                               .instantiated_part.symbols))
+     OR
+     (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(referenced_component,
+      '<A HREF="IMEX0019.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0019.HTM#printed_connector_component_implementation">printed_connector_component_implementation</A>')
+      AND
+      EXISTS(referenced_component\<A HREF="IMEX0019.HTM#printed_connector_component_implementation">printed_connector_component_implementation</A>
+                                 .implemented_component
+                                 .instantiated_part.symbols)
+      AND
+      (selected_symbol 
+       IN referenced_component\<A HREF="IMEX0019.HTM#printed_connector_component_implementation">printed_connector_component_implementation</A>
+                               .implemented_component
+                               .instantiated_part.symbols));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#component_symbol_selection">component_symbol_selection</A> chooses a symbol to represent a <A HREF="IMEX0025.HTM#component">component</A>
+ on an <A HREF="IMEX0019.HTM#assembled_board">assembled_board</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: drill_symbol_selection -->
+<H2><A NAME="drill_symbol_selection">drill_symbol_selection</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#drill_symbol_selection">drill_symbol_selection</A>;
+    referenced_drill : <A HREF="IMEX0030.HTM#drill_rule">drill_rule</A>; -- reference
+    selected_symbol  : <A HREF="IMEX0030.HTM#drill_symbol">drill_symbol</A>; -- reference
+  WHERE
+    <A NAME="drill_symbol_selection.valid_existence">valid_existence</A> :
+      (* A drill_symbol_selection belongs to one board_subset_definition. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A>.chosen_drill_symbols');
+
+    <A NAME="drill_symbol_selection.valid_selected_symbol">valid_selected_symbol</A>:
+      (* The selected drawing_symbol must be a symbol of the referenced
+         drill_rule. *)   
+      EXISTS(referenced_drill.symbols)
+      AND
+      (selected_symbol IN referenced_drill.symbols);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#drill_symbol_selection">drill_symbol_selection</A> chooses a symbol to represent drilled holes
+ (i.e. <A HREF="IMEX0029.HTM#conformant_hole">conformant_hole</A>) which conform to a particular <A HREF="IMEX0030.HTM#drill_rule">drill_rule</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A> </P>
+<HR>
+<!-- Start of TYPE: component_symbol -->
+<H2><A NAME="component_symbol">component_symbol</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0020.HTM#component_symbol">component_symbol</A> 
+    = SELECT(<A HREF="IMEX0026.HTM#mountable_package_symbol">mountable_package_symbol</A>,
+             <A HREF="IMEX0017.HTM#mountable_die_physical_template_symbol">mountable_die_physical_template_symbol</A>,
+             <A HREF="IMEX0028.HTM#printed_part_symbol">printed_part_symbol</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#component_symbol">component_symbol</A> is a symbol which can be used to represent a component
+ on a drawing.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#component_symbol_selection">component_symbol_selection</A> <A HREF="IMEX0020.HTM#drawing_symbol">drawing_symbol</A> </P>
+<HR>
+<!-- Start of TYPE: drawing_symbol -->
+<H2><A NAME="drawing_symbol">drawing_symbol</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0020.HTM#drawing_symbol">drawing_symbol</A> 
+    = SELECT(<A HREF="IMEX0020.HTM#component_symbol">component_symbol</A>,
+             <A HREF="IMEX0030.HTM#drill_symbol">drill_symbol</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#drawing_symbol">drawing_symbol</A> describes a symbol which appears on a drawing.  It can be
+ either a <A HREF="IMEX0020.HTM#component_symbol">component_symbol</A> or a <A HREF="IMEX0030.HTM#drill_symbol">drill_symbol</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#drawing_symbol_placement">drawing_symbol_placement</A> </P>
+<HR>
+<!-- Start of ENTITY: board_subset_construction_figure -->
+<H2><A NAME="board_subset_construction_figure">board_subset_construction_figure</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#board_subset_construction_figure">board_subset_construction_figure</A>;
+    associated_geometries : OPTIONAL SET [1:?] OF <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A>;
+  WHERE
+    <A NAME="board_subset_construction_figure.valid_existence">valid_existence</A>:
+      (* A board_subset_construction_figure belongs to one board_subset. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#board_subset">board_subset</A>.construction_figures');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#board_subset_construction_figure">board_subset_construction_figure</A> is a set of geometry on a
+ <A HREF="IMEX0020.HTM#board_subset">board_subset</A> which is used to aid the specification of the dimensioning.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#board_subset">board_subset</A> <A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> </P>
+<HR>
+<!-- Start of ENTITY: board_subset_extra_detail_figure -->
+<H2><A NAME="board_subset_extra_detail_figure">board_subset_extra_detail_figure</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#board_subset_extra_detail_figure">board_subset_extra_detail_figure</A>;
+    associated_figures : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#drawing_figure">drawing_figure</A>;
+  WHERE
+    <A NAME="board_subset_extra_detail_figure.valid_existence">valid_existence</A>:
+      (* A board_subset_extra_detail_figure may be used by one
+         board_subset_extra_detail. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#board_subset_extra_detail">board_subset_extra_detail</A>.details');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#board_subset_extra_detail_figure">board_subset_extra_detail_figure</A> is a set of geometry on a <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A>
+ which is used to aid the specification of a board subset.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#board_subset_extra_detail">board_subset_extra_detail</A> <A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> </P>
+<HR>
+<!-- Start of ENTITY: dimensioned_geometric_figure -->
+<H2><A NAME="dimensioned_geometric_figure">dimensioned_geometric_figure</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A>
+    ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0020.HTM#dimensioned_point">dimensioned_point</A>,
+                                <A HREF="IMEX0020.HTM#dimensioned_line">dimensioned_line</A>,
+                                <A HREF="IMEX0020.HTM#dimensioned_circarc">dimensioned_circarc</A>));
+    within_shown_objects: OPTIONAL SET [1:?] OF <A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A>; -- reference
+  DERIVE
+    containing_board_subset : <A HREF="IMEX0020.HTM#board_subset">board_subset</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#board_subset">board_subset</A>.dimensioned_figures');
+  WHERE
+    <A NAME="dimensioned_geometric_figure.valid_existence">valid_existence</A>:
+      (* A dimensioned_geometric_figure belongs to one board_subset. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#board_subset">board_subset</A>.dimensioned_figures');
+
+    <A NAME="dimensioned_geometric_figure.valid_dimensioned_objects">valid_dimensioned_objects</A>:
+      (* The dimensioned objects must be either within the drawing or the
+         bare_board_definition/assembled_board to which the drawing
+         belongs. *)
+      <A HREF="IMEX0020.HTM#valid_dimensioned_object">valid_dimensioned_object</A>(SELF);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A> is a <A HREF="IMEX0020.HTM#dimensioned_point">dimensioned_point</A>, a
+ <A HREF="IMEX0020.HTM#dimensioned_line">dimensioned_line</A> or a <A HREF="IMEX0020.HTM#dimensioned_circarc">dimensioned_circarc</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#board_subset">board_subset</A> <A HREF="IMEX0021.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A> </P>
+<HR>
+<!-- Start of ENTITY: dimensioned_point -->
+<H2><A NAME="dimensioned_point">dimensioned_point</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#dimensioned_point">dimensioned_point</A>
+    SUBTYPE OF(<A HREF="IMEX0020.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A>);
+    reference_point : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#dimensioned_point">dimensioned_point</A> is a point within a <A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> which is
+ shown on a <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#board_subset_dimensioned_point">board_subset_dimensioned_point</A> </P>
+<HR>
+<!-- Start of ENTITY: dimensioned_line -->
+<H2><A NAME="dimensioned_line">dimensioned_line</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#dimensioned_line">dimensioned_line</A>
+    SUBTYPE OF(<A HREF="IMEX0020.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A>);
+    reference_line : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#dimensioned_line">dimensioned_line</A> identifies a line within the dimensioned object.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#board_subset_dimensioned_line">board_subset_dimensioned_line</A> </P>
+<HR>
+<!-- Start of ENTITY: dimensioned_circarc -->
+<H2><A NAME="dimensioned_circarc">dimensioned_circarc</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#dimensioned_circarc">dimensioned_circarc</A>
+    ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0020.HTM#dimensioned_circle">dimensioned_circle</A>,
+                                <A HREF="IMEX0020.HTM#dimensioned_arc">dimensioned_arc</A>))
+    SUBTYPE OF(<A HREF="IMEX0020.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#dimensioned_circarc">dimensioned_circarc</A> identifies a circle or a circular arc within
+ the dimensioned object.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#board_subset_dimensioned_circarc">board_subset_dimensioned_circarc</A> </P>
+<HR>
+<!-- Start of ENTITY: dimensioned_circle -->
+<H2><A NAME="dimensioned_circle">dimensioned_circle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#dimensioned_circle">dimensioned_circle</A>
+    SUBTYPE OF(<A HREF="IMEX0020.HTM#dimensioned_circarc">dimensioned_circarc</A>);
+    reference_circle : <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#dimensioned_circle">dimensioned_circle</A> identifies a circle within the dimensioned
+ object.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#board_subset_dimensioned_circle">board_subset_dimensioned_circle</A> </P>
+<HR>
+<!-- Start of ENTITY: dimensioned_arc -->
+<H2><A NAME="dimensioned_arc">dimensioned_arc</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#dimensioned_arc">dimensioned_arc</A>
+      SUBTYPE OF(<A HREF="IMEX0020.HTM#dimensioned_circarc">dimensioned_circarc</A>);
+    reference_arc : <A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#dimensioned_arc">dimensioned_arc</A> identifies a circular arc within the dimensioned
+ object. The arc is assumed to be clockwise.
+</P><HR>
+<!-- Start of TYPE: dimensioned_object -->
+<H2><A NAME="dimensioned_object">dimensioned_object</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A>
+    = SELECT (<A HREF="IMEX0029.HTM#board_outline">board_outline</A>,
+              <A HREF="IMEX0020.HTM#board_subset_construction_figure">board_subset_construction_figure</A>,
+              <A HREF="IMEX0020.HTM#board_subset_extra_detail_figure">board_subset_extra_detail_figure</A>,
+              <A HREF="IMEX0019.HTM#component_implementation">component_implementation</A>,
+              <A HREF="IMEX0019.HTM#component_terminal_implementation">component_terminal_implementation</A>,
+              <A HREF="IMEX0019.HTM#jumper_connection">jumper_connection</A>,
+              <A HREF="IMEX0020.HTM#layout_feature_occurrence">layout_feature_occurrence</A>,
+              <A HREF="IMEX0029.HTM#plane">plane</A>,
+              <A HREF="IMEX0029.HTM#probe_point">probe_point</A>,
+              <A HREF="IMEX0020.HTM#sub_layout_occurrence">sub_layout_occurrence</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> is an object shown on a <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A>.  With the
+ exception of <A HREF="IMEX0020.HTM#board_subset_construction_figure">board_subset_construction_figure</A> and
+ <A HREF="IMEX0020.HTM#board_subset_extra_detail_figure">board_subset_extra_detail_figure</A>, a <A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> is a real object
+ within the PCB.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A> </P>
+<HR>
+<!-- Start of ENTITY: sub_layout_occurrence -->
+<H2><A NAME="sub_layout_occurrence">sub_layout_occurrence</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#sub_layout_occurrence">sub_layout_occurrence</A>;
+    definition_path : LIST [1:?] OF <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>;
+  WHERE
+    <A NAME="sub_layout_occurrence.valid_occurrence_path">valid_occurrence_path</A>:
+      (* An element of the definition path can only be followed by a
+         sub_layout_instance within the sub_layout_definition of which
+         the current element is an instance. *)
+      <A HREF="IMEX0020.HTM#valid_sub_layout_occurrence_path">valid_sub_layout_occurrence_path</A>(definition_path);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#sub_layout_occurrence">sub_layout_occurrence</A> is a sub_layout one or more levels down the
+ sub_layout hierarchy.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> <A HREF="IMEX0020.HTM#layout_feature_occurrence">layout_feature_occurrence</A> </P>
+<HR>
+<!-- Start of ENTITY: layout_feature_occurrence -->
+<H2><A NAME="layout_feature_occurrence">layout_feature_occurrence</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0020.HTM#layout_feature_occurrence">layout_feature_occurrence</A>;
+    within_sub_layout : OPTIONAL <A HREF="IMEX0020.HTM#sub_layout_occurrence">sub_layout_occurrence</A>;
+    physical_net_path : OPTIONAL <A HREF="IMEX0029.HTM#physical_net">physical_net</A>; -- reference
+    occurrence_of     : <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>;
+  WHERE
+    <A NAME="layout_feature_occurrence.valid_physical_net_path">valid_physical_net_path</A>:
+      (* The physical_net must be within a physical_net within the
+         sub_layout_definition specified by the sub_layout_occurrence.
+         Note that the physical_net can be enclosed by several other
+         physical_nets but it cannot be an instance_net. *)
+      <A HREF="IMEX0020.HTM#check_valid_physical_net_path">check_valid_physical_net_path</A>(SELF);
+
+    <A NAME="layout_feature_occurrence.valid_layout_feature">valid_layout_feature</A>:
+      (* The layout_feature must be within the physical_net. *)
+      NOT (EXISTS(physical_net_path)
+           AND
+           <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(physical_net_path,
+                     '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>')
+           AND
+           EXISTS(physical_net_path\<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>.layout_features)
+           AND
+           NOT (occurrence_of IN physical_net_path\<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>
+                                 .layout_features));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0020.HTM#layout_feature_occurrence">layout_feature_occurrence</A> is an occurrence of a <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>,
+ zero one or more levels down the sub_layout hierarchy and within
+ zero, one or more physical_nets
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_sub_layout_occurrence_path -->
+<H2><A NAME="valid_sub_layout_occurrence_path">valid_sub_layout_occurrence_path</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0020.HTM#valid_sub_layout_occurrence_path">valid_sub_layout_occurrence_path</A>
+    (sublayouts : LIST OF <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>) : BOOLEAN;
+    LOCAL
+      layoutType : SET OF STRING;
+    END_LOCAL;
+    REPEAT i := 2 TO SIZEOF(sublayouts);
+      layoutType := TYPEOF(sublayouts[i-1]);
+      IF '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#test_coupon_instance">test_coupon_instance</A>' IN layoutType THEN
+         IF NOT (sublayouts[i] IN sublayouts[i-1]\<A HREF="IMEX0029.HTM#test_coupon_instance">test_coupon_instance</A>
+                                  .is_defined_by.sub_layouts) THEN
+            RETURN(FALSE);
+         END_IF;
+      ELSE
+      IF '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#footprint_instance">footprint_instance</A>' IN layoutType THEN
+         IF NOT ((sublayouts[i] IN sublayouts[i-1]\<A HREF="IMEX0029.HTM#footprint_instance">footprint_instance</A>
+                                   .is_defined_by.toeprints) 
+                 OR
+                 (sublayouts[i] IN sublayouts[i-1]\<A HREF="IMEX0029.HTM#footprint_instance">footprint_instance</A>
+                                   .is_defined_by.other_sub_layouts)) THEN
+            RETURN(FALSE);
+         END_IF;
+      ELSE
+      IF '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#toeprint_instance">toeprint_instance</A>' IN layoutType THEN
+         IF NOT ((sublayouts[i] IN sublayouts[i-1]\<A HREF="IMEX0029.HTM#toeprint_instance">toeprint_instance</A>
+                                   .is_defined_by.padstacks) 
+                 OR
+                 (sublayouts[i] IN sublayouts[i-1]\<A HREF="IMEX0029.HTM#toeprint_instance">toeprint_instance</A>
+                                   .is_defined_by.other_sub_layouts)) THEN
+            RETURN(FALSE);
+         END_IF;
+      ELSE
+      IF '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#non_specific_sub_layout_instance">non_specific_sub_layout_instance</A>' 
+         IN layoutType THEN
+         IF NOT (sublayouts[i] IN sublayouts[i-1]
+                                  \<A HREF="IMEX0029.HTM#non_specific_sub_layout_instance">non_specific_sub_layout_instance</A>
+                                  .is_defined_by.other_sub_layouts) THEN
+            RETURN(FALSE);
+         END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+    END_REPEAT;
+    RETURN(TRUE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0020.HTM#valid_sub_layout_occurrence_path">valid_sub_layout_occurrence_path</A> function returns true if the
+ definition path of a <A HREF="IMEX0020.HTM#sub_layout_occurrence">sub_layout_occurrence</A> is valid.  At any level of the
+ definition path, if a <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A> (sublayouts[i-1]) is followed by
+ another <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A> (sublayouts[i]), then sublayouts[i] must be
+ defined within the <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> from which sublayouts[i-1] is 
+ instantiated.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#sub_layout_occurrence">sub_layout_occurrence</A> </P>
+<HR>
+<!-- Start of FUNCTION: check_valid_physical_net_path -->
+<H2><A NAME="check_valid_physical_net_path">check_valid_physical_net_path</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0020.HTM#check_valid_physical_net_path">check_valid_physical_net_path</A>
+    (occ : <A HREF="IMEX0020.HTM#layout_feature_occurrence">layout_feature_occurrence</A>) : BOOLEAN;
+    LOCAL
+      path : LIST [1:?] OF <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>;
+    END_LOCAL;
+    <A HREF="IMEX0011.HTM#path">path</A> := occ.within_sub_layout.definition_path;
+    REPEAT i := 1 TO SIZEOF(<A HREF="IMEX0011.HTM#path">path</A>);
+      IF occ.physical_net_path IN <A HREF="IMEX0011.HTM#path">path</A>[i].is_defined_by.physical_nets THEN
+         RETURN(TRUE);
+      END_IF;
+    END_REPEAT;
+    RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0020.HTM#check_valid_physical_net_path">check_valid_physical_net_path</A> function is used in the
+ <A HREF="IMEX0020.HTM#layout_feature_occurrence">layout_feature_occurrence</A> to check that the referenced <A HREF="IMEX0029.HTM#physical_net">physical_net</A>
+ must be defined within the <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> as specified by the
+ <A HREF="IMEX0020.HTM#sub_layout_occurrence">sub_layout_occurrence</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#layout_feature_occurrence">layout_feature_occurrence</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_dimensioned_object -->
+<H2><A NAME="valid_dimensioned_object">valid_dimensioned_object</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0020.HTM#valid_dimensioned_object">valid_dimensioned_object</A>
+    (fig : <A HREF="IMEX0020.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A>) : BOOLEAN;
+    LOCAL
+      assembledBoard : <A HREF="IMEX0019.HTM#assembled_board">assembled_board</A> 
+                       := fig.containing_board_subset
+                             .containing_assembled_board;
+      bareBoard      : <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>
+                       := fig.containing_board_subset.containing_bare_board;
+      bareBoardDef   : <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>;
+      objects        : SET OF <A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> := fig.within_shown_objects;
+      objectType     : SET OF STRING;
+    END_LOCAL;
+    REPEAT i := 1 TO SIZEOF(objects);
+      objectType := TYPEOF(objects[i]);
+      IF ('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#board_outline">board_outline</A>' IN objectType) THEN
+         bareBoardDef := NVL(assembledBoard.is_based_on.instantiated_bare_board,
+                             bareBoard);
+         IF ('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>' 
+             IN TYPEOF(bareBoardDef)) THEN
+             IF objects[i] :&lt;&gt;: bareBoardDef\<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>
+                                            .outline THEN 
+               RETURN(FALSE);
+             END_IF;
+         END_IF;
+      ELSE
+      IF ('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#plane">plane</A>' IN objectType) THEN 
+         bareBoardDef := NVL(assembledBoard.is_based_on.instantiated_bare_board,
+                             bareBoard);
+         IF ('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>' 
+             IN TYPEOF(bareBoardDef)) THEN
+             IF NOT (objects[i].containing_physical_net 
+                     IN bareBoardDef\<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>
+                                    .physical_nets) THEN
+                RETURN(FALSE);
+             END_IF;
+         END_IF;
+      ELSE
+      IF ('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#probe_point">probe_point</A>' IN objectType) THEN 
+         bareBoardDef := NVL(assembledBoard.is_based_on.instantiated_bare_board,
+                             bareBoard);
+         IF ('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>' 
+             IN TYPEOF(bareBoardDef)) THEN
+             IF NOT (objects[i] IN bareBoardDef\<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>
+                                               .probe_points) THEN 
+               RETURN(FALSE);
+             END_IF;
+         END_IF;
+      ELSE
+      IF ('<A HREF="IMEX0019.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0019.HTM#component_implementation">component_implementation</A>' 
+          IN objectType) THEN 
+         IF NOT EXISTS(assembledBoard) THEN
+            RETURN(FALSE);
+         ELSE 
+         IF objects[i].containing_board :&lt;&gt;: assembledBoard THEN
+            RETURN(FALSE);
+         END_IF;
+         END_IF;
+      ELSE
+      IF ('<A HREF="IMEX0019.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0019.HTM#component_terminal_implementation">component_terminal_implementation</A>'
+          IN objectType) THEN 
+         IF NOT EXISTS(assembledBoard) THEN
+            RETURN(FALSE);
+         ELSE 
+         IF objects[i].containing_implementation.containing_board 
+            :&lt;&gt;: assembledBoard THEN
+            RETURN(FALSE);
+         END_IF;
+         END_IF;
+      ELSE
+      IF ('<A HREF="IMEX0019.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0019.HTM#jumper_connection">jumper_connection</A>' IN objectType) THEN 
+         IF NOT EXISTS(assembledBoard) THEN
+            RETURN(FALSE);
+         ELSE 
+         IF objects[i].containing_net.containing_board :&lt;&gt;: assembledBoard THEN
+            RETURN(FALSE);
+         END_IF;
+         END_IF;
+      ELSE
+      IF ('<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#board_subset_construction_figure">board_subset_construction_figure</A>' 
+          IN objectType) THEN
+         IF NOT (objects[i] 
+                 IN fig.containing_board_subset.construction_figures) THEN
+            RETURN(FALSE);
+         END_IF;
+      ELSE
+      IF ('<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#board_subset_extra_detail_figure">board_subset_extra_detail_figure</A>' 
+          IN objectType) THEN
+         IF ('<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#board_subset_definition">board_subset_definition</A>'
+             IN TYPEOF(fig.containing_board_subset)) THEN
+             RETURN(FALSE);
+         ELSE
+         IF NOT (objects[i] IN fig.containing_board_subset
+                                  \<A HREF="IMEX0020.HTM#board_subset_extra_detail">board_subset_extra_detail</A>.details) THEN
+            RETURN(FALSE);
+         END_IF;
+         END_IF;
+      ELSE
+      IF ('<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#sub_layout_occurrence">sub_layout_occurrence</A>' IN objectType) THEN 
+         bareBoardDef := NVL(assembledBoard.is_based_on.instantiated_bare_board,
+                             bareBoard);
+         IF NOT (objects[i].definition_path[1] IN bareBoardDef.sub_layouts) THEN
+            RETURN(FALSE);
+         END_IF;
+      ELSE
+      IF ('<A HREF="IMEX0020.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0020.HTM#layout_feature_occurrence">layout_feature_occurrence</A>' IN objectType) THEN
+         bareBoardDef := NVL(assembledBoard.is_based_on.instantiated_bare_board,
+                             bareBoard);
+         IF EXISTS(objects[i].within_sub_layout) THEN
+            IF NOT (objects[i].within_sub_layout.definition_path[1] 
+                    IN bareBoardDef.sub_layouts) THEN
+               RETURN(FALSE);
+            END_IF;
+         ELSE
+         IF EXISTS(objects[i].physical_net_path) THEN
+            IF NOT (objects[i].physical_net_path 
+                    IN bareBoardDef.physical_nets) THEN
+               RETURN(FALSE);
+            END_IF;
+         ELSE
+         IF ('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>' 
+             IN TYPEOF(bareBoardDef)) THEN
+            IF NOT (objects[i].occurrence_of 
+                    IN bareBoardDef\<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>
+                                   .layout_features) THEN
+               RETURN(FALSE);
+            END_IF;
+         END_IF;
+         END_IF;
+         END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+    END_REPEAT;
+    RETURN(TRUE);       
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0020.HTM#valid_dimensioned_object">valid_dimensioned_object</A> function returns true if all dimensioned
+ objects are defined within the drawing or within the bare board/assembled
+ board which contains the drawing.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A> </P>
+
+<HR>
+
+<!-- Start of schema: pcb_drawing_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

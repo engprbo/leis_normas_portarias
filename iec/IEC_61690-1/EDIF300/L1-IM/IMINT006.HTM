@@ -1,0 +1,124 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1>Chapter 6</H1>
+<H1><A NAME="SECTION04500000000000000000">Parameterized connectivity</A></H1>
+<P>
+In Level&nbsp;1, a mechanism is provided which controls how an individual element of
+an expanded <A HREF="IMEX0012.HTM#instance_port">instance_port</A> is to be connected to a element of the expanded
+<A HREF="IMEX0015.HTM#signal">signal</A>.  It is done by specifying an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> on each joined
+<A HREF="IMEX0012.HTM#instance_port">instance_port</A> of a <A HREF="IMEX0015.HTM#signal">signal</A>.  That <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>, known as a
+connected_signal_index_generator (see entity <A HREF="IMEX0015.HTM#instance_port_expression">instance_port_expression</A>),
+specifies which element of an expanded
+<A HREF="IMEX0015.HTM#signal">signal</A> is to connect to an element of an expanded <A HREF="IMEX0012.HTM#instance_port">instance_port</A> during the
+design expansion process.
+<P>
+Suppose a <A HREF="IMEX0012.HTM#cluster">cluster</A> has an interface which defines two <A HREF="IMEX0016.HTM#parameter">parameters</A>, known as
+IW and SW.  Within that <A HREF="IMEX0012.HTM#cluster">cluster</A>, a view is defined which contains an
+<A HREF="IMEX0012.HTM#instance">instance</A> I and a <A HREF="IMEX0015.HTM#signal">signal</A> S.  The width of the <A HREF="IMEX0012.HTM#instance">instance</A> I is controlled by
+an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> which references <A HREF="IMEX0016.HTM#parameter">parameter</A> IW.  The width of the
+<A HREF="IMEX0015.HTM#signal">signal</A> S is determined by an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> which references <A HREF="IMEX0016.HTM#parameter">parameter</A>
+SW.  Suppose <A HREF="IMEX0012.HTM#instance">instance</A> I references a <A HREF="IMEX0012.HTM#cluster">cluster</A> in which a <A HREF="IMEX0016.HTM#parameter">parameter</A> PW and
+a <A HREF="IMEX0012.HTM#master_port">master_port</A> P are defined. The width of the port P is determined by an
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> which references <A HREF="IMEX0016.HTM#parameter">parameter</A> PW.  After expansion, IW, SW
+and PW each evaluate to an integer value.
+<P>
+Figure&nbsp;<A HREF="#figconnectivityportcommoned">6.1</A> illustrates an example of a wide
+<A HREF="IMEX0015.HTM#signal">signal</A> S joining a wide port P on a wide <A HREF="IMEX0012.HTM#instance">instance</A> I.  For example, the
+connected_signal_index_generator expression on port P of <A HREF="IMEX0012.HTM#instance">instance</A> I may be
+defined as <A HREF="IMEX0009.HTM#port_index">port_index</A>(P).  The table lists the values returned by evaluating
+the connected_signal_index_generator expression given IW=3, PW=5 and SW=5.
+The <A HREF="IMEX0009.HTM#port_index">port_index</A> returns a different integer for each expanded port element.
+After expansion, if the width expression of a port is evaluated to be 5, five
+port occurrences will be created and each has a different <A HREF="IMEX0009.HTM#port_index">port_index</A> value,
+i.e. 0, 1, 2, 3 and 4.
+
+<P><A NAME="1926">&#160;</A><A NAME="figconnectivityportcommoned">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR><TD ALIGN=CENTER><A HREF="IMEX0009.HTM#instance_index">instance_index</A>(I)</TD><TD ALIGN=CENTER><A HREF="IMEX0009.HTM#port_index">port_index</A>(P)</TD><TD ALIGN=CENTER>connected_signal_index_generator = <A HREF="IMEX0009.HTM#port_index">port_index</A>(P)</TD></TR>
+<TR><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>0</TD></TR>
+<TR><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>1</TD></TR>
+<TR><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>2</TD></TR>
+<TR><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>3</TD><TD ALIGN=CENTER>3</TD></TR>
+<TR><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>4</TD><TD ALIGN=CENTER>4</TD></TR>
+<TR><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>0</TD></TR>
+<TR><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>1</TD></TR>
+<TR><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>2</TD></TR>
+<TR><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>3</TD><TD ALIGN=CENTER>3</TD></TR>
+<TR><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>4</TD><TD ALIGN=CENTER>4</TD></TR>
+<TR><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>0</TD></TR>
+<TR><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>1</TD></TR>
+<TR><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>2</TD></TR>
+<TR><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>3</TD><TD ALIGN=CENTER>3</TD></TR>
+<TR><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>4</TD><TD ALIGN=CENTER>4</TD></TR>
+</TABLE>
+<P>
+<IMG ALT="gif" SRC="FIG_6_1.GIF"><BR>
+<STRONG>Figure 6.1:</STRONG> An example of parameterized connectivity using a simple
+connected_signal_index_generator expression<BR>
+</CENTER>
+
+<P>
+Figure&nbsp;<A HREF="#figconnectivityportfastest">6.2</A> illustrates another example of a
+wide <A HREF="IMEX0015.HTM#signal">signal</A> S joining a wide port P on a wide <A HREF="IMEX0012.HTM#instance">instance</A> I.  In this case,
+the connected_signal_index_generator expression on port P of <A HREF="IMEX0012.HTM#instance">instance</A> I is
+defined as <A HREF="IMEX0009.HTM#remainder_expression">remainder_expression</A>(<A HREF="IMEX0009.HTM#integer_sum_expression">integer_sum_expression</A>(<A HREF="IMEX0009.HTM#port_index">port_index</A>(P),
+<A HREF="IMEX0009.HTM#integer_product_expression">integer_product_expression</A>(<A HREF="IMEX0009.HTM#instance_index">instance_index</A>(I), PW)), SW).  The table lists the
+values returned by evaluating the connected_signal_index_generator
+expression given IW=3, PW=5 and SW=15.  The <A HREF="IMEX0009.HTM#instance_index">instance_index</A> returns a different
+integer for each expanded <A HREF="IMEX0012.HTM#instance">instance</A> element.  After expansion, if the width
+expression of an <A HREF="IMEX0012.HTM#instance">instance</A> is evaluated to be 3, three <A HREF="IMEX0012.HTM#instance">instance</A> occurrences
+will be created and each has a different <A HREF="IMEX0009.HTM#instance_index">instance_index</A> value, i.e. 0, 1 and
+2.  Similarly, the <A HREF="IMEX0009.HTM#port_index">port_index</A> returns a different integer for each expanded
+port element.
+
+<P><A NAME="1938">&#160;</A><A NAME="figconnectivityportfastest">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR><TD ALIGN=CENTER><A HREF="IMEX0009.HTM#instance_index">instance_index</A>(I)</TD><TD ALIGN=CENTER><A HREF="IMEX0009.HTM#port_index">port_index</A>(P)</TD><TD ALIGN=CENTER>connected_signal_index_generator = <A HREF="IMEX0009.HTM#remainder_expression">remainder_expression</A>(<A HREF="IMEX0009.HTM#integer_sum_expression">integer_sum_expression</A>(<A HREF="IMEX0009.HTM#port_index">port_index</A>(P), <A HREF="IMEX0009.HTM#integer_product_expression">integer_product_expression</A>(<A HREF="IMEX0009.HTM#instance_index">instance_index</A>(I), PW)), SW)</TD></TR>
+<TR><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>0</TD></TR>
+<TR><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>1</TD></TR>
+<TR><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>2</TD></TR>
+<TR><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>3</TD><TD ALIGN=CENTER>3</TD></TR>
+<TR><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>4</TD><TD ALIGN=CENTER>4</TD></TR>
+<TR><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>5</TD></TR>
+<TR><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>6</TD></TR>
+<TR><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>7</TD></TR>
+<TR><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>3</TD><TD ALIGN=CENTER>8</TD></TR>
+<TR><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>4</TD><TD ALIGN=CENTER>9</TD></TR>
+<TR><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>0</TD><TD ALIGN=CENTER>10</TD></TR>
+<TR><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>1</TD><TD ALIGN=CENTER>11</TD></TR>
+<TR><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>12</TD></TR>
+<TR><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>3</TD><TD ALIGN=CENTER>13</TD></TR>
+<TR><TD ALIGN=CENTER>2</TD><TD ALIGN=CENTER>4</TD><TD ALIGN=CENTER>14</TD></TR>
+</TABLE>
+<P>
+<IMG ALT="gif" SRC="FIG_6_2.GIF"><BR>
+<STRONG>Figure 6.2:</STRONG> An example of parameterized connectivity using a complex
+connected_signal_index_generator expression<BR>
+</CENTER>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

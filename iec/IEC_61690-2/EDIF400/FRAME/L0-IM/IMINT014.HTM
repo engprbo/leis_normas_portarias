@@ -1,0 +1,68 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H2><A NAME="REF31045"> 19      Parts</A></H2>
+<P>This chapter describes the concept of parts. Part information is commonly stored in "component libraries" within CAD systems. In EDIF, the term "component" is reserved for an instance of a part. The model for <A HREF="IMEX0024.HTM#part" TARGET=ModelArea>part</A> can be found in the <A HREF="IMEX0024.HTM#pcb_part_model" TARGET=ModelArea>pcb_part_model</A> schema. A <A HREF="IMEX0024.HTM#part" TARGET=ModelArea>part</A> is the set of information which describes a particular <A HREF="IMEX0021.HTM#component" TARGET=ModelArea>component</A> (see section <A HREF="IMINT018.HTM#REF31048">23.1</A>). This information will change infrequently and is used for the design of many boards. Previously, this information was entered into a CAD system part library from data sheets provided by the manufacturer. A <A HREF="IMEX0024.HTM#part" TARGET=ModelArea>part</A> can be an <A HREF="IMEX0024.HTM#electrical_part" TARGET=ModelArea>electrical_part</A>, a <A HREF="IMEX0024.HTM#connector_part" TARGET=ModelArea>connector_part</A>, a <A HREF="IMEX0024.HTM#mechanical_part" TARGET=ModelArea>mechanical_part</A> or a <A HREF="IMEX0024.HTM#jumper_part" TARGET=ModelArea>jumper_part</A>. 
+<H3><A NAME="HDR35"> 19.1    Electrical parts</A></H3>
+<P>An <A HREF="IMEX0024.HTM#electrical_part" TARGET=ModelArea>electrical_part</A> describes a component which contains some electrical functionality. It is further divided into several categories. A <A HREF="IMEX0024.HTM#packaged_electrical_part" TARGET=ModelArea>packaged_electrical_part</A> is the set of information which describes a pre-fabricated electrical component and it specifies the <A HREF="IMEX0023.HTM#package" TARGET=ModelArea>package</A> by which this part is packaged. A <A HREF="IMEX0024.HTM#die_electrical_part" TARGET=ModelArea>die_electrical_part</A> is the set of information which describes an unpackaged die component and it specifies the <A HREF="IMEX0013.HTM#die_physical_template" TARGET=ModelArea>die_physical_template</A> that this part uses. A <A HREF="IMEX0024.HTM#printed_electrical_part" TARGET=ModelArea>printed_electrical_part</A> is the set of information which describes a printed electrical component fabricated as part of the bare board. A <A HREF="IMEX0024.HTM#fully_defined_electrical_part" TARGET=ModelArea>fully_defined_electrical_part</A> is an <A HREF="IMEX0024.HTM#electrical_part" TARGET=ModelArea>electrical_part</A> with a well defined electrical functionality, in terms of <A HREF="IMEX0024.HTM#part_function" TARGET=ModelArea>part_functions</A>. Each <A HREF="IMEX0024.HTM#part_function" TARGET=ModelArea>part_function</A> describes a unit of electrical functionality which is defined by referring to a <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A>. A <A HREF="IMEX0024.HTM#minimally_defined_electrical_part" TARGET=ModelArea>minimally_defined_electrical_part</A> is an <A HREF="IMEX0024.HTM#electrical_part" TARGET=ModelArea>electrical_part</A> whose functionality is not specified within an EDIF file. This may be the case when the manufacturer does not wish to provide information about the internal functionality of a part. Alternatively, a <A HREF="IMEX0024.HTM#fully_defined_electrical_part" TARGET=ModelArea>fully_defined_electrical_part</A> may be provided to support CAD systems or tools which make use of gate-permutability information.
+<P>Figure <A HREF="IMINT014.HTM#REF21771">19.1</A> shows an example of an <A HREF="IMEX0024.HTM#electrical_part" TARGET=ModelArea>electrical_part</A> named 74LS00J. This part is a <A HREF="IMEX0024.HTM#fully_defined_electrical_part" TARGET=ModelArea>fully_defined_electrical_part</A> which contains four <A HREF="IMEX0024.HTM#part_function" TARGET=ModelArea>part_functions</A>.  Each <A HREF="IMEX0024.HTM#part_function" TARGET=ModelArea>part_function</A> is an instance of a 2-Input Positive NAND Gate. This part is packaged by the J14 <A HREF="IMEX0023.HTM#package" TARGET=ModelArea>package</A> (as shown in figure <A HREF="IMINT011.HTM#REF38801">16.1</A>); hence it is also a <A HREF="IMEX0024.HTM#packaged_electrical_part" TARGET=ModelArea>packaged_electrical_part</A>.
+<P><A NAME="REF21771"><CENTER><IMG SRC="FIG0065.GIF">
+</CENTER></A>
+<P><CENTER> Figure 19.1:  An example of electrical_part (74LS00J)</CENTER>
+<P>Figure <A HREF="IMINT014.HTM#REF56285">19.2</A> shows the model of <A HREF="IMEX0024.HTM#electrical_part" TARGET=ModelArea>electrical_part</A>.
+
+<P><A NAME="REF56285"><CENTER><IMG SRC="FIG0060.GIF">
+</CENTER></A>
+<P><CENTER> Figure 19.2:  The model of electrical_part</CENTER>
+<P>An <A HREF="IMEX0024.HTM#electrical_part" TARGET=ModelArea>electrical_part</A> has a number of <A HREF="IMEX0024.HTM#electrical_part_terminal" TARGET=ModelArea>electrical_part_terminals</A>. Each <A HREF="IMEX0024.HTM#electrical_part_terminal" TARGET=ModelArea>electrical_part_terminal</A> defines a connection point into or out of an <A HREF="IMEX0024.HTM#electrical_part" TARGET=ModelArea>electrical_part</A>. It is divided into several categories depending on the type of the <A HREF="IMEX0024.HTM#electrical_part" TARGET=ModelArea>electrical_part</A>. A <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal" TARGET=ModelArea>packaged_electrical_part_terminal</A> is a terminal of a <A HREF="IMEX0024.HTM#packaged_electrical_part" TARGET=ModelArea>packaged_electrical_part</A>; a <A HREF="IMEX0024.HTM#die_electrical_part_terminal" TARGET=ModelArea>die_electrical_part_terminal</A> is a terminal of a <A HREF="IMEX0024.HTM#die_electrical_part" TARGET=ModelArea>die_electrical_part</A>; a <A HREF="IMEX0024.HTM#printed_electrical_part_terminal" TARGET=ModelArea>printed_electrical_part_terminal</A> is a terminal of a <A HREF="IMEX0024.HTM#printed_electrical_part" TARGET=ModelArea>printed_electrical_part</A>; a <A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal" TARGET=ModelArea>fully_defined_electrical_part_terminal</A> is a terminal of a <A HREF="IMEX0024.HTM#fully_defined_electrical_part" TARGET=ModelArea>fully_defined_electrical_part</A> and a <A HREF="IMEX0024.HTM#minimally_defined_electrical_part_terminal" TARGET=ModelArea>minimally_defined_electrical_part_terminal</A> is a terminal of a <A HREF="IMEX0024.HTM#minimally_defined_electrical_part" TARGET=ModelArea>minimally_defined_electrical_part</A>. A <A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal" TARGET=ModelArea>fully_defined_electrical_part_terminal</A> maps a terminal of a <A HREF="IMEX0024.HTM#fully_defined_electrical_part" TARGET=ModelArea>fully_defined_electrical_part</A> onto zero, one or more terminals of the <A HREF="IMEX0024.HTM#part_function" TARGET=ModelArea>part_functions</A> within the <A HREF="IMEX0024.HTM#fully_defined_electrical_part" TARGET=ModelArea>fully_defined_electrical_part</A>. A <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal" TARGET=ModelArea>packaged_electrical_part_terminal</A> maps a terminal of a <A HREF="IMEX0024.HTM#packaged_electrical_part" TARGET=ModelArea>packaged_electrical_part</A> onto a <A HREF="IMEX0023.HTM#package_terminal" TARGET=ModelArea>package_terminal</A> of the <A HREF="IMEX0023.HTM#package" TARGET=ModelArea>package</A> referenced by the <A HREF="IMEX0024.HTM#packaged_electrical_part" TARGET=ModelArea>packaged_electrical_part</A>. A <A HREF="IMEX0024.HTM#die_electrical_part_terminal" TARGET=ModelArea>die_electrical_part_terminal</A> maps a terminal of a <A HREF="IMEX0024.HTM#die_electrical_part" TARGET=ModelArea>die_electrical_part</A> onto an <A HREF="IMEX0013.HTM#electrical_bond_pad" TARGET=ModelArea>electrical_bond_pad</A> of the <A HREF="IMEX0013.HTM#die_physical_template" TARGET=ModelArea>die_physical_template</A> referenced by the <A HREF="IMEX0024.HTM#die_electrical_part" TARGET=ModelArea>die_electrical_part</A>. Figure <A HREF="IMINT014.HTM#REF67014">19.3</A> shows the model of <A HREF="IMEX0024.HTM#electrical_part_terminal" TARGET=ModelArea>electrical_part_terminal</A>
+
+<P><A NAME="REF67014"><CENTER><IMG SRC="FIG0069.GIF">
+</CENTER></A>
+<P><CENTER> Figure 19.3:  The model of electrical_part_terminal.</CENTER>
+<H4><A NAME="HDR36"> 19.1.1     Examples of electrical part</A></H4>
+<H5>74LS00J</H5>
+<P>In figure <A HREF="IMINT014.HTM#REF21771">19.1</A>, the 74LS00J has 14 <A HREF="IMEX0024.HTM#electrical_part_terminal" TARGET=ModelArea>electrical_part_terminals</A>. Since the 74LS00J part is a <A HREF="IMEX0024.HTM#fully_defined_electrical_part" TARGET=ModelArea>fully_defined_electrical_part</A> and also a <A HREF="IMEX0024.HTM#packaged_electrical_part" TARGET=ModelArea>packaged_electrical_part</A>, each terminal of the 74LS00J part is a <A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal" TARGET=ModelArea>fully_defined_electrical_part_terminal</A> and also a <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal" TARGET=ModelArea>packaged_electrical_part_terminal</A>. Each <A HREF="IMEX0024.HTM#electrical_part_terminal" TARGET=ModelArea>electrical_part_terminal</A> effectively describes the connection between one pin of the J14 <A HREF="IMEX0023.HTM#package" TARGET=ModelArea>package</A> and zero, one or more terminals of the <A HREF="IMEX0024.HTM#part_function" TARGET=ModelArea>part_functions</A>. Figure <A HREF="IMINT014.HTM#REF50175">19.4</A> shows how the <A HREF="IMEX0023.HTM#package" TARGET=ModelArea>package</A> pins and <A HREF="IMEX0024.HTM#part_function_terminal" TARGET=ModelArea>part_function_terminals</A> for part 74LS00J are connected. Each connection represents an <A HREF="IMEX0024.HTM#electrical_part_terminal" TARGET=ModelArea>electrical_part_terminal</A>. The connections C7 and C14 are an example of a shared pin (into multiple part function terminals). 
+
+<P><CENTER><IMG SRC="FIG0075.GIF">
+</CENTER>
+<P><A NAME="REF50175"><CENTER><IMG SRC="FIG0076.GIF">
+</CENTER></A>
+<P><CENTER> Figure 19.4:  Internal connection of 74LS00J</CENTER>
+<H5>74ALS00AFN</H5>
+<P>Figure <A HREF="IMINT014.HTM#REF25698">19.5</A> shows an example of an electrical part which has some "no connect" pins. That is, a part terminal which references a package pin, but no part function terminals.
+
+<P><CENTER><IMG SRC="FIG0018.GIF">
+</CENTER>
+<P><A NAME="REF25698"><CENTER><IMG SRC="FIG0019.GIF">
+</CENTER></A>
+<P><CENTER> Figure 19.5:  Internal connection of 74ALS00AFN</CENTER>
+
+<H3><A NAME="REF19014"> 19.2    Connector parts</A></H3>
+<P>A <A HREF="IMEX0024.HTM#connector_part" TARGET=ModelArea>connector_part</A> describes a component whose only intended functionality is to form a connection. It can be either pre-fabricated or printed. An example of a packaged <A HREF="IMEX0024.HTM#connector_part" TARGET=ModelArea>connector_part</A> is a socket and an example of a printed <A HREF="IMEX0024.HTM#connector_part" TARGET=ModelArea>connector_part</A> is an edge connector. Figure <A HREF="IMINT014.HTM#REF37370">19.6</A> shows the model of <A HREF="IMEX0024.HTM#connector_part" TARGET=ModelArea>connector_part</A>.
+<P><A NAME="REF37370"><CENTER><IMG SRC="FIG0016.GIF">
+</CENTER></A>
+<P><CENTER> Figure 19.6:  The model of connector_part</CENTER>
+<H3><A NAME="REF20447"> 19.3    Mechanical parts</A></H3>
+<P>A <A HREF="IMEX0024.HTM#mechanical_part" TARGET=ModelArea>mechanical_part</A> describes a component which is pre-fabricated and which contains no intended electrical functionality. An example of a <A HREF="IMEX0024.HTM#mechanical_part" TARGET=ModelArea>mechanical_part</A> is a mounting clip. Figure <A HREF="IMINT014.HTM#REF35702">19.7</A> shows the model of <A HREF="IMEX0024.HTM#mechanical_part" TARGET=ModelArea>mechanical_part</A>. 
+<P><A NAME="REF35702"><CENTER><IMG SRC="FIG0062.GIF">
+</CENTER></A>
+<P><CENTER> Figure 19.7:  The model of mechanical_part</CENTER>
+
+<H3><A NAME="HDR37"> 19.4    Jumper parts</A></H3>
+<P>In consumer electronics, many boards are manufactured as single-sided boards. On such boards, jumper components are used to jump across existing routing (on multi-layer boards, it is possible to take the new routing to another layer through vias). These are different to discrete jumper wires. They may have designators and are auto-inserted. They carry no electronic functionality. All terminals of a jumper component are equipotential. Figure <A HREF="IMINT014.HTM#REF14539">19.8</A> shows the model of <A HREF="IMEX0024.HTM#jumper_part" TARGET=ModelArea>jumper_part</A>. 
+<P><A NAME="REF14539"><CENTER><IMG SRC="FIG0064.GIF">
+</CENTER></A>
+<P><CENTER> Figure 19.8:  The model of jumper_part</CENTER>
+<H3><A NAME="HDR38"> 19.5    IBIS information</A></H3>
+<P>IBIS (Input/Output Buffer Information Specification) descriptions allow the specification of input/output device characteristics through voltage/current data without the need to reveal information about the internal circuitry of the part. An IBIS description can be considered to be a type of behavioural specification applicable to most digital electronic components. The current model supports electrical part, jumper part and connector part to be related to the corresponding definition within an IBIS description (see <A HREF="IMEX0024.HTM#part_characteristic" TARGET=ModelArea>part_characteristic</A>).
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,705 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMSTART.HTM">General Introduction</A>
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcbMechanicalFixingPropertyFabrication">pcbMechanicalFixingPropertyFabrication</A></H1>
+<PRE>
+<I>pcbMechanicalFixingPropertyFabrication ::= '(' 'pcbMechanicalFixingPropertyFabrication'</I>
+&#09;<I>{ <A HREF="RMRF0048.HTM#pcbPropertyFabrication">pcbPropertyFabrication</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0039.HTM#pcbMountableMechanicalFixingImplementation">pcbMountableMechanicalFixingImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0036.HTM#pcbMechanicalFixing">pcbMechanicalFixing</A> <A HREF="RMRF0039.HTM#pcbMountableMechanicalFixingPropertyFabrication">pcbMountableMechanicalFixingPropertyFabrication</A> <A HREF="RMRF0053.HTM#property">property</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the fabrication of properties belonging to a <I><A HREF="RMRF0036.HTM#pcbMechanicalFixing">pcbMechanicalFixing</A></I>.  
+<P><HR>
+<H1><A NAME="pcbMechanicalFixingRef">pcbMechanicalFixingRef</A></H1>
+<PRE>
+<I>pcbMechanicalFixingRef ::= '(' 'pcbMechanicalFixingRef'</I>
+&#09;<I><A HREF="RMRF0036.HTM#pcbMechanicalFixingNameRef">pcbMechanicalFixingNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0039.HTM#pcbMountableMechanicalFixing">pcbMountableMechanicalFixing</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0036.HTM#pcbMechanicalComponentRef">pcbMechanicalComponentRef</A> <A HREF="RMRF0036.HTM#pcbMechanicalFixing">pcbMechanicalFixing</A> <A HREF="RMRF0036.HTM#pcbMechanicalFixingMounting">pcbMechanicalFixingMounting</A> <A HREF="RMRF0037.HTM#pcbMechanicalPackageRef">pcbMechanicalPackageRef</A> <A HREF="RMRF0037.HTM#pcbMechanicalPartRef">pcbMechanicalPartRef</A> <A HREF="RMRF0039.HTM#pcbMountableMechanicalFixingNameRef">pcbMountableMechanicalFixingNameRef</A> <A HREF="RMRF0039.HTM#pcbMountableMechanicalFixingRef">pcbMountableMechanicalFixingRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a <I><A HREF="RMRF0036.HTM#pcbMechanicalFixing">pcbMechanicalFixing</A></I>.  
+<P><HR>
+<H1><A NAME="pcbMechanicalPackage">pcbMechanicalPackage</A></H1>
+<PRE>
+<I>pcbMechanicalPackage ::= '(' 'pcbMechanicalPackage'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0042.HTM#pcbPackageHeader">pcbPackageHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0036.HTM#pcbMechanicalFixing">pcbMechanicalFixing</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMechanicalPackageRef">pcbMechanicalPackageRef</A> <A HREF="RMRF0039.HTM#pcbMountableMechanicalPackage">pcbMountableMechanicalPackage</A> <A HREF="RMRF0044.HTM#pcbPackageTerminalMechanical">pcbPackageTerminalMechanical</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a mechanical package which is a package which has no electrical characteristics, only mechanical fixings. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbMechanicalPackage HEAT_SINK</B>
+<B>   (pcbPackageHeader  </B>
+<B>      (pcbLayoutUnits ...) ...)</B>
+<B>   (pcbMechanicalFixing BOLT</B>
+<B>      (pcbContactArea ...))) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMechanicalPackageRef">pcbMechanicalPackageRef</A></H1>
+<PRE>
+<I>pcbMechanicalPackageRef ::= '(' 'pcbMechanicalPackageRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0037.HTM#pcbMechanicalPart">pcbMechanicalPart</A>  !<A HREF="RMRF0039.HTM#pcbMountableMechanicalPackage">pcbMountableMechanicalPackage</A>  !<A HREF="RMRF0044.HTM#pcbPackagePreviousVersion">pcbPackagePreviousVersion</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0036.HTM#pcbMechanicalComponentRef">pcbMechanicalComponentRef</A> <A HREF="RMRF0037.HTM#pcbMechanicalFixingRef">pcbMechanicalFixingRef</A> <A HREF="RMRF0037.HTM#pcbMechanicalPackage">pcbMechanicalPackage</A> <A HREF="RMRF0037.HTM#pcbMechanicalPartRef">pcbMechanicalPartRef</A> <A HREF="RMRF0044.HTM#pcbPackageTerminalMechanical">pcbPackageTerminalMechanical</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0044.HTM#pcbPackagePreviousVersion">pcbPackagePreviousVersion</A></I> &lt;<I><A HREF="RMRF0042.HTM#pcbPackageHeader">pcbPackageHeader</A></I> &lt;<I><A HREF="RMRF0017.HTM#pcbBallPackage">pcbBallPackage</A>
+<BR><BR></I>
+<DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0044.HTM#pcbPackagePreviousVersion">pcbPackagePreviousVersion</A></I> &lt;<I><A HREF="RMRF0042.HTM#pcbPackageHeader">pcbPackageHeader</A></I> &lt;<I><A HREF="RMRF0047.HTM#pcbPinPackage">pcbPinPackage</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>References a mechanical package.  
+<P><HR>
+<H1><A NAME="pcbMechanicalPart">pcbMechanicalPart</A></H1>
+<PRE>
+<I>pcbMechanicalPart ::= '(' 'pcbMechanicalPart'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0045.HTM#pcbPartHeader">pcbPartHeader</A></I>
+&#09;<I>( <A HREF="RMRF0037.HTM#pcbMechanicalPackageRef">pcbMechanicalPackageRef</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMechanicalPartRef">pcbMechanicalPartRef</A> 
+</I>
+<H3>Description:</H3>
+<P>A mechanical part corresponds to a data-book description of a packaged mechanical object, such as a mounting clip.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbMechanicalPart TRANS_MKIT_A</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbMechanicalPackageRef TO66MKIT))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMechanicalPartRef">pcbMechanicalPartRef</A></H1>
+<PRE>
+<I>pcbMechanicalPartRef ::= '(' 'pcbMechanicalPartRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0017.HTM#pcbAuxiliaryComponentMechanical">pcbAuxiliaryComponentMechanical</A>  !<A HREF="RMRF0036.HTM#pcbMechanicalComponent">pcbMechanicalComponent</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperPartRef">pcbJumperPartRef</A> <A HREF="RMRF0036.HTM#pcbMechanicalComponentRef">pcbMechanicalComponentRef</A> <A HREF="RMRF0037.HTM#pcbMechanicalFixingRef">pcbMechanicalFixingRef</A> <A HREF="RMRF0037.HTM#pcbMechanicalPackageRef">pcbMechanicalPackageRef</A> <A HREF="RMRF0037.HTM#pcbMechanicalPart">pcbMechanicalPart</A> <A HREF="RMRF0045.HTM#pcbPartRef">pcbPartRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a mechanical part.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAuxiliaryComponent TYPE21HEATSINK</B>
+<B>   (pcbAuxiliaryComponentMechanical </B>
+<B>      (pcbMechanicalPartRef HS21)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMetalArtifactToCavitySpacing">pcbMetalArtifactToCavitySpacing</A></H1>
+<PRE>
+<I>pcbMetalArtifactToCavitySpacing ::= '(' 'pcbMetalArtifactToCavitySpacing'</I>
+&#09;<I><A HREF="RMRF0060.HTM#tolerancedDistanceValue">tolerancedDistanceValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0018.HTM#pcbBareBoardTechnologyRule">pcbBareBoardTechnologyRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0020.HTM#pcbCavityToCavitySpacing">pcbCavityToCavitySpacing</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the allowable spacing between a metal artifact (e.g. a trace or pad) on the layer and a cavity. This constraint applies only to metal artifacts on the layer surface, and where the metal artifacts do not enter the cavity.
+<P>This is a constraint for embedded die technology. See <I><A HREF="RMRF0018.HTM#pcbBareBoardTechnologyRule">pcbBareBoardTechnologyRule</A></I> for a diagrammatic representation.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBTR</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails ...)</B>
+<B>   (pcbMetalArtifactToCavitySpacing</B>
+<B>      (mnm 1000 (undefined) (unconstrained))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumAcidTrapAngle">pcbMinimumAcidTrapAngle</A></H1>
+<PRE>
+<I>pcbMinimumAcidTrapAngle ::= '(' 'pcbMinimumAcidTrapAngle'</I>
+&#09;<I><A HREF="RMRF0000.HTM#angleValue">angleValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum angle that must be formed by a trace when it enters a pad in order to avoid the formation of an acid trap. An acid trap is a place where acid can be trapped during the bare board manufacturing process.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumAcidTrapAngle 20) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumHoleClearance">pcbMinimumHoleClearance</A></H1>
+<PRE>
+<I>pcbMinimumHoleClearance ::= '(' 'pcbMinimumHoleClearance'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbHoleClearanceRule">pcbHoleClearanceRule</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum clearance between holes.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbHoleClearanceRule FHCR</B>
+<B>   (pcbAnyHole)</B>
+<B>   (pcbDrillRuleRef DR1)</B>
+<B>   (pcbMinimumHoleClearance 10))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumHoleToBoardEdge">pcbMinimumHoleToBoardEdge</A></H1>
+<PRE>
+<I>pcbMinimumHoleToBoardEdge ::= '(' 'pcbMinimumHoleToBoardEdge'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToBoardEdge">pcbMinimumThroughHolePadToBoardEdge</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToBoardEdge">pcbMinimumTraceToBoardEdge</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between the inner edge of the board and a hole. The purpose is to ensure that, for example, the profiling tool does not damage the holes on the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumHoleToBoardEdge 50) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumLayoutShapeToBoardEdge">pcbMinimumLayoutShapeToBoardEdge</A></H1>
+<PRE>
+<I>pcbMinimumLayoutShapeToBoardEdge ::= '(' 'pcbMinimumLayoutShapeToBoardEdge'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumLayoutShapeToLayoutShape">pcbMinimumLayoutShapeToLayoutShape</A> <A HREF="RMRF0058.HTM#shape">shape</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between the inner edge of the board and a layout shape. The purpose is to ensure that, for example, the profiling tool does not damage the layout shapes on the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumLayoutShapeToBoardEdge 50) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumLayoutShapeToLayoutShape">pcbMinimumLayoutShapeToLayoutShape</A></H1>
+<PRE>
+<I>pcbMinimumLayoutShapeToLayoutShape ::= '(' 'pcbMinimumLayoutShapeToLayoutShape'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumLayoutShapeToBoardEdge">pcbMinimumLayoutShapeToBoardEdge</A> <A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToLayoutShape">pcbMinimumSurfaceMountPadToLayoutShape</A> <A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToLayoutShape">pcbMinimumThroughHolePadToLayoutShape</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToLayoutShape">pcbMinimumTraceToLayoutShape</A> <A HREF="RMRF0038.HTM#pcbMinimumViaPadToLayoutShape">pcbMinimumViaPadToLayoutShape</A> <A HREF="RMRF0058.HTM#shape">shape</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum distance between two layout shapes. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumLayoutShapeToLayoutShape 20) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumPinPlaceHoleSize">pcbMinimumPinPlaceHoleSize</A></H1>
+<PRE>
+<I>pcbMinimumPinPlaceHoleSize ::= '(' 'pcbMinimumPinPlaceHoleSize'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0018.HTM#pcbBareBoardTechnologyRule">pcbBareBoardTechnologyRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0036.HTM#pcbMaximumPinPlaceHoleSize">pcbMaximumPinPlaceHoleSize</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum size of holes inside pin places on the bare board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBTR</B>
+<B>   (pcbTechnologyRuleHeader)</B>
+<B>   (pcbTechnologyRuleDetails ...)</B>
+<B>   (pcbMinimumPinPlaceHoleSize 2))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumPlatedHoleSize">pcbMinimumPlatedHoleSize</A></H1>
+<PRE>
+<I>pcbMinimumPlatedHoleSize ::= '(' 'pcbMinimumPlatedHoleSize'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0018.HTM#pcbBareBoardTechnologyRule">pcbBareBoardTechnologyRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0036.HTM#pcbMaximumPlatedHoleSize">pcbMaximumPlatedHoleSize</A> <A HREF="RMRF0038.HTM#pcbMinimumUnplatedHoleSize">pcbMinimumUnplatedHoleSize</A> <A HREF="RMRF0038.HTM#pcbMinimumViaHoleSize">pcbMinimumViaHoleSize</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum size of plated-through holes on the bare board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBTR</B>
+<B>   (pcbTechnologyRuleHeader)</B>
+<B>   (pcbTechnologyRuleDetails ...)</B>
+<B>   (pcbMinimumPlatedHoleSize 2))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumSliverWidth">pcbMinimumSliverWidth</A></H1>
+<PRE>
+<I>pcbMinimumSliverWidth ::= '(' 'pcbMinimumSliverWidth'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0038.HTM#pcbMinimumTraceWidth">pcbMinimumTraceWidth</A> <A HREF="RMRF0062.HTM#width">width</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum width of sliver that can be successfully manufactured on a bare board. A sliver is a non-beneficial thin shard of material that is too thin to be self-sustaining.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumSliverWidth 2) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumSpurLength">pcbMinimumSpurLength</A></H1>
+<PRE>
+<I>pcbMinimumSpurLength ::= '(' 'pcbMinimumSpurLength'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0021.HTM#pcbComponentSignalRealizationRule">pcbComponentSignalRealizationRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0012.HTM#length">length</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the smallest length of trace that must be laid when routing from the main track of a signal to a load pin.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbComponentSignalRealizationRule Power_Rules</B>
+<B>   (pcbComponentSignalSet</B>
+<B>      (pcbComponentSignalRef Sig1))</B>
+<B>   (pcbMinimumSpurLength 6))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumSurfaceMountPadToBoardEdge">pcbMinimumSurfaceMountPadToBoardEdge</A></H1>
+<PRE>
+<I>pcbMinimumSurfaceMountPadToBoardEdge ::= '(' 
+&#09;'pcbMinimumSurfaceMountPadToBoardEdge'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToSurfaceMountPad">pcbMinimumSurfaceMountPadToSurfaceMountPad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between the inner edge of the board and a surface-mount pad. The purpose is to ensure that, for example, the profiling tool does not damage the surface-mount pads on the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumSurfaceMountPadToBoardEdge 50) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumSurfaceMountPadToLayoutShape">pcbMinimumSurfaceMountPadToLayoutShape</A></H1>
+<PRE>
+<I>pcbMinimumSurfaceMountPadToLayoutShape ::= '(' 
+&#09;'pcbMinimumSurfaceMountPadToLayoutShape'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumLayoutShapeToLayoutShape">pcbMinimumLayoutShapeToLayoutShape</A> <A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToSurfaceMountPad">pcbMinimumSurfaceMountPadToSurfaceMountPad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> <A HREF="RMRF0058.HTM#shape">shape</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between a surface-mount pad and a layout shape.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumSurfaceMountPadToLayoutShape 10) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumSurfaceMountPadToSurfaceMountPad">pcbMinimumSurfaceMountPadToSurfaceMountPad</A></H1>
+<PRE>
+<I>pcbMinimumSurfaceMountPadToSurfaceMountPad ::= '(' 
+&#09;'pcbMinimumSurfaceMountPadToSurfaceMountPad'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToBoardEdge">pcbMinimumSurfaceMountPadToBoardEdge</A> <A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToLayoutShape">pcbMinimumSurfaceMountPadToLayoutShape</A> <A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToThroughHolePad">pcbMinimumSurfaceMountPadToThroughHolePad</A> <A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToViaPad">pcbMinimumSurfaceMountPadToViaPad</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToSurfaceMountPad">pcbMinimumTraceToSurfaceMountPad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between two surface-mount pads.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumSurfaceMountPadToSurfaceMountPad 10) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumSurfaceMountPadToThroughHolePad">pcbMinimumSurfaceMountPadToThroughHolePad</A></H1>
+<PRE>
+<I>pcbMinimumSurfaceMountPadToThroughHolePad ::= '(' 
+&#09;'pcbMinimumSurfaceMountPadToThroughHolePad'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToSurfaceMountPad">pcbMinimumSurfaceMountPadToSurfaceMountPad</A> <A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToThroughHolePad">pcbMinimumThroughHolePadToThroughHolePad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between a surface-mount pad and a through-hole pad.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumSurfaceMountPadToThroughHolePad 10) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumSurfaceMountPadToViaPad">pcbMinimumSurfaceMountPadToViaPad</A></H1>
+<PRE>
+<I>pcbMinimumSurfaceMountPadToViaPad ::= '(' 'pcbMinimumSurfaceMountPadToViaPad'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToSurfaceMountPad">pcbMinimumSurfaceMountPadToSurfaceMountPad</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToSurfaceMountPad">pcbMinimumTraceToSurfaceMountPad</A> <A HREF="RMRF0038.HTM#pcbMinimumViaPadToViaPad">pcbMinimumViaPadToViaPad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between a surface-mount pad and a pad of a via.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumSurfaceMountPadToViaPad 10) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumThroughHolePadToBoardEdge">pcbMinimumThroughHolePadToBoardEdge</A></H1>
+<PRE>
+<I>pcbMinimumThroughHolePadToBoardEdge ::= '(' 
+&#09;'pcbMinimumThroughHolePadToBoardEdge'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumHoleToBoardEdge">pcbMinimumHoleToBoardEdge</A> <A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToThroughHolePad">pcbMinimumThroughHolePadToThroughHolePad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between the inner edge of the board and a through-hole pad. The purpose is to ensure that, for example, the profiling tool does not damage the through-hole pads on the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumThroughHolePadToBoardEdge 50) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumThroughHolePadToLayoutShape">pcbMinimumThroughHolePadToLayoutShape</A></H1>
+<PRE>
+<I>pcbMinimumThroughHolePadToLayoutShape ::= '(' 
+&#09;'pcbMinimumThroughHolePadToLayoutShape'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumLayoutShapeToLayoutShape">pcbMinimumLayoutShapeToLayoutShape</A> <A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToThroughHolePad">pcbMinimumThroughHolePadToThroughHolePad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> <A HREF="RMRF0058.HTM#shape">shape</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between a through-hole pad and a layout shape.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumThroughHolePadToLayoutShape 10) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumThroughHolePadToThroughHolePad">pcbMinimumThroughHolePadToThroughHolePad</A></H1>
+<PRE>
+<I>pcbMinimumThroughHolePadToThroughHolePad ::= '(' 
+&#09;'pcbMinimumThroughHolePadToThroughHolePad'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToThroughHolePad">pcbMinimumSurfaceMountPadToThroughHolePad</A> <A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToBoardEdge">pcbMinimumThroughHolePadToBoardEdge</A> <A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToLayoutShape">pcbMinimumThroughHolePadToLayoutShape</A> <A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToViaPad">pcbMinimumThroughHolePadToViaPad</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToThroughHolePad">pcbMinimumTraceToThroughHolePad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between two through-hole pads.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumThroughHolePadToThroughHolePad 10) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumThroughHolePadToViaPad">pcbMinimumThroughHolePadToViaPad</A></H1>
+<PRE>
+<I>pcbMinimumThroughHolePadToViaPad ::= '(' 'pcbMinimumThroughHolePadToViaPad'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToThroughHolePad">pcbMinimumThroughHolePadToThroughHolePad</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToThroughHolePad">pcbMinimumTraceToThroughHolePad</A> <A HREF="RMRF0038.HTM#pcbMinimumViaPadToViaPad">pcbMinimumViaPadToViaPad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between a through-hole pad and a pad of a via.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumThroughHolePadToViaPad 10) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumTraceToBoardEdge">pcbMinimumTraceToBoardEdge</A></H1>
+<PRE>
+<I>pcbMinimumTraceToBoardEdge ::= '(' 'pcbMinimumTraceToBoardEdge'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumHoleToBoardEdge">pcbMinimumHoleToBoardEdge</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToTrace">pcbMinimumTraceToTrace</A> <A HREF="RMRF0051.HTM#pcbTrace">pcbTrace</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between the inner edge of the board and a trace. The purpose is to ensure that, for example, the profiling tool does not damage the traces on the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumTraceToBoardEdge 50) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumTraceToLayoutShape">pcbMinimumTraceToLayoutShape</A></H1>
+<PRE>
+<I>pcbMinimumTraceToLayoutShape ::= '(' 'pcbMinimumTraceToLayoutShape'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumLayoutShapeToLayoutShape">pcbMinimumLayoutShapeToLayoutShape</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToTrace">pcbMinimumTraceToTrace</A> <A HREF="RMRF0041.HTM#pcbOptimumTraceToLayoutShape">pcbOptimumTraceToLayoutShape</A> <A HREF="RMRF0051.HTM#pcbTrace">pcbTrace</A> <A HREF="RMRF0058.HTM#shape">shape</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between a trace and a layout shape.
+<P><I><A HREF="RMRF0041.HTM#pcbOptimumTraceToLayoutShape">PcbOptimumTraceToLayoutShape</A></I> specifies the optimum spacing between the two objects. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumTraceToLayoutShape 10) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumTraceToSurfaceMountPad">pcbMinimumTraceToSurfaceMountPad</A></H1>
+<PRE>
+<I>pcbMinimumTraceToSurfaceMountPad ::= '(' 'pcbMinimumTraceToSurfaceMountPad'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToSurfaceMountPad">pcbMinimumSurfaceMountPadToSurfaceMountPad</A> <A HREF="RMRF0037.HTM#pcbMinimumSurfaceMountPadToViaPad">pcbMinimumSurfaceMountPadToViaPad</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToTrace">pcbMinimumTraceToTrace</A> <A HREF="RMRF0041.HTM#pcbOptimumTraceToSurfaceMountPad">pcbOptimumTraceToSurfaceMountPad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> <A HREF="RMRF0051.HTM#pcbTrace">pcbTrace</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between a trace and a surface-mount pad.
+<P><I><A HREF="RMRF0041.HTM#pcbOptimumTraceToSurfaceMountPad">PcbOptimumTraceToSurfaceMountPad</A></I> specifies the optimum spacing between the two objects. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumTraceToSurfaceMountPad 10) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumTraceToThroughHolePad">pcbMinimumTraceToThroughHolePad</A></H1>
+<PRE>
+<I>pcbMinimumTraceToThroughHolePad ::= '(' 'pcbMinimumTraceToThroughHolePad'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToThroughHolePad">pcbMinimumThroughHolePadToThroughHolePad</A> <A HREF="RMRF0037.HTM#pcbMinimumThroughHolePadToViaPad">pcbMinimumThroughHolePadToViaPad</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToTrace">pcbMinimumTraceToTrace</A> <A HREF="RMRF0041.HTM#pcbOptimumTraceToThroughHolePad">pcbOptimumTraceToThroughHolePad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> <A HREF="RMRF0051.HTM#pcbTrace">pcbTrace</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between a trace and a through-hole pad.
+<P><I><A HREF="RMRF0041.HTM#pcbOptimumTraceToThroughHolePad">PcbOptimumTraceToThroughHolePad</A></I> specifies the optimum spacing between the two objects. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumTraceToThroughHolePad 10) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumTraceToTrace">pcbMinimumTraceToTrace</A></H1>
+<PRE>
+<I>pcbMinimumTraceToTrace ::= '(' 'pcbMinimumTraceToTrace'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumTraceToBoardEdge">pcbMinimumTraceToBoardEdge</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToLayoutShape">pcbMinimumTraceToLayoutShape</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToSurfaceMountPad">pcbMinimumTraceToSurfaceMountPad</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToThroughHolePad">pcbMinimumTraceToThroughHolePad</A> <A HREF="RMRF0037.HTM#pcbMinimumTraceToViaPad">pcbMinimumTraceToViaPad</A> <A HREF="RMRF0038.HTM#pcbMinimumTraceWidth">pcbMinimumTraceWidth</A> <A HREF="RMRF0041.HTM#pcbOptimumTraceToTrace">pcbOptimumTraceToTrace</A> <A HREF="RMRF0051.HTM#pcbTrace">pcbTrace</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum distance between two trace segments. 
+<P><I><A HREF="RMRF0041.HTM#pcbOptimumTraceToTrace">PcbOptimumTraceToTrace</A></I> specifies the optimum spacing between the two objects. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumTraceToTrace 20) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbMinimumTraceToViaPad">pcbMinimumTraceToViaPad</A></H1>
+<PRE>
+<I>pcbMinimumTraceToViaPad ::= '(' 'pcbMinimumTraceToViaPad'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0050.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0037.HTM#pcbMinimumTraceToTrace">pcbMinimumTraceToTrace</A> <A HREF="RMRF0038.HTM#pcbMinimumViaPadToViaPad">pcbMinimumViaPadToViaPad</A> <A HREF="RMRF0041.HTM#pcbOptimumTraceToViaPad">pcbOptimumTraceToViaPad</A> <A HREF="RMRF0044.HTM#pcbPad">pcbPad</A> <A HREF="RMRF0051.HTM#pcbTrace">pcbTrace</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the minimum spacing between a trace and a pad of a via. The rule is applied by determining the distance between an edge of a pad on a via and an edge of a trace segment nearest to that via on the same layer.
+<P><I><A HREF="RMRF0041.HTM#pcbOptimumTraceToViaPad">PcbOptimumTraceToViaPad</A></I> specifies the optimum spacing between the two objects. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbMinimumTraceToViaPad 10) ...))</B>
+</PRE>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,172 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="documentation_model">documentation_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0006.HTM#documentation_model">documentation_model</A> schema describes the documentation provided for an
+ object.  A <A HREF="IMEX0006.HTM#documentation">documentation</A> may consists of several <A HREF="IMEX0006.HTM#section">sections</A>.  Each
+ <A HREF="IMEX0006.HTM#section">section</A> may have text, <A HREF="IMEX0006.HTM#diagram">diagrams</A> and nested <A HREF="IMEX0006.HTM#section">sections</A>.
+</P><HR>
+<!-- Start of ENTITY: documentation -->
+<H2><A NAME="documentation">documentation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    background_colour   : <A HREF="IMEX0005.HTM#colour">colour</A>;                 
+    sections            : OPTIONAL LIST [1:?] OF <A HREF="IMEX0006.HTM#section">section</A>;
+    status_of_copyright : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#copyright">copyright</A>;
+    status_of_written   : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+    units               : <A HREF="IMEX0006.HTM#documentation_units">documentation_units</A>;
+  WHERE
+   <A NAME="documentation.containment_constraint">containment_constraint</A> :
+   <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+   ['<A HREF="IMEX0001.HTM#connectivity_structure_model">connectivity_structure_model</A>.<A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A>.document',
+    '<A HREF="IMEX0001.HTM#connectivity_structure_model">connectivity_structure_model</A>.<A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A>.document',
+    '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#design">design</A>.document',
+    '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#edif">edif</A>.document',
+    '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cell">cell</A>.document',
+    '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>.document',
+    '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster">cluster</A>.document',
+    '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#view_group">view_group</A>.document',
+    '<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>.document',
+    '<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>.document',
+    '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.document',
+    '<A HREF="IMEX0013.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>.document',
+    '<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>.<A HREF="IMEX0014.HTM#mountable_die_physical_template">mountable_die_physical_template</A>.document',
+    '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#component_assembly_rule">component_assembly_rule</A>.document',
+    '<A HREF="IMEX0019.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0019.HTM#material">material</A>.document',
+    '<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>.<A HREF="IMEX0020.HTM#pcb_drawing_template">pcb_drawing_template</A>.document',
+    '<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>.<A HREF="IMEX0020.HTM#pcb_template">pcb_template</A>.document',
+    '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#mountable_package">mountable_package</A>.document',
+    '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#mounting_method">mounting_method</A>.document',
+    '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#package">package</A>.document',
+    '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#part">part</A>.document',
+    '<A HREF="IMEX0025.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0025.HTM#sub_layout_definition">sub_layout_definition</A>.document',
+    '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.document',
+    '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>.document',
+    '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>.document',
+    '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#technology_rule">technology_rule</A>.document',
+    '<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0027.HTM#page">page</A>.document',
+    '<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A>.document',
+    '<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0027.HTM#schematic_generic_net">schematic_generic_net</A>.document']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0006.HTM#documentation">documentation</A> is used to provide documentation for an object.  It may
+ consist of several <A HREF="IMEX0006.HTM#section">sections</A>.  Each <A HREF="IMEX0006.HTM#section">section</A> may have text, <A HREF="IMEX0006.HTM#diagram">diagrams</A>
+ and nested <A HREF="IMEX0006.HTM#section">sections</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> <A HREF="IMEX0009.HTM#cell">cell</A> <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> <A HREF="IMEX0009.HTM#cluster">cluster</A> <A HREF="IMEX0015.HTM#component_assembly_rule">component_assembly_rule</A> <A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A> <A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A> <A HREF="IMEX0003.HTM#design">design</A> <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A> <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> <A HREF="IMEX0007.HTM#edif">edif</A> <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A> <A HREF="IMEX0011.HTM#library">library</A> <A HREF="IMEX0019.HTM#material">material</A> <A HREF="IMEX0014.HTM#mountable_die_physical_template">mountable_die_physical_template</A> <A HREF="IMEX0022.HTM#mountable_package">mountable_package</A> <A HREF="IMEX0022.HTM#mounting_method">mounting_method</A> <A HREF="IMEX0023.HTM#package">package</A> <A HREF="IMEX0027.HTM#page">page</A> <A HREF="IMEX0024.HTM#part">part</A> <A HREF="IMEX0020.HTM#pcb_drawing_template">pcb_drawing_template</A> <A HREF="IMEX0020.HTM#pcb_template">pcb_template</A> <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> <A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A> <A HREF="IMEX0027.HTM#schematic_generic_net">schematic_generic_net</A> <A HREF="IMEX0010.HTM#schematic_template">schematic_template</A> <A HREF="IMEX0025.HTM#sub_layout_definition">sub_layout_definition</A> <A HREF="IMEX0026.HTM#technology_rule">technology_rule</A> <A HREF="IMEX0009.HTM#view_group">view_group</A> </P>
+<HR>
+<!-- Start of ENTITY: documentation_units -->
+<H2><A NAME="documentation_units">documentation_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0006.HTM#documentation_units">documentation_units</A>;
+    set_angle    : <A HREF="IMEX0029.HTM#angle_unit">angle_unit</A>;
+    set_distance : <A HREF="IMEX0029.HTM#distance_unit">distance_unit</A>;
+  WHERE
+    <A NAME="documentation_units.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      ['<A HREF="IMEX0006.HTM#documentation_model">documentation_model</A>.<A HREF="IMEX0006.HTM#documentation">documentation</A>.units',
+       '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A>.default_documentation_units']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0006.HTM#documentation_units">documentation_units</A> is used to set the scaling for a documentation.
+ In a documentation, it is appropriate to set an angle scale and a distance
+ scale. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0006.HTM#documentation">documentation</A> <A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A> </P>
+<HR>
+<!-- Start of ENTITY: section -->
+<H2><A NAME="section">section</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0006.HTM#section">section</A>;
+    contents : OPTIONAL LIST [1:?] OF <A HREF="IMEX0006.HTM#section_element">section_element</A>;
+    title    : <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+  WHERE
+    <A NAME="section.containment_constraint">containment_constraint</A> :
+      (* A section belongs to either one documentation, or another section. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+       ['<A HREF="IMEX0006.HTM#documentation_model">documentation_model</A>.<A HREF="IMEX0006.HTM#documentation">documentation</A>.sections', 
+        '<A HREF="IMEX0006.HTM#documentation_model">documentation_model</A>.<A HREF="IMEX0006.HTM#section">section</A>.contents']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0006.HTM#section">section</A> is used to divide a document into sections.  An EDIF
+ <A HREF="IMEX0029.HTM#string_token">string_token</A> is used to give a title to a <A HREF="IMEX0006.HTM#section">section</A>.  A <A HREF="IMEX0006.HTM#section">section</A> may be
+ nested with other <A HREF="IMEX0006.HTM#section">sections</A>.  The body of the <A HREF="IMEX0006.HTM#section">section</A> is constructed
+ using any number of EDIF <A HREF="IMEX0029.HTM#string_token">string_tokens</A> and <A HREF="IMEX0006.HTM#diagram">diagrams</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0006.HTM#documentation">documentation</A> <A HREF="IMEX0006.HTM#section_element">section_element</A> </P>
+<HR>
+<!-- Start of TYPE: section_element -->
+<H2><A NAME="section_element">section_element</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0006.HTM#section_element">section_element</A>
+    = SELECT (<A HREF="IMEX0006.HTM#diagram">diagram</A>, <A HREF="IMEX0006.HTM#section">section</A>, <A HREF="IMEX0029.HTM#string_token">string_token</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0006.HTM#section_element">section_element</A> describes the element which constitutes the body of a
+ <A HREF="IMEX0006.HTM#section">section</A>.  It can be a <A HREF="IMEX0006.HTM#diagram">diagram</A>, a <A HREF="IMEX0029.HTM#string_token">string_token</A> or a nested <A HREF="IMEX0006.HTM#section">section</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0006.HTM#section">section</A> </P>
+<HR>
+<!-- Start of ENTITY: diagram -->
+<H2><A NAME="diagram">diagram</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0006.HTM#diagram">diagram</A>;
+    annotate : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    figures  : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+  WHERE
+    <A NAME="diagram.containment_constraint">containment_constraint</A> :
+      (* A diagram belongs to one section. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0006.HTM#documentation_model">documentation_model</A>.<A HREF="IMEX0006.HTM#section">section</A>.contents');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0006.HTM#diagram">diagram</A> is used to add graphical information to a <A HREF="IMEX0006.HTM#section">section</A> within
+ <A HREF="IMEX0006.HTM#documentation">documentation</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0006.HTM#section_element">section_element</A> </P>
+
+<HR>
+
+<!-- Start of schema: edif_information_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

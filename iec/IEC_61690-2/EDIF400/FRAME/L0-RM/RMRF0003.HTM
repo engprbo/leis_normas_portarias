@@ -1,0 +1,818 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="connectivityBusJoined">connectivityBusJoined</A></H1>
+<PRE>
+<I>connectivityBusJoined ::= '(' 'connectivityBusJoined'</I>
+&#09;<I><A HREF="RMRF0052.HTM#portJoined">portJoined</A></I>
+&#09;<I>{ <A HREF="RMRF0003.HTM#connectivityRipperRef">connectivityRipperRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A>  !<A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A>  !<A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0052.HTM#port">port</A></I>, <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> or <I><A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A></I> referenced in a <I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> must be the same size as the size of the flattened <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I> which the bus (or parent bus in the case of a sub bus) references.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The items referenced in a <I><A HREF="RMRF0052.HTM#portJoined">portJoined</A></I> in a <I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> must also be referenced in the corresponding <I><A HREF="RMRF0058.HTM#signalJoined">signalJoined</A></I>, i.e. for each wide port in the <I><A HREF="RMRF0052.HTM#portJoined">portJoined</A></I> in <I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> there must be a reference to a single bit of that port in each <I><A HREF="RMRF0058.HTM#signal">signal</A></I> in the flattended <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I> associated with the interconnect.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>, <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>)
+<BR><BR><DT>3. The following constraint applies to this context:  All contexts  
+<DD>The ports (<I><A HREF="RMRF0052.HTM#port">port</A></I>, <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> and <I><A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A></I>) and rippers (<I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I>) referenced in a sub interconnect (<I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>) must be a subset of those referenced in the parent interconnect (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>).
+<BR>(See also similar constraint in: <I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>)
+<BR><BR><DT>4. The following constraint applies to this context:  All contexts  
+<DD>When a <I><A HREF="RMRF0052.HTM#portInstanceRef">portInstanceRef</A></I> is used in a <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> or <I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I> the size of the flattened <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I> associated with the interconnect should equal either the size of the <I><A HREF="RMRF0052.HTM#port">port</A></I> or flattened <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, or the product of this size and the <I><A HREF="RMRF0010.HTM#instanceWidth">instanceWidth</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0010.HTM#instanceWidth">instanceWidth</A></I>, <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityBusJoined">ConnectivityBusJoined</A></I> lists all the <I><A HREF="RMRF0052.HTM#port">ports</A></I> and rippers that are connected to the bus, bus slice or subbus. It is analogous to <I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A></I> in net. 
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityBusJoined </B>
+<B>   (portJoined (portRef MP1) ...)</B>
+<B>   (connectivityRipperRef R1))</B>
+</PRE>
+<P>In this example, the master <I><A HREF="RMRF0052.HTM#port">port</A></I> MP1 and a <I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I> R1 are joined to the bus.
+<P><HR>
+<H1><A NAME="connectivityBusSlice">connectivityBusSlice</A></H1>
+<PRE>
+<I>connectivityBusSlice ::= '(' 'connectivityBusSlice'</I>
+&#09;<I><A HREF="RMRF0010.HTM#interconnectNameDef">interconnectNameDef</A></I>
+&#09;<I><A HREF="RMRF0058.HTM#signalGroupRef">signalGroupRef</A></I>
+&#09;<I><A HREF="RMRF0010.HTM#interconnectHeader">interconnectHeader</A></I>
+&#09;<I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A> | <A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A>  *<A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A>  *<A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>In any given bus (<I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>, <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>, <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I> or <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I>), no two bus slices may refer to the same <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I> referenced by a <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I> or <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I> must be a member of the <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I> referenced by the enclosing bus or bus slice.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I>)
+<BR><BR><DT>3. The following constraint applies to this context:  All contexts  
+<DD>In any given interconnect (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>), no two sub interconnects (<I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I> and <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>) may refer to the same set of ports (<I><A HREF="RMRF0052.HTM#port">port</A></I>, <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> and <I><A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A></I>) and rippers (<I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I>).
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I> is used to define part of a <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I> that has a width less than the width of the immediately-enclosing <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I> or <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>. A <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I> may be further subdivided into <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlices</A></I> and <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBusses</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(signalGroup A0_1 </B>
+<B>   (signalList (signalRef A0) (signalRef A1)))</B>
+<B>(signalGroup A2_3 </B>
+<B>   (signalList (signalRef A2) (signalRef A3)))</B>
+<B>(signalGroup A </B>
+<B>   (signalList (signalRef A0_1) (signalRef A2_3)))</B>
+<B>...</B>
+<B>(connectivityBus A </B>
+<B>   (signalGroupRef A)</B>
+<B>   (interconnectHeader ...)</B>
+<B>   (connectivityBusJoined ...)</B>
+<B>   (connectivityBusSlice S0_1 </B>
+<B>      (signalGroupRef A0_1) </B>
+<B>      (interconnectHeader ...)</B>
+<B>      (connectivityBusJoined ...) ...)</B>
+<B>   (connectivityBusSlice S2_3  </B>
+<B>      (signalGroupRef A2_3)</B>
+<B>      (interconnectHeader ...)</B>
+<B>      (connectivityBusJoined ...) ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I> A is subdivided into two <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlices</A></I> S0_1 and S2_3 . Each of these has two signals from the four-bit-wide <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>. In this case, there is no overlap between these signals, but there could be one or more signals common to the bus slices.
+<P><HR>
+<H1><A NAME="connectivityNet">connectivityNet</A></H1>
+<PRE>
+<I>connectivityNet ::= '(' 'connectivityNet'</I>
+&#09;<I><A HREF="RMRF0010.HTM#interconnectNameDef">interconnectNameDef</A></I>
+&#09;<I><A HREF="RMRF0058.HTM#signalRef">signalRef</A></I>
+&#09;<I><A HREF="RMRF0010.HTM#interconnectHeader">interconnectHeader</A></I>
+&#09;<I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0003.HTM#connectivityStructure">connectivityStructure</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The ports (<I><A HREF="RMRF0052.HTM#port">port</A></I> and <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>) referenced by a net (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A></I>) must be a subset of the ports referenced by the <I><A HREF="RMRF0058.HTM#signal">signal</A></I> associated with the net.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A></I>, <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>In any given interconnect (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>), no two sub interconnects (<I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I> and <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>) may refer to the same set of ports (<I><A HREF="RMRF0052.HTM#port">port</A></I>, <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> and <I><A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A></I>) and rippers (<I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I>).
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>)
+<BR><BR><DT>3. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I> is a structured representation of connectivity. Structural connectivity allows the ordering of <I><A HREF="RMRF0052.HTM#port">ports</A></I> to be described and makes an association between <I><A HREF="RMRF0058.HTM#signal">signals</A></I>, <I><A HREF="RMRF0052.HTM#port">ports</A></I> and rippers. Each <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I> is associated with a single <I><A HREF="RMRF0058.HTM#signal">signal</A></I> and with single bit <I><A HREF="RMRF0052.HTM#port">ports</A></I>.
+<P>The <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNets</A></I> within a <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I> provide further information on the structure of the connectivity.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityNet NET1 (signalRef SIG1)</B>
+<B>   (interconnectHeader ...)</B>
+<B>   (connectivityNetJoined </B>
+<B>      (portJoined </B>
+<B>         (portRef MP1) </B>
+<B>         (portInstanceRef P1 (instanceRef I1)))</B>
+<B>      (connectivityRipperRef ...)</B>
+<B>      ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>This example defines a <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I> called NET1, which gives the structural connectivity for all or part of the signal SIG1.
+<P><HR>
+<H1><A NAME="connectivityNetJoined">connectivityNetJoined</A></H1>
+<PRE>
+<I>connectivityNetJoined ::= '(' 'connectivityNetJoined'</I>
+&#09;<I>( <A HREF="RMRF0052.HTM#portJoined">portJoined</A> | <A HREF="RMRF0011.HTM#joinedAsSignal">joinedAsSignal</A> )</I>
+&#09;<I>{ <A HREF="RMRF0003.HTM#connectivityRipperRef">connectivityRipperRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A>  !<A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The ports (<I><A HREF="RMRF0052.HTM#port">port</A></I> and <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>) referenced by a net (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A></I>) must be a subset of the ports referenced by the <I><A HREF="RMRF0058.HTM#signal">signal</A></I> associated with the net.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The ports (<I><A HREF="RMRF0052.HTM#port">port</A></I>, <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> and <I><A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A></I>) and rippers (<I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I>) referenced in a sub interconnect (<I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>) must be a subset of those referenced in the parent interconnect (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>).
+<BR>(See also similar constraint in: <I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityNetJoined">ConnectivityNetJoined</A></I> lists all the ports and rippers that are connected to the net or subnet. It is analogous to <I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I> in bus. 
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityNetJoined </B>
+<B>   (portJoined </B>
+<B>      (portRef MP1) </B>
+<B>      (portInstanceRef P1 (instanceRef I1)))</B>
+<B>   (connectivityRipperRef J1)</B>
+<B>   ...)</B>
+</PRE>
+<P>This <I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A></I> indicates that the master <I><A HREF="RMRF0052.HTM#port">port</A></I> MP1, the ripper J1 and the instance port P1 are connected into this net.
+<P><HR>
+<H1><A NAME="connectivityRipper">connectivityRipper</A></H1>
+<PRE>
+<I>connectivityRipper ::= '(' 'connectivityRipper'</I>
+&#09;<I><A HREF="RMRF0003.HTM#connectivityRipperNameDef">connectivityRipperNameDef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0003.HTM#connectivityStructure">connectivityStructure</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityRipperNameRef">connectivityRipperNameRef</A> <A HREF="RMRF0003.HTM#connectivityRipperRef">connectivityRipperRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A ripper (<I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I> or <I><A HREF="RMRF0056.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I>) must be referenced by at least one bus (<I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>).
+<BR>(See also similar constraint in: <I><A HREF="RMRF0056.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>Each interconnect associated with a ripper must have at least one common signal with at least one other interconnect associated with the same ripper.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0056.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I>)
+<BR><BR><DT>3. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I> is an object used in a connectivity view to associate a connectivity bus, bus slice or subbus with other connectivity busses, subbusses, bus slices, nets or subnets.
+<P>The <I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I> construct gives a name for the ripper. Association between the <I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I> and its nets or busses is defined in the <I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I> and <I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A></I> constructs, which may reference a particular <I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityRipper I1)</B>
+<B>(connectivityRipper I2)</B>
+</PRE>
+<P>This example shows two different rippers, with names I1 and I2.
+<P><HR>
+<H1><A NAME="connectivityRipperNameDef">connectivityRipperNameDef</A></H1>
+<PRE>
+<I>connectivityRipperNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityRipperNameRef">connectivityRipperNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityRipperNameDef">ConnectivityRipperNameDef</A></I> is the name of a connectivity ripper.
+<P><HR>
+<H1><A NAME="connectivityRipperNameRef">connectivityRipperNameRef</A></H1>
+<PRE>
+<I>connectivityRipperNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#connectivityRipperRef">connectivityRipperRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A> <A HREF="RMRF0003.HTM#connectivityRipperNameDef">connectivityRipperNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityRipperNameRef">ConnectivityRipperNameRef</A></I> is a reference to a <I><A HREF="RMRF0003.HTM#connectivityRipperNameDef">connectivityRipperNameDef</A></I>.
+<P><HR>
+<H1><A NAME="connectivityRipperRef">connectivityRipperRef</A></H1>
+<PRE>
+<I>connectivityRipperRef ::= '(' 'connectivityRipperRef'</I>
+&#09;<I><A HREF="RMRF0003.HTM#connectivityRipperNameRef">connectivityRipperNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A>  *<A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityRipperRef">ConnectivityRipperRef</A></I> is used to reference a <I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityRipperRef I1)</B>
+</PRE>
+<P>This example shows a reference to a <I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I> whose name is I1.
+<P><HR>
+<H1><A NAME="connectivityStructure">connectivityStructure</A></H1>
+<PRE>
+<I>connectivityStructure ::= '(' 'connectivityStructure'</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A> | <A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A> | <A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A> | 
+&#09;<A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A> | <A HREF="RMRF0060.HTM#timing">timing</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#connectivityView">connectivityView</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityStructure">ConnectivityStructure</A></I> is used to describe the structural connectivity for a <I><A HREF="RMRF0003.HTM#connectivityView">connectivityView</A></I>. 
+<P>Logical connectivity describes which ports are connected together, in terms of signals, and structural connectivity describes the structure of that connectivity.
+<P><I><A HREF="RMRF0003.HTM#connectivityView">ConnectivityView</A></I> has no implementation section because there is no graphical implementation of a connectivity view.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityStructure</B>
+<B>   (connectivityRipper I1)</B>
+<B>   (connectivityNet NET1 ...)</B>
+<B>   (connectivityNet NET2 ...)</B>
+<B>   (connectivityNet NET3 ...)</B>
+<B>   (connectivityBus BUS1 ...)</B>
+<B>   ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="connectivitySubBus">connectivitySubBus</A></H1>
+<PRE>
+<I>connectivitySubBus ::= '(' 'connectivitySubBus'</I>
+&#09;<I><A HREF="RMRF0010.HTM#interconnectNameDef">interconnectNameDef</A></I>
+&#09;<I><A HREF="RMRF0010.HTM#interconnectHeader">interconnectHeader</A></I>
+&#09;<I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A> | <A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A>  *<A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A>  *<A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>In any given interconnect (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>), no two sub interconnects (<I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I> and <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>) may refer to the same set of ports (<I><A HREF="RMRF0052.HTM#port">port</A></I>, <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> and <I><A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A></I>) and rippers (<I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I>).
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>, <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The ports (<I><A HREF="RMRF0052.HTM#port">port</A></I>, <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> and <I><A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A></I>) and rippers (<I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I>) referenced in a sub interconnect (<I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>) must be a subset of those referenced in the parent interconnect (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>).
+<BR>(See also similar constraint in: <I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I>, <I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I> provides further structural information about the connectivity of the <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I> or <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I> that contains it. It is analogous to <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I> in <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>.
+<P>The width of a subbus is the same as the enclosing bus slice or bus.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityBus A (signalGroupRef  A)</B>
+<B>   (interconnectHeader ...)</B>
+<B>   (connectivityBusJoined </B>
+<B>      (portJoined (portRef MP1) (portRef MP2)) ...)</B>
+<B>   ...</B>
+<B>   (connectivitySubBus S1 </B>
+<B>      (interconnectHeader ...)</B>
+<B>      (connectivityBusJoined </B>
+<B>         (portJoined (portRef MP1)) ...) ...)</B>
+<B>   (connectivitySubBus S2 </B>
+<B>      (interconnectHeader ...)</B>
+<B>      (connectivityBusJoined </B>
+<B>         (portJoined (portRef MP2)) ...) ...))</B>
+</PRE>
+<P>In this example, the bus A has two subbusses. The first, S1, joins the master port MP1 and the second, S2, joins the master port MP2.
+<P><HR>
+<H1><A NAME="connectivitySubNet">connectivitySubNet</A></H1>
+<PRE>
+<I>connectivitySubNet ::= '(' 'connectivitySubNet'</I>
+&#09;<I><A HREF="RMRF0010.HTM#interconnectNameDef">interconnectNameDef</A></I>
+&#09;<I><A HREF="RMRF0010.HTM#interconnectHeader">interconnectHeader</A></I>
+&#09;<I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A>  *<A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>In any given interconnect (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>), no two sub interconnects (<I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I> and <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>) may refer to the same set of ports (<I><A HREF="RMRF0052.HTM#port">port</A></I>, <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> and <I><A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A></I>) and rippers (<I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I>).
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>, <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The ports (<I><A HREF="RMRF0052.HTM#port">port</A></I>, <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> and <I><A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A></I>) and rippers (<I><A HREF="RMRF0003.HTM#connectivityRipper">connectivityRipper</A></I>) referenced in a sub interconnect (<I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>) must be a subset of those referenced in the parent interconnect (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>).
+<BR>(See also similar constraint in: <I><A HREF="RMRF0003.HTM#connectivityBusJoined">connectivityBusJoined</A></I>, <I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I> provides further structural information about the connectivity of the <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I> or <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I> that contains it.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityNet NET1 (signalRef SIG1)</B>
+<B>   (interconnectHeader ...)</B>
+<B>   (connectivityNetJoined </B>
+<B>      (portJoined (portRef MP1) </B>
+<B>         (portInstanceRef P1 (instanceRef I1)))</B>
+<B>      ...)</B>
+<B>   (connectivitySubNet SUBNET1</B>
+<B>      (interconnectHeader ...)</B>
+<B>      (connectivityNetJoined </B>
+<B>         (portJoined (portRef MP1))) ...)</B>
+<B>   (connectivitySubNet SUBNET2</B>
+<B>      (interconnectHeader ...)</B>
+<B>      (connectivityNetJoined </B>
+<B>         (portJoined </B>
+<B>            (portInstanceRef P1 </B>
+<B>               (instanceRef I1))) ...) </B>
+<B>      ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>In this example, the connectivity of the <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I> is described by two subnets, SUBNET1 and SUBNET2
+<P><HR>
+<H1><A NAME="connectivityUnits">connectivityUnits</A></H1>
+<PRE>
+<I>connectivityUnits ::= '(' 'connectivityUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0057.HTM#setCapacitance">setCapacitance</A>&gt; | &lt;<A HREF="RMRF0058.HTM#setTime">setTime</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#connectivityViewHeader">connectivityViewHeader</A>  &lt;<A HREF="RMRF0052.HTM#physicalScaling">physicalScaling</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityUnits">ConnectivityUnits</A></I> defines the units for <I><A HREF="RMRF0003.HTM#connectivityView">connectivityView</A></I>. It may be specified as a default for the entire data in <I><A HREF="RMRF0006.HTM#edifHeader">edifHeader</A></I>, for a library in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>, or for a particular view in <I><A HREF="RMRF0003.HTM#connectivityViewHeader">connectivityViewHeader</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(edif edif_file</B>
+<B>   (edifVersion 4 0 0)</B>
+<B>   (edifHeader (edifLevel 0) </B>
+<B>      (keywordMap (k0KeywordLevel))</B>
+<B>      (unitDefinitions</B>
+<B>         (unit mm 1 (e 1 -3) (meter 1))</B>
+<B>         (unit pF 1 (e 1 -12) (farad 1))</B>
+<B>         (unit nF 1 (e 1 -9) (farad 1))</B>
+<B>         (unit nanoSec 1 (e 1 -9) (second 1)))</B>
+<B>      (fontDefinitions ...)</B>
+<B>      (physicalDefaults ...)</B>
+<B>      (physicalScaling</B>
+<B>         (connectivityUnits </B>
+<B>            (setCapacitance (unitRef pF))</B>
+<B>            (setTime (unitRef nanoSec)))</B>
+<B>         ...))</B>
+<B>   (library LIB1</B>
+<B>      (libraryHeader (edifLevel 0)</B>
+<B>         (nameCaseSensitivity)</B>
+<B>         (technology</B>
+<B>            (physicalScaling</B>
+<B>               (connectivityUnits </B>
+<B>                  (setCapacitance (unitRef nF))))</B>
+<B>            ...) ...)</B>
+<B>      (cell CELL1 (cellHeader ...)</B>
+<B>         (cluster CL1 (interface ...) ...</B>
+<B>            (connectivityView VIEW1</B>
+<B>               (connectivityViewHeader</B>
+<B>                  (connectivityUnits</B>
+<B>                     (setCapacitance (unitRef pF))))</B>
+<B>               ...)))))</B>
+</PRE>
+<P>In this example, unit definitions for mm, pF, nF and nanoSec are defined in the <I><A HREF="RMRF0006.HTM#edifHeader">edifHeader</A></I>. <I><A HREF="RMRF0003.HTM#connectivityUnits">ConnectivityUnits</A></I> are defined as pF for capacitance and nanoSec for time, and this will apply, unless overridden, to all connectivity views within this edif file.
+<P>Within LIB1, <I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A></I> are defined as nF for capacitance, and this will override the definition of <I><A HREF="RMRF0057.HTM#setCapacitance">setCapacitance</A></I> in the <I><A HREF="RMRF0006.HTM#edifHeader">edifHeader</A></I>, so within LIB1 all capacitance values within connectivity views will be in nF. This may be overridden at the view level, as in view VIEW1, which resets capacitance values to be in pF.
+<P><HR>
+<H1><A NAME="connectivityView">connectivityView</A></H1>
+<PRE>
+<I>connectivityView ::= '(' 'connectivityView'</I>
+&#09;<I><A HREF="RMRF0061.HTM#viewNameDef">viewNameDef</A></I>
+&#09;<I><A HREF="RMRF0003.HTM#connectivityViewHeader">connectivityViewHeader</A></I>
+&#09;<I><A HREF="RMRF0012.HTM#logicalConnectivity">logicalConnectivity</A></I>
+&#09;<I><A HREF="RMRF0003.HTM#connectivityStructure">connectivityStructure</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0002.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityView">ConnectivityView</A></I> describes the electrical connectivity of a cell. In addition, structure may be defined in order to allow attributes, such as interconnect criticality, to be represented.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityView VIEW_1</B>
+<B>   (connectivityViewHeader ...)</B>
+<B>   (logicalConnectivity </B>
+<B>      (instance ...)</B>
+<B>      (signal ...) ...)</B>
+<B>   (connectivityStructure ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="connectivityViewHeader">connectivityViewHeader</A></H1>
+<PRE>
+<I>connectivityViewHeader ::= '(' 'connectivityViewHeader'</I>
+&#09;<I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0004.HTM#derivedFrom">derivedFrom</A>&gt; | <A HREF="RMRF0005.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0053.HTM#previousVersion">previousVersion</A>&gt; | <A HREF="RMRF0053.HTM#property">property</A> | &lt;<A HREF="RMRF0059.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#connectivityView">connectivityView</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityViewHeader">ConnectivityViewHeader</A></I> contains data that relates to the connectivity view as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityViewHeader</B>
+<B>   (connectivityUnits (setTime (unitRef ms)))</B>
+<B>   (status ...)</B>
+<B>   (documentation ...)</B>
+<B>   ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="contract">contract</A></H1>
+<PRE>
+<I>contract ::= '(' 'contract'</I>
+&#09;<I><A HREF="RMRF0059.HTM#stringToken">stringToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#contractDisplay">contractDisplay</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#contract">Contract</A></I> identifies the contract associated with the drawing. Contract means all types of agreements and orders for the procurement of supplies or services. 
+<H3>Example:</H3>
+<PRE>
+<B>(contract "91/1010")</B>
+</PRE>
+<P><HR>
+<H1><A NAME="contractDisplay">contractDisplay</A></H1>
+<PRE>
+<I>contractDisplay ::= '(' 'contractDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0054.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#contract">contract</A> <A HREF="RMRF0005.HTM#display">display</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#contractDisplay">ContractDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0003.HTM#contract">contract</A></I>. When used in the context of <I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A></I>, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<P><HR>
+<H1><A NAME="copyright">copyright</A></H1>
+<PRE>
+<I>copyright ::= '(' 'copyright'</I>
+&#09;<I><A HREF="RMRF0062.HTM#year">year</A></I>
+&#09;<I>{ <A HREF="RMRF0059.HTM#stringToken">stringToken</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0059.HTM#status">status</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#copyrightDisplay">copyrightDisplay</A> <A HREF="RMRF0003.HTM#copyrightDrawing">copyrightDrawing</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0003.HTM#copyright">copyright</A></I> constructs within <I><A HREF="RMRF0059.HTM#status">status</A></I> should be unique.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#copyright">Copyright</A></I> is used to indicate to the reader any copyright restrictions on the use of the EDIF data or of a particular object within the file, depending on the context of the use of <I><A HREF="RMRF0059.HTM#status">status</A></I>. 
+<P>The <I><A HREF="RMRF0059.HTM#stringToken">stringTokens</A></I> are the copyright owners.
+<H3>Example:</H3>
+<PRE>
+<B>(copyright </B>
+<B>   (year 1992)</B>
+<B>    "Electronic Industries Association")</B>
+</PRE>
+<P><HR>
+<H1><A NAME="copyrightDisplay">copyrightDisplay</A></H1>
+<PRE>
+<I>copyrightDisplay ::= '(' 'copyrightDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0054.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#copyright">copyright</A> <A HREF="RMRF0005.HTM#display">display</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#copyrightDisplay">CopyrightDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0003.HTM#copyright">copyright</A></I>. When used in the context of <I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A></I>, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<P><HR>
+<H1><A NAME="copyrightDrawing">copyrightDrawing</A></H1>
+<PRE>
+<I>copyrightDrawing ::= '(' 'copyrightDrawing'</I>
+&#09;<I>{ <A HREF="RMRF0030.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0030.HTM#pcbDrawingTitleBlockAttributeDisplay">pcbDrawingTitleBlockAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#copyright">copyright</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies how to display the <I><A HREF="RMRF0003.HTM#copyright">copyright</A></I> text string.
+<P>See <I><A HREF="RMRF0030.HTM#pcbDrawingTitleBlockAttributeDisplay">pcbDrawingTitleBlockAttributeDisplay</A></I> for an example of display slots.
+<P><HR>
+<H1><A NAME="cornerType">cornerType</A></H1>
+<PRE>
+<I>cornerType ::= '(' 'cornerType'</I>
+&#09;<I>( <A HREF="RMRF0060.HTM#truncate">truncate</A> | <A HREF="RMRF0054.HTM#round">round</A> | <A HREF="RMRF0006.HTM#extend">extend</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0007.HTM#figureGroup">figureGroup</A>  &lt;<A HREF="RMRF0007.HTM#figureGroupOverride">figureGroupOverride</A>  &lt;<A HREF="RMRF0025.HTM#pcbDimensionDrawingAttributeOverride">pcbDimensionDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0026.HTM#pcbDimensionEndGeometry">pcbDimensionEndGeometry</A>  &lt;<A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  &lt;<A HREF="RMRF0029.HTM#pcbDrawingFigureDrawingAttributeOverride">pcbDrawingFigureDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0030.HTM#pcbDrawingSymbolPlacementDrawingAttributeOverride">pcbDrawingSymbolPlacementDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0033.HTM#pcbFigureAttributeOverride">pcbFigureAttributeOverride</A>  &lt;<A HREF="RMRF0033.HTM#pcbGeometricAttributeDefault">pcbGeometricAttributeDefault</A>  &lt;<A HREF="RMRF0035.HTM#pcbLeaderLineDrawingAttributeOverride">pcbLeaderLineDrawingAttributeOverride</A>  <A HREF="RMRF0054.HTM#resizeCornerType">resizeCornerType</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#cornerType">CornerType</A></I> specifies the type of corners of, for example, paths. It encloses one of three possible values which are <I><A HREF="RMRF0006.HTM#extend">extend</A></I>, <I><A HREF="RMRF0060.HTM#truncate">truncate</A></I> and <I><A HREF="RMRF0054.HTM#round">round</A></I>. The default is <I><A HREF="RMRF0060.HTM#truncate">truncate</A></I>. The corners are formed by two consecutive segments of the same path.
+<P>If, for example, <I><A HREF="RMRF0003.HTM#cornerType">cornerType</A></I> is used in <I><A HREF="RMRF0007.HTM#figureGroup">figureGroup</A></I> in the <I><A HREF="RMRF0059.HTM#technology">technology</A></I> section of a library, the specified corner type is the default corner type to be used for all <I><A HREF="RMRF0016.HTM#path">path</A></I> and <I><A HREF="RMRF0015.HTM#openShape">openShape</A></I> corners in the figure group. <I><A HREF="RMRF0003.HTM#cornerType">CornerType</A></I> may also be specified in <I><A HREF="RMRF0007.HTM#figureGroupOverride">figureGroupOverride</A></I> within the <I><A HREF="RMRF0007.HTM#figure">figure</A></I> itself to override the default corner type. 
+<P>In all cases, the inside of a corner is formed by a single point when the expansion of the two edges meet. For <I><A HREF="RMRF0003.HTM#cornerType">cornerType</A></I> <I><A HREF="RMRF0054.HTM#round">round</A></I>, an arc with a radius of half the value of the associated <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A></I> forms the outer corner. Such specifications are not universally acceptable for mask layout descriptions.
+<P><I><A HREF="RMRF0006.HTM#endType">EndType</A></I> and <I><A HREF="RMRF0003.HTM#cornerType">cornerType</A></I> apply to cases in which one or two <I><A HREF="RMRF0000.HTM#arc">arcs</A></I> are used, by using the tangents to those <I><A HREF="RMRF0000.HTM#arc">arcs</A></I> (at the point of intersection) in the role of the simple center-lines referred to in the above definitions. 
+<P><CENTER><IMG SRC="FIG0103.GIF">
+</CENTER>
+<P>Corner -Type <I><A HREF="RMRF0054.HTM#round">round</A>
+</I><P>If the corner forms an obtuse angle, both the remaining <I><A HREF="RMRF0003.HTM#cornerType">cornerTypes</A></I> specify an outer corner with a single point. 
+<P><CENTER><IMG SRC="FIG0109.GIF">
+</CENTER>
+<P>Corner-Type <I><A HREF="RMRF0006.HTM#extend">extend</A></I> for obtuse angles
+<P>For acute angles, <I><A HREF="RMRF0060.HTM#truncate">truncate</A></I> produces an additional edge which joins the two points that would have been produced by <I><A HREF="RMRF0006.HTM#endType">endType</A></I> <I><A HREF="RMRF0006.HTM#extend">extend</A></I> applied to each edge separately. For example, this generates the "stop sign" or an octagonal corner for a right angle. 
+<P><CENTER><IMG SRC="FIG0118.GIF">
+</CENTER>
+<P>Corner-Type <I><A HREF="RMRF0060.HTM#truncate">truncate</A>
+</I><P>The final case is the outer expansion of an acute angled corner with <I><A HREF="RMRF0003.HTM#cornerType">cornerType</A></I> <I><A HREF="RMRF0006.HTM#extend">extend</A></I>. This specifies the addition of two extra symmetrical line segments at the corner. They should be perpendicular to the original center line edges and be within the two edges that would have been produced by <I><A HREF="RMRF0006.HTM#endType">endType</A></I> <I><A HREF="RMRF0006.HTM#extend">extend</A></I> applied to each edge separately. These are indicated as tangent 1 and tangent 2 in the following figure. 
+<P><CENTER><IMG SRC="FIG0003.GIF">
+</CENTER>
+<P>Corner-Type <I><A HREF="RMRF0006.HTM#extend">extend</A></I> for acute angles.
+<H3>Example:</H3>
+<PRE>
+<B>(figureGroup Metal</B>
+<B>   (cornerType (extend))</B>
+<B>   (comment "specifies a default corner type of extend")</B>
+<B>   (pathWidth 10))</B>
+<B>...</B>
+<B>(figure</B>
+<B>   (figureGroupOverride Metal</B>
+<B>      (cornerType (truncate))</B>
+<B>      (comment "override default corner type"))</B>
+<B>   ...)</B>
+</PRE>
+<P>This example shows the definition of Metal with a defined <I><A HREF="RMRF0003.HTM#cornerType">cornerType</A></I> of <I><A HREF="RMRF0006.HTM#extend">extend</A></I>, and the local change to <I><A HREF="RMRF0060.HTM#truncate">truncate</A></I> within a <I><A HREF="RMRF0007.HTM#figure">figure</A></I> statement.
+<P><HR>
+<H1><A NAME="coulomb">coulomb</A></H1>
+<PRE>
+<I>coulomb ::= '(' 'coulomb'</I>
+&#09;<I><A HREF="RMRF0061.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0061.HTM#unit">unit</A>  &lt;<A HREF="RMRF0061.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#coulomb">Coulomb</A></I> is used to specify a user-defined unit in terms of the SI unit of electric charge, coulomb. See <I><A HREF="RMRF0061.HTM#unit">unit</A></I> for examples of the definition of units.
+<P><HR>
+<H1><A NAME="criticality">criticality</A></H1>
+<PRE>
+<I>criticality ::= '(' 'criticality'</I>
+&#09;<I><A HREF="RMRF0010.HTM#integerValue">integerValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0010.HTM#interconnectAnnotate">interconnectAnnotate</A>  &lt;<A HREF="RMRF0010.HTM#interconnectHeader">interconnectHeader</A>  &lt;<A HREF="RMRF0055.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A>  &lt;<A HREF="RMRF0057.HTM#schematicSubInterconnectHeader">schematicSubInterconnectHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#criticalityDisplay">criticalityDisplay</A> 
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0003.HTM#criticality">criticality</A></I> attribute is used to describe the relative importance of an interconnect in comparison with other interconnects, for routing purposes. The integer may be positive or negative. An interconnect with a low value for its <I><A HREF="RMRF0003.HTM#criticality">criticality</A></I> is given a lower priority for routing purposes than an interconnect with a higher value for its criticality. If the <I><A HREF="RMRF0003.HTM#criticality">criticality</A></I> of an interconnect is not specified, the default is zero.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityNet CLOCK (signalRef SIG1)</B>
+<B>   (interconnectHeader (criticality 100))</B>
+<B>   (connectivityNetJoined ...) ...)</B>
+<B>(connectivityNet LSSD (signalRef SIG2)</B>
+<B>   (interconnectHeader (criticality -50))</B>
+<B>   (connectivityNetJoined ...) ...)</B>
+</PRE>
+<P>In this example, connectivity net LSSD is declared to be less critical than connectivity net CLOCK, and also less critical than any interconnects that do not have a specified <I><A HREF="RMRF0003.HTM#criticality">criticality</A></I> value.
+<P><HR>
+<H1><A NAME="criticalityDisplay">criticalityDisplay</A></H1>
+<PRE>
+<I>criticalityDisplay ::= '(' 'criticalityDisplay'</I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0010.HTM#interconnectAttachedText">interconnectAttachedText</A>  &lt;<A HREF="RMRF0055.HTM#schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#criticality">criticality</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#criticalityDisplay">CriticalityDisplay</A></I> is used to define display positions for criticality.
+<P><HR>
+<H1><A NAME="currentMap">currentMap</A></H1>
+<PRE>
+<I>currentMap ::= '(' 'currentMap'</I>
+&#09;<I><A HREF="RMRF0003.HTM#currentValue">currentValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0013.HTM#logicValue">logicValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#currentMap">CurrentMap</A></I> is an attribute of a logic value which is used to specify its electrical characteristics. <I><A HREF="RMRF0003.HTM#currentMap">CurrentMap</A></I> gives a value or range of values to specify what the accepted current values are for the given logic value. The value is expressed in units defined by <I><A HREF="RMRF0057.HTM#setCurrent">setCurrent</A></I>. 
+<P>A logic value associated with a positive current indicates conventional current flow into a cell when observed on a port. When the same logic value is assigned to a port, this indicates conventional current flowing out of the cell. Reverse flows are specified by a negative value used within <I><A HREF="RMRF0003.HTM#currentMap">currentMap</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(setCurrent (unitRef mA)) </B>
+<B>...</B>
+<B>(logicDefinitions ...</B>
+<B>   (logicValue T</B>
+<B>      (currentMap (e 2 -1))))</B>
+</PRE>
+<P>In the above example, the accepted current for the logic value T is defined to be 0.2 mA. Since this is positive, it implies current flow from an input port or to an output port.
+<P><HR>
+<H1><A NAME="currentValue">currentValue</A></H1>
+<PRE>
+<I>currentValue ::= <A HREF="RMRF0013.HTM#miNoMaxValue">miNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#currentMap">currentMap</A>  
+</I>
+<H3>Description:</H3>
+<P>A value for current measured in units defined by <I><A HREF="RMRF0057.HTM#setCurrent">setCurrent</A></I>.
+<P><HR>
+<H1><A NAME="curve">curve</A></H1>
+<PRE>
+<I>curve ::= '(' 'curve'</I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#arc">arc</A> | <A HREF="RMRF0000.HTM#arcByCenter">arcByCenter</A> | <A HREF="RMRF0052.HTM#pointValue">pointValue</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#openShape">openShape</A>  !<A HREF="RMRF0058.HTM#shape">shape</A>  !<A HREF="RMRF0060.HTM#unfilledShape">unfilledShape</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  When required within <I><A HREF="RMRF0015.HTM#openShape">openShape</A>
+</I>
+<DD>The <I><A HREF="RMRF0003.HTM#curve">curve</A></I> within an <I><A HREF="RMRF0015.HTM#openShape">openShape</A></I> must contain at least either two points or one arc.
+<BR><BR><DT>2. The following constraint applies to this context:  When required within <I><A HREF="RMRF0058.HTM#shape">shape</A></I>; When required within <I><A HREF="RMRF0060.HTM#unfilledShape">unfilledShape</A>
+</I>
+<DD>The <I><A HREF="RMRF0003.HTM#curve">curve</A></I> must contain at least either three points or one arc.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#curve">Curve</A></I> contains an ordered list of points intermingled with arcs. A point preceding an arc forms a line segment with the first point specified within the arc. A point following an arc forms a line segment with the last point specified by the arc within figures. Two or more points in sequence represent one or more line segments. 
+<P>A final line segment from the last point to the first point is automatically obtained in the context of the shape. 
+<H3>Example:</H3>
+<PRE>
+<B>(shape</B>
+<B>   (curve</B>
+<B>      (pt 20 100)</B>
+<B>      (arc</B>
+<B>         (pt 40 100)</B>
+<B>         (numberPoint 50 110)</B>
+<B>         (pt 40 120))</B>
+<B>      (pt 20 120)))</B>
+</PRE>
+<P>This example consists of one arc from (40, 100) through (50, 110) to (40, 120) and three straight line segments - from (40, 120) to (20, 120), from (20, 120) back to (20, 100), and from (20, 100) to (40, 100). This is illustrated in the figure below.
+<P><CENTER><IMG SRC="FIG0014.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="dataOrigin">dataOrigin</A></H1>
+<PRE>
+<I>dataOrigin ::= '(' 'dataOrigin'</I>
+&#09;<I><A HREF="RMRF0059.HTM#stringToken">stringToken</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0061.HTM#version">version</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0062.HTM#written">written</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0015.HTM#origin">origin</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#dataOrigin">DataOrigin</A></I> identifies the actual location where a particular part of the EDIF data was created, and its local version identification. This may be as specific or as general as required, identifying a particular office or an entire country. <I><A HREF="RMRF0003.HTM#dataOrigin">DataOrigin</A></I> is intended for human interpretation and should serve as an aid for problem analysis. The <I><A HREF="RMRF0061.HTM#version">version</A></I> is nested within <I><A HREF="RMRF0003.HTM#dataOrigin">dataOrigin</A></I>, as the conventions for data versions are taken to be specific to each location. 
+<H3>Example:</H3>
+<PRE>
+<B>(dataOrigin "EDIF Inc., Santa Clara Division"</B>
+<B>   (version "12-A5"))</B>
+</PRE>
+<P>This identifies the Santa Clara Division of EDIF Inc., a fictitious company, as the source of the data. The local version identification is "12-A5".
+<P><HR>
+<H1><A NAME="date">date</A></H1>
+<PRE>
+<I>date ::= '(' 'date'</I>
+&#09;<I><A HREF="RMRF0062.HTM#yearNumber">yearNumber</A></I>
+&#09;<I><A HREF="RMRF0014.HTM#monthNumber">monthNumber</A></I>
+&#09;<I><A HREF="RMRF0003.HTM#dayNumber">dayNumber</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0000.HTM#approvedDate">approvedDate</A>  !<A HREF="RMRF0001.HTM#checkDate">checkDate</A>  !<A HREF="RMRF0006.HTM#engineeringDate">engineeringDate</A>  !<A HREF="RMRF0015.HTM#originalDrawingDate">originalDrawingDate</A>  !<A HREF="RMRF0059.HTM#timeStamp">timeStamp</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0000.HTM#approvedDateDisplay">approvedDateDisplay</A> <A HREF="RMRF0001.HTM#checkDateDisplay">checkDateDisplay</A> <A HREF="RMRF0005.HTM#drawingDate">drawingDate</A> <A HREF="RMRF0005.HTM#drawingDateDrawing">drawingDateDrawing</A> <A HREF="RMRF0005.HTM#drawingFirstUsedDate">drawingFirstUsedDate</A> <A HREF="RMRF0005.HTM#drawingFirstUsedDateDrawing">drawingFirstUsedDateDrawing</A> <A HREF="RMRF0006.HTM#engineeringDateDisplay">engineeringDateDisplay</A> <A HREF="RMRF0015.HTM#originalDrawingDateDisplay">originalDrawingDateDisplay</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The constituents of <I><A HREF="RMRF0003.HTM#date">date</A></I> should constitute a valid date, .i.e. the value of the <I><A HREF="RMRF0014.HTM#monthNumber">monthNumber</A></I> should lie in the range 1 to 12 and the <I><A HREF="RMRF0003.HTM#dayNumber">dayNumber</A></I> should lie correspond to a valid day of the month, which in the case of February, should consider leap years.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#date">Date</A></I> specifies the date as three integers representing the year, month and day. 
+<H3>Example:</H3>
+<PRE>
+<B>(date 1992 4 29)</B>
+</PRE>
+<P>This example represents the date April 29th 1992.
+<P><HR>
+<H1><A NAME="dayNumber">dayNumber</A></H1>
+<PRE>
+<I>dayNumber ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#date">date</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#number">number</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Numeric constraints: 
+<DD>Minimum value: 1   Maximum value: 31   
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#dayNumber">DayNumber</A></I> represents a number of days within <I><A HREF="RMRF0059.HTM#timeStamp">timeStamp</A></I>. 
+<P><HR>
+<H1><A NAME="dcFanInLoad">dcFanInLoad</A></H1>
+<PRE>
+<I>dcFanInLoad ::= '(' 'dcFanInLoad'</I>
+&#09;<I><A HREF="RMRF0014.HTM#nonNegativeNumber">nonNegativeNumber</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0000.HTM#bidirectionalPortAttributes">bidirectionalPortAttributes</A>  &lt;<A HREF="RMRF0015.HTM#outputPortAttributes">outputPortAttributes</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#dcFanInLoadDisplay">dcFanInLoadDisplay</A> <A HREF="RMRF0004.HTM#dcFanOutLoad">dcFanOutLoad</A> <A HREF="RMRF0004.HTM#dcMaxFanIn">dcMaxFanIn</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#dcFanInLoad">DcFanInLoad</A></I> is used to specify an EDIF attribute of ports. The value specified is used to compute the fan-in load contributed by an output port or bidirectional port. No units are specified for this quantity. See <I><A HREF="RMRF0004.HTM#dcMaxFanIn">dcMaxFanIn</A></I> for a further description.
+<H3>Example:</H3>
+<PRE>
+<B> (dcFanInLoad 25)</B>
+</PRE>
+<P>The above example specifies a port to have a <I><A HREF="RMRF0003.HTM#dcFanInLoad">dcFanInLoad</A></I> value of 25. 
+<P><HR>
+<H1><A NAME="dcFanInLoadDisplay">dcFanInLoadDisplay</A></H1>
+<PRE>
+<I>dcFanInLoadDisplay ::= '(' 'dcFanInLoadDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0054.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0052.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#dcFanInLoad">dcFanInLoad</A> <A HREF="RMRF0004.HTM#dcFanOutLoadDisplay">dcFanOutLoadDisplay</A> <A HREF="RMRF0004.HTM#dcMaxFanInDisplay">dcMaxFanInDisplay</A> <A HREF="RMRF0005.HTM#display">display</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0003.HTM#dcFanInLoadDisplay">DcFanInLoadDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0003.HTM#dcFanInLoad">dcFanInLoad</A></I>. When used in the context of any implementation, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

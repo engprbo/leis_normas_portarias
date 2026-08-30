@@ -1,0 +1,158 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<!-- This file was created with the fm2html filter.
+The filter is copyright Norwegian Telecom Research and
+was programmed by Jon Stephenson von Tetzchner. -->
+
+
+<H1><A NAME="HDR0"> 1  Introduction to the Reference Manual Sections</A></H1>
+<P>This section gives an overview of the structure and content of the Reference Manual, and should be read first.
+<H3><A NAME="HDR1">HYPERTEXT LINKS</A></H3>
+<P>These are set up according to the following diagram:
+<P><CENTER><IMG SRC="FIG0129.GIF">
+</CENTER>
+<P>There are no links from the keywords used in examples to their definitions. These have been left out to reduce the overall file size.
+<P>Since the files are quite large, it may be necessary to allocate more memory to Frame Viewer to have more than one file open at a time.
+<H3><A NAME="HDR2">INTRODUCTION</A></H3>
+<P>This section gives an introduction to the basic syntactic structure of EDIF.
+<H3><A NAME="HDR3">REFERENCE</A></H3>
+<P>This section lists each keyword and gives a description of each keyword, in the following sections: 
+
+<UL>
+<LI><P> syntax 
+<BR><BR>
+<LI><P> where it is used ('Used by')
+<BR><BR>
+<LI><P> similar keywords
+<BR><BR>
+<LI><P> constraints (if any)
+<BR><BR>
+<LI><P> description
+<BR><BR>
+<LI><P> example (except for simplest keywords)
+<BR><BR>
+</UL>
+
+
+<P>The lexical syntax for the EDIF primitives (<I>identifier</I>, <I>integerToken</I>, <I>stringToken</I> and <I>whiteSpace</I>) are given in this section and these do not appear in the ascii BNF file.
+<P>The syntax for keyword definition, <I>keywordMap</I>, is given for each of the keyword levels. However, the use of defined keywords is not explicitly incorporated into all the following productions. Such use is legal when expansion of the keyword is legal.
+<H4><A NAME="HDR4">Syntax Notations</A></H4>
+<P>All terminals of the grammar are enclosed by apostrophes. Since EDIF does not distinguish case, the keywords need not appear in the same case as shown. An implementation should treat 'PORT', 'port' and 'Port' as the same identifier.
+<P>The vertical bar "|" separates alternatives. For example, ( A | B | C ) represents exactly one occurrence of A or B or C.
+<P>Parentheses "( )" show syntactic association. For example, A ( B | C ) denotes A B or A C. The parentheses used for syntactic association should not be confused with the terminals '(' and ')'.
+<P>Braces "{ }" indicate zero or more occurrences of the enclosed syntactic construct. For example, { A | B } represents the empty sequence , as well as A B, and A B B B, B B A B A, and so on.
+<P>Brackets "[ ]" indicate an optional construct.
+<P>Angled brackets "&lt; &gt;" signify a construct that may occur at most once within the immediately enclosing syntactic grouping construct. For example, { A | &lt;B&gt; } represents all sequences of zero or more A's that contain at most one B; that is, A, A A, B, A A B A, B A A A A, and the empty sequence are all valid sequences.
+<P>The terminals of EDIF are string tokens, integer token and identifier. They are defined on the corresponding reference pages.
+
+<H4><A NAME="HDR5">'Used by' Information</A></H4>
+<P>This section gives a summary of where each keyword is used together with the additional information about how it is used.
+<P>If a keyword is used as a required item, this is indicated by an exclamation mark, !. 
+<P>If it may be used at most once, this is indicated by an angled bracket, &lt;. 
+<P>If it is used zero or many times, this is indicated by a star, *. 
+<P>Where there is no prefix to a keyword in the "Used by" section, this means that the keyword is not a form and the above categories are not appropriate.
+<H4><A NAME="HDR6">Constraints</A></H4>
+<P>Constraints consist of restrictions and rules that need to be applied over and above the syntactic rules. These are special rules that are not contained in the syntax, either because it is too complex to do so or because too many additional keywords would be needed.
+<P>The syntactic rules include the integrity of the references, i.e. that all items referenced have been defined before they are referenced.
+<P>NOTE: The Information Model gives definitive details of all constraints.
+
+<H4><A NAME="HDR7">Similar keywords</A></H4>
+<P>This is a list of keywords which are similar to the one being defined, and may be useful as a cross reference to other parts of the file.
+<P> 
+<H3><A NAME="HDR8">PERMUTED INDEX</A></H3>
+<P>This index is provided as a cross reference between keywords related by common words. By convention, composite keywords are formed by concatenating words together, each new word (except the first) beginning with a capital letter. This index takes each of these words and gives a list of all other keywords containing the same word. 
+<H3><A NAME="HDR9">REFERENCED STANDARDS</A></H3>
+<P>The following standards are referenced in keyword descriptions:
+<PRE>
+<B>JEDEC Standard JESD30-A March 1993</B>
+     Electronic Industries Association
+     Engineering Dept
+     2500 Wilson Boulevard
+     Arlington, VA 22201-3834
+     USA
+
+<B>BS 308</B>
+* Engineering drawing practice
+  BS 308 : Part 1: 1993
+     British Standards Institution
+     2 Park Street
+     London
+     W1A 2BS
+     United Kingdom
+
+<B>ISO</B>
+* ISO Standards Handbook 12
+  Technical drawings, Second edition 1991
+* ISO 8859
+     International Organization for Standardization
+     ISO Central Secretariat
+     Case postale 56
+     CH-1211 Geneve 20
+     Switzerland
+
+<B>IEEE</B>
+* IEEE Std. 1149.1-1990 (for boundary scan port types, see description in schematicPortAttributes) 
+* IEEE Std. 91-1984 (see description in schematicPortAttributes)
+     IEEE Customer Service
+     445 Hoes Lane
+     PO Box 1331
+     Piscataway
+     NJ 08855-1331
+     USA
+
+<B>JISX</B>
+* JIS X 0201
+* JIS X 208
+     Japanese Industrial Standards Committee
+     c/o Standards Department Agency of Industrial Science and Technology
+     Ministry of International Trade and Industry
+     1-3-1, Kasumigaseki
+     Chiyoda-ku
+     Tokyo 100
+     Japan
+
+<B>ANSI</B>
+     American National Standards Institute
+     Customer Service
+     11 West 42nd Street
+     New York
+     NY 10036
+     USA
+
+<B>AFNOR</B>
+     Association Francaise de Normalisation
+     Tour Europe
+     Cedex 7
+     F-92049
+     Paris La Defense
+     France
+
+<B>DIN</B>
+     Deutsches Institut fuer Normung
+     Beuth Verlag GmbH
+     D-10772 Berlin
+     Germany
+
+<B>MIL-STD</B>
+U.S. Military Standard
+     OASD (P&amp;L) WS,
+     Pentagon,
+     Room 2B322
+     Washington DC 20301-8000
+     USA
+
+<B>DIE</B>
+Die Information Exchange Format
+EIectronic Industries Association (see address above)
+</PRE>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,214 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1>Appendix C</H1>
+<H1><A NAME="SECTION05300000000000000000">Mapping between syntax and information model</A></H1>
+<P>
+<A NAME="appdefault">&#160;</A>
+<P>
+At present, the purpose of the EDIF Information Model is to describe the design
+information carried by an EDIF file.  Future work needs to be done to formalise
+the mappings between the EDIF Information Model and the EDIF syntax.  The
+mapping can be carried out in both directions.  It should be possible to map
+the Information Model to the syntax and vice versa.  This chapter outlines how
+to use <I>EXPRESS</I> to define a formal mapping model.
+<P>
+In figure&nbsp;<A HREF="#figmappinginformationmodelandsyntax">C.1</A>, the <TT>
+information_model</TT> schema represents an abstract model of the domain and the
+<TT>syntax_model</TT> schema represents a concrete implementation of the abstract
+model.  For example, entity <TT>integer_point</TT> in the <TT>
+information_model</TT> schema describes a point whose coordinates are specified in
+<TT>integer_distance_value</TT>; entity <TT>pt</TT> in the <TT>syntax_model</TT> is
+its corresponding implementation.
+
+<P><A NAME="15306">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+  schema information_model;
+    entity integer_point;
+      x_coordinate, y_coordinate : integer_distance_value;
+    end_entity;
+  end_schema;
+
+  schema syntax_model;
+      reference from information_model 
+        (integer_point, integer_distance_value AS integerValue);
+
+    entity pt;
+      xCoordinate, yCoordinate : integerValue;
+    end_entity;
+
+    function map_integer_point_to_pt 
+      (abstract_form : integer_point) : pt;
+      return( pt(abstract_form.x_coordinate, 
+                 abstract_form.y_coordinate) );
+    end_function;
+
+    function map_pt_to_integer_point 
+      (concrete_form : pt) : integer_point;
+      return( integer_point(concrete_form.xCoordinate, 
+                            concrete_form.yCoordinate) );
+    end_function;
+  end_schema;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure C.1:</STRONG> <A NAME="figmappinginformationmodelandsyntax">&#160;</A>
+         An example of formalising mapping between information model and syntax<BR>
+</CENTER>
+
+<P>
+Objects defined in the abstract model may be mapped onto one or more objects
+defined in the concrete model and vice versa.  The mappings between objects
+defined in the <TT>information_model</TT> and objects defined in the <TT>
+syntax_model</TT> are also formalised in the <TT>syntax_model</TT> schema.  The
+mapping from entity <TT>integer_point</TT> to entity <TT>pt</TT> is defined in
+function <TT>map_integer_point_to_pt</TT>.  On the other hand, the mapping
+from entity <TT>pt</TT> to entity <TT>integer_point</TT> is defined in function <TT>
+map_pt_to_integer_point</TT>.
+<P>
+In the above example, the mapping between the abstract object and the concrete
+object is straightforward.  However, this is not always the case.  For example,
+the transform construct in the EDIF syntax may contain an origin construct.  If
+the origin construct is missing, the transform construct would have a default
+value for the origin, which is (pt 0 0).  The mechanism used to provide a
+default value for a construct is not within the scope of an abstract
+information model.  This should be modelled separately in the mapping function
+between the abstract object and the concrete object.
+<P>
+In figure&nbsp;<A HREF="#figmappingobjectwithdefaultvalue">C.2</A>, there is a simplified
+model of the transform concept.  In the <TT>information_model</TT>, the <TT>
+origin</TT> attribute of entity <TT>abstract_transform</TT> is a required attribute.
+Hence every occurrence of <TT>abstract_transform</TT> must have a value of that
+attribute.  However, in the <TT>syntax_model</TT>, the <TT>origin</TT> attribute of
+entity <TT>concrete_transform</TT> is optional.  Therefore not every occurrence
+of <TT>concrete_transform</TT> would have a value of that attribute.  To
+formalise the mapping from entity <TT>concrete_transform</TT> to entity <TT>
+abstract_transform</TT>, it is necessary to provide a default value of the <TT>
+origin</TT> attribute for each occurrence of <TT>abstract_transform</TT>, if its
+corresponding <TT>concrete_transform</TT> does not specify the value of the
+origin.  The mapping from entity <TT>concrete_transform</TT> to entity <TT>
+abstract_transform</TT> is defined in the function <TT>
+map_concrete_transform_to_abstract_transform</TT>.  This function checks that
+if an occurrence of <TT>concrete_transform</TT> specifies the value of its
+origin, the origin of the corresponding <TT>abstract_transform</TT> would take
+the same value.  Otherwise, the origin of the <TT>abstract_transform</TT> would
+take the value of the <TT>default_origin</TT>, which is <TT>
+integer_point</TT>(0,0).
+
+<P><A NAME="15307">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+  schema information_model;
+    entity abstract_transform;
+      origin          : integer_point;
+    end_entity;
+  end_schema;
+
+  schema syntax_model;
+      reference from information_model;
+    constant
+      default_origin   : integer_point := integer_point(0,0);
+    end_constant;
+
+    entity concrete_transform;
+      origin          : optional pt;
+    end_entity;
+
+    function map_concrete_transform_to_abstract_transform
+      (concrete_form : concrete_transform) : abstract_transform;
+      local
+        abstract_form : abstract_transform;
+      end_local;
+      if exists(concrete_form.origin) then
+         abstract_form.origin.x_coordinate 
+           := concrete_form.origin.xCoordinate;
+         abstract_form.origin.y_coordinate 
+           := concrete_form.origin.yCoordinate;
+      else
+         abstract_form.origin := default_origin;
+      end_if
+    end_function;
+  end_schema;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure C.2:</STRONG> <A NAME="figmappingobjectwithdefaultvalue">&#160;</A>
+         An example of providing default value in the mapping function<BR>
+</CENTER>
+
+<P>
+Table&nbsp;<A HREF="#tbobjectdefaultvalue">C.1</A> lists the default values for objects
+defined in the EDIF Information Model.
+
+<P><A NAME="15309">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Entity</TH><TH>Attribute</TH><TH>Default value</TH></TR>
+<TR><TD>connectivity_generic_net</TD><TD>criticality</TD><TD ALIGN=CENTER>0</TD></TR>
+<TR><TD>connectivity_generic_bus</TD><TD>criticality</TD><TD ALIGN=CENTER>0</TD></TR>
+<TR><TD ROWSPAN=2>display</TD><TD>origin</TD><TD ALIGN=CENTER>integer_point(0,0)</TD></TR>
+<TR><TD>rotation</TD><TD ALIGN=CENTER>0</TD></TR>
+<TR><TD>edif</TD><TD>character_encoding</TD><TD ALIGN=CENTER>ascii</TD></TR>
+<TR><TD>external_schematic_symbol</TD><TD>background_colour</TD><TD ALIGN=CENTER>colour(100,100,100)</TD></TR>
+<TR><TD ROWSPAN=12>figure_group</TD><TD>default_border_pattern</TD><TD ALIGN=CENTER>pixel_pattern(1,1,[false])</TD></TR>
+<TR><TD>default_border_width</TD><TD ALIGN=CENTER>minimal</TD></TR>
+<TR><TD>default_border_visible</TD><TD ALIGN=CENTER>true</TD></TR>
+<TR><TD>default_colour</TD><TD ALIGN=CENTER>colour(0,0,0)</TD></TR>
+<TR><TD>default_corner_type</TD><TD ALIGN=CENTER>truncate</TD></TR>
+<TR><TD>default_end_type</TD><TD ALIGN=CENTER>truncate</TD></TR>
+<TR><TD>default_fill_pattern</TD><TD ALIGN=CENTER>pixel_pattern(1,1,[false])</TD></TR>
+<TR><TD>default_fill_pattern_visible</TD><TD ALIGN=CENTER>true</TD></TR>
+<TR><TD>default_horizontal_justification</TD><TD ALIGN=CENTER>left_justify</TD></TR>
+<TR><TD>default_path_width</TD><TD ALIGN=CENTER>minimal</TD></TR>
+<TR><TD>default_vertical_justification</TD><TD ALIGN=CENTER>baseline_justify</TD></TR>
+<TR><TD>default_visible</TD><TD ALIGN=CENTER>true</TD></TR>
+<TR><TD>geometry_macro_template</TD><TD>background_colour</TD><TD ALIGN=CENTER>colour(100,100,100)</TD></TR>
+<TR><TD>internal_schematic_symbol</TD>  <TD>background_colour</TD><TD ALIGN=CENTER>colour(100,100,100)</TD></TR>
+<TR><TD>library</TD>                  <TD>background_colour</TD><TD ALIGN=CENTER>colour(100,100,100)</TD></TR>
+<TR><TD>page</TD>                     <TD>background_colour</TD><TD ALIGN=CENTER>colour(100,100,100)</TD></TR>
+<TR><TD>schematic_generic_net</TD>      <TD>criticality</TD>      <TD ALIGN=CENTER>0</TD></TR>
+<TR><TD>schematic_generic_bus</TD>      <TD>criticality</TD>      <TD ALIGN=CENTER>0</TD></TR>
+<TR><TD>schematic_template</TD>        <TD>background_colour</TD><TD ALIGN=CENTER>colour(100,100,100)</TD></TR>
+<TR><TD ROWSPAN=4>transform</TD>      <TD>origin</TD>           <TD ALIGN=CENTER>integer_point(0,0)</TD></TR>
+<TR><TD>rotation</TD> <TD ALIGN=CENTER>0</TD></TR>
+<TR><TD>scale_x</TD> <TD ALIGN=CENTER>fraction(1,1)</TD></TR>
+<TR><TD>scale_y</TD><TD ALIGN=CENTER>fraction(1,1)</TD></TR>
+</TABLE>
+<STRONG>Table C.1:</STRONG> <A NAME="tbobjectdefaultvalue">&#160;</A>
+         Default values of objects in the EDIF Information Model<BR>
+</CENTER>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

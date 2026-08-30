@@ -1,0 +1,66 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H2><A NAME="REF64949"> 9      Geometries</A></H2>
+<P>This chapter describes the concept of geometries. The model for <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A> can be found in the <A HREF="IMEX0008.HTM#geometry_model">geometry_model</A> schema. 
+<P>A <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A> can be a <A HREF="IMEX0008.HTM#dot">dot</A>, an <A HREF="IMEX0008.HTM#open_element">open_element</A>, a <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A> or an <A HREF="IMEX0008.HTM#unfilled_element">unfilled_element</A>. An <A HREF="IMEX0008.HTM#open_element">open_element</A> is one that is designed so that it normally ends at a different point to where it starts. It can be either a <A HREF="IMEX0008.HTM#path">path</A> or an <A HREF="IMEX0008.HTM#open_shape">open_shape</A>. A <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A> is one that is designed to have no particular start and end point, and which encloses an area with its perimeter. It can be a <A HREF="IMEX0008.HTM#circle">circle</A>, a <A HREF="IMEX0008.HTM#circle_by_centre">circle_by_centre</A>, a <A HREF="IMEX0008.HTM#polygon">polygon</A>, a <A HREF="IMEX0008.HTM#rectangle">rectangle</A>, a <A HREF="IMEX0008.HTM#shape">shape</A> or a <A HREF="IMEX0008.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>. An <A HREF="IMEX0008.HTM#unfilled_element">unfilled_element</A> is similar to a <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>, except that its enclosed area is not filled. It can be an <A HREF="IMEX0008.HTM#unfilled_circle">unfilled_circle</A>, an <A HREF="IMEX0008.HTM#unfilled_circle_by_centre">unfilled_circle_by_centre</A>, an <A HREF="IMEX0008.HTM#unfilled_polygon">unfilled_polygon</A>, an <A HREF="IMEX0008.HTM#unfilled_rectangle">unfilled_rectangle</A> or an <A HREF="IMEX0008.HTM#unfilled_shape">unfilled_shape</A>. Figure <A HREF="IMINT007.HTM#REF71743">9.1</A> shows the model of <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A>. 
+<P><A NAME="REF71743"><CENTER><IMG SRC="FIG0021.GIF">
+</CENTER></A>
+<P><CENTER> Figure 9.1:  The model of geometry_element</CENTER>
+
+<H1><A NAME="HDR21"> Part III:   Connectivity domain</A></H1>
+
+<H2><A NAME="REF34413"> 10      Structural connectivity with wide instances</A></H2>
+<P>In connectivity and schematic views, wide <A HREF="IMEX0009.HTM#instance">instances</A> are available. When an interconnect (net or bus) joins a port or a port_bundle on a wide <A HREF="IMEX0009.HTM#instance">instance</A>, the pattern of connectivity will be either in the commoned style or in the fanned out style. For the commoned style, the joined <A HREF="IMEX0009.HTM#instance_port">instance_ports</A> or <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundles</A> reference <A HREF="IMEX0009.HTM#master_port">master_ports</A> or <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundles</A> whose port size is the same as that of the interconnect. For the fanned out style, the joined <A HREF="IMEX0009.HTM#instance_port">instance_ports</A> or <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundles</A> are flattened to lists of <A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A>. The length of these lists must be equal to the size of the interconnect. The size of an interconnect is the same as the size of its associated <A HREF="IMEX0012.HTM#signal">signal</A> or <A HREF="IMEX0012.HTM#signal_group">signal_group</A>. A net is associated with a <A HREF="IMEX0012.HTM#signal">signal</A>; its size is therefore always one. A bus is associated with a <A HREF="IMEX0012.HTM#signal_group">signal_group</A>, the size of which is equal to the length of the list of <A HREF="IMEX0012.HTM#signal">signals</A> created by flattening the <A HREF="IMEX0012.HTM#signal_group">signal_group</A>. 
+<P>The following sections give various examples of using an interconnect to join a port or a port_bundle on a wide <A HREF="IMEX0009.HTM#instance">instance</A>.
+<H5>Joining ports on instances in the commoned style</H5>
+<P>Figure <A HREF="IMINT007.HTM#REF19096">10.1</A> illustrates an example of a net joining a port on a wide <A HREF="IMEX0009.HTM#instance">instance</A> using the commoned style. The wide <A HREF="IMEX0009.HTM#instance">instance</A> I has a width of three. It instantiates a <A HREF="IMEX0009.HTM#cluster">cluster</A> which defines a <A HREF="IMEX0009.HTM#master_port">master_port</A> P in the <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.
+<P><A NAME="REF19096"><CENTER><IMG SRC="FIG0009.GIF">
+</CENTER></A>
+<P><CENTER> Figure 10.1:  A net joins a port on an instance in the commoned style</CENTER>
+<P>If a net NET_A is defined which joins to port P on <A HREF="IMEX0009.HTM#instance">instance</A> I, the underlying connectivity of NET_A will be equivalent to joining port P on the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I, port P on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I and port P on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I together.
+<H5>Joining port_bundles on instances in the commoned style</H5>
+<P>Figure <A HREF="IMINT007.HTM#REF12018">10.2</A> illustrates an example of a bus joining a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A> using the commoned style. The wide <A HREF="IMEX0009.HTM#instance">instance</A> I has a width of three. It instantiates a <A HREF="IMEX0009.HTM#cluster">cluster</A> in which two <A HREF="IMEX0009.HTM#master_port">master_ports</A> P1, P2 and a <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> PB are defined. PB groups P1 and P2 together.
+
+<P><A NAME="REF12018"><CENTER><IMG SRC="FIG0010.GIF">
+</CENTER></A>
+<P><CENTER> Figure 10.2:  A bus joins a port_bundle on an instance in the commoned style</CENTER>
+<P>When a bus joins to a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A> using the commoned style, the joined <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A> must reference a <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> whose port size is the same as that of the bus. The size of a bus is determined by flattening its associated <A HREF="IMEX0012.HTM#signal_group">signal_group</A>. If a bus BUS_A is defined which joins to port_bundle PB on <A HREF="IMEX0009.HTM#instance">instance</A> I, the size of the port_bundle PB must be the same as the size of the bus BUS_A. In this case, the size of PB is 2 and the size of BUS_A is also 2. The connectivity underlying BUS_A will be equivalent to joining the port_bundle PB on the 0th member <A HREF="IMEX0009.HTM#instance">instance</A> I, the port_bundle PB on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I and the port_bundle PB on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I together. That is, the 0th bit of BUS_A joins port P1 on the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I, port P1 on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I and port P1 on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I together; the 1st bit of BUS_A joins port P2 on the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I, port P2 on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I and port P2 on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I together.
+<H5>Joining ports on instances in the fanned out style</H5>
+<P>Figure <A HREF="IMINT007.HTM#REF41101">10.3</A> illustrates an example of a bus joining a port on an <A HREF="IMEX0009.HTM#instance">instance</A> using the fanned out style. The wide <A HREF="IMEX0009.HTM#instance">instance</A> I has a width of three. It instantiates a <A HREF="IMEX0009.HTM#cluster">cluster</A> which defines a <A HREF="IMEX0009.HTM#master_port">master_port</A> P in the <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.
+<P><A NAME="REF41101"><CENTER><IMG SRC="FIG0011.GIF">
+</CENTER></A>
+<P><CENTER> Figure 10.3:  A bus joins a port on an instance in the fanned out style</CENTER>
+
+<P>When a bus joins to a port on an <A HREF="IMEX0009.HTM#instance">instance</A> using the fanned out style, the size of the port list resulting from expanding the joined <A HREF="IMEX0009.HTM#instance_port">instance_port</A> must be the same as that of the bus. The size of the port list is determined by the width of the <A HREF="IMEX0009.HTM#instance">instance</A>. Suppose a bus BUS_B is defined which joins to port P on <A HREF="IMEX0009.HTM#instance">instance</A> I. The size of the bus BUS_B is 3 and the underlying connectivity is: the 0th bit joins port P on the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 1st bit joins port P on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 2nd bit joins port P on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I.
+<H5>Joining port_bundles on instances in the fanned out style</H5>
+<P>Figure <A HREF="IMINT007.HTM#REF33194">10.4</A> illustrates an example of a bus joining a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A> using the fanned out style. The wide <A HREF="IMEX0009.HTM#instance">instance</A> I has a width of three. It instantiates a <A HREF="IMEX0009.HTM#cluster">cluster</A> in which two <A HREF="IMEX0009.HTM#master_port">master_ports</A> P1, P2 and a <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> PB are defined. PB groups P1 and P2 together.
+<P><A NAME="REF33194"><CENTER><IMG SRC="FIG0012.GIF">
+</CENTER></A>
+<P><CENTER> Figure 10.4:  A bus joins a port_bundle on an instance in the fanned out style</CENTER>
+<P>When a bus joins to a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A> using the fanned out style, the size of port list resulting from expanding the joined <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A> must be the same size as that of the bus. The size of the port list is the product of the <A HREF="IMEX0009.HTM#instance">instance</A> width and the referenced <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> size. Suppose a bus BUS_C is defined which joins to the port_bundle PB on the <A HREF="IMEX0009.HTM#instance">instance</A> I. PB implicitly represents a list of 6 ports (i.e. <A HREF="IMEX0009.HTM#instance">instance</A> width × <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> size = 3 × 2). Note that the elements of the port_bundle PB correspond to consecutive members of the list of ports. The size of bus BUS_C is 6 and the underlying connectivity is: the 0th bit joins port P1 on the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 1st bit joins port P2 on the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 2nd bit joins port P1 on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 3rd bit joins port P2 on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 4th bit joins port P1 on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 5th bit joins port P2 on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I.
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

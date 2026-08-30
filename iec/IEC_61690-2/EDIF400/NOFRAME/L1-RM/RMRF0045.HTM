@@ -1,0 +1,563 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">General Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A></H1>
+<PRE>
+<I>pcbPackagedElectricalPartRef ::= '(' 'pcbPackagedElectricalPartRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentRef">pcbPackagedElectricalComponentRef</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartType">pcbPackagedElectricalPartType</A> <A HREF="RMRF0048.HTM#pcbPartRef">pcbPartRef</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartRef">pcbPrintedElectricalPartRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a packaged electrical part.
+<P><HR>
+<H1><A NAME="pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A></H1>
+<PRE>
+<I>pcbPackagedElectricalPartTerminal ::= '(' 'pcbPackagedElectricalPartTerminal'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameDef">pcbElectricalPartTerminalNameDef</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalHeader">pcbElectricalPartTerminalHeader</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0024.HTM#pcbConnectedPackageTerminal">pcbConnectedPackageTerminal</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0034.HTM#pcbElectricalPartTerminalConnectedPortSet">pcbElectricalPartTerminalConnectedPortSet</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0044.HTM#pcbPackagedElectricalPartFullyDefined">pcbPackagedElectricalPartFullyDefined</A>  *<A HREF="RMRF0044.HTM#pcbPackagedElectricalPartMinimallyDefined">pcbPackagedElectricalPartMinimallyDefined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorPartTerminal">pcbPackagedConnectorPartTerminal</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartType">pcbPackagedElectricalPartType</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartTerminal">pcbPrintedElectricalPartTerminal</A> 
+</I>
+<H3>Description:</H3>
+<P>Provides the electrical information about one of the terminals on a packaged electrical part and also references the corresponding pin on its package.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedElectricalPartTerminal T1</B>
+<B>   (pcbElectricalPartTerminalHeader)</B>
+<B>   (pcbConnectedPackageTerminal</B>
+<B>      (pcbPackageTerminalPinRef P1))</B>
+<B>   (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>      (pcbElectricalPartFunctionPortRef a </B>
+<B>         (pcbElectricalPartFunctionRef A))))</B>
+</PRE>
+<P>Here, the terminal T1 is defined. This corresponds to pin P1 in the part's package. The terminal is connected to the port a of function A.
+<P><HR>
+<H1><A NAME="pcbPackagedElectricalPartType">pcbPackagedElectricalPartType</A></H1>
+<PRE>
+<I>pcbPackagedElectricalPartType ::= ( <A HREF="RMRF0044.HTM#pcbPackagedElectricalPartFullyDefined">pcbPackagedElectricalPartFullyDefined</A> | 
+&#09;<A HREF="RMRF0044.HTM#pcbPackagedElectricalPartMinimallyDefined">pcbPackagedElectricalPartMinimallyDefined</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPartType">pcbDieElectricalPartType</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartType">pcbPrintedElectricalPartType</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether the packaged electrical part is fully defined or minimally defined. A fully-defined part includes the connectivity of the individual functions within the part and the permutability (i.e. swappability) of those functions. A minimally-defined part does not include this information; instead, it defines the permutability of the part terminals.
+<P><HR>
+<H1><A NAME="pcbPackageHeader">pcbPackageHeader</A></H1>
+<PRE>
+<I>pcbPackageHeader ::= '(' 'pcbPackageHeader'</I>
+&#09;<I><A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A></I>
+&#09;<I>{ <A HREF="RMRF0006.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | &lt;<A HREF="RMRF0046.HTM#pcbPackagePreviousVersion">pcbPackagePreviousVersion</A>&gt; | 
+&#09;<A HREF="RMRF0056.HTM#property">property</A> | &lt;<A HREF="RMRF0062.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0020.HTM#pcbBallPackage">pcbBallPackage</A>  !<A HREF="RMRF0039.HTM#pcbMechanicalPackage">pcbMechanicalPackage</A>  !<A HREF="RMRF0050.HTM#pcbPinPackage">pcbPinPackage</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0042.HTM#pcbMountablePackageHeader">pcbMountablePackageHeader</A> <A HREF="RMRF0042.HTM#pcbMountablePackageTerminalHeader">pcbMountablePackageTerminalHeader</A> 
+</I>
+<H3>Description:</H3>
+<P>Gathers together data relating to the package as a whole, including an optional reference to the previous version of the package.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage DIP14</B>
+<B>   (pcbPackageHeader </B>
+<B>      (pcbLayoutUnits ...)</B>
+<B>      (pcbPackagePreviousVersion </B>
+<B>         (pcbPinPackageRef OLD_DIP14))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageMounting">pcbPackageMounting</A></H1>
+<PRE>
+<I>pcbPackageMounting ::= '(' 'pcbPackageMounting'</I>
+&#09;<I><A HREF="RMRF0045.HTM#pcbPackageMountingType">pcbPackageMountingType</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0041.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A>  &lt;<A HREF="RMRF0042.HTM#pcbMountablePinPackage">pcbMountablePinPackage</A>  &lt;<A HREF="RMRF0050.HTM#pcbPinPackage">pcbPinPackage</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0042.HTM#pcbMountablePackageMountingClass">pcbMountablePackageMountingClass</A> <A HREF="RMRF0042.HTM#pcbMountablePackageMountingClassInsertion">pcbMountablePackageMountingClassInsertion</A> <A HREF="RMRF0042.HTM#pcbMountablePackageMountingClassManual">pcbMountablePackageMountingClassManual</A> <A HREF="RMRF0042.HTM#pcbMountablePackageMountingClassOnsertion">pcbMountablePackageMountingClassOnsertion</A> <A HREF="RMRF0042.HTM#pcbMountablePackageMountingClassType">pcbMountablePackageMountingClassType</A> <A HREF="RMRF0045.HTM#pcbPackageMountingDoubleSided">pcbPackageMountingDoubleSided</A> <A HREF="RMRF0045.HTM#pcbPackageMountingHeight">pcbPackageMountingHeight</A> <A HREF="RMRF0045.HTM#pcbPackageMountingSingleSided">pcbPackageMountingSingleSided</A> <A HREF="RMRF0045.HTM#pcbPackageMountingThroughBoard">pcbPackageMountingThroughBoard</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Describes the method of mounting the package onto the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage DIL14 ...</B>
+<B>   (pcbPackageMounting </B>
+<B>      (pcbPackageMountingThroughBoard)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageMountingDoubleSided">pcbPackageMountingDoubleSided</A></H1>
+<PRE>
+<I>pcbPackageMountingDoubleSided ::= '(' 'pcbPackageMountingDoubleSided'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageMountingType">pcbPackageMountingType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageMounting">pcbPackageMounting</A> <A HREF="RMRF0045.HTM#pcbPackageMountingSingleSided">pcbPackageMountingSingleSided</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the package pins are mounted on both sides of the board, e.g. a connector mounted on the side of the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage DSEC64 ...</B>
+<B>   (pcbPackageMounting </B>
+<B>      (pcbPackageMountingDoubleSided)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageMountingHeight">pcbPackageMountingHeight</A></H1>
+<PRE>
+<I>pcbPackageMountingHeight ::= '(' 'pcbPackageMountingHeight'</I>
+&#09;<I><A HREF="RMRF0064.HTM#tolerancedDistanceValue">tolerancedDistanceValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0041.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A>  &lt;<A HREF="RMRF0042.HTM#pcbMountableMechanicalPackage">pcbMountableMechanicalPackage</A>  &lt;<A HREF="RMRF0042.HTM#pcbMountablePinPackage">pcbMountablePinPackage</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageMounting">pcbPackageMounting</A> <A HREF="RMRF0045.HTM#pcbPackageMountingType">pcbPackageMountingType</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines the distance between the bottom of the package and the surface of the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbMountablePinPackage DIP14_Dip_Bottom ...</B>
+<B>   (pcbPackageMountingHeight </B>
+<B>      (mnm 250 300 500)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageMountingSingleSided">pcbPackageMountingSingleSided</A></H1>
+<PRE>
+<I>pcbPackageMountingSingleSided ::= '(' 'pcbPackageMountingSingleSided'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageMountingType">pcbPackageMountingType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageMounting">pcbPackageMounting</A> <A HREF="RMRF0045.HTM#pcbPackageMountingDoubleSided">pcbPackageMountingDoubleSided</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the package pins are mounted on the surface of one side of the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage PLCC20 ...</B>
+<B>   (pcbPackageMounting </B>
+<B>      (pcbPackageMountingSingleSided)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageMountingThroughBoard">pcbPackageMountingThroughBoard</A></H1>
+<PRE>
+<I>pcbPackageMountingThroughBoard ::= '(' 'pcbPackageMountingThroughBoard'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageMountingType">pcbPackageMountingType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageMounting">pcbPackageMounting</A> <A HREF="RMRF0049.HTM#pcbPinMountingThroughBoard">pcbPinMountingThroughBoard</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the package pins are through-hole mounted.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage DIL14 ...</B>
+<B>   (pcbPackageMounting </B>
+<B>      (pcbPackageMountingThroughBoard)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageMountingType">pcbPackageMountingType</A></H1>
+<PRE>
+<I>pcbPackageMountingType ::= ( <A HREF="RMRF0045.HTM#pcbPackageMountingThroughBoard">pcbPackageMountingThroughBoard</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPackageMountingSingleSided">pcbPackageMountingSingleSided</A> | <A HREF="RMRF0045.HTM#pcbPackageMountingDoubleSided">pcbPackageMountingDoubleSided</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0045.HTM#pcbPackageMounting">pcbPackageMounting</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0042.HTM#pcbMountablePackageMountingClassType">pcbMountablePackageMountingClassType</A> <A HREF="RMRF0045.HTM#pcbPackageMountingHeight">pcbPackageMountingHeight</A> <A HREF="RMRF0049.HTM#pcbPinMountingType">pcbPinMountingType</A> 
+</I>
+<H3>Description:</H3>
+<P>Describes the method that is used to mount the package onto the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage DIL14 ...</B>
+<B>   (pcbPackageMounting </B>
+<B>      (pcbPackageMountingThroughBoard)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageNameDrawing">pcbPackageNameDrawing</A></H1>
+<PRE>
+<I>pcbPackageNameDrawing ::= '(' 'pcbPackageNameDrawing'</I>
+&#09;<I>{ <A HREF="RMRF0033.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0042.HTM#pcbMountablePackageSymbol">pcbMountablePackageSymbol</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies how to display the package name, which is usually defined within the <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> of the associated package; see <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackageNameDrawing</B>
+<B>   (pcbDrawingTextDisplay Default_Attrs</B>
+<B>      (unscaledTransform (origin (pt 500 600)))</B>
+<B>      (stringExtent 10 1)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageNameFabrication">pcbPackageNameFabrication</A></H1>
+<PRE>
+<I>pcbPackageNameFabrication ::= '(' 'pcbPackageNameFabrication'</I>
+&#09;<I>{ <A HREF="RMRF0035.HTM#pcbFabricateTextAppearance">pcbFabricateTextAppearance</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0035.HTM#pcbFootprintDefinition">pcbFootprintDefinition</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0024.HTM#pcbComponentNameFabrication">pcbComponentNameFabrication</A> <A HREF="RMRF0043.HTM#pcbNameFabrication">pcbNameFabrication</A> <A HREF="RMRF0046.HTM#pcbPackagePropertyFabrication">pcbPackagePropertyFabrication</A> <A HREF="RMRF0048.HTM#pcbPartNameFabrication">pcbPartNameFabrication</A> <A HREF="RMRF0049.HTM#pcbPinNameFabrication">pcbPinNameFabrication</A> <A HREF="RMRF0053.HTM#pcbTerminalNameFabrication">pcbTerminalNameFabrication</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies display positions and appearances for a package name.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineChipCarrier">pcbPackageOutlineChipCarrier</A></H1>
+<PRE>
+<I>pcbPackageOutlineChipCarrier ::= '(' 'pcbPackageOutlineChipCarrier'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineUncasedChip">pcbPackageOutlineUncasedChip</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a chip-carrier package style (package-outline-style code CC in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineCylinder">pcbPackageOutlineCylinder</A></H1>
+<PRE>
+<I>pcbPackageOutlineCylinder ::= '(' 'pcbPackageOutlineCylinder'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineFlatpack">pcbPackageOutlineFlatpack</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineMicrowave">pcbPackageOutlineMicrowave</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineSmallOutline">pcbPackageOutlineSmallOutline</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineStyle">pcbPackageOutlineStyle</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a cylinder or can package style (package-outline-style code CY in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineDiscButton">pcbPackageOutlineDiscButton</A></H1>
+<PRE>
+<I>pcbPackageOutlineDiscButton ::= '(' 'pcbPackageOutlineDiscButton'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a disc-button package style (package-outline-style code DB in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineFibreOpticDevice">pcbPackageOutlineFibreOpticDevice</A></H1>
+<PRE>
+<I>pcbPackageOutlineFibreOpticDevice ::= '(' 'pcbPackageOutlineFibreOpticDevice'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a flange-mount package style (package-outline-style code FM in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineFlangeMount">pcbPackageOutlineFlangeMount</A></H1>
+<PRE>
+<I>pcbPackageOutlineFlangeMount ::= '(' 'pcbPackageOutlineFlangeMount'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a fibre-optic-device package style (package-outline-style code FO in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineFlatpack">pcbPackageOutlineFlatpack</A></H1>
+<PRE>
+<I>pcbPackageOutlineFlatpack ::= '(' 'pcbPackageOutlineFlatpack'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineCylinder">pcbPackageOutlineCylinder</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineMicrowave">pcbPackageOutlineMicrowave</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineSmallOutline">pcbPackageOutlineSmallOutline</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineStyle">pcbPackageOutlineStyle</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a flatpack package style (package-outline-style code FP in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineGridArray">pcbPackageOutlineGridArray</A></H1>
+<PRE>
+<I>pcbPackageOutlineGridArray ::= '(' 'pcbPackageOutlineGridArray'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a grid-array package style (package-outline-style code GA in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineInLinePackage">pcbPackageOutlineInLinePackage</A></H1>
+<PRE>
+<I>pcbPackageOutlineInLinePackage ::= '(' 'pcbPackageOutlineInLinePackage'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineInLinePackageOrInsertedPackage">pcbPackageOutlineInLinePackageOrInsertedPackage</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies an in-line package style (package-outline-style code IL in JEDEC standard JESD30-A.) JEDEC prefers the classification <I><A HREF="RMRF0045.HTM#pcbPackageOutlineInLinePackageOrInsertedPackage">pcbPackageOutlineInLinePackageOrInsertedPackage</A></I>.
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineInLinePackageOrInsertedPackage">pcbPackageOutlineInLinePackageOrInsertedPackage</A></H1>
+<PRE>
+<I>pcbPackageOutlineInLinePackageOrInsertedPackage ::= '(' 
+&#09;'pcbPackageOutlineInLinePackageOrInsertedPackage'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#or">or</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineInLinePackage">pcbPackageOutlineInLinePackage</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a in-line or inserted package style (package-outline-style code IP in JEDEC standard JESD30-A.) This classification must be restricted to DIP, SIP and ZIP packages.
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineLongForm">pcbPackageOutlineLongForm</A></H1>
+<PRE>
+<I>pcbPackageOutlineLongForm ::= '(' 'pcbPackageOutlineLongForm'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a long-form horizontal package style (package-outline-style code LF in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineMicroelectronicAssembly">pcbPackageOutlineMicroelectronicAssembly</A></H1>
+<PRE>
+<I>pcbPackageOutlineMicroelectronicAssembly ::= '(' 
+&#09;'pcbPackageOutlineMicroelectronicAssembly'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a microelectronic-assembly package style (package-outline-style code MA in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineMicrowave">pcbPackageOutlineMicrowave</A></H1>
+<PRE>
+<I>pcbPackageOutlineMicrowave ::= '(' 'pcbPackageOutlineMicrowave'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineCylinder">pcbPackageOutlineCylinder</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineFlatpack">pcbPackageOutlineFlatpack</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineSmallOutline">pcbPackageOutlineSmallOutline</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineStyle">pcbPackageOutlineStyle</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a microwave package style (package-outline-style code MW in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlinePostStudMount">pcbPackageOutlinePostStudMount</A></H1>
+<PRE>
+<I>pcbPackageOutlinePostStudMount ::= '(' 'pcbPackageOutlinePostStudMount'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a press-fit package style (package-outline-style code PF in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlinePressFit">pcbPackageOutlinePressFit</A></H1>
+<PRE>
+<I>pcbPackageOutlinePressFit ::= '(' 'pcbPackageOutlinePressFit'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a post-mount to stud-mount package style (package-outline-style code PM in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineSmallOutline">pcbPackageOutlineSmallOutline</A></H1>
+<PRE>
+<I>pcbPackageOutlineSmallOutline ::= '(' 'pcbPackageOutlineSmallOutline'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineCylinder">pcbPackageOutlineCylinder</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineFlatpack">pcbPackageOutlineFlatpack</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineMicrowave">pcbPackageOutlineMicrowave</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineStyle">pcbPackageOutlineStyle</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a small-outline package style (package-outline-style code SO in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineSpecialShape">pcbPackageOutlineSpecialShape</A></H1>
+<PRE>
+<I>pcbPackageOutlineSpecialShape ::= '(' 'pcbPackageOutlineSpecialShape'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0047.HTM#pcbPackageShape">pcbPackageShape</A> <A HREF="RMRF0061.HTM#shape">shape</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a special-shape package style (package-outline-style code SS in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<P><HR>
+<H1><A NAME="pcbPackageOutlineStyle">pcbPackageOutlineStyle</A></H1>
+<PRE>
+<I>pcbPackageOutlineStyle ::= '(' 'pcbPackageOutlineStyle'</I>
+&#09;<I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0050.HTM#pcbPinPackage">pcbPinPackage</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineCylinder">pcbPackageOutlineCylinder</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineFlatpack">pcbPackageOutlineFlatpack</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineMicrowave">pcbPackageOutlineMicrowave</A> <A HREF="RMRF0045.HTM#pcbPackageOutlineSmallOutline">pcbPackageOutlineSmallOutline</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines the style of the package outline. This provides a pointer to the appropriate JEDEC JESD30-A standard. <I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyle">PcbPackageOutlineStyle</A></I> does not define any physical dimensions; it merely indicates the style of package used.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage DIL14 ...</B>
+<B>   (pcbPackageOutlineStyle</B>
+<B>      (pcbPackageOutlineInLinePackage)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A></H1>
+<PRE>
+<I>pcbPackageOutlineStyleType ::= ( <A HREF="RMRF0045.HTM#pcbPackageOutlineChipCarrier">pcbPackageOutlineChipCarrier</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPackageOutlineCylinder">pcbPackageOutlineCylinder</A> | <A HREF="RMRF0045.HTM#pcbPackageOutlineDiscButton">pcbPackageOutlineDiscButton</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPackageOutlineFlangeMount">pcbPackageOutlineFlangeMount</A> | <A HREF="RMRF0045.HTM#pcbPackageOutlineFibreOpticDevice">pcbPackageOutlineFibreOpticDevice</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPackageOutlineFlatpack">pcbPackageOutlineFlatpack</A> | <A HREF="RMRF0045.HTM#pcbPackageOutlineGridArray">pcbPackageOutlineGridArray</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPackageOutlineInLinePackage">pcbPackageOutlineInLinePackage</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPackageOutlineInLinePackageOrInsertedPackage">pcbPackageOutlineInLinePackageOrInsertedPackage</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPackageOutlineLongForm">pcbPackageOutlineLongForm</A> | <A HREF="RMRF0045.HTM#pcbPackageOutlineMicroelectronicAssembly">pcbPackageOutlineMicroelectronicAssembly</A> 
+&#09;| <A HREF="RMRF0045.HTM#pcbPackageOutlineMicrowave">pcbPackageOutlineMicrowave</A> | <A HREF="RMRF0045.HTM#pcbPackageOutlinePressFit">pcbPackageOutlinePressFit</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPackageOutlinePostStudMount">pcbPackageOutlinePostStudMount</A> | <A HREF="RMRF0045.HTM#pcbPackageOutlineSmallOutline">pcbPackageOutlineSmallOutline</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPackageOutlineSpecialShape">pcbPackageOutlineSpecialShape</A> | <A HREF="RMRF0045.HTM#pcbPackageOutlineUncasedChip">pcbPackageOutlineUncasedChip</A> | 
+&#09;<A HREF="RMRF0046.HTM#pcbPackageOutlineVerticalSurfaceMount">pcbPackageOutlineVerticalSurfaceMount</A> | <A HREF="RMRF0018.HTM#other">other</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0045.HTM#pcbPackageOutlineStyle">pcbPackageOutlineStyle</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the type of package style being used. This provides a pointer to the appropriate JEDEC JESD30-A standard.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage DIL14 ...</B>
+<B>   (pcbPackageOutlineStyle</B>
+<B>      (pcbPackageOutlineInLinePackage)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageOutlineUncasedChip">pcbPackageOutlineUncasedChip</A></H1>
+<PRE>
+<I>pcbPackageOutlineUncasedChip ::= '(' 'pcbPackageOutlineUncasedChip'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackageOutlineChipCarrier">pcbPackageOutlineChipCarrier</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies an uncased-chip package style (package-outline-style code UC in JEDEC standard JESD30-A.)
+<P>See JESD30-A for a formal definition.
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,969 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="pcbDieElectricalComponent">pcbDieElectricalComponent</A></H1>
+<PRE>
+<I>pcbDieElectricalComponent ::= '(' 'pcbDieElectricalComponent'</I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbComponentNameDef">pcbComponentNameDef</A></I>
+&#09;<I><A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A></I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbComponentHeader">pcbComponentHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0039.HTM#pcbMcmImplementation">pcbMcmImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0025.HTM#pcbDieComponentImplementation">pcbDieComponentImplementation</A> <A HREF="RMRF0026.HTM#pcbDieElectricalComponentRef">pcbDieElectricalComponentRef</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalComponent">pcbPrintedElectricalComponent</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The number of <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I> constructs within an electrical component which instantiates a fully-defined part, must be equal to the number of <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunctions</A></I> within that part.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalComponent">pcbPrintedElectricalComponent</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>No <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I> may be referenced more than once by any <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I> constructs within a component.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I>, <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalComponent">pcbPrintedElectricalComponent</A></I>)
+<BR><BR><DT>3. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines a die electrical component; that is, an instance of a die electrical part. Die electrical components are mounted onto the bare board through a <I><A HREF="RMRF0025.HTM#pcbDieComponentImplementation">pcbDieComponentImplementation</A></I> at a later stage in the description.
+<P><I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">PcbComponentFunctionAllocation</A></I> can specify how an instance in the logical connectivity is allocated (i.e. mapped) to a function within the component.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieElectricalComponent I1_1553B_TRANSVR</B>
+<B>   (pcbDieElectricalPartRef 1553B_TRANSVR)</B>
+<B>   (pcbComponentHeader ...)</B>
+<B>   (pcbComponentFunctionAllocation ...) ...) </B>
+</PRE>
+<P>Here, the component I1_1553B_TRANSVR is defined. It is an instance of the part 1553B_TRANSVR.
+<P><HR>
+<H1><A NAME="pcbDieElectricalComponentRef">pcbDieElectricalComponentRef</A></H1>
+<PRE>
+<I>pcbDieElectricalComponentRef ::= '(' 'pcbDieElectricalComponentRef'</I>
+&#09;<I><A HREF="RMRF0024.HTM#pcbComponentNameRef">pcbComponentNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0025.HTM#pcbDieComponentImplementation">pcbDieComponentImplementation</A>  !<A HREF="RMRF0034.HTM#pcbElectricalComponentTerminalRef">pcbElectricalComponentTerminalRef</A>  !<A HREF="RMRF0035.HTM#pcbEmbeddedComponentImplementation">pcbEmbeddedComponentImplementation</A>  *<A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0024.HTM#pcbComponentRef">pcbComponentRef</A> <A HREF="RMRF0026.HTM#pcbDieElectricalComponent">pcbDieElectricalComponent</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentRef">pcbPackagedElectricalComponentRef</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalComponentRef">pcbPrintedElectricalComponentRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a die electrical component. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieComponentImplementation IMPL1_I1_1553B_TRANSVR</B>
+<B>   (pcbDieElectricalComponentRef I1_1553B_TRANSVR)</B>
+<B>   (pcbMountableDiePhysicalTemplateRef TOP_MNTDIE_001</B>
+<B>      (libraryRef mountable_die_templates)) ...)  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieElectricalPart">pcbDieElectricalPart</A></H1>
+<PRE>
+<I>pcbDieElectricalPart ::= '(' 'pcbDieElectricalPart'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0048.HTM#pcbPartHeader">pcbPartHeader</A></I>
+&#09;<I>( <A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateRef">pcbDiePhysicalTemplateRef</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I><A HREF="RMRF0026.HTM#pcbDieElectricalPartType">pcbDieElectricalPartType</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalComponent">pcbDieElectricalComponent</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartFullyDefined">pcbDieElectricalPartFullyDefined</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartMinimallyDefined">pcbDieElectricalPartMinimallyDefined</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminalConnectedBondPad">pcbDieElectricalPartTerminalConnectedBondPad</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>An electrical, connector or jumper part must have at least one terminal.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0037.HTM#pcbJumperPart">pcbJumperPart</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedConnectorPart">pcbPrintedConnectorPart</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>A die electrical part corresponds to a data-book description of a die, such as a 1553 transceiver.
+<P>The count of <I><A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminals</A></I> defined within a <I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A></I> may be less than the count of electrical bond pads (<I><A HREF="RMRF0034.HTM#pcbElectricalBondPad">pcbElectricalBondPad</A></I>) defined within the <I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A></I> that is referenced by the <I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A></I>. This means that it is possible for some of the bond pads of the die template to be referenced by none of the <I><A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminals</A></I>. This does not mean that those bond pads are unconnected in the <I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A></I>; it means only that the <I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A></I>  is not completely defined.
+<P>An unconnected bond pad is indicated in a <I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A></I>  by defining the corresponding fully defined die electrical part terminal as having a reference to a bond pad, but no references to any part function terminals (<I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalConnectedPortSet">pcbElectricalPartTerminalConnectedPortSet</A></I>).
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieElectricalPart DUAL_INV</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbDiePhysicalTemplateRef STANDARD_INTERFACE)</B>
+<B>   (pcbDieElectricalPartFullyDefined</B>
+<B>      (pcbElectricalPartFunction A</B>
+<B>         (clusterRef BASIC (cellRef STINV)))</B>
+<B>      (pcbElectricalPartFunction B</B>
+<B>         (clusterRef BASIC (cellRef STINV)))</B>
+<B>      (pcbElectricalPartFunctionPermutable</B>
+<B>         (pcbElectricalPartFunctionRef A)</B>
+<B>         (pcbElectricalPartFunctionRef B))</B>
+<B>      (pcbDieElectricalPartTerminal T1</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP1))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet</B>
+<B>            (pcbElectricalPartFunctionPortRef a</B>
+<B>               (pcbElectricalPartFunctionRef A))))</B>
+<B>      (pcbDieElectricalPartTerminal T2</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP2))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet</B>
+<B>            (pcbElectricalPartFunctionPortRef y</B>
+<B>               (pcbElectricalPartFunctionRef A))))</B>
+<B>      (pcbDieElectricalPartTerminal T3</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP3))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet</B>
+<B>            (pcbElectricalPartFunctionPortRef GND</B>
+<B>               (pcbElectricalPartFunctionRef A))</B>
+<B>            (pcbElectricalPartFunctionPortRef GND</B>
+<B>               (pcbElectricalPartFunctionRef B))))</B>
+<B>      (pcbDieElectricalPartTerminal T4</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP4))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet</B>
+<B>            (pcbElectricalPartFunctionPortRef y</B>
+<B>               (pcbElectricalPartFunctionRef B))))</B>
+<B>      (pcbDieElectricalPartTerminal T5</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP5))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet</B>
+<B>            (pcbElectricalPartFunctionPortRef a</B>
+<B>               (pcbElectricalPartFunctionRef B))))</B>
+<B>      (pcbDieElectricalPartTerminal T6</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP6))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet</B>
+<B>            (pcbElectricalPartFunctionPortRef VCC</B>
+<B>               (pcbElectricalPartFunctionRef A))</B>
+<B>            (pcbElectricalPartFunctionPortRef VCC</B>
+<B>               (pcbElectricalPartFunctionRef B))))))</B>
+</PRE>
+<P>This example describes the following: 
+<P><CENTER><IMG SRC="FIG0081.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="pcbDieElectricalPartFullyDefined">pcbDieElectricalPartFullyDefined</A></H1>
+<PRE>
+<I>pcbDieElectricalPartFullyDefined ::= '(' 'pcbDieElectricalPartFullyDefined'</I>
+&#09;<I>{ <A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A> | <A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A> | 
+&#09;<A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPartType">pcbDieElectricalPartType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartMinimallyDefined">pcbDieElectricalPartMinimallyDefined</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPartFullyDefined">pcbPackagedElectricalPartFullyDefined</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartFullyDefined">pcbPrintedElectricalPartFullyDefined</A> 
+</I>
+<H3>Description:</H3>
+<P>A fully-defined die electrical part includes the connectivity of the individual functions within the part and the permutability (i.e. swappability) of those functions.
+<P>The permutability of the function ports is defined by the cluster referenced with <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I>. 
+<H3>Example:</H3>
+<P>See <I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A></I> for a comprehensive example.
+<P><HR>
+<H1><A NAME="pcbDieElectricalPartMinimallyDefined">pcbDieElectricalPartMinimallyDefined</A></H1>
+<PRE>
+<I>pcbDieElectricalPartMinimallyDefined ::= '(' 'pcbDieElectricalPartMinimallyDefined'</I>
+&#09;<I>{ <A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A> | <A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPartType">pcbDieElectricalPartType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartFullyDefined">pcbDieElectricalPartFullyDefined</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPartMinimallyDefined">pcbPackagedElectricalPartMinimallyDefined</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartMinimallyDefined">pcbPrintedElectricalPartMinimallyDefined</A> 
+</I>
+<H3>Description:</H3>
+<P>A minimally-defined die electrical part does not include a definition of the functions and connectivity within the part, nor the permutability (i.e. swappability) of those functions. Instead, it defines the permutability of the part terminals. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieElectricalPart DUAL_INV</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbDiePhysicalTemplateRef STANDARD_INTERFACE)</B>
+<B>   (pcbDieElectricalPartMinimallyDefined</B>
+<B>      (pcbDieElectricalPartTerminal T1</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP1)))</B>
+<B>      (pcbDieElectricalPartTerminal T2</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP2)))</B>
+<B>      (pcbDieElectricalPartTerminal T3</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP3)))</B>
+<B>      (pcbDieElectricalPartTerminal T4</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP4)))</B>
+<B>      (pcbDieElectricalPartTerminal T5</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP5)))</B>
+<B>      (pcbDieElectricalPartTerminal T6</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>            (pcbElectricalBondPadRef BP6)))</B>
+<B>      (pcbElectricalTerminalPermutable</B>
+<B>         (pcbElectricalTerminalNonPermutable</B>
+<B>            (pcbElectricalPartTerminalRef T1)</B>
+<B>            (pcbElectricalPartTerminalRef T2))</B>
+<B>         (pcbElectricalTerminalNonPermutable</B>
+<B>            (pcbElectricalPartTerminalRef T3)</B>
+<B>            (pcbElectricalPartTerminalRef T4)))))</B>
+</PRE>
+<P>This example describes the same die electrical part as used <I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A></I> example, except that the part is minimally defined, i.e. connections and functions inside the part are not described: 
+<P><CENTER><IMG SRC="FIG0083.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="pcbDieElectricalPartRef">pcbDieElectricalPartRef</A></H1>
+<PRE>
+<I>pcbDieElectricalPartRef ::= '(' 'pcbDieElectricalPartRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDieElectricalComponent">pcbDieElectricalComponent</A>  !<A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalComponentRef">pcbDieElectricalComponentRef</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartType">pcbDieElectricalPartType</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A> <A HREF="RMRF0048.HTM#pcbPartRef">pcbPartRef</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartRef">pcbPrintedElectricalPartRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a die electrical part. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieElectricalComponent I1_1553B_TRANSVR</B>
+<B>   (pcbDieElectricalPartRef 1553B_TRANSVR) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A></H1>
+<PRE>
+<I>pcbDieElectricalPartTerminal ::= '(' 'pcbDieElectricalPartTerminal'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameDef">pcbElectricalPartTerminalNameDef</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalHeader">pcbElectricalPartTerminalHeader</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminalConnectedBondPad">pcbDieElectricalPartTerminalConnectedBondPad</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0034.HTM#pcbElectricalPartTerminalConnectedPortSet">pcbElectricalPartTerminalConnectedPortSet</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0026.HTM#pcbDieElectricalPartFullyDefined">pcbDieElectricalPartFullyDefined</A>  *<A HREF="RMRF0026.HTM#pcbDieElectricalPartMinimallyDefined">pcbDieElectricalPartMinimallyDefined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartType">pcbDieElectricalPartType</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartTerminal">pcbPrintedElectricalPartTerminal</A> 
+</I>
+<H3>Description:</H3>
+<P>Provides the electrical information about one of the terminals on a die electrical part and also references the corresponding bond pad in its physical template. The terminal is a logical connector out of the die electrical part.
+<P>The optional <I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalConnectedPortSet">pcbElectricalPartTerminalConnectedPortSet</A></I> must be used if the part is fully defined.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieElectricalPartTerminal T1</B>
+<B>   (pcbElectricalPartTerminalHeader)</B>
+<B>   (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>      (pcbElectricalBondPadRef BP1))</B>
+<B>   (pcbElectricalPartTerminalConnectedPortSet</B>
+<B>      (pcbElectricalPartFunctionPortRef a</B>
+<B>         (pcbElectricalPartFunctionRef A))))</B>
+</PRE>
+<P>Here, the terminal T1 is defined. This corresponds to bond pad BP1 in the die's physical template. The terminal is connected to the a connection of function A defined in the fully-defined part.
+<P><HR>
+<H1><A NAME="pcbDieElectricalPartTerminalConnectedBondPad">pcbDieElectricalPartTerminalConnectedBondPad</A></H1>
+<PRE>
+<I>pcbDieElectricalPartTerminalConnectedBondPad ::= '(' 
+&#09;'pcbDieElectricalPartTerminalConnectedBondPad'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalBondPadRef">pcbElectricalBondPadRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A> <A HREF="RMRF0034.HTM#pcbElectricalBondPad">pcbElectricalBondPad</A> <A HREF="RMRF0047.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Description:</H3>
+<P>References the bond pad that is connected to the terminal of the die electrical part. The bond pad is defined in the die's physical template.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieElectricalPartTerminal T1</B>
+<B>   (pcbElectricalPartTerminalHeader)</B>
+<B>   (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>      (pcbElectricalBondPadRef BP1)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieElectricalPartType">pcbDieElectricalPartType</A></H1>
+<PRE>
+<I>pcbDieElectricalPartType ::= ( <A HREF="RMRF0026.HTM#pcbDieElectricalPartFullyDefined">pcbDieElectricalPartFullyDefined</A> | 
+&#09;<A HREF="RMRF0026.HTM#pcbDieElectricalPartMinimallyDefined">pcbDieElectricalPartMinimallyDefined</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartType">pcbPackagedElectricalPartType</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartType">pcbPrintedElectricalPartType</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether the die electrical part is fully defined or minimally defined. A fully-defined part includes the connectivity of the individual functions within the part and the permutability (i.e. swappability) of those functions. A minimally-defined part does not include this information; instead, it defines the permutability of the part terminals. 
+<P><HR>
+<H1><A NAME="pcbDieEnvironmentalConditions">pcbDieEnvironmentalConditions</A></H1>
+<PRE>
+<I>pcbDieEnvironmentalConditions ::= '(' 'pcbDieEnvironmentalConditions'</I>
+&#09;<I><A HREF="RMRF0063.HTM#temperatureRange">temperatureRange</A></I>
+&#09;<I><A HREF="RMRF0056.HTM#pressureRange">pressureRange</A></I>
+&#09;<I><A HREF="RMRF0066.HTM#voltageDifferential">voltageDifferential</A></I>
+&#09;<I><A HREF="RMRF0057.HTM#relativeHumidity">relativeHumidity</A></I>
+&#09;<I><A HREF="RMRF0015.HTM#maximumDuration">maximumDuration</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0025.HTM#pcbDieAttachmentConditions">pcbDieAttachmentConditions</A>  !<A HREF="RMRF0025.HTM#pcbDieBondingConditions">pcbDieBondingConditions</A>  !<A HREF="RMRF0027.HTM#pcbDieSealingConditions">pcbDieSealingConditions</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0027.HTM#pcbDieStorageConditions">pcbDieStorageConditions</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the environmental conditions that should be adhered to when a die is sealed, bonded or attached, and the maximum duration of these conditions.
+<P><I><A HREF="RMRF0056.HTM#pressureRange">PressureRange</A></I> is the pressure that is acting upon the die during the sealing, bonding or attachment process.
+<P><I><A HREF="RMRF0066.HTM#voltageDifferential">VoltageDifferential</A></I> is the maximum voltage differential between the die's power pads when it is normally powered-up and when it is undergoing the sealing, bonding or attachment process.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieAttachmentConditions</B>
+<B>   (pcbDieEnvironmentalConditions</B>
+<B>      (temperatureRange (mnm -20 20 40))</B>
+<B>      (pressureRange (mnm (e 5 -1) 1 (e 15 -1)))</B>
+<B>      (voltageDifferential 20)</B>
+<B>      (relativeHumidity 40)</B>
+<B>      (maximumDuration 5))) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieFiducial">pcbDieFiducial</A></H1>
+<PRE>
+<I>pcbDieFiducial ::= '(' 'pcbDieFiducial'</I>
+&#09;<I><A HREF="RMRF0026.HTM#pcbDieFiducialNameDef">pcbDieFiducialNameDef</A></I>
+&#09;<I><A HREF="RMRF0026.HTM#pcbDieFiducialTemplateRef">pcbDieFiducialTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0008.HTM#fixedScaleTransform">fixedScaleTransform</A></I>
+&#09;<I><A HREF="RMRF0027.HTM#pcbDieSide">pcbDieSide</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieFiducialTemplate">pcbDieFiducialTemplate</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines a die fiducial, which is used to identify the position of a die, e.g. for autobonding machines. The die fiducial is formed by referencing a die fiducial template. <I><A HREF="RMRF0008.HTM#fixedScaleTransform">FixedScaleTransform</A></I> determines the position of the die fiducial template, and <I><A HREF="RMRF0027.HTM#pcbDieSide">pcbDieSide</A></I> specifies the side of the die on which it is placed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate STANDARD_INTERFACE</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits)</B>
+<B>      (nameInformation (primaryName "DIE_FCH_7486")))</B>
+<B>   (pcbDieFiducial FIDUCIAL1</B>
+<B>      (pcbDieFiducialTemplateRef DFT1)</B>
+<B>      (fixedScaleTransform (origin (pt 100 200)))</B>
+<B>      (pcbDieSide (pcbDieSideTop))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieFiducialNameDef">pcbDieFiducialNameDef</A></H1>
+<PRE>
+<I>pcbDieFiducialNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDieFiducial">pcbDieFiducial</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0035.HTM#pcbEmbeddedDieNameDef">pcbEmbeddedDieNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of a die fiducial. 
+<P><HR>
+<H1><A NAME="pcbDieFiducialTemplate">pcbDieFiducialTemplate</A></H1>
+<PRE>
+<I>pcbDieFiducialTemplate ::= '(' 'pcbDieFiducialTemplate'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0053.HTM#pcbTemplateHeader">pcbTemplateHeader</A></I>
+&#09;<I>( <A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieFiducial">pcbDieFiducial</A> <A HREF="RMRF0026.HTM#pcbDieFiducialTemplateRef">pcbDieFiducialTemplateRef</A> <A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A> 
+</I>
+<H3>Description:</H3>
+<P>A die fiducial template is a reusable set of geometry that may be used to identify the position of a die, e.g. for autobonding machines.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieFiducialTemplate DFT1</B>
+<B>   (pcbTemplateHeader ...)</B>
+<B>   (geometryElementSet</B>
+<B>      (path (pointList (pt 200 100) (pt 200 300)))</B>
+<B>      (path (pointList (pt 100 200) (pt 300 200)))</B>
+<B>      (path (pointList (pt 1200 1100) (pt 1200 1300)))</B>
+<B>      (path (pointList (pt 1100 1200) (pt 1300 1200)))))</B>
+</PRE>
+<P>This describes two crosses at diagonal corners of the die, as illustrated below. 
+<P><CENTER><IMG SRC="FIG0055.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="pcbDieFiducialTemplateRef">pcbDieFiducialTemplateRef</A></H1>
+<PRE>
+<I>pcbDieFiducialTemplateRef ::= '(' 'pcbDieFiducialTemplateRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDieFiducial">pcbDieFiducial</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieFiducialTemplate">pcbDieFiducialTemplate</A> <A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateRef">pcbDiePhysicalTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieFiducialTemplateRef">PcbDieFiducialTemplateRef</A></I> is used to reference a die's fiducial template. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieFiducial FIDUCIAL1</B>
+<B>   (pcbDieFiducialTemplateRef DFT1)</B>
+<B>   (fixedScaleTransform (origin (pt 100 200)))</B>
+<B>   (pcbDieSide (pcbDieSideTop)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieFlatness">pcbDieFlatness</A></H1>
+<PRE>
+<I>pcbDieFlatness ::= '(' 'pcbDieFlatness'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the distance between the lowest object on the top of the die and the highest object. The die flatness may limit the applicability of certain MCM processes. 
+<P>This attribute has been derived from the DIE format, Section 5.19.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDieFlatness 10) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieGeometryTolerance">pcbDieGeometryTolerance</A></H1>
+<PRE>
+<I>pcbDieGeometryTolerance ::= '(' 'pcbDieGeometryTolerance'</I>
+&#09;<I><A HREF="RMRF0066.HTM#XYTolerance">XYTolerance</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0023.HTM#pcbBondPadTemplate">pcbBondPadTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0027.HTM#pcbDiePositionTolerance">pcbDiePositionTolerance</A> <A HREF="RMRF0027.HTM#pcbDieSizeTolerance">pcbDieSizeTolerance</A> <A HREF="RMRF0027.HTM#pcbDieThicknessTolerance">pcbDieThicknessTolerance</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the variability of the geometry.
+<P>This attribute is derived from the DIE format, section 5.84. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieGeometryTolerance</B>
+<B>   (XYTolerance 45 55))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieMaximumThermalDissipation">pcbDieMaximumThermalDissipation</A></H1>
+<PRE>
+<I>pcbDieMaximumThermalDissipation ::= '(' 'pcbDieMaximumThermalDissipation'</I>
+&#09;<I><A HREF="RMRF0056.HTM#powerValue">powerValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieNominalThermalDissipation">pcbDieNominalThermalDissipation</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the maximum thermal power dissipation of the whole die. 
+<P>This attribute has been derived from the DIE format, Section 5.48.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDieMaximumThermalDissipation 10) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieMetalExtent">pcbDieMetalExtent</A></H1>
+<PRE>
+<I>pcbDieMetalExtent ::= '(' 'pcbDieMetalExtent'</I>
+&#09;<I><A HREF="RMRF0002.HTM#closedAreaElement">closedAreaElement</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0023.HTM#pcbBondPadTemplate">pcbBondPadTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDiePadMetal">pcbDiePadMetal</A> <A HREF="RMRF0026.HTM#pcbDiePassivationExtent">pcbDiePassivationExtent</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the area that is occupied by the metal that makes up the bond pad. This has been derived from the DIE format, Section 5.80. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBondPadTemplate BPT1</B>
+<B>   (pcbTemplateHeader ...)</B>
+<B>   (closedAreaElementSet (rectangle (pt 300 100)(pt 500 500)))</B>
+<B>   (pcbDieBondSites (pt 400 300))</B>
+<B>   (pcbDieMetalExtent </B>
+<B>      (rectangle (pt 350 150)(pt 450 450))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieNominalThermalDissipation">pcbDieNominalThermalDissipation</A></H1>
+<PRE>
+<I>pcbDieNominalThermalDissipation ::= '(' 'pcbDieNominalThermalDissipation'</I>
+&#09;<I><A HREF="RMRF0056.HTM#powerValue">powerValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieMaximumThermalDissipation">pcbDieMaximumThermalDissipation</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the nominal thermal power dissipation of the whole die. 
+<P>This attribute has been derived from the DIE format, Section 5.49.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDieNominalThermalDissipation 8) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDieNonContactArea">pcbDieNonContactArea</A></H1>
+<PRE>
+<I>pcbDieNonContactArea ::= '(' 'pcbDieNonContactArea'</I>
+&#09;<I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0022.HTM#pcbBondPadBare">pcbBondPadBare</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0025.HTM#pcbContactArea">pcbContactArea</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the areas on the bare bond pad where contact should not be made.
+<P>This attribute is derived from the DIE format, Section 5.40. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieNonContactArea</B>
+<B>   (closedAreaElementSet</B>
+<B>      (rectangle (pt 0 0) (pt 100 100))</B>
+<B>      (rectangle (pt 50 100) (pt 100 200)))) </B>
+</PRE>
+<P>In this example two rectangles are specified for the non-contact area of the die. 
+<P><HR>
+<H1><A NAME="pcbDiePadDielectric">pcbDiePadDielectric</A></H1>
+<PRE>
+<I>pcbDiePadDielectric ::= '(' 'pcbDiePadDielectric'</I>
+&#09;<I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDiePadMetal">pcbDiePadMetal</A> <A HREF="RMRF0026.HTM#pcbDiePadPitch">pcbDiePadPitch</A> <A HREF="RMRF0047.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the type of dielectric material used under the pads on the die.
+<P>This attribute has been derived from the DIE format, Section 5.35.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDiePadDielectric </B>
+<B>      (pcbMaterialList (pcbMaterialRef SIO2))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDiePadMetal">pcbDiePadMetal</A></H1>
+<PRE>
+<I>pcbDiePadMetal ::= '(' 'pcbDiePadMetal'</I>
+&#09;<I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieMetalExtent">pcbDieMetalExtent</A> <A HREF="RMRF0026.HTM#pcbDiePadDielectric">pcbDiePadDielectric</A> <A HREF="RMRF0026.HTM#pcbDiePadPitch">pcbDiePadPitch</A> <A HREF="RMRF0047.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the type of material used for the pads on the die.
+<P>This attribute has been derived from the DIE format, Section 5.36.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDiePadMetal </B>
+<B>      (pcbMaterialList (pcbMaterialRef Aluminium))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDiePadPitch">pcbDiePadPitch</A></H1>
+<PRE>
+<I>pcbDiePadPitch ::= '(' 'pcbDiePadPitch'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDiePadDielectric">pcbDiePadDielectric</A> <A HREF="RMRF0026.HTM#pcbDiePadMetal">pcbDiePadMetal</A> <A HREF="RMRF0047.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the minimum pad-to-pad separation on the die. This value is not a rule; it is an additional piece of information for the user of the die.
+<P>This attribute has been derived from the DIE format, Section 5.37.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDiePadPitch 200) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDiePadPositionTolerance">pcbDiePadPositionTolerance</A></H1>
+<PRE>
+<I>pcbDiePadPositionTolerance ::= '(' 'pcbDiePadPositionTolerance'</I>
+&#09;<I><A HREF="RMRF0066.HTM#XYTolerance">XYTolerance</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0027.HTM#pcbDiePositionTolerance">pcbDiePositionTolerance</A> <A HREF="RMRF0027.HTM#pcbDiePositionToleranceWidth">pcbDiePositionToleranceWidth</A> <A HREF="RMRF0047.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the placement tolerance of bond-pad templates within the die's bond pads.
+<P>This attribute has been derived from the DIE format, Section 5.42.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDiePadPositionTolerance </B>
+<B>      (XYTolerance 10 10)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDiePassivationExtent">pcbDiePassivationExtent</A></H1>
+<PRE>
+<I>pcbDiePassivationExtent ::= '(' 'pcbDiePassivationExtent'</I>
+&#09;<I><A HREF="RMRF0002.HTM#closedAreaElement">closedAreaElement</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieMetalExtent">pcbDieMetalExtent</A> <A HREF="RMRF0026.HTM#pcbDiePassivationMaterial">pcbDiePassivationMaterial</A> <A HREF="RMRF0026.HTM#pcbDiePassivationOpeningExtent">pcbDiePassivationOpeningExtent</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the shape of the passivation over the die substrate.
+<P>This attribute has been derived from the DIE format, Section 5.44.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDiePassivationExtent</B>
+<B>      (rectangle (pt 0 0) (pt 2000 1000))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDiePassivationMaterial">pcbDiePassivationMaterial</A></H1>
+<PRE>
+<I>pcbDiePassivationMaterial ::= '(' 'pcbDiePassivationMaterial'</I>
+&#09;<I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDiePassivationExtent">pcbDiePassivationExtent</A> <A HREF="RMRF0027.HTM#pcbDieSubstrateMaterial">pcbDieSubstrateMaterial</A> <A HREF="RMRF0038.HTM#pcbMaterial">pcbMaterial</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the type of passivation material used to cover the die.
+<P>This attribute has been derived from the DIE format, Section 5.45.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDiePassivationMaterial </B>
+<B>      (pcbMaterialList (pcbMaterialRef EPOXY))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDiePassivationOpeningExtent">pcbDiePassivationOpeningExtent</A></H1>
+<PRE>
+<I>pcbDiePassivationOpeningExtent ::= '(' 'pcbDiePassivationOpeningExtent'</I>
+&#09;<I><A HREF="RMRF0002.HTM#closedAreaElement">closedAreaElement</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0023.HTM#pcbBondPadTemplate">pcbBondPadTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDiePassivationExtent">pcbDiePassivationExtent</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the passivation opening, which is either over or under the actual metal pad. This attribute has been derived from the DIE format, Section 5.82. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBondPadTemplate BPT1</B>
+<B>   (pcbTemplateHeader ...)</B>
+<B>   (closedAreaElementSet (rectangle (pt 300 100)(pt 500 500)))</B>
+<B>   (pcbDieBondSites (pt 400 300))</B>
+<B>   (pcbDieMetalExtent </B>
+<B>      (rectangle (pt 350 150)(pt 450 450)))</B>
+<B>   (pcbDiePassivationOpeningExtent</B>
+<B>      (rectangle (pt 355 155)(pt 425 425))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A></H1>
+<PRE>
+<I>pcbDiePhysicalTemplate ::= '(' 'pcbDiePhysicalTemplate'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateHeader">pcbDiePhysicalTemplateHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#bodyVolume">bodyVolume</A> | <A HREF="RMRF0017.HTM#occupiedSpace">occupiedSpace</A> | <A HREF="RMRF0026.HTM#pcbDieFiducial">pcbDieFiducial</A> | &lt;<A HREF="RMRF0026.HTM#pcbDieFlatness">pcbDieFlatness</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0026.HTM#pcbDieMaximumThermalDissipation">pcbDieMaximumThermalDissipation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0026.HTM#pcbDieNominalThermalDissipation">pcbDieNominalThermalDissipation</A>&gt; | &lt;<A HREF="RMRF0026.HTM#pcbDiePadDielectric">pcbDiePadDielectric</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0026.HTM#pcbDiePadMetal">pcbDiePadMetal</A>&gt; | &lt;<A HREF="RMRF0026.HTM#pcbDiePadPitch">pcbDiePadPitch</A>&gt; | &lt;<A HREF="RMRF0026.HTM#pcbDiePadPositionTolerance">pcbDiePadPositionTolerance</A>&gt; 
+&#09;| &lt;<A HREF="RMRF0026.HTM#pcbDiePassivationExtent">pcbDiePassivationExtent</A>&gt; | &lt;<A HREF="RMRF0026.HTM#pcbDiePassivationMaterial">pcbDiePassivationMaterial</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0027.HTM#pcbDiePowerCapacitance">pcbDiePowerCapacitance</A>&gt; | <A HREF="RMRF0027.HTM#pcbDiePowerCell">pcbDiePowerCell</A> | &lt;<A HREF="RMRF0027.HTM#pcbDieSizeTolerance">pcbDieSizeTolerance</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0027.HTM#pcbDieStorageConditions">pcbDieStorageConditions</A>&gt; | &lt;<A HREF="RMRF0027.HTM#pcbDieSubstrateMaterial">pcbDieSubstrateMaterial</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0027.HTM#pcbDieThicknessTolerance">pcbDieThicknessTolerance</A>&gt; | <A HREF="RMRF0034.HTM#pcbElectricalBondPad">pcbElectricalBondPad</A> | 
+&#09;<A HREF="RMRF0043.HTM#pcbNonElectricalBondPad">pcbNonElectricalBondPad</A> | &lt;<A HREF="RMRF0053.HTM#pcbTabbing">pcbTabbing</A>&gt; | &lt;<A HREF="RMRF0062.HTM#specificHeatCapacity">specificHeatCapacity</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0063.HTM#thermalConductivity">thermalConductivity</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieFiducialTemplate">pcbDieFiducialTemplate</A> <A HREF="RMRF0026.HTM#pcbDiePhysicalTemplatePreviousVersion">pcbDiePhysicalTemplatePreviousVersion</A> <A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateRef">pcbDiePhysicalTemplateRef</A> <A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplate">pcbMountableDiePhysicalTemplate</A> <A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateHeader">pcbMountableDiePhysicalTemplateHeader</A> <A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplatePropertyFabrication">pcbMountableDiePhysicalTemplatePropertyFabrication</A> <A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplatePropertyOverride">pcbMountableDiePhysicalTemplatePropertyOverride</A> <A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateRef">pcbMountableDiePhysicalTemplateRef</A> <A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateSymbol">pcbMountableDiePhysicalTemplateSymbol</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one <I><A HREF="RMRF0034.HTM#pcbElectricalBondPad">pcbElectricalBondPad</A></I> or <I><A HREF="RMRF0043.HTM#pcbNonElectricalBondPad">pcbNonElectricalBondPad</A></I> within the <I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A></I>.
+</DL>
+<H3>Description:</H3>
+<P>A die physical template is used to specify those physical features of a die that define the interaction between the die and an MCM.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate STANDARD_INTERFACE</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits)</B>
+<B>      (nameInformation (primaryName "DIE_FCH_7486")))</B>
+<B>   (pcbElectricalBondPad bondpad_001</B>
+<B>      (pcbBondPadHeader</B>
+<B>         (pcbDieSide (pcbDieSideTop))</B>
+<B>         (nameInformation (primaryName "1")))</B>
+<B>      (pcbBondPadBare</B>
+<B>         (pcbBondPadTemplateRef bpt_001)</B>
+<B>         (fixedScaleTransform (origin (pt 0 0)))))</B>
+<B>   (pcbElectricalBondPad bondpad_002</B>
+<B>      (pcbBondPadHeader</B>
+<B>         (pcbDieSide (pcbDieSideTop))</B>
+<B>         (nameInformation (primaryName "2")))</B>
+<B>      (pcbBondPadBare</B>
+<B>         (pcbBondPadTemplateRef bpt_001)</B>
+<B>         (fixedScaleTransform (origin (pt 33020 0)))))</B>
+<B>   (pcbElectricalBondPad bondpad_003</B>
+<B>      (pcbBondPadHeader</B>
+<B>         (pcbDieSide (pcbDieSideTop))</B>
+<B>         (nameInformation (primaryName "3")))</B>
+<B>      (pcbBondPadBare</B>
+<B>         (pcbBondPadTemplateRef bpt_001)</B>
+<B>         (fixedScaleTransform (origin (pt 33020 20320)))))</B>
+<B>   (pcbElectricalBondPad bondpad_004</B>
+<B>      (pcbBondPadHeader</B>
+<B>         (pcbDieSide (pcbDieSideTop))</B>
+<B>         (nameInformation (primaryName "4")))</B>
+<B>      (pcbBondPadBare</B>
+<B>         (pcbBondPadTemplateRef bpt_001)</B>
+<B>         (fixedScaleTransform (origin (pt 33020 0))))))</B>
+<B>(pcbDieElectricalPart DUAL_INV</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbDiePhysicalTemplateRef STANDARD_INTERFACE)</B>
+<B>   (pcbDieElectricalPartFullyDefined ...) ...)</B>
+</PRE>
+<P>Here, the die physical template STANDARD_INTERFACE is defined. This is referenced in the die electrical part to specify physical features on the die that interface with the MCM.
+<P><HR>
+<H1><A NAME="pcbDiePhysicalTemplateHeader">pcbDiePhysicalTemplateHeader</A></H1>
+<PRE>
+<I>pcbDiePhysicalTemplateHeader ::= '(' 'pcbDiePhysicalTemplateHeader'</I>
+&#09;<I><A HREF="RMRF0038.HTM#pcbLayoutUnits">pcbLayoutUnits</A></I>
+&#09;<I>{ <A HREF="RMRF0006.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplatePreviousVersion">pcbDiePhysicalTemplatePreviousVersion</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> | &lt;<A HREF="RMRF0062.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateRef">pcbDiePhysicalTemplateRef</A> <A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplate">pcbMountableDiePhysicalTemplate</A> <A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateHeader">pcbMountableDiePhysicalTemplateHeader</A> <A HREF="RMRF0053.HTM#pcbTemplateHeader">pcbTemplateHeader</A> 
+</I>
+<H3>Description:</H3>
+<P>Gathers together data relating to the <I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A></I> as a whole, including an optional reference to the previous version of the template.
+<P><I><A HREF="RMRF0062.HTM#specificHeatCapacity">SpecificHeatCapacity</A></I> specifies the specific heat capacity of the die substrate material and is used for thermal analysis. This attribute has been derived from the DIE format, Section 5.59.
+<P><I><A HREF="RMRF0063.HTM#thermalConductivity">ThermalConductivity</A></I> has been derived from the DIE format, Section 5.63.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits)</B>
+<B>      (nameInformation (primaryName "DIE_FCH_7486"))</B>
+<B>      (pcbDiePhysicalTemplatePreviousVersion</B>
+<B>         (pcbDiePhysicalTemplateRef die_temp_001V1))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDiePhysicalTemplatePreviousVersion">pcbDiePhysicalTemplatePreviousVersion</A></H1>
+<PRE>
+<I>pcbDiePhysicalTemplatePreviousVersion ::= '(' 'pcbDiePhysicalTemplatePreviousVersion'</I>
+&#09;<I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateRef">pcbDiePhysicalTemplateRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateHeader">pcbDiePhysicalTemplateHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A> <A HREF="RMRF0056.HTM#previousVersion">previousVersion</A> <A HREF="RMRF0065.HTM#version">version</A> 
+</I>
+<H3>Description:</H3>
+<P>References a previous version of a die physical template.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits)</B>
+<B>      (pcbDiePhysicalTemplatePreviousVersion</B>
+<B>         (pcbDiePhysicalTemplateRef die_temp_001V1))) ...)</B>
+</PRE>
+<P>This example references a previous version of a die physical template named die_temp_001V1.
+<P><HR>
+<H1><A NAME="pcbDiePhysicalTemplateRef">pcbDiePhysicalTemplateRef</A></H1>
+<PRE>
+<I>pcbDiePhysicalTemplateRef ::= '(' 'pcbDiePhysicalTemplateRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A>  !<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplatePreviousVersion">pcbDiePhysicalTemplatePreviousVersion</A>  !<A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplate">pcbMountableDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieFiducialTemplateRef">pcbDieFiducialTemplateRef</A> <A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A> <A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateHeader">pcbDiePhysicalTemplateHeader</A> <A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateRef">pcbMountableDiePhysicalTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateRef">PcbDiePhysicalTemplateRef</A></I> is used to reference a die physical template. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieElectricalPart DUAL_INV</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbDiePhysicalTemplateRef STANDARD_INTERFACE) ...)</B>
+</PRE>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

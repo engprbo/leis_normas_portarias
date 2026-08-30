@@ -1,0 +1,48 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H2><A NAME="REF28743"> 5      Expressions</A></H2>
+<P>This chapter describes the concept of <A HREF="IMEX0009.HTM#expression" TARGET=ModelArea>expression</A> which can be found in the <A HREF="IMEX0009.HTM#expression_model" TARGET=ModelArea>expression_model</A> schema. In Level 1, four types of <A HREF="IMEX0009.HTM#expression" TARGET=ModelArea>expression</A> are supported. Expressions are predominantly used for:
+
+<UL>
+<LI><P>the width expressions of <A HREF="IMEX0012.HTM#master_port" TARGET=ModelArea>master_ports</A>, <A HREF="IMEX0015.HTM#signal" TARGET=ModelArea>signals</A>, <A HREF="IMEX0010.HTM#frame_signal" TARGET=ModelArea>frame_signals</A> and <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instances</A>
+<BR><BR>
+<LI><P>the connectivity_tag_generator expressions of <A HREF="IMEX0015.HTM#mergeable_signal" TARGET=ModelArea>mergeable_signals</A> and <A HREF="IMEX0010.HTM#frame_mergeable_signal" TARGET=ModelArea>frame_mergeable_signals</A>
+<BR><BR>
+<LI><P>the connected_signal_index_generator expressions of <A HREF="IMEX0015.HTM#instance_port_expression" TARGET=ModelArea>instance_port_expressions</A>
+<BR><BR>
+<LI><P>the instance_name_generator expressions of <A HREF="IMEX0012.HTM#instance" TARGET=ModelArea>instances</A>
+<BR><BR>
+<LI><P><A HREF="IMEX0018.HTM#parameter_assign" TARGET=ModelArea>parameter_assign</A> values
+<BR><BR>
+<LI><P>the control expressions for <A HREF="IMEX0010.HTM#if_frame" TARGET=ModelArea>if_frames</A> and <A HREF="IMEX0010.HTM#for_frame" TARGET=ModelArea>for_frames</A>.
+<BR><BR></UL>
+
+<P>Expressions cannot be evaluated until a specific design hierarchy is expanded.
+<H3><A NAME="HDR9"> 5.1    Boolean expressions</A></H3>
+<P>A <A HREF="IMEX0009.HTM#boolean_expression" TARGET=ModelArea>boolean_expression</A> describes an expression that evaluates to a boolean. It can be either a <A HREF="IMEX0034.HTM#boolean_token" TARGET=ModelArea>boolean_token</A> or a reference to a <A HREF="IMEX0018.HTM#boolean_parameter" TARGET=ModelArea>boolean_parameter</A>. In addition, it can be an expression which includes <A HREF="IMEX0009.HTM#boolean_expression" TARGET=ModelArea>boolean_expressions</A>, an expression which includes <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expressions</A> or an expression which includes <A HREF="IMEX0009.HTM#string_expression" TARGET=ModelArea>string_expressions</A>. 
+<P>The following types of expression have <A HREF="IMEX0009.HTM#boolean_expression" TARGET=ModelArea>boolean_expressions</A> as their arguments and return a boolean when evaluated. An <A HREF="IMEX0009.HTM#and_expression" TARGET=ModelArea>and_expression</A> returns the logical conjunction of its arguments. A <A HREF="IMEX0009.HTM#not_expression" TARGET=ModelArea>not_expression</A> returns the logical negation of its arguments. An <A HREF="IMEX0009.HTM#or_expression" TARGET=ModelArea>or_expression</A> returns the logical disjunction of its arguments. An <A HREF="IMEX0009.HTM#xor_expression" TARGET=ModelArea>xor_expression</A> returns the exclusive or of its arguments. 
+<P>The following types of expression have <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expressions</A> as their arguments and return a boolean when evaluated. An <A HREF="IMEX0009.HTM#integer_equal_expression" TARGET=ModelArea>integer_equal_expression</A> returns true if its arguments are numerically the same. A <A HREF="IMEX0009.HTM#less_than_expression" TARGET=ModelArea>less_than_expression</A> returns true if its arguments are monotonically increasing. A <A HREF="IMEX0009.HTM#less_than_or_equal_to_expression" TARGET=ModelArea>less_than_or_equal_to_expression</A> returns true if its arguments are monotonically nondecreasing. 
+<P>The <A HREF="IMEX0009.HTM#string_equal_expression" TARGET=ModelArea>string_equal_expression</A> is the only <A HREF="IMEX0009.HTM#boolean_expression" TARGET=ModelArea>boolean_expression</A> which takes <A HREF="IMEX0009.HTM#string_expression" TARGET=ModelArea>string_expressions</A> as its arguments and returns a boolean when evaluated. It returns true if its arguments have the same string length and the same characters in corresponding positions; it returns false otherwise. The strings are compared in a case sensitive manner.
+<H3><A NAME="HDR10"> 5.2    Integer expressions</A></H3>
+
+<P>An <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expression</A> describes an expression that evaluates to an integer. It can be either an <A HREF="IMEX0034.HTM#integer_token" TARGET=ModelArea>integer_token</A>, a reference to an <A HREF="IMEX0018.HTM#integer_parameter" TARGET=ModelArea>integer_parameter</A> or a reference to various types of indexes (i.e. <A HREF="IMEX0010.HTM#for_frame_index" TARGET=ModelArea>for_frame_index</A>, <A HREF="IMEX0009.HTM#frame_signal_index" TARGET=ModelArea>frame_signal_index</A>, <A HREF="IMEX0009.HTM#instance_index" TARGET=ModelArea>instance_index</A>, <A HREF="IMEX0009.HTM#port_index" TARGET=ModelArea>port_index</A> or <A HREF="IMEX0009.HTM#signal_index" TARGET=ModelArea>signal_index</A>). In addition, it can be an expression which includes <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expressions</A>, or an expression which includes <A HREF="IMEX0009.HTM#string_expression" TARGET=ModelArea>string_expression</A>. 
+<P>The following types of expression have <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expressions</A> as their arguments and return an integer when evaluated. An <A HREF="IMEX0009.HTM#absolute_expression" TARGET=ModelArea>absolute_expression</A> returns the absolute value of the argument. An <A HREF="IMEX0009.HTM#integer_product_expression" TARGET=ModelArea>integer_product_expression</A> returns the product of the arguments. An <A HREF="IMEX0009.HTM#integer_subtract_expression" TARGET=ModelArea>integer_subtract_expression</A> subtracts the subtrahend from the minuend. An <A HREF="IMEX0009.HTM#integer_sum_expression" TARGET=ModelArea>integer_sum_expression</A> returns the sum of the arguments. A <A HREF="IMEX0009.HTM#quotient_expression" TARGET=ModelArea>quotient_expression</A> returns the integer quotient obtained in division of the dividend by the divisor. A <A HREF="IMEX0009.HTM#remainder_expression" TARGET=ModelArea>remainder_expression</A> returns the integer remainder obtained in a division of the dividend by the divisor. 
+<P>The <A HREF="IMEX0009.HTM#string_length_expression" TARGET=ModelArea>string_length_expression</A> is the only <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expression</A> which takes a <A HREF="IMEX0009.HTM#string_expression" TARGET=ModelArea>string_expression</A> as its argument and return an integer when evaluated. It yields the number of characters in the string which results from the evaluation of its argument.
+<H3><A NAME="HDR11"> 5.3    Number expressions</A></H3>
+<P>A <A HREF="IMEX0009.HTM#number_expression" TARGET=ModelArea>number_expression</A> describes an expression that evaluates to a number. It can be either a <A HREF="IMEX0034.HTM#number_token" TARGET=ModelArea>number_token</A> or a reference to a <A HREF="IMEX0018.HTM#number_parameter" TARGET=ModelArea>number_parameter</A>.
+<H3><A NAME="HDR12"> 5.4    String expressions</A></H3>
+<P>A <A HREF="IMEX0009.HTM#string_expression" TARGET=ModelArea>string_expression</A> describes an expression that evaluates to a string. It can be either a reference to a <A HREF="IMEX0018.HTM#string_parameter" TARGET=ModelArea>string_parameter</A> or a <A HREF="IMEX0034.HTM#string_token" TARGET=ModelArea>string_token</A>. In addition, it can be an expression which involves concatenation, prefixing, suffixing or truncating a <A HREF="IMEX0009.HTM#string_expression" TARGET=ModelArea>string_expression</A> or an expression which converts an <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expression</A> to its string representation. 
+<P>The following types of expression have <A HREF="IMEX0009.HTM#string_expression" TARGET=ModelArea>string_expressions</A> as their arguments and return a string when evaluated. A <A HREF="IMEX0009.HTM#string_concatenate_expression" TARGET=ModelArea>string_concatenate_expression</A>concatenates the arguments. A <A HREF="IMEX0009.HTM#substring_expression" TARGET=ModelArea>substring_expression</A> returns a string of the given length and offset, extracted from the value of the argument. A <A HREF="IMEX0009.HTM#string_prefix_expression" TARGET=ModelArea>string_prefix_expression</A> returns a string of the given length which is the prefix of the argument. A <A HREF="IMEX0009.HTM#string_suffix_expression" TARGET=ModelArea>string_suffix_expression</A> returns a string which is the suffix of the argument. 
+<P>The <A HREF="IMEX0009.HTM#decimal_to_string_expression" TARGET=ModelArea>decimal_to_string_expression</A> is the only <A HREF="IMEX0009.HTM#string_expression" TARGET=ModelArea>string_expression</A> which takes an <A HREF="IMEX0009.HTM#integer_expression" TARGET=ModelArea>integer_expression</A> as its argument and return a string when evaluated. It yields the string which is the unsigned decimal representation of the value of the argument.
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

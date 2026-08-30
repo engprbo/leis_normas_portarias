@@ -1,0 +1,781 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">General Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcbDrillRuleNameDrawing">pcbDrillRuleNameDrawing</A></H1>
+<PRE>
+<I>pcbDrillRuleNameDrawing ::= '(' 'pcbDrillRuleNameDrawing'</I>
+&#09;<I>{ <A HREF="RMRF0033.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0033.HTM#pcbDrillRuleNameDef">pcbDrillRuleNameDef</A> <A HREF="RMRF0034.HTM#pcbDrillRuleNameRef">pcbDrillRuleNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies how to display the drill rule name, which is usually defined within the <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> of the associated drill rule; see <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRuleNameDrawing</B>
+<B>   (pcbDrawingTextDisplay Default_Attrs</B>
+<B>      (unscaledTransform (origin (pt 500 600)))</B>
+<B>      (stringExtent 10 1)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleNameRef">pcbDrillRuleNameRef</A></H1>
+<PRE>
+<I>pcbDrillRuleNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbDrillRuleRef">pcbDrillRuleRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0033.HTM#pcbDrillRuleNameDef">pcbDrillRuleNameDef</A> <A HREF="RMRF0034.HTM#pcbDrillRuleNameDrawing">pcbDrillRuleNameDrawing</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSymbolRef">pcbDrillRuleSymbolRef</A> <A HREF="RMRF0052.HTM#pcbRuleNameRef">pcbRuleNameRef</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleNameRef">pcbTechnologyRuleNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a <I><A HREF="RMRF0033.HTM#pcbDrillRuleNameDef">pcbDrillRuleNameDef</A></I>.
+<P><HR>
+<H1><A NAME="pcbDrillRulePlatingMaterial">pcbDrillRulePlatingMaterial</A></H1>
+<PRE>
+<I>pcbDrillRulePlatingMaterial ::= '(' 'pcbDrillRulePlatingMaterial'</I>
+&#09;<I><A HREF="RMRF0038.HTM#pcbMaterialRef">pcbMaterialRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0050.HTM#pcbPlatedDrillRule">pcbPlatedDrillRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0034.HTM#pcbDrillRulePlatingThickness">pcbDrillRulePlatingThickness</A> <A HREF="RMRF0038.HTM#pcbMaterial">pcbMaterial</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the type of material to be used for plating a drilled hole by reference to a previously-defined material.  
+<P><HR>
+<H1><A NAME="pcbDrillRulePlatingThickness">pcbDrillRulePlatingThickness</A></H1>
+<PRE>
+<I>pcbDrillRulePlatingThickness ::= '(' 'pcbDrillRulePlatingThickness'</I>
+&#09;<I><A HREF="RMRF0064.HTM#tolerancedDistanceValue">tolerancedDistanceValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0050.HTM#pcbPlatedDrillRule">pcbPlatedDrillRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0034.HTM#pcbDrillRulePlatingMaterial">pcbDrillRulePlatingMaterial</A> <A HREF="RMRF0063.HTM#thickness">thickness</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the plating thickness for plated-through holes that conform to (i.e. use) the drill rule.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPlatedDrillRule</B>
+<B>   (pcbDrillRulePlatingMaterial</B>
+<B>      (pcbMaterialRef MAT1))</B>
+<B>   (pcbDrillRulePlatingThickness (mnm 6756 7112 7468)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleRef">pcbDrillRuleRef</A></H1>
+<PRE>
+<I>pcbDrillRuleRef ::= '(' 'pcbDrillRuleRef'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbDrillRuleNameRef">pcbDrillRuleNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0024.HTM#pcbConformantHole">pcbConformantHole</A>  *<A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A>  !<A HREF="RMRF0034.HTM#pcbDrillRuleSymbolRef">pcbDrillRuleSymbolRef</A>  <A HREF="RMRF0035.HTM#pcbFirstHoleInformation">pcbFirstHoleInformation</A>  <A HREF="RMRF0052.HTM#pcbSecondHoleInformation">pcbSecondHoleInformation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0033.HTM#pcbDrillRuleHeader">pcbDrillRuleHeader</A> <A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A> <A HREF="RMRF0034.HTM#pcbDrillRuleType">pcbDrillRuleType</A> <A HREF="RMRF0050.HTM#pcbPlatedDrillRule">pcbPlatedDrillRule</A> <A HREF="RMRF0052.HTM#pcbRuleNameRef">pcbRuleNameRef</A> <A HREF="RMRF0053.HTM#pcbTechnologyRuleRef">pcbTechnologyRuleRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a drill rule.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbConformantHole</B>
+<B>   (pcbHoleCrossSection</B>
+<B>      (circleByCenter (pt 0 0) 71120))</B>
+<B>   (pcbDrillRuleRef DR1)</B>
+<B>   (pcbPlatedThroughHole))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleSet">pcbDrillRuleSet</A></H1>
+<PRE>
+<I>pcbDrillRuleSet ::= '(' 'pcbDrillRuleSet'</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbDrillRuleRef">pcbDrillRuleRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0054.HTM#pcbViaGrid">pcbViaGrid</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0033.HTM#pcbDrillRuleHeader">pcbDrillRuleHeader</A> <A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A> <A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A> <A HREF="RMRF0034.HTM#pcbDrillRuleType">pcbDrillRuleType</A> <A HREF="RMRF0050.HTM#pcbPlatedDrillRule">pcbPlatedDrillRule</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>References a set of drill rules.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBTR</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails ...)</B>
+<B>   (pcbViaGrid VG1</B>
+<B>      (pcbDrillRuleSet</B>
+<B>         (pcbDrillRuleRef DR1)</B>
+<B>         (pcbDrillRuleRef DR2))</B>
+<B>      (pcbLayoutGrid 10 15 (origin (pt 0 0)))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleSymbol">pcbDrillRuleSymbol</A></H1>
+<PRE>
+<I>pcbDrillRuleSymbol ::= '(' 'pcbDrillRuleSymbol'</I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrawingSymbolNameDef">pcbDrawingSymbolNameDef</A></I>
+&#09;<I>{ <A HREF="RMRF0031.HTM#pcbDrawingComplexFigure">pcbDrawingComplexFigure</A> | <A HREF="RMRF0032.HTM#pcbDrawingFigure">pcbDrawingFigure</A> | <A HREF="RMRF0033.HTM#pcbDrawingText">pcbDrawingText</A> | 
+&#09;&lt;<A HREF="RMRF0034.HTM#pcbDrillRuleNameDrawing">pcbDrillRuleNameDrawing</A>&gt; | <A HREF="RMRF0051.HTM#pcbPropertyDrawing">pcbPropertyDrawing</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRuleHeader">pcbDrillRuleHeader</A> <A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A> <A HREF="RMRF0034.HTM#pcbDrillRuleRef">pcbDrillRuleRef</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSymbolRef">pcbDrillRuleSymbolRef</A> <A HREF="RMRF0034.HTM#pcbDrillRuleType">pcbDrillRuleType</A> <A HREF="RMRF0034.HTM#pcbDrillSymbolSelection">pcbDrillSymbolSelection</A> <A HREF="RMRF0050.HTM#pcbPlatedDrillRule">pcbPlatedDrillRule</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a drill rule symbol, which can be used to represent holes on drawings.
+<H3>Example:</H3>
+<P><CENTER><IMG SRC="FIG0003.GIF">
+</CENTER>
+<PRE>
+<B>(pcbDrillRuleSymbol ACME_47_THOU_PLATED</B>
+<B>   (pcbDrawingFigure DWGATTR_01</B>
+<B>      (geometryElementSet</B>
+<B>         (unfilledRectangle (pt -50 -50) (pt 50 50))</B>
+<B>         (unfilledCircleByCenter (pt 0 0) 10))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleSymbolRef">pcbDrillRuleSymbolRef</A></H1>
+<PRE>
+<I>pcbDrillRuleSymbolRef ::= '(' 'pcbDrillRuleSymbolRef'</I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbDrawingSymbolNameRef">pcbDrawingSymbolNameRef</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbDrillRuleRef">pcbDrillRuleRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrawingSymbolPlacement">pcbDrawingSymbolPlacement</A>  !<A HREF="RMRF0034.HTM#pcbDrillSymbolSelection">pcbDrillSymbolSelection</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0034.HTM#pcbDrillRuleNameRef">pcbDrillRuleNameRef</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A> 
+</I>
+<H3>Description:</H3>
+<P>References a drill rule symbol for a particular drill rule.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBoardSubsetDefinition BS1</B>
+<B>   (pcbBoardSubsetDefinitionHeader)</B>
+<B>   (pcbDrillSymbolSelection</B>
+<B>      (pcbDrillRuleSymbolRef Sym_Type2_Holes</B>
+<B>         (pcbDrillRuleRef DR1))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A></H1>
+<PRE>
+<I>pcbDrillRuleThroughLayerList ::= '(' 'pcbDrillRuleThroughLayerList'</I>
+&#09;<I>{ <A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> 
+</I>
+<H3>Description:</H3>
+<P>References the layer(s) through which a drill hole must pass. A layer referenced within a <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> must not be coplanar with a layer in a different <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> or with any layer defined in the <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I> or <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>.
+<P>Each layer referenced in <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> must be closer to the top of the board than the layers referenced in each subsequent <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> or <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>.
+<P>A hole that conforms to the enclosing drill rule must pass through one of the layers referenced in each of the <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSets</A></I> within the <I><A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A></I> construct.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRuleLayers</B>
+<B>   (pcbDrillRuleFromLayer </B>
+<B>      (pcbPhysicalLayerRef LAYER1))</B>
+<B>   (pcbDrillRuleToLayer </B>
+<B>      (pcbPhysicalLayerRef LAYER4))</B>
+<B>   (pcbDrillRuleThroughLayerList</B>
+<B>      (pcbDrillRuleLayerSet </B>
+<B>         (pcbPhysicalLayerRef LAYER2A))</B>
+<B>      (pcbDrillRuleLayerSet </B>
+<B>         (pcbPhysicalLayerRef LAYER3A)</B>
+<B>         (pcbPhysicalLayerRef LAYER3B))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></H1>
+<PRE>
+<I>pcbDrillRuleToLayer ::= '(' 'pcbDrillRuleToLayer'</I>
+&#09;<I>{ <A HREF="RMRF0049.HTM#pcbPhysicalLayerRef">pcbPhysicalLayerRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A>  !<A HREF="RMRF0043.HTM#pcbNonConformantHole">pcbNonConformantHole</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A> <A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A> <A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>If more than one layer is referenced within a <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I> or a <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I> in <I><A HREF="RMRF0034.HTM#pcbDrillRuleThroughLayerList">pcbDrillRuleThroughLayerList</A></I>, all the layers must be from the same co-planar layer group.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>References the layer(s) to which a drill hole must go. If more than one layer is referenced, all layers referenced must be in the same coplanar layer group.
+<P>A hole that conforms to the enclosing drill rule must pass through one of the layers referenced in the <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I> construct.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRuleLayers</B>
+<B>   (pcbDrillRuleFromLayer </B>
+<B>      (pcbPhysicalLayerRef LAYER1))</B>
+<B>   (pcbDrillRuleToLayer </B>
+<B>      (pcbPhysicalLayerRef LAYER2)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillRuleType">pcbDrillRuleType</A></H1>
+<PRE>
+<I>pcbDrillRuleType ::= ( <A HREF="RMRF0043.HTM#pcbNonPlatedDrillRule">pcbNonPlatedDrillRule</A> | <A HREF="RMRF0050.HTM#pcbPlatedDrillRule">pcbPlatedDrillRule</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0033.HTM#pcbDrillRuleHeader">pcbDrillRuleHeader</A> <A HREF="RMRF0033.HTM#pcbDrillRuleLayers">pcbDrillRuleLayers</A> <A HREF="RMRF0034.HTM#pcbDrillRuleRef">pcbDrillRuleRef</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies whether the drill rule is for non-plated-through drill holes or for plated-through drill holes.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRule DR1</B>
+<B>   (pcbDrillRuleHeader)</B>
+<B>   (pcbPlatedDrillRule ...) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrillSymbolSelection">pcbDrillSymbolSelection</A></H1>
+<PRE>
+<I>pcbDrillSymbolSelection ::= '(' 'pcbDrillSymbolSelection'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbDrillRuleSymbolRef">pcbDrillRuleSymbolRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0021.HTM#pcbBoardSubsetDefinition">pcbBoardSubsetDefinition</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0024.HTM#pcbComponentSymbolSelection">pcbComponentSymbolSelection</A> <A HREF="RMRF0034.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A> 
+</I>
+<H3>Description:</H3>
+<P>Chooses a symbol to represent holes that conform to a specified drill rule. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBoardSubsetDefinition BS1</B>
+<B>   (pcbBoardSubsetDefinitionHeader)</B>
+<B>   (pcbDrillSymbolSelection</B>
+<B>      (pcbDrillRuleSymbolRef Sym_Type2_Holes</B>
+<B>         (pcbDrillRuleRef DR1))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbElectricalBondPad">pcbElectricalBondPad</A></H1>
+<PRE>
+<I>pcbElectricalBondPad ::= '(' 'pcbElectricalBondPad'</I>
+&#09;<I><A HREF="RMRF0022.HTM#pcbBondPadNameDef">pcbBondPadNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#pcbBondPadHeader">pcbBondPadHeader</A></I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbBondPadType">pcbBondPadType</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0022.HTM#pcbBondPadBare">pcbBondPadBare</A> <A HREF="RMRF0023.HTM#pcbBondPadRef">pcbBondPadRef</A> <A HREF="RMRF0023.HTM#pcbBondPadTemplate">pcbBondPadTemplate</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminalConnectedBondPad">pcbDieElectricalPartTerminalConnectedBondPad</A> <A HREF="RMRF0034.HTM#pcbElectricalBondPadRef">pcbElectricalBondPadRef</A> <A HREF="RMRF0041.HTM#pcbMountableBondPad">pcbMountableBondPad</A> <A HREF="RMRF0043.HTM#pcbNonElectricalBondPad">pcbNonElectricalBondPad</A> <A HREF="RMRF0047.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a die bond pad that is intended to be used for electrical functionality. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate STANDARD_INTERFACE</B>
+<B>   (pcbDiePhysicalTemplateHeader ...)</B>
+<B>   (pcbElectricalBondPad bondpad_001</B>
+<B>      (pcbBondPadHeader</B>
+<B>         (pcbDieSide (pcbDieSideTop))</B>
+<B>         (nameInformation (primaryName "1")))</B>
+<B>      (pcbBondPadBare</B>
+<B>         (pcbBondPadTemplateRef bpt_001)</B>
+<B>         (fixedScaleTransform (origin (pt 0 0))))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbElectricalBondPadRef">pcbElectricalBondPadRef</A></H1>
+<PRE>
+<I>pcbElectricalBondPadRef ::= '(' 'pcbElectricalBondPadRef'</I>
+&#09;<I><A HREF="RMRF0022.HTM#pcbBondPadNameRef">pcbBondPadNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminalConnectedBondPad">pcbDieElectricalPartTerminalConnectedBondPad</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0023.HTM#pcbBondPadRef">pcbBondPadRef</A> <A HREF="RMRF0023.HTM#pcbBondPadTemplateRef">pcbBondPadTemplateRef</A> <A HREF="RMRF0034.HTM#pcbElectricalBondPad">pcbElectricalBondPad</A> <A HREF="RMRF0041.HTM#pcbMountableBondPadRef">pcbMountableBondPadRef</A> <A HREF="RMRF0043.HTM#pcbNonElectricalBondPad">pcbNonElectricalBondPad</A> <A HREF="RMRF0047.HTM#pcbPad">pcbPad</A> 
+</I>
+<H3>Description:</H3>
+<P>References an electrical bond pad that is intended to be used for electrical functionality.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDieElectricalPartTerminal T1</B>
+<B>   (pcbElectricalPartTerminalHeader)</B>
+<B>   (pcbDieElectricalPartTerminalConnectedBondPad</B>
+<B>      (pcbElectricalBondPadRef BP1)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbElectricalComponentTerminalRef">pcbElectricalComponentTerminalRef</A></H1>
+<PRE>
+<I>pcbElectricalComponentTerminalRef ::= '(' 'pcbElectricalComponentTerminalRef'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameRef">pcbElectricalPartTerminalNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0026.HTM#pcbDieElectricalComponentRef">pcbDieElectricalComponentRef</A> | <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentRef">pcbPackagedElectricalComponentRef</A> | 
+&#09;<A HREF="RMRF0051.HTM#pcbPrintedElectricalComponentRef">pcbPrintedElectricalComponentRef</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A>  *<A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A>  *<A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A>  *<A HREF="RMRF0037.HTM#pcbJumperConnectionDiscreteWireConnectionPoints">pcbJumperConnectionDiscreteWireConnectionPoints</A>  !<A HREF="RMRF0037.HTM#pcbJumperConnectionWirebondConnectionPoints">pcbJumperConnectionWirebondConnectionPoints</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0024.HTM#pcbComponentRef">pcbComponentRef</A> <A HREF="RMRF0024.HTM#pcbComponentTerminalImplementationRef">pcbComponentTerminalImplementationRef</A> <A HREF="RMRF0024.HTM#pcbConnectorComponentTerminalRef">pcbConnectorComponentTerminalRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A> <A HREF="RMRF0037.HTM#pcbJumperComponentTerminalRef">pcbJumperComponentTerminalRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  When present within <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I> &lt;<I><A HREF="RMRF0024.HTM#pcbComponentSignal">pcbComponentSignal</A>
+</I>
+<DD>No <I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A></I> or <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalPartTerminal">pcbPrintedElectricalPartTerminal</A></I> can be referenced by more than one <I><A HREF="RMRF0024.HTM#pcbComponentSignal">pcbComponentSignal</A></I> within the context of a <I><A HREF="RMRF0039.HTM#pcbMcmImplementation">pcbMcmImplementation</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0024.HTM#pcbComponentSignal">pcbComponentSignal</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>References a terminal on an electrical component. The referenced terminal must exist in the component's part.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbElectricalComponentTerminalRef T32 </B>
+<B>   (pcbPackagedElectricalComponentRef COMP3))</B>
+</PRE>
+<P>Here, terminal T32 in component COMP3 is being referenced.
+<P><HR>
+<H1><A NAME="pcbElectricalPartFunction">pcbElectricalPartFunction</A></H1>
+<PRE>
+<I>pcbElectricalPartFunction ::= '(' 'pcbElectricalPartFunction'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameDef">pcbElectricalPartFunctionNameDef</A></I>
+&#09;<I><A HREF="RMRF0002.HTM#clusterRef">clusterRef</A></I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A> | <A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A> | &lt;<A HREF="RMRF0005.HTM#designator">designator</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0026.HTM#pcbDieElectricalPartFullyDefined">pcbDieElectricalPartFullyDefined</A>  *<A HREF="RMRF0044.HTM#pcbPackagedElectricalPartFullyDefined">pcbPackagedElectricalPartFullyDefined</A>  *<A HREF="RMRF0051.HTM#pcbPrintedElectricalPartFullyDefined">pcbPrintedElectricalPartFullyDefined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameCaseSensitive">pcbElectricalPartFunctionNameCaseSensitive</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameRef">pcbElectricalPartFunctionNameRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPortRef">pcbElectricalPartFunctionPortRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRef</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I> defined in each fully defined electrical part.
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0002.HTM#clusterRef">clusterRef</A></I> of a <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I> must refer to a cluster of a cell in an <I><A HREF="RMRF0007.HTM#external">external</A></I> library when the <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I> is nested in an <I><A HREF="RMRF0007.HTM#external">external</A></I>.
+<BR><BR><DT>3. The following constraint applies to this context:  All contexts  
+<DD>No <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I> may be referenced more than once by any <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I> constructs within a component.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I>, <I><A HREF="RMRF0026.HTM#pcbDieElectricalComponent">pcbDieElectricalComponent</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalComponent">pcbPrintedElectricalComponent</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Specifies an electrical function, defined in the <I><A HREF="RMRF0002.HTM#cluster">cluster</A></I> referenced by <I><A HREF="RMRF0002.HTM#clusterRef">clusterRef</A></I>, that forms some portion of an electrical part. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedElectricalPart QUAD_INV</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbPinPackageRef DIP8)</B>
+<B>   (pcbPackagedElectricalPartFullyDefined</B>
+<B>      (pcbElectricalPartFunction A</B>
+<B>         (clusterRef BASIC (cellRef STINV)))</B>
+<B>      ...</B>
+<B>      (pcbElectricalPartFunctionPermutable</B>
+<B>         (pcbElectricalPartFunctionRef A)</B>
+<B>         ...) ...) ...)</B>
+</PRE>
+<P>Here, the electrical part function named A is defined. 
+<P><HR>
+<H1><A NAME="pcbElectricalPartFunctionNameCaseSensitive">pcbElectricalPartFunctionNameCaseSensitive</A></H1>
+<PRE>
+<I>pcbElectricalPartFunctionNameCaseSensitive ::= '(' 
+&#09;'pcbElectricalPartFunctionNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameCaseSensitive">pcbElectricalPartTerminalNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for items with a <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameDef">pcbElectricalPartFunctionNameDef</A></I> are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example. 
+<P><HR>
+<H1><A NAME="pcbElectricalPartFunctionNameDef">pcbElectricalPartFunctionNameDef</A></H1>
+<PRE>
+<I>pcbElectricalPartFunctionNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameRef">pcbElectricalPartFunctionNameRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameDef">pcbElectricalPartTerminalNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a name for a function contained within a packaged or printed electrical part.
+<P><HR>
+<H1><A NAME="pcbElectricalPartFunctionNameRef">pcbElectricalPartFunctionNameRef</A></H1>
+<PRE>
+<I>pcbElectricalPartFunctionNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameDef">pcbElectricalPartFunctionNameDef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPortRef">pcbElectricalPartFunctionPortRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameRef">pcbElectricalPartTerminalNameRef</A> <A HREF="RMRF0048.HTM#pcbPartRef">pcbPartRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameDef">pcbElectricalPartFunctionNameDef</A></I>.
+<P><HR>
+<H1><A NAME="pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A></H1>
+<PRE>
+<I>pcbElectricalPartFunctionNonPermutable ::= '(' 'pcbElectricalPartFunctionNonPermutable'</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A> | <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#nonPermutable">nonPermutable</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A> <A HREF="RMRF0054.HTM#permutable">permutable</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I> can be referenced at most once by any <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></I> or <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A></I> constructs in the context of an electrical part.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>At least two items must be referenced by this construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></I>, <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A></I>, <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Describes functions or groups of functions that cannot be interchanged. The <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A></I> and <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></I> constructs support the definition of the permutability of all functions within a packaged or printed electrical part. See <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></I> for further details and examples.
+<P><HR>
+<H1><A NAME="pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></H1>
+<PRE>
+<I>pcbElectricalPartFunctionPermutable ::= '(' 'pcbElectricalPartFunctionPermutable'</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A> | 
+&#09;<A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A> | <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0026.HTM#pcbDieElectricalPartFullyDefined">pcbDieElectricalPartFullyDefined</A>  *<A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A>  *<A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A>  *<A HREF="RMRF0044.HTM#pcbPackagedElectricalPartFullyDefined">pcbPackagedElectricalPartFullyDefined</A>  *<A HREF="RMRF0051.HTM#pcbPrintedElectricalPartFullyDefined">pcbPrintedElectricalPartFullyDefined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A> <A HREF="RMRF0054.HTM#permutable">permutable</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I> can be referenced at most once by any <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></I> or <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A></I> constructs in the context of an electrical part.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>At least two items must be referenced by this construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A></I>, <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A></I>, <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Describes a relationship in which functions are interchangeable; for example, AND gates within a packaged or printed electrical part. <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">PcbElectricalPartFunctionPermutable</A></I> may be nested with <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A></I> to specify complex relationships between functions in the part. 
+<P>In the context of a <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></I> construct, corresponding functions may be exchanged as a whole or not at all; partial exchanges are not permitted. For instance, in the second example shown below, E is permutable with F only if G and H are swapped at the same time. As you can see from this example, the order of <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRefs</A></I> within <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A></I> is significant.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbElectricalPartFunctionPermutable</B>
+<B>   (pcbElectricalPartFunctionNonPermutable</B>
+<B>      (pcbElectricalPartFunctionPermutable </B>
+<B>         (pcbElectricalPartFunctionRef A)</B>
+<B>         (pcbElectricalPartFunctionRef B))</B>
+<B>      (pcbElectricalPartFunctionPermutable</B>
+<B>         (pcbElectricalPartFunctionRef C)</B>
+<B>         (pcbElectricalPartFunctionRef D))))</B>
+</PRE>
+<P>This describes the permutability of the following part. A and B are permutable, and C and D are permutable. However, A is not permutable with C and B is not permutable with D. See <I><A HREF="RMRF0017.HTM#nonPermutable">nonPermutable</A></I> for a further example.
+<P><CENTER><IMG SRC="FIG0004.GIF">
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(pcbElectricalPartFunctionPermutable</B>
+<B>   (pcbElectricalPartFunctionNonPermutable </B>
+<B>      (pcbElectricalPartFunctionRef E)</B>
+<B>      (pcbElectricalPartFunctionRef G))</B>
+<B>   (pcbElectricalPartFunctionNonPermutable</B>
+<B>      (pcbElectricalPartFunctionRef F)</B>
+<B>      (pcbElectricalPartFunctionRef H)))</B>
+</PRE>
+<P>This describes the permutability of the following part. E and G taken together are permutable with F and H taken together. However, E is not permutable with G, nor is F permutable with H. See <I><A HREF="RMRF0017.HTM#nonPermutable">nonPermutable</A></I> for a further example.
+<P><CENTER><IMG SRC="FIG0005.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="pcbElectricalPartFunctionPortRef">pcbElectricalPartFunctionPortRef</A></H1>
+<PRE>
+<I>pcbElectricalPartFunctionPortRef ::= '(' 'pcbElectricalPartFunctionPortRef'</I>
+&#09;<I><A HREF="RMRF0055.HTM#portNameRef">portNameRef</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0034.HTM#pcbElectricalPartTerminalConnectedPortSet">pcbElectricalPartTerminalConnectedPortSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameRef">pcbElectricalPartFunctionNameRef</A> <A HREF="RMRF0048.HTM#pcbPartRef">pcbPartRef</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0056.HTM#portRef">portRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a port of a function located within an electrical part. See <I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalConnectedPortSet">pcbElectricalPartTerminalConnectedPortSet</A></I> for an example.
+<P><HR>
+<H1><A NAME="pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRef</A></H1>
+<PRE>
+<I>pcbElectricalPartFunctionRef ::= '(' 'pcbElectricalPartFunctionRef'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameRef">pcbElectricalPartFunctionNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A>  *<A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A>  *<A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A>  !<A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPortRef">pcbElectricalPartFunctionPortRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A> <A HREF="RMRF0048.HTM#pcbPartRef">pcbPartRef</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartRef">pcbPrintedElectricalPartRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a function located within a part.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbElectricalPartFunctionPermutable</B>
+<B>   (pcbElectricalPartFunctionRef D)</B>
+<B>   (pcbElectricalPartFunctionRef A))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbElectricalPartTerminalConnectedPortSet">pcbElectricalPartTerminalConnectedPortSet</A></H1>
+<PRE>
+<I>pcbElectricalPartTerminalConnectedPortSet ::= '(' 
+&#09;'pcbElectricalPartTerminalConnectedPortSet'</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPortRef">pcbElectricalPartFunctionPortRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A>  &lt;<A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A>  &lt;<A HREF="RMRF0051.HTM#pcbPrintedElectricalPartTerminal">pcbPrintedElectricalPartTerminal</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0056.HTM#portSet">portSet</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0055.HTM#portNameRef">portNameRef</A></I> within <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPortRef">pcbElectricalPartFunctionPortRef</A></I> may only be used once within the set of <I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalConnectedPortSet">pcbElectricalPartTerminalConnectedPortSet</A></I> within an electrical part. (There is only one part_function_terminal for a particular master_port on a part_function.)
+</DL>
+<H3>Description:</H3>
+<P>References a set of ports, each belonging to a function located within a packaged, printed or die electrical part. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbElectricalPartFunction D</B>
+<B>   (clusterRef BASIC (cellRef STINV)))</B>
+<B>(pcbPackagedElectricalPartTerminal T8 ...</B>
+<B>   (pcbElectricalPartTerminalConnectedPortSet</B>
+<B>      (pcbElectricalPartFunctionPortRef y</B>
+<B>         (pcbElectricalPartFunctionRef D)))) </B>
+</PRE>
+<P>Here, the part contains a function D. The y port of the function is connected to T8 (terminal 8) of the part. 
+<P><HR>
+<H1><A NAME="pcbElectricalPartTerminalHeader">pcbElectricalPartTerminalHeader</A></H1>
+<PRE>
+<I>pcbElectricalPartTerminalHeader ::= '(' 'pcbElectricalPartTerminalHeader'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A>  !<A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A>  !<A HREF="RMRF0051.HTM#pcbPrintedElectricalPartTerminal">pcbPrintedElectricalPartTerminal</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalHeader">pcbConnectorPartTerminalHeader</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A> <A HREF="RMRF0037.HTM#pcbJumperPartTerminalHeader">pcbJumperPartTerminalHeader</A> <A HREF="RMRF0048.HTM#pcbPartHeader">pcbPartHeader</A> 
+</I>
+<H3>Description:</H3>
+<P>Gathers together data relating to the electrical part terminal as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedElectricalPartTerminal T1</B>
+<B>   (pcbElectricalPartTerminalHeader</B>
+<B>      (nameInformation (primaryName "RESET"))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbElectricalPartTerminalNameCaseSensitive">pcbElectricalPartTerminalNameCaseSensitive</A></H1>
+<PRE>
+<I>pcbElectricalPartTerminalNameCaseSensitive ::= '(' 
+&#09;'pcbElectricalPartTerminalNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalNameCaseSensitive">pcbConnectorPartTerminalNameCaseSensitive</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameCaseSensitive">pcbElectricalPartFunctionNameCaseSensitive</A> <A HREF="RMRF0037.HTM#pcbJumperPartTerminalNameCaseSensitive">pcbJumperPartTerminalNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for items with a <I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameDef">pcbElectricalPartTerminalNameDef</A></I> are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<P><HR>
+<H1><A NAME="pcbElectricalPartTerminalNameDef">pcbElectricalPartTerminalNameDef</A></H1>
+<PRE>
+<I>pcbElectricalPartTerminalNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A>  !<A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A>  !<A HREF="RMRF0051.HTM#pcbPrintedElectricalPartTerminal">pcbPrintedElectricalPartTerminal</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalNameDef">pcbConnectorPartTerminalNameDef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameDef">pcbElectricalPartFunctionNameDef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameRef">pcbElectricalPartTerminalNameRef</A> <A HREF="RMRF0037.HTM#pcbJumperPartTerminalNameDef">pcbJumperPartTerminalNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of a terminal of an electrical part.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedElectricalPart QUAD_INV </B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbPinPackageRef DIP8)</B>
+<B>   (pcbPackagedElectricalPartFullyDefined ...</B>
+<B>      (pcbPackagedElectricalPartTerminal T1 ...)...))</B>
+</PRE>
+<P>Here, the terminal is named T1.
+<P><HR>
+<H1><A NAME="pcbElectricalPartTerminalNameRef">pcbElectricalPartTerminalNameRef</A></H1>
+<PRE>
+<I>pcbElectricalPartTerminalNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbElectricalComponentTerminalRef">pcbElectricalComponentTerminalRef</A>  !<A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A>  !<A HREF="RMRF0051.HTM#pcbPrintedElectricalPartTerminalRepresentation">pcbPrintedElectricalPartTerminalRepresentation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalNameRef">pcbConnectorPartTerminalNameRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNameRef">pcbElectricalPartFunctionNameRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameDef">pcbElectricalPartTerminalNameDef</A> <A HREF="RMRF0037.HTM#pcbJumperPartTerminalNameRef">pcbJumperPartTerminalNameRef</A> <A HREF="RMRF0048.HTM#pcbPartRef">pcbPartRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a <I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameDef">pcbElectricalPartTerminalNameDef</A></I>.
+<P><HR>
+<H1><A NAME="pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A></H1>
+<PRE>
+<I>pcbElectricalPartTerminalRef ::= '(' 'pcbElectricalPartTerminalRef'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalNameRef">pcbElectricalPartTerminalNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0025.HTM#pcbDieComponentTerminalImplementation">pcbDieComponentTerminalImplementation</A>  *<A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A>  *<A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A>  !<A HREF="RMRF0036.HTM#pcbIbisPinBinding">pcbIbisPinBinding</A>  !<A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentTerminalImplementation">pcbPackagedElectricalComponentTerminalImplementation</A>  !<A HREF="RMRF0051.HTM#pcbPrintedElectricalComponentTerminalImplementation">pcbPrintedElectricalComponentTerminalImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalRef">pcbConnectorPartTerminalRef</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A> <A HREF="RMRF0026.HTM#pcbDieElectricalPartTerminal">pcbDieElectricalPartTerminal</A> <A HREF="RMRF0034.HTM#pcbElectricalComponentTerminalRef">pcbElectricalComponentTerminalRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRef</A> <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalHeader">pcbElectricalPartTerminalHeader</A> <A HREF="RMRF0037.HTM#pcbJumperPartTerminalRef">pcbJumperPartTerminalRef</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A> <A HREF="RMRF0048.HTM#pcbPartRef">pcbPartRef</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartRef">pcbPrintedElectricalPartRef</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartTerminal">pcbPrintedElectricalPartTerminal</A> 
+</I>
+<H3>Description:</H3>
+<P>References a terminal of an electrical part. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbElectricalTerminalPermutable</B>
+<B>   (pcbElectricalPartTerminalRef TERM1)</B>
+<B>   (pcbElectricalPartTerminalRef TERM2))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A></H1>
+<PRE>
+<I>pcbElectricalTerminalNonPermutable ::= '(' 'pcbElectricalTerminalNonPermutable'</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A> | <A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#nonPermutable">nonPermutable</A> <A HREF="RMRF0054.HTM#permutable">permutable</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>At least two items must be referenced by this construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A></I>, <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></I>, <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A></I> or a <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalPartTerminal">pcbPrintedElectricalPartTerminal</A></I> can be referenced at most once by any <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A></I> or <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A></I> constructs in the context of an electrical part.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Describes terminals or groups of terminals that cannot be interchanged. The <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A></I> and <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A></I> constructs support the definition of the permutability of all terminals of a packaged or printed electrical part. See <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></I> for further details and examples.
+<P><HR>
+<H1><A NAME="pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A></H1>
+<PRE>
+<I>pcbElectricalTerminalPermutable ::= '(' 'pcbElectricalTerminalPermutable'</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A> | <A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A> | 
+&#09;<A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0026.HTM#pcbDieElectricalPartMinimallyDefined">pcbDieElectricalPartMinimallyDefined</A>  *<A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A>  *<A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A>  *<A HREF="RMRF0044.HTM#pcbPackagedElectricalPartMinimallyDefined">pcbPackagedElectricalPartMinimallyDefined</A>  *<A HREF="RMRF0051.HTM#pcbPrintedElectricalPartMinimallyDefined">pcbPrintedElectricalPartMinimallyDefined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0047.HTM#pcbPackageTerminalElectrical">pcbPackageTerminalElectrical</A> <A HREF="RMRF0054.HTM#permutable">permutable</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>At least two items must be referenced by this construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionNonPermutable">pcbElectricalPartFunctionNonPermutable</A></I>, <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A></I>, <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A></I> or a <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalPartTerminal">pcbPrintedElectricalPartTerminal</A></I> can be referenced at most once by any <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A></I> or <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A></I> constructs in the context of an electrical part.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Describes a relationship in which terminals on an electrical part are interchangeable; for example, terminals connected to the same AND gate. <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">PcbElectricalTerminalPermutable</A></I> may be nested with <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A></I> to specify complex relationships between terminals. 
+<P>In the context of a <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A></I> construct, corresponding functions may be exchanged as a whole or not at all; partial exchanges are not permitted. For instance, in the following example, the pair (T1, T2) are permutable with (T3, T4) or (T7, T6) or (T9, T8). As you can see from this example, the order of <I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRefs</A></I> within <I><A HREF="RMRF0034.HTM#pcbElectricalTerminalNonPermutable">pcbElectricalTerminalNonPermutable</A></I> is significant.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbElectricalTerminalPermutable</B>
+<B>   (pcbElectricalTerminalNonPermutable</B>
+<B>      (pcbElectricalPartTerminalRef T1)</B>
+<B>      (pcbElectricalPartTerminalRef T2))</B>
+<B>   (pcbElectricalTerminalNonPermutable</B>
+<B>      (pcbElectricalPartTerminalRef T3)</B>
+<B>      (pcbElectricalPartTerminalRef T4))</B>
+<B>   (pcbElectricalTerminalNonPermutable</B>
+<B>      (pcbElectricalPartTerminalRef T7)</B>
+<B>      (pcbElectricalPartTerminalRef T6))</B>
+<B>   (pcbElectricalTerminalNonPermutable</B>
+<B>      (pcbElectricalPartTerminalRef T9)</B>
+<B>      (pcbElectricalPartTerminalRef T8)))</B>
+</PRE>
+<P>This describes the permutability of the following terminals. See <I><A HREF="RMRF0017.HTM#nonPermutable">nonPermutable</A></I> for a further example.
+<P><CENTER><IMG SRC="FIG0006.GIF">
+</CENTER>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

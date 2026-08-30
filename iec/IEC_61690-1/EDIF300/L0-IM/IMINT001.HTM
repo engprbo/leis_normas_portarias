@@ -1,0 +1,363 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1>Chapter 1</H1>
+<H1><A NAME="SECTION03100000000000000000">Introduction</A></H1>
+<P>
+This document describes the information model of EDIF Version
+3&nbsp;0&nbsp;0, a new version beyond EDIF Version
+2&nbsp;0&nbsp;0[<A HREF="IMBIBLIO.HTM#EDIF200ReferenceManual2ndEdition">1</A>, <A HREF="IMBIBLIO.HTM#EDIFIntroduction">2</A>].  The goals of
+EDIF Version 3&nbsp;0&nbsp;0 include :
+<P>
+<UL>
+<LI> More accurate design transfer
+<LI> Correction of known problem areas and anomalies in EDIF Version 2&nbsp;0&nbsp;0
+<LI> Focus on the requirements of schematics and connectivity
+<LI> Provision of a sound basis for future planned extensions for PCB and Test
+</UL>
+<P>
+EDIF Version 3&nbsp;0&nbsp;0 descriptions can be specified at two different
+levels of complexity: Level 0 and Level 1.  The Level 0 description is
+useful for sending static descriptions of electronic design data and the bulk
+of normal design transfer is expected to be done in Level 0.  The
+Level 1 description supports parameterization of cells and frames.
+<P>
+The model presented in this document
+
+covers the concepts of Level 0 descriptions of EDIF Version
+3&nbsp;0&nbsp;0. A brief
+introduction to the information modelling language <I>EXPRESS</I> and its graphical
+notation <I>EXPRESS-G</I> is provided in appendix&nbsp;<A HREF="IMAPPA.HTM#chapterintroductionexpress">A</A>.
+Appendix&nbsp;<A HREF="IMAPPB.HTM#applistsyntaxtomodel">B</A> identifies whether or not an EDIF
+Version 3&nbsp;0&nbsp;0 construct has been modelled in the Information
+Model.  Appendix&nbsp;<A HREF="IMAPPC.HTM#appdefault">C</A> describes the mapping mechanism between the
+Information Model and the syntax. Appendix&nbsp;<A HREF="IMIND.HTM">D</A> gives the
+permuted index of entities defined in the model.  Appendix&nbsp;<A HREF="IMIX.HTM">E</A>
+states the point of definition of an <I>EXPRESS</I> object (including all schemas,
+entities, types and functions) in this document.
+<P>
+<H1><A NAME="SECTION03110000000000000000">1.1 Purposes of an information model for EDIF Version 3&nbsp;0&nbsp;0</A></H1>
+<P>
+The aim of the information modelling activity has been to create a formal
+description of the design information carried by the new version of EDIF.  This
+model represents formally the semantics of EDIF Version 3&nbsp;0&nbsp;0.  It
+is intended to be used to improve the understanding of EDIF Version
+3&nbsp;0&nbsp;0 and to ensure that the fundamental objects in EDIF Version
+3&nbsp;0&nbsp;0 map as accurately as possible to the objects commonly found
+in CAE systems (e.g. nets, busses, ports and signals).  In addition, the
+modelling process itself is valuable in helping to identify ambiguities in
+proposals for EDIF Version 3&nbsp;0&nbsp;0.  This information model of EDIF
+Version 3&nbsp;0&nbsp;0 is the basis from which the EDIF Version
+3&nbsp;0&nbsp;0 syntax has been derived.
+<P>
+The language which has been chosen for the modelling of EDIF Version
+3&nbsp;0&nbsp;0 is <I>EXPRESS</I>[<A HREF="IMBIBLIO.HTM#EXPRESSN14">3</A>] - an information modelling
+language. It is neither a programming language nor a database design language.
+It is designed to be the formal language used to describe a new proposed
+International Standard (ISO 10303) for the exchange of product definition data
+between computer application systems.  <I>EXPRESS</I> and its graphical notation
+<I>EXPRESS-G</I> are outlined in appendix&nbsp;<A HREF="IMAPPA.HTM#chapterintroductionexpress">A</A>.
+<P>
+<H1><A NAME="SECTION03120000000000000000">1.2 Scope of EDIF Version 3&nbsp;0&nbsp;0 (Level 0)</A></H1>
+<P>
+<H2><A NAME="SECTION03121000000000000000">1.2.1 Categories of design information</A></H2>
+<P>
+The first phase of the modelling activity was to identify the set of
+information which is relevant to its scope.  At present, ten categories of
+design information have been identified.
+<P>
+<UL><LI> <B>Hierarchy information</B>. This describes how a circuit is broken down
+      into a number of cells. It also gives details about the aspects of a 
+      cell representation which are provided to an instance. This information
+      includes the port definitions and relationships between them.<LI> <B>Connectivity information</B>.  This defines how circuits are connected.
+      In EDIF Version 3&nbsp;0&nbsp;0, the connectivity information is
+      subdivided into :
+<DL><DD>a) <B>Logical connectivity information</B>. This describes the entire connectivity for a
+given level of hierarchy. It is specified in terms of signals and signal groups.
+<DD>b) <B>Structural connectivity information</B>. This describes the structural implementation
+of the logical connectivity for a given level of hierarchy. It is specified in terms of bets,
+busses, rippers and junctions.
+</DL>
+<LI> <B>Library information</B>. This provides technology information which
+      includes scaling information and definitions of figure groups.<LI> <B>Display information</B>. This provides graphical primitives which can be
+      used to describe ``dumb graphics'', symbols, interconnects or layout.<LI> <B>Instantiatable object information</B>. This provides template definitions
+      whose occurrences can be used to support the implementation part of cell
+      views.<LI> <B>Design management information</B>.  This provides the information needed
+      to trace back to the source or the owner of the data.<LI> <B>Model behavior information</B>.  This explains the event-driven behaviour
+      of a cell which includes defining groups of actions which should take
+      place whenever a specified trigger is activated.  It is not defined in
+      the model.<LI> <B>Simulation information</B>.  This is used to check the operation of the
+      circuit by giving a collection of simulation stimuli and expected
+      responses.  It is not defined in the model.<LI> <B>Annotation information</B>. This is used to hold the annotation data
+      relating to an occurrence hierarchy. 
+</UL><H2><A NAME="SECTION03122000000000000000">1.2.2 Categories of cell representation</A></H2>
+<P>
+In EDIF Version 3&nbsp;0&nbsp;0, different representation techniques are
+available to describe various aspects of a cell.  Each representation (i.e.
+view or symbol) conveys a different set of design information as identified
+above.  At present, EDIF Version 3&nbsp;0&nbsp;0 supports the following
+types of view: connectivity (analogous to the EDIF Version 2&nbsp;0&nbsp;0 netlist
+viewtype), schematic, symboliclayout, masklayout, pcblayout, logicmodel and
+behavior.  In addition, EDIF Version 3&nbsp;0&nbsp;0 allows a symbol to be
+a form of cell representation in its own right.  There may be a symbol for each
+type of view for which a coordinate space exists, i.e. schematic, masklayout,
+pcblayout and symboliclayout.
+<P>
+<H2><A NAME="SECTION03123000000000000000">1.2.3 Organisation of the information model</A></H2>
+<P>
+Each category of design information is modelled as an <I>EXPRESS</I> <I>SCHEMA</I>. A
+schema provides a context for the definition of things of similar interest.
+Each schema has been made independent of other schemas whenever possible so
+that the schema definition is more robust.  Each EDIF Version
+3&nbsp;0&nbsp;0 viewtype is also modelled separately in a different schema.
+<P>
+At present, the information model for EDIF Version 3&nbsp;0&nbsp;0 
+Level 0 consists of a total of 16 schemas.
+Figure&nbsp;<A HREF="#figinformationmodelstructure">1.1</A> shows the structuring of schemas
+in the information model.
+<P>
+<P><A NAME="11488">&#160;</A><A NAME="figinformationmodelstructure">&#160;</A><BR>
+<IMG ALIGN=CENTER ALT="gif" SRC="FIG_1_1.GIF">
+<P>
+<STRONG>Figure 1.1:</STRONG> The structuring of schemas in the information model for EDIF Version
+3&nbsp;0&nbsp;0 (Level 0)<BR>
+<P>
+<P>
+Some schemas contain general information which is useful in the definition of
+other schemas.  The <A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A> schema provides the information held
+by an EDIF file.  The <A HREF="IMEX0011.HTM#library_model">library_model</A> schema contains the technology information
+of a library. The <A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A> schema describes the hierarchical
+information of a cell.  The <A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A> schema holds the annotation
+data relating to a design hierarchy.  The <A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A> schema
+defines various types of reusable template.  The <A HREF="IMEX0012.HTM#logical_connectivity_model">logical_connectivity_model</A>
+schema specifies the view-wide connectivity.  The <A HREF="IMEX0004.HTM#design_management_model">design_management_model</A>
+schema provides the design management information.  The <A HREF="IMEX0006.HTM#documentation_model">documentation_model</A>
+schema describes the documentation provided for an object.  The <A HREF="IMEX0008.HTM#geometry_model">geometry_model</A>
+schema describes the geometrical concepts.  It is used by the <A HREF="IMEX0005.HTM#display_model">display_model</A>
+which associates geometry with display attributes to describe graphical
+primitives.  Finally, the <A HREF="IMEX0015.HTM#support_definition_model">support_definition_model</A> schema provides general
+entity, type and function definitions which are used by other schemas.
+<P>
+On the other hand, some schemas are viewtype specific. At present, the
+information model has completely described the connectivity and schematic
+viewtypes.  The information for the connectivity viewtype is specified in the
+<A HREF="IMEX0002.HTM#connectivity_view_model">connectivity_view_model</A> and the <A HREF="IMEX0001.HTM#connectivity_structure_model">connectivity_structure_model</A> schemas.  The
+<A HREF="IMEX0001.HTM#connectivity_structure_model">connectivity_structure_model</A> schema describes the structural connectivity of
+the connectivity view.  The information for the schematic viewtype is specified
+in the <A HREF="IMEX0014.HTM#schematic_view_model">schematic_view_model</A> and the <A HREF="IMEX0013.HTM#schematic_implementation_model">schematic_implementation_model</A> schemas.
+The <A HREF="IMEX0013.HTM#schematic_implementation_model">schematic_implementation_model</A> describes the structural implementation of a
+schematic view.  Other viewtypes, such as pcblayout, masklayout,
+symboliclayout, logicmodel and behavior are given as ``stubs'' in the
+<A HREF="IMEX0016.HTM#unfinished_view_model">unfinished_view_model</A> schema.
+<P>
+<H1><A NAME="SECTION03130000000000000000">1.3 Modelling general concepts</A></H1>
+<P>
+The techniques used for modelling the concepts of containment, object
+referencing and instantiation are described in this section.
+<P>
+<H2><A NAME="SECTION03131000000000000000">1.3.1 Containment</A></H2>
+<P>
+In EDIF, containment is a purely lexical mechanism and relates to the textual
+enclosure of object descriptions within the matching parentheses of another
+description.
+<P>
+Many relationships are expressed using simple containment. A design definition
+being part of an edif file and a cell being within a particular library are
+examples of this type of relationship.
+<P>
+To model the containment technique in <I>EXPRESS</I>, a specific technique has
+been used. This is illustrated in the example given in
+figure&nbsp;<A HREF="#figmodelcontainment">1.2</A>.
+<P>
+<P><A NAME="11566">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+  entity edif;
+    designs           : set of design;
+    ...
+  end_entity;
+
+  entity design;
+    ...
+  WHERE
+    containment_constraint : 
+      (* A design belongs to one edif file. *)
+        belongs_to_one(SELF, 'edif.designs');
+  end_entity;
+
+  function belongs_to_one
+    (entity_instance : generic; role : string) : boolean;
+    return(sizeof(usedin(entity_instance, role)) = 1);
+  end_function;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure 1.2:</STRONG> <A NAME="figmodelcontainment">&#160;</A>Modelling containment in <I>EXPRESS</I><BR>
+</CENTER>
+<P>
+<P>
+The <A HREF="IMEX0015.HTM#belongs_to_one">belongs_to_one</A> function is defined in terms of the <I>EXPRESS</I> <I>USEDIN</I>
+function. This function accepts an entity instance and the role it plays in the
+definition of other entities. It returns true if there is only one entity
+instance which uses that <TT>entity_instance</TT> in the specified <TT>role</TT>. In
+this example, the constraint in the definition of entity <TT>design</TT> requires
+every <TT>design</TT> instance to be used by only one <TT>edif</TT> instance.
+Therefore, the effect of containment is achieved.
+<P>
+<H2><A NAME="SECTION03132000000000000000">1.3.2 Referencing mechanism</A></H2>
+<P>
+Many relationships are expressed using simple containment. However, this
+method alone is only adequate to describe simple structures. There are many
+relationships between objects in a typical CAD database which require more
+flexibility to be expressed, such as the instantiation of one cell within
+another, or connectivity.
+<P>
+In EDIF, names (or identifiers) are used to identify objects uniquely. They are
+valid with a well-defined scope. For example, the identifier chosen for a port
+in one cell cannot be confused with that of a port of another cell that happens
+to have the same spelling. However, such local identifiers require some form of
+qualification before the local object can be referenced from another context.
+For example, to reference a cell may require both the cell identifier and the
+library identifier to be specified.
+<P>
+Consider the following excerpt from an EDIF description; a design <TT>I1</TT>
+contains a reference to cell <TT>V1</TT> in a library, called <TT>lib</TT>.  This
+kind of nested reference is required whenever an EDIF object is accessed
+outside its own context.
+<P>
+<PRE></PRE> (design I1 (cellRef V1 (libraryRef lib)) (designHeader ...))
+<P>
+A possible model for this referencing mechanism is given in
+figure&nbsp;<A HREF="#figincorrectmodelreference">1.3</A>.
+<P>
+<P><A NAME="11567">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+  entity library;
+    name               : library_identifier;
+    cells              : set of cell;
+    ...
+  end_entity;
+
+  entity cell;
+    name               : cell_identifier;
+    clusters           : set of cluster;
+    ...
+  end_entity;
+
+  entity design;
+    top_cell           : cell_identifier;
+    referenced_library : library_identifier;
+    ...
+  where
+    -- checks that the top_cell belongs to the referenced_library
+  end_entity;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure 1.3:</STRONG> <A NAME="figincorrectmodelreference">&#160;</A>
+         A possible way of modelling the referencing mechanism in <I>EXPRESS</I><BR>
+</CENTER>
+<P>
+<P>
+However, in <I>EXPRESS</I>, nested reference is not necessary because every object
+has a unique identity. The use of an identifier becomes obsolete.  An
+occurrence of a cell can be referenced <EM>directly</EM> without giving
+information about the containing library. Hence, there is no need for <I>EXPRESS</I>
+to copy the nested referencing mechanism which EDIF uses for coping with
+syntactic constraints.  The correct model is given in
+figure&nbsp;<A HREF="#figmodelreference">1.4</A>.
+<P>
+<P><A NAME="11568">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+ entity library; 
+   cells         : set of cell;    (* no need for library_identifier *)
+   ...
+ end_entity;
+
+ entity cell; 
+   clusters      : set of cluster; (* no need for cell_identifier *)
+   ...
+ end_entity;
+
+ entity design;
+   top_cell      : cell;  -- direct reference to the cell definition
+   ...
+ end_entity;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure 1.4:</STRONG> <A NAME="figmodelreference">&#160;</A>Modelling the referencing mechanism in <I>EXPRESS</I><BR>
+</CENTER>
+<P><H2><A NAME="SECTION03133000000000000000">1.3.3 Instantiation</A></H2>
+<P>
+The general mechanism for modelling instantiation is given in
+figure&nbsp;<A HREF="#figmodelinstantiation">1.5</A>.  In the example, entity <TT>XYZ_object</TT>
+contains attributes <TT>a</TT>, <TT>b</TT>, <TT>c</TT> and <TT>d</TT>. Attributes <TT>a</TT>
+and <TT>b</TT> are preserved on instantiation of <TT>XYZ_object</TT>, whereas
+attributes <TT>c</TT> and <TT>d</TT> are not. Entity <TT>XYZ_instance</TT> is an
+instance of <TT>XYZ_object</TT> and contains a reference to its master and some
+instance specific attributes (i.e. <TT>e</TT> and <TT>f</TT>).
+<P>
+<P><A NAME="11569">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+ entity XYZ_object;  
+   a, b                : instantiatable_attr; 
+   c, d                : noninstantiatable_attr;
+ end_entity; 
+
+ entity XYZ_instance;                      
+   instantiated_object : XYZ_object; -- reference to the object definition
+   e, f                : instance_specific_attr;
+ end_entity;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure 1.5:</STRONG> <A NAME="figmodelinstantiation">&#160;</A>Modelling instantiation in <I>EXPRESS</I><BR>
+</CENTER>
+<P>
+<P>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,1744 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="pcb_technology_model">pcb_technology_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A> schema describes the technology of a single bare
+ board.  A <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> is the set of data which guides a designer
+ (or CAD system) in such a way as to crate a layout which is fully
+ manufacturable in a particular manner.  In addition, it fully describes the
+ physical structure of a bare board.
+</P><HR>
+<!-- Start of ENTITY: bare_board_technology -->
+<H2><A NAME="bare_board_technology">bare_board_technology</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A>,
+                                   <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>));
+    document         : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    drill_rules      : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>;
+    name             : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    layers           : SET [1:?] OF <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>;
+    previous_version : OPTIONAL <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>; -- reference
+    properties       : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    technology_rules : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#technology_rule">technology_rule</A>;
+    units            : <A HREF="IMEX0021.HTM#pcb_layout_units">pcb_layout_units</A>;
+    written_status   : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+  DERIVE
+    containing_library : <A HREF="IMEX0011.HTM#library">library</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.bare_board_technologies');
+  WHERE
+    <A NAME="bare_board_technology.valid_existence">valid_existence</A> :
+      (* A bare_board_technology belongs to one library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.bare_board_technologies');
+
+    <A NAME="bare_board_technology.valid_previous_version">valid_previous_version</A> :
+      (* A bare_board_technology cannot be a new version of itself, either
+         directly or indirectly. *)
+      <A HREF="IMEX0029.HTM#non_recursive_previous_version">non_recursive_previous_version</A>(SELF, []);
+
+    <A NAME="bare_board_technology.valid_written_in_previous_version">valid_written_in_previous_version</A> :
+      (* The earliest timestamp of a bare_board_technology is later than the
+         latest timestamp of its previous version. *)  
+      <A HREF="IMEX0004.HTM#valid_timestamp_in_previous_version">valid_timestamp_in_previous_version</A>(written_status,
+                                          previous_version.written_status);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> is that set of data which (a) guides a designer
+ (or CAD system) in such a way as to create a PCB layout which is fully
+ manufacturable in a particular manner, and (b) fully describes the physical
+ structure of a bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> <A HREF="IMEX0025.HTM#layout_feature">layout_feature</A> <A HREF="IMEX0011.HTM#library">library</A> <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> <A HREF="IMEX0025.HTM#sub_layout_definition">sub_layout_definition</A> <A HREF="IMEX0026.HTM#technology_rule">technology_rule</A> </P>
+<HR>
+<!-- Start of ENTITY: external_bare_board_technology -->
+<H2><A NAME="external_bare_board_technology">external_bare_board_technology</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>);
+    SELF\<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.layers : SET [1:?] OF <A HREF="IMEX0026.HTM#external_physical_layer">external_physical_layer</A>; 
+    SELF\<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.drill_rules 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#external_drill_rule">external_drill_rule</A>;
+    SELF\<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.previous_version
+        : OPTIONAL <A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A>;
+    SELF\<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.technology_rules
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#external_technology_rule">external_technology_rule</A>;
+  WHERE
+    <A NAME="external_bare_board_technology.valid_existence">valid_existence</A> :
+      (* An external_bare_board_technology belongs to one external_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+                     '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#external_library">external_library</A>.bare_board_technologies');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A> is a <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> defined in
+ an <A HREF="IMEX0011.HTM#external_library">external_library</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A> <A HREF="IMEX0011.HTM#external_library">external_library</A> <A HREF="IMEX0025.HTM#external_sub_layout_definition">external_sub_layout_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_bare_board_technology -->
+<H2><A NAME="internal_bare_board_technology">internal_bare_board_technology</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>);
+    layer_stack : <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>;
+    SELF\<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.layers : SET [1:?] OF <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>;
+    SELF\<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.drill_rules 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A>;
+    SELF\<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.technology_rules
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A>;
+  WHERE
+    <A NAME="internal_bare_board_technology.valid_existence">valid_existence</A> :
+      (* An internal_bare_board_technology belongs to one internal_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+                     '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#internal_library">internal_library</A>.bare_board_technologies');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A> is a <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> defined in
+ an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A> <A HREF="IMEX0011.HTM#internal_library">internal_library</A> <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> </P>
+<HR>
+<!-- Start of ENTITY: physical_layer -->
+<H2><A NAME="physical_layer">physical_layer</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>
+        ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0026.HTM#conducting_layer">conducting_layer</A>, 
+                                      <A HREF="IMEX0026.HTM#non_conducting_layer">non_conducting_layer</A>)
+                               AND
+                               ONEOF (<A HREF="IMEX0026.HTM#external_physical_layer">external_physical_layer</A>,
+                                      <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>));
+    document                    : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name                        : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    referenced_figure_collector : -- reference
+                                  OPTIONAL <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A>; 
+  DERIVE
+    containing_technology : <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.layers');
+    positive_contributing_collectors : -- reference
+                                       SET OF <A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>
+      := <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A>(referenced_figure_collector,
+                                                TRUE);
+    negative_contributing_collectors : -- reference
+                                       SET OF <A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>
+      := <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A>(referenced_figure_collector, 
+                                                FALSE);
+ WHERE
+    <A NAME="physical_layer.valid_existence">valid_existence</A> : 
+      (* A physical_layer belongs to one bare_board_technology. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.layers');
+
+    <A NAME="physical_layer.valid_referenced_figure_collector">valid_referenced_figure_collector</A> :
+      (* The referenced fabricate_figure_collector must be defined in the
+         containing edif. *)
+      referenced_figure_collector 
+      IN containing_technology
+         .containing_library
+         .containing_edif.fabricate_figure_collectors;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> is either: a sheet of a single material that is (1)
+ applied to a layer of dielectric or other material, or (2) the dielectric
+ material itself.  A physical layer is composed of a particular material,
+ which may be specific (e.g. 24 K gold) or general (e.g. etched metal), and
+ which can be described using positive artwork exclusively.
+</P>
+<P>
+ All <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> objects share a common, arbitrary coordinate space.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0025.HTM#bare_board_cavity">bare_board_cavity</A> <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> <A HREF="IMEX0015.HTM#component_region_realisation_rule">component_region_realisation_rule</A> <A HREF="IMEX0015.HTM#component_signal_layer_realisation_rule">component_signal_layer_realisation_rule</A> <A HREF="IMEX0025.HTM#embedded_die_placement_region">embedded_die_placement_region</A> <A HREF="IMEX0026.HTM#internal_physical_layer_technology_rule">internal_physical_layer_technology_rule</A> <A HREF="IMEX0025.HTM#layout_shape">layout_shape</A> <A HREF="IMEX0025.HTM#trace">trace</A> </P>
+<HR>
+<!-- Start of ENTITY: conducting_layer -->
+<H2><A NAME="conducting_layer">conducting_layer</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#conducting_layer">conducting_layer</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#conducting_layer">conducting_layer</A> is a <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> which is (expected to be)
+ conductive in nature.  A <A HREF="IMEX0026.HTM#conducting_layer">conducting_layer</A> must be fabricated under a
+ specific set of constraints, depending on the type of <A HREF="IMEX0019.HTM#material">material</A> that makes
+ up the <A HREF="IMEX0026.HTM#conducting_layer">conducting_layer</A>.  
+</P><HR>
+<!-- Start of ENTITY: non_conducting_layer -->
+<H2><A NAME="non_conducting_layer">non_conducting_layer</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#non_conducting_layer">non_conducting_layer</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>);
+    layer_type : <A HREF="IMEX0026.HTM#layer_type">layer_type</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#non_conducting_layer">non_conducting_layer</A> is a <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> which is (expected to be)
+ non-conductive in nature.
+</P><HR>
+<!-- Start of TYPE: layer_type -->
+<H2><A NAME="layer_type">layer_type</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#layer_type">layer_type</A>
+    = ENUMERATION OF (substrate,
+                      silkscreen,
+                      solder_mask,
+                      solder_paste,
+                      bonding,
+                      other);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#layer_type">layer_type</A> describes the primary use of the <A HREF="IMEX0026.HTM#non_conducting_layer">non_conducting_layer</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#non_conducting_layer">non_conducting_layer</A> </P>
+<HR>
+<!-- Start of ENTITY: external_physical_layer -->
+<H2><A NAME="external_physical_layer">external_physical_layer</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#external_physical_layer">external_physical_layer</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#external_physical_layer">external_physical_layer</A> is a <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> belonged to an
+ <A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_physical_layer -->
+<H2><A NAME="internal_physical_layer">internal_physical_layer</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>);
+    is_made_of : OPTIONAL <A HREF="IMEX0019.HTM#material">material</A>; -- reference
+    thickness  : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+  WHERE
+    <A NAME="internal_physical_layer.valid_material">valid_material</A> :
+    (* If it is a conducting_layer, then the referenced material must be
+       conducting.  Otherwise, if it is a non_conducting_layer, then the
+       referenced material must be non-conducting. *)
+
+    (('<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#conducting_layer">conducting_layer</A>' IN TYPEOF(SELF))
+    AND (is_made_of.electrical_type = <A HREF="IMEX0019.HTM#material_electrical_type">material_electrical_type</A>.conductive))
+    XOR
+    (('<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#non_conducting_layer">non_conducting_layer</A>' IN TYPEOF(SELF))
+    AND (is_made_of.electrical_type &lt;  <A HREF="IMEX0019.HTM#material_electrical_type">material_electrical_type</A>.conductive));
+
+    <A NAME="internal_physical_layer.valid_stack_use">valid_stack_use</A> :
+      (* An internal_physical_layer must form part of the layup of the
+         bare_board_technology.  i.e. it must be referenced by exactly
+         one stacked_layer_group or exactly one co_planar_layer_group. *)
+
+      SIZEOF(USEDIN(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>.stacked_objects'))
+      +
+      SIZEOF(USEDIN(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>.co_planar_objects')) = 1;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A> is a <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> belonged to an
+ <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#co_planar_object">co_planar_object</A> <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A> <A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A> <A HREF="IMEX0025.HTM#non_conformant_hole">non_conformant_hole</A> <A HREF="IMEX0026.HTM#stack_object">stack_object</A> </P>
+<HR>
+<!-- Start of ENTITY: stacked_layer_group -->
+<H2><A NAME="stacked_layer_group">stacked_layer_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>;
+    stacked_objects : LIST [2:?] OF <A HREF="IMEX0026.HTM#stack_object">stack_object</A>;
+  DERIVE
+    containing_technology : <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A> -- reference
+      := <A HREF="IMEX0026.HTM#containing_technology_of_stacked_layer_group">containing_technology_of_stacked_layer_group</A>(SELF);
+    containing_layer_group : <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>.co_planar_objects');
+  WHERE
+    <A NAME="stacked_layer_group.valid_existence">valid_existence</A> :
+      (* A stacked_layer_group belongs to one
+         internal_bare_board_technology or to one co_planar_layer_group. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+       ['<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>.layer_stack',
+        '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>.co_planar_objects']);
+
+    <A NAME="stacked_layer_group.valid_layers">valid_layers</A> :
+      (* The physical_layers which are stacked are defined in the
+         bare_board_technology which contains the stacked_layer_group. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(stackedObject &lt;* stacked_objects |
+        ('<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>' 
+          IN TYPEOF(stackedObject))
+        AND
+        NOT (stackedObject IN containing_technology.layers)));
+
+    <A NAME="stacked_layer_group.non_recursive">non_recursive</A> :
+      (* A stacked_layer_group cannot own itself indirectly. *)
+      <A HREF="IMEX0026.HTM#non_recursive_stacked_layer_group">non_recursive_stacked_layer_group</A>([SELF],[]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> is an ordered group of <A HREF="IMEX0026.HTM#physical_layer">physical_layers</A> or
+ <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> which are placed one below another.  The first
+ <A HREF="IMEX0026.HTM#stack_object">stack_object</A> is closest to the top of the board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> <A HREF="IMEX0026.HTM#co_planar_object">co_planar_object</A> <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A> </P>
+<HR>
+<!-- Start of TYPE: stack_object -->
+<H2><A NAME="stack_object">stack_object</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#stack_object">stack_object</A>
+    = SELECT (<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>,
+              <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>);  -- reference
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#stack_object">stack_object</A> is an object which can be stacked to form part of
+ the layup of a board.  It is either an <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A> or a
+ <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>.  Note that it cannot be a <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>.  By
+ means of this limitation, EDIF ensures that there is only one
+ mechanism for specifying a given layup.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> </P>
+<HR>
+<!-- Start of FUNCTION: containing_technology_of_stacked_layer_group -->
+<H2><A NAME="containing_technology_of_stacked_layer_group">containing_technology_of_stacked_layer_group</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0026.HTM#containing_technology_of_stacked_layer_group">containing_technology_of_stacked_layer_group</A>
+    (stackedLayerGroup : <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>) : <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>;
+    LOCAL
+      found : LOGICAL := FALSE;
+      containing_technology : <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>;
+      containing_co_planar_group : <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>;
+    END_LOCAL;
+
+    REPEAT WHILE found=FALSE;
+      IF <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(stackedLayerGroup,
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>.layer_stack') THEN
+         containing_technology := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(stackedLayerGroup,
+           '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>.layer_stack');
+         found := TRUE;
+      ELSE
+        containing_co_planar_group := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(stackedLayerGroup,
+           '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>.co_planar_objects');
+        stackedLayerGroup := containing_co_planar_group.containing_layer_group;
+      END_IF;
+    END_REPEAT;
+    RETURN(containing_technology);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#containing_technology_of_stacked_layer_group">containing_technology_of_stacked_layer_group</A> returns the
+ <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A> containing the <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> </P>
+<HR>
+<!-- Start of FUNCTION: non_recursive_stacked_layer_group -->
+<H2><A NAME="non_recursive_stacked_layer_group">non_recursive_stacked_layer_group</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0026.HTM#non_recursive_stacked_layer_group">non_recursive_stacked_layer_group</A>
+    (parents, invalidAncestors : SET OF <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>) : BOOLEAN;
+    LOCAL
+      i, j                : INTEGER;
+      descendents         : SET OF <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> := [];
+      coPlanarLayerGroups : LIST OF <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>;
+    END_LOCAL;
+
+    REPEAT i := 1 TO SIZEOF(parents);
+      coPlanarLayerGroups := QUERY(member &lt;* parents[i].stacked_objects |
+                                   '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>'
+                                   IN TYPEOF(member));
+      REPEAT j := 1 TO SIZEOF(coPlanarLayerGroups);
+        descendents := descendents +
+                       QUERY(member &lt;* coPlanarLayerGroups[j].co_planar_objects|
+                             '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>'
+                             IN TYPEOF(member));
+      END_REPEAT;
+    END_REPEAT;
+    invalidAncestors := parents + invalidAncestors;
+    RETURN(<A HREF="IMEX0029.HTM#not_exists">not_exists</A>(descendents)
+           XOR
+           (<A HREF="IMEX0029.HTM#not_exists">not_exists</A>(descendents * invalidAncestors)
+            AND 
+            <A HREF="IMEX0026.HTM#non_recursive_stacked_layer_group">non_recursive_stacked_layer_group</A>(descendents, invalidAncestors)));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#non_recursive_stacked_layer_group">non_recursive_stacked_layer_group</A> function returns true if a
+ <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> does not contain members which reference itself.  It
+ prevents cyclic definition of a <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> </P>
+<HR>
+<!-- Start of ENTITY: co_planar_layer_group -->
+<H2><A NAME="co_planar_layer_group">co_planar_layer_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>;
+    co_planar_objects : SET [2:?] OF <A HREF="IMEX0026.HTM#co_planar_object">co_planar_object</A>;
+  DERIVE
+    containing_layer_group : <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>.stacked_objects');
+  WHERE
+    <A NAME="co_planar_layer_group.valid_existence">valid_existence</A> :
+      (* A co_planar_layer_group belongs to one stacked_layer_group. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>.stacked_objects');
+
+    <A NAME="co_planar_layer_group.valid_layers">valid_layers</A> :
+      (* The physical_layers which are co-planar are defined in the
+         bare_board_technology which indirectly contains the
+         co_planar_layer_group. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(coPlanarObject &lt;* co_planar_objects |
+        ('<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>' 
+          IN TYPEOF(coPlanarObject))
+        AND
+        NOT (coPlanarObject 
+             IN containing_layer_group.containing_technology.layers)));
+
+    <A NAME="co_planar_layer_group.non_recursive">non_recursive</A> :
+      (* A co_planar_layer_group cannot own itself indirectly. *)
+      <A HREF="IMEX0026.HTM#non_recursive_co_planar_layer_group">non_recursive_co_planar_layer_group</A>([SELF],[]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> is an unordered group of <A HREF="IMEX0026.HTM#physical_layer">physical_layers</A> or
+ <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> which are in the same z-plane.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#stack_object">stack_object</A> <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> </P>
+<HR>
+<!-- Start of TYPE: co_planar_object -->
+<H2><A NAME="co_planar_object">co_planar_object</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#co_planar_object">co_planar_object</A>
+    = SELECT (<A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>,
+              <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>);  -- reference
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#co_planar_object">co_planar_object</A> is an object which can be placed in the same
+ z-plane as other <A HREF="IMEX0026.HTM#co_planar_object">co_planar_objects</A> to form part of the layup of a
+ board.  It is either an <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A> or a
+ <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>.  Note that it cannot be a <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>.
+ By means of this limitation, EDIF ensures that there is only one mechanism
+ for specifying a given layup.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> </P>
+<HR>
+<!-- Start of FUNCTION: non_recursive_co_planar_layer_group -->
+<H2><A NAME="non_recursive_co_planar_layer_group">non_recursive_co_planar_layer_group</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0026.HTM#non_recursive_co_planar_layer_group">non_recursive_co_planar_layer_group</A>
+    (parents, invalidAncestors : SET OF <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>) : BOOLEAN;
+    LOCAL
+      i, j               : INTEGER;
+      descendents        : SET OF <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> := [];
+      stackedLayerGroups : SET OF <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>;
+    END_LOCAL;
+
+    REPEAT i := 1 TO SIZEOF(parents);
+      stackedLayerGroups := QUERY(member &lt;* parents[i].co_planar_objects |
+                                 '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>'
+                                 IN TYPEOF(member));
+      REPEAT j := 1 TO SIZEOF(stackedLayerGroups);
+        descendents := descendents +
+                       QUERY(member &lt;* stackedLayerGroups[j].stacked_objects |
+                             '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>'
+                             IN TYPEOF(member));
+      END_REPEAT;
+    END_REPEAT;
+    invalidAncestors := parents + invalidAncestors;
+    RETURN(<A HREF="IMEX0029.HTM#not_exists">not_exists</A>(descendents)
+           XOR
+           (<A HREF="IMEX0029.HTM#not_exists">not_exists</A>(descendents * invalidAncestors)
+            AND 
+            <A HREF="IMEX0026.HTM#non_recursive_co_planar_layer_group">non_recursive_co_planar_layer_group</A>(descendents, 
+                                                invalidAncestors)));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#non_recursive_co_planar_layer_group">non_recursive_co_planar_layer_group</A> function returns true if a
+ <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> does not contain members which reference itself.  It
+ prevents cyclic definition of a <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> </P>
+<HR>
+<!-- Start of ENTITY: drill_rule -->
+<H2><A NAME="drill_rule">drill_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0026.HTM#external_drill_rule">external_drill_rule</A>,
+                                    <A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A>)
+                             AND
+                             ONEOF (<A HREF="IMEX0026.HTM#plated_drill_rule">plated_drill_rule</A>,
+                                    <A HREF="IMEX0026.HTM#non_plated_drill_rule">non_plated_drill_rule</A>));
+    document   : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name       : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    symbols    : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#drill_symbol">drill_symbol</A>;
+  WHERE
+    <A NAME="drill_rule.valid_existence">valid_existence</A> :
+      (* A drill_rule belongs to one bare_board_technology. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.drill_rules');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> object describes the way in which a collection of
+ <A HREF="IMEX0026.HTM#physical_layer">physical_layers</A> should be drilled for a particular purpose.
+</P>
+<P>
+ A <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> is assumed to be particular to a <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.
+ This assumption may be re-considered.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> <A HREF="IMEX0025.HTM#conformant_hole">conformant_hole</A> <A HREF="IMEX0026.HTM#drill_symbol">drill_symbol</A> <A HREF="IMEX0016.HTM#drill_symbol_selection">drill_symbol_selection</A> <A HREF="IMEX0026.HTM#hole_information">hole_information</A> <A HREF="IMEX0026.HTM#via_grid">via_grid</A> </P>
+<HR>
+<!-- Start of ENTITY: external_drill_rule -->
+<H2><A NAME="external_drill_rule">external_drill_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#external_drill_rule">external_drill_rule</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>);
+    SELF\<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>.symbols
+      : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#external_drill_symbol">external_drill_symbol</A>;
+  WHERE
+    <A NAME="external_drill_rule.valid_existence">valid_existence</A> :
+      (* An external_drill_rule belongs to one
+         external_bare_board_technology.*)  
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A>.drill_rules');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#external_drill_rule">external_drill_rule</A> is a <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> defined in an
+ <A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_drill_rule -->
+<H2><A NAME="internal_drill_rule">internal_drill_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>);
+    SELF\<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>.symbols
+      : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A>;
+    drilled_from        : SET [1:?] OF <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>; -- reference
+    drilled_to          : SET [1:?] OF <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>; -- reference
+    intermediate_layers : OPTIONAL LIST [1:?] OF SET [1:?] OF
+                          <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>;  -- reference
+    hole_size           : <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+  DERIVE
+    containing_technology : <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>.drill_rules');
+  WHERE
+    <A NAME="internal_drill_rule.valid_existence">valid_existence</A> :
+      (* An internal_drill_rule belongs to one
+         internal_bare_board_technology.*)  
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>.drill_rules');
+
+    <A NAME="internal_drill_rule.valid_drilled_from">valid_drilled_from</A> :
+      (* The drilled from layers must be defined in the
+         bare_board_technology. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(layer &lt;* drilled_from |
+        NOT (layer IN containing_technology.layers)));
+  
+    <A NAME="internal_drill_rule.valid_drilled_to">valid_drilled_to</A> :
+      (* The drilled_to physical_layers must be defined in the
+         bare_board_technology. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(layer &lt;* drilled_to |
+        NOT (layer IN containing_technology.layers)));
+  
+    <A NAME="internal_drill_rule.valid_intermediate_layers">valid_intermediate_layers</A> :
+      (* The intermediate physical_layers must be defined in the
+         bare_board_technology. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(layerSet &lt;* intermediate_layers |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(layer &lt;* layerSet |
+          NOT (layer IN containing_technology.layers)))));
+  
+    <A NAME="internal_drill_rule.valid_from_to_planarity">valid_from_to_planarity</A> :
+      (* The drilled_from and drilled_to physical_layers must be
+         stacked on each other i.e. they cannot be directly or indirectly
+         co-planar. *)
+      NOT <A HREF="IMEX0026.HTM#co_planar_layer_set">co_planar_layer_set</A>(drilled_from, drilled_to);
+  
+    <A NAME="internal_drill_rule.valid_first_intermediate">valid_first_intermediate</A> :
+      (* The first intermediate physical_layers must not be directly or
+         indirectly co-planar with the drilled_from physical_layers. *)
+      NOT <A HREF="IMEX0026.HTM#co_planar_layer_set">co_planar_layer_set</A>(drilled_from, intermediate_layers[1]);
+  
+    <A NAME="internal_drill_rule.valid_last_intermediate">valid_last_intermediate</A> :
+      (* The last intermediate physical_layers must not be directly or
+         indirectly co-planar with the drilled_to physical_layers. *)
+      NOT <A HREF="IMEX0026.HTM#co_planar_layer_set">co_planar_layer_set</A>(drilled_to,
+          intermediate_layers[SIZEOF(intermediate_layers)]);
+  
+    <A NAME="internal_drill_rule.valid_intermediate_list">valid_intermediate_list</A> :
+      (* No member of the intermediate list may be directly or
+         indirectly co-planar with a member of the preceding set. *)
+      NOT <A HREF="IMEX0026.HTM#co_planar_intermediate_layer_set">co_planar_intermediate_layer_set</A>(intermediate_layers);
+  
+    <A NAME="internal_drill_rule.valid_stacking">valid_stacking</A> :
+      (* The drilled_from physical_layers must be closer to the top of
+         the board layup than the drilled_to and closer than the first
+         intermediate set.  In addition each set of
+         physical_layers in the intermediate list must be closer to
+         the top of the board layup than members of the next set and
+         closer than members of the drilled_to set.  Note that this
+         does not mandate a choice of how a foundry is to drill the
+         hole; it ensures that there is only one mechanism for
+         specifying a given piece of information within EDIF. *)
+
+      <A HREF="IMEX0026.HTM#check_drill_rule_layer_stack">check_drill_rule_layer_stack</A>(containing_technology.layer_stack,
+                                   drilled_from, drilled_to,
+                                   intermediate_layers);
+  
+    <A NAME="internal_drill_rule.valid_from_set">valid_from_set</A> :
+      (* The members of the drilled_from set must be directly within a
+         co_planar_layer_group and it must be the same
+         co_planar_layer_group. *) 
+      <A HREF="IMEX0026.HTM#co_planar_layer">co_planar_layer</A>(drilled_from);
+
+    <A NAME="internal_drill_rule.valid_to_set">valid_to_set</A> :
+      (* The members of the drilled_to set must be directly within a
+         co_planar_layer_group and it must be the same co_planar_layer_group. *)
+      <A HREF="IMEX0026.HTM#co_planar_layer">co_planar_layer</A>(drilled_to);
+
+    <A NAME="internal_drill_rule.valid_intermediate_sets">valid_intermediate_sets</A> :
+      (* The members of each intermediate set must be directly within a
+         co_planar_layer_group and it must be the same co_planar_layer_group.
+         Note that this only applies within a given set not to the whole
+         intermediate list. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(layerSet &lt;* intermediate_layers |
+        NOT <A HREF="IMEX0026.HTM#co_planar_layer">co_planar_layer</A>(layerSet)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A> is a <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> defined in an
+ <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>.  There are no manufacturing
+ semantics associated with drilled_from and drilled_to
+ <A HREF="IMEX0026.HTM#physical_layer">physical_layers</A> i.e. the <A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A> specifies what to
+ manufacture rather than how.
+ *
+ Note that the sets of <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> are allowed in order to
+ enable a choice of <A HREF="IMEX0026.HTM#physical_layer">physical_layers</A> to be specified.  Where there is
+ a choice, the <A HREF="IMEX0026.HTM#physical_layer">physical_layers</A> must be directly in the same
+ <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A> </P>
+<HR>
+<!-- Start of ENTITY: plated_drill_rule -->
+<H2><A NAME="plated_drill_rule">plated_drill_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#plated_drill_rule">plated_drill_rule</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>);
+    plating_material  : OPTIONAL <A HREF="IMEX0019.HTM#material">material</A>; -- reference
+    plating_thickness : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+  WHERE
+    <A NAME="plated_drill_rule.valid_plating_material">valid_plating_material</A> :
+      (* The plating material must be conducting. *)
+      plating_material.electrical_type = <A HREF="IMEX0019.HTM#material_electrical_type">material_electrical_type</A>.conductive;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#plated_drill_rule">plated_drill_rule</A> specifies the material to used for plating holes and
+ the recommended thickness of the plating material. 
+</P><HR>
+<!-- Start of ENTITY: non_plated_drill_rule -->
+<H2><A NAME="non_plated_drill_rule">non_plated_drill_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#non_plated_drill_rule">non_plated_drill_rule</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#non_plated_drill_rule">non_plated_drill_rule</A> applies to the manufacture of unplated through
+ holes. 
+</P><HR>
+<!-- Start of FUNCTION: co_planar_layer -->
+<H2><A NAME="co_planar_layer">co_planar_layer</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0026.HTM#co_planar_layer">co_planar_layer</A>
+    (layers : SET OF <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>) : BOOLEAN;
+    LOCAL
+      layerGroups : SET OF <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> := [ ];
+    END_LOCAL;
+    IF (SIZEOF(layers) = 1) THEN
+       RETURN(TRUE);
+    ELSE
+       REPEAT i := 1 TO SIZEOF(layers);
+         layerGroups := layerGroups + 
+           USEDIN(layers[i], 
+           '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>.co_planar_objects');
+       END_REPEAT;
+       RETURN(SIZEOF(layerGroups)=1);
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#co_planar_layer">co_planar_layer</A> function accepts a set OF layers as argument and
+ returns true if all members of the layer set are directly within a
+ <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A> </P>
+<HR>
+<!-- Start of FUNCTION: co_planar_layer_set -->
+<H2><A NAME="co_planar_layer_set">co_planar_layer_set</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0026.HTM#co_planar_layer_set">co_planar_layer_set</A>
+    (layerSet1, layerSet2 : SET OF <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>) : BOOLEAN;
+    LOCAL
+      parentGroup1 : SET OF <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> := [ ];
+      parentGroup2 : SET OF <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> := [ ];
+    END_LOCAL;
+
+    REPEAT i := 1 TO SIZEOF(layerSet1);
+      parentGroup1 := parentGroup1 
+                      + <A HREF="IMEX0026.HTM#enclosing_co_planar_group">enclosing_co_planar_group</A>(layerSet1[i]);
+    END_REPEAT;
+
+    REPEAT i := 1 TO SIZEOF(layerSet2);
+      parentGroup2 := parentGroup2
+                      + <A HREF="IMEX0026.HTM#enclosing_co_planar_group">enclosing_co_planar_group</A>(layerSet2[i]); 
+    END_REPEAT;
+
+    RETURN(<A HREF="IMEX0029.HTM#not_exists">not_exists</A>(parentGroup1 * parentGroup2));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#co_planar_layer_set">co_planar_layer_set</A> function returns true if the two layer sets are
+ not co-planar, either directly or indirectly.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A> </P>
+<HR>
+<!-- Start of FUNCTION: co_planar_intermediate_layer_set -->
+<H2><A NAME="co_planar_intermediate_layer_set">co_planar_intermediate_layer_set</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0026.HTM#co_planar_intermediate_layer_set">co_planar_intermediate_layer_set</A>
+    (layerSets : LIST OF SET OF <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>) : BOOLEAN;
+    REPEAT i := 1 TO SIZEOF(layerSets)-1;
+      IF <A HREF="IMEX0026.HTM#co_planar_layer_set">co_planar_layer_set</A>(layerSets[i], layerSets[i+1]) THEN
+         RETURN(TRUE);
+      END_IF;
+    END_REPEAT;
+    RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#co_planar_intermediate_layer_set">co_planar_intermediate_layer_set</A> accepts a list of layer set as
+ argument and returns true if any two adjacent members of the list are
+ co-planar, either directly or indirectly.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A> </P>
+<HR>
+<!-- Start of FUNCTION: enclosing_co_planar_group -->
+<H2><A NAME="enclosing_co_planar_group">enclosing_co_planar_group</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0026.HTM#enclosing_co_planar_group">enclosing_co_planar_group</A>
+    (layer : <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>) : SET OF <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>;
+    LOCAL
+      containingCoPlanar : <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>;
+      containingStack    : <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>;
+      result             : SET OF <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> := [ ];
+      topStack           : BOOLEAN := FALSE;
+    END_LOCAL;
+
+    IF <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(layer,
+       '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>.co_planar_objects') THEN
+       containingCoPlanar := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(layer,
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A>.co_planar_objects');
+    ELSE
+       containingStack := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(layer,
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>.stacked_objects');
+    END_IF;
+
+    REPEAT WHILE topStack = FALSE;
+      IF EXISTS(containingCoPlanar) THEN
+         result := result + containingCoPlanar;
+         containingStack := containingCoPlanar.containing_layer_group;
+      ELSE 
+      IF EXISTS(containingStack) THEN
+         IF <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(containingStack,
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>.layer_stack') THEN
+            topStack := TRUE;
+         ELSE
+            containingCoPlanar := containingStack.containing_layer_group;
+         END_IF;
+      END_IF;
+      END_IF;
+    END_REPEAT;
+
+    RETURN(result);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#enclosing_co_planar_group">enclosing_co_planar_group</A> function returns all the
+ <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_groups</A> which contain the layer, either directly or
+ indirectly. 
+</P><HR>
+<!-- Start of FUNCTION: check_drill_rule_layer_stack -->
+<H2><A NAME="check_drill_rule_layer_stack">check_drill_rule_layer_stack</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0026.HTM#check_drill_rule_layer_stack">check_drill_rule_layer_stack</A>
+    (layup : <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>;
+     drillFrom, drillTo : SET OF <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>;
+     drillThru : LIST OF SET OF <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>) : BOOLEAN;
+
+    LOCAL
+      fromPos, thruPos, toPos : INTEGER;
+    END_LOCAL;
+
+    -- In a drill rule, all drill-from layers must be co-planar with each oher
+    -- and so are all drill-to layers.  Hence, it is not necssary to compute
+    -- the layer position of each layer within the board layup.  It is 
+    -- sufficient to check the layer position of the first element of each
+    -- layer set only. 
+
+    fromPos := <A HREF="IMEX0026.HTM#find_layer_position_in_layer_stack">find_layer_position_in_layer_stack</A>(layup, drillFrom[1]);
+    toPos   := <A HREF="IMEX0026.HTM#find_layer_position_in_layer_stack">find_layer_position_in_layer_stack</A>(layup, drillTo[1]);
+
+    IF toPos &lt;= fromPos THEN
+       RETURN(FALSE);
+    ELSE
+       REPEAT i := 1 TO SIZEOF(drillThru);
+         thruPos := <A HREF="IMEX0026.HTM#find_layer_position_in_layer_stack">find_layer_position_in_layer_stack</A>(layup, drillThru[i][1]);
+         IF NOT ({fromPos &lt; thruPos &lt; toPos}) THEN
+            RETURN(FALSE);
+         ELSE
+            fromPos := thruPos;
+         END_IF;
+       END_REPEAT;
+    END_IF;
+    RETURN(TRUE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#check_drill_rule_layer_stack">check_drill_rule_layer_stack</A> returns true if the drill layers of a
+ drill rule agree with the layup of the board.  The set of drill-from layers
+ must be closer to the top of the board layup then the set of drill-to layers
+ and closer than the first set of drill-thru layers.  Each subsequent set of
+ drill-thru layers must be closer than the next set of drill-thru layers and
+ closer than the set of drill-to layers.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A> </P>
+<HR>
+<!-- Start of FUNCTION: find_layer_position_in_layer_stack -->
+<H2><A NAME="find_layer_position_in_layer_stack">find_layer_position_in_layer_stack</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0026.HTM#find_layer_position_in_layer_stack">find_layer_position_in_layer_stack</A>
+    (layup : <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>; layer : <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>) : INTEGER;
+    LOCAL
+      layerStack   : LIST OF <A HREF="IMEX0026.HTM#stack_object">stack_object</A> := layup.stacked_objects;
+      coPlanarObjs : SET OF <A HREF="IMEX0026.HTM#co_planar_object">co_planar_object</A>;
+    END_LOCAL;
+    REPEAT i := 1 TO SIZEOF(layerStack);
+      IF <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(layerStack[i],
+                   '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>') THEN
+         IF layerStack[i] :=: layer THEN
+            RETURN(i);
+         END_IF;
+      ELSE
+        -- layerStack[i] is a co-planar group
+        coPlanarObjs := layerStack[i].co_planar_objects;
+        REPEAT j := 1 TO SIZEOF(coPlanarObjs);
+          IF <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(coPlanarObjs[j],
+                       '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A>') THEN
+             IF coPlanarObjs[j] :=: layer THEN
+                RETURN(i);
+             END_IF;
+          ELSE
+          IF <A HREF="IMEX0026.HTM#find_layer_position_in_layer_stack">find_layer_position_in_layer_stack</A>(coPlanarObjs[j], layer) &gt; 0 THEN
+             RETURN(i);
+          END_IF;
+          END_IF;
+        END_REPEAT;
+      END_IF;
+    END_REPEAT;
+    RETURN(0);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#find_layer_position_in_layer_stack">find_layer_position_in_layer_stack</A> returns the position of a layer
+ within a <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>.  It returns zero if a layer is not defined
+ within a <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A>, either directly or indirectly.
+</P>
+<P>
+ Example: Suppose a <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> SG1 stacks three objects: layer L1,
+ layer L2 and co-planar layer-group CG1.  CG1 contains three objects: layer
+ L3, layer L4 and stacked layer-group SG2.  SG2 stacks two layers: layer L5
+ and layer L6.  The following function calls return:
+</P>
+<P>
+<PRE>
+ find_layer_position_in_layer_stack(SG1, L1) returns 1.
+ find_layer_position_in_layer_stack(SG1, L2) returns 2.
+ find_layer_position_in_layer_stack(SG1, L3) returns 3.
+ find_layer_position_in_layer_stack(SG1, L4) returns 3.
+ find_layer_position_in_layer_stack(SG1, L5) returns 3.
+ find_layer_position_in_layer_stack(SG1, L6) returns 3.
+ find_layer_position_in_layer_stack(SG2, L5) returns 1.
+ find_layer_position_in_layer_stack(SG2, L6) returns 2.
+</PRE>
+</P><HR>
+<!-- Start of ENTITY: drill_symbol -->
+<H2><A NAME="drill_symbol">drill_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#drill_symbol">drill_symbol</A>
+    ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A>,
+                                <A HREF="IMEX0026.HTM#external_drill_symbol">external_drill_symbol</A>));
+  DERIVE
+    containing_drill_rule : <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF, '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>.symbols');
+  WHERE
+    <A NAME="drill_symbol.valid_existence">valid_existence</A>:
+      (* it is defined in a drill rule *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>.symbols');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#drill_symbol">drill_symbol</A> describes a symbol of a <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0016.HTM#drawing_symbol">drawing_symbol</A> <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> <A HREF="IMEX0016.HTM#drill_symbol_selection">drill_symbol_selection</A> </P>
+<HR>
+<!-- Start of ENTITY: external_drill_symbol -->
+<H2><A NAME="external_drill_symbol">external_drill_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#external_drill_symbol">external_drill_symbol</A>
+    SUBTYPE OF(<A HREF="IMEX0026.HTM#drill_symbol">drill_symbol</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#external_drill_symbol">external_drill_symbol</A> describes a <A HREF="IMEX0026.HTM#drill_symbol">drill_symbol</A> defined in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#external_drill_rule">external_drill_rule</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_drill_symbol -->
+<H2><A NAME="internal_drill_symbol">internal_drill_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A>
+    SUBTYPE OF(<A HREF="IMEX0026.HTM#drill_symbol">drill_symbol</A>);
+    associated_figures       : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_figure">drawing_figure</A>;
+    associated_figure_macros : OPTIONAL SET [1:?] OF <A HREF="IMEX0020.HTM#drawing_figure_macro">drawing_figure_macro</A>;
+    associated_text          : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_text">drawing_text</A>;
+    drill_name_drawing       : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_text_display">drawing_text_display</A>;  
+    drill_property_drawings  : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#property_drawing">property_drawing</A>;
+  WHERE
+    <A NAME="internal_drill_symbol.valid_drill_property_drawings">valid_drill_property_drawings</A>:
+      (* The referenced properties must belong to the drill rule
+         which defines this symbol. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propDraw &lt;* drill_property_drawings |
+        NOT (propDraw.drawn_property IN containing_drill_rule.properties)));
+
+    <A NAME="internal_drill_symbol.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A drill symbol cannot have drill_property_drawings if its
+            containing <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> does not define any properties. *)
+      EXISTS(containing_drill_rule.properties) OR
+        NOT EXISTS(drill_property_drawings);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A> describes a <A HREF="IMEX0026.HTM#drill_symbol">drill_symbol</A> defined in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_drill_rule">internal_drill_rule</A> </P>
+<HR>
+<!-- Start of ENTITY: technology_rule -->
+<H2><A NAME="technology_rule">technology_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#technology_rule">technology_rule</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#external_technology_rule">external_technology_rule</A>,
+                                   <A HREF="IMEX0026.HTM#internal_technology_rule">internal_technology_rule</A>));
+    document   : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name       : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_technology : <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.technology_rules');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#technology_rule">technology_rule</A> specifies the manufacture rules and clearance rules.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0025.HTM#bare_board_constraint">bare_board_constraint</A> <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> </P>
+<HR>
+<!-- Start of ENTITY: external_technology_rule -->
+<H2><A NAME="external_technology_rule">external_technology_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#external_technology_rule">external_technology_rule</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#technology_rule">technology_rule</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#external_technology_rule">external_technology_rule</A> describes a technology rule for an
+ &quot;external_bare_board_technology. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_technology_rule -->
+<H2><A NAME="internal_technology_rule">internal_technology_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_technology_rule">internal_technology_rule</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A>,
+                                   <A HREF="IMEX0026.HTM#internal_physical_layer_technology_rule">internal_physical_layer_technology_rule</A>))
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#technology_rule">technology_rule</A>);
+    minimum_acid_trap_angle                        : OPTIONAL <A HREF="IMEX0029.HTM#angle_value">angle_value</A>;
+    minimum_sliver_width                           : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_hole_to_board_edge                     : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_board_edge                    : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_layout_shape                  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_surface_mount_pad             : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_through_hole_pad              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_trace                         : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_via_pad                       : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_surface_mount_pad_to_board_edge        : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_surface_mount_pad_to_layout_shape      : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_surface_mount_pad_to_surface_mount_pad : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_surface_mount_pad_to_through_hole_pad  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_surface_mount_pad_to_via_pad           : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_through_hole_pad_to_board_edge         : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_through_hole_pad_to_layout_shape       : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_through_hole_pad_to_through_hole_pad   : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_through_hole_pad_to_via_pad            : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_via_pad_to_board_edge                  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_via_pad_to_layout_shape                : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_via_pad_to_via_pad                     : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_layout_shape_to_board_edge             : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_layout_shape_to_layout_shape           : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    optimum_trace_to_layout_shape                  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    optimum_trace_to_surface_mount_pad             : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    optimum_trace_to_through_hole_pad              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    optimum_trace_to_trace                         : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    optimum_trace_to_via_pad                       : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    check_on_same_net                              : <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    trace_grid                                     : OPTIONAL <A HREF="IMEX0026.HTM#layout_grid">layout_grid</A>;
+  WHERE
+    <A NAME="internal_technology_rule.valid_spacing">valid_spacing</A> :
+      (* The optimum spacing is greater than the minimum spacing. *)
+      (optimum_trace_to_layout_shape &gt; minimum_trace_to_layout_shape)
+      AND
+      (optimum_trace_to_surface_mount_pad &gt; minimum_trace_to_surface_mount_pad)
+      AND
+      (optimum_trace_to_through_hole_pad &gt; minimum_trace_to_through_hole_pad)
+      AND
+      (optimum_trace_to_trace &gt; minimum_trace_to_trace)
+      AND
+      (optimum_trace_to_via_pad &gt; minimum_trace_to_via_pad);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_technology_rule">internal_technology_rule</A> describes the manufacture rules and clearance
+ rules for an &quot;internal_bare board technology&quot;.
+</P>
+<P>
+ The minimum_acid_trap_angle specifies the minimum angle that must be formed
+ by a <A HREF="IMEX0025.HTM#trace">trace</A> when it enters a <A HREF="IMEX0025.HTM#pad">pad</A> in order to avoid the formation of an
+ &quot;acid trap&quot; (a place where acid can be trapped during the bare board
+ manufacturing process).  
+</P>
+<P>
+ The minimum_sliver_width specifies the minimum width of sliver that can be
+ successfully manufactured on a bare board.  A sliver is a non-beneficial
+ thin shard of material which is too thin to be self-sustaining.  
+</P>
+<P>
+ There are a number of clearance rules which specify the minimum and the
+ optimum spacings between artifacts of particular types.  For clearance
+ rules, a surface_mount_pad means a <A HREF="IMEX0025.HTM#pad">pad</A> on a surface-mounted pin place, a
+ through_hole_pad means a <A HREF="IMEX0025.HTM#pad">pad</A> on a through-hole-mounted pin place, a
+ via_pad means a <A HREF="IMEX0025.HTM#pad">pad</A> on a via and a trace means a <A HREF="IMEX0025.HTM#trace">trace</A> segment.  The
+ optimum spacing is what the designer prefers but it can be violated
+ providing the minimum spacing is followed.  Optimum spacings are specific to
+ the auto-routing process therefore only trace_to_layout_shape,
+ trace_to_surface_mount_pad, trace_to_through_hole_pad, trace_to_trace or
+ trace_to_via_pad can have optimum spacings.
+</P>
+<P>
+ For trace_to_via_pad clearance, the rule is applied by determining the
+ distance between the edge of the <A HREF="IMEX0025.HTM#trace">trace</A> nearest the via, and the <A HREF="IMEX0025.HTM#pad">pad</A> of
+ the via on the layer containing the <A HREF="IMEX0025.HTM#trace">trace</A>.
+</P>
+<P>
+ For hole_to_board_edge, trace_to_board_edge,
+ surface_mount_pad_to_board_edge, through_hole_pad_to_board_edge,
+ via_pad_to_board_edge and layout_shape_to_board_edge, they specify how far 
+ inside the inner edge of the board objects must be located.  The purpose is
+ to assure that the profiling tool (which a board is cut out of a sheet) does
+ not damage the electrical artifacts within the board. 
+</P>
+<P>
+ For via_pad_to_via_pad clearance, the rule is applied by determining the
+ distance between the edge of any <A HREF="IMEX0025.HTM#pad">pad</A> on one via and the edge of the
+ <A HREF="IMEX0025.HTM#pad">pad</A> on the other via on the same layer.
+</P>
+<P>
+ The check_on_same_net flag indicates whether or not clearance rules should be
+ applied on objects from the same <A HREF="IMEX0025.HTM#physical_net">physical_net</A>.  An example might be a
+ zig-zag trace in which the minimum trace-to-trace spacing is preserved
+ between adjacent edges of different segments of the same trace.
+</P>
+<P>
+ The trace_grid is a recommendation to put <A HREF="IMEX0025.HTM#trace">traces</A> on the grid.  It is not
+ an EDIF error to be off grid, nor is it a design error to be off grid.
+</P><HR>
+<!-- Start of ENTITY: internal_bare_board_technology_rule -->
+<H2><A NAME="internal_bare_board_technology_rule">internal_bare_board_technology_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_technology_rule">internal_technology_rule</A>);
+    maximum_plated_hole_size    : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_plated_hole_size    : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    maximum_unplated_hole_size  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_unplated_hole_size  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    maximum_via_hole_size       : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_via_hole_size       : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    maximum_pin_place_hole_size : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_pin_place_hole_size : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    maximum_drilling_tolerance  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    hole_clearance_rules        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#hole_clearance_rule">hole_clearance_rule</A>;
+    layer_specific_rules        : OPTIONAL SET [1:?] OF
+                                  <A HREF="IMEX0026.HTM#internal_bare_board_layer_technology_rule">internal_bare_board_layer_technology_rule</A>;
+    via_allowed                 : <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    via_grids                   : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#via_grid">via_grid</A>;
+
+    -- rules on <A HREF="IMEX0025.HTM#bare_board_cavity">bare_board_cavity</A>
+    cavity_to_board_edge_spacing     : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+    cavity_to_cavity_spacing         : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+    hole_to_cavity_spacing           : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+    metal_artifact_to_cavity_spacing : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+    cavity_size                      : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+    cavity_well_wall_angle           : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_angle">toleranced_angle</A>;
+    trace_width_into_cavity          : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+
+    -- rules on <A HREF="IMEX0025.HTM#embedded_die_placement">embedded_die_placement</A>
+    die_to_cavity_well_wall_spacing  : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+    die_to_cavity_well_edge_spacing  : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+    die_to_layer_surface_tolerance   : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+    die_to_die_height_tolerance      : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+    die_position_tolerance_width     : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+    die_to_die_spacing               : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+
+    -- rules on <A HREF="IMEX0025.HTM#embedded_die">embedded_die</A>
+    die_bond_pad_to_die_edge_spacing : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+  WHERE
+    <A NAME="internal_bare_board_technology_rule.valid_existence">valid_existence</A> :
+      (* An internal_bare_board_technology_rule belongs to one
+         internal_bare_board_technology. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>.technology_rules');
+
+    <A NAME="internal_bare_board_technology_rule.valid_layer_specific_rules">valid_layer_specific_rules</A> :
+      (* Any layer referenced by a bare_board_layer_technology_rule cannot be
+         also referenced by another bare_board_layer_technology_rule. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(layerRule1 &lt;* layer_specific_rules |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(layerRule2 &lt;* layer_specific_rules - layerRule1 |
+          <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(layerRule1.applied_layers 
+                       * layerRule2.applied_layers)))));
+
+    <A NAME="internal_bare_board_technology_rule.valid_via_grids">valid_via_grids</A> :
+      (* Any drill_rule referenced by a via_grid cannot be also referenced by
+         another via_grid. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(viaGrid1 &lt;* via_grids |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(viaGrid2 &lt;* via_grids - viaGrid1 |
+          <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(viaGrid1.referenced_drill_rules
+                       * viaGrid2.referenced_drill_rules)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A> defines the manufacturing rules and
+ clearance rules for a <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.  These rules apply to the
+ whole board.  Some of these rules may be overridden on individual layers(s)
+ by <A HREF="IMEX0026.HTM#internal_bare_board_layer_technology_rule">internal_bare_board_layer_technology_rule</A>.
+</P>
+<P>
+ The maximum_plated_hole_size and the minimum_plated_hole_size specify the
+ maximum and the minimum size of <A HREF="IMEX0025.HTM#plated_through_hole">plated_through_holes</A> on the bare board.
+</P>
+<P>
+ The maximum_unplated_hole_size and the minimum_unplated_hole_size specify
+ the maximum and the minimum size of <A HREF="IMEX0025.HTM#unplated_hole">unplated_holes</A> on the bare board.
+</P>
+<P>
+ The maximum_via_hole_size and the minimum_via_hole size specify the maximum
+ and the minimum size of holes inside vias on the bare board.
+</P>
+<P>
+ The maximum_pin_place_hole_size and the minimum_pin_place_hole size specify
+ the maximum and the minimum size of holes inside pin places on the bare
+ board. 
+</P>
+<P>
+ The maximum_drilling_tolerance specifies the maximum expected inaccuracy
+ between the required position of a drilled hole and the actual position.  It
+ is often used as the source of the check that the drilled hole lies wholly
+ in the pad.
+</P>
+<P>
+ The hole_clearance_rules are used to ensure that two holes are not so close
+ together which will compromise the structural strength of the board.  The 
+ distance is measured between the closest points of two holes.
+</P>
+<P>
+ The via_allowed flag indicates whether vias can be used in the design or
+ not.  This stems from the possibility that a particular manufacturing
+ technique may not allow the production of vias for cross-layer connection. 
+</P>
+<P>
+ The via_grid is a recommendation to put vias on the grid.  It only applies
+ to vias with <A HREF="IMEX0025.HTM#conformant_hole">conformant_holes</A> which are manufactured by the same
+ <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>.   It is not an EDIF error to be off grid, nor is it a design
+ error to be off grid.  
+</P>
+<P>
+ The following constraints are for the embedded die technology.  They include
+ various types of checks on cavities (&quot;bare_board_cavity&quot;) and placement of
+ dies inside cavities (&quot;embedded_die_placement&quot;).  
+</P>
+<P>
+ The cavity_to_board_edge_spacing attribute specifies the spacing between a
+ cavity and its containing board edge. 
+</P>
+<P>
+ The cavity_to_cavity_spacing attribute specifies the spacing between
+ adjacent cavities on a layer. 
+</P>
+<P>
+ The hole_to_cavity_spacing attribute specifies the spacing between a <A HREF="IMEX0025.HTM#hole">hole</A>
+ and a cavity. 
+</P>
+<P>
+ The metal_artifact_to_cavity_spacing attribute specifies the spacing between
+ a metal artifact (e.g. <A HREF="IMEX0025.HTM#trace">trace</A>, <A HREF="IMEX0025.HTM#pad">pads</A>) on the layer and a cavity. This
+ constraint applies only to metal artifacts on the layer surface.  These 
+ artifacts do not enter into cavities.
+</P>
+<P>
+ The cavity_size attribute specifies the size of a cavity.
+</P>
+<P>
+ The cavity_well_wall_angle attribute specifies the angle of the well wall
+ which is defined in <A HREF="IMEX0025.HTM#bare_board_cavity_well">bare_board_cavity_well</A>.
+</P>
+<P>
+ The trace_width_into_cavity attribute specifies the width of <A HREF="IMEX0025.HTM#trace">trace</A>
+ entering into a cavity. 
+</P>
+<P>
+ The die_to_cavity_well_wall_spacing attribute specifies the spacing between
+ an embedded die and the well wall.
+</P>
+<P>
+ The die_to_cavity_well_edge_spacing attribute specifies the spacing between
+ an embedded die and the edge of a well.
+</P>
+<P>
+ The die_to_layer_surface_tolerance attribute specifies the height difference
+ between the surface of a die and the surface of the layer. 
+</P>
+<P>
+ The die_to_die_height_tolerance attribute specifies the height difference
+ between adjacent dies which are embedded in the same cavity. 
+</P>
+<P>
+ The die_positive_tolerance_width attribute specifies the width of the
+ placement tolerance of an embedded die.  The <A HREF="IMEX0014.HTM#die_position_tolerance">die_position_tolerance</A>
+ information is specified in the <A HREF="IMEX0014.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>
+ used by the <A HREF="IMEX0025.HTM#embedded_die_placement">embedded_die_placement</A>.
+</P>
+<P>
+ The die_bond_pad_to_die_edge_spacing attribute specifies the spacing between
+ a <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A> and the die edge.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#hole_clearance_rule">hole_clearance_rule</A> <A HREF="IMEX0026.HTM#internal_bare_board_layer_technology_rule">internal_bare_board_layer_technology_rule</A> <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A> <A HREF="IMEX0026.HTM#via_grid">via_grid</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_physical_layer_technology_rule -->
+<H2><A NAME="internal_physical_layer_technology_rule">internal_physical_layer_technology_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_physical_layer_technology_rule">internal_physical_layer_technology_rule</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0026.HTM#internal_bare_board_layer_technology_rule">internal_bare_board_layer_technology_rule</A>,
+                                   <A HREF="IMEX0026.HTM#internal_bare_board_region_technology_rule">internal_bare_board_region_technology_rule</A>))
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_technology_rule">internal_technology_rule</A>);
+    applied_layers   : SET [1:?] OF <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>; -- reference
+    routing_strategy : OPTIONAL <A HREF="IMEX0026.HTM#trace_orientation">trace_orientation</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_physical_layer_technology_rule">internal_physical_layer_technology_rule</A> defines the manufacturing
+ rules and clearance rules which apply to a number of layers within a bare
+ board.  It is used to specify that a particular layer uses a different set
+ of design or manufacturing rules than those used for the board in general.
+ The routing_strategy attribute specifies the preferred routing direction for
+ traces.
+</P><HR>
+<!-- Start of ENTITY: internal_bare_board_layer_technology_rule -->
+<H2><A NAME="internal_bare_board_layer_technology_rule">internal_bare_board_layer_technology_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_bare_board_layer_technology_rule">internal_bare_board_layer_technology_rule</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_physical_layer_technology_rule">internal_physical_layer_technology_rule</A>);
+  DERIVE
+    containing_rule : <A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+           <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>',
+                          '<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A>',
+                          'layer_specific_rules'));
+  WHERE
+    <A NAME="internal_bare_board_layer_technology_rule.valid_existence">valid_existence</A> :
+      (* An internal_bare_board_layer_technology_rule belongs to one
+         internal_bare_board_technology_rule. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+           <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>',
+                          '<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A>',
+                          'layer_specific_rules'));
+
+    <A NAME="internal_bare_board_layer_technology_rule.valid_applied_layers">valid_applied_layers</A> :
+      (* All referenced layers must be defined in the containing
+         bare_board_technology. *)
+      applied_layers 
+        &lt;= containing_rule\<A HREF="IMEX0026.HTM#technology_rule">technology_rule</A>.containing_technology.layers;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_bare_board_layer_technology_rule">internal_bare_board_layer_technology_rule</A> defines the manufacturing
+ rules and clearance rules which apply to a number of layers within a bare
+ board.  It is used to specify that a particular layer uses a different set
+ of design or manufacturing rules than those used for the board in general.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_bare_board_region_technology_rule -->
+<H2><A NAME="internal_bare_board_region_technology_rule">internal_bare_board_region_technology_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#internal_bare_board_region_technology_rule">internal_bare_board_region_technology_rule</A>
+      SUBTYPE OF (<A HREF="IMEX0026.HTM#internal_physical_layer_technology_rule">internal_physical_layer_technology_rule</A>);
+    region         : <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>;
+    keep_in_items  : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#layout_item">layout_item</A>;
+    keep_out_items : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#layout_item">layout_item</A>;
+  DERIVE
+    containing_constraint : <A HREF="IMEX0025.HTM#bare_board_constraint">bare_board_constraint</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0025.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0025.HTM#bare_board_constraint">bare_board_constraint</A>.region_specific_rules');
+  WHERE
+    <A NAME="internal_bare_board_region_technology_rule.valid_existence">valid_existence</A> :
+      (* An internal_bare_board_region_technology_rule belongs to one
+         bare_board_constraint. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0025.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0025.HTM#bare_board_constraint">bare_board_constraint</A>.region_specific_rules');
+
+    <A NAME="internal_bare_board_region_technology_rule.valid_applied_layers">valid_applied_layers</A> :
+      (* All referenced layers must be defined in the containing
+         bare_board_technology. *)
+     SELF\<A HREF="IMEX0026.HTM#internal_physical_layer_technology_rule">internal_physical_layer_technology_rule</A>.applied_layers
+       &lt;= containing_constraint.chosen_technology_rule
+          .containing_technology.layers;
+
+    <A NAME="internal_bare_board_region_technology_rule.valid_keep_in_and_keep_out_items">valid_keep_in_and_keep_out_items</A>:
+      (* The keep_in_items and the keep_out_items must be different, if
+         specified. *) 
+      NOT (EXISTS(keep_in_items)
+           AND
+           EXISTS(keep_out_items)
+           AND
+           <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(keep_in_items * keep_out_items));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0026.HTM#internal_bare_board_region_technology_rule">internal_bare_board_region_technology_rule</A> is very similar to the
+ <A HREF="IMEX0026.HTM#internal_bare_board_layer_technology_rule">internal_bare_board_layer_technology_rule</A>, except it applies to a region
+ on a number of layers.  The region is defined in terms of a
+ <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A> which can be a <A HREF="IMEX0008.HTM#rectangle">rectangle</A>, a <A HREF="IMEX0008.HTM#polygon">polygon</A>, a <A HREF="IMEX0008.HTM#shape">shape</A> or
+ a <A HREF="IMEX0008.HTM#circle">circle</A>. It is used to specify that a particular area uses a different
+ set of design or manufacturing rules than those used for the layer/board in
+ general.  In addition, it may also be used to specify keep-in or keep-out
+ areas for various automated activities (e.g. auto-routing). 
+</P>
+<P>
+ The keep_in_items is a recommendation that certain types of <A HREF="IMEX0026.HTM#layout_item">layout_items</A>
+ should be located within a certain region of the board.    
+</P>
+<P>
+ The keep_out_items is a recommendation that certain types of <A HREF="IMEX0026.HTM#layout_item">layout_items</A>
+ should NOT be located within a certain region of the board.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0025.HTM#bare_board_constraint">bare_board_constraint</A> </P>
+<HR>
+<!-- Start of ENTITY: layout_grid -->
+<H2><A NAME="layout_grid">layout_grid</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#layout_grid">layout_grid</A>;
+    x_spacing : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    y_spacing : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    origin    : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+  WHERE
+    <A NAME="layout_grid.valid_existence">valid_existence</A> :
+      (* A layout_grid belongs to either one internal_technology_rule or one
+         via_grid. *) 
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_technology_rule">internal_technology_rule</A>.trace_grid',
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#via_grid">via_grid</A>.grid_information']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#layout_grid">layout_grid</A> is used to define a trace grid or a <A HREF="IMEX0026.HTM#via_grid">via_grid</A>.
+</P>
+<P>
+ The x_spacing attribute specifies the horizontal grid spacing.  The
+ y_spacing attribute specifies the vertical grid spacing. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_technology_rule">internal_technology_rule</A> <A HREF="IMEX0026.HTM#via_grid">via_grid</A> </P>
+<HR>
+<!-- Start of ENTITY: via_grid -->
+<H2><A NAME="via_grid">via_grid</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#via_grid">via_grid</A>;
+    referenced_drill_rules : SET [1:?] OF <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>; -- reference;
+    grid_information       : <A HREF="IMEX0026.HTM#layout_grid">layout_grid</A>;
+  DERIVE
+    containing_rule : <A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A>.via_grids');
+  WHERE
+    <A NAME="via_grid.valid_existence">valid_existence</A> :
+      (* A via_grid belongs to one bare_board_technology_rule. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A>.via_grids');
+
+    <A NAME="via_grid.valid_referenced_drill_rules">valid_referenced_drill_rules</A> :
+      (* The referenced drill_rule is defined in containing
+         bare_board_technology. *)
+      EXISTS(containing_rule\<A HREF="IMEX0026.HTM#technology_rule">technology_rule</A>.containing_technology.drill_rules)
+      AND
+      (referenced_drill_rules
+         &lt;= containing_rule\<A HREF="IMEX0026.HTM#technology_rule">technology_rule</A>.containing_technology.drill_rules);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A via_grid is a recommendation to put vias on the grid.  It only applies to
+ vias with <A HREF="IMEX0025.HTM#conformant_hole">conformant_holes</A> which are manufactured by the same
+ <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>.  It is not an EDIF error to be off grid, nor is it a design
+ error to be off grid.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A> </P>
+<HR>
+<!-- Start of ENTITY: hole_clearance_rule -->
+<H2><A NAME="hole_clearance_rule">hole_clearance_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0026.HTM#hole_clearance_rule">hole_clearance_rule</A>;
+    applied_hole_types : SET [2:2] OF <A HREF="IMEX0026.HTM#hole_information">hole_information</A>;
+    minimum_spacing    : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    properties         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_rule : <A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>',
+                        '<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A>',
+                        'hole_clearance_rules'));
+  WHERE
+    <A NAME="hole_clearance_rule.valid_existence">valid_existence</A> :
+      (* A hole_clearance_rule belongs to one
+         internal_bare_board_technology_rule. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>',
+                       '<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A>',
+                       'hole_clearance_rules'));
+
+    <A NAME="hole_clearance_rule.valid_applied_hole_types">valid_applied_hole_types</A> :
+      (* The referenced drill_rule is defined in containing
+         bare_board_technology. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(holeInfo &lt;* applied_hole_types |
+        <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(holeInfo, '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>')
+        AND
+        (NOT EXISTS(containing_rule\<A HREF="IMEX0026.HTM#technology_rule">technology_rule</A>
+                    .containing_technology.drill_rules))
+        OR
+        NOT (holeInfo IN containing_rule\<A HREF="IMEX0026.HTM#technology_rule">technology_rule</A>
+                         .containing_technology.drill_rules)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#hole_clearance_rule">hole_clearance_rule</A> is used to ensure that two holes are not so close
+ together which will compromise the structural strength of the board.  The
+ distance is measured between the closest points of two holes.
+</P>
+<P>
+ Holes may be manufactured by drilling processes.  Clearances between drilled
+ holes (i.e. <A HREF="IMEX0025.HTM#conformant_hole">conformant_holes</A>) are defined by specifying the minimum
+ spacing between different <A HREF="IMEX0026.HTM#drill_rule">drill_rules</A>.  Hence, different clearance values
+ can be stated between:
+</P>
+<P>
+<PRE>
+ 1. holes conform to a <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> and holes conform to another <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>
+ 2. holes conform to a <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> and any holes
+ 3. any holes
+</PRE>
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule">internal_bare_board_technology_rule</A> </P>
+<HR>
+<!-- Start of TYPE: hole_information -->
+<H2><A NAME="hole_information">hole_information</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#hole_information">hole_information</A>
+    = SELECT (<A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>, <A HREF="IMEX0026.HTM#hole_type">hole_type</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#hole_information">hole_information</A> specifies the types of hole used in defining
+ a <A HREF="IMEX0026.HTM#hole_clearance_rule">hole_clearance_rule</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#hole_clearance_rule">hole_clearance_rule</A> </P>
+<HR>
+<!-- Start of TYPE: hole_type -->
+<H2><A NAME="hole_type">hole_type</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#hole_type">hole_type</A>
+    = ENUMERATION OF (any_hole);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#hole_type">hole_type</A> is used in the <A HREF="IMEX0026.HTM#hole_information">hole_information</A> to specify the types of
+ hole used in defining a <A HREF="IMEX0026.HTM#hole_clearance_rule">hole_clearance_rule</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#hole_information">hole_information</A> </P>
+<HR>
+<!-- Start of TYPE: layout_item -->
+<H2><A NAME="layout_item">layout_item</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#layout_item">layout_item</A>
+    = ENUMERATION OF (trace_class, 
+                      non_specific_layout_shape_class, 
+                      hole_class,
+                      via_class);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#layout_item">layout_item</A> describes a class of item which may be located on a
+ board. It is used within an
+ <A HREF="IMEX0026.HTM#internal_bare_board_region_technology_rule">internal_bare_board_region_technology_rule</A> to specify whether or
+ not certain types of items should be located within a certain
+ region of the board.  If the value is trace_class, it means
+ <A HREF="IMEX0025.HTM#trace">traces</A>; if the value is non_specific_layout_shape_class, it means
+ <A HREF="IMEX0025.HTM#non_specific_layout_shape">non_specific_layout_shapes</A>; if the value is hole_class, it means
+ all types of <A HREF="IMEX0025.HTM#hole">hole</A>; if the value is via_class, it means vias.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#component_region_realisation_rule">component_region_realisation_rule</A> <A HREF="IMEX0026.HTM#internal_bare_board_region_technology_rule">internal_bare_board_region_technology_rule</A> </P>
+<HR>
+<!-- Start of TYPE: trace_orientation -->
+<H2><A NAME="trace_orientation">trace_orientation</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0026.HTM#trace_orientation">trace_orientation</A>
+    = ENUMERATION OF (horizontal, vertical, all_angle);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0026.HTM#trace_orientation">trace_orientation</A> indicates that the <A HREF="IMEX0025.HTM#trace">traces</A> are primarily in a certain
+ angle. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#internal_physical_layer_technology_rule">internal_physical_layer_technology_rule</A> </P>
+<HR>
+<!-- Start of FUNCTION: physical_layer_contributing_collectors -->
+<H2><A NAME="physical_layer_contributing_collectors">physical_layer_contributing_collectors</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A>
+    (ffc : <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A>;
+     positive : BOOLEAN) : SET OF <A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>;
+    LOCAL
+      result : SET OF <A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A> := [];
+    END_LOCAL;
+
+    IF <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(ffc, 
+       '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>') THEN
+       IF positive THEN
+          result := [ffc\<A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>];
+       ELSE
+          result := [];
+       END_IF;
+    END_IF;
+
+    IF <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(ffc, 
+       '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A>') THEN
+       result := <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A>
+                 (ffc\<A HREF="IMEX0007.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A>
+                     .initial_geometric_shapes, positive)
+                 +
+                 <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A> 
+                 (ffc\<A HREF="IMEX0007.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A>
+                     .subtrahend_geometric_shapes, NOT positive);
+    END_IF;
+
+    IF <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(ffc, 
+       '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A>') THEN
+       result := <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A> 
+                 (ffc\<A HREF="IMEX0007.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A>
+                     .initial_geometric_shapes, positive);
+    END_IF;
+
+    IF <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(ffc, 
+       '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#resized_fabricate_figure_collector">resized_fabricate_figure_collector</A>') THEN
+       result := <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A> 
+                 (ffc\<A HREF="IMEX0007.HTM#resized_fabricate_figure_collector">resized_fabricate_figure_collector</A>
+                     .initial_geometric_shapes, positive);
+    END_IF;
+
+    IF <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(ffc,
+       '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A>') THEN
+       result := <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A> 
+                 (ffc\<A HREF="IMEX0007.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A>
+                     .initial_geometric_shapes, positive);
+    END_IF;
+
+    IF <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(ffc, 
+       '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A>') THEN
+       result := <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A> 
+                 (ffc\<A HREF="IMEX0007.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A>
+                     .initial_geometric_shapes, positive);
+    END_IF;
+
+    IF <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(ffc, 
+       '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A>') THEN
+       REPEAT i := 1 TO SIZEOF (ffc\<A HREF="IMEX0007.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A>
+                                   .unioned_geometric_shapes);
+         result := result + <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A> 
+                            (ffc\<A HREF="IMEX0007.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A>
+                                .unioned_geometric_shapes[i], positive);
+       END_REPEAT;
+    END_IF;
+
+    RETURN (result);
+
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0026.HTM#physical_layer_contributing_collectors">physical_layer_contributing_collectors</A> function returns the set of
+ <A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collectors</A> which make a positive or negative
+ contribution to the <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A> specified.  The required
+ contribution is specified by the positive parameter.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> </P>
+
+<HR>
+
+<!-- Start of schema: schematic_implementation_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

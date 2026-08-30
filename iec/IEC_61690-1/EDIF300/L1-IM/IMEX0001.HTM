@@ -1,0 +1,562 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="connectivity_frame_model">connectivity_frame_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A> schema describes the structural connectivity 
+ information of a <A HREF="IMEX0010.HTM#frame">frame</A> in a connectivity view.  That includes definitions
+ of <A HREF="IMEX0001.HTM#connectivity_frame_bus">connectivity_frame_bus</A>, <A HREF="IMEX0001.HTM#connectivity_frame_net">connectivity_frame_net</A> and
+ <A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_ripper</A>. 
+</P><HR>
+<!-- Start of ENTITY: connectivity_frame_structure -->
+<H2><A NAME="connectivity_frame_structure">connectivity_frame_structure</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>;
+    associated_frame       : <A HREF="IMEX0010.HTM#frame">frame</A>;                              -- reference
+    busses                 : OPTIONAL SET [1:?] OF <A HREF="IMEX0001.HTM#connectivity_frame_bus">connectivity_frame_bus</A>;
+    nested_frame_structures: OPTIONAL SET [1:?] OF <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>;
+    nets                   : OPTIONAL SET [1:?] OF <A HREF="IMEX0001.HTM#connectivity_frame_net">connectivity_frame_net</A>;
+    rippers                : OPTIONAL SET [1:?] OF <A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_ripper</A>;
+  DERIVE
+    containing_view : <A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A>
+      := <A HREF="IMEX0020.HTM#usedin_one_role">usedin_one_role</A>(SELF, <A HREF="IMEX0020.HTM#specified_role">specified_role</A>('<A HREF="IMEX0003.HTM#connectivity_view_model">connectivity_view_model</A>',
+                                              '<A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A>',
+                                              'frame_connectivity_structures'));
+    containing_frame_structure : <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>
+      := <A HREF="IMEX0020.HTM#usedin_one_role">usedin_one_role</A>(SELF, <A HREF="IMEX0020.HTM#specified_role">specified_role</A>('<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>',
+                                              '<A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>',
+                                              'nested_frame_structures'));
+  UNIQUE 
+    uniqueness_constraint :
+      (* A frame can be associated with at most one
+         connectivity_frame_structure. *)
+      associated_frame;
+  WHERE
+    <A NAME="connectivity_frame_structure.containment_constraint">containment_constraint</A> :
+      (* A connectivity_frame_structure belongs to one
+         internal_connectivity_view or another connectivity_frame_structure. *)
+      <A HREF="IMEX0020.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        [<A HREF="IMEX0020.HTM#specified_role">specified_role</A>('<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>',
+                        '<A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>',
+                        'nested_frame_structures'),
+         <A HREF="IMEX0020.HTM#specified_role">specified_role</A>('<A HREF="IMEX0003.HTM#connectivity_view_model">connectivity_view_model</A>',
+                        '<A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A>',
+                        'frame_connectivity_structures')]);
+
+    <A NAME="connectivity_frame_structure.valid_associated_frame">valid_associated_frame</A> :
+      (* The associated frame must be defined in the containing view or in the
+         associated_frame of the containing connectivity_frame_structure. *)
+         (associated_frame IN containing_view.frames)
+      OR (associated_frame 
+          IN containing_frame_structure.associated_frame.nested_frames);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A> describes the structural connectivity
+ information of a <A HREF="IMEX0010.HTM#frame">frame</A> in a connectivity view.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_bus">connectivity_frame_bus</A> <A HREF="IMEX0001.HTM#connectivity_frame_net">connectivity_frame_net</A> <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A> <A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A> </P>
+<HR>
+<!-- Start of ENTITY: connectivity_frame_generic_net -->
+<H2><A NAME="connectivity_frame_generic_net">connectivity_frame_generic_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0001.HTM#connectivity_frame_net">connectivity_frame_net</A>, 
+                                   <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_net</A>));
+    associated_signal                   : <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>;         -- reference
+    criticality                         : <A HREF="IMEX0020.HTM#integer_token">integer_token</A>;              
+    delays                              : OPTIONAL SET [1:?] OF 
+                                          <A HREF="IMEX0012.HTM#interconnect_delay">interconnect_delay</A>;
+    document                            : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>;
+    joined_global_ports                 : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0008.HTM#global_port">global_port</A>;
+    joined_instance_member_port_members : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0012.HTM#instance_member_port_member">instance_member_port_member</A>;
+    joined_instance_ports               : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0012.HTM#instance_port">instance_port</A>;
+    joined_master_ports                 : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0012.HTM#master_port">master_port</A>; 
+    joined_master_port_members          : OPTIONAL SET [1:?] OF 
+                                          <A HREF="IMEX0012.HTM#master_port_member">master_port_member</A>;
+    joined_rippers                      : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_ripper</A>;
+    name                                : OPTIONAL <A HREF="IMEX0020.HTM#name_information">name_information</A>;                 
+    properties                          : OPTIONAL SET [1:?] OF <A HREF="IMEX0020.HTM#property">property</A>;
+    sub_nets                            : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_net</A>; 
+  WHERE
+    <A NAME="connectivity_frame_generic_net.valid_sub_nets">valid_sub_nets</A> :
+      (* No two connectivity_frame_sub_nets may refer to the same set of ports
+         and rippers. *) 
+    <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(net1 &lt;* sub_nets |
+      <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(QUERY(net2 &lt;* sub_nets - net1 |
+        (net1.joined_global_ports = net2.joined_global_ports) 
+    AND (net1.joined_instance_member_port_members 
+         = net2.joined_instance_member_port_members) 
+    AND (net1.joined_instance_ports = net2.joined_instance_ports) 
+    AND (net1.joined_master_ports = net2.joined_master_ports) 
+    AND (net1.joined_master_port_members
+         = net2.joined_master_port_members) 
+    AND (net1.joined_rippers = net2.joined_rippers)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A> can be either a <A HREF="IMEX0001.HTM#connectivity_frame_net">connectivity_frame_net</A>
+ or a <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_net</A>.  A <A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A> is
+ used in the model because of the similarity between a
+ <A HREF="IMEX0001.HTM#connectivity_frame_net">connectivity_frame_net</A> and a <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_net</A>.  A
+ <A HREF="IMEX0001.HTM#connectivity_frame_net">connectivity_frame_net</A> may be divided into <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_nets</A>
+ and a <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_net</A> itself may also be divided into
+ <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_nets</A>.  No two <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_nets</A> at a
+ given level may join to the same set of ports and rippers.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_ripper</A> <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_net</A> </P>
+<HR>
+<!-- Start of ENTITY: connectivity_frame_net -->
+<H2><A NAME="connectivity_frame_net">connectivity_frame_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0001.HTM#connectivity_frame_net">connectivity_frame_net</A>
+      SUBTYPE OF (<A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A>);
+  DERIVE
+    containing_frame_structure : <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>    -- reference
+      := <A HREF="IMEX0020.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>.nets');
+  WHERE
+    <A NAME="connectivity_frame_net.containment_constraint">containment_constraint</A> :
+      (* A connectivity_frame_net belongs to a connectivity_frame_structure. *)
+      <A HREF="IMEX0020.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>.nets');
+
+    <A NAME="connectivity_frame_net.valid_associated_signal">valid_associated_signal</A> :
+      (* The frame_signal associated with a connectivity_frame_net is defined in
+         the associated frame of the containing connectivity_frame_structure. *)
+      associated_signal IN
+        containing_frame_structure.associated_frame.frame_signals; 
+
+    <A NAME="connectivity_frame_net.valid_joined_ports">valid_joined_ports</A> : 
+      (* The ports joined by a connectivity_frame_net must be a subset of the
+         connectivity of the associated frame_signal. *)  
+
+        (joined_global_ports &lt;= associated_signal.joined_global_ports)
+    AND (joined_instance_member_port_members 
+         &lt;= associated_signal.joined_instance_member_port_members)
+    AND (joined_instance_ports &lt;= associated_signal.joined_instance_ports)
+    AND (joined_master_ports &lt;= associated_signal.joined_master_ports)
+    AND (joined_master_port_members 
+         &lt;= associated_signal.joined_master_port_members);
+
+    <A NAME="connectivity_frame_net.valid_joined_rippers">valid_joined_rippers</A> :
+      (* The joined connectivity_frame_rippers must be defined in the
+         containing connectivity_frame_structure. *) 
+      joined_rippers &lt;= containing_frame_structure.rippers;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0001.HTM#connectivity_frame_net">connectivity_frame_net</A> is defined within a
+ <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A> which describes the structural connectivity
+ information of a <A HREF="IMEX0010.HTM#frame">frame</A> in a connectivity view.  Its associated
+ <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> must be defined in the associated <A HREF="IMEX0010.HTM#frame">frame</A> of the containing
+ <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>.  The <A HREF="IMEX0008.HTM#global_port">global_ports</A>, <A HREF="IMEX0012.HTM#instance_port">instance_ports</A> and
+ <A HREF="IMEX0012.HTM#master_port">master_ports</A> joined by a <A HREF="IMEX0001.HTM#connectivity_frame_net">connectivity_frame_net</A> must be a subset of the
+ ones joined by its associated <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>.  Also, all joined
+ <A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_rippers</A> must be defined in the containing
+ <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A> </P>
+<HR>
+<!-- Start of ENTITY: connectivity_frame_sub_net -->
+<H2><A NAME="connectivity_frame_sub_net">connectivity_frame_sub_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_net</A>
+      SUBTYPE OF (<A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A>);
+  DERIVE
+    containing_generic_net : <A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A> -- reference
+      := <A HREF="IMEX0020.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+         '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A>.sub_nets');
+  WHERE
+    <A NAME="connectivity_frame_sub_net.containment_constraint">containment_constraint</A> :
+      (* A connectivity_frame_sub_net belongs to a
+         connectivity_frame_generic_net. *) 
+      <A HREF="IMEX0020.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A>.sub_nets');
+
+    <A NAME="connectivity_frame_sub_net.valid_associated_signal">valid_associated_signal</A> :
+      (* The frame_signal associated with a connectivity_frame_sub_net is the
+         same as that of its containing connectivity_frame_generic_net. *)
+      associated_signal :=: containing_generic_net.associated_signal;
+
+    <A NAME="connectivity_frame_sub_net.valid_joined_ports_and_rippers">valid_joined_ports_and_rippers</A> :
+      (* The ports and rippers joined by a connectivity_frame_sub_net must be a
+         subset of the ports and rippers joined by its immediately containing 
+         connectivity_frame_generic_net. *)
+
+        (joined_global_ports &lt;= containing_generic_net.joined_global_ports)
+    AND (joined_instance_member_port_members 
+         &lt;= containing_generic_net.joined_instance_member_port_members)
+    AND (joined_instance_ports &lt;= containing_generic_net.joined_instance_ports)
+    AND (joined_master_ports &lt;= containing_generic_net.joined_master_ports)
+    AND (joined_master_port_members 
+         &lt;= containing_generic_net.joined_master_port_members)
+    AND (joined_rippers &lt;= containing_generic_net.joined_rippers);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0001.HTM#connectivity_frame_sub_net">connectivity_frame_sub_net</A> must only join to ports and rippers which are 
+ already joined by its immediately containing
+ <A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A>. In addition, its associated <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>
+ must be the same as that of its immediately containing
+ <A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A> </P>
+<HR>
+<!-- Start of ENTITY: connectivity_frame_generic_bus -->
+<H2><A NAME="connectivity_frame_generic_bus">connectivity_frame_generic_bus</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0001.HTM#connectivity_frame_bus">connectivity_frame_bus</A>, 
+                                   <A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slice</A>, 
+                                   <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_bus</A>));
+    associated_signal_group             : <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>;   -- reference
+    bus_slices                          : OPTIONAL SET [1:?] OF 
+                                          <A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slice</A>;
+    criticality                         : <A HREF="IMEX0020.HTM#integer_token">integer_token</A>;                  
+    delays                              : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0012.HTM#interconnect_delay">interconnect_delay</A>; 
+    document                            : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>;
+    joined_global_ports                 : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0008.HTM#global_port">global_port</A>;
+    joined_global_port_bundles          : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A>;
+    joined_instance_member_port_members : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0012.HTM#instance_member_port_member">instance_member_port_member</A>;
+    joined_instance_ports               : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0012.HTM#instance_port">instance_port</A>;
+    joined_instance_port_bundles        : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0012.HTM#instance_port_bundle">instance_port_bundle</A>;
+    joined_local_master_port_groups     : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0012.HTM#local_master_port_group">local_master_port_group</A>;
+    joined_master_ports                 : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0012.HTM#master_port">master_port</A>; 
+    joined_master_port_bundles          : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0012.HTM#master_port_bundle">master_port_bundle</A>;           
+    joined_master_port_members          : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0012.HTM#master_port_member">master_port_member</A>;
+    joined_rippers                      : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_ripper</A>;
+    name                                : OPTIONAL <A HREF="IMEX0020.HTM#name_information">name_information</A>;                 
+    properties                          : OPTIONAL SET [1:?] OF <A HREF="IMEX0020.HTM#property">property</A>;
+    sub_busses                          : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_bus</A>; 
+  DERIVE
+    signal_group_size : INTEGER 
+      := SIZEOF(associated_signal_group.flattened_signal_list);
+  WHERE
+    <A NAME="connectivity_frame_generic_bus.valid_joined_port_size">valid_joined_port_size</A> :
+      (* All joined global_ports, global_port_bundles,
+         local_master_port_groups, master_ports and master_port_bundles must 
+         have the same port size as the size of the flattened signal_group. *)
+
+        (<A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(joinedGlobalPort &lt;* joined_global_ports |
+           joinedGlobalPort.size &lt;&gt; signal_group_size)))
+    AND (<A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(joinedGlobalPortBundle &lt;* joined_global_port_bundles |
+           joinedGlobalPortBundle.size &lt;&gt; signal_group_size)))
+    AND (<A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(joinedLocalMasterPortGroup 
+           &lt;* joined_local_master_port_groups |
+           joinedLocalMasterPortGroup.size &lt;&gt; signal_group_size)))
+    AND (<A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(joinedMasterPort &lt;* joined_master_ports |
+           joinedMasterPort.size &lt;&gt; signal_group_size)))
+    AND (<A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(joinedMasterPortBundle &lt;* joined_master_port_bundles |
+           joinedMasterPortBundle.size &lt;&gt; signal_group_size)));
+
+    <A NAME="connectivity_frame_generic_bus.valid_structural_connectivity">valid_structural_connectivity</A> :
+      <A HREF="IMEX0020.HTM#not_defined">not_defined</A>;
+
+    <A NAME="connectivity_frame_generic_bus.valid_bus_slices">valid_bus_slices</A> :
+      (* No two bus_slices within a connectivity_frame_generic_bus may reference
+         the same frame_signal_group. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(busSlice1 &lt;* bus_slices |
+        <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(QUERY(busSlice2 &lt;* bus_slices - busSlice1 |
+          busSlice1.associated_signal_group :=: 
+            busSlice2.associated_signal_group))));
+
+    <A NAME="connectivity_frame_generic_bus.valid_sub_busses">valid_sub_busses</A> :
+      (* No two sub_busses within a connectivity_frame_generic_bus may refer to
+         the same set of ports and rippers. *)  
+    <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(bus1 &lt;* sub_busses |
+      <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(QUERY(bus2 &lt;* sub_busses - bus1 |
+        (bus1.joined_global_ports = bus2.joined_global_ports) 
+    AND (bus1.joined_global_port_bundles = bus2.joined_global_port_bundles) 
+    AND (bus1.joined_instance_member_port_members 
+         = bus2.joined_instance_member_port_members) 
+    AND (bus1.joined_instance_ports = bus2.joined_instance_ports) 
+    AND (bus1.joined_instance_port_bundles = bus2.joined_instance_port_bundles)
+    AND (bus1.joined_local_master_port_groups 
+         = bus2.joined_local_master_port_groups) 
+    AND (bus1.joined_master_ports = bus2.joined_master_ports) 
+    AND (bus1.joined_master_port_bundles = bus2.joined_master_port_bundles) 
+    AND (bus1.joined_master_port_members = bus2.joined_master_port_members) 
+    AND (bus1.joined_rippers = bus2.joined_rippers)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> can be either a <A HREF="IMEX0001.HTM#connectivity_frame_bus">connectivity_frame_bus</A>,
+ a <A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slice</A> or a <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_bus</A>.  A
+ <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> is used in the model because of the
+ similarity between a <A HREF="IMEX0001.HTM#connectivity_frame_bus">connectivity_frame_bus</A>, a
+ <A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slice</A> and a <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_bus</A>.  They may
+ all contain <A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slices</A> and
+ <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_busses</A>.  No two <A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slices</A> at
+ a given level may be associated with the same <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>.  No two
+ <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_busses</A> at a given level may join to the same set of
+ ports and rippers. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slice</A> <A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_ripper</A> <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_bus</A> </P>
+<HR>
+<!-- Start of ENTITY: connectivity_frame_bus -->
+<H2><A NAME="connectivity_frame_bus">connectivity_frame_bus</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0001.HTM#connectivity_frame_bus">connectivity_frame_bus</A>
+      SUBTYPE OF (<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>);
+  DERIVE
+    containing_frame_structure : <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>    -- reference
+      := <A HREF="IMEX0020.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>.busses');
+  WHERE
+    <A NAME="connectivity_frame_bus.containment_constraint">containment_constraint</A> :
+      (* A connectivity_frame_bus belongs to a connectivity_frame_structure. *)
+      <A HREF="IMEX0020.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>.busses');
+
+    <A NAME="connectivity_frame_bus.valid_associated_signal_group">valid_associated_signal_group</A> :
+      (* The frame_signal_group associated with a connectivity_frame_bus is
+         defined in the associated frame of the containing
+         connectivity_frame_structure. *) 
+      associated_signal_group IN
+        containing_frame_structure.associated_frame.frame_signal_groups; 
+
+    <A NAME="connectivity_frame_bus.valid_joined_rippers">valid_joined_rippers</A> :
+      (* The joined connectivity_frame_rippers must be defined in the
+         containing connectivity_frame_structure. *) 
+      joined_rippers &lt;= containing_frame_structure.rippers;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0001.HTM#connectivity_frame_bus">connectivity_frame_bus</A> is defined within a
+ <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A> which describes the structural connectivity
+ information of a <A HREF="IMEX0010.HTM#frame">frame</A> in a connectivity view.  Its associated
+ <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> must be defined in the associated <A HREF="IMEX0010.HTM#frame">frame</A> of the
+ containing <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>.  A <A HREF="IMEX0001.HTM#connectivity_frame_bus">connectivity_frame_bus</A> may
+ be subdivided in two orthogonal ways.  It may be divided into
+ <A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slices</A> or into <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_busses</A>.
+ Also, all joined <A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_rippers</A> must be defined in the
+ containing <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A> </P>
+<HR>
+<!-- Start of ENTITY: connectivity_frame_bus_slice -->
+<H2><A NAME="connectivity_frame_bus_slice">connectivity_frame_bus_slice</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slice</A>
+      SUBTYPE OF (<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>);
+  DERIVE
+    containing_generic_bus  : <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> -- reference
+      := <A HREF="IMEX0020.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+         '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>.bus_slices');
+  WHERE
+    <A NAME="connectivity_frame_bus_slice.containment_constraint">containment_constraint</A> :
+      (* A connectivity_frame_bus_slice belongs to a
+         connectivity_frame_generic_bus.*)  
+      <A HREF="IMEX0020.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>.bus_slices');
+
+    <A NAME="connectivity_frame_bus_slice.valid_associated_signal_group">valid_associated_signal_group</A> :
+      (* The frame_signal_group associated with a connectivity_frame_bus_slice
+         is a member of the frame_signal_group associated with its immediately
+         containing connectivity_frame_generic_bus.*) 
+       <A HREF="IMEX0020.HTM#not_defined">not_defined</A>;
+
+    <A NAME="connectivity_frame_bus_slice.valid_joined_rippers">valid_joined_rippers</A> :
+      (* The joined connectivity_frame_rippers must be defined in the
+         containing connectivity_frame_structure. *) 
+      <A HREF="IMEX0020.HTM#not_defined">not_defined</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slice</A> is used to define part of a
+ <A HREF="IMEX0001.HTM#connectivity_frame_bus">connectivity_frame_bus</A> that has a size less than the size of the
+ immediately enclosing <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>.  Its associated
+ <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> must be a member of the <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> associated
+ with its immediately containing <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>.  All
+ joined <A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_rippers</A> must be defined in the containing
+ <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> </P>
+<HR>
+<!-- Start of ENTITY: connectivity_frame_sub_bus -->
+<H2><A NAME="connectivity_frame_sub_bus">connectivity_frame_sub_bus</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_bus</A>
+      SUBTYPE OF (<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>);
+  DERIVE
+    containing_generic_bus  : <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> -- reference
+      := <A HREF="IMEX0020.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+         '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>.sub_busses');
+  WHERE
+    <A NAME="connectivity_frame_sub_bus.containment_constraint">containment_constraint</A> :
+      (* A connectivity_frame_sub_bus belongs to a
+         connectivity_frame_generic_bus. *) 
+      <A HREF="IMEX0020.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>.sub_busses');
+
+    <A NAME="connectivity_frame_sub_bus.valid_associated_signal_group">valid_associated_signal_group</A> :
+      (* The frame_signal_group associated with a connectivity_frame_sub_bus is
+         the same as its containing connectivity_frame_generic_bus. *)
+      associated_signal_group :=: containing_generic_bus.associated_signal_group;
+
+    <A NAME="connectivity_frame_sub_bus.valid_joined_ports_and_rippers">valid_joined_ports_and_rippers</A> :
+      (* The ports and rippers joined by a connectivity_frame_sub_bus must be a
+         subset of the ones joined by its immediately containing
+         connectivity_frame_generic_bus. *)    
+
+        (joined_global_ports &lt;= containing_generic_bus.joined_global_ports)
+    AND (joined_global_port_bundles 
+         &lt;= containing_generic_bus.joined_global_port_bundles)
+    AND (joined_instance_member_port_members 
+         &lt;= containing_generic_bus.joined_instance_member_port_members)
+    AND (joined_instance_ports &lt;= containing_generic_bus.joined_instance_ports)
+    AND (joined_instance_port_bundles 
+         &lt;= containing_generic_bus.joined_instance_port_bundles)
+    AND (joined_local_master_port_groups 
+         &lt;= containing_generic_bus.joined_local_master_port_groups)
+    AND (joined_master_ports &lt;= containing_generic_bus.joined_master_ports)
+    AND (joined_master_port_bundles 
+         &lt;= containing_generic_bus.joined_master_port_bundles)
+    AND (joined_master_port_members 
+         &lt;= containing_generic_bus.joined_master_port_members)
+    AND (joined_rippers &lt;= containing_generic_bus.joined_rippers);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_bus</A> has the same size as the
+ <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> immediately containing it.  It associated
+ <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> is the same as that of its immediately containing
+ <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>.  A <A HREF="IMEX0001.HTM#connectivity_frame_sub_bus">connectivity_frame_sub_bus</A> must only
+ join to ports and rippers which are already joined by its immediately
+ containing <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> </P>
+<HR>
+<!-- Start of ENTITY: connectivity_frame_ripper -->
+<H2><A NAME="connectivity_frame_ripper">connectivity_frame_ripper</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_ripper</A>;
+  DERIVE
+    related_nets : SET OF <A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A>         -- reference
+     := USEDIN(SELF, 
+        '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A>.joined_rippers');
+    related_busses : SET OF <A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>       -- reference
+     := USEDIN(SELF, 
+        '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A>.joined_rippers');
+  WHERE
+    <A NAME="connectivity_frame_ripper.containment_constraint">containment_constraint</A> :
+      (* A connectivity_frame_ripper belongs to one
+         connectivity_frame_structure. *)  
+      <A HREF="IMEX0020.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0001.HTM#connectivity_frame_model">connectivity_frame_model</A>.<A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>.rippers');
+
+    <A NAME="connectivity_frame_ripper.valid_related_busses_and_nets">valid_related_busses_and_nets</A> :
+      (* All related bus/net structures must belong to the same
+         connectivity_frame_structure. *) 
+      <A HREF="IMEX0020.HTM#not_defined">not_defined</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0001.HTM#connectivity_frame_ripper">connectivity_frame_ripper</A> is used to define a relationship between net and
+ bus structures in a <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> <A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A> <A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A> </P>
+
+<HR>
+
+<!-- Start of schema: connectivity_structure_model -->
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

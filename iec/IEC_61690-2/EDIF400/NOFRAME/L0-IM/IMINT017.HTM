@@ -1,0 +1,57 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H2><A NAME="REF63798"> 22      Figure collectors</A></H2>
+<P>This chapter describes the concept of figure collectors. The models for <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A> and <A HREF="IMEX0007.HTM#drawing_figure_collector">drawing_figure_collector</A> can be found in the <A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A> schema. 
+<P>A <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A> describes a collector for combined geometrical shapes. The geometrical shapes may be those contributed by a set of <A HREF="IMEX0018.HTM#fabricate_element">fabricate_elements</A>, or the result of a complex geometrical operation on a set of other <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collectors</A>. The contents of a <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A> can only be determined in the context of a PCB; the association of <A HREF="IMEX0018.HTM#fabricate_element">fabricate_elements</A> or other <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collectors</A> with a <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A> only indicates which <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A> they will affect if they form part of a PCB. Figure <A HREF="IMINT017.HTM#REF36938">22.1</A> shows the model of <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A>.
+<P><A NAME="REF36938"><CENTER><IMG SRC="FIG0086.GIF">
+</CENTER></A>
+<P><CENTER> Figure 22.1:  The model of fabricate_figure_collector</CENTER>
+
+<P>A <A HREF="IMEX0007.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A> represents a collector which, in the context of a PCB, contains the results of a geometrical union operation performed on the geometrical contents of two or more <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collectors</A>. A <A HREF="IMEX0007.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A> represents a collector which, in the context of a PCB, contains the results of a geometrical difference operation performed between the geometrical contents of one <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A> and another. A <A HREF="IMEX0007.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A> represents a collector which, in the context of a PCB, contains the results of a geometrical translation operation performed on the geometrical contents of a <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A>. A <A HREF="IMEX0007.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A> represents a collector which, in the context of a PCB, contains the results of a geometrical rotation operation performed on the geometrical contents of a <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A>. A <A HREF="IMEX0007.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A> represents a collector which, in the context of a PCB, contains the results of a geometrical mirroring operation on the geometrical contents of a <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A>. A <A HREF="IMEX0007.HTM#resized_fabricate_figure_collector">resized_fabricate_figure_collector</A> represents a collector which, in the context of a PCB, contains the results of a geometrical oversize or undersize of the geometrical contents of a <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collector</A>.
+<H3><A NAME="HDR41"> 22.1    Example of a simple artwork generation</A></H3>
+<P>Consider the following very simple example. A conducting layer is to consist of two separate and disjoint signal planes, each one carrying a different signal. A route is to pass through a part of both of these planes, but is required to be isolated from each plane (with different isolation spacings). Figure <A HREF="IMINT017.HTM#REF32932">22.2</A> shows the desired result.
+<P><A NAME="REF32932"><CENTER><IMG SRC="FIG0087.GIF">
+</CENTER></A>
+<P><CENTER> Figure 22.2:  Example split plane</CENTER>
+<P>Generating the geometry to represent this result can be achieved by the following method. Firstly, a <A HREF="IMEX0025.HTM#plane">plane</A> describing the maximum extent of the first signal plane contributes to a <A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A> FC1. By a similar process, a <A HREF="IMEX0025.HTM#plane">plane</A> describing the maximum extent of the second signal plane contributes to a <A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A> FC2. See figure <A HREF="IMINT017.HTM#REF43698">22.3</A>.
+
+<P><A NAME="REF43698"><CENTER><IMG SRC="FIG0088.GIF">
+</CENTER></A>
+<P><CENTER> Figure 22.3:  Signal plane outlines</CENTER>
+<P>The route is described by a <A HREF="IMEX0025.HTM#trace">trace</A>. The actual geometry of the <A HREF="IMEX0025.HTM#trace">trace</A> contributes to three <A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collectors</A> FC3, FC4 and FC5. The <A HREF="IMEX0025.HTM#trace">trace</A> contains two sets of clearance geometries which form the clearance regions for the <A HREF="IMEX0025.HTM#trace">trace</A>. One corresponds to the isolation spacing required for the first signal plane. It contributes to the <A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A> FC3. Similarly, another one which corresponds to the isolation spacing required for the second signal plane contributes to the <A HREF="IMEX0007.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A> FC4. See figure <A HREF="IMINT017.HTM#REF94133">22.4</A>
+
+<P><A NAME="REF94133"><CENTER><IMG SRC="FIG0089.GIF">
+</CENTER></A>
+<P><CENTER> Figure 22.4:  Trace - normal (FC5) and with clearance geometries (FC3, FC4).</CENTER>
+<P>Then, three <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collectors</A> (FC6, FC7 and FC8) are defined. FC6 is a <A HREF="IMEX0007.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A> which represents the results of a geometrical difference between FC1 and FC3. FC7 is a <A HREF="IMEX0007.HTM#differenced_fabricate_figure_collector">differenced_fabricate_figure_collector</A> which represents the results of a geometrical difference between FC2 and FC4. This gives the result as shown in figure <A HREF="IMINT017.HTM#REF41079">22.5</A>.
+
+<P><A NAME="REF41079"><CENTER><IMG SRC="FIG0090.GIF">
+</CENTER></A>
+<P><CENTER> Figure 22.5:  Modified split plane</CENTER>
+<P>Finally, FC8 is a <A HREF="IMEX0007.HTM#unioned_fabricate_figure_collector">unioned_fabricate_figure_collector</A> which represents the results of a geometrical union between FC5, FC6 and FC7. It is then contributed to the layer which represents the required split plane layer (as in figure <A HREF="IMINT017.HTM#REF32932">22.2</A>). Note that this method of describing artwork for planes is considered to be the definitive method, and it is recommended that it be adopted as a standard way of representing such items.
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,985 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="schematicBusSlice">schematicBusSlice</A></H1>
+<PRE>
+<I>schematicBusSlice ::= '(' 'schematicBusSlice'</I>
+&#09;<I><A HREF="RMRF0010.HTM#interconnectNameDef">interconnectNameDef</A></I>
+&#09;<I><A HREF="RMRF0058.HTM#signalGroupRef">signalGroupRef</A></I>
+&#09;<I><A HREF="RMRF0055.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A></I>
+&#09;<I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0054.HTM#schematicBusDetails">schematicBusDetails</A>&gt; | <A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A> | 
+&#09;&lt;<A HREF="RMRF0055.HTM#schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A>&gt; | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0054.HTM#schematicBus">schematicBus</A>  *<A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A>  *<A HREF="RMRF0056.HTM#schematicSubBus">schematicSubBus</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>In any given bus (<I><A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A></I>, <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>, <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>, <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I> or <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I>), no two bus slices may refer to the same <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I> referenced by a <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I> or <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I> must be a member of the <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I> referenced by the enclosing bus or bus slice.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I> is used to define part of a <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I> that has a width less than the width of the immediately-enclosing <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>, <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I> or <I><A HREF="RMRF0056.HTM#schematicSubBus">schematicSubBus</A></I>. A <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I> may be further subdivided into <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlices</A></I> and <I><A HREF="RMRF0056.HTM#schematicSubBus">schematicSubBusses</A></I>.
+<P>It is possible to describe certain bus situations in two ways: as two separate busses associated with a ripper, or as a bus with a slice, with or without a ripper to associate the slice with its parent bus. The bus-slice mechanism should be used where the name of both busses in the original system is the same across the ripper, and where the signals on one side of a ripper are a contiguous subsequence of the signals on the other. This is reflected by the <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I> referenced by the bus slice being a member of the <I><A HREF="RMRF0058.HTM#signalGroup">signalGroup</A></I> referenced by the enclosing bus or bus slice.
+<H3>Example:</H3>
+<PRE>
+<B>(signalGroup A0_1 </B>
+<B>   (signalList (signalRef A0) (signalRef A1)))</B>
+<B>(signalGroup A2_3 </B>
+<B>   (signalList (signalRef A2) (signalRef A3)))</B>
+<B>(signalGroup A </B>
+<B>   (signalList (signalRef A0_1) (signalRef A2_3)))</B>
+<B>...</B>
+<B>(schematicBus BUS_A </B>
+<B>   (signalGroupRef A)</B>
+<B>   (schematicInterconnectHeader ...)</B>
+<B>   (schematicBusJoined ...)</B>
+<B>   (schematicBusSlice A1 </B>
+<B>      (signalGroupRef A0_1)</B>
+<B>      (schematicInterconnectHeader ...)</B>
+<B>      (schematicBusJoined ...)</B>
+<B>      (schematicBusDetails</B>
+<B>         (schematicBusGraphics </B>
+<B>            (figure BUS_GRAPHICS </B>
+<B>               (path </B>
+<B>                  (pointList (pt 100 200) </B>
+<B>                     (pt 300 200)))))))</B>
+<B>   (schematicBusSlice A2 </B>
+<B>      (signalGroupRef A2_3)</B>
+<B>      (schematicInterconnectHeader ...)</B>
+<B>      (schematicBusJoined ...) ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I> BUS_A is subdivided into two <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlices</A></I> A1 and A2. Each of these has two <I><A HREF="RMRF0058.HTM#signal">signals</A></I> from the four-bit-wide <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>. In this case, there is no overlap between these <I><A HREF="RMRF0058.HTM#signal">signals</A></I>, but there could be one or more <I><A HREF="RMRF0058.HTM#signal">signals</A></I> common to the <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlices</A></I>. <I><A HREF="RMRF0055.HTM#schematicBusSlice">SchematicBusSlice</A></I> A1 is implemented with a line from (pt 100 200) to (pt 300 200).
+<P><HR>
+<H1><A NAME="schematicComplexFigure">schematicComplexFigure</A></H1>
+<PRE>
+<I>schematicComplexFigure ::= '(' 'schematicComplexFigure'</I>
+&#09;<I><A HREF="RMRF0055.HTM#schematicFigureMacroRef">schematicFigureMacroRef</A></I>
+&#09;<I><A HREF="RMRF0060.HTM#transform">transform</A></I>
+&#09;<I>{ <A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A>  *<A HREF="RMRF0015.HTM#pageCommentGraphics">pageCommentGraphics</A>  *<A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>  *<A HREF="RMRF0054.HTM#schematicBusGraphics">schematicBusGraphics</A>  *<A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacro</A>  *<A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A>  *<A HREF="RMRF0055.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A>  *<A HREF="RMRF0055.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A>  *<A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>  *<A HREF="RMRF0055.HTM#schematicNetGraphics">schematicNetGraphics</A>  *<A HREF="RMRF0056.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A>  *<A HREF="RMRF0056.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A>  *<A HREF="RMRF0056.HTM#schematicRipperTemplate">schematicRipperTemplate</A>  *<A HREF="RMRF0057.HTM#schematicSymbol">schematicSymbol</A>  *<A HREF="RMRF0057.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A>  *<A HREF="RMRF0057.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#figure">figure</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicComplexFigure">SchematicComplexFigure</A></I> is used to reference and position a <I><A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacro</A></I>. This allows <I><A HREF="RMRF0007.HTM#figure">figures</A></I> containing graphical entities to be defined once and used many times. The association between the <I><A HREF="RMRF0007.HTM#figureGroup">figureGroup</A></I> and the graphics is made in the <I><A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacro</A></I>. <I><A HREF="RMRF0002.HTM#complexGeometry">ComplexGeometry</A></I> is provided to associate graphics with a <I><A HREF="RMRF0007.HTM#figureGroup">figureGroup</A></I> at the time of instantiation.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicComplexFigure</B>
+<B>   (schematicFigureMacroRef BULLET)</B>
+<B>   (transform (origin (pt 200 300))))</B>
+</PRE>
+<P>In this example, a <I><A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacro</A></I> named BULLET is positioned at (pt 200 300).
+<P><HR>
+<H1><A NAME="schematicFigureMacro">schematicFigureMacro</A></H1>
+<PRE>
+<I>schematicFigureMacro ::= '(' 'schematicFigureMacro'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0057.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0007.HTM#figure">figure</A> | <A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> | 
+&#09;<A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicFigureMacroRef">schematicFigureMacroRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicFigureMacro">SchematicFigureMacro</A></I> allows figures and annotation text to be defined for use in many places. A <I><A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacro</A></I> may make use of previously-defined <I><A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacros</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicFigureMacro BULLET</B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (figure GRAPHICS</B>
+<B>      (shape </B>
+<B>         (curve </B>
+<B>            (arc (pt 0 -50) (numberPoint -50 0) (pt 0 50))</B>
+<B>            (arc (pt 200 50) (numberPoint 250 0) </B>
+<B>               (pt 200 -50))))))</B>
+</PRE>
+<P>This example shows the definition of a bullet shape, as shown below.
+<P><CENTER><IMG SRC="FIG0039.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="schematicFigureMacroRef">schematicFigureMacroRef</A></H1>
+<PRE>
+<I>schematicFigureMacroRef ::= '(' 'schematicFigureMacroRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#figure">figure</A> <A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacro</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicFigureMacroRef">SchematicFigureMacroRef</A></I> references a previously-defined <I><A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacro</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicFigureMacroRef BULLET)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicGlobalPortAttributes">schematicGlobalPortAttributes</A></H1>
+<PRE>
+<I>schematicGlobalPortAttributes ::= '(' 'schematicGlobalPortAttributes'</I>
+&#09;<I>{ <A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A> | &lt;<A HREF="RMRF0056.HTM#schematicPortAcPower">schematicPortAcPower</A>&gt; | &lt;<A HREF="RMRF0056.HTM#schematicPortAnalog">schematicPortAnalog</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0056.HTM#schematicPortChassisGround">schematicPortChassisGround</A>&gt; | &lt;<A HREF="RMRF0056.HTM#schematicPortClock">schematicPortClock</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0056.HTM#schematicPortDcPower">schematicPortDcPower</A>&gt; | &lt;<A HREF="RMRF0056.HTM#schematicPortEarthGround">schematicPortEarthGround</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0056.HTM#schematicPortGround">schematicPortGround</A>&gt; | &lt;<A HREF="RMRF0056.HTM#schematicPortNonLogical">schematicPortNonLogical</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0056.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>&gt; | &lt;<A HREF="RMRF0056.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0056.HTM#schematicPortPower">schematicPortPower</A>&gt; | &lt;<A HREF="RMRF0056.HTM#schematicPortThreeState">schematicPortThreeState</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0008.HTM#globalPort">globalPort</A>  &lt;<A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A> <A HREF="RMRF0056.HTM#schematicPortAttributes">schematicPortAttributes</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicGlobalPortAttributes">SchematicGlobalPortAttributes</A></I> describes attributes of a global port or global port template. There is no requirement for the attributes to be accurate or have a coherent usage within the EDIF description. External electrical rule checkers can check declared port types against the correct usage.
+<P>The <I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A></I> construct is available for the description of many more global port types. For general component port types it must strictly refer to IEEE Std. 91-1984, Sections 3.1.1 to 3.1.11, 3.3.1 to 3.3.24, 3.3.27 to 3.4.5 and 4.3.2.1 to 4.3.11.1. For boundary scan port types TCK, TMS, TDI, TDO and TRST <I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A></I> must strictly refer to IEEE 1149.1-1990 Sections 3.2 through 3.6 respectively.
+<P>There is no implicit connectivity through the use of <I><A HREF="RMRF0055.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A></I>. If two global ports have the same <I><A HREF="RMRF0055.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A></I>, there is no implicit, unstated connection between the two. Connections are explicitly described in <I><A HREF="RMRF0058.HTM#signalJoined">signalJoined</A></I> and through the use of <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I>. There are no semantic rules in EDIF about how the attributes in <I><A HREF="RMRF0055.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A></I> are used.
+<P>These attributes originate from the schematic domain.
+<H3>Example:</H3>
+<PRE>
+<B>(globalPort VCC</B>
+<B>   (schematicGlobalPortAttributes </B>
+<B>      (schematicPortDcPower)))</B>
+</PRE>
+<P>This may be a global power port on a board containing 7400-series components. 
+<P><HR>
+<H1><A NAME="schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></H1>
+<PRE>
+<I>schematicGlobalPortImplementation ::= '(' 'schematicGlobalPortImplementation'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0055.HTM#schematicGlobalPortTemplateRef">schematicGlobalPortTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0008.HTM#globalPortRef">globalPortRef</A></I>
+&#09;<I><A HREF="RMRF0060.HTM#transform">transform</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0008.HTM#globalPortNameDisplay">globalPortNameDisplay</A>&gt; | <A HREF="RMRF0008.HTM#globalPortPropertyDisplay">globalPortPropertyDisplay</A> | 
+&#09;&lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;<A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#page">page</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#globalPort">globalPort</A> <A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0055.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A> <A HREF="RMRF0055.HTM#schematicGlobalPortImplementationRef">schematicGlobalPortImplementationRef</A> <A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A> <A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A> <A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A> <A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>If a <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> references a <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I> then the <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> must also reference the <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> or <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> that the <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I> implements.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>, <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I> must not be referenced by more than one <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">SchematicGlobalPortImplementation</A></I> is the implementation of a global port within the context of a schematic page. It references a <I><A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A></I>, which gives a graphical representation for the global port.
+<P><I><A HREF="RMRF0008.HTM#globalPortNameDisplay">GlobalPortNameDisplay</A></I> is used in this context to display the name of the <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> which is referenced by the <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(globalPort VCCA ...)</B>
+<B>...</B>
+<B>(library libA </B>
+<B>   (libraryHeader ...) </B>
+<B>   (cell cellA ...</B>
+<B>      (cluster C1 ...</B>
+<B>         (schematicView view1 </B>
+<B>            (schematicViewHeader ...)</B>
+<B>            (logicalConnectivity ...</B>
+<B>               (signal sigVCC </B>
+<B>                  (signalJoined  </B>
+<B>                     (globalPortRef VCCA) ... )))</B>
+<B>            (schematicImplementation</B>
+<B>               (page &amp;1 ...</B>
+<B>                  (schematicGlobalPortImplementation I1</B>
+<B>                     (schematicGlobalPortTemplateRef ...)</B>
+<B>                     (globalPortRef VCCA)</B>
+<B>                     (transform (origin (pt 100 200))))</B>
+<B>                  (schematicNet VCC </B>
+<B>                     (signalRef sigVCC)</B>
+<B>                     (schematicInterconnectHeader ...)</B>
+<B>                     (schematicNetJoined </B>
+<B>                        (portJoined ...)</B>
+<B>                        (schematicGlobalPortImplementationRef </B>
+<B>                           I1)</B>
+<B>                         ...) ...)</B>
+<B>                  ...) ...) ...) ...)))</B>
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I> I1 is positioned at (pt 100 200), and is associated with <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> VCCA. I1 is referenced from <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> VCC, and the <I><A HREF="RMRF0058.HTM#signal">signal</A></I> for <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> VCC (sigVCC) also references the <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> VCCA.
+<P><HR>
+<H1><A NAME="schematicGlobalPortImplementationRef">schematicGlobalPortImplementationRef</A></H1>
+<PRE>
+<I>schematicGlobalPortImplementationRef ::= '(' 'schematicGlobalPortImplementationRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameRef">implementationNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A>  *<A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#globalPort">globalPort</A> <A HREF="RMRF0008.HTM#globalPortRef">globalPortRef</A> <A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0053.HTM#portRef">portRef</A> <A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A> <A HREF="RMRF0055.HTM#schematicGlobalPortTemplateRef">schematicGlobalPortTemplateRef</A> <A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A> <A HREF="RMRF0055.HTM#schematicMasterPortImplementationRef">schematicMasterPortImplementationRef</A> <A HREF="RMRF0057.HTM#schematicSymbolPortImplementationRef">schematicSymbolPortImplementationRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementationRef">SchematicGlobalPortImplementationRef</A></I> is a reference to a <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicGlobalPortImplementationRef I1)</B>
+</PRE>
+<P>This example shows a reference to the <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I> whose implementation name is I1.
+<P><HR>
+<H1><A NAME="schematicGlobalPortTemplate">schematicGlobalPortTemplate</A></H1>
+<PRE>
+<I>schematicGlobalPortTemplate ::= '(' 'schematicGlobalPortTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0057.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I><A HREF="RMRF0009.HTM#hotspot">hotspot</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0007.HTM#figure">figure</A> | &lt;<A HREF="RMRF0008.HTM#globalPortNameDisplay">globalPortNameDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | <A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A> 
+&#09;| &lt;<A HREF="RMRF0055.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#globalPort">globalPort</A> <A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A> <A HREF="RMRF0055.HTM#schematicGlobalPortTemplateRef">schematicGlobalPortTemplateRef</A> <A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A> <A HREF="RMRF0057.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">SchematicGlobalPortTemplate</A></I> is a template definition used by <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementations</A></I>. It allows a graphical representation of a global port to be defined. It occurs as a library object within a library.
+<P>The <I><A HREF="RMRF0055.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A></I> construct adds descriptive information to the <I><A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A></I>. The information specifies what kind of global signal is represented by the template. Such information may be valuable, for example for schematic synthesis packages. EDIF specifies no semantic rules governing how these attributes match actual use.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicGlobalPortTemplate GROUND_SYMBOL</B>
+<B>   (schematicTemplateHeader </B>
+<B>      (schematicUnits ...)   ...)</B>
+<B>   (hotspot (pt 0 0))</B>
+<B>   (figure LINES </B>
+<B>      (path (pointList (pt 0 0) (pt 0 50)))</B>
+<B>      (path (pointList (pt -100 0) (pt  100 0)))</B>
+<B>      (path (pointList (pt -70 -30) (pt 70 -30)))</B>
+<B>      (path (pointList (pt -40 -60) (pt 40 -60)))</B>
+<B>      (path (pointList (pt -10 -90) (pt 10 -90)))))</B>
+</PRE>
+<P>This example shows a <I><A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A></I> named GROUND_SYMBOL with a <I><A HREF="RMRF0009.HTM#hotspot">hotspot</A></I> at (pt 0 0) and some graphics to represent a ground symbol, as shown in the figure below.
+<P><CENTER><IMG SRC="FIG0040.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="schematicGlobalPortTemplateRef">schematicGlobalPortTemplateRef</A></H1>
+<PRE>
+<I>schematicGlobalPortTemplateRef ::= '(' 'schematicGlobalPortTemplateRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#globalPort">globalPort</A> <A HREF="RMRF0008.HTM#globalPortRef">globalPortRef</A> <A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0053.HTM#portRef">portRef</A> <A HREF="RMRF0055.HTM#schematicGlobalPortImplementationRef">schematicGlobalPortImplementationRef</A> <A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A> <A HREF="RMRF0055.HTM#schematicMasterPortTemplateRef">schematicMasterPortTemplateRef</A> <A HREF="RMRF0057.HTM#schematicSymbolPortTemplateRef">schematicSymbolPortTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicGlobalPortTemplateRef">SchematicGlobalPortTemplateRef</A></I> is used to reference a <I><A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicGlobalPortTemplateRef GROUND_SYMBOL</B>
+<B>   (libraryRef SYSTEM))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicImplementation">schematicImplementation</A></H1>
+<PRE>
+<I>schematicImplementation ::= '(' 'schematicImplementation'</I>
+&#09;<I>{ <A HREF="RMRF0015.HTM#page">page</A> | &lt;<A HREF="RMRF0060.HTM#totalPages">totalPages</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0057.HTM#schematicView">schematicView</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A> <A HREF="RMRF0055.HTM#schematicGlobalPortImplementationRef">schematicGlobalPortImplementationRef</A> <A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A> <A HREF="RMRF0055.HTM#schematicInstanceImplementationRef">schematicInstanceImplementationRef</A> <A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A> <A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementationRef">schematicInterconnectTerminatorImplementationRef</A> <A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A> <A HREF="RMRF0055.HTM#schematicJunctionImplementationRef">schematicJunctionImplementationRef</A> <A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A> <A HREF="RMRF0055.HTM#schematicMasterPortImplementationRef">schematicMasterPortImplementationRef</A> <A HREF="RMRF0056.HTM#schematicOffPageConnectorImplementation">schematicOffPageConnectorImplementation</A> <A HREF="RMRF0056.HTM#schematicOffPageConnectorImplementationRef">schematicOffPageConnectorImplementationRef</A> <A HREF="RMRF0056.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A> <A HREF="RMRF0056.HTM#schematicOnPageConnectorImplementationRef">schematicOnPageConnectorImplementationRef</A> <A HREF="RMRF0056.HTM#schematicRipperImplementation">schematicRipperImplementation</A> <A HREF="RMRF0056.HTM#schematicRipperImplementationRef">schematicRipperImplementationRef</A> <A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A> <A HREF="RMRF0057.HTM#schematicSymbolPortImplementationRef">schematicSymbolPortImplementationRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicImplementation">SchematicImplementation</A></I> contains the schematic <I><A HREF="RMRF0015.HTM#page">pages</A></I> that implement the connectivity. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicImplementation</B>
+<B>   (totalPages 2)</B>
+<B>   (page &amp;1 (pageHeader ...)</B>
+<B>      (schematicMasterPortImplementation MP1 ...)</B>
+<B>      (schematicNet NET1 ...)</B>
+<B>      (schematicNet NET2 ...)</B>
+<B>      ...)</B>
+<B>   (page &amp;2 ...))</B>
+</PRE>
+<P>This example shows a <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> and two schematic nets defined in <I><A HREF="RMRF0015.HTM#page">page</A></I> &amp;1.
+<P><HR>
+<H1><A NAME="schematicInstanceImplementation">schematicInstanceImplementation</A></H1>
+<PRE>
+<I>schematicInstanceImplementation ::= '(' 'schematicInstanceImplementation'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0010.HTM#instanceRef">instanceRef</A></I>
+&#09;<I><A HREF="RMRF0057.HTM#schematicSymbolRef">schematicSymbolRef</A></I>
+&#09;<I><A HREF="RMRF0060.HTM#transform">transform</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0001.HTM#cellNameDisplay">cellNameDisplay</A>&gt; | <A HREF="RMRF0001.HTM#cellPropertyDisplayOverride">cellPropertyDisplayOverride</A> | 
+&#09;<A HREF="RMRF0002.HTM#clusterPropertyDisplayOverride">clusterPropertyDisplayOverride</A> | &lt;<A HREF="RMRF0004.HTM#designatorDisplay">designatorDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | &lt;<A HREF="RMRF0009.HTM#instanceNameDisplay">instanceNameDisplay</A>&gt; | 
+&#09;<A HREF="RMRF0009.HTM#instancePortAttributeDisplay">instancePortAttributeDisplay</A> | <A HREF="RMRF0010.HTM#instancePropertyDisplay">instancePropertyDisplay</A> | 
+&#09;&lt;<A HREF="RMRF0010.HTM#instanceWidthDisplay">instanceWidthDisplay</A>&gt; | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0015.HTM#pageCommentGraphics">pageCommentGraphics</A> | 
+&#09;<A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> | <A HREF="RMRF0060.HTM#timingDisplay">timingDisplay</A> | 
+&#09;&lt;<A HREF="RMRF0061.HTM#viewNameDisplay">viewNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#page">page</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#instance">instance</A> <A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A> <A HREF="RMRF0055.HTM#schematicInstanceImplementationRef">schematicInstanceImplementationRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>Each <I><A HREF="RMRF0052.HTM#port">port</A></I> or <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I> on an <I><A HREF="RMRF0009.HTM#instance">instance</A></I> that is joined in a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I> must belong to an <I><A HREF="RMRF0009.HTM#instance">instance</A></I> for which there is a <I><A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A></I> in the <I><A HREF="RMRF0015.HTM#page">page</A></I> that encloses the interconnect.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>, <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>There may be no more than one <I><A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A></I> corresponding to each <I><A HREF="RMRF0009.HTM#instance">instance</A></I> in a <I><A HREF="RMRF0057.HTM#schematicView">schematicView</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicInstanceImplementation">SchematicInstanceImplementation</A></I> is used to position an <I><A HREF="RMRF0009.HTM#instance">instance</A></I> in a <I><A HREF="RMRF0015.HTM#page">page</A></I> and to modify the display positions of properties and attributes. 
+<P>In this context, <I><A HREF="RMRF0001.HTM#cellNameDisplay">cellNameDisplay</A></I> is used to display the name of the cell being instanced. <I><A HREF="RMRF0009.HTM#instanceNameDisplay">InstanceNameDisplay</A></I> is used to display the name of the instance referenced. <I><A HREF="RMRF0009.HTM#implementationNameDisplay">ImplementationNameDisplay</A></I> displays the <I><A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A></I>.
+<P>Within <I><A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A></I>, <I><A HREF="RMRF0009.HTM#instancePortAttributeDisplay">instancePortAttributeDisplay</A></I> is used to specify the display positions for port attributes and properties.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicInstanceImplementation &amp;123 </B>
+<B>   (instanceRef nand12)</B>
+<B>   (schematicSymbolRef symbol)</B>
+<B>   (transform (origin (pt 100 200)))</B>
+<B>   (designatorDisplay ...)</B>
+<B>   (instancePortAttributeDisplay SPI1 (portRef IN) ...)</B>
+<B>   ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicInstanceImplementationRef">schematicInstanceImplementationRef</A></H1>
+<PRE>
+<I>schematicInstanceImplementationRef ::= '(' 'schematicInstanceImplementationRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameRef">implementationNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0057.HTM#schematicSymbolPortImplementationRef">schematicSymbolPortImplementationRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#instance">instance</A> <A HREF="RMRF0010.HTM#instanceRef">instanceRef</A> <A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A> <A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A> <A HREF="RMRF0055.HTM#schematicJunctionImplementationRef">schematicJunctionImplementationRef</A> <A HREF="RMRF0056.HTM#schematicRipperImplementationRef">schematicRipperImplementationRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicInstanceImplementationRef">SchematicInstanceImplementationRef</A></I> references an implementation of an instance on a page.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortImplementationRef IN</B>
+<B>   (schematicInstanceImplementationRef INST1))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A></H1>
+<PRE>
+<I>schematicInterconnectAttributeDisplay ::= '(' 'schematicInterconnectAttributeDisplay'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0003.HTM#criticalityDisplay">criticalityDisplay</A>&gt; | <A HREF="RMRF0010.HTM#interconnectAttachedText">interconnectAttachedText</A> | 
+&#09;<A HREF="RMRF0010.HTM#interconnectDelayDisplay">interconnectDelayDisplay</A> | &lt;<A HREF="RMRF0010.HTM#interconnectNameDisplay">interconnectNameDisplay</A>&gt; | 
+&#09;<A HREF="RMRF0010.HTM#interconnectPropertyDisplay">interconnectPropertyDisplay</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0054.HTM#schematicBus">schematicBus</A>  &lt;<A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A>  &lt;<A HREF="RMRF0055.HTM#schematicNet">schematicNet</A>  &lt;<A HREF="RMRF0056.HTM#schematicSubBus">schematicSubBus</A>  &lt;<A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#display">display</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicInterconnectAttributeDisplay">SchematicInterconnectAttributeDisplay</A></I> gathers together all the attribute display constructs for interconnects. Interconnect attributes may be displayed at any level in the interconnect hierarchy of a bus, bus slice, subbus, net or subnet. 
+<P>The value displayed will be the value for the interconnect which encloses <I><A HREF="RMRF0055.HTM#schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A></I>, or if none is found there, higher up the hierarchy of interconnects.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicBus BUS1 ...</B>
+<B>   (schematicInterconnectAttributeDisplay </B>
+<B>      (criticalityDisplay ...)</B>
+<B>      ...) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicInterconnectHeader">schematicInterconnectHeader</A></H1>
+<PRE>
+<I>schematicInterconnectHeader ::= '(' 'schematicInterconnectHeader'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0003.HTM#criticality">criticality</A>&gt; | <A HREF="RMRF0005.HTM#documentation">documentation</A> | <A HREF="RMRF0010.HTM#interconnectDelay">interconnectDelay</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; 
+&#09;| <A HREF="RMRF0053.HTM#property">property</A> | <A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A> | 
+&#09;<A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A> | &lt;<A HREF="RMRF0057.HTM#schematicWireStyle">schematicWireStyle</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0054.HTM#schematicBus">schematicBus</A>  !<A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A>  !<A HREF="RMRF0055.HTM#schematicNet">schematicNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0010.HTM#interconnectHeader">interconnectHeader</A> <A HREF="RMRF0057.HTM#schematicSubInterconnectHeader">schematicSubInterconnectHeader</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicInterconnectHeader">SchematicInterconnectHeader</A></I> gathers together information relating to the schematic interconnect as a whole. It contains the definitions of all the junctions and terminators used within the interconnect.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicInterconnectHeader</B>
+<B>   (nameInformation (primaryName "BusA0"))</B>
+<B>   (schematicWireStyle (wideWire))</B>
+<B>   ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A></H1>
+<PRE>
+<I>schematicInterconnectTerminatorImplementation ::= '(' 
+&#09;'schematicInterconnectTerminatorImplementation'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0055.HTM#schematicInterconnectTerminatorTemplateRef">schematicInterconnectTerminatorTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0060.HTM#transform">transform</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;<A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0055.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A> <A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementationRef">schematicInterconnectTerminatorImplementationRef</A> <A HREF="RMRF0055.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">SchematicInterconnectTerminatorImplementation</A></I> represents the graphical implementation of a terminator on a schematic interconnect. This is sometimes referred to as a "dangling end".
+<H3>Example:</H3>
+<PRE>
+<B>(schematicInterconnectTerminatorImplementation</B>
+<B>   T1</B>
+<B>   (schematicInterconnectTerminatorTemplateRef</B>
+<B>      BUS_END)</B>
+<B>   (transform ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicInterconnectTerminatorImplementationRef">schematicInterconnectTerminatorImplementationRef</A></H1>
+<PRE>
+<I>schematicInterconnectTerminatorImplementationRef ::= '(' 
+&#09;'schematicInterconnectTerminatorImplementationRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameRef">implementationNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A>  *<A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0010.HTM#interconnectRef">interconnectRef</A> <A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A> <A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A> <A HREF="RMRF0055.HTM#schematicInterconnectTerminatorTemplateRef">schematicInterconnectTerminatorTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementationRef">SchematicInterconnectTerminatorImplementationRef</A></I> references a <I><A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicInterconnectTerminatorImplementationRef T1)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A></H1>
+<PRE>
+<I>schematicInterconnectTerminatorTemplate ::= '(' 
+&#09;'schematicInterconnectTerminatorTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0057.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I><A HREF="RMRF0009.HTM#hotspot">hotspot</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0007.HTM#figure">figure</A> | &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | 
+&#09;<A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A> <A HREF="RMRF0055.HTM#schematicInterconnectTerminatorTemplateRef">schematicInterconnectTerminatorTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicInterconnectTerminatorTemplate">SchematicInterconnectTerminatorTemplate</A></I> defines a graphical template to be used to represent a floating end of a bus or net in a schematic drawing. It is permitted to have no graphics at all and so represent just a marker for the CAD system.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicInterconnectTerminatorTemplate</B>
+<B>   BUS_END</B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (hotspot (pt 0 0)</B>
+<B>      (schematicWireAffinity (wideWire))))</B>
+</PRE>
+<P>This example describes a template with no graphical representation.
+<P><HR>
+<H1><A NAME="schematicInterconnectTerminatorTemplateRef">schematicInterconnectTerminatorTemplateRef</A></H1>
+<PRE>
+<I>schematicInterconnectTerminatorTemplateRef ::= '(' 
+&#09;'schematicInterconnectTerminatorTemplateRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0010.HTM#interconnectRef">interconnectRef</A> <A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementationRef">schematicInterconnectTerminatorImplementationRef</A> <A HREF="RMRF0055.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicInterconnectTerminatorTemplateRef">SchematicInterconnectTerminatorTemplateRef</A></I> references a <I><A HREF="RMRF0055.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A></I>.
+<P><HR>
+<H1><A NAME="schematicJunctionImplementation">schematicJunctionImplementation</A></H1>
+<PRE>
+<I>schematicJunctionImplementation ::= '(' 'schematicJunctionImplementation'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0055.HTM#schematicJunctionTemplateRef">schematicJunctionTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0060.HTM#transform">transform</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;<A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0055.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A> <A HREF="RMRF0055.HTM#schematicJunctionImplementationRef">schematicJunctionImplementationRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I> must be co-incident with two or more of the points of its enclosing interconnect.
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>When two or more paths in the same schematic interconnect intersect or touch, a <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I> must be placed at their intersection point and each path should include the intersection point in its <I><A HREF="RMRF0052.HTM#pointList">pointList</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusGraphics">schematicBusGraphics</A></I>, <I><A HREF="RMRF0055.HTM#schematicNetGraphics">schematicNetGraphics</A></I>)
+<BR><BR><DT>3. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I> must be referenced by at least two schematic interconnects in the appropriate net or bus.
+</DL>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I> is used to join two subnets or subbusses belonging to the same <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>. It is also known as a solder dot or tie dot in schematics. 
+<P><I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">SchematicJunctionImplementation</A></I> references a <I><A HREF="RMRF0055.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A></I>, and may be referenced by a <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>. The template is placed graphically on the page using <I><A HREF="RMRF0060.HTM#transform">transform</A></I>.
+<P>There must be at least two points within the interconnect that are coincident with each <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicJunctionImplementation I1 </B>
+<B>   (schematicJunctionTemplateRef TIE)</B>
+<B>   (transform (origin (pt 100 200))))</B>
+</PRE>
+<P>This example places the <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I> with name I1 at (pt 100 200). I1 is an implementation of the <I><A HREF="RMRF0055.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A></I> named TIE.
+<P><HR>
+<H1><A NAME="schematicJunctionImplementationRef">schematicJunctionImplementationRef</A></H1>
+<PRE>
+<I>schematicJunctionImplementationRef ::= '(' 'schematicJunctionImplementationRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameRef">implementationNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A>  *<A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A> <A HREF="RMRF0055.HTM#schematicInstanceImplementationRef">schematicInstanceImplementationRef</A> <A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A> <A HREF="RMRF0055.HTM#schematicJunctionTemplateRef">schematicJunctionTemplateRef</A> <A HREF="RMRF0056.HTM#schematicRipperImplementationRef">schematicRipperImplementationRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicJunctionImplementationRef">SchematicJunctionImplementationRef</A></I> is used to reference a previously-defined <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I> within the same schematic net, bus or bus slice. 
+<P>It is used to associate a <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I> with a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I>, <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>, <I><A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A></I>, etc.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicJunctionImplementationRef I1)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicJunctionTemplate">schematicJunctionTemplate</A></H1>
+<PRE>
+<I>schematicJunctionTemplate ::= '(' 'schematicJunctionTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0057.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I><A HREF="RMRF0009.HTM#hotspot">hotspot</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0007.HTM#figure">figure</A> | &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | 
+&#09;<A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicJunctionTemplateRef">schematicJunctionTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicJunctionTemplate">SchematicJunctionTemplate</A></I> provides a <I><A HREF="RMRF0009.HTM#hotspot">hotspot</A></I> and graphics for use by a <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I>. For schematics, the graphics will typically be either a simple circle to represent a tie dot, or nothing at all.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicJunctionTemplate TIE</B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (hotspot (pt 0 0))</B>
+<B>   (figure GRAPHICS (circle (pt -5 0) (pt 5 0))))</B>
+</PRE>
+<P>This example shows a simple representation of a tie dot for schematics as a circle, with a hotspot at the center.
+<P><HR>
+<H1><A NAME="schematicJunctionTemplateRef">schematicJunctionTemplateRef</A></H1>
+<PRE>
+<I>schematicJunctionTemplateRef ::= '(' 'schematicJunctionTemplateRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicJunctionImplementationRef">schematicJunctionImplementationRef</A> <A HREF="RMRF0055.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A> <A HREF="RMRF0056.HTM#schematicRipperTemplateRef">schematicRipperTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicJunctionTemplateRef">SchematicJunctionTemplateRef</A></I> is used to reference a <I><A HREF="RMRF0055.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A></I>, which is held in a library.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicJunctionTemplateRef TIE </B>
+<B>   (libraryRef SYSTEM))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicMasterPortImplementation">schematicMasterPortImplementation</A></H1>
+<PRE>
+<I>schematicMasterPortImplementation ::= '(' 'schematicMasterPortImplementation'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0055.HTM#schematicMasterPortTemplateRef">schematicMasterPortTemplateRef</A></I>
+&#09;<I>( <A HREF="RMRF0053.HTM#portRef">portRef</A> | <A HREF="RMRF0012.HTM#localPortGroupRef">localPortGroupRef</A> )</I>
+&#09;<I><A HREF="RMRF0060.HTM#transform">transform</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0052.HTM#portAttributeDisplay">portAttributeDisplay</A>&gt; | <A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#page">page</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A> <A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A> <A HREF="RMRF0055.HTM#schematicMasterPortImplementationRef">schematicMasterPortImplementationRef</A> <A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A> <A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> cannot be referenced by more than one <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>.
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>If a <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> references a <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I>, then the <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> must also reference the <I><A HREF="RMRF0052.HTM#port">port</A></I> or <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I> that the <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> implements.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>, <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">SchematicMasterPortImplementation</A></I> references a <I><A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A></I> and associates it with a master port or local port group. It provides an implementation of a <I><A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A></I> that may be used in a <I><A HREF="RMRF0015.HTM#page">page</A></I> to connect a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I> to a master port or local port group. Transform is used to position the <I><A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A></I> in the <I><A HREF="RMRF0015.HTM#page">page</A></I>. 
+<P>The association between the <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> and a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I> is made by the <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>. 
+<P>It is possible to have a <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> without any reference to it from any <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>. This would represent a 'floating' connector, which is yet to be connected.
+<P><I><A HREF="RMRF0052.HTM#portAttributeDisplay">PortAttributeDisplay</A></I> is used to display the name and other attributes of the port which is referenced by the <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(cluster C1 </B>
+<B>   (interface ... (port VCCA ...) ...)</B>
+<B>   (clusterHeader)</B>
+<B>   (schematicView view1</B>
+<B>      (schematicViewHeader ...)</B>
+<B>      (logicalConnectivity ...</B>
+<B>         (signal sigVCC </B>
+<B>            (signalJoined </B>
+<B>               (portRef VCCA) ... )))</B>
+<B>      </B>
+<B>      (schematicImplementation</B>
+<B>         (page &amp;1 ...</B>
+<B>            (schematicMasterPortImplementation I1</B>
+<B>               (schematicMasterPortTemplateRef ...)</B>
+<B>               (portRef VCCA)</B>
+<B>               (transform (origin (pt 100 200))))</B>
+<B>            (schematicNet VCC</B>
+<B>               (signalRef sigVCC)</B>
+<B>               (schematicInterconnectHeader ...)</B>
+<B>               (schematicNetJoined</B>
+<B>                  (joinedAsSignal)</B>
+<B>                  (schematicMasterPortImplementationRef </B>
+<B>                     I1) ...) ...) ...) ...) ...))</B>
+</PRE>
+<P>In this example, a <I><A HREF="RMRF0052.HTM#port">port</A></I> VCCA is declared in the <I><A HREF="RMRF0010.HTM#interface">interface</A></I> of the <I><A HREF="RMRF0002.HTM#cluster">cluster</A></I>. This <I><A HREF="RMRF0052.HTM#port">port</A></I> is referenced from <I><A HREF="RMRF0058.HTM#signal">signal</A></I> sigVCC and from the <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> I1. In the <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> VCC, the <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> I1 is referenced, as is the <I><A HREF="RMRF0058.HTM#signal">signal</A></I> sigVCC. These references are consistent with one another.
+<P><HR>
+<H1><A NAME="schematicMasterPortImplementationRef">schematicMasterPortImplementationRef</A></H1>
+<PRE>
+<I>schematicMasterPortImplementationRef ::= '(' 'schematicMasterPortImplementationRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameRef">implementationNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A>  *<A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0053.HTM#portRef">portRef</A> <A HREF="RMRF0055.HTM#schematicGlobalPortImplementationRef">schematicGlobalPortImplementationRef</A> <A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A> <A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A> <A HREF="RMRF0055.HTM#schematicMasterPortTemplateRef">schematicMasterPortTemplateRef</A> <A HREF="RMRF0057.HTM#schematicSymbolPortImplementationRef">schematicSymbolPortImplementationRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicMasterPortImplementationRef">SchematicMasterPortImplementationRef</A></I> is a reference to a <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I>. It is used to reference a <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> from within a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I> to establish connectivity between a master port and the <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicMasterPortImplementationRef I1)</B>
+</PRE>
+<P>This example references a <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> with implementation name I1.
+<P><HR>
+<H1><A NAME="schematicMasterPortTemplate">schematicMasterPortTemplate</A></H1>
+<PRE>
+<I>schematicMasterPortTemplate ::= '(' 'schematicMasterPortTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0057.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I><A HREF="RMRF0009.HTM#hotspot">hotspot</A></I>
+&#09;<I><A HREF="RMRF0052.HTM#portDirectionIndicator">portDirectionIndicator</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0007.HTM#figure">figure</A> | &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0052.HTM#portAttributeDisplay">portAttributeDisplay</A>&gt; | <A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A> | 
+&#09;&lt;<A HREF="RMRF0056.HTM#schematicPortStyle">schematicPortStyle</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A> <A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A> <A HREF="RMRF0055.HTM#schematicMasterPortTemplateRef">schematicMasterPortTemplateRef</A> <A HREF="RMRF0057.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicMasterPortTemplate">SchematicMasterPortTemplate</A></I> is a template definition for use in <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementations</A></I>. It allows a graphical representation of a port to be defined. It occurs as a library object within a library.
+<P>Display slots may be defined to display the attributes of the master port with which the template is associated by the <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> form.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicMasterPortTemplate IN_PORT</B>
+<B>   (schematicTemplateHeader </B>
+<B>      (schematicUnits ...) ...)</B>
+<B>   (hotspot (pt 0 0))</B>
+<B>   (input)</B>
+<B>   (figure LINES </B>
+<B>      (polygon </B>
+<B>         (pointList (pt 0 0) (pt -10 10) (pt -40 10)</B>
+<B>            (pt -40 -10) (pt -10 -10) (pt 0 0)))))</B>
+</PRE>
+<P>This example shows a <I><A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A></I> named IN_PORT with a <I><A HREF="RMRF0009.HTM#hotspot">hotspot</A></I> at (pt 0 0) and some graphics to represent an input-port symbol, as shown below.
+<P><CENTER><IMG SRC="FIG0042.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="schematicMasterPortTemplateRef">schematicMasterPortTemplateRef</A></H1>
+<PRE>
+<I>schematicMasterPortTemplateRef ::= '(' 'schematicMasterPortTemplateRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0053.HTM#portRef">portRef</A> <A HREF="RMRF0055.HTM#schematicGlobalPortTemplateRef">schematicGlobalPortTemplateRef</A> <A HREF="RMRF0055.HTM#schematicMasterPortImplementationRef">schematicMasterPortImplementationRef</A> <A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A> <A HREF="RMRF0057.HTM#schematicSymbolPortTemplateRef">schematicSymbolPortTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicMasterPortTemplateRef">SchematicMasterPortTemplateRef</A></I> is used to reference a <I><A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicMasterPortTemplateRef IN_PORT</B>
+<B>   (libraryRef SYSTEM))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicMetric">schematicMetric</A></H1>
+<PRE>
+<I>schematicMetric ::= '(' 'schematicMetric'</I>
+&#09;<I><A HREF="RMRF0058.HTM#setDistance">setDistance</A></I>
+&#09;<I>( <A HREF="RMRF0009.HTM#hotspotGrid">hotspotGrid</A> | <A HREF="RMRF0014.HTM#noHotspotGrid">noHotspotGrid</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0014.HTM#nominalHotspotGrid">nominalHotspotGrid</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0056.HTM#schematicRequiredDefaults">schematicRequiredDefaults</A>  &lt;<A HREF="RMRF0057.HTM#schematicUnits">schematicUnits</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicMetric">SchematicMetric</A></I> establishes scaling for schematics and schematics symbols. It may also declare a grid for hotspots.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicMetric</B>
+<B>   (setDistance (unitRef mm_10))</B>
+<B>   (hotspotGrid 50))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="schematicNet">schematicNet</A></H1>
+<PRE>
+<I>schematicNet ::= '(' 'schematicNet'</I>
+&#09;<I><A HREF="RMRF0010.HTM#interconnectNameDef">interconnectNameDef</A></I>
+&#09;<I><A HREF="RMRF0058.HTM#signalRef">signalRef</A></I>
+&#09;<I><A HREF="RMRF0055.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A></I>
+&#09;<I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0055.HTM#schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0055.HTM#schematicNetDetails">schematicNetDetails</A>&gt; | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#page">page</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicNetGraphics">schematicNetGraphics</A> <A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A> <A HREF="RMRF0057.HTM#schematicSubNetSet">schematicSubNetSet</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0009.HTM#hotspot">hotspot</A></I> may not be referenced by more than one <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0009.HTM#hotspot">hotspot</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> is a structured representation of connectivity. Structural connectivity allows the ordering of <I><A HREF="RMRF0052.HTM#port">ports</A></I> to be described, and makes an association between <I><A HREF="RMRF0058.HTM#signal">signals</A></I>, <I><A HREF="RMRF0052.HTM#port">ports</A></I> and the <I><A HREF="RMRF0009.HTM#hotspot">hotspots</A></I> of objects that can be instantiated. Each <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> is associated with a single <I><A HREF="RMRF0058.HTM#signal">signal</A></I> and with single-bit <I><A HREF="RMRF0052.HTM#port">ports</A></I>.
+<P><I><A HREF="RMRF0055.HTM#schematicNetDetails">SchematicNetDetails</A></I> provides further details of the net, either in the form of a graphical representation, or as a set of subnets. The <I><A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNets</A></I> within a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> provide further information on the structure of the connectivity.
+<P><I><A HREF="RMRF0055.HTM#schematicNetGraphics">SchematicNetGraphics</A></I> gives details of the graphical implementation of a net.
+<P>Two nets with different names on a page may reference the same signal. This means that the two nets are electrically connected. 
+<H3>Example:</H3>
+<PRE>
+<B>(page &amp;1 ...</B>
+<B>   (schematicNet NET1 </B>
+<B>      (signalRef SIG1)</B>
+<B>      (schematicInterconnectHeader ...)</B>
+<B>      (schematicNetJoined </B>
+<B>         (portJoined </B>
+<B>            (portRef MP1) </B>
+<B>            (portInstanceRef P1 (instanceRef I1)))</B>
+<B>         (ripperHotspotRef ...)</B>
+<B>         ...)</B>
+<B>      (schematicNetDetails</B>
+<B>         (schematicNetGraphics </B>
+<B>            (figure GRAPHICS </B>
+<B>               (path </B>
+<B>                  (pointList </B>
+<B>                     (pt 100 200) </B>
+<B>                     (pt 300 200))))))</B>
+<B>      ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>This example defines a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> called NET1 which provides the structural connectivity and implementation for all or part of the signal SIG1. The <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> NET1 is implemented using a single line from (pt 100 200) to (pt 300 200).
+<P><HR>
+<H1><A NAME="schematicNetDetails">schematicNetDetails</A></H1>
+<PRE>
+<I>schematicNetDetails ::= '(' 'schematicNetDetails'</I>
+&#09;<I>( <A HREF="RMRF0055.HTM#schematicNetGraphics">schematicNetGraphics</A> | <A HREF="RMRF0057.HTM#schematicSubNetSet">schematicSubNetSet</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0055.HTM#schematicNet">schematicNet</A>  &lt;<A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicNetDetails">SchematicNetDetails</A></I> specifies the details of a schematic net or subnet either as graphics, using <I><A HREF="RMRF0055.HTM#schematicNetGraphics">schematicNetGraphics</A></I>, or as a further set of subnets using <I><A HREF="RMRF0057.HTM#schematicSubNetSet">schematicSubNetSet</A></I>.
+<P><HR>
+<H1><A NAME="schematicNetGraphics">schematicNetGraphics</A></H1>
+<PRE>
+<I>schematicNetGraphics ::= '(' 'schematicNetGraphics'</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0007.HTM#figure">figure</A> | <A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0055.HTM#schematicNetDetails">schematicNetDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The graphics associated with a schematic interconnect may only be described using the <I><A HREF="RMRF0016.HTM#path">path</A></I> construct, either directly with <I><A HREF="RMRF0007.HTM#figure">figure</A></I> or indirectly through the use of <I><A HREF="RMRF0002.HTM#complexGeometry">complexGeometry</A></I> or <I><A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusGraphics">schematicBusGraphics</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0016.HTM#path">path</A></I> used to represent the graphics of a schematic interconnect must end at a <I><A HREF="RMRF0009.HTM#hotspot">hotspot</A></I> or in space, i.e. it must not touch the graphics of another interconnect or instantiatable object.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusGraphics">schematicBusGraphics</A></I>)
+<BR><BR><DT>3. The following constraint applies to this context:  All contexts  
+<DD>When two paths from different nets or busses cross, the point of intersection should not appear in the <I><A HREF="RMRF0052.HTM#pointList">pointList</A></I> of any of the paths used to represent the net or bus graphics.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusGraphics">schematicBusGraphics</A></I>)
+<BR><BR><DT>4. The following constraint applies to this context:  All contexts  
+<DD>Segments of different paths in a schematic interconnect should not lie on top of each other.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusGraphics">schematicBusGraphics</A></I>)
+<BR><BR><DT>5. The following constraint applies to this context:  All contexts  
+<DD>When two or more paths in the same schematic interconnect intersect or touch, a <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I> must be placed at their intersection point and each path should include the intersection point in its <I><A HREF="RMRF0052.HTM#pointList">pointList</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusGraphics">schematicBusGraphics</A></I>, <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicNetGraphics">SchematicNetGraphics</A></I> is used to describe the graphics of a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicNet NET1 </B>
+<B>   (signalRef SIG1)</B>
+<B>   (schematicInterconnectHeader ...)</B>
+<B>   (schematicNetJoined </B>
+<B>      (portJoined </B>
+<B>         (portRef MP1) </B>
+<B>         (portInstanceRef P1 (instanceRef I1)))</B>
+<B>      (ripperHotspotRef ...)</B>
+<B>      ...)</B>
+<B>   (schematicNetDetails</B>
+<B>      (schematicNetGraphics </B>
+<B>         (figure GRAPHICS </B>
+<B>            (path </B>
+<B>               (pointList </B>
+<B>                  (pt 100 200) </B>
+<B>                  (pt 300 200))))))</B>
+<B>   ...)</B>
+</PRE>
+<P>This example defines a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> called NET1 which gives the structural connectivity and implementation for all or part of the signal SIG1. The <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> NET1 is implemented within <I><A HREF="RMRF0055.HTM#schematicNetGraphics">schematicNetGraphics</A></I> using a single line from (pt 100 200) to (pt 300 200).
+<P><HR>
+<H1><A NAME="schematicNetJoined">schematicNetJoined</A></H1>
+<PRE>
+<I>schematicNetJoined ::= '(' 'schematicNetJoined'</I>
+&#09;<I>( <A HREF="RMRF0052.HTM#portJoined">portJoined</A> | <A HREF="RMRF0011.HTM#joinedAsSignal">joinedAsSignal</A> )</I>
+&#09;<I>{ <A HREF="RMRF0054.HTM#ripperHotspotRef">ripperHotspotRef</A> | <A HREF="RMRF0055.HTM#schematicGlobalPortImplementationRef">schematicGlobalPortImplementationRef</A> | 
+&#09;<A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementationRef">schematicInterconnectTerminatorImplementationRef</A> | 
+&#09;<A HREF="RMRF0055.HTM#schematicJunctionImplementationRef">schematicJunctionImplementationRef</A> | 
+&#09;<A HREF="RMRF0055.HTM#schematicMasterPortImplementationRef">schematicMasterPortImplementationRef</A> | 
+&#09;<A HREF="RMRF0056.HTM#schematicOffPageConnectorImplementationRef">schematicOffPageConnectorImplementationRef</A> | 
+&#09;<A HREF="RMRF0056.HTM#schematicOnPageConnectorImplementationRef">schematicOnPageConnectorImplementationRef</A> | 
+&#09;<A HREF="RMRF0057.HTM#schematicSymbolPortImplementationRef">schematicSymbolPortImplementationRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0055.HTM#schematicNet">schematicNet</A>  !<A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>If a <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> references a <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I> then the <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> must also reference the <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> or <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> that the <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I> implements.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>, <I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>Each <I><A HREF="RMRF0052.HTM#port">port</A></I> or <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I> on an <I><A HREF="RMRF0009.HTM#instance">instance</A></I> that is joined in a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I> must belong to an <I><A HREF="RMRF0009.HTM#instance">instance</A></I> for which there is a <I><A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A></I> in the <I><A HREF="RMRF0015.HTM#page">page</A></I> that encloses the interconnect.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>, <I><A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A></I>)
+<BR><BR><DT>3. The following constraint applies to this context:  All contexts  
+<DD>If a <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> references a <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I>, then the <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> must also reference the <I><A HREF="RMRF0052.HTM#port">port</A></I> or <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I> that the <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> implements.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>, <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I>)
+<BR><BR><DT>4. The following constraint applies to this context:  All contexts  
+<DD>The ports (<I><A HREF="RMRF0052.HTM#port">port</A></I> and <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>) referenced by a net (<I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A></I>, <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A></I>) must be a subset of the ports referenced by the <I><A HREF="RMRF0058.HTM#signal">signal</A></I> associated with the net.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A></I>, <I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A></I>)
+<BR><BR><DT>5. The following constraint applies to this context:  All contexts  
+
+<DD>The ports (<I><A HREF="RMRF0052.HTM#port">port</A></I>, <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I>, <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, <I><A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A></I> and <I><A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A></I>), rippers (<I><A HREF="RMRF0054.HTM#ripperHotspot">ripperHotspot</A></I>) and instantiatable schematic objects (<I><A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A></I>, <I><A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A></I>, <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I>, <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I>, <I><A HREF="RMRF0056.HTM#schematicOffPageConnectorImplementation">schematicOffPageConnectorImplementation</A></I>, <I><A HREF="RMRF0056.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A></I> and <I><A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I>) referenced in a sub interconnect (<I><A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A></I> and <I><A HREF="RMRF0056.HTM#schematicSubBus">schematicSubBus</A></I>) must be a subset of those referenced in the parent interconnect (<I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I>, <I><A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A></I>, <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>, <I><A HREF="RMRF0056.HTM#schematicSubBus">schematicSubBus</A></I> and <I><A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A></I>).
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>, <I><A HREF="RMRF0056.HTM#schematicSubBus">schematicSubBus</A></I>, <I><A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A></I>)
+<BR><BR><DT>6. The following constraint applies to this context:  All contexts  
+<DD>If a <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> references a <I><A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I> then the <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> or <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> must also reference the <I><A HREF="RMRF0009.HTM#instance">instance</A></I> <I><A HREF="RMRF0052.HTM#port">port</A></I> or <I><A HREF="RMRF0052.HTM#portBundle">portBundle</A></I> that the <I><A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I> implements.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I>, <I><A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0055.HTM#schematicNetJoined">SchematicNetJoined</A></I> lists all the <I><A HREF="RMRF0052.HTM#port">ports</A></I> and <I><A HREF="RMRF0009.HTM#hotspot">hotspots</A></I> that are connected to the <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I>, or <I><A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A></I>. It is analogous to <I><A HREF="RMRF0054.HTM#schematicBusJoined">schematicBusJoined</A></I> in <I><A HREF="RMRF0054.HTM#schematicBus">schematicBus</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicNetJoined </B>
+<B>   (portJoined </B>
+<B>      (portRef MP1) </B>
+<B>      (portInstanceRef P1 (instanceRef I1)))</B>
+<B>   (schematicJunctionImplementationRef J1)</B>
+<B>   ...)</B>
+</PRE>
+<P>This <I><A HREF="RMRF0055.HTM#schematicNetJoined">schematicNetJoined</A></I> indicates that the master <I><A HREF="RMRF0052.HTM#port">port</A></I> MP1, the <I><A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A></I> J1 and the <I><A HREF="RMRF0009.HTM#instance">instance</A></I> <I><A HREF="RMRF0052.HTM#port">port</A></I> P1 are connected into this <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I>.
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

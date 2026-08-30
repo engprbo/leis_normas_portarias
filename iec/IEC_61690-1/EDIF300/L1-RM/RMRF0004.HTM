@@ -1,0 +1,668 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="dayNumber">dayNumber</A></H1>
+<PRE>
+<I>dayNumber ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0003.HTM#date">date</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#dayNumber">DayNumber</A></I> represents a number of days within <I><A HREF="RMRF0024.HTM#timeStamp">timeStamp</A></I>. Its value must be a minimum of 1 and maximum of 31. It is further restricted according to the associated <I><A HREF="RMRF0014.HTM#monthNumber">monthNumber</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0008.HTM#hourNumber">hourNumber</A> <A HREF="RMRF0014.HTM#minuteNumber">minuteNumber</A> <A HREF="RMRF0014.HTM#monthNumber">monthNumber</A> <A HREF="RMRF0022.HTM#secondNumber">secondNumber</A> <A HREF="RMRF0027.HTM#yearNumber">yearNumber</A> 
+</I>
+<P><HR>
+<H1><A NAME="dcFanInLoad">dcFanInLoad</A></H1>
+<PRE>
+<I>dcFanInLoad ::= '(' 'dcFanInLoad'</I>
+&#09;<I><A HREF="RMRF0015.HTM#numberValue">numberValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#bidirectionalPortAttributes">bidirectionalPortAttributes</A>  <A HREF="RMRF0015.HTM#outputPortAttributes">outputPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcFanInLoad">DcFanInLoad</A> </I>is used to specify an EDIF attribute of ports. The value specified is used to compute the fan-in load contributed by an output port or bidirectional port. No units are specified for this quantity. See <I><A HREF="RMRF0004.HTM#dcMaxFanIn">dcMaxFanIn</A> </I>for a further description.
+<P><I><A HREF="RMRF0015.HTM#numberValue">NumberValue</A></I> must be greater than or equal to zero.
+<H3>Example:</H3>
+<PRE>
+<B>    (dcFanInLoad 25)</B>
+</PRE>
+<P>The above example specifies a port to have a <I><A HREF="RMRF0004.HTM#dcFanInLoad">dcFanInLoad</A> </I>value of <B>25. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcFanInLoadDisplay">dcFanInLoadDisplay</A>  <A HREF="RMRF0004.HTM#dcFanOutLoad">dcFanOutLoad</A>  <A HREF="RMRF0004.HTM#dcMaxFanIn">dcMaxFanIn</A>  <A HREF="RMRF0004.HTM#dcMaxFanOut">dcMaxFanOut</A>
+</I>
+<P><HR>
+<H1><A NAME="dcFanInLoadDisplay">dcFanInLoadDisplay</A></H1>
+<PRE>
+<I>dcFanInLoadDisplay ::= '(' 'dcFanInLoadDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcFanInLoadDisplay">DcFanInLoadDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0004.HTM#dcFanInLoad">dcFanInLoad</A></I>. When used in the context of any implementation, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcFanInLoad">dcFanInLoad</A>
+</I>
+<P><HR>
+<H1><A NAME="dcFanOutLoad">dcFanOutLoad</A></H1>
+<PRE>
+<I>dcFanOutLoad ::= '(' 'dcFanOutLoad'</I>
+&#09;<I><A HREF="RMRF0015.HTM#numberValue">numberValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#bidirectionalPortAttributes">bidirectionalPortAttributes</A>  <A HREF="RMRF0009.HTM#inputPortAttributes">inputPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcFanOutLoad">DcFanOutLoad</A> </I>specifies an EDIF attribute of ports. The value specified is the fan-out load on an input port or bidirectional port. No units are specified for this quantity. See <I><A HREF="RMRF0004.HTM#dcMaxFanOut">dcMaxFanOut</A> </I>for further description.
+<P><I><A HREF="RMRF0015.HTM#numberValue">NumberValue</A></I> must be greater than or equal to zero.
+<H3>Example:</H3>
+<PRE>
+<B>(dcFanOutLoad 30)</B>
+</PRE>
+<P>The above example specifies that the fan-out load of a port is <B>30. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcFanInLoad">dcFanInLoad</A>  <A HREF="RMRF0004.HTM#dcFanOutLoadDisplay">dcFanOutLoadDisplay</A>   <A HREF="RMRF0004.HTM#dcMaxFanIn">dcMaxFanIn</A>  <A HREF="RMRF0004.HTM#dcMaxFanOut">dcMaxFanOut</A>
+</I>
+<P><HR>
+<H1><A NAME="dcFanOutLoadDisplay">dcFanOutLoadDisplay</A></H1>
+<PRE>
+<I>dcFanOutLoadDisplay ::= '(' 'dcFanOutLoadDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcFanOutLoadDisplay">DcFanOutLoadDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0004.HTM#dcFanOutLoad">dcFanOutLoad</A></I>. When used in the context of any implementation, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcFanOutLoad">dcFanOutLoad</A>
+</I>
+<P><HR>
+<H1><A NAME="dcMaxFanIn">dcMaxFanIn</A></H1>
+<PRE>
+<I>dcMaxFanIn ::= '(' 'dcMaxFanIn'</I>
+&#09;<I><A HREF="RMRF0015.HTM#numberValue">numberValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#bidirectionalPortAttributes">bidirectionalPortAttributes</A>  <A HREF="RMRF0009.HTM#inputPortAttributes">inputPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcMaxFanIn">DcMaxFanIn</A> </I>is used to specify the maximum allowed fan-in load of an input port or a bidirectional port. This is an upper limit for the accumulated fan-in loads contributed by all ports that drive the port under consideration. No units are specified for this quantity.
+<P><I><A HREF="RMRF0015.HTM#numberValue">NumberValue</A></I> must be greater than or equal to zero.
+<H3>Example:</H3>
+<PRE>
+<B>(dcMaxFanIn 100)</B>
+</PRE>
+<P>The above example specifies that the DC fan-in limit of a port is <B>100. </B>When used in a particular net, the sum of the <I><A HREF="RMRF0004.HTM#dcFanInLoad">dcFanInLoad</A> </I>values of other ports must not exceed <B>100. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcFanInLoad">dcFanInLoad</A>  <A HREF="RMRF0004.HTM#dcFanOutLoad">dcFanOutLoad</A>  <A HREF="RMRF0004.HTM#dcMaxFanOut">dcMaxFanOut</A>
+</I>
+<P><HR>
+<H1><A NAME="dcMaxFanInDisplay">dcMaxFanInDisplay</A></H1>
+<PRE>
+<I>dcMaxFanInDisplay ::= '(' 'dcMaxFanInDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcMaxFanInDisplay">DcMaxFanInDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0004.HTM#dcMaxFanIn">dcMaxFanIn</A></I>. When used in the context of any implementation, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcMaxFanIn">dcMaxFanIn</A>
+</I>
+<P><HR>
+<H1><A NAME="dcMaxFanOut">dcMaxFanOut</A></H1>
+<PRE>
+<I>dcMaxFanOut ::= '(' 'dcMaxFanOut'</I>
+&#09;<I><A HREF="RMRF0015.HTM#numberValue">numberValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#bidirectionalPortAttributes">bidirectionalPortAttributes</A>  <A HREF="RMRF0015.HTM#outputPortAttributes">outputPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcMaxFanOut">DcMaxFanOut</A> </I>is a <I><A HREF="RMRF0017.HTM#port">port</A> </I>attribute used to specify the maximum fan-out capability of an output port or bidirectional port. This is an upper limit of all the accumulated fan-out load values in all input ports or bidirectional ports which it drives. No units are specified for this quantity.
+<P><I><A HREF="RMRF0015.HTM#numberValue">NumberValue</A></I> must be greater than or equal to zero.
+<H3>Example:</H3>
+<PRE>
+<B>(dcMaxFanOut 100)</B>
+</PRE>
+<P>The above example specifies that the maximum DC fan-out capability of a port is <B>100. </B>When the port is included in a particular net, the sum of the <I><A HREF="RMRF0004.HTM#dcFanOutLoad">dcFanOutLoad</A> </I>values of other ports in the net should not exceed <B>100. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcFanInLoad">dcFanInLoad</A>  <A HREF="RMRF0004.HTM#dcFanOutLoad">dcFanOutLoad</A>  <A HREF="RMRF0004.HTM#dcMaxFanIn">dcMaxFanIn</A>
+</I>
+<P><HR>
+<H1><A NAME="dcMaxFanOutDisplay">dcMaxFanOutDisplay</A></H1>
+<PRE>
+<I>dcMaxFanOutDisplay ::= '(' 'dcMaxFanOutDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcMaxFanOutDisplay">DcMaxFanOutDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0004.HTM#dcMaxFanOut">dcMaxFanOut</A>.</I> When used in the context of any implementation, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dcMaxFanOut">dcMaxFanOut</A>
+</I>
+<P><HR>
+<H1><A NAME="decimalToString">decimalToString</A></H1>
+<PRE>
+<I>decimalToString ::= '(' 'decimalToString'</I>
+&#09;<I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0013.HTM#minimumStringLength">minimumStringLength</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0024.HTM#stringExpression">stringExpression</A>  
+</I>
+<H3>Description:</H3>
+<P>Returns a decimal string which represents the value of the <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I>. The <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I> must be greater than or equal to zero. The default minimum string length is one. There is no sign character in the returned string and the <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I> must be positive or zero.
+<H3>Example:</H3>
+<PRE>
+<B>(decimalToString 23)</B>
+</PRE>
+<P>The above example returns "23".
+<PRE>
+<B>(decimalToString (integerSum 3 8))</B>
+</PRE>
+<P>The above example returns "11".
+<PRE>
+<B>(decimalToString 0)</B>
+</PRE>
+<P>The above example returns "0".
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0024.HTM#stringLength">stringLength</A>
+</I>
+<P><HR>
+<H1><A NAME="defaultClusterConfiguration">defaultClusterConfiguration</A></H1>
+<PRE>
+<I>defaultClusterConfiguration ::= '(' 'defaultClusterConfiguration'</I>
+&#09;<I><A HREF="RMRF0002.HTM#clusterConfigurationNameRef">clusterConfigurationNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P>It is not mandatory to specify an <I><A HREF="RMRF0009.HTM#instanceConfiguration">instanceConfiguration</A></I> for each instance. During the specification of configuration, if an instance has no associated <I><A HREF="RMRF0009.HTM#instanceConfiguration">instanceConfiguration</A></I>, the default cluster configuration of its instantiated cluster is assumed and must be present.
+<H3>Example:</H3>
+<PRE>
+<B>(cluster BASIC </B>
+<B>   (interface ... )</B>
+<B>   (clusterHeader ...)</B>
+<B>   (defaultClusterConfiguration C1)</B>
+<B>   ...)</B>
+</PRE>
+<P>The example specifies a <I><A HREF="RMRF0004.HTM#defaultClusterConfiguration">defaultClusterConfiguration</A></I> of <B>C1</B>. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>  <A HREF="RMRF0009.HTM#instanceConfiguration">instanceConfiguration</A>  <A HREF="RMRF0025.HTM#unconfigured">unconfigured</A>
+</I>
+<P><HR>
+<H1><A NAME="defaultConnection">defaultConnection</A></H1>
+<PRE>
+<I>defaultConnection ::= '(' 'defaultConnection'</I>
+&#09;<I><A HREF="RMRF0008.HTM#globalPortRef">globalPortRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#port">port</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#defaultConnection">DefaultConnection</A></I> is used in the definition of a <I><A HREF="RMRF0017.HTM#port">port</A></I> to specify that an instance of the <I><A HREF="RMRF0017.HTM#port">port</A></I> connects to the <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> referenced by <I><A HREF="RMRF0008.HTM#globalPortRef">globalPortRef</A></I>, unless explicitly joined to a <I><A HREF="RMRF0023.HTM#signal">signal</A></I> by a <I><A HREF="RMRF0017.HTM#portInstanceRef">portInstanceRef</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(port GND (bidirectionalPort)</B>
+<B>   (defaultConnection (globalPortRef GROUND)))</B>
+</PRE>
+<P>Here, the <I><A HREF="RMRF0017.HTM#port">port</A></I> <B>GND</B> is by default connected to the global port <B>GROUND</B>.  This means that all instances of the <I><A HREF="RMRF0017.HTM#port">port</A></I> <B>GND</B> are connected to the global port <B>GROUND</B>, unless the port instance is explicitly joined to a <I><A HREF="RMRF0023.HTM#signal">signal</A></I> by a <I><A HREF="RMRF0017.HTM#portInstanceRef">portInstanceRef</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portInstanceRef">portInstanceRef</A>  <A HREF="RMRF0023.HTM#signal">signal</A>  <A HREF="RMRF0023.HTM#signalJoined">signalJoined</A>
+</I>
+<P><HR>
+<H1><A NAME="degree">degree</A></H1>
+<PRE>
+<I>degree ::= '(' 'degree'</I>
+&#09;<I><A HREF="RMRF0025.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0025.HTM#unit">unit</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#degree">Degree</A> </I>is used to specify a user-defined unit in terms of the plane angle unit degree, which is not an SI unit but is in common usage. See <I><A HREF="RMRF0025.HTM#unit">unit</A></I> for examples of the definition of units.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0018.HTM#radian">radian</A> 
+</I>
+<P><HR>
+<H1><A NAME="delay">delay</A></H1>
+<PRE>
+<I>delay ::= '(' 'delay'</I>
+&#09;<I><A HREF="RMRF0024.HTM#timeDelay">timeDelay</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#interconnectDelay">interconnectDelay</A>  <A HREF="RMRF0016.HTM#pathDelay">pathDelay</A>  <A HREF="RMRF0017.HTM#portDelay">portDelay</A>  <A HREF="RMRF0017.HTM#portDelayOverride">portDelayOverride</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#delay">Delay</A> </I>is used to specify the amount of delay associated with propagating a signal. The value may be a single time value or a range of time values, specified with a <I><A HREF="RMRF0014.HTM#miNoMaxValue">miNoMaxValue</A>. </I>Values are scaled using the scale determined by <I><A HREF="RMRF0023.HTM#setTime">setTime</A>. 
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(delay (mnm (e 55 -1) (undefined) (undefined)))</B>
+</PRE>
+<P>The example specifies a minimum delay of <B>5.5 </B>time units; nominal and maximum delays are undefined. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0013.HTM#loadDelay">loadDelay</A> 
+</I>
+<P><HR>
+<H1><A NAME="denominator">denominator</A></H1>
+<PRE>
+<I>denominator ::= <A HREF="RMRF0010.HTM#integerValue">integerValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#scaleX">scaleX</A>  <A HREF="RMRF0019.HTM#scaleY">scaleY</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0004.HTM#denominator">denominator</A></I> is used in a scale value, which is represented as a numerator and denominator. The value is obtained by dividing the numerator by the denominator. The denominator must not be equal to zero.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0015.HTM#numerator">numerator</A>
+</I>
+<P><HR>
+<H1><A NAME="derivation">derivation</A></H1>
+<PRE>
+<I>derivation ::= ( <A HREF="RMRF0001.HTM#calculated">calculated</A> | <A HREF="RMRF0013.HTM#measured">measured</A> | <A HREF="RMRF0018.HTM#required">required</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#interconnectDelay">interconnectDelay</A>  <A HREF="RMRF0017.HTM#portDelay">portDelay</A>  <A HREF="RMRF0017.HTM#portDelayOverride">portDelayOverride</A>  <A HREF="RMRF0017.HTM#portLoadDelay">portLoadDelay</A>  <A HREF="RMRF0017.HTM#portLoadDelayOverride">portLoadDelayOverride</A>  <A HREF="RMRF0024.HTM#timing">timing</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#derivation">Derivation</A></I> specifies how a value has been derived. It may have been calculated or measured, or is a required value.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#calculated">calculated</A>  <A HREF="RMRF0013.HTM#measured">measured</A>  <A HREF="RMRF0018.HTM#required">required</A>
+</I>
+<P><HR>
+<H1><A NAME="derivedFrom">derivedFrom</A></H1>
+<PRE>
+<I>derivedFrom ::= '(' 'derivedFrom'</I>
+&#09;<I><A HREF="RMRF0026.HTM#viewRef">viewRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0018.HTM#reason">reason</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityViewHeader">connectivityViewHeader</A>  <A HREF="RMRF0022.HTM#schematicSymbolHeader">schematicSymbolHeader</A>  <A HREF="RMRF0022.HTM#schematicViewHeader">schematicViewHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#derivedFrom">DerivedFrom</A></I> may be used in the context of a view to indicate that this view is derived from another view which is specified by <I><A HREF="RMRF0026.HTM#viewRef">viewRef</A></I>. The view from which this is derived must come from the same cell, i.e. there must be no <I><A HREF="RMRF0001.HTM#cellRef">cellRef</A></I> within the <I><A HREF="RMRF0026.HTM#viewRef">viewRef</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(cluster C1</B>
+<B>   (interface ...)</B>
+<B>   (clusterHeader ...)</B>
+<B>   (schematicView SCHEMATIC ...)</B>
+<B>   (connectivityView FLAT_NET</B>
+<B>      (connectivityViewHeader</B>
+<B>         (connectivityUnits)</B>
+<B>         (derivedFrom (viewRef SCHEMATIC)</B>
+<B>            (reason "Flattened schematic")))</B>
+<B>      ...))</B>
+</PRE>
+<P>In this example, <I><A HREF="RMRF0004.HTM#derivedFrom">derivedFrom</A></I> is used to indicate that the connectivity view <B>FLAT_NET</B> is derived from a view named <B>SCHEMATIC</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0018.HTM#previousVersion">previousVersion</A>  
+</I>
+<P><HR>
+<H1><A NAME="design">design</A></H1>
+<PRE>
+<I>design ::= '(' 'design'</I>
+&#09;<I><A HREF="RMRF0004.HTM#designNameDef">designNameDef</A></I>
+&#09;<I><A HREF="RMRF0001.HTM#cellRef">cellRef</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#designHeader">designHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0004.HTM#designHierarchy">designHierarchy</A> | <A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#edif">edif</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#design">Design</A> </I>identifies the cell at the top level of the hierarchy of a particular design within a library. Since a single EDIF file may contain many designs, the reader/translator must know the name of the design and view to be processed if only a single design is desired.
+<P>Within <I><A HREF="RMRF0004.HTM#design">design</A>, </I>the <I><A HREF="RMRF0001.HTM#cellRef">cellRef</A> </I>must always contain a <I><A HREF="RMRF0013.HTM#libraryRef">libraryRef</A>, </I>as no <I><A HREF="RMRF0001.HTM#cell">cells</A> </I>are directly visible from that context.
+<P>Design also contains design hierarchies and annotation data for any particular view in the <I><A HREF="RMRF0001.HTM#cell">cell</A></I> referenced by <I><A HREF="RMRF0001.HTM#cellRef">cellRef</A></I>.
+<P>If <I><A HREF="RMRF0004.HTM#design">design</A></I> is omitted from EDIF data, then the data allows the transfer of library information only. It is invalid to interpret any cell, in any library, other than ones referenced directly by designs as the top of a design hierarchy.
+<H3>Example:</H3>
+<PRE>
+<B>(design root</B>
+<B>   (cellRef TopOfDesignCell</B>
+<B>      (libraryRef CMOSLibrary))</B>
+<B>   (designHeader ...))</B>
+</PRE>
+<P>In the above example, the design <B>root </B>is specified to start at the cell named <B>TopOfDesignCell, </B>which can be found in the library called <B>CMOSLibrary. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#cell">cell</A>  <A HREF="RMRF0001.HTM#cellRef">cellRef</A>  <A HREF="RMRF0012.HTM#library">library</A>  <A HREF="RMRF0013.HTM#libraryRef">libraryRef</A>  <A HREF="RMRF0023.HTM#status">status</A>
+</I>
+<P><HR>
+<H1><A NAME="designator">designator</A></H1>
+<PRE>
+<I>designator ::= '(' 'designator'</I>
+&#09;<I><A HREF="RMRF0024.HTM#stringValue">stringValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0009.HTM#instance">instance</A>  <A HREF="RMRF0010.HTM#instancePortAttributes">instancePortAttributes</A>  <A HREF="RMRF0011.HTM#interface">interface</A>  <A HREF="RMRF0012.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A>  <A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  <A HREF="RMRF0017.HTM#port">port</A>  <A HREF="RMRF0017.HTM#portAnnotate">portAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#designator">Designator</A></I> is used to specify the designated number or name of a <I><A HREF="RMRF0017.HTM#port">port</A></I> or an <I><A HREF="RMRF0009.HTM#instance">instance</A>. </I>In the PCB environment, the designators on ports are typically referred to as pin numbers, and the designators on cell instances are typically referred to as component reference designators.
+<H3>Example:</H3>
+<PRE>
+<B>(cell Foo ...</B>
+<B>   (cluster C1 </B>
+<B>      (interface ... (designator "U000")</B>
+<B>         (port A ... (designator "x"))) ...))</B>
+<B>(cell Fer ...</B>
+<B>   (cluster C1 ...</B>
+<B>      (schematicView V1 (schematicViewHeader ...)</B>
+<B>         (logicalConnectivity </B>
+<B>            (instance I1 </B>
+<B>               (clusterRef C1 (cellRef Foo))</B>
+<B>               (designator "U123")</B>
+<B>               (instancePortAttributes A</B>
+<B>                   ... (designator "1"))))</B>
+<B>         (schematicImplementation ...))))</B>
+<B>(cell Fee ...</B>
+<B>   (cluster C1 ...</B>
+<B>      (schematicView V1 (schematicViewHeader ...) </B>
+<B>         (logicalConnectivity </B>
+<B>            (instance I2</B>
+<B>               (clusterRef C1 (cellRef Fer))</B>
+<B>            ...) ...)</B>
+<B>         (schematicImplementation ...))</B>
+<B>      (clusterConfiguration CONFIG1 (viewRef V1)...)))</B>
+<B>(design TOP</B>
+<B>   (cellRef Fee ...) </B>
+<B>   (designHeader ...)</B>
+<B>   (designHierarchy H1</B>
+<B>      (clusterRef C1)</B>
+<B>      (clusterConfigurationRef CONFIG1)</B>
+<B>      (designHierarchyHeader ...)</B>
+<B>      (occurrenceHierarchyAnnotate </B>
+<B>         (occurrenceAnnotate  I2</B>
+<B>            (designator "U42")</B>
+<B>            (portAnnotate A</B>
+<B>            ... (designator "2"))))))      </B>
+</PRE>
+<P>In the above example, a cell named <B>Foo</B> is defined with a default component reference <I><A HREF="RMRF0004.HTM#designator">designator</A></I> "<B>U000</B>", and a <I><A HREF="RMRF0017.HTM#port">port</A></I> named <B>A</B> with a default pin name of "<B>x</B>". 
+<P>A cell named <B>Fer</B> is defined in which the cluster <B>C1</B> of the cell <B>Foo</B> is instantiated with an instance name of <B>I1</B> and assigned the component reference <I><A HREF="RMRF0004.HTM#designator">designator</A></I> of "<B>U123</B>"; the port instance of port <B>A</B> is assigned the component reference designator of "<B>1</B>". 
+<P>A <I><A HREF="RMRF0001.HTM#cell">cell</A></I> named <B>Fee</B> is defined in which cluster <B>C1</B> of the cell <B>Fer</B> is instantiated with an instance name <B>I2</B>. In the design named <B>TOP</B> which has <I><A HREF="RMRF0001.HTM#cell">cell</A></I> <B>Fee</B> as its top-level cell, a <I><A HREF="RMRF0004.HTM#designator">designator</A></I> is back-annotated to <B>I2</B> as "<B>U42</B>", and a pin number of "<B>2</B>" is assigned to port <B>A</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#designatorDisplay">designatorDisplay</A>
+</I>
+<P><HR>
+<H1><A NAME="designatorDisplay">designatorDisplay</A></H1>
+<PRE>
+<I>designatorDisplay ::= '(' 'designatorDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>  <A HREF="RMRF0020.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  <A HREF="RMRF0022.HTM#schematicSymbol">schematicSymbol</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#designatorDisplay">DesignatorDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0004.HTM#designator">designator</A></I>. When used in the context of any implementation, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#designator">designator</A>
+</I>
+<P><HR>
+<H1><A NAME="designHeader">designHeader</A></H1>
+<PRE>
+<I>designHeader ::= '(' 'designHeader'</I>
+&#09;<I><A HREF="RMRF0004.HTM#designUnits">designUnits</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | &lt;<A HREF="RMRF0023.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#design">design</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#designHeader">DesignHeader</A></I> gathers together data relating to the design as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(design CPU (cellRef ...)</B>
+<B>   (designHeader (designUnits ...) (status ...))</B>
+<B>   ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A>  <A HREF="RMRF0001.HTM#cellHeader">cellHeader</A>
+</I>
+<P><HR>
+<H1><A NAME="designHierarchy">designHierarchy</A></H1>
+<PRE>
+<I>designHierarchy ::= '(' 'designHierarchy'</I>
+&#09;<I><A HREF="RMRF0004.HTM#designHierarchyNameDef">designHierarchyNameDef</A></I>
+&#09;<I><A HREF="RMRF0002.HTM#clusterRef">clusterRef</A></I>
+&#09;<I><A HREF="RMRF0002.HTM#clusterConfigurationRef">clusterConfigurationRef</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#designHierarchyHeader">designHierarchyHeader</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0015.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#design">design</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#designHierarchy">DesignHierarchy</A></I> identifies an occurrence hierarchy by reference to a cluster configuration and may provide annotation data for the hierarchy. <I><A HREF="RMRF0002.HTM#clusterConfigurationRef">ClusterConfigurationRef</A></I> must not point to an unconfigured <I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A></I> .
+<H3>Example:</H3>
+<PRE>
+<B>(design TOP (cellRef Fee ...)  (designHeader ...)</B>
+<B>   (designHierarchy H1 (clusterRef C1)</B>
+<B>      (clusterConfigurationRef CONFIG1)</B>
+<B>      (designHierarchyHeader ...)</B>
+<B>      (occurrenceHierarchyAnnotate </B>
+<B>         (occurrenceAnnotate I2</B>
+<B>            (designator "U42")</B>
+<B>            (portAnnotate A</B>
+<B>            ... (designator "2"))))))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>
+</I>
+<P><HR>
+<H1><A NAME="designHierarchyHeader">designHierarchyHeader</A></H1>
+<PRE>
+<I>designHierarchyHeader ::= '(' 'designHierarchyHeader'</I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#booleanParameterAssign">booleanParameterAssign</A> | <A HREF="RMRF0010.HTM#integerParameterAssign">integerParameterAssign</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; 
+&#09;| <A HREF="RMRF0014.HTM#numberParameterAssign">numberParameterAssign</A> | <A HREF="RMRF0018.HTM#property">property</A> | <A HREF="RMRF0024.HTM#stringParameterAssign">stringParameterAssign</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#designHierarchy">designHierarchy</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#designHierarchyHeader">DesignHierarchyHeader</A></I> gathers information relating to the <I><A HREF="RMRF0004.HTM#designHierarchy">designHierarchy</A></I> as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(designHierarchyHeader </B>
+<B>   (nameInformation (primaryName "CPU Board")))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#design">design</A>
+</I>
+<P><HR>
+<H1><A NAME="designHierarchyNameCaseSensitive">designHierarchyNameCaseSensitive</A></H1>
+<PRE>
+<I>designHierarchyNameCaseSensitive ::= '(' 'designHierarchyNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#designHierarchyNameCaseSensitive">DesignHierarchyNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for <I><A HREF="RMRF0004.HTM#designHierarchy">designHierarchy</A></I> items are to be considered as case sensitive. The default is that names are case sensitive. This construct is only allowed in the context of <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  <A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>
+</I>
+<P><HR>
+<H1><A NAME="designHierarchyNameDef">designHierarchyNameDef</A></H1>
+<PRE>
+<I>designHierarchyNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#designHierarchy">designHierarchy</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#designHierarchyNameDef">DesignHierarchyNameDef</A></I> is the name definition for a <I><A HREF="RMRF0004.HTM#designHierarchy">designHierarchy</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#design">design</A>
+</I>
+<P><HR>
+<H1><A NAME="designNameCaseSensitive">designNameCaseSensitive</A></H1>
+<PRE>
+<I>designNameCaseSensitive ::= '(' 'designNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#designNameCaseSensitive">DesignNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for designs are to be considered as case sensitive. The default is that names are case sensitive. This construct is only allowed in the context of <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  <A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>
+</I>
+<P><HR>
+<H1><A NAME="designNameDef">designNameDef</A></H1>
+<PRE>
+<I>designNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#design">design</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0004.HTM#designNameDef">designNameDef</A> </I>is the name of a design.
+<H3>Example:</H3>
+<PRE>
+<B>(design micro99  (cellRef ...)</B>
+<B>   (designHeader (designUnits ...)</B>
+<B>      (nameInformation </B>
+<B>         (primaryName "micro99")) ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>This example contains a design name definition for <B>micro99. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#edif">edif</A>  <A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>
+</I>
+<P><HR>
+<H1><A NAME="designUnits">designUnits</A></H1>
+<PRE>
+<I>designUnits ::= '(' 'designUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0022.HTM#setCapacitance">setCapacitance</A>&gt; | &lt;<A HREF="RMRF0023.HTM#setTime">setTime</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#designHeader">designHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#designUnits">DesignUnits</A></I> specifies the units applicable to a design. All attributes within the <I><A HREF="RMRF0004.HTM#design">design</A></I> construct will have the units specified by <I><A HREF="RMRF0004.HTM#designUnits">designUnits</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(design CPU</B>
+<B>   (cellRef ...)</B>
+<B>   (designHeader </B>
+<B>      (designUnits (setCapacitance (unitRef pF))</B>
+<B>         (setTime (unitRef nS))) ...) ...)</B>
+</PRE>
+<P>In this example, the units for capacitance are set to a previously-defined unit <B>pF</B>, and those for time are set to a previously-defined unit <B>nS</B>. The unit definitions must have been given within the <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#design">design</A>
+</I>
+<P><HR>
+<H1><A NAME="diagram">diagram</A></H1>
+<PRE>
+<I>diagram ::= '(' 'diagram'</I>
+&#09;<I><A HREF="RMRF0004.HTM#diagramNameDef">diagramNameDef</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0006.HTM#figure">figure</A> | <A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#section">section</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#diagram">Diagram</A></I> may be used to add graphical information to a <I><A HREF="RMRF0022.HTM#section">section</A></I> within <I><A HREF="RMRF0005.HTM#documentation">documentation</A></I>.
+<P>The distance and angle units for <I><A HREF="RMRF0004.HTM#diagram">diagram</A></I> are specified in <I><A HREF="RMRF0005.HTM#documentationUnits">documentationUnits</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(diagram FIG1</B>
+<B>   (figure LINES ...)</B>
+<B>   (annotate ...))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#documentation">documentation</A>  <A HREF="RMRF0005.HTM#documentationUnits">documentationUnits</A>
+</I>
+<P><HR>
+<H1><A NAME="diagramNameDef">diagramNameDef</A></H1>
+<PRE>
+<I>diagramNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#diagram">diagram</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0004.HTM#diagramNameDef">DiagramNameDef</A></I> is the name of a <I><A HREF="RMRF0004.HTM#diagram">diagram</A></I>.
+
+<P><HR>
+<H1><A NAME="digit">digit</A></H1>
+<PRE>
+<B>'0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'</B>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0008.HTM#identifier">identifier</A> <A HREF="RMRF0010.HTM#integerToken">integerToken</A> <A HREF="RMRF0024.HTM#stringToken">stringToken</A> 
+</I>
+<H3>Description:</H3>
+<P>In an <I><A HREF="RMRF0010.HTM#integerToken">integerToken</A> <A HREF="RMRF0004.HTM#digit">digit</A> </I>represents a normal decimal digit. In <I><A HREF="RMRF0024.HTM#stringToken">stringToken</A></I>, <I><A HREF="RMRF0004.HTM#digit">digits</A></I> are simply literal characters.
+<H3>Example:</H3>
+<PRE>
+<B>300   a10  "abc123"  "a%9%b"</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#alpha">alpha</A>  <A HREF="RMRF0023.HTM#specialCharacter">specialCharacter</A>  <A HREF="RMRF0026.HTM#whiteSpace">whiteSpace</A>
+</I>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

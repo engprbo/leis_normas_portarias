@@ -1,0 +1,98 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1>Chapter 5</H1>
+<H1><A NAME="SECTION04400000000000000000">Design hierarchy configuration</A></H1>
+<P>
+<A NAME="chdesignhierarchyconfiguration">&#160;</A>
+<P>
+This chapter describes how an occurrence hierarchy is configured in EDIF.  The
+model for configuration can be found in the <A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>
+ and the <A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>
+.
+<P>
+<H1><A NAME="SECTION04410000000000000000">5.1 Problem statement</A></H1>
+<P>
+In EDIF Version 2&nbsp;0&nbsp;0, a cell may contain many views of the same or different
+types.  Each view is structured as an interface (containing ports) and an
+optional contents (containing nets and instances of other views).  Since each
+instance in a contents references exactly one view and since that view has at
+most one contents, the tree structure of a design is unambiguous.
+<P>
+In EDIF Version 3&nbsp;0&nbsp;0 <A HREF="IMEX0009.HTM#instance">instances</A> are not of views but rather of
+<A HREF="IMEX0009.HTM#cluster">clusters</A> - which contain one interface but may have multiple views.
+Therefore, for a given <A HREF="IMEX0003.HTM#design">design</A> to have an unambiguous tree structure, it is
+necessary to be able to specify for each <A HREF="IMEX0009.HTM#instance">instance</A> which view is to be used.
+Furthermore, it is necessary to be able to specify alternative configurations
+for <A HREF="IMEX0009.HTM#instance">instances</A> so that different design trees may be represented.
+<P>
+In addition to choosing specific configurations of specific views it may also
+be necessary to specify that, in a particular configuration, a given <A HREF="IMEX0009.HTM#instance">instance</A>
+may be a leaf and use none of the views of its <A HREF="IMEX0009.HTM#cluster">cluster</A>.  Finally, not all
+configuration information may be available for a given design transfer.
+Therefore a mechanism for explicitly having unconfigured <A HREF="IMEX0009.HTM#instance">instances</A> is
+needed.
+<P>
+<H1><A NAME="SECTION04420000000000000000">5.2 Solution</A></H1>
+<P>
+As mentioned in section&nbsp;<A HREF="IMINT002.HTM#seclusterviewgroup">2.3</A>, EDIF Version
+3&nbsp;0&nbsp;0 introduces the notion of <A HREF="IMEX0009.HTM#cluster">cluster</A> which consists of an
+interface definition and the <A HREF="IMEX0009.HTM#cell_representation">cell_representations</A> sharing that interface.
+The <A HREF="IMEX0009.HTM#cell">cell</A> definition may contain many <A HREF="IMEX0009.HTM#cluster">clusters</A>.  Instances are created by
+instantiating <A HREF="IMEX0009.HTM#cluster">clusters</A>, rather than instantiating specific views.  Hence, the
+use of <A HREF="IMEX0009.HTM#cluster">cluster</A> provides the beginnings of a configuration mechanism.
+<P>
+In addition, EDIF Version 3&nbsp;0&nbsp;0 has added the concepts of
+<A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A>  and
+<A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A>  to support the
+configuration mechanism.  A <A HREF="IMEX0009.HTM#cluster">cluster</A> may contain many <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configurations</A>,
+each of which describes how to continue expanding the hierarchy.  A
+<A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A> can be either an <A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> or a
+<A HREF="IMEX0009.HTM#leaf_configuration">leaf_configuration</A>.
+<P>
+An <A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> identifies a view for the further expansion
+of the hierarchy.  The chosen view must belong to the containing <A HREF="IMEX0009.HTM#cluster">cluster</A> of
+the <A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>.  Each <A HREF="IMEX0009.HTM#instance">instance</A> defined within the chosen
+view must be either configured or unconfigured.  To configure an <A HREF="IMEX0009.HTM#instance">instance</A>, it
+is necessary to specify an <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A>.  An <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A>
+selects a valid <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A> for the configured <A HREF="IMEX0009.HTM#instance">instance</A>.  The
+chosen <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A> must be defined in the instantiated <A HREF="IMEX0009.HTM#cluster">cluster</A> of
+the configured <A HREF="IMEX0009.HTM#instance">instance</A>.  To unconfigure an <A HREF="IMEX0009.HTM#instance">instance</A>, it is necessary to
+state explicitly that an <A HREF="IMEX0009.HTM#instance">instance</A> is required to be unconfigured.  Thus, an
+<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A> may contain many <A HREF="IMEX0009.HTM#unconfigured_instance">unconfigured_instances</A> and
+many <A HREF="IMEX0009.HTM#instance_configuration">instance_configurations</A>.  In a given expansion, an <A HREF="IMEX0009.HTM#instance">instance</A> may be
+configured at most once.
+<P>
+If an <A HREF="IMEX0009.HTM#instance">instance</A> has an <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A> which references a
+<A HREF="IMEX0009.HTM#leaf_configuration">leaf_configuration</A>, there is no further structure in the design tree below that
+<A HREF="IMEX0009.HTM#instance">instance</A>.
+<P>
+A <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A>  is defined by selecting the
+top <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A>.  A <A HREF="IMEX0003.HTM#design">design</A> may contain many design hierarchies.
+For each <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A>, the chosen <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A> must be defined in
+the <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> of the top_cell of the <A HREF="IMEX0003.HTM#design">design</A>.
+<P>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

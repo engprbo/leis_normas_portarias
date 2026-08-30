@@ -1,0 +1,712 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="polygon">polygon</A></H1>
+<PRE>
+<I>polygon ::= '(' 'polygon'</I>
+&#09;<I><A HREF="RMRF0016.HTM#pointList">pointList</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#figure">figure</A>  <A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A>  
+</I>
+<H3>Description:</H3>
+<P>A polygon represents a figure bounded by line segments joining consecutive points, including the line segment from the last point to the first point. If the first and last point are not the same, then the polygon contains the line segment between those two points as an implicit final line. All polygons are closed by definition. 
+<P>The polygon may not touch or intersect itself, nor may it have coincident segments. 
+<H3>Example:</H3>
+<PRE>
+<B>(polygon</B>
+<B>   (pointList</B>
+<B>      (pt 0 1)</B>
+<B>      (pt 1 4)</B>
+<B>      (pt 0 3)))</B>
+<B>(polygon</B>
+<B>   (pointList</B>
+<B>      (pt 0 1)</B>
+<B>      (pt 1 4)</B>
+<B>      (pt 0 3)</B>
+<B>      (pt 0 1)))</B>
+</PRE>
+<P>This example shows two equivalent representations of the same triangle, shown in the figure below.
+<P><CENTER><IMG SRC="FIG0020.GIF">
+</CENTER>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0018.HTM#rectangle">rectangle</A> <A HREF="RMRF0023.HTM#shape">shape</A>
+</I>
+<P><HR>
+<H1><A NAME="port">port</A></H1>
+<PRE>
+<I>port ::= '(' 'port'</I>
+&#09;<I><A HREF="RMRF0017.HTM#portNameDef">portNameDef</A></I>
+&#09;<I><A HREF="RMRF0017.HTM#portDirection">portDirection</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#acLoad">acLoad</A>&gt; | <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A>&gt; | &lt;<A HREF="RMRF0004.HTM#designator">designator</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0017.HTM#portDelay">portDelay</A> | <A HREF="RMRF0017.HTM#portLoadDelay">portLoadDelay</A> | &lt;<A HREF="RMRF0017.HTM#portNameGenerator">portNameGenerator</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0018.HTM#portWidth">portWidth</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | &lt;<A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>&gt; | &lt;<A HREF="RMRF0025.HTM#unused">unused</A>&gt; | 
+&#09;<A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0011.HTM#interface">interface</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#port">Port</A></I> is the basic means of communicating signal information between cell <I><A HREF="RMRF0001.HTM#cluster">clusters</A>,</I> and is the subject of all connectivity statements. <I><A HREF="RMRF0017.HTM#port">Ports</A></I> are defined in the <I><A HREF="RMRF0011.HTM#interface">interface</A></I> of a <I><A HREF="RMRF0001.HTM#cluster">cluster</A></I>, and apply to all views and symbols within the <I><A HREF="RMRF0001.HTM#cluster">cluster</A></I>.
+<P>In Level 0 a <I><A HREF="RMRF0017.HTM#port">port</A></I> may not be arrayed; the construct <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I> is used to define structured <I><A HREF="RMRF0017.HTM#port">ports</A></I>.
+<P>Included with the definition are a number of attributes that apply to the <I><A HREF="RMRF0017.HTM#port">port</A></I>, such as <I><A HREF="RMRF0004.HTM#designator">designator</A></I> and <I><A HREF="RMRF0017.HTM#portDirection">portDirection</A></I>.
+<P>A <I><A HREF="RMRF0017.HTM#port">port</A></I> may have a <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I> which specifies that an instance of the port connects to a <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, unless explicitly joined to a <I><A HREF="RMRF0023.HTM#signal">signal</A></I> by a <I><A HREF="RMRF0017.HTM#portInstanceRef">portInstanceRef</A></I>.
+<P>Level 1 note: Attributes defined for a port that has a <I><A HREF="RMRF0018.HTM#portWidth">portWidth</A></I> are shared equally by all members of the port except <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I>, which is specific to the wide port as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(port IN (inputPort))</B>
+</PRE>
+<P>This example declares an input port named <B>IN</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0002.HTM#connectivityBusJoined">connectivityBusJoined</A>  <A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A>  <A HREF="RMRF0019.HTM#schematicBusJoined">schematicBusJoined</A>  <A HREF="RMRF0020.HTM#schematicNetJoined">schematicNetJoined</A> <A HREF="RMRF0017.HTM#portBundle">portBundle</A>  <A HREF="RMRF0023.HTM#signalJoined">signalJoined</A>  
+</I>
+<P><HR>
+<H1><A NAME="portAnnotate">portAnnotate</A></H1>
+<PRE>
+<I>portAnnotate ::= '(' 'portAnnotate'</I>
+&#09;<I>( <A HREF="RMRF0006.HTM#extendPortDef">extendPortDef</A> | <A HREF="RMRF0006.HTM#extendPortMemberDef">extendPortMemberDef</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#acLoad">acLoad</A>&gt; | <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0004.HTM#designator">designator</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0005.HTM#directionalPortAttributeOverride">directionalPortAttributeOverride</A>&gt; | <A HREF="RMRF0017.HTM#portDelay">portDelay</A> | <A HREF="RMRF0017.HTM#portDelayOverride">portDelayOverride</A> | 
+&#09;<A HREF="RMRF0017.HTM#portLoadDelay">portLoadDelay</A> | <A HREF="RMRF0017.HTM#portLoadDelayOverride">portLoadDelayOverride</A> | <A HREF="RMRF0017.HTM#portPropertyOverride">portPropertyOverride</A> | <A HREF="RMRF0018.HTM#property">property</A> 
+&#09;} </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A>  <A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  <A HREF="RMRF0015.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portAnnotate">PortAnnotate</A></I> is used to hold annotation data for an individual <I><A HREF="RMRF0017.HTM#port">port</A></I>. This represents the data that is associated with a physical <I><A HREF="RMRF0017.HTM#port">port</A>,</I> and which may need to be displayed on a schematic.
+<P>The <I><A HREF="RMRF0006.HTM#extendPortDef">extendPortDef</A></I> must reference an individual one-bit port. 
+<P>The <I><A HREF="RMRF0017.HTM#portDirection">portDirection</A></I> must be consistent with that of the port definition, although it may override direction specific attributes.
+<H3>Example:</H3>
+<PRE>
+<B>(portAnnotate &amp;1</B>
+<B>   (designator "6"))</B>
+</PRE>
+<P>In this example, the port <B>&amp;1</B> has a <I><A HREF="RMRF0004.HTM#designator">designator</A></I> (physical pin number) of "<B>6</B>" associated with it.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0010.HTM#instancePortAttributes">instancePortAttributes</A>
+</I>
+<P><HR>
+<H1><A NAME="portAttributeDisplay">portAttributeDisplay</A></H1>
+<PRE>
+<I>portAttributeDisplay ::= '(' 'portAttributeDisplay'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#acLoadDisplay">acLoadDisplay</A>&gt; | &lt;<A HREF="RMRF0002.HTM#connectedSignalIndexGeneratorDisplay">connectedSignalIndexGeneratorDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0004.HTM#dcFanInLoadDisplay">dcFanInLoadDisplay</A>&gt; | &lt;<A HREF="RMRF0004.HTM#dcFanOutLoadDisplay">dcFanOutLoadDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0004.HTM#dcMaxFanInDisplay">dcMaxFanInDisplay</A>&gt; | &lt;<A HREF="RMRF0004.HTM#dcMaxFanOutDisplay">dcMaxFanOutDisplay</A>&gt; | &lt;<A HREF="RMRF0004.HTM#designatorDisplay">designatorDisplay</A>&gt; | 
+&#09;<A HREF="RMRF0017.HTM#portDelayDisplay">portDelayDisplay</A> | <A HREF="RMRF0017.HTM#portLoadDelayDisplay">portLoadDelayDisplay</A> | &lt;<A HREF="RMRF0017.HTM#portNameDisplay">portNameDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0017.HTM#portNameGeneratorDisplay">portNameGeneratorDisplay</A>&gt; | <A HREF="RMRF0017.HTM#portPropertyDisplay">portPropertyDisplay</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#instancePortAttributeDisplay">instancePortAttributeDisplay</A>  <A HREF="RMRF0020.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A>  <A HREF="RMRF0020.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>  <A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A>  <A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">PortAttributeDisplay</A></I> gathers together the display positions for various attributes of ports. Within the context of template definitions, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used within each of the attribute display constructs, and <I><A HREF="RMRF0017.HTM#portPropertyDisplay">portPropertyDisplay</A></I>, <I><A HREF="RMRF0017.HTM#portDelayDisplay">portDelayDisplay</A></I> and <I><A HREF="RMRF0017.HTM#portLoadDelayDisplay">portLoadDelayDisplay</A></I> may not be used.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A>  <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A>  <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A>
+</I>
+<P><HR>
+<H1><A NAME="portBundle">portBundle</A></H1>
+<PRE>
+<I>portBundle ::= '(' 'portBundle'</I>
+&#09;<I><A HREF="RMRF0017.HTM#portNameDef">portNameDef</A></I>
+&#09;<I><A HREF="RMRF0017.HTM#portList">portList</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | <A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0011.HTM#interface">interface</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portBundle">PortBundle</A></I> provides a structuring mechanism to describe wide <I><A HREF="RMRF0017.HTM#port">ports</A></I>. 
+<P><I><A HREF="RMRF0017.HTM#portList">PortList</A></I> is used to define an ordered list of all the ports in a <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I>. <I><A HREF="RMRF0017.HTM#portBundle">PortBundle</A></I> is a structuring mechanism only and does not itself define the ports. 
+<P>A <I><A HREF="RMRF0017.HTM#port">port</A></I> or <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I> may be directly referenced by zero or more <I><A HREF="RMRF0017.HTM#portBundle">portBundles</A></I> in the same <I><A HREF="RMRF0011.HTM#interface">interface</A></I>. A <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I> may not reference another <I><A HREF="RMRF0017.HTM#port">port</A></I> or <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I> more than once, either directly or indirectly.
+<H3>Example:</H3>
+<PRE>
+<B>(port DATA_0 (inputPort)) </B>
+<B>(port DATA_1 (inputPort))</B>
+<B>(port DATA_2 (inputPort)) </B>
+<B>(port DATA_3 (inputPort))</B>
+<B>(portBundle DATA  </B>
+<B>   (portList </B>
+<B>      (portRef DATA_0) </B>
+<B>      (portRef DATA_1)</B>
+<B>      (portRef DATA_2) </B>
+<B>      (portRef DATA_3))</B>
+<B>   )</B>
+</PRE>
+<P>This example defines a <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I> named <B>DATA</B> with width <B>4</B>. The <I><A HREF="RMRF0017.HTM#port">ports</A></I> in this <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I> may be accessed as a group by reference to <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I> <B>DATA</B> or individually by reference to the individual <I><A HREF="RMRF0017.HTM#port">ports</A></I>, e.g. <B>DATA_0</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0018.HTM#portRef">portRef</A>  <A HREF="RMRF0017.HTM#port">port</A>
+</I>
+<P><HR>
+<H1><A NAME="portDelay">portDelay</A></H1>
+<PRE>
+<I>portDelay ::= '(' 'portDelay'</I>
+&#09;<I><A HREF="RMRF0017.HTM#portDelayNameDef">portDelayNameDef</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#derivation">derivation</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#delay">delay</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#becomes">becomes</A> | <A HREF="RMRF0025.HTM#transition">transition</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#instancePortAttributes">instancePortAttributes</A>  <A HREF="RMRF0017.HTM#port">port</A>  <A HREF="RMRF0017.HTM#portAnnotate">portAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDelay">PortDelay</A> </I>is an attribute of a port which is used to specify a delay for the given set of transitions. If no <I><A HREF="RMRF0025.HTM#transition">transition</A> </I>or <I><A HREF="RMRF0000.HTM#becomes">becomes</A> </I>is specified, then the default is any transition.
+<P><I><A HREF="RMRF0017.HTM#portDelay">PortDelay</A></I> is named so that its value may be displayed using <I><A HREF="RMRF0017.HTM#portDelayDisplay">portDelayDisplay</A></I>. <I><A HREF="RMRF0004.HTM#derivation">Derivation</A></I> indicates whether the delay is measured, calculated or a required value.
+<H3>Example:</H3>
+<PRE>
+<B>(port P1 (bidirectionalPort)</B>
+<B>   (portDelay PD1 (calculated)</B>
+<B>      (delay (mnm (e 5 0) (undefined) (undefined)))</B>
+<B>      (transition D U)))</B>
+</PRE>
+<P>The above example specifies a calculated delay minimum of <B>5 </B>time units. This occurs on a transition from <B>D </B>to <B>U </B>of the port named <B>P1. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDelayDisplay">portDelayDisplay</A>  <A HREF="RMRF0017.HTM#portLoadDelay">portLoadDelay</A> <A HREF="RMRF0001.HTM#calculated">calculated</A> <A HREF="RMRF0013.HTM#measured">measured</A> <A HREF="RMRF0018.HTM#required">required</A>
+</I>
+<P><HR>
+<H1><A NAME="portDelayDisplay">portDelayDisplay</A></H1>
+<PRE>
+<I>portDelayDisplay ::= '(' 'portDelayDisplay'</I>
+&#09;<I><A HREF="RMRF0017.HTM#portDelayNameRef">portDelayNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDelayDisplay">PortDelayDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0017.HTM#portDelay">portDelay</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDelay">portDelay</A>
+</I>
+<P><HR>
+<H1><A NAME="portDelayNameDef">portDelayNameDef</A></H1>
+<PRE>
+<I>portDelayNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portDelay">portDelay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDelayNameDef">PortDelayNameDef</A></I> is a name definition for a port delay.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDelayNameRef">portDelayNameRef</A>
+</I>
+<P><HR>
+<H1><A NAME="portDelayNameRef">portDelayNameRef</A></H1>
+<PRE>
+<I>portDelayNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portDelayDisplay">portDelayDisplay</A>  <A HREF="RMRF0017.HTM#portDelayOverride">portDelayOverride</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDelayNameRef">PortDelayNameRef</A></I> is a reference to a <I><A HREF="RMRF0017.HTM#portDelayNameDef">portDelayNameDef</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDelayNameDef">portDelayNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="portDelayOverride">portDelayOverride</A></H1>
+<PRE>
+<I>portDelayOverride ::= '(' 'portDelayOverride'</I>
+&#09;<I><A HREF="RMRF0017.HTM#portDelayNameRef">portDelayNameRef</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#derivation">derivation</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#delay">delay</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#becomes">becomes</A> | <A HREF="RMRF0025.HTM#transition">transition</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#instancePortAttributes">instancePortAttributes</A>  <A HREF="RMRF0017.HTM#portAnnotate">portAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDelayOverride">PortDelayOverride</A></I> is used to override the delay of a port. If no <I><A HREF="RMRF0025.HTM#transition">transition</A> </I>or <I><A HREF="RMRF0000.HTM#becomes">becomes</A> </I>is specified, then the default is any transition.
+<H3>Example:</H3>
+<PRE>
+<B>(portDelayOverride PD1 (measured)</B>
+<B>   (delay (mnm (e 10 0) (undefined) (undefined)))</B>
+<B>   (transition D U))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDelay">portDelay</A>
+</I>
+<P><HR>
+<H1><A NAME="portDirection">portDirection</A></H1>
+<PRE>
+<I>portDirection ::= ( <A HREF="RMRF0009.HTM#inputPort">inputPort</A> | <A HREF="RMRF0015.HTM#outputPort">outputPort</A> | <A HREF="RMRF0000.HTM#bidirectionalPort">bidirectionalPort</A> | <A HREF="RMRF0025.HTM#unspecifiedDirectionPort">unspecifiedDirectionPort</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#port">port</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDirection">PortDirection</A></I> specifies the direction of signal information flow at a port. Ports may be input ports, output ports or bidirectional; they indicate that the signal flows into the cell, out of the cell, or both ways, respectively, at the port.
+<P><I><A HREF="RMRF0017.HTM#portDirection">PortDirection</A> </I>specifies information flow, not current flow.
+<H3>Example:</H3>
+<PRE>
+<B>    (port A (inputPort))</B>
+<B>    (port B (outputPort))</B>
+</PRE>
+<P>In the above example, a port named <B>A </B>is defined to be an input port, a port named <B>B </B>is defined to be an output port.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDirectionIndicator">portDirectionIndicator</A>
+</I>
+<P><HR>
+<H1><A NAME="portDirectionIndicator">portDirectionIndicator</A></H1>
+<PRE>
+<I>portDirectionIndicator ::= ( <A HREF="RMRF0009.HTM#input">input</A> | <A HREF="RMRF0015.HTM#output">output</A> | <A HREF="RMRF0000.HTM#bidirectional">bidirectional</A> | <A HREF="RMRF0025.HTM#unspecified">unspecified</A> | <A HREF="RMRF0025.HTM#unrestricted">unrestricted</A> | 
+&#09;<A HREF="RMRF0014.HTM#mixedDirection">mixedDirection</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>  <A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDirectionIndicator">PortDirectionIndicator</A></I> is used to indicate the port direction that is appropriate for the port template. A port specified as an <I><A HREF="RMRF0009.HTM#inputPort">inputPort</A></I> may use a <I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I> or <I><A HREF="RMRF0020.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A></I> with either a <I><A HREF="RMRF0017.HTM#portDirectionIndicator">portDirectionIndicator</A></I> of <I><A HREF="RMRF0025.HTM#unrestricted">unrestricted</A>,</I> or one with a <I><A HREF="RMRF0017.HTM#portDirectionIndicator">portDirectionIndicator</A></I> of <I><A HREF="RMRF0009.HTM#input">input</A></I>. A similar rule applies for other port directions, as shown in the table below.
+<CENTER>
+<TABLE BORDER>
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0017.HTM#portDirectionIndicator">portDirectionIndicator</A></I><BR> <TD ALIGN=LEFT>Applicable <A HREF="RMRF0017.HTM#portDirection">portDirections</A><BR> 
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0009.HTM#input">input</A></I><BR> <TD ALIGN=LEFT><A HREF="RMRF0009.HTM#inputPort">inputPort</A><BR> 
+<TR><TD ALIGN=LEFT><A HREF="RMRF0015.HTM#output">output</A><BR> <TD ALIGN=LEFT><A HREF="RMRF0015.HTM#outputPort">outputPort</A><BR> 
+<TR><TD ALIGN=LEFT><A HREF="RMRF0000.HTM#bidirectional">bidirectional</A><BR> <TD ALIGN=LEFT><A HREF="RMRF0000.HTM#bidirectionalPort">bidirectionalPort</A><BR> 
+<TR><TD ALIGN=LEFT><A HREF="RMRF0025.HTM#unspecified">unspecified</A><BR> <TD ALIGN=LEFT><A HREF="RMRF0025.HTM#unspecifiedDirectionPort">unspecifiedDirectionPort</A><BR> 
+<TR><TD ALIGN=LEFT><A HREF="RMRF0025.HTM#unrestricted">unrestricted</A><BR> <TD ALIGN=LEFT>Any <A HREF="RMRF0017.HTM#portDirection">portDirection</A> allowed<BR> 
+<TR><TD ALIGN=LEFT><A HREF="RMRF0014.HTM#mixedDirection">mixedDirection</A><BR> <TD ALIGN=LEFT>Any <A HREF="RMRF0017.HTM#portBundle">portBundle</A> having ports with differ-<BR> 
+ ent <A HREF="RMRF0017.HTM#portDirection">portDirections</A><BR> 
+</TABLE>
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortTemplate INPUT_PORT</B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (hotspot ...)</B>
+<B>   (input)</B>
+<B>   ...)</B>
+<B>(cell C1</B>
+<B>   ...</B>
+<B>   (cluster CL1</B>
+<B>      (interface (interfaceUnits)</B>
+<B>         (port P1 (inputPort))</B>
+<B>         ...)</B>
+<B>      ...</B>
+<B>      (schematicSymbol SYMBOL</B>
+<B>         (schematicSymbolHeader ...)</B>
+<B>         (schematicSymbolPortImplementation IN</B>
+<B>            (portRef P1)</B>
+<B>            (schematicSymbolPortTemplateRef </B>
+<B>               INPUT_PORT)</B>
+<B>            (transform ...)</B>
+<B>            ...))))</B>
+</PRE>
+<P>The <I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I> <B>INPUT_PORT</B> has a <I><A HREF="RMRF0017.HTM#portDirectionIndicator">portDirectionIndicator</A></I> of <I><A HREF="RMRF0009.HTM#input">input</A></I> which matches the specification of the port <B>P1</B> in <I><A HREF="RMRF0001.HTM#cluster">cluster</A></I> <B>CL1</B> of <I><A HREF="RMRF0001.HTM#cell">cell</A></I> <B>C1.</B> The use of this template in the <I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I> of <B>P1</B> is consistent with this. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portDirection">portDirection</A>  <A HREF="RMRF0009.HTM#inputPort">inputPort</A>  <A HREF="RMRF0015.HTM#outputPort">outputPort</A>
+</I>
+<P><HR>
+<H1><A NAME="portIndexValue">portIndexValue</A></H1>
+<PRE>
+<I>portIndexValue ::= '(' 'portIndexValue'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portIndexValue">PortIndexValue</A></I> returns the value of a port index when a wide port is expanded. It may be used, for example, in the context of a <I><A HREF="RMRF0017.HTM#portNameGenerator">portNameGenerator</A></I> or <I><A HREF="RMRF0002.HTM#connectedSignalIndexGenerator">connectedSignalIndexGenerator</A></I>.
+<P>For an port of port width N, the <I><A HREF="RMRF0017.HTM#portIndexValue">portIndexValue</A></I> will return values 0 through N-1.
+<H3>Example:</H3>
+<PRE>
+<B>(port DATA (inputPort)</B>
+<B>   (portWidth 4)</B>
+<B>   (portNameGenerator </B>
+<B>      (stringConcatenate "DATA["</B>
+<B>         (decimalToString (portIndexValue))</B>
+<B>         "]")))</B>
+</PRE>
+<P>The four ports generated on expansion will have names "DATA[0]", "DATA[1]", "DATA[2]" and "DATA[3]".
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0010.HTM#instanceNameGenerator">instanceNameGenerator</A>  <A HREF="RMRF0023.HTM#signalIndexValue">signalIndexValue</A>
+</I>
+<P><HR>
+<H1><A NAME="portInstanceRef">portInstanceRef</A></H1>
+<PRE>
+<I>portInstanceRef ::= '(' 'portInstanceRef'</I>
+&#09;<I>( <A HREF="RMRF0017.HTM#portNameRef">portNameRef</A> | <A HREF="RMRF0017.HTM#portMemberRef">portMemberRef</A> )</I>
+&#09;<I>( <A HREF="RMRF0010.HTM#instanceRef">instanceRef</A> | <A HREF="RMRF0009.HTM#instanceMemberRef">instanceMemberRef</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portJoined">portJoined</A>  <A HREF="RMRF0023.HTM#signalJoined">signalJoined</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portInstanceRef">PortInstanceRef</A></I> references a port or <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I> on an <I><A HREF="RMRF0009.HTM#instance">instance</A></I> or a member of a wide <I><A HREF="RMRF0009.HTM#instance">instance</A></I>.
+<P>See <I><A HREF="RMRF0023.HTM#signalJoined">signalJoined</A></I> and <I><A HREF="RMRF0017.HTM#portJoined">portJoined</A></I> for restrictions on the use of <I><A HREF="RMRF0017.HTM#portInstanceRef">portInstanceRef</A></I>.
+<P>For Level 1, in the context of <I><A HREF="RMRF0017.HTM#portJoined">portJoined</A></I> in a schematic view, <I><A HREF="RMRF0017.HTM#portMemberRef">portMemberRef</A></I> must not be used.
+<H3>Example:</H3>
+<PRE>
+<B>(portInstanceRef &amp;1 (instanceRef NAND2))</B>
+</PRE>
+<P>The port <B>&amp;1</B> of the instance <B>NAND2</B> is referenced in this example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0018.HTM#portRef">portRef</A> 
+</I>
+<P><HR>
+<H1><A NAME="portJoined">portJoined</A></H1>
+<PRE>
+<I>portJoined ::= '(' 'portJoined'</I>
+&#09;<I>{ <A HREF="RMRF0008.HTM#globalPortRef">globalPortRef</A> | <A HREF="RMRF0013.HTM#localPortGroupRef">localPortGroupRef</A> | <A HREF="RMRF0017.HTM#portInstanceRef">portInstanceRef</A> | <A HREF="RMRF0018.HTM#portRef">portRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#connectivityBusJoined">connectivityBusJoined</A>  <A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A>  <A HREF="RMRF0019.HTM#schematicBusJoined">schematicBusJoined</A>  <A HREF="RMRF0020.HTM#schematicNetJoined">schematicNetJoined</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portJoined">PortJoined</A></I> lists all the master ports, local port groups, instance ports and global ports that are joined by an interconnect object. The same port may not be referenced more than once within a <I><A HREF="RMRF0017.HTM#portJoined">portJoined</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(portJoined </B>
+<B>   (portRef MP1) </B>
+<B>   (portInstanceRef CLK (instanceRef I1))</B>
+<B>   (portInstanceRef CLK (instanceRef I2))</B>
+<B>   (globalPortRef CLOCK))</B>
+</PRE>
+<P>In this example, the master port <B>MP1</B> is joined to the instance ports <B>CLK</B> of <B>I1</B> and <B>I2</B>, and to the global port <B>CLOCK</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0011.HTM#interfaceJoined">interfaceJoined</A>
+</I>
+<P><HR>
+<H1><A NAME="portList">portList</A></H1>
+<PRE>
+<I>portList ::= '(' 'portList'</I>
+&#09;<I>{ <A HREF="RMRF0018.HTM#portRef">portRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#event">event</A>  <A HREF="RMRF0013.HTM#localPortGroup">localPortGroup</A>  <A HREF="RMRF0017.HTM#portBundle">portBundle</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portList">PortList</A> </I>creates an ordered list of port references. It is used in a variety of constructs where such an ordered list is required.
+<H3>Example:</H3>
+<PRE>
+<B>(port PB1 ...)</B>
+<B>(port PB2 ...)</B>
+<B>(portBundle PB </B>
+<B>   (portList (portRef PB1) (portRef PB2)) ...)</B>
+</PRE>
+<P>In the example above an ordered list of port references, <B>P1, P2, </B>is created with the <I><A HREF="RMRF0017.HTM#portList">portList</A> </I>construct. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0013.HTM#logicList">logicList</A>
+</I>
+<P><HR>
+<H1><A NAME="portLoadDelay">portLoadDelay</A></H1>
+<PRE>
+<I>portLoadDelay ::= '(' 'portLoadDelay'</I>
+&#09;<I><A HREF="RMRF0017.HTM#portLoadDelayNameDef">portLoadDelayNameDef</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#derivation">derivation</A></I>
+&#09;<I><A HREF="RMRF0013.HTM#loadDelay">loadDelay</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#becomes">becomes</A> | <A HREF="RMRF0025.HTM#transition">transition</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#instancePortAttributes">instancePortAttributes</A>  <A HREF="RMRF0017.HTM#port">port</A>  <A HREF="RMRF0017.HTM#portAnnotate">portAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelay">PortLoadDelay</A> </I>is an attribute of a port or instance port which is used to specify a delay for the given set of transitions. If no <I><A HREF="RMRF0025.HTM#transition">transition</A> </I>or <I><A HREF="RMRF0000.HTM#becomes">becomes</A> </I>is specified, then the default is any transition.
+<P>The delay may be calculated, measured or required as specified by <I><A HREF="RMRF0004.HTM#derivation">derivation</A></I>. <I><A HREF="RMRF0017.HTM#portLoadDelay">PortLoadDelay</A></I> values may be displayed using <I><A HREF="RMRF0017.HTM#portLoadDelayDisplay">portLoadDelayDisplay</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(port P1 (bidirectionalPort)</B>
+<B>   (portDelay PD1 (measured) (delay 25))</B>
+<B>   (portLoadDelay PLD1 (measured)</B>
+<B>      (loadDelay 2 1)</B>
+<B>      (transition D U)))</B>
+</PRE>
+<P>The above example specifies a measured delay of <B>25 </B>time units plus <B>2 </B>time units per unit of load-dependent delay. This occurs on a transition from <B>D </B>to <B>U </B>of the port named <B>P1. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelayDisplay">portLoadDelayDisplay</A> <A HREF="RMRF0013.HTM#measured">measured</A> <A HREF="RMRF0001.HTM#calculated">calculated</A> <A HREF="RMRF0018.HTM#required">required</A>
+</I>
+<P><HR>
+<H1><A NAME="portLoadDelayDisplay">portLoadDelayDisplay</A></H1>
+<PRE>
+<I>portLoadDelayDisplay ::= '(' 'portLoadDelayDisplay'</I>
+&#09;<I><A HREF="RMRF0017.HTM#portLoadDelayNameRef">portLoadDelayNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelayDisplay">PortLoadDelayDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0017.HTM#portLoadDelay">portLoadDelay</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelay">portLoadDelay</A>
+</I>
+<P><HR>
+<H1><A NAME="portLoadDelayNameDef">portLoadDelayNameDef</A></H1>
+<PRE>
+<I>portLoadDelayNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelay">portLoadDelay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelayNameDef">PortLoadDelayNameDef</A></I> is a name definition for a port load delay.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelayNameRef">portLoadDelayNameRef</A>
+</I>
+<P><HR>
+<H1><A NAME="portLoadDelayNameRef">portLoadDelayNameRef</A></H1>
+<PRE>
+<I>portLoadDelayNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelayDisplay">portLoadDelayDisplay</A>  <A HREF="RMRF0017.HTM#portLoadDelayOverride">portLoadDelayOverride</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelayNameRef">PortLoadDelayNameRef</A></I> is a reference to a <I><A HREF="RMRF0017.HTM#portLoadDelayNameDef">portLoadDelayNameDef</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelayNameDef">portLoadDelayNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="portLoadDelayOverride">portLoadDelayOverride</A></H1>
+<PRE>
+<I>portLoadDelayOverride ::= '(' 'portLoadDelayOverride'</I>
+&#09;<I><A HREF="RMRF0017.HTM#portLoadDelayNameRef">portLoadDelayNameRef</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#derivation">derivation</A></I>
+&#09;<I><A HREF="RMRF0013.HTM#loadDelay">loadDelay</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#becomes">becomes</A> | <A HREF="RMRF0025.HTM#transition">transition</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#instancePortAttributes">instancePortAttributes</A>  <A HREF="RMRF0017.HTM#portAnnotate">portAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelayOverride">PortLoadDelayOverride</A></I> is used to override the load delay of a port. If no <I><A HREF="RMRF0025.HTM#transition">transition</A> </I>or <I><A HREF="RMRF0000.HTM#becomes">becomes</A> </I>is specified, then the default is any transition.
+<H3>Example:</H3>
+<PRE>
+<B>(portLoadDelayOverride PLD1 (measured)</B>
+<B>   (loadDelay 3 2)</B>
+<B>   (transition D U))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portLoadDelay">portLoadDelay</A>
+</I>
+<P><HR>
+<H1><A NAME="portMemberRef">portMemberRef</A></H1>
+<PRE>
+<I>portMemberRef ::= '(' 'portMemberRef'</I>
+&#09;<I><A HREF="RMRF0017.HTM#portNameRef">portNameRef</A></I>
+&#09;<I><A HREF="RMRF0009.HTM#indexValue">indexValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#extendPortMemberDef">extendPortMemberDef</A>  <A HREF="RMRF0017.HTM#portInstanceRef">portInstanceRef</A>  <A HREF="RMRF0023.HTM#signalJoined">signalJoined</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portMemberRef">PortMemberRef</A></I> references a specific one-bit element of a <I><A HREF="RMRF0017.HTM#port">port</A></I>. This reference must be consistent with the width of the port if the width is specified as a constant value.
+<P><I><A HREF="RMRF0017.HTM#portNameRef">PortNameRef</A></I> must reference a <I><A HREF="RMRF0017.HTM#port">port</A></I> and not a <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(portMemberRef P1 (indexValue 2))</B>
+</PRE>
+<P>This references the third one-bit port element of port <B>P1</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0018.HTM#portWidth">portWidth</A>  <A HREF="RMRF0023.HTM#signalMemberRef">signalMemberRef</A>
+</I>
+<P><HR>
+<H1><A NAME="portNameCaseSensitive">portNameCaseSensitive</A></H1>
+<PRE>
+<I>portNameCaseSensitive ::= '(' 'portNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portNameCaseSensitive">PortNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for ports are to be considered as case sensitive. Following normal precedence rules, this either applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A> <A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>
+</I>
+<P><HR>
+<H1><A NAME="portNameDef">portNameDef</A></H1>
+<PRE>
+<I>portNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#port">port</A>  <A HREF="RMRF0017.HTM#portBundle">portBundle</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portNameDef">PortNameDef</A></I> is used to create a name for a port or port bundle. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portNameRef">portNameRef</A> <A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  
+</I>
+<P><HR>
+<H1><A NAME="portNameDisplay">portNameDisplay</A></H1>
+<PRE>
+<I>portNameDisplay ::= '(' 'portNameDisplay'</I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | <A HREF="RMRF0005.HTM#displayNameOverride">displayNameOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portNameDisplay">PortNameDisplay</A></I> is used to provide display positions for the display of the name of a port. 
+<P>When used in the context of <I><A HREF="RMRF0020.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> and <I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I>, <I><A HREF="RMRF0017.HTM#portNameDisplay">portNameDisplay</A></I> overrides the <I><A HREF="RMRF0017.HTM#portNameDisplay">portNameDisplay</A></I> within the corresponding <I><A HREF="RMRF0020.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A></I> or <I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicMasterPortImplementation I1</B>
+<B>   (schematicMasterPortTemplateRef ...)</B>
+<B>   (portRef INPUT)</B>
+<B>   (transform ...)</B>
+<B>   (portAttributeDisplay</B>
+<B>      (portNameDisplay </B>
+<B>         (display TEXT </B>
+<B>            (transform (origin (pt 20 10))))))</B>
+<B>   ...)</B>
+</PRE>
+<P>In this example, the name of the master port <B>INPUT</B> is displayed at point (20, 10).
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0008.HTM#globalPortNameDisplay">globalPortNameDisplay</A>
+</I>
+<P><HR>
+<H1><A NAME="portNameGenerator">portNameGenerator</A></H1>
+<PRE>
+<I>portNameGenerator ::= '(' 'portNameGenerator'</I>
+&#09;<I><A HREF="RMRF0024.HTM#stringExpression">stringExpression</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#port">port</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portNameGenerator">PortNameGenerator</A></I> specifies how port names are to be generated when a wide port is expanded. This allows control over the port names of the individual bits of a wide port.
+<H3>Example:</H3>
+<PRE>
+<B>(port P ...</B>
+<B>   (portWidth 2)</B>
+<B>   (portNameGenerator</B>
+<B>      (decimalToString</B>
+<B>         (integerSum 4 (portIndexValue))))</B>
+<B>   ...)</B>
+</PRE>
+<P>In this example the ports when expanded should have the names "4" and "5".
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portIndexValue">portIndexValue</A>
+</I>
+<P><HR>
+<H1><A NAME="portNameGeneratorDisplay">portNameGeneratorDisplay</A></H1>
+<PRE>
+<I>portNameGeneratorDisplay ::= '(' 'portNameGeneratorDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P>Adds, replaces or removes display positions for the <I><A HREF="RMRF0017.HTM#portNameGenerator">portNameGenerator</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(portNameGeneratorDisplay </B>
+<B>   (addDisplay</B>
+<B>      (display </B>
+<B>         (figureGroupOverride Green</B>
+<B>            (displayAttributes ...)) </B>
+<B>         (transform (origin (pt 25 30)) </B>
+<B>            (rotation 90)))))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portNameGenerator">portNameGenerator</A>
+</I>
+<P><HR>
+<H1><A NAME="portNameRef">portNameRef</A></H1>
+<PRE>
+<I>portNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#extendPortDef">extendPortDef</A>  <A HREF="RMRF0017.HTM#portInstanceRef">portInstanceRef</A>  <A HREF="RMRF0017.HTM#portMemberRef">portMemberRef</A>  <A HREF="RMRF0018.HTM#portRef">portRef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portNameRef">PortNameRef</A></I> is used to reference a previously-defined port name. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portNameDef">portNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="portPropertyDisplay">portPropertyDisplay</A></H1>
+<PRE>
+<I>portPropertyDisplay ::= '(' 'portPropertyDisplay'</I>
+&#09;<I><A HREF="RMRF0018.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | &lt;<A HREF="RMRF0018.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portPropertyDisplay">PortPropertyDisplay</A></I> provides display positions for port properties. There may be no more than one <I><A HREF="RMRF0017.HTM#portPropertyDisplay">portPropertyDisplay</A></I> in a given context for each port property.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A>
+</I>
+<P><HR>
+<H1><A NAME="portPropertyDisplayOverride">portPropertyDisplayOverride</A></H1>
+<PRE>
+<I>portPropertyDisplayOverride ::= '(' 'portPropertyDisplayOverride'</I>
+&#09;<I><A HREF="RMRF0018.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0018.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#instancePortAttributeDisplay">instancePortAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portPropertyDisplayOverride">PortPropertyDisplayOverride</A></I> is used to override the display positions for port properties. In each context there may be no more than one <I><A HREF="RMRF0017.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A></I> for each port property.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portPropertyDisplay">portPropertyDisplay</A>
+</I>
+<P><HR>
+<H1><A NAME="portPropertyOverride">portPropertyOverride</A></H1>
+<PRE>
+<I>portPropertyOverride ::= '(' 'portPropertyOverride'</I>
+&#09;<I><A HREF="RMRF0018.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0025.HTM#typedValue">typedValue</A> | <A HREF="RMRF0025.HTM#untyped">untyped</A> )</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0007.HTM#fixed">fixed</A>&gt; | <A HREF="RMRF0018.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#instancePortAttributes">instancePortAttributes</A>  <A HREF="RMRF0017.HTM#portAnnotate">portAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0017.HTM#portPropertyOverride">PortPropertyOverride</A></I> is used to override the value of a property belonging to a port either on instantiation using <I><A HREF="RMRF0010.HTM#instancePortAttributes">instancePortAttributes</A></I> or within <I><A HREF="RMRF0017.HTM#portAnnotate">portAnnotate</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A>
+</I>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

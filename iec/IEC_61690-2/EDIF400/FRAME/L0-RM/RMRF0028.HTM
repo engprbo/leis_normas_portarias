@@ -1,0 +1,786 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="pcbDrawingAnnotationGroupPurposeType">pcbDrawingAnnotationGroupPurposeType</A></H1>
+<PRE>
+<I>pcbDrawingAnnotationGroupPurposeType ::= ( 
+&#09;<A HREF="RMRF0027.HTM#pcbDrawingAnnotationGroupPurposePartsList">pcbDrawingAnnotationGroupPurposePartsList</A> | 
+&#09;<A HREF="RMRF0027.HTM#pcbDrawingAnnotationGroupPurposeDrillHoleTable">pcbDrawingAnnotationGroupPurposeDrillHoleTable</A> | 
+&#09;<A HREF="RMRF0027.HTM#pcbDrawingAnnotationGroupPurposeNoteList">pcbDrawingAnnotationGroupPurposeNoteList</A> | <A HREF="RMRF0015.HTM#other">other</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0027.HTM#pcbDrawingAnnotationGroupPurpose">pcbDrawingAnnotationGroupPurpose</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0027.HTM#pcbDrawingAnnotation">pcbDrawingAnnotation</A> <A HREF="RMRF0027.HTM#pcbDrawingAnnotationGroup">pcbDrawingAnnotationGroup</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a standard purpose for the annotation group or allows the specification of a user-defined purpose.
+<P><HR>
+<H1><A NAME="pcbDrawingAnnotationNameDef">pcbDrawingAnnotationNameDef</A></H1>
+<PRE>
+<I>pcbDrawingAnnotationNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0027.HTM#pcbDrawingAnnotation">pcbDrawingAnnotation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0027.HTM#pcbDrawingAnnotationGroupNameDef">pcbDrawingAnnotationGroupNameDef</A> <A HREF="RMRF0028.HTM#pcbDrawingAnnotationNameRef">pcbDrawingAnnotationNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of a collection of drawing annotation.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingAnnotation Notes_List ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingAnnotationNameRef">pcbDrawingAnnotationNameRef</A></H1>
+<PRE>
+<I>pcbDrawingAnnotationNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingAnnotationRef">pcbDrawingAnnotationRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0027.HTM#pcbDrawingAnnotation">pcbDrawingAnnotation</A> <A HREF="RMRF0028.HTM#pcbDrawingAnnotationNameDef">pcbDrawingAnnotationNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a previously-defined <I><A HREF="RMRF0028.HTM#pcbDrawingAnnotationNameDef">pcbDrawingAnnotationNameDef</A></I>. 
+<P><HR>
+<H1><A NAME="pcbDrawingAnnotationRef">pcbDrawingAnnotationRef</A></H1>
+<PRE>
+<I>pcbDrawingAnnotationRef ::= '(' 'pcbDrawingAnnotationRef'</I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDrawingAnnotationNameRef">pcbDrawingAnnotationNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0028.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0027.HTM#pcbDrawingAnnotation">pcbDrawingAnnotation</A> <A HREF="RMRF0027.HTM#pcbDrawingAnnotationGroup">pcbDrawingAnnotationGroup</A> 
+</I>
+<H3>Description:</H3>
+<P>References drawing annotation. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingAnnotationRef Parts_List_Table)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></H1>
+<PRE>
+<I>pcbDrawingAnnotationSet ::= '(' 'pcbDrawingAnnotationSet'</I>
+&#09;<I>{ <A HREF="RMRF0028.HTM#pcbDrawingAnnotationRef">pcbDrawingAnnotationRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0027.HTM#pcbDrawingAnnotationGroup">pcbDrawingAnnotationGroup</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0027.HTM#pcbDrawingAnnotation">pcbDrawingAnnotation</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0001.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0002.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0008.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0008.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0016.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0016.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0018.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0020.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0021.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0021.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0022.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0022.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0023.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0026.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0033.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0033.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0033.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0038.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0039.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0041.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0045.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0046.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0048.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0048.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0052.HTM#portList">portList</A></I>, <I><A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0058.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>References a set of drawing annotations.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingAnnotationSet</B>
+<B>   (pcbDrawingAnnotationRef Parts_List_Header)</B>
+<B>   (pcbDrawingAnnotationRef Parts_List_Text))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A></H1>
+<PRE>
+<I>pcbDrawingAttributeDefault ::= '(' 'pcbDrawingAttributeDefault'</I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDrawingAttributeDefaultNameDef">pcbDrawingAttributeDefaultNameDef</A></I>
+&#09;<I><A HREF="RMRF0030.HTM#pcbDrawingUnits">pcbDrawingUnits</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0001.HTM#borderPatternVisible">borderPatternVisible</A>&gt; | &lt;<A HREF="RMRF0001.HTM#borderWidth">borderWidth</A>&gt; | &lt;<A HREF="RMRF0002.HTM#color">color</A>&gt; | <A HREF="RMRF0002.HTM#comment">comment</A> | 
+&#09;&lt;<A HREF="RMRF0003.HTM#cornerType">cornerType</A>&gt; | &lt;<A HREF="RMRF0006.HTM#endType">endType</A>&gt; | &lt;<A HREF="RMRF0007.HTM#fillPatternVisible">fillPatternVisible</A>&gt; | &lt;<A HREF="RMRF0007.HTM#fontRef">fontRef</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0009.HTM#horizontalJustification">horizontalJustification</A>&gt; | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | &lt;<A HREF="RMRF0016.HTM#pathWidth">pathWidth</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0020.HTM#pcbBorderPattern">pcbBorderPattern</A>&gt; | &lt;<A HREF="RMRF0033.HTM#pcbFillPattern">pcbFillPattern</A>&gt; | &lt;<A HREF="RMRF0033.HTM#pcbGapWidth">pcbGapWidth</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0036.HTM#pcbLineSpacing">pcbLineSpacing</A>&gt; | &lt;<A HREF="RMRF0036.HTM#pcbLineStyle">pcbLineStyle</A>&gt; | &lt;<A HREF="RMRF0049.HTM#pcbRightReadable">pcbRightReadable</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0049.HTM#pcbSpaceWidth">pcbSpaceWidth</A>&gt; | &lt;<A HREF="RMRF0049.HTM#pcbStrokeWidth">pcbStrokeWidth</A>&gt; | <A HREF="RMRF0053.HTM#property">property</A> | &lt;<A HREF="RMRF0059.HTM#textHeight">textHeight</A>&gt; | <A HREF="RMRF0061.HTM#userData">userData</A> 
+&#09;| &lt;<A HREF="RMRF0061.HTM#verticalJustification">verticalJustification</A>&gt; | &lt;<A HREF="RMRF0062.HTM#visible">visible</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0059.HTM#technology">technology</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingAttributeDefaultNameCaseSensitive">pcbDrawingAttributeDefaultNameCaseSensitive</A> <A HREF="RMRF0028.HTM#pcbDrawingAttributeDefaultNameRef">pcbDrawingAttributeDefaultNameRef</A> <A HREF="RMRF0028.HTM#pcbDrawingAttributeDefaultRef">pcbDrawingAttributeDefaultRef</A> <A HREF="RMRF0033.HTM#pcbGeometricAttributeDefault">pcbGeometricAttributeDefault</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies display defaults for any <I><A HREF="RMRF0027.HTM#pcbDrawing">pcbDrawing</A></I> in the current library. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingAttributeDefault Default_Attrs</B>
+<B>   (pcbDrawingUnits</B>
+<B>      (setDistance (unitRef mm))</B>
+<B>      (setAngle (unitRef degree)))</B>
+<B>   (fontRef Courier)</B>
+<B>   (pcbGapWidth 10)</B>
+<B>   (pcbLineSpacing 50)</B>
+<B>   (pcbStrokeWidth 2)</B>
+<B>   (pcbSpaceWidth 20))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingAttributeDefaultNameCaseSensitive">pcbDrawingAttributeDefaultNameCaseSensitive</A></H1>
+<PRE>
+<I>pcbDrawingAttributeDefaultNameCaseSensitive ::= '(' 
+&#09;'pcbDrawingAttributeDefaultNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A> <A HREF="RMRF0030.HTM#pcbDrawingNameCaseSensitive">pcbDrawingNameCaseSensitive</A> <A HREF="RMRF0033.HTM#pcbGeometricAttributeDefaultNameCaseSensitive">pcbGeometricAttributeDefaultNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for items within a <I><A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A></I> are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0006.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<P><HR>
+<H1><A NAME="pcbDrawingAttributeDefaultNameDef">pcbDrawingAttributeDefaultNameDef</A></H1>
+<PRE>
+<I>pcbDrawingAttributeDefaultNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingAttributeDefaultNameRef">pcbDrawingAttributeDefaultNameRef</A> <A HREF="RMRF0033.HTM#pcbGeometricAttributeDefaultNameDef">pcbGeometricAttributeDefaultNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of a <I><A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingAttributeDefault Default_Attrs ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingAttributeDefaultNameRef">pcbDrawingAttributeDefaultNameRef</A></H1>
+<PRE>
+<I>pcbDrawingAttributeDefaultNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingAttributeDefaultRef">pcbDrawingAttributeDefaultRef</A>  !<A HREF="RMRF0029.HTM#pcbDrawingFigure">pcbDrawingFigure</A>  !<A HREF="RMRF0029.HTM#pcbDrawingFigureDrawingAttributeOverride">pcbDrawingFigureDrawingAttributeOverride</A>  !<A HREF="RMRF0030.HTM#pcbDrawingSymbolPlacementDrawingAttributeOverride">pcbDrawingSymbolPlacementDrawingAttributeOverride</A>  !<A HREF="RMRF0030.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A>  !<A HREF="RMRF0030.HTM#pcbDrawingTextDrawingAttributeOverride">pcbDrawingTextDrawingAttributeOverride</A>  !<A HREF="RMRF0035.HTM#pcbLeaderLine">pcbLeaderLine</A>  !<A HREF="RMRF0035.HTM#pcbLeaderLineDrawingAttributeOverride">pcbLeaderLineDrawingAttributeOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A> <A HREF="RMRF0028.HTM#pcbDrawingAttributeDefaultNameDef">pcbDrawingAttributeDefaultNameDef</A> <A HREF="RMRF0033.HTM#pcbGeometricAttributeDefaultNameRef">pcbGeometricAttributeDefaultNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a previously-defined <I><A HREF="RMRF0028.HTM#pcbDrawingAttributeDefaultNameDef">pcbDrawingAttributeDefaultNameDef</A></I>. 
+<P><HR>
+<H1><A NAME="pcbDrawingAttributeDefaultRef">pcbDrawingAttributeDefaultRef</A></H1>
+<PRE>
+<I>pcbDrawingAttributeDefaultRef ::= '(' 'pcbDrawingAttributeDefaultRef'</I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDrawingAttributeDefaultNameRef">pcbDrawingAttributeDefaultNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0020.HTM#pcbClippingOutlineDrawn">pcbClippingOutlineDrawn</A>  !<A HREF="RMRF0025.HTM#pcbDimension">pcbDimension</A>  !<A HREF="RMRF0030.HTM#pcbDrawingSymbolPlacement">pcbDrawingSymbolPlacement</A>  !<A HREF="RMRF0033.HTM#pcbIncludedFabricateFigureCollector">pcbIncludedFabricateFigureCollector</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A> 
+</I>
+<H3>Description:</H3>
+<P>References default drawing attributes.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDimension Dim1</B>
+<B>   (pcbDimensionHeader)</B>
+<B>   (pcbDrawingAttributeDefaultRef Default_Attrs)</B>
+<B>   (pcbDimensionSingleLinear ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingBorder">pcbDrawingBorder</A></H1>
+<PRE>
+<I>pcbDrawingBorder ::= '(' 'pcbDrawingBorder'</I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateRef">pcbDrawingBorderTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0061.HTM#unscaledTransform">unscaledTransform</A></I>
+&#09;<I>{ <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0029.HTM#pcbDrawingHeader">pcbDrawingHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceAlphabetic">pcbDrawingBorderGridReferenceAlphabetic</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceIncreasing">pcbDrawingBorderGridReferenceIncreasing</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceNumeric">pcbDrawingBorderGridReferenceNumeric</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingMark">pcbDrawingBorderTemplateTrimmingMark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingRectangle">pcbDrawingBorderTemplateTrimmingRectangle</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTrimmingMarkStroke">pcbDrawingBorderTrimmingMarkStroke</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTrimmingMarkTriangular">pcbDrawingBorderTrimmingMarkTriangular</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderZonedArea">pcbDrawingBorderZonedArea</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderZonedAreaNameDef">pcbDrawingBorderZonedAreaNameDef</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystem">pcbDrawingBorderZonedGridSystem</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystemHorizontal">pcbDrawingBorderZonedGridSystemHorizontal</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystemVertical">pcbDrawingBorderZonedGridSystemVertical</A> 
+</I>
+<H3>Description:</H3>
+<P>Describes the border of a pcb drawing. It is defined by specifying the position and orientation of the occurrence of the referenced drawing border template.
+<H3>Example:</H3>
+<P><CENTER><IMG SRC="FIG0117.GIF">
+</CENTER>
+<PRE>
+<B>(library TEMPLATES</B>
+<B>   ...</B>
+<B>   (pcbDrawingBorderTemplate DBTEMP1</B>
+<B>      (pcbDrawingTemplateHeader ...)</B>
+<B>      (usableArea</B>
+<B>         (rectangle (pt 10000 84000) (pt 390000 267000)))</B>
+<B>      (pcbDrawingBorderTemplateTrimmingRectangle</B>
+<B>         (rectangle (pt -10000 -10000) (pt 410000 287000)))</B>
+<B>      (pcbDrawingFigure DWGATTR_01</B>
+<B>         (geometryElementSet</B>
+<B>            (unfilledRectangle (pt 0 0) (pt 400000 277000)))))</B>
+<B>   (pcbDrawingTitleBlockTemplate TBTEMP5 ...)</B>
+<B>   ...)</B>
+<B>(pcbDrawing DRAWING_1</B>
+<B>   (pcbDrawingHeader</B>
+<B>      ...</B>
+<B>      (pageSize (rectangle (pt 0 0) (pt 420000 297000)))</B>
+<B>      (pcbDrawingBorder</B>
+<B>         (pcbDrawingBorderTemplateRef DBTEMP1 </B>
+<B>            (libraryRef TEMPLATES))</B>
+<B>         (unscaledTransform (origin (pt 10000 10000)))))</B>
+<B>   (pcbDrawingTitleBlock</B>
+<B>      (pcbDrawingTitleBlockTemplateRef TBTEMP5 </B>
+<B>         (libraryRef TEMPLATES))</B>
+<B>      (unscaledTransform (origin (pt 10000 10000)) ...) ...) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingBorderGridReferenceAlphabetic">pcbDrawingBorderGridReferenceAlphabetic</A></H1>
+<PRE>
+<I>pcbDrawingBorderGridReferenceAlphabetic ::= '(' 
+&#09;'pcbDrawingBorderGridReferenceAlphabetic'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystem">pcbDrawingBorderZonedGridSystem</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceIncreasing">pcbDrawingBorderGridReferenceIncreasing</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceNumeric">pcbDrawingBorderGridReferenceNumeric</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that an alphabetic gridding system is defined for a particular gridding area along a given grid axis, i.e. A, B, C, etc. 
+<P><HR>
+<H1><A NAME="pcbDrawingBorderGridReferenceIncreasing">pcbDrawingBorderGridReferenceIncreasing</A></H1>
+<PRE>
+<I>pcbDrawingBorderGridReferenceIncreasing ::= '(' 
+&#09;'pcbDrawingBorderGridReferenceIncreasing'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystem">pcbDrawingBorderZonedGridSystem</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceAlphabetic">pcbDrawingBorderGridReferenceAlphabetic</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceNumeric">pcbDrawingBorderGridReferenceNumeric</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies whether or not the drawing border grid is increasing from left to right and from bottom to top. The default is <I><A HREF="RMRF0060.HTM#true">true</A></I>. Horizontal and vertical grids can be controlled independently. In the diagram below both are shown with <I><A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceIncreasing">pcbDrawingBorderGridReferenceIncreasing</A></I> set to true and false.
+<P><CENTER><IMG SRC="FIG0119.GIF">
+</CENTER>
+<P> 
+<P><HR>
+<H1><A NAME="pcbDrawingBorderGridReferenceNumeric">pcbDrawingBorderGridReferenceNumeric</A></H1>
+<PRE>
+<I>pcbDrawingBorderGridReferenceNumeric ::= '(' 'pcbDrawingBorderGridReferenceNumeric'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystem">pcbDrawingBorderZonedGridSystem</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceAlphabetic">pcbDrawingBorderGridReferenceAlphabetic</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceIncreasing">pcbDrawingBorderGridReferenceIncreasing</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that a numeric gridding system is defined for a particular gridding area along a given grid axis, i.e. 1, 2, 3, etc. 
+<P><HR>
+<H1><A NAME="pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A></H1>
+<PRE>
+<I>pcbDrawingBorderTemplate ::= '(' 'pcbDrawingBorderTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0030.HTM#pcbDrawingTemplateHeader">pcbDrawingTemplateHeader</A></I>
+&#09;<I><A HREF="RMRF0061.HTM#usableArea">usableArea</A></I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingRectangle">pcbDrawingBorderTemplateTrimmingRectangle</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingMark">pcbDrawingBorderTemplateTrimmingMark</A>&gt; | 
+&#09;<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedArea">pcbDrawingBorderZonedArea</A> | <A HREF="RMRF0028.HTM#pcbDrawingComplexFigure">pcbDrawingComplexFigure</A> | 
+&#09;<A HREF="RMRF0029.HTM#pcbDrawingFigure">pcbDrawingFigure</A> | <A HREF="RMRF0030.HTM#pcbDrawingText">pcbDrawingText</A> | <A HREF="RMRF0048.HTM#pcbPropertyDrawing">pcbPropertyDrawing</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateRef">pcbDrawingBorderTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the border of a drawing and the area in which drawing graphics may be placed.
+<P>See <I><A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A></I> for an example.
+<P><HR>
+<H1><A NAME="pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></H1>
+<PRE>
+<I>pcbDrawingBorderTemplateCenteringMark ::= '(' 
+&#09;'pcbDrawingBorderTemplateCenteringMark'</I>
+&#09;<I>{ <A HREF="RMRF0029.HTM#pcbDrawingFigure">pcbDrawingFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#mark">mark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingMark">pcbDrawingBorderTemplateTrimmingMark</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0001.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0002.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0008.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0008.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0016.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0016.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0018.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0020.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0021.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0021.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0022.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0022.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0023.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0026.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0028.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0033.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0033.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0033.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0038.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0039.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0041.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0045.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0046.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0048.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0048.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0052.HTM#portList">portList</A></I>, <I><A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0058.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+<BR><BR><DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines a centering mark in a drawing border template. Centering marks are used, for example, to align the drawing for photographing.
+<H3>Example:</H3>
+<P><CENTER><IMG SRC="FIG0120.GIF">
+</CENTER>
+<PRE>
+<B>(pcbDrawingBorderTemplate DBTEMP1</B>
+<B>   (pcbDrawingTemplateHeader ...)</B>
+<B>   (usableArea ...)</B>
+<B>   (pcbDrawingBorderTemplateTrimmingRectangle ...)</B>
+<B>   (pcbDrawingBorderTemplateCenteringMark</B>
+<B>      (pcbDrawingFigure DWGATTR_01</B>
+<B>         (geometryElementSet</B>
+<B>            (unfilledPolygon</B>
+<B>               (pointList</B>
+<B>                  (pt 200000 0)</B>
+<B>                  (pt 210000 -10000)</B>
+<B>                  (pt 199000 -10000)</B>
+<B>                  (pt 200000 0))))) ...)</B>
+<B>   ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></H1>
+<PRE>
+<I>pcbDrawingBorderTemplateOrientationMark ::= '(' 
+&#09;'pcbDrawingBorderTemplateOrientationMark'</I>
+&#09;<I>{ <A HREF="RMRF0029.HTM#pcbDrawingFigure">pcbDrawingFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#mark">mark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingMark">pcbDrawingBorderTemplateTrimmingMark</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0001.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0002.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0008.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0008.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0016.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0016.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0018.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0020.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0021.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0021.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0022.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0022.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0022.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0023.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0026.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0028.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0032.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0033.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0033.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0033.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0038.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0039.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0041.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0045.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0046.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0048.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0048.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0052.HTM#portList">portList</A></I>, <I><A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0058.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+<BR><BR><DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>The orientation mark indicates how the drawing should be oriented. Typically an arrow is drawn, pointing towards the viewer of the drawing.
+<H3>Example:</H3>
+<P><CENTER><IMG SRC="FIG0121.GIF">
+</CENTER>
+<PRE>
+<B>(pcbDrawingBorderTemplate DBTEMP1</B>
+<B>   (pcbDrawingTemplateHeader ...)</B>
+<B>   (usableArea ...)</B>
+<B>   (pcbDrawingBorderTemplateTrimmingRectangle ...)</B>
+<B>   (pcbDrawingBorderTemplateCenteringMark ...)</B>
+<B>   (pcbDrawingBorderTemplateOrientationMark</B>
+<B>      (pcbDrawingFigure DWGATTR_01</B>
+<B>         (geometryElementSet</B>
+<B>            (unfilledPolygon</B>
+<B>               (pointList</B>
+<B>                  (pt 200000 277000)</B>
+<B>                  (pt 210000 287000)</B>
+<B>                  (pt 210000 287000)</B>
+<B>                  (pt 200000 277000)))</B>
+<B>            (path</B>
+<B>               (pointList</B>
+<B>                  (pt 200000 277000)</B>
+<B>                  (pt 200000 293000)))))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingBorderTemplateRef">pcbDrawingBorderTemplateRef</A></H1>
+<PRE>
+<I>pcbDrawingBorderTemplateRef ::= '(' 'pcbDrawingBorderTemplateRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A> 
+</I>
+<H3>Description:</H3>
+<P>References a drawing border template.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingBorder</B>
+<B>   (pcbDrawingBorderTemplateRef  A3_Border)</B>
+<B>   (unscaledTransform (origin (pt 0 0))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingBorderTemplateTrimmingMark">pcbDrawingBorderTemplateTrimmingMark</A></H1>
+<PRE>
+<I>pcbDrawingBorderTemplateTrimmingMark ::= '(' 
+&#09;'pcbDrawingBorderTemplateTrimmingMark'</I>
+&#09;<I>( <A HREF="RMRF0028.HTM#pcbDrawingBorderTrimmingMarkStroke">pcbDrawingBorderTrimmingMarkStroke</A> | 
+&#09;<A HREF="RMRF0028.HTM#pcbDrawingBorderTrimmingMarkTriangular">pcbDrawingBorderTrimmingMarkTriangular</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#mark">mark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingRectangle">pcbDrawingBorderTemplateTrimmingRectangle</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines the type of trimming mark used at the four corners of a drawing border template.
+<P>Trimming marks are used to indicate the amount to cut off the four sides of a printed or plotted pcb drawing. They appear at the corners of the <I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingRectangle">pcbDrawingBorderTemplateTrimmingRectangle</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingBorderTemplate A4_Landscape_Border</B>
+<B>   (pcbDrawingTemplateHeader (pcbDrawingUnits ...))</B>
+<B>   (usableArea (rectangle (pt 20 20) (pt 275 190)))</B>
+<B>   (pcbDrawingBorderTemplateTrimmingRectangle</B>
+<B>      (rectangle ...))</B>
+<B>   (pcbDrawingBorderTemplateTrimmingMark</B>
+<B>      (pcbDrawingBorderTrimmingMarkTriangular </B>
+<B>         (length  5) (width 1))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingBorderTemplateTrimmingRectangle">pcbDrawingBorderTemplateTrimmingRectangle</A></H1>
+<PRE>
+<I>pcbDrawingBorderTemplateTrimmingRectangle ::= '(' 
+&#09;'pcbDrawingBorderTemplateTrimmingRectangle'</I>
+&#09;<I><A HREF="RMRF0054.HTM#rectangle">rectangle</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingMark">pcbDrawingBorderTemplateTrimmingMark</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the bounding box of the drawing for trimming purposes. The trimming marks will appear at the corners of this rectangle. 
+<P><HR>
+<H1><A NAME="pcbDrawingBorderTrimmingMarkStroke">pcbDrawingBorderTrimmingMarkStroke</A></H1>
+<PRE>
+<I>pcbDrawingBorderTrimmingMarkStroke ::= '(' 'pcbDrawingBorderTrimmingMarkStroke'</I>
+&#09;<I><A HREF="RMRF0012.HTM#length">length</A></I>
+&#09;<I><A HREF="RMRF0062.HTM#width">width</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingMark">pcbDrawingBorderTemplateTrimmingMark</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#mark">mark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTrimmingMarkTriangular">pcbDrawingBorderTrimmingMarkTriangular</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that each trimming mark consists of a pair of short strokes, as shown in the following diagram, which shows the stroke for the top-left corner. 
+<P><I><A HREF="RMRF0012.HTM#length">Length</A></I> is the length of each stroke. <I><A HREF="RMRF0062.HTM#width">Width</A></I> is the width of the line for each stroke. 
+<P><CENTER><IMG SRC="FIG0122.GIF">
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingBorderTemplate A4_Landscape_Border</B>
+<B>   (pcbDrawingTemplateHeader (pcbDrawingUnits ...))</B>
+<B>   (usableArea (rectangle (pt 20 20) (pt 275 190)))</B>
+<B>   (pcbDrawingBorderTemplateTrimmingRectangle</B>
+<B>      (rectangle ...))</B>
+<B>   (pcbDrawingBorderTemplateTrimmingMark</B>
+<B>      (pcbDrawingBorderTrimmingMarkStroke</B>
+<B>         (length  15)</B>
+<B>         (width 1))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingBorderTrimmingMarkTriangular">pcbDrawingBorderTrimmingMarkTriangular</A></H1>
+<PRE>
+<I>pcbDrawingBorderTrimmingMarkTriangular ::= '(' 
+&#09;'pcbDrawingBorderTrimmingMarkTriangular'</I>
+&#09;<I><A HREF="RMRF0012.HTM#length">length</A></I>
+&#09;<I><A HREF="RMRF0062.HTM#width">width</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingMark">pcbDrawingBorderTemplateTrimmingMark</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#mark">mark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTrimmingMarkStroke">pcbDrawingBorderTrimmingMarkStroke</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that each trimming mark consists of a right-angled isosceles triangle, as shown in the following diagram, which shows a trimming mark for the bottom-left corner.
+<P><I><A HREF="RMRF0012.HTM#length">Length</A></I> is the length of each perpendicular side of the triangle. <I><A HREF="RMRF0062.HTM#width">Width</A></I> is the width of the lines drawn round the triangle.
+<P><CENTER><IMG SRC="FIG0123.GIF">
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingBorderTemplate A4_Landscape_Border</B>
+<B>   (pcbDrawingTemplateHeader (pcbDrawingUnits ...))</B>
+<B>   (usableArea (rectangle (pt 20 20) (pt 275 190)))</B>
+<B>   (pcbDrawingBorderTemplateTrimmingRectangle</B>
+<B>      (rectangle ...))</B>
+<B>   (pcbDrawingBorderTemplateTrimmingMark</B>
+<B>      (pcbDrawingBorderTrimmingMarkTriangular</B>
+<B>         (length  5) (width 1))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingBorderZonedArea">pcbDrawingBorderZonedArea</A></H1>
+<PRE>
+<I>pcbDrawingBorderZonedArea ::= '(' 'pcbDrawingBorderZonedArea'</I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDrawingBorderZonedAreaNameDef">pcbDrawingBorderZonedAreaNameDef</A></I>
+&#09;<I><A HREF="RMRF0054.HTM#rectangle">rectangle</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystemHorizontal">pcbDrawingBorderZonedGridSystemHorizontal</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystemVertical">pcbDrawingBorderZonedGridSystemVertical</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines a rectangular area, positioned relative to the origin of the template, which may have a horizontal and/or vertical grid. The grid is not displayed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingBorderZonedArea MAIN_ZONES</B>
+<B>   (rectangle (pt 0 0) (pt 1000 500))</B>
+<B>   (pcbDrawingBorderZonedGridSystemHorizontal </B>
+<B>      (pcbDrawingBorderZonedGridSystem</B>
+<B>         (numberOfZones 10)</B>
+<B>         (<A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceNumeric">pcbDrawingBorderGridReferenceAlphabetic</A>)))</B>
+<B>   (pcbDrawingBorderZonedGridSystemVertical </B>
+<B>      (pcbDrawingBorderZonedGridSystem</B>
+<B>         (numberOfZones 5)</B>
+<B>         (<A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceNumeric">pcbDrawingBorderGridReferenceNumeric</A>))))</B>
+</PRE>
+<P>This example defines a rectangular zoned area with a horizontal grid of 10 zones with alphabetic indicators and a vertical grid of 5 zones with numeric indicators. 
+<P><HR>
+<H1><A NAME="pcbDrawingBorderZonedAreaNameDef">pcbDrawingBorderZonedAreaNameDef</A></H1>
+<PRE>
+<I>pcbDrawingBorderZonedAreaNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedArea">pcbDrawingBorderZonedArea</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a name for a <I><A HREF="RMRF0028.HTM#pcbDrawingBorderZonedArea">pcbDrawingBorderZonedArea</A></I>.
+<P><HR>
+<H1><A NAME="pcbDrawingBorderZonedGridSystem">pcbDrawingBorderZonedGridSystem</A></H1>
+<PRE>
+<I>pcbDrawingBorderZonedGridSystem ::= '(' 'pcbDrawingBorderZonedGridSystem'</I>
+&#09;<I><A HREF="RMRF0014.HTM#numberOfZones">numberOfZones</A></I>
+&#09;<I>( <A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceNumeric">pcbDrawingBorderGridReferenceNumeric</A> | 
+&#09;<A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceAlphabetic">pcbDrawingBorderGridReferenceAlphabetic</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceIncreasing">pcbDrawingBorderGridReferenceIncreasing</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystemHorizontal">pcbDrawingBorderZonedGridSystemHorizontal</A>  !<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystemVertical">pcbDrawingBorderZonedGridSystemVertical</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a grid system for a zoned area. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingBorderZonedGridSystem</B>
+<B>   (numberOfZones 10)</B>
+<B>   (<A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceNumeric">pcbDrawingBorderGridReferenceNumeric</A>))</B>
+</PRE>
+<P>In this example, a grid of 10 zones with numeric indicators is specified. 
+<P><HR>
+<H1><A NAME="pcbDrawingBorderZonedGridSystemHorizontal">pcbDrawingBorderZonedGridSystemHorizontal</A></H1>
+<PRE>
+<I>pcbDrawingBorderZonedGridSystemHorizontal ::= '(' 
+&#09;'pcbDrawingBorderZonedGridSystemHorizontal'</I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystem">pcbDrawingBorderZonedGridSystem</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedArea">pcbDrawingBorderZonedArea</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#horizontal">horizontal</A> <A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystemVertical">pcbDrawingBorderZonedGridSystemVertical</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a horizontal grid system. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingBorderZonedGridSystemHorizontal </B>
+<B>   (pcbDrawingBorderZonedGridSystem</B>
+<B>      (numberOfZones 10)</B>
+<B>      (<A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceNumeric">pcbDrawingBorderGridReferenceAlphabetic</A>))) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingBorderZonedGridSystemVertical">pcbDrawingBorderZonedGridSystemVertical</A></H1>
+<PRE>
+<I>pcbDrawingBorderZonedGridSystemVertical ::= '(' 
+&#09;'pcbDrawingBorderZonedGridSystemVertical'</I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystem">pcbDrawingBorderZonedGridSystem</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0028.HTM#pcbDrawingBorderZonedArea">pcbDrawingBorderZonedArea</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystemHorizontal">pcbDrawingBorderZonedGridSystemHorizontal</A> <A HREF="RMRF0061.HTM#vertical">vertical</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a vertical grid system. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingBorderZonedGridSystemVertical </B>
+<B>   (pcbDrawingBorderZonedGridSystem</B>
+<B>      (numberOfZones 5)</B>
+<B>      (<A HREF="RMRF0028.HTM#pcbDrawingBorderGridReferenceNumeric">pcbDrawingBorderGridReferenceNumeric</A>)))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingComplexFigure">pcbDrawingComplexFigure</A></H1>
+<PRE>
+<I>pcbDrawingComplexFigure ::= '(' 'pcbDrawingComplexFigure'</I>
+&#09;<I><A HREF="RMRF0029.HTM#pcbDrawingFigureMacroRef">pcbDrawingFigureMacroRef</A></I>
+&#09;<I><A HREF="RMRF0060.HTM#uniformScaleTransform">uniformScaleTransform</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0019.HTM#pcbBondPadDrawingTemplate">pcbBondPadDrawingTemplate</A>  *<A HREF="RMRF0027.HTM#pcbDrawingAnnotation">pcbDrawingAnnotation</A>  *<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>  *<A HREF="RMRF0029.HTM#pcbDrawingElement">pcbDrawingElement</A>  *<A HREF="RMRF0029.HTM#pcbDrawingFigureMacro">pcbDrawingFigureMacro</A>  *<A HREF="RMRF0030.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A>  *<A HREF="RMRF0031.HTM#pcbDrillRuleSymbol">pcbDrillRuleSymbol</A>  *<A HREF="RMRF0038.HTM#pcbMountableDiePhysicalTemplateSymbol">pcbMountableDiePhysicalTemplateSymbol</A>  *<A HREF="RMRF0039.HTM#pcbMountablePackageSymbol">pcbMountablePackageSymbol</A>  *<A HREF="RMRF0044.HTM#pcbPackageTerminalDrawingTemplate">pcbPackageTerminalDrawingTemplate</A>  *<A HREF="RMRF0048.HTM#pcbPrintedPartSymbol">pcbPrintedPartSymbol</A>  *<A HREF="RMRF0048.HTM#pcbPrintedPartTerminalDrawingTemplate">pcbPrintedPartTerminalDrawingTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#figure">figure</A> <A HREF="RMRF0020.HTM#pcbComplexPhysicalFigure">pcbComplexPhysicalFigure</A> <A HREF="RMRF0029.HTM#pcbDrawingFigure">pcbDrawingFigure</A> <A HREF="RMRF0029.HTM#pcbDrawingFigureCollector">pcbDrawingFigureCollector</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0048.HTM#pcbPrintedPartTerminalDrawingTemplate">pcbPrintedPartTerminalDrawingTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+<BR><BR></I>
+<DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0044.HTM#pcbPackageTerminalDrawingTemplate">pcbPackageTerminalDrawingTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+<BR><BR></I>
+<DT>3. This construct is illegal in this context:  <I><A HREF="RMRF0030.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+<BR><BR></I>
+<DT>4. This construct is illegal in this context:  <I><A HREF="RMRF0029.HTM#pcbDrawingFigureMacro">pcbDrawingFigureMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+<BR><BR></I>
+<DT>5. This construct is illegal in this context:  <I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+<BR><BR></I>
+<DT>6. This construct is illegal in this context:  <I><A HREF="RMRF0019.HTM#pcbBondPadDrawingTemplate">pcbBondPadDrawingTemplate</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Positions a referenced drawing figure macro on a pcb drawing.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingBorderTemplate A4_Landscape_Border</B>
+<B>   (pcbDrawingTemplateHeader ...)</B>
+<B>   (usableArea ...)</B>
+<B>   (pcbDrawingBorderTemplateTrimmingRectangle</B>
+<B>      (rectangle ...))</B>
+<B>   (pcbDrawingComplexFigure</B>
+<B>      (pcbDrawingFigureMacroRef Fig_Mac1)</B>
+<B>      (uniformScaleTransform (origin (pt 100 700)))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingDatumDimensionLineLength">pcbDrawingDatumDimensionLineLength</A></H1>
+<PRE>
+<I>pcbDrawingDatumDimensionLineLength ::= '(' 'pcbDrawingDatumDimensionLineLength'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0029.HTM#pcbDrawingHeader">pcbDrawingHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0012.HTM#length">length</A> <A HREF="RMRF0022.HTM#pcbDatumDimensionLineFullLength">pcbDatumDimensionLineFullLength</A> <A HREF="RMRF0022.HTM#pcbDatumDimensionLineLengthList">pcbDatumDimensionLineLengthList</A> <A HREF="RMRF0025.HTM#pcbDimension">pcbDimension</A> <A HREF="RMRF0029.HTM#pcbDrawingExternalDimensionLineLength">pcbDrawingExternalDimensionLineLength</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the default length of datum dimension lines/arcs for cases when full-length dimension lines/arcs are not being used (e.g. see <I><A HREF="RMRF0025.HTM#pcbDimensionDatumLinear">pcbDimensionDatumLinear</A></I>.) The default value is 1 unit but this item should generally be specified when the value is needed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingHeader</B>
+<B>   (pcbDrawingUnits ...)</B>
+<B>   (pcbDimensionDistanceUnit (unitRef mm))</B>
+<B>   (pcbDrawingScaleFactor ...)</B>
+<B>   (pcbDrawingDimensioningStandard ...)</B>
+<B>   (pcbDrawingDatumDimensionLineLength 10) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingDimensioningStandard">pcbDrawingDimensioningStandard</A></H1>
+<PRE>
+<I>pcbDrawingDimensioningStandard ::= '(' 'pcbDrawingDimensioningStandard'</I>
+&#09;<I><A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardType">pcbDrawingDimensioningStandardType</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0029.HTM#pcbDrawingHeader">pcbDrawingHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingDimensioningStandardAfnor">pcbDrawingDimensioningStandardAfnor</A> <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardAnsi">pcbDrawingDimensioningStandardAnsi</A> <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardBs">pcbDrawingDimensioningStandardBs</A> <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardDin">pcbDrawingDimensioningStandardDin</A> <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardIso">pcbDrawingDimensioningStandardIso</A> <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardMil">pcbDrawingDimensioningStandardMil</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the drawing standard that the receiving system should aim to adhere to. Note that it is the <I><A HREF="RMRF0006.HTM#drawingReferenceToStandard">drawingReferenceToStandard</A></I> string that is displayed in the title block.
+<P>This item is needed, for example, to determine exactly how dimensions are displayed. For instance, when using BS308 the decimal point is displayed as a period (e.g. 24.9), but when using DIN406, the decimal point is displayed as a comma (e.g. 24,9).
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingHeader</B>
+<B>   (pcbDrawingUnits ...)</B>
+<B>   (pcbDimensionDistanceUnit (unitRef mm))</B>
+<B>   (pcbDrawingScaleFactor ...)</B>
+<B>   (pcbDrawingDimensioningStandard</B>
+<B>      (pcbDrawingDimensioningStandardAnsi)) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbDrawingDimensioningStandardAfnor">pcbDrawingDimensioningStandardAfnor</A></H1>
+<PRE>
+<I>pcbDrawingDimensioningStandardAfnor ::= '(' 'pcbDrawingDimensioningStandardAfnor'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardType">pcbDrawingDimensioningStandardType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingDimensioningStandard">pcbDrawingDimensioningStandard</A> <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardAnsi">pcbDrawingDimensioningStandardAnsi</A> <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardBs">pcbDrawingDimensioningStandardBs</A> <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardDin">pcbDrawingDimensioningStandardDin</A> <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardIso">pcbDrawingDimensioningStandardIso</A> <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardMil">pcbDrawingDimensioningStandardMil</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the AFNOR drawing standard is being used.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingHeader</B>
+<B>   (pcbDrawingUnits ...)</B>
+<B>   (pcbDimensionDistanceUnit (unitRef mm))</B>
+<B>   (pcbDrawingScaleFactor ...)</B>
+<B>   (pcbDrawingDimensioningStandard</B>
+<B>      (pcbDrawingDimensioningStandardAfnor)) ...) </B>
+</PRE>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

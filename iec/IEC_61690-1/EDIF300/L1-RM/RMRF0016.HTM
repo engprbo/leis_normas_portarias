@@ -1,0 +1,700 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="pageNameCaseSensitive">pageNameCaseSensitive</A></H1>
+<PRE>
+<I>pageNameCaseSensitive ::= '(' 'pageNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageNameCaseSensitive">PageNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for pages are to be considered as case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A> <A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>
+</I>
+<P><HR>
+<H1><A NAME="pageNameDef">pageNameDef</A></H1>
+<PRE>
+<I>pageNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0015.HTM#page">page</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageNameDef">PageNameDef</A></I> is the name definition for a <I><A HREF="RMRF0015.HTM#page">page</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageNameRef">pageNameRef</A> <A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  
+</I>
+<P><HR>
+<H1><A NAME="pageNameRef">pageNameRef</A></H1>
+<PRE>
+<I>pageNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#extendPageDef">extendPageDef</A>  <A HREF="RMRF0016.HTM#pageRef">pageRef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageNameRef">PageNameRef</A></I> is a reference to a <I><A HREF="RMRF0016.HTM#pageNameDef">pageNameDef</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageNameDef">pageNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="pagePropertyDisplay">pagePropertyDisplay</A></H1>
+<PRE>
+<I>pagePropertyDisplay ::= '(' 'pagePropertyDisplay'</I>
+&#09;<I><A HREF="RMRF0018.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | &lt;<A HREF="RMRF0018.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pagePropertyDisplay">PagePropertyDisplay</A></I> is used to define the display positions for a page property. There may be no more than one for each page property.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0015.HTM#page">page</A>
+</I>
+<P><HR>
+<H1><A NAME="pageRef">pageRef</A></H1>
+<PRE>
+<I>pageRef ::= '(' 'pageRef'</I>
+&#09;<I><A HREF="RMRF0016.HTM#pageNameRef">pageNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0011.HTM#interconnectRef">interconnectRef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageRef">PageRef</A></I> is a reference to a page. It is used to locate an interconnect from outside a page, e.g. within back annotation.
+<H3>Example:</H3>
+<PRE>
+<B>(interconnectRef NET1 </B>
+<B>   (pageRef P1))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0010.HTM#interconnectAnnotate">interconnectAnnotate</A>
+</I>
+<P><HR>
+<H1><A NAME="pageSize">pageSize</A></H1>
+<PRE>
+<I>pageSize ::= '(' 'pageSize'</I>
+&#09;<I><A HREF="RMRF0018.HTM#rectangle">rectangle</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0015.HTM#pageHeader">pageHeader</A>  <A HREF="RMRF0022.HTM#schematicSymbolHeader">schematicSymbolHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageSize">PageSize</A></I> defines the size of page appropriate to the page or symbol being defined.
+<H3>Example:</H3>
+<PRE>
+<B>(pageSize (rectangle (pt 0 0) (pt 420 297)))</B>
+</PRE>
+<P>This example defines an ISO standard size A3, in landscape position, assuming distance is measured in millimeters.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0015.HTM#pageBorder">pageBorder</A> <A HREF="RMRF0005.HTM#drawingSize">drawingSize</A>
+</I>
+<P><HR>
+<H1><A NAME="pageTitle">pageTitle</A></H1>
+<PRE>
+<I>pageTitle ::= '(' 'pageTitle'</I>
+&#09;<I><A HREF="RMRF0024.HTM#stringToken">stringToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P>The title of the page.
+<H3>Example:</H3>
+<PRE>
+<B>(pageTitle "CPU")</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#approvedDate">approvedDate</A>  <A HREF="RMRF0002.HTM#companyName">companyName</A>  <A HREF="RMRF0003.HTM#contract">contract</A>  <A HREF="RMRF0015.HTM#originalDrawingDate">originalDrawingDate</A>  <A HREF="RMRF0005.HTM#drawingDescription">drawingDescription</A>  <A HREF="RMRF0005.HTM#drawingIdentification">drawingIdentification</A>  <A HREF="RMRF0005.HTM#drawingSize">drawingSize</A>  <A HREF="RMRF0006.HTM#engineeringDate">engineeringDate</A>    <A HREF="RMRF0015.HTM#pageIdentification">pageIdentification</A>  <A HREF="RMRF0019.HTM#revision">revision</A>  <A HREF="RMRF0025.HTM#totalPages">totalPages</A>  
+</I>
+<P><HR>
+<H1><A NAME="pageTitleBlock">pageTitleBlock</A></H1>
+<PRE>
+<I>pageTitleBlock ::= '(' 'pageTitleBlock'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0016.HTM#pageTitleBlockTemplateRef">pageTitleBlockTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#transform">transform</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0016.HTM#pagePropertyDisplay">pagePropertyDisplay</A> | 
+&#09;&lt;<A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>&gt; | &lt;<A HREF="RMRF0016.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | 
+&#09;<A HREF="RMRF0018.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0018.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0018.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0015.HTM#page">page</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlock">PageTitleBlock</A></I> is used to hold and display title block information in a drawing. Typically, this includes contract details, approval dates, revision numbers, etc.
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockTemplate">PageTitleBlockTemplate</A></I> is used to provide the standard graphical shape, e.g. a border or division in which the title block attributes are displayed. <I><A HREF="RMRF0016.HTM#pageTitleBlock">PageTitleBlock</A></I> references a <I><A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A></I> and provides a <I><A HREF="RMRF0025.HTM#transform">transform</A></I> to position it.
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlock">PageTitleBlock</A></I> is named because there may be more than one present within the same <I><A HREF="RMRF0015.HTM#page">page</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pageTitleBlock titleBlock1</B>
+<B>   (pageTitleBlockTemplateRef TITLE_BLOCK)</B>
+<B>   (transform (origin (pt 1000 20)))</B>
+<B>   (pageTitleBlockAttributes </B>
+<B>      (revision "2B")))</B>
+</PRE>
+<P>In this <I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A></I>, the template is positioned at <B>(pt 1000 20)</B>, and a <I><A HREF="RMRF0019.HTM#revision">revision</A></I> string is specified. It is probable that <I><A HREF="RMRF0019.HTM#revisionDisplay">revisionDisplay</A></I> occurs in the <I><A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>
+</I>
+<P><HR>
+<H1><A NAME="pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A></H1>
+<PRE>
+<I>pageTitleBlockAttributeDisplay ::= '(' 'pageTitleBlockAttributeDisplay'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#approvedDateDisplay">approvedDateDisplay</A>&gt; | &lt;<A HREF="RMRF0001.HTM#checkDateDisplay">checkDateDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0002.HTM#companyNameDisplay">companyNameDisplay</A>&gt; | &lt;<A HREF="RMRF0003.HTM#contractDisplay">contractDisplay</A>&gt; | &lt;<A HREF="RMRF0003.HTM#copyrightDisplay">copyrightDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0005.HTM#drawingDescriptionDisplay">drawingDescriptionDisplay</A>&gt; | &lt;<A HREF="RMRF0005.HTM#drawingIdentificationDisplay">drawingIdentificationDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0005.HTM#drawingSizeDisplay">drawingSizeDisplay</A>&gt; | &lt;<A HREF="RMRF0006.HTM#engineeringDateDisplay">engineeringDateDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0015.HTM#originalDrawingDateDisplay">originalDrawingDateDisplay</A>&gt; | &lt;<A HREF="RMRF0015.HTM#pageIdentificationDisplay">pageIdentificationDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0016.HTM#pageTitleDisplay">pageTitleDisplay</A>&gt; | &lt;<A HREF="RMRF0019.HTM#revisionDisplay">revisionDisplay</A>&gt; | &lt;<A HREF="RMRF0025.HTM#totalPagesDisplay">totalPagesDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>  <A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">PageTitleBlockAttributeDisplay</A></I> collects keywords used to provide display positions for title block attributes. The values of the attributes are specified within <I><A HREF="RMRF0016.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pageTitleBlockAttributeDisplay</B>
+<B>   (companyNameDisplay</B>
+<B>      (addDisplay ...))</B>
+<B>   (revisionDisplay ...))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A>
+</I>
+<P><HR>
+<H1><A NAME="pageTitleBlockAttributes">pageTitleBlockAttributes</A></H1>
+<PRE>
+<I>pageTitleBlockAttributes ::= '(' 'pageTitleBlockAttributes'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#approvedDate">approvedDate</A>&gt; | &lt;<A HREF="RMRF0001.HTM#checkDate">checkDate</A>&gt; | &lt;<A HREF="RMRF0002.HTM#companyName">companyName</A>&gt; | &lt;<A HREF="RMRF0003.HTM#contract">contract</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0005.HTM#drawingDescription">drawingDescription</A>&gt; | &lt;<A HREF="RMRF0005.HTM#drawingIdentification">drawingIdentification</A>&gt; | &lt;<A HREF="RMRF0005.HTM#drawingSize">drawingSize</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0006.HTM#engineeringDate">engineeringDate</A>&gt; | &lt;<A HREF="RMRF0015.HTM#originalDrawingDate">originalDrawingDate</A>&gt; | &lt;<A HREF="RMRF0015.HTM#pageIdentification">pageIdentification</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0016.HTM#pageTitle">pageTitle</A>&gt; | &lt;<A HREF="RMRF0019.HTM#revision">revision</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>  <A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockAttributes">PageTitleBlockAttributes</A> </I>collects keywords used to provide the values for title block attributes. The display positions of the attributes are specified within <I><A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>.
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(pageTitleBlockAttributes</B>
+<B>   (companyName "Electronic Industries Association")</B>
+<B>   (revision ...))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>
+</I>
+<P><HR>
+<H1><A NAME="pageTitleBlockTemplate">pageTitleBlockTemplate</A></H1>
+<PRE>
+<I>pageTitleBlockTemplate ::= '(' 'pageTitleBlockTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0006.HTM#figure">figure</A> | &lt;<A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>&gt; 
+&#09;| &lt;<A HREF="RMRF0016.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A>&gt; | <A HREF="RMRF0018.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0019.HTM#schematicComplexFigure">schematicComplexFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#external">external</A>  <A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockTemplate">PageTitleBlockTemplate</A></I> provides a graphical template for a <I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A></I>. It may also provide display positions and default values for title block attributes and properties. 
+<H3>Example:</H3>
+<PRE>
+<B>(pageTitleBlockTemplate TITLE_BLOCK</B>
+<B>   (schematicTemplateHeader </B>
+<B>      (schematicUnits)</B>
+<B>      ...)</B>
+<B>   (figure LINES</B>
+<B>      (rectangle (pt 0 0) (pt 200 50))))</B>
+</PRE>
+<P>In this example, the title block is represented by a simple <I><A HREF="RMRF0018.HTM#rectangle">rectangle</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>
+</I>
+<P><HR>
+<H1><A NAME="pageTitleBlockTemplateRef">pageTitleBlockTemplateRef</A></H1>
+<PRE>
+<I>pageTitleBlockTemplateRef ::= '(' 'pageTitleBlockTemplateRef'</I>
+&#09;<I><A HREF="RMRF0013.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0013.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockTemplateRef">PageTitleBlockTemplateRef</A></I> is a reference to a <I><A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pageTitleBlockTemplateRef TITLE_BLOCK)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>
+</I>
+<P><HR>
+<H1><A NAME="pageTitleDisplay">pageTitleDisplay</A></H1>
+<PRE>
+<I>pageTitleDisplay ::= '(' 'pageTitleDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitleDisplay">PageTitleDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0016.HTM#pageTitle">pageTitle</A></I>. When used in the context of <I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A></I>, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#pageTitle">pageTitle</A>
+</I>
+<P><HR>
+<H1><A NAME="parameterDisplay">parameterDisplay</A></H1>
+<PRE>
+<I>parameterDisplay ::= '(' 'parameterDisplay'</I>
+&#09;<I><A HREF="RMRF0016.HTM#parameterNameRef">parameterNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0016.HTM#parameterNameDisplay">parameterNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  <A HREF="RMRF0022.HTM#schematicSymbol">schematicSymbol</A>  
+</I>
+<H3>Description:</H3>
+<P>Adds, replaces or removes display positions for the specified parameter. The value is only known after expansion and so would only be displayed if the schematic was being viewed as part of an expanded hierarchy.
+<H3>Example:</H3>
+<PRE>
+<B>(parameterDisplay busWidth </B>
+<B>   (addDisplay</B>
+<B>      (display </B>
+<B>         (figureGroupOverride Green</B>
+<B>            (displayAttributes ...)) </B>
+<B>         (transform (origin (pt 25 30)) </B>
+<B>            (rotation 90)))))</B>
+</PRE>
+<P>This adds a display position for the value of the parameter <B>busWidth</B> at the specified location.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#booleanParameter">booleanParameter</A>  <A HREF="RMRF0010.HTM#integerParameter">integerParameter</A>   <A HREF="RMRF0024.HTM#stringParameter">stringParameter</A>
+</I>
+<P><HR>
+<H1><A NAME="parameterNameCaseSensitive">parameterNameCaseSensitive</A></H1>
+<PRE>
+<I>parameterNameCaseSensitive ::= '(' 'parameterNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#parameterNameCaseSensitive">ParameterNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for a parameter name are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  <A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>
+</I>
+<P><HR>
+<H1><A NAME="parameterNameDef">parameterNameDef</A></H1>
+<PRE>
+<I>parameterNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#booleanParameter">booleanParameter</A>  <A HREF="RMRF0010.HTM#integerParameter">integerParameter</A>  <A HREF="RMRF0014.HTM#numberParameter">numberParameter</A>  <A HREF="RMRF0024.HTM#stringParameter">stringParameter</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#parameterNameDef">ParameterNameDef</A></I> specifies the name definition of a parameter.
+<H3>Example:</H3>
+<PRE>
+<B>(booleanParameter doubleBuffer (boolean (true)))</B>
+</PRE>
+<P>This defines the <I><A HREF="RMRF0001.HTM#booleanParameter">booleanParameter</A></I> named <B>doubleBuffer</B> and assigns the value <I><A HREF="RMRF0025.HTM#true">true</A></I> to it.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#parameterNameRef">parameterNameRef</A>
+</I>
+<P><HR>
+<H1><A NAME="parameterNameDisplay">parameterNameDisplay</A></H1>
+<PRE>
+<I>parameterNameDisplay ::= '(' 'parameterNameDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0018.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0018.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#parameterDisplay">parameterDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P>Adds, replaces or removes display positions for the name of the parameter specified in the enclosing <I><A HREF="RMRF0016.HTM#parameterDisplay">parameterDisplay</A></I>. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#parameterNameRef">parameterNameRef</A>
+</I>
+<P><HR>
+<H1><A NAME="parameterNameRef">parameterNameRef</A></H1>
+<PRE>
+<I>parameterNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#booleanParameterAssign">booleanParameterAssign</A>  <A HREF="RMRF0001.HTM#booleanParameterRef">booleanParameterRef</A>  <A HREF="RMRF0010.HTM#integerParameterAssign">integerParameterAssign</A>  <A HREF="RMRF0010.HTM#integerParameterRef">integerParameterRef</A>  <A HREF="RMRF0014.HTM#numberParameterAssign">numberParameterAssign</A>  <A HREF="RMRF0015.HTM#numberParameterRef">numberParameterRef</A>  <A HREF="RMRF0016.HTM#parameterDisplay">parameterDisplay</A>  <A HREF="RMRF0024.HTM#stringParameterAssign">stringParameterAssign</A>  <A HREF="RMRF0024.HTM#stringParameterRef">stringParameterRef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#parameterNameRef">ParameterNameRef</A></I> references a <I><A HREF="RMRF0016.HTM#parameterNameDef">parameterNameDef</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(booleanParameterAssign doubleBuffer (false))</B>
+</PRE>
+<P>This assigns the value <I><A HREF="RMRF0006.HTM#false">false</A></I> to the <I><A HREF="RMRF0001.HTM#booleanParameter">booleanParameter</A></I> named <B>doubleBuffer</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#parameterNameDef">parameterNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="path">path</A></H1>
+<PRE>
+<I>path ::= '(' 'path'</I>
+&#09;<I><A HREF="RMRF0016.HTM#pointList">pointList</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#figure">figure</A>  <A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A>  
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0016.HTM#path">path</A> </I>is a collection of joining line segments with an associated width. The width is specified in the <I><A HREF="RMRF0006.HTM#figureGroup">figureGroup</A> </I>attribute <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A>.</I> 
+<H3>Example:</H3>
+<PRE>
+<B>(figure black_line</B>
+<B>   (path</B>
+<B>      (pointList</B>
+<B>         (pt 3000 500)</B>
+<B>         (pt 3000 9500)</B>
+<B>         (pt 12000 5000)</B>
+<B>         (pt 3000 500)))</B>
+<B>   (circle</B>
+<B>      (pt 12000 5000)</B>
+<B>      (pt 13000 5000))</B>
+<B>   (path</B>
+<B>      (pointList</B>
+<B>         (pt 0 5000)</B>
+<B>         (pt 3000 5000)))</B>
+<B>   (path</B>
+<B>      (pointList</B>
+<B>         (pt 13000 5000)</B>
+<B>         (pt 16000 5000))))</B>
+</PRE>
+<P>This example describes a typical symbol for an inverter, using three paths and a circle, as shown in the figure below.
+<P><CENTER><IMG SRC="FIG0017.GIF">
+</CENTER>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0003.HTM#cornerType">cornerType</A>  <A HREF="RMRF0006.HTM#endType">endType</A>  <A HREF="RMRF0015.HTM#openShape">openShape</A>  <A HREF="RMRF0016.HTM#pathWidth">pathWidth</A>  <A HREF="RMRF0017.HTM#polygon">polygon</A>  <A HREF="RMRF0023.HTM#shape">shape</A>
+</I>
+<P><HR>
+<H1><A NAME="pathDelay">pathDelay</A></H1>
+<PRE>
+<I>pathDelay ::= '(' 'pathDelay'</I>
+&#09;<I><A HREF="RMRF0004.HTM#delay">delay</A></I>
+&#09;<I>{ <A HREF="RMRF0006.HTM#event">event</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0024.HTM#timing">timing</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pathDelay">PathDelay</A> </I>associates a delay with a specified chain of events. This does not specify the enabling conditions for the path, but does state that whenever the given path is enabled it has the given delay range. The path is described by an ordered sequence of events on ports or on interconnects, or both; at least two events must be given. Not all of the transitions on interconnects or ports in the path need to be specified in detail. 
+<P>The <I><A HREF="RMRF0004.HTM#delay">delay</A> </I>contains the time from the first <I><A HREF="RMRF0006.HTM#event">event</A> </I>in the path to the final <I><A HREF="RMRF0006.HTM#event">event</A>, </I>and must evaluate to a non-negative number. Each <I><A HREF="RMRF0006.HTM#event">event</A> </I>is taken to be a contributing cause of the following <I><A HREF="RMRF0006.HTM#event">event</A>. 
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(pathDelay</B>
+<B>   (delay (mnm (e 13 -1) (e 27 -1) (e 59 -1)))</B>
+<B>   (event (portRef CK) (transition A B))</B>
+<B>   (event (portRef Q) (transition B A)))</B>
+</PRE>
+<P>The above example describes the path from port <B>CK, </B>with a logic transition from <B>A </B>to <B>B, </B>to port <B>Q, </B>with a transition from <B>B </B>to <B>A. </B>The path has associated with it a delay of <B>1.3 </B>time units minimum, <B>2.7 </B>time units nominal and <B>5.9 </B>time units maximum.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#delay">delay</A>  <A HREF="RMRF0006.HTM#event">event</A>  <A HREF="RMRF0013.HTM#loadDelay">loadDelay</A> <A HREF="RMRF0010.HTM#interconnectDelay">interconnectDelay</A> <A HREF="RMRF0017.HTM#portDelay">portDelay</A> <A HREF="RMRF0017.HTM#portLoadDelay">portLoadDelay</A> <A HREF="RMRF0024.HTM#timeDelay">timeDelay</A> 
+</I>
+<P><HR>
+<H1><A NAME="pathWidth">pathWidth</A></H1>
+<PRE>
+<I>pathWidth ::= '(' 'pathWidth'</I>
+&#09;<I>( <A HREF="RMRF0012.HTM#lengthValue">lengthValue</A> | <A HREF="RMRF0013.HTM#minimalWidth">minimalWidth</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#figureGroup">figureGroup</A>  <A HREF="RMRF0006.HTM#figureGroupOverride">figureGroupOverride</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A> </I>attribute is used to define the width of <I><A HREF="RMRF0016.HTM#path">paths</A> </I>and <I><A HREF="RMRF0015.HTM#openShape">openShapes</A> </I>in a figure group. <I><A HREF="RMRF0012.HTM#lengthValue">LengthValue</A></I> indicates the required perpendicular distance between pairs of edges in an expanded path, corresponding to each center line in the original path. A path does have a border, defined by <I><A HREF="RMRF0001.HTM#borderPattern">borderPattern</A></I>, <I><A HREF="RMRF0001.HTM#borderWidth">borderWidth</A></I> and <I><A HREF="RMRF0001.HTM#borderPatternVisible">borderPatternVisible</A></I>.
+<P><I><A HREF="RMRF0016.HTM#pathWidth">PathWidth</A> </I>may be specified within <I><A HREF="RMRF0006.HTM#figureGroup">figureGroup</A> </I>in the <I><A HREF="RMRF0024.HTM#technology">technology</A></I> block of a library. In this case, the width is the default width to be used for all paths and open shapes in a figure group. <I><A HREF="RMRF0016.HTM#pathWidth">PathWidth</A> </I>may also be specified within <I><A HREF="RMRF0006.HTM#figureGroupOverride">figureGroupOverride</A> </I>in the <I><A HREF="RMRF0006.HTM#figure">figure</A> </I>itself. In this case, the width value is used to override temporarily the default path-width value. 
+<P><I><A HREF="RMRF0016.HTM#pathWidth">PathWidth</A> </I>has no effect on the interpretation of <I><A HREF="RMRF0017.HTM#polygon">polygon</A>, <A HREF="RMRF0023.HTM#shape">shape</A>, <A HREF="RMRF0018.HTM#rectangle">rectangle</A>, <A HREF="RMRF0001.HTM#circle">circle</A>, </I>or <I><A HREF="RMRF0005.HTM#dot">dot</A> </I>figures. A <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A></I> of <I><A HREF="RMRF0013.HTM#minimalWidth">minimalWidth</A></I> means that a path of minimum displayable width is displayed.
+<P>The default <I><A HREF="RMRF0016.HTM#pathWidth">pathWidth</A></I> is <I><A HREF="RMRF0013.HTM#minimalWidth">minimalWidth</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(physicalScaling</B>
+<B>   (documentationUnits (setDistance (unitRef mm))))</B>
+<B>(figureGroup Display (pathWidth 10)  ...)</B>
+</PRE>
+<P>The first example defines a default path width of <B>10 </B>mm.
+<PRE>
+<B>(figure</B>
+<B>   (figureGroupOverride Display (pathWidth 15)) ...)</B>
+</PRE>
+<P>The second example overrides the default path width with a value of <B>15 </B>mm. The default value of <B>10 </B>mm is still in effect for subsequent <I><A HREF="RMRF0006.HTM#figure">figures</A> </I>which reference the <B>Display </B>figure group.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#borderWidth">borderWidth</A>  <A HREF="RMRF0003.HTM#cornerType">cornerType</A>  <A HREF="RMRF0006.HTM#endType">endType</A>  <A HREF="RMRF0015.HTM#openShape">openShape</A>  <A HREF="RMRF0016.HTM#path">path</A>
+</I>
+<P><HR>
+<H1><A NAME="pcbLayoutUnits">pcbLayoutUnits</A></H1>
+<PRE>
+<I>pcbLayoutUnits ::= '(' 'pcbLayoutUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0022.HTM#setAngle">setAngle</A>&gt; | &lt;<A HREF="RMRF0022.HTM#setCapacitance">setCapacitance</A>&gt; | &lt;<A HREF="RMRF0023.HTM#setDistance">setDistance</A>&gt; | &lt;<A HREF="RMRF0023.HTM#setTime">setTime</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#physicalScaling">physicalScaling</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pcbLayoutUnits">PcbLayoutUnits</A></I> defines the units for <I><A HREF="RMRF0016.HTM#pcbLayoutView">pcbLayoutViews</A></I>. It may be specified as a default for the entire data in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, or for a library in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. Refer to <I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A></I> for a full example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A> <A HREF="RMRF0005.HTM#documentationUnits">documentationUnits</A> <A HREF="RMRF0011.HTM#interfaceUnits">interfaceUnits</A> <A HREF="RMRF0013.HTM#logicModelUnits">logicModelUnits</A>  <A HREF="RMRF0013.HTM#maskLayoutUnits">maskLayoutUnits</A> <A HREF="RMRF0022.HTM#schematicUnits">schematicUnits</A> <A HREF="RMRF0024.HTM#symbolicLayoutUnits">symbolicLayoutUnits</A>
+</I>
+<P><HR>
+<H1><A NAME="pcbLayoutView">pcbLayoutView</A></H1>
+<PRE>
+<I>pcbLayoutView ::= '(' 'pcbLayoutView'</I>
+&#09;<I><A HREF="RMRF0026.HTM#viewNameDef">viewNameDef</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pcbLayoutView">PcbLayoutView</A></I> introduces a view of type PCB layout for describing printed circuit boards.
+<P>Note: This view is provisional in this version of EDIF and subject to change resulting from the work of the PCB Technical Subcommittee. This view should not be used for implementation purposes at this stage.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbLayoutView VIEW_1</B>
+<B>      ...)</B>
+</PRE>
+
+<P><HR>
+<H1><A NAME="permutable">permutable</A></H1>
+<PRE>
+<I>permutable ::= '(' 'permutable'</I>
+&#09;<I>{ <A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A> | <A HREF="RMRF0016.HTM#permutable">permutable</A> | <A HREF="RMRF0018.HTM#portRef">portRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0011.HTM#interface">interface</A>  <A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A>  <A HREF="RMRF0016.HTM#permutable">permutable</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#permutable">Permutable</A> </I>is used to describe a relationship in which ports are interchangeable, for example, the input ports of an AND gate. The ports referenced within <I><A HREF="RMRF0016.HTM#permutable">permutable</A> </I>must be individual not bundled. Permutable may also contain <I><A HREF="RMRF0016.HTM#permutable">permutable</A> </I>and <I><A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A> </I>constructs. <I><A HREF="RMRF0016.HTM#permutable">Permutable</A> </I>may be nested with <I><A HREF="RMRF0014.HTM#nonPermutable">NonPermutable</A> </I>to specify complex relationships between <I><A HREF="RMRF0017.HTM#port">ports</A> </I>defined in the local cluster(master ports). This explicitly provides a degree of freedom for the external routing of this view. A port may be referenced no more than once within a <I><A HREF="RMRF0016.HTM#permutable">permutable</A> </I>or <I><A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A> </I>in an interface. 
+<P>Nested <I><A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A> </I>structures may be exchanged as a whole, but not partially. 
+<P>&#09;
+<P><CENTER><IMG SRC="FIG0018.GIF">
+</CENTER>
+<P>&#09;Nested <I><A HREF="RMRF0016.HTM#permutable">permutable</A></I> example
+<H3>Example:</H3>
+<PRE>
+<B>(port A (inputPort))</B>
+<B>(port B (inputPort))</B>
+<B>(permutable (portRef A) (portRef B))</B>
+</PRE>
+<P>This states that connections to ports <B>A </B>and <B>B </B>may be interchanged during routing of this view without affecting the logical operation of the view.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A>
+</I>
+<P><HR>
+<H1><A NAME="physicalDefaults">physicalDefaults</A></H1>
+<PRE>
+<I>physicalDefaults ::= '(' 'physicalDefaults'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0021.HTM#schematicRequiredDefaults">schematicRequiredDefaults</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#physicalDefaults">PhysicalDefaults</A> </I>gives required defaults for the scaling of specific view types. These values may be overridden, e.g. by <I><A HREF="RMRF0016.HTM#physicalScaling">physicalScaling</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(edifHeader </B>
+<B>   (edifLevel 0) (keywordMap ...)</B>
+<B>   (unitDefinitions ...)</B>
+<B>   (fontDefinitions ...)</B>
+<B>   (physicalDefaults</B>
+<B>      (schematicRequiredDefaults</B>
+<B>         (schematicMetric</B>
+<B>            (setDistance (unitRef mm))</B>
+<B>            (noHotspotGrid))</B>
+<B>         (fontRef courier)</B>
+<B>         (textHeight 10))))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0016.HTM#physicalScaling">physicalScaling</A>  <A HREF="RMRF0022.HTM#schematicUnits">schematicUnits</A>
+</I>
+<P><HR>
+<H1><A NAME="physicalScaling">physicalScaling</A></H1>
+<PRE>
+<I>physicalScaling ::= '(' 'physicalScaling'</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A>&gt; | &lt;<A HREF="RMRF0005.HTM#documentationUnits">documentationUnits</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0008.HTM#geometryMacroUnits">geometryMacroUnits</A>&gt; | &lt;<A HREF="RMRF0011.HTM#interfaceUnits">interfaceUnits</A>&gt; | &lt;<A HREF="RMRF0013.HTM#logicModelUnits">logicModelUnits</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0013.HTM#maskLayoutUnits">maskLayoutUnits</A>&gt; | &lt;<A HREF="RMRF0016.HTM#pcbLayoutUnits">pcbLayoutUnits</A>&gt; | &lt;<A HREF="RMRF0022.HTM#schematicUnits">schematicUnits</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0024.HTM#symbolicLayoutUnits">symbolicLayoutUnits</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A>  <A HREF="RMRF0024.HTM#technology">technology</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#physicalScaling">PhysicalScaling</A> </I>is used to collect all scaling information for a <I><A HREF="RMRF0012.HTM#library">library</A> </I>at the top of its <I><A HREF="RMRF0024.HTM#technology">technology</A> </I>construct and in the <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(technology</B>
+<B>   (physicalScaling</B>
+<B>      (documentationUnits (setDistance (unitRef mm))) ...) ...)</B>
+</PRE>
+<P>This illustrates a <I><A HREF="RMRF0016.HTM#physicalScaling">physicalScaling</A>. </I>It sets documentation units to have distance measured in <B>mm</B>.
+
+<P><HR>
+<H1><A NAME="pixelPattern">pixelPattern</A></H1>
+<PRE>
+<I>pixelPattern ::= '(' 'pixelPattern'</I>
+&#09;<I><A HREF="RMRF0019.HTM#rowSize">rowSize</A></I>
+&#09;<I>{ <A HREF="RMRF0016.HTM#pixelRow">pixelRow</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#borderPattern">borderPattern</A>  <A HREF="RMRF0006.HTM#fillPattern">fillPattern</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pixelPattern">PixelPattern</A></I> defines a pattern of pixels. It is a two-dimensional array of pixels. <I><A HREF="RMRF0019.HTM#rowSize">RowSize</A></I> defines the number of pixels in each row of pixels. <I><A HREF="RMRF0016.HTM#pixelRow">PixelRow</A></I> defines the status of each pixel in a row. Use one <I><A HREF="RMRF0016.HTM#pixelRow">pixelRow</A></I> construct for each row of pixels required. The first <I><A HREF="RMRF0016.HTM#pixelRow">pixelRow</A></I> defines the status of the uppermost row of pixels. 
+<H3>Example:</H3>
+<PRE>
+<B>(fillPattern</B>
+<B>   (pixelPattern 1</B>
+<B>      (pixelRow (true))))</B>
+</PRE>
+<P>In this example, a pixel pattern  is defined consisting of a single pixel which is on.
+<PRE>
+<B>(fillPattern</B>
+<B>   (pixelPattern 3</B>
+<B>      (pixelRow (true) (false) (false))</B>
+<B>      (pixelRow (false) (true) (false))))</B>
+</PRE>
+<P>In this example, a pixel pattern  is defined consisting of a two-by-three array of pixels, creating the pattern shown below, which assumes that the foreground color is black and the background color is white.
+<P><CENTER><IMG SRC="FIG0019.GIF">
+</CENTER>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#booleanValue">booleanValue</A>
+</I>
+<P><HR>
+<H1><A NAME="pixelRow">pixelRow</A></H1>
+<PRE>
+<I>pixelRow ::= '(' 'pixelRow'</I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#booleanToken">booleanToken</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#pixelPattern">pixelPattern</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pixelRow">PixelRow</A></I> defines a row of pixel values on the x axis. 
+<P>A boolean <I><A HREF="RMRF0025.HTM#true">true</A> </I>indicates that the pixel is to be displayed in the specified color. A boolean <I><A HREF="RMRF0006.HTM#false">false</A> </I>indicates that the pixel is either unchanged or is displayed in the background color. The first boolean defines the status of the leftmost pixel.
+<P>See <I><A HREF="RMRF0016.HTM#pixelPattern">pixelPattern</A></I> for an example.
+
+<P><HR>
+<H1><A NAME="point">point</A></H1>
+<PRE>
+<I>point ::= '(' 'point'</I>
+&#09;<I><A HREF="RMRF0016.HTM#pointValue">pointValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0025.HTM#typedValue">typedValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#point">Point</A> </I>provides a point value.
+<H3>Example:</H3>
+<PRE>
+<B>(property node (point (pt 0 10)))</B>
+</PRE>
+<P>In this example, the property <B>node </B>is of type <I><A HREF="RMRF0016.HTM#point">point</A>. </I>A point value of <B>(pt 0 10) </B>is also specified.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#boolean">boolean</A>  <A HREF="RMRF0010.HTM#integer">integer</A>  <A HREF="RMRF0013.HTM#miNoMax">miNoMax</A>  <A HREF="RMRF0014.HTM#number">number</A>  <A HREF="RMRF0016.HTM#pointValue">pointValue</A>  <A HREF="RMRF0018.HTM#pt">pt</A>  <A HREF="RMRF0023.HTM#string">string</A>
+</I>
+<P><HR>
+<H1><A NAME="pointList">pointList</A></H1>
+<PRE>
+<I>pointList ::= '(' 'pointList'</I>
+&#09;<I>{ <A HREF="RMRF0016.HTM#pointValue">pointValue</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#path">path</A>  <A HREF="RMRF0017.HTM#polygon">polygon</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pointList">PointList</A> </I>is used to specify an ordered list of points which usually represent a series of line segments within figure definitions. A nontrivial figure typically contains at least two points in <I><A HREF="RMRF0016.HTM#path">path</A> </I>and at least three in <I><A HREF="RMRF0017.HTM#polygon">polygon</A>. 
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(pointList</B>
+<B>   (pt 0 1)</B>
+<B>   (pt 1 4)</B>
+<B>   (pt 0 3)</B>
+<B>   (pt 0 1))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0003.HTM#curve">curve</A> <A HREF="RMRF0006.HTM#figure">figure</A>
+</I>
+<P><HR>
+<H1><A NAME="pointValue">pointValue</A></H1>
+<PRE>
+<I>pointValue ::= <A HREF="RMRF0018.HTM#pt">pt</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#attachmentPoint">attachmentPoint</A>  <A HREF="RMRF0003.HTM#curve">curve</A>  <A HREF="RMRF0005.HTM#dot">dot</A>  <A HREF="RMRF0005.HTM#endPoint">endPoint</A>  <A HREF="RMRF0008.HTM#hotspot">hotspot</A>  <A HREF="RMRF0015.HTM#origin">origin</A>  <A HREF="RMRF0016.HTM#point">point</A>  <A HREF="RMRF0016.HTM#pointList">pointList</A>  <A HREF="RMRF0018.HTM#pt1">pt1</A>  <A HREF="RMRF0018.HTM#pt2">pt2</A>  <A HREF="RMRF0023.HTM#startPoint">startPoint</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0016.HTM#pointValue">PointValue</A> </I>describes the set of specifications of point values.
+<H3>Example:</H3>
+<PRE>
+<B>(dot (pt 10 100))</B>
+</PRE>
+<P>The above example specifies a dot located at (10, 100)<B>. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#edifLevel">edifLevel</A> <A HREF="RMRF0015.HTM#numberPoint">numberPoint</A>
+</I>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

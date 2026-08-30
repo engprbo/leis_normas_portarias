@@ -1,0 +1,533 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMSTART.HTM">General Introduction</A>
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="viewPropertyOverride">viewPropertyOverride</A></H1>
+<PRE>
+<I>viewPropertyOverride ::= '(' 'viewPropertyOverride'</I>
+&#09;<I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0060.HTM#typedValue">typedValue</A> | <A HREF="RMRF0061.HTM#untyped">untyped</A> )</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0007.HTM#fixed">fixed</A>&gt; | <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  *<A HREF="RMRF0015.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0053.HTM#property">property</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#viewPropertyOverride">ViewPropertyOverride</A></I> overrides a view property for purposes of annotation.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicView V1</B>
+<B>   (schematicViewHeader ...</B>
+<B>      (property P1 (integer 2))) ...)</B>
+<B>...</B>
+<B>(occurrenceAnnotate I1</B>
+<B>   (viewPropertyOverride P1 (integer 3)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="viewRef">viewRef</A></H1>
+<PRE>
+<I>viewRef ::= '(' 'viewRef'</I>
+&#09;<I><A HREF="RMRF0061.HTM#viewNameRef">viewNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0002.HTM#clusterRef">clusterRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>  !<A HREF="RMRF0004.HTM#derivedFrom">derivedFrom</A>  !<A HREF="RMRF0053.HTM#previousVersion">previousVersion</A>  *<A HREF="RMRF0061.HTM#viewGroup">viewGroup</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewGroupNameRef">viewGroupNameRef</A> <A HREF="RMRF0061.HTM#viewGroupRef">viewGroupRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  When required within <I><A HREF="RMRF0053.HTM#previousVersion">previousVersion</A>
+</I>
+<DD>A <I><A HREF="RMRF0062.HTM#viewRef">viewRef</A></I> used inside <I><A HREF="RMRF0053.HTM#previousVersion">previousVersion</A></I> should reference a view of the same type as that which contains the <I><A HREF="RMRF0053.HTM#previousVersion">previousVersion</A></I> construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0053.HTM#previousVersion">previousVersion</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0062.HTM#viewRef">viewRef</A> </I>construct is used at any place where there is a need to reference a view. If the view being referenced belongs to a cell which is defined in a different library, then <I><A HREF="RMRF0062.HTM#viewRef">viewRef</A> </I>is required to have a nested <I><A HREF="RMRF0002.HTM#clusterRef">clusterRef</A></I> and <I><A HREF="RMRF0001.HTM#cellRef">cellRef</A> </I>form with a <I><A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> </I>form specified within it.
+<H3>Example:</H3>
+<PRE>
+<B>(viewGroup A (viewGroupHeader ...)</B>
+<B>   (viewRef V1 (clusterRef C1)) </B>
+<B>   (viewRef V2 (clusterRef C1)))</B>
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0062.HTM#viewRef">viewRef</A></I> is used to identify the views that make up this <I><A HREF="RMRF0061.HTM#viewGroup">viewGroup</A></I>.
+<P><HR>
+<H1><A NAME="visible">visible</A></H1>
+<PRE>
+<I>visible ::= '(' 'visible'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanValue">booleanValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0005.HTM#displayAttributes">displayAttributes</A>  &lt;<A HREF="RMRF0025.HTM#pcbDimensionDrawingAttributeOverride">pcbDimensionDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0026.HTM#pcbDimensionEndGeometry">pcbDimensionEndGeometry</A>  &lt;<A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  &lt;<A HREF="RMRF0029.HTM#pcbDrawingFigureDrawingAttributeOverride">pcbDrawingFigureDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0030.HTM#pcbDrawingSymbolPlacementDrawingAttributeOverride">pcbDrawingSymbolPlacementDrawingAttributeOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0001.HTM#borderPatternVisible">borderPatternVisible</A> <A HREF="RMRF0007.HTM#fillPatternVisible">fillPatternVisible</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#visible">Visible</A> </I>enables or inhibits graphical display. The default value is <I><A HREF="RMRF0060.HTM#true">true</A></I>, i.e. the graphics are visible. 
+<H3>Example:</H3>
+<PRE>
+<B> (display</B>
+<B>    (figureGroupOverride redText</B>
+<B>       (displayAttributes (visible (false))))</B>
+<B>    (transform (origin (pt 125 300))))</B>
+</PRE>
+<P>This example illustrates a display specification at point (125, 300), which should typically be invisible.
+<P><HR>
+<H1><A NAME="volt">volt</A></H1>
+<PRE>
+<I>volt ::= '(' 'volt'</I>
+&#09;<I><A HREF="RMRF0061.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0061.HTM#unit">unit</A>  &lt;<A HREF="RMRF0061.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#volt">Volt</A></I> is used to specify a user-defined unit in terms of the SI unit, volt. See <I><A HREF="RMRF0061.HTM#unit">unit</A></I> for examples of the definition of units.
+<P><HR>
+<H1><A NAME="voltageDifferential">voltageDifferential</A></H1>
+<PRE>
+<I>voltageDifferential ::= '(' 'voltageDifferential'</I>
+&#09;<I><A HREF="RMRF0014.HTM#nonNegativeVoltageValue">nonNegativeVoltageValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0023.HTM#pcbDieEnvironmentalConditions">pcbDieEnvironmentalConditions</A>  
+</I>
+<H3>Description:</H3>
+<P>Defines a voltage differential value. 
+<P><HR>
+<H1><A NAME="voltageMap">voltageMap</A></H1>
+<PRE>
+<I>voltageMap ::= '(' 'voltageMap'</I>
+&#09;<I><A HREF="RMRF0062.HTM#voltageValue">voltageValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0013.HTM#logicValue">logicValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#voltageMap">VoltageMap</A> </I>is an attribute of a logic value used to specify its electrical characteristics. <I><A HREF="RMRF0062.HTM#voltageMap">VoltageMap</A> </I>gives a value or range of values to specify the accepted voltage values for the defined logic value. This is scaled according to the units defined by <I><A HREF="RMRF0058.HTM#setVoltage">setVoltage</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(setVoltage (unitRef mV))</B>
+<B>...</B>
+<B>(logicDefinitions ...</B>
+<B>   (logicValue T</B>
+<B>      (voltageMap (mnm 2500 4800 5000))))</B>
+</PRE>
+<P>In the above example, given the assumption that mV implies a voltage unit of millivolts, the logic value T has an accepted range of values of 2.5 to 5.0 volts, and a nominal value of 4.8 volts.
+<P><HR>
+<H1><A NAME="voltageValue">voltageValue</A></H1>
+<PRE>
+<I>voltageValue ::= <A HREF="RMRF0013.HTM#miNoMaxValue">miNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0056.HTM#schematicPortAcPowerRecommendedVoltageRms">schematicPortAcPowerRecommendedVoltageRms</A>  !<A HREF="RMRF0056.HTM#schematicPortDcPowerRecommendedVoltage">schematicPortDcPowerRecommendedVoltage</A>  !<A HREF="RMRF0062.HTM#voltageMap">voltageMap</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#nonNegativeVoltageValue">nonNegativeVoltageValue</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#voltageValue">VoltageValue</A></I> is a voltage value in units specified by <I><A HREF="RMRF0058.HTM#setVoltage">setVoltage</A></I>.
+<P><HR>
+<H1><A NAME="watt">watt</A></H1>
+<PRE>
+<I>watt ::= '(' 'watt'</I>
+&#09;<I><A HREF="RMRF0061.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0061.HTM#unit">unit</A>  &lt;<A HREF="RMRF0061.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#watt">Watt</A></I> is used to specify a user-defined unit in terms of the SI power unit, watt. See <I><A HREF="RMRF0061.HTM#unit">unit</A></I> for examples of the definition of units.
+<P><HR>
+<H1><A NAME="weak">weak</A></H1>
+<PRE>
+<I>weak ::= '(' 'weak'</I>
+&#09;<I><A HREF="RMRF0013.HTM#logicNameRef">logicNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0013.HTM#logicValue">logicValue</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#weakJoined">weakJoined</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#weak">Weak</A></I> is an attribute of a logic value which indicates that the current logic value is weaker than the referenced logic value. This also implies that the referenced value <I><A HREF="RMRF0005.HTM#dominates">dominates</A></I> the present value.
+<H3>Example:</H3>
+<PRE>
+<B>(logicValue WT</B>
+<B>   (weak T))</B>
+</PRE>
+<P>The above example states that the logic value WT is weaker than the logic value T. 
+<P><HR>
+<H1><A NAME="weakJoined">weakJoined</A></H1>
+<PRE>
+<I>weakJoined ::= '(' 'weakJoined'</I>
+&#09;<I>{ <A HREF="RMRF0010.HTM#interfaceJoined">interfaceJoined</A> | <A HREF="RMRF0053.HTM#portRef">portRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0010.HTM#interface">interface</A>  *<A HREF="RMRF0014.HTM#mustJoin">mustJoin</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#weak">weak</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0052.HTM#port">port</A></I> can be referenced at most once by any <I><A HREF="RMRF0010.HTM#interfaceJoined">interfaceJoined</A></I>, <I><A HREF="RMRF0014.HTM#mustJoin">mustJoin</A></I> or <I><A HREF="RMRF0062.HTM#weakJoined">weakJoined</A></I> constructs in an <I><A HREF="RMRF0010.HTM#interface">interface</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0010.HTM#interfaceJoined">interfaceJoined</A></I>, <I><A HREF="RMRF0014.HTM#mustJoin">mustJoin</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#weakJoined">WeakJoined</A> </I>is used to indicate that external connections may be made to any of the referenced <I><A HREF="RMRF0052.HTM#port">ports</A></I>, and that corresponding ports may not be used as feed-throughs. This statement is similar to <I><A HREF="RMRF0010.HTM#interfaceJoined">interfaceJoined</A></I>. Only ports defined in the local <I><A HREF="RMRF0002.HTM#cluster">cluster</A> </I>may be referenced within <I><A HREF="RMRF0062.HTM#weakJoined">weakJoined. </A>
+</I><P><I><A HREF="RMRF0062.HTM#weakJoined">WeakJoined</A> </I>may contain nested <I><A HREF="RMRF0010.HTM#interfaceJoined">interfaceJoined</A> </I>statements. Within the interface, a port may be referenced no more than once in <I><A HREF="RMRF0010.HTM#interfaceJoined">interfaceJoined</A></I>, <I><A HREF="RMRF0014.HTM#mustJoin">mustJoin</A> </I>and <I><A HREF="RMRF0062.HTM#weakJoined">weakJoined. </A>
+</I><P>The <I><A HREF="RMRF0053.HTM#portRef">portRef</A></I> may refer to <I><A HREF="RMRF0052.HTM#port">ports</A></I> and not to <I><A HREF="RMRF0052.HTM#portBundle">portBundles</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(weakJoined</B>
+<B>   (portRef gateTop)</B>
+<B>   (portRef gateBottom))</B>
+</PRE>
+<P>This example declares that connections may be made to either gateTop or to gateBottom with the same effect, but the connection gateTop to gateBottom may not be used as a feed-through.
+<P><HR>
+<H1><A NAME="weber">weber</A></H1>
+<PRE>
+<I>weber ::= '(' 'weber'</I>
+&#09;<I><A HREF="RMRF0061.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0061.HTM#unit">unit</A>  &lt;<A HREF="RMRF0061.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#weber">Weber</A></I> is used to specify a user-defined unit in terms of the SI magnetic flux unit, weber. See <I><A HREF="RMRF0061.HTM#unit">unit</A></I> for examples of the definition of units.
+<P><HR>
+<H1><A NAME="whiteSpace">whiteSpace</A></H1>
+<PRE>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0059.HTM#stringToken">stringToken</A> 
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0062.HTM#whiteSpace">whiteSpace</A> </I>character is either a horizontal tab, line feed, carriage return, or space. These have ASCII codes of 9, 10, 13 and 32 respectively. Any token (<I><A HREF="RMRF0009.HTM#identifier">identifier</A></I>, <I><A HREF="RMRF0010.HTM#integerToken">integerToken</A></I>, <I><A HREF="RMRF0059.HTM#stringToken">stringToken</A></I>) not preceding a parenthesis '(' or ')', quote '"', or percent sign '%' within <I><A HREF="RMRF0006.HTM#encodedCharacter">encodedCharacter</A> </I>must be followed by one or more <I><A HREF="RMRF0062.HTM#whiteSpace">whiteSpace</A> </I>characters. Further <I><A HREF="RMRF0062.HTM#whiteSpace">whiteSpace</A> </I>may be added between tokens without causing any change of interpretation. 
+<P>The only situation where <I><A HREF="RMRF0062.HTM#whiteSpace">whiteSpace</A> </I>is significant (except for separating tokens) is the blank or tab characters within a <I><A HREF="RMRF0059.HTM#stringToken">stringToken. </A>
+</I><P>Although not explicitly stated elsewhere, <I><A HREF="RMRF0062.HTM#whiteSpace">whiteSpace</A> </I>may also be added next to left or right parentheses (outside string tokens) without effect. 
+<P>The first character after a sequence of <I><A HREF="RMRF0062.HTM#whiteSpace">whiteSpace</A> </I>characters not within a <I><A HREF="RMRF0059.HTM#stringToken">stringToken</A> </I>fully determines the type of token. A quote '"' begins a <I><A HREF="RMRF0059.HTM#stringToken">stringToken</A>; </I>ampersand '&amp;', underscore '_' or <I><A HREF="RMRF0000.HTM#alpha">alpha</A> </I>begins an <I><A HREF="RMRF0009.HTM#identifier">identifier</A>; </I>a plus '+', minus '-', or <I><A HREF="RMRF0005.HTM#digit">digit</A> </I>begins an <I><A HREF="RMRF0010.HTM#integerToken">integerToken</A>; </I>a left parenthesis '(' indicates the start of a form, and a right parenthesis ')' indicates the end of a corresponding form. Parentheses may be considered to be single-character tokens. 
+<H3>Example:</H3>
+<PRE>
+<B>(port ref ...)</B>
+</PRE>
+<P>The white space between port and ref is required to avoid misinterpreting this as a keyword <I><A HREF="RMRF0053.HTM#portRef">portRef</A></I>.
+<P><HR>
+<H1><A NAME="widePort">widePort</A></H1>
+<PRE>
+<I>widePort ::= '(' 'widePort'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0056.HTM#schematicPortStyle">schematicPortStyle</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#port">port</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#widePort">WidePort</A></I> is one of the port styles used in schematics. See <I><A HREF="RMRF0056.HTM#schematicPortStyle">schematicPortStyle</A></I> for a full example.
+<P><HR>
+<H1><A NAME="wideWire">wideWire</A></H1>
+<PRE>
+<I>wideWire ::= '(' 'wideWire'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0057.HTM#schematicWireAffinity">schematicWireAffinity</A>  !<A HREF="RMRF0057.HTM#schematicWireStyle">schematicWireStyle</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#wideWire">WideWire</A></I> is one of the wire (schematic connection) styles used in schematics. If a schematic interconnect has a <I><A HREF="RMRF0057.HTM#schematicWireStyle">schematicWireStyle</A></I> of <I><A HREF="RMRF0062.HTM#wideWire">wideWire</A></I> then it may only be connected to a hotspot that has a <I><A HREF="RMRF0057.HTM#schematicWireAffinity">schematicWireAffinity</A></I> of <I><A HREF="RMRF0062.HTM#wideWire">wideWire</A></I> or <I><A HREF="RMRF0061.HTM#unrestricted">unrestricted</A></I>.
+<P>See <I><A HREF="RMRF0057.HTM#schematicWireStyle">schematicWireStyle</A></I> for a full example.
+<P><HR>
+<H1><A NAME="width">width</A></H1>
+<PRE>
+<I>width ::= '(' 'width'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0026.HTM#pcbDimensionEndGeometryCross">pcbDimensionEndGeometryCross</A>  !<A HREF="RMRF0026.HTM#pcbDimensionEndGeometrySlash">pcbDimensionEndGeometrySlash</A>  !<A HREF="RMRF0026.HTM#pcbDimensionEndGeometryTriangular">pcbDimensionEndGeometryTriangular</A>  !<A HREF="RMRF0028.HTM#pcbDrawingBorderTrimmingMarkStroke">pcbDrawingBorderTrimmingMarkStroke</A>  !<A HREF="RMRF0028.HTM#pcbDrawingBorderTrimmingMarkTriangular">pcbDrawingBorderTrimmingMarkTriangular</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0001.HTM#borderWidth">borderWidth</A> <A HREF="RMRF0008.HTM#fontWidth">fontWidth</A> <A HREF="RMRF0010.HTM#instanceWidth">instanceWidth</A> <A HREF="RMRF0010.HTM#instanceWidthDisplay">instanceWidthDisplay</A> <A HREF="RMRF0013.HTM#minimalWidth">minimalWidth</A> <A HREF="RMRF0016.HTM#pathWidth">pathWidth</A> <A HREF="RMRF0024.HTM#pcbDiePositionToleranceWidth">pcbDiePositionToleranceWidth</A> <A HREF="RMRF0033.HTM#pcbGapWidth">pcbGapWidth</A> <A HREF="RMRF0037.HTM#pcbMinimumSliverWidth">pcbMinimumSliverWidth</A> <A HREF="RMRF0038.HTM#pcbMinimumTraceWidth">pcbMinimumTraceWidth</A> <A HREF="RMRF0041.HTM#pcbOptimumTraceWidth">pcbOptimumTraceWidth</A> <A HREF="RMRF0049.HTM#pcbSpaceWidth">pcbSpaceWidth</A> <A HREF="RMRF0049.HTM#pcbStrokeWidth">pcbStrokeWidth</A> <A HREF="RMRF0051.HTM#pcbTraceWidthIntoCavity">pcbTraceWidthIntoCavity</A> <A HREF="RMRF0059.HTM#strokeFontWidth">strokeFontWidth</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a width value. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDimensionEndGeometryTriangular</B>
+<B>   (width 6)</B>
+<B>   (length 3)</B>
+<B>   (pcbDimensionEndGeometryTriangularOpenEnded</B>
+<B>      (true)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="written">written</A></H1>
+<PRE>
+<I>written ::= '(' 'written'</I>
+&#09;<I><A HREF="RMRF0059.HTM#timeStamp">timeStamp</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#author">author</A>&gt; | <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0003.HTM#dataOrigin">dataOrigin</A>&gt; | &lt;<A HREF="RMRF0053.HTM#program">program</A>&gt; | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0029.HTM#pcbDrawingHeader">pcbDrawingHeader</A>  *<A HREF="RMRF0059.HTM#status">status</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0062.HTM#written">written</A></I> constructs within <I><A HREF="RMRF0059.HTM#status">status</A></I> should be unique.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#written">Written</A></I> includes information relating to a specific item of EDIF data. It must include a <I><A HREF="RMRF0059.HTM#timeStamp">timeStamp</A></I> and may include program identification, human or organization identification, or location information to help the reader trace the origin of a particular part of the EDIF data.
+<H3>Example:</H3>
+<PRE>
+<B>(written</B>
+<B>   (timeStamp (date 1986 11 30) (time 22 7 29))</B>
+<B>   (author "J. Knecht")</B>
+<B>   (dataOrigin "Castalia")</B>
+<B>   (program "Glasperlenspiel"))</B>
+</PRE>
+<P>This example shows a typical <I><A HREF="RMRF0062.HTM#written">written</A></I> statement. In this case, the EDIF data was created or modified on November 30, 1986. The person "J. Knecht" was involved in the process which occurred at location "Castalia". The program that created the new or modified data was called "Glasperlenspiel", and no version number was specified.
+<P><HR>
+<H1><A NAME="xCoordinate">xCoordinate</A></H1>
+<PRE>
+<I>xCoordinate ::= <A HREF="RMRF0010.HTM#integerValue">integerValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0053.HTM#pt">pt</A>  
+</I>
+<H3>Description:</H3>
+<P>The x coordinate of a point. This has the units defined by <I><A HREF="RMRF0058.HTM#setDistance">setDistance</A></I>.
+<P><HR>
+<H1><A NAME="xDisplacement">xDisplacement</A></H1>
+<PRE>
+<I>xDisplacement ::= <A HREF="RMRF0014.HTM#nonNegativeDistanceValue">nonNegativeDistanceValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#originNegativeDisplacement">originNegativeDisplacement</A>  !<A HREF="RMRF0015.HTM#originPositiveDisplacement">originPositiveDisplacement</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a displacement distance in the x direction.
+<P><HR>
+<H1><A NAME="xNumberValue">xNumberValue</A></H1>
+<PRE>
+<I>xNumberValue ::= <A HREF="RMRF0015.HTM#numberValue">numberValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#numberPoint">numberPoint</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#number">number</A> 
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0015.HTM#numberValue">numberValue</A></I> representing an x coordinate or distance along the x axis.
+<P><HR>
+<H1><A NAME="xSpacing">xSpacing</A></H1>
+<PRE>
+<I>xSpacing ::= <A HREF="RMRF0012.HTM#lengthValue">lengthValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbLayoutGrid">pcbLayoutGrid</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the horizontal spacing of a grid.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbTraceGrid </B>
+<B>         (pcbLayoutGrid 10 15 (origin (pt 0 0)))) ...))</B>
+</PRE>
+<P>Here, the horizontal spacing of grid points is 10 units. 
+<P><HR>
+<H1><A NAME="xVariance">xVariance</A></H1>
+<PRE>
+<I>xVariance ::= <A HREF="RMRF0012.HTM#lengthValue">lengthValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0062.HTM#XYTolerance">XYTolerance</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the accuracy to which items can be positioned in the x direction.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDieSizeTolerance</B>
+<B>      (XYTolerance 5 6)) ...)</B>
+</PRE>
+<P>In this example, the die-size tolerance is 5 units in the x axis and 6 units in the y axis.
+<P><HR>
+<H1><A NAME="XYTolerance">XYTolerance</A></H1>
+<PRE>
+<I>XYTolerance ::= '(' 'XYTolerance'</I>
+&#09;<I><A HREF="RMRF0062.HTM#xVariance">xVariance</A></I>
+&#09;<I><A HREF="RMRF0062.HTM#yVariance">yVariance</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0023.HTM#pcbDieGeometryTolerance">pcbDieGeometryTolerance</A>  !<A HREF="RMRF0023.HTM#pcbDiePadPositionTolerance">pcbDiePadPositionTolerance</A>  !<A HREF="RMRF0024.HTM#pcbDieSizeTolerance">pcbDieSizeTolerance</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the accuracy to which geometric positions can be guaranteed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDieSizeTolerance</B>
+<B>      (XYTolerance 5 6)) ...)</B>
+</PRE>
+<P>In this example, the die-size tolerance is 5 units in the x axis and 6 units in the y axis. 
+<P><HR>
+<H1><A NAME="yCoordinate">yCoordinate</A></H1>
+<PRE>
+<I>yCoordinate ::= <A HREF="RMRF0010.HTM#integerValue">integerValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0053.HTM#pt">pt</A>  
+</I>
+<H3>Description:</H3>
+<P>The y coordinate of a point. This has the units defined by <I><A HREF="RMRF0058.HTM#setDistance">setDistance</A></I>.
+<P><HR>
+<H1><A NAME="yDisplacement">yDisplacement</A></H1>
+<PRE>
+<I>yDisplacement ::= <A HREF="RMRF0014.HTM#nonNegativeDistanceValue">nonNegativeDistanceValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#originNegativeDisplacement">originNegativeDisplacement</A>  !<A HREF="RMRF0015.HTM#originPositiveDisplacement">originPositiveDisplacement</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a displacement distance in the y direction.
+<P><HR>
+<H1><A NAME="year">year</A></H1>
+<PRE>
+<I>year ::= '(' 'year'</I>
+&#09;<I>{ <A HREF="RMRF0062.HTM#yearNumber">yearNumber</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#copyright">copyright</A>  !<A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The integers used to represent the year number within the <I><A HREF="RMRF0062.HTM#year">year</A></I> construct should be unique.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#year">Year</A></I> is used in <I><A HREF="RMRF0003.HTM#copyright">copyright</A></I> to list the years that the copyright was started or revised.
+<H3>Example:</H3>
+<PRE>
+<B>(copyright (year 1987 1993 1995) </B>
+<B>   "Electronic Industries Association")</B>
+</PRE>
+<P><HR>
+<H1><A NAME="yearNumber">yearNumber</A></H1>
+<PRE>
+<I>yearNumber ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#date">date</A>  *<A HREF="RMRF0062.HTM#year">year</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#number">number</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Numeric constraints: 
+<DD>Minimum value: 1900   Maximum value: 3000   
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0062.HTM#yearNumber">YearNumber</A></I> represents the year part of a date, including the century, e.g. 1993. 
+<P><HR>
+<H1><A NAME="yNumberValue">yNumberValue</A></H1>
+<PRE>
+<I>yNumberValue ::= <A HREF="RMRF0015.HTM#numberValue">numberValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#numberPoint">numberPoint</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#number">number</A> 
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0015.HTM#numberValue">numberValue</A></I> representing a y coordinate or distance along the y axis. This has the units defined by <I><A HREF="RMRF0058.HTM#setDistance">setDistance</A></I>.
+<P><HR>
+<H1><A NAME="ySpacing">ySpacing</A></H1>
+<PRE>
+<I>ySpacing ::= <A HREF="RMRF0012.HTM#lengthValue">lengthValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0035.HTM#pcbLayoutGrid">pcbLayoutGrid</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the vertical spacing of a grid.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbTraceGrid </B>
+<B>         (pcbLayoutGrid 10 15 (origin (pt 0 0)))) ...))</B>
+</PRE>
+<P>Here, the vertical spacing of grid points is 15 units. 
+<P><HR>
+<H1><A NAME="yVariance">yVariance</A></H1>
+<PRE>
+<I>yVariance ::= <A HREF="RMRF0012.HTM#lengthValue">lengthValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0062.HTM#XYTolerance">XYTolerance</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the accuracy to which items can be positioned in the y direction.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePhysicalTemplate die_temp_001V2</B>
+<B>   (pcbDiePhysicalTemplateHeader</B>
+<B>      (pcbLayoutUnits))</B>
+<B>   (pcbDieSizeTolerance</B>
+<B>      (XYTolerance 5 6)) ...)</B>
+</PRE>
+<P>In this example, the die-size tolerance is 5 units in the x axis and 6 units in the y axis.
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

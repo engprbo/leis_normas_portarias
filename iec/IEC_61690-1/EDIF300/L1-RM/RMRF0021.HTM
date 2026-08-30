@@ -1,0 +1,848 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="schematicOnPageConnectorImplementationRef">schematicOnPageConnectorImplementationRef</A></H1>
+<PRE>
+<I>schematicOnPageConnectorImplementationRef ::= '(' 
+&#09;'schematicOnPageConnectorImplementationRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameRef">implementationNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicBusJoined">schematicBusJoined</A>  <A HREF="RMRF0020.HTM#schematicNetJoined">schematicNetJoined</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOnPageConnectorImplementationRef">SchematicOnPageConnectorImplementationRef</A></I> is a reference to a <I><A HREF="RMRF0020.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A></I>. It is used to reference a <I><A HREF="RMRF0020.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A></I> from within a <I><A HREF="RMRF0020.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A></I> to establish connectivity between a <I><A HREF="RMRF0020.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A></I> and the <I><A HREF="RMRF0020.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicOnPageConnectorImplementationRef I1)</B>
+</PRE>
+<P>This example references a <I><A HREF="RMRF0020.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A></I> with implementation name <B>I1</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#schematicOffPageConnectorImplementationRef">schematicOffPageConnectorImplementationRef</A>  <A HREF="RMRF0020.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A></H1>
+<PRE>
+<I>schematicOnPageConnectorTemplate ::= '(' 'schematicOnPageConnectorTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I><A HREF="RMRF0008.HTM#hotspot">hotspot</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | &lt;<A HREF="RMRF0000.HTM#associatedInterconnectNameDisplay">associatedInterconnectNameDisplay</A>&gt; | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | 
+&#09;<A HREF="RMRF0006.HTM#figure">figure</A> | &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | <A HREF="RMRF0018.HTM#propertyDisplay">propertyDisplay</A> | 
+&#09;<A HREF="RMRF0019.HTM#schematicComplexFigure">schematicComplexFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#external">external</A>  <A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOnPageConnectorTemplate">SchematicOnPageConnectorTemplate</A></I> provides a graphical template for a <I><A HREF="RMRF0020.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A></I>. It has a single <I><A HREF="RMRF0008.HTM#hotspot">hotspot</A></I> to which the graphics of a <I><A HREF="RMRF0020.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A></I> may be connected. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicOnPageConnectorTemplate OnPC</B>
+<B>   (schematicTemplateHeader  ...)</B>
+<B>   (hotspot (pt 0 0))</B>
+<B>   (figure LINES</B>
+<B>      (polygon </B>
+<B>         (pointList (pt 10 10) (pt 0 0) (pt 10 -10)))))</B>
+</PRE>
+<P>This example shows a <I><A HREF="RMRF0021.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A></I> named <B>OnPC</B> with a <I><A HREF="RMRF0008.HTM#hotspot">hotspot</A></I> at <B>(pt 0 0)</B> and some graphics to represent the symbol, as shown in the figure below.
+<P><CENTER><IMG SRC="FIG0026.GIF">
+</CENTER>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicOnPageConnectorTemplateRef">schematicOnPageConnectorTemplateRef</A></H1>
+<PRE>
+<I>schematicOnPageConnectorTemplateRef ::= '(' 'schematicOnPageConnectorTemplateRef'</I>
+&#09;<I><A HREF="RMRF0013.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0013.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOnPageConnectorTemplateRef">SchematicOnPageConnectorTemplateRef</A></I> is used to reference a <I><A HREF="RMRF0021.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicOnPageConnectorTemplateRef OnPC)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicOtherwiseFrameBorder">schematicOtherwiseFrameBorder</A></H1>
+<PRE>
+<I>schematicOtherwiseFrameBorder ::= '(' 'schematicOtherwiseFrameBorder'</I>
+&#09;<I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorderTemplateRef">schematicOtherwiseFrameBorderTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#transform">transform</A></I>
+&#09;<I>{ <A HREF="RMRF0018.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0018.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameImplementationHeader">schematicOtherwiseFrameImplementationHeader</A>  
+</I>
+<H3>Description:</H3>
+<P>Describes the border on a <I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameImplementation">schematicOtherwiseFrameImplementation</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicOtherwiseFrameBorder</B>
+<B>   (schematicOtherwiseFrameBorderTemplateRef </B>
+<B>      OTHERWISE_FRAME_BORDER)</B>
+<B>   (transform (origin (pt 100 300))</B>
+<B>      (scaleX 3 1) (scaleY 2 1)))</B>
+</PRE>
+<P>In this example, a border template <B>OTHERWISE_FRAME_BORDER</B> is positioned at <B>100</B>, <B>300</B> and scaled.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorderTemplate">schematicOtherwiseFrameBorderTemplate</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicOtherwiseFrameBorderTemplate">schematicOtherwiseFrameBorderTemplate</A></H1>
+<PRE>
+<I>schematicOtherwiseFrameBorderTemplate ::= '(' 
+&#09;'schematicOtherwiseFrameBorderTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#usableArea">usableArea</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0006.HTM#figure">figure</A> | <A HREF="RMRF0018.HTM#propertyDisplay">propertyDisplay</A> | 
+&#09;<A HREF="RMRF0019.HTM#schematicComplexFigure">schematicComplexFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#external">external</A>  <A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0019.HTM#schematicForFrameBorderTemplate">SchematicForFrameBorderTemplate</A></I> defines a template for the border of a <I><A HREF="RMRF0019.HTM#schematicForFrameImplementation">schematicForFrameImplementation</A>.
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(schematicOtherwiseFrameBorderTemplate</B>
+<B>   OTHERWISE_FRAME_BORDER</B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (usableArea (rectangle (pt 0 0) (pt 1000 1000)))</B>
+<B>   (figure GRAPHICS</B>
+<B>      (rectangle (pt 0 -100) (pt 1000 1000))</B>
+<B>      (path (pointList (pt 0 0) (pt 1000 0))))</B>
+<B>   ...)</B>
+</PRE>
+<P>This example defines a rectangular border with a lower section outside the usable area for display of the otherwise frame parameters.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorder">schematicOtherwiseFrameBorder</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicOtherwiseFrameBorderTemplateRef">schematicOtherwiseFrameBorderTemplateRef</A></H1>
+<PRE>
+<I>schematicOtherwiseFrameBorderTemplateRef ::= '(' 
+&#09;'schematicOtherwiseFrameBorderTemplateRef'</I>
+&#09;<I><A HREF="RMRF0013.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0013.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorder">schematicOtherwiseFrameBorder</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorderTemplateRef">SchematicOtherwiseFrameBorderTemplateRef</A></I> references a <I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorderTemplate">schematicOtherwiseFrameBorderTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicOtherwiseFrameBorder</B>
+<B>   (schematicOtherwiseFrameBorderTemplateRef </B>
+<B>      OTHERWISE_FRAME_BORDER)</B>
+<B>   ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorderTemplate">schematicOtherwiseFrameBorderTemplate</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicOtherwiseFrameImplementation">schematicOtherwiseFrameImplementation</A></H1>
+<PRE>
+<I>schematicOtherwiseFrameImplementation ::= '(' 'schematicOtherwiseFrameImplementation'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0015.HTM#otherwiseFrameRef">otherwiseFrameRef</A></I>
+&#09;<I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameImplementationHeader">schematicOtherwiseFrameImplementationHeader</A></I>
+&#09;<I><A HREF="RMRF0019.HTM#schematicFrameImplementationDetails">schematicFrameImplementationDetails</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0015.HTM#page">page</A>  <A HREF="RMRF0019.HTM#schematicFrameImplementationDetails">schematicFrameImplementationDetails</A>  
+</I>
+<H3>Description:</H3>
+<P>Names and defines the graphical implementation of an <I><A HREF="RMRF0015.HTM#otherwiseFrame">otherwiseFrame</A></I> on a page. There must be at most one implementation for each <I><A HREF="RMRF0015.HTM#otherwiseFrame">otherwiseFrame</A></I> in a schematic view.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicOtherwiseFrameImplementation </B>
+<B>   F1implementation</B>
+<B>   (otherwiseFrameRef F1)</B>
+<B>   (schematicOtherwiseFrameImplementationHeader</B>
+<B>      (schematicOtherwiseFrameBorder </B>
+<B>         (schematicOtherwiseFrameBorderTemplateRef ...)</B>
+<B>         (transform ...)))</B>
+<B>   (schematicFrameImplementationDetails ...))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0015.HTM#otherwiseFrame">otherwiseFrame</A>  <A HREF="RMRF0020.HTM#schematicIfFrameImplementation">schematicIfFrameImplementation</A>  <A HREF="RMRF0019.HTM#schematicForFrameImplementation">schematicForFrameImplementation</A>  
+</I>
+<P><HR>
+<H1><A NAME="schematicOtherwiseFrameImplementationHeader">schematicOtherwiseFrameImplementationHeader</A></H1>
+<PRE>
+<I>schematicOtherwiseFrameImplementationHeader ::= '(' 
+&#09;'schematicOtherwiseFrameImplementationHeader'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorder">schematicOtherwiseFrameBorder</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameImplementation">schematicOtherwiseFrameImplementation</A>  
+</I>
+<H3>Description:</H3>
+<P>This construct gathers together information relating to the otherwise frame implementation as a whole. See <I><A HREF="RMRF0021.HTM#schematicOtherwiseFrameImplementation">schematicOtherwiseFrameImplementation</A></I>  for an example of its use.
+
+<P><HR>
+<H1><A NAME="schematicPortAcPower">schematicPortAcPower</A></H1>
+<PRE>
+<I>schematicPortAcPower ::= '(' 'schematicPortAcPower'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0021.HTM#schematicPortAcPowerRecommendedFrequency">schematicPortAcPowerRecommendedFrequency</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0021.HTM#schematicPortAcPowerRecommendedVoltageRms">schematicPortAcPowerRecommendedVoltageRms</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAcPower">SchematicPortAcPower</A></I> is used to indicate that an alternating-current power supply is represented by the global port or that the port normally carries alternating current from a power supply. 
+<H3>Example:</H3>
+<PRE>
+<B>(setVoltage (unitRef volts))</B>
+<B>...</B>
+<B>(setFrequency (unitRef Hz))</B>
+<B>...</B>
+<B>(globalPort PWR</B>
+<B>   (schematicGlobalPortAttributes</B>
+<B>      (schematicPortAcPower </B>
+<B>         (schematicPortAcPowerRecommendedVoltageRms </B>
+<B>            (mnm 100 120 140)))))</B>
+</PRE>
+<P>This example describes a <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> named <B>PWR</B> that represents an alternating power supply of between <B>100</B> and <B>140</B> Volts rms, nominally <B>120</B> Volts rms.  
+<PRE>
+<B>(globalPort PWR2 </B>
+<B>   (schematicGlobalPortAttributes </B>
+<B>      (schematicPortAcPower                        </B>
+<B>         (schematicPortAcPowerRecommendedVoltageRms</B>
+<B>            220) </B>
+<B>         (schematicPortAcPowerRecommendedFrequency</B>
+<B>            50))))</B>
+</PRE>
+<P>This example shows a <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> called <B>PWR2</B> that provides alternating current of <B>220</B> Volts rms, <B>50</B> Hz.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A>  <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A> <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  <A HREF="RMRF0021.HTM#schematicPortPower">schematicPortPower</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicPortAcPowerRecommendedFrequency">schematicPortAcPowerRecommendedFrequency</A></H1>
+<PRE>
+<I>schematicPortAcPowerRecommendedFrequency ::= '(' 
+&#09;'schematicPortAcPowerRecommendedFrequency'</I>
+&#09;<I><A HREF="RMRF0007.HTM#frequencyValue">frequencyValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAcPowerRecommendedFrequency">SchematicPortAcPowerRecommendedFrequency</A></I> can be used to specify the minimum, nominal and maximum frequency of the power supply for the proper operation of the circuit. <I><A HREF="RMRF0022.HTM#schematicUnits">SchematicUnits</A></I> specifies the frequency units.
+<H3>Example:</H3>
+<PRE>
+<B>(setFrequency (unitRef Hz))</B>
+<B>...</B>
+<B>(schematicPortAcPowerRecommendedFrequency 50)</B>
+</PRE>
+<P>This specifies that the supply should be a nominal <B>50</B> Hz supply.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAcPowerRecommendedVoltageRms">schematicPortAcPowerRecommendedVoltageRms</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicPortAcPowerRecommendedVoltageRms">schematicPortAcPowerRecommendedVoltageRms</A></H1>
+<PRE>
+<I>schematicPortAcPowerRecommendedVoltageRms ::= '(' 
+&#09;'schematicPortAcPowerRecommendedVoltageRms'</I>
+&#09;<I><A HREF="RMRF0026.HTM#voltageValue">voltageValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAcPowerRecommendedVoltageRms">SchematicPortAcPowerRecommendedVoltageRms</A></I> is used to specify the minimum, nominal and maximum root-mean-square (rms) voltage of the power supply for the proper operation of the circuit. <I><A HREF="RMRF0022.HTM#schematicUnits">SchematicUnits</A></I> specifies the voltage units.
+<H3>Example:</H3>
+<PRE>
+<B>(setVoltage (unitRef volts))</B>
+<B>...</B>
+<B>(schematicPortAcPowerRecommendedVoltageRms 220)</B>
+</PRE>
+<P>This specifies that the supply should be a nominal <B>220</B> V rms supply.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAcPowerRecommendedFrequency">schematicPortAcPowerRecommendedFrequency</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicPortAnalog">schematicPortAnalog</A></H1>
+<PRE>
+<I>schematicPortAnalog ::= '(' 'schematicPortAnalog'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAnalog">SchematicPortAnalog</A></I> indicates that digital information is not transmitted through this port, i.e.  the port is an analog port. When used in conjunction with power and ground ports, this indicates that the power/ground is for analog circuits. This attribute may be important for electrical rule checkers and synthesis packages which may need to separate the digital and analog power/ground.
+<H3>Example:</H3>
+<PRE>
+<B>(port X</B>
+<B>   (inputPort)</B>
+<B>   (schematicPortAttributes (schematicPortAnalog)))</B>
+</PRE>
+<P>This indicates that port <B>X</B> is intended to be an analog input port.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  <A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  <A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A>  <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  <A HREF="RMRF0021.HTM#schematicPortNonLogical">schematicPortNonLogical</A>  <A HREF="RMRF0021.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>  <A HREF="RMRF0021.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>  <A HREF="RMRF0021.HTM#schematicPortPower">schematicPortPower</A>  <A HREF="RMRF0021.HTM#schematicPortThreeState">schematicPortThreeState</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicPortAttributes">schematicPortAttributes</A></H1>
+<PRE>
+<I>schematicPortAttributes ::= '(' 'schematicPortAttributes'</I>
+&#09;<I>{ <A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A> | &lt;<A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>&gt; | &lt;<A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>&gt; | &lt;<A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>&gt; | &lt;<A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>&gt; | &lt;<A HREF="RMRF0021.HTM#schematicPortNonLogical">schematicPortNonLogical</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0021.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>&gt; | &lt;<A HREF="RMRF0021.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0021.HTM#schematicPortPower">schematicPortPower</A>&gt; | &lt;<A HREF="RMRF0021.HTM#schematicPortThreeState">schematicPortThreeState</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#port">port</A>  <A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAttributes">SchematicPortAttributes</A></I> describes attributes of a port. There is no requirement for the attributes to be accurate or to have a coherent usage within the EDIF description. External electrical rule checkers can check declared port types against the correct usage.
+<P>The <I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A></I> construct is available for the description of many more port types than are available directly in EDIF. In the context of <I><A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A></I>, <I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A></I> must strictly refer to IEEE Std. 91-1984, Sections 3.1.1 to 3.1.11, 3.3.1 to 3.3.24, 3.3.27 to 3.4.5 and 4.3.2.1 to 4.3.11.1. For boundary scan port types TCK, TMS, TDI, TDO and TRST <I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A></I> must strictly refer to IEEE 1149.1-1990 Sections 3.2 through 3.6 respectively.
+<P>There is no implicit connectivity through the use of <I><A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A></I>. Connections are explicitly described in <I><A HREF="RMRF0023.HTM#signalJoined">signalJoined</A></I> and through the use of <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I>. There are no semantic rules in EDIF about how these attributes are used.
+<P>These attributes originate from the schematic domain.
+<P>In the context of <I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I>, the use of <I><A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A> </I>indicates the suitability of the template to represent a particular type of port.
+<H3>Example:</H3>
+<PRE>
+<B>(port VCC</B>
+<B>   (unspecifiedDirectionPort)</B>
+<B>   (schematicPortAttributes (schematicPortDcPower)))</B>
+<B>(port sigout</B>
+<B>   (outputPort)</B>
+<B>   (schematicPortAttributes (schematicPortOpenCollector)))</B>
+</PRE>
+<P>The first port might be a power port on a 7400-series component. The second example describes a port called <B>sigout</B> that is an open-collector output port.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicPortChassisGround">schematicPortChassisGround</A></H1>
+<PRE>
+<I>schematicPortChassisGround ::= '(' 'schematicPortChassisGround'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortChassisGround">SchematicPortChassisGround</A></I> is used in <I><A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A></I> to state that the associated port represents a connection to a chassis ground. The description is in accordance with the IEEE standard 315-1975, Sect. 3.9.2.
+<H3>Example:</H3>
+<PRE>
+<B>(port Z</B>
+<B>   (unspecifiedDirectionPort)</B>
+<B>   (schematicPortAttributes </B>
+<B>      (schematicPortChassisGround)))</B>
+</PRE>
+<P>This example indicates that port <B>Z</B> is meant to connected to a chassis ground externally. Electrical-rule-checking programs might flag an error if it is not connected to a chassis ground.
+<PRE>
+<B>(globalPort GND</B>
+<B>   (schematicGlobalPortAttributes </B>
+<B>      (schematicPortChassisGround)))</B>
+</PRE>
+<P>This example defines a <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> called <B>GND</B> that indicates an intended connection to a chassis ground.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  <A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  <A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A>  <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  <A HREF="RMRF0021.HTM#schematicPortNonLogical">schematicPortNonLogical</A>  <A HREF="RMRF0021.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>  <A HREF="RMRF0021.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>  <A HREF="RMRF0021.HTM#schematicPortThreeState">schematicPortThreeState</A> 
+</I>
+<P><HR>
+<H1><A NAME="schematicPortClock">schematicPortClock</A></H1>
+<PRE>
+<I>schematicPortClock ::= '(' 'schematicPortClock'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortClock">SchematicPortClock</A></I> indicates that the enclosing port or global port carries a clock signal.  
+<P>The optional <I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A></I> construct allows the originating system to add references to specific sections in the IEEE standards. This may add extra attributes to the clock supply that synthesis and rule-check programs might find useful. <I><A HREF="RMRF0009.HTM#ieeeStandard">IeeeStandard</A></I> in the context of <I><A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A></I> may reference only the following: IEEE Std. 91-1984, Sections 3.1.1 to 3.1.11, 3.3.1 to 3.3.24, 3.3.27 to 3.4.5 and 4.3.2.1 to 4.3.11.1; IEEE Std. 1149.1, Sections 3.2 to 3.6.
+<H3>Example:</H3>
+<PRE>
+<B>(port phi1</B>
+<B>   (inputPort)</B>
+<B>   (schematicPortAttributes (schematicPortClock)))</B>
+</PRE>
+<P>This example describes a port called <B>phi1</B> that carries a clock signal. The clock signal may get a higher priority from automatic placement and routing tools.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  <A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  <A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>  <A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  <A HREF="RMRF0021.HTM#schematicPortNonLogical">schematicPortNonLogical</A>  <A HREF="RMRF0021.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>  <A HREF="RMRF0021.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>  <A HREF="RMRF0021.HTM#schematicPortThreeState">schematicPortThreeState</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicPortDcPower">schematicPortDcPower</A></H1>
+<PRE>
+<I>schematicPortDcPower ::= '(' 'schematicPortDcPower'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0021.HTM#schematicPortDcPowerRecommendedVoltage">schematicPortDcPowerRecommendedVoltage</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortDcPower">SchematicPortDcPower</A></I> is used to indicate that a direct-current power supply is represented by the globalPort or that the port normally carries direct current from a power supply. The analog attribute, if attached, means that the designer intended this power supply to be used by analog circuitry. 
+<P>The <I><A HREF="RMRF0021.HTM#schematicPortDcPowerRecommendedVoltage">schematicPortDcPowerRecommendedVoltage</A></I> construct allows the user to specify the recommended voltage for proper operation of the circuit.
+<H3>Example:</H3>
+<PRE>
+<B>(setVoltage (unitRef Volts))</B>
+<B>...</B>
+<B>(globalPort PWR</B>
+<B>   (schematicGlobalPortAttributes </B>
+<B>      (schematicPortDcPower </B>
+<B>         (schematicPortDcPowerRecommendedVoltage</B>
+<B>            (mnm 10 12 14)))))</B>
+</PRE>
+<P>This example describes a <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> called <B>PWR</B> that represents a direct-current power supply which is recommended to be between <B>10</B> and <B>14</B> Volts, nominally <B>12</B> Volts.
+<PRE>
+<B>(port PWR2</B>
+<B>   (unspecifiedDirectionPort)</B>
+<B>   (schematicPortAttributes</B>
+<B>      (schematicPortDcPower)))</B>
+</PRE>
+<P>This example describes a port called <B>PWR2</B> that provides direct current. No particular voltage has been specified.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  <A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  <A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>  <A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  <A HREF="RMRF0021.HTM#schematicPortNonLogical">schematicPortNonLogical</A>  <A HREF="RMRF0021.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>  <A HREF="RMRF0021.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>  <A HREF="RMRF0021.HTM#schematicPortThreeState">schematicPortThreeState</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicPortDcPowerRecommendedVoltage">schematicPortDcPowerRecommendedVoltage</A></H1>
+<PRE>
+<I>schematicPortDcPowerRecommendedVoltage ::= '(' 
+&#09;'schematicPortDcPowerRecommendedVoltage'</I>
+&#09;<I><A HREF="RMRF0026.HTM#voltageValue">voltageValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortDcPowerRecommendedVoltage">SchematicPortDcPowerRecommendedVoltage</A></I> is used to specify the minimum, nominal and maximum voltage of the power supply for the proper operation of the circuit. <I><A HREF="RMRF0022.HTM#schematicUnits">SchematicUnits</A></I> specifies the voltage units.
+<H3>Example:</H3>
+<PRE>
+<B>(setVoltage (unitRef Volts))</B>
+<B>...</B>
+<B>(schematicPortDcPowerRecommendedVoltage 5)</B>
+</PRE>
+<P>This example specifies a recommended DC voltage of <B>5</B> Volts.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  
+</I>
+<P><HR>
+<H1><A NAME="schematicPortEarthGround">schematicPortEarthGround</A></H1>
+<PRE>
+<I>schematicPortEarthGround ::= '(' 'schematicPortEarthGround'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortEarthGround">SchematicPortEarthGround</A></I> is used in <I><A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A></I> to specify that the associated port represents a connection to an earth ground. The term "earth ground" is in accordance with the IEEE standard 315-1975, Sect. 3.9.1.
+<H3>Example:</H3>
+<PRE>
+<B>(globalPort GND</B>
+<B>   (schematicGlobalPortAttributes </B>
+<B>      (schematicPortEarthGround)))</B>
+</PRE>
+<P>This example describes a <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> called <B>GND</B> that represents an intended connection to an earth ground.
+<PRE>
+<B>(port GND2</B>
+<B>   (unspecifiedDirectionPort)</B>
+<B>   (schematicPortAttributes</B>
+<B>      (schematicPortEarthGround)))</B>
+</PRE>
+<P>This example describes a port called <B>GND2</B> that the designer intended to be connected to an earth ground externally. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  <A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  <A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>  <A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A> <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  <A HREF="RMRF0021.HTM#schematicPortNonLogical">schematicPortNonLogical</A>  <A HREF="RMRF0021.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>  <A HREF="RMRF0021.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>  <A HREF="RMRF0021.HTM#schematicPortThreeState">schematicPortThreeState</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicPortGround">schematicPortGround</A></H1>
+<PRE>
+<I>schematicPortGround ::= '(' 'schematicPortGround'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortGround">SchematicPortGround</A></I> indicates that the corresponding port or global port represents a connection to ground or an intention to make a connection to ground. In this context, ground is the voltage reference for the circuit. <I><A HREF="RMRF0021.HTM#schematicPortGround">SchematicPortGround</A></I> should be used when the sending system does not identify the type of ground more precisely. No further information is available as to what kind of ground connection it is. 
+<H3>Example:</H3>
+<PRE>
+<B>(globalPort GND</B>
+<B>   (schematicGlobalPortAttributes </B>
+<B>      (schematicPortGround)))</B>
+</PRE>
+<P>This example describes a <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> called <B>GND</B> that represents an intended connection to ground.
+<PRE>
+<B>(port GND2</B>
+<B>   (unspecifiedDirectionPort)</B>
+<B>   (schematicPortAttributes (schematicPortGround)))</B>
+</PRE>
+<P>This example describes a port called <B>GND2</B> that is intended to be connected to a ground externally.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  <A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  <A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>  <A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A>  <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortNonLogical">schematicPortNonLogical</A>  <A HREF="RMRF0021.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>  <A HREF="RMRF0021.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>  <A HREF="RMRF0021.HTM#schematicPortThreeState">schematicPortThreeState</A> 
+</I>
+<P><HR>
+<H1><A NAME="schematicPortNonLogical">schematicPortNonLogical</A></H1>
+<PRE>
+<I>schematicPortNonLogical ::= '(' 'schematicPortNonLogical'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortNonLogical">SchematicPortNonLogical</A></I> indicates that the corresponding port represents a connection to a signal that does not carry logic information. No further information is available as to what kind of signal it is.
+<H3>Example:</H3>
+<PRE>
+<B>(port IN2</B>
+<B>   (inputPort)</B>
+<B>   (unused)</B>
+<B>   (schematicPortAttributes (schematicPortNonLogical)))</B>
+</PRE>
+<P>This example shows a port called <B>IN2</B> that is unused and does not carry any logical information.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  <A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  <A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>  <A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A>  <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  <A HREF="RMRF0021.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>  <A HREF="RMRF0021.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>  <A HREF="RMRF0021.HTM#schematicPortThreeState">schematicPortThreeState</A> 
+</I>
+<P><HR>
+<H1><A NAME="schematicPortOpenCollector">schematicPortOpenCollector</A></H1>
+<PRE>
+<I>schematicPortOpenCollector ::= '(' 'schematicPortOpenCollector'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortOpenCollector">SchematicPortOpenCollector</A></I> indicates that the corresponding port represents a connection to the collector of a transistor. In terms of logic signals, the output state is typically a 0 or weak 1.
+<H3>Example:</H3>
+<PRE>
+<B>(port IN2</B>
+<B>   (outputPort)</B>
+<B>   (schematicPortAttributes (schematicPortOpenCollector)))</B>
+</PRE>
+<P>This example defines a port called <B>IN2</B> that is intended to represent an open collector.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  <A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  <A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>  <A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A> <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  <A HREF="RMRF0021.HTM#schematicPortNonLogical">schematicPortNonLogical</A>  <A HREF="RMRF0021.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>  <A HREF="RMRF0021.HTM#schematicPortThreeState">schematicPortThreeState</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicPortOpenEmitter">schematicPortOpenEmitter</A></H1>
+<PRE>
+<I>schematicPortOpenEmitter ::= '(' 'schematicPortOpenEmitter'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortOpenEmitter">SchematicPortOpenEmitter</A></I> indicates that the corresponding port represents a connection to the emitter of a transistor. In terms of logic signals, the output state is typically a 1 or weak 0.
+<H3>Example:</H3>
+<PRE>
+<B>(port IN2</B>
+<B>   (outputPort)</B>
+<B>   (schematicPortAttributes (schematicPortOpenEmitter)))</B>
+</PRE>
+<P>This example defines a port called <B>IN2</B> that is intended to represent an open emitter.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  <A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  <A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>  <A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A>  <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  <A HREF="RMRF0021.HTM#schematicPortNonLogical">schematicPortNonLogical</A>  <A HREF="RMRF0021.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>  <A HREF="RMRF0021.HTM#schematicPortThreeState">schematicPortThreeState</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicPortPower">schematicPortPower</A></H1>
+<PRE>
+<I>schematicPortPower ::= '(' 'schematicPortPower'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortPower">SchematicPortPower</A></I> is used to indicate that a power supply is represented by the <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I>, or that the port normally carries power.
+<H3>Example:</H3>
+<PRE>
+<B>(globalPort PWR</B>
+<B>   (schematicGlobalPortAttributes (schematicPortPower)))</B>
+</PRE>
+<P>This example describes a <I><A HREF="RMRF0008.HTM#globalPort">globalPort</A></I> called <B>PWR</B> that is intended to represent a power supply.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A>  <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A> 
+</I>
+<P><HR>
+<H1><A NAME="schematicPortStyle">schematicPortStyle</A></H1>
+<PRE>
+<I>schematicPortStyle ::= '(' 'schematicPortStyle'</I>
+&#09;<I>( <A HREF="RMRF0014.HTM#narrowPort">narrowPort</A> | <A HREF="RMRF0026.HTM#widePort">widePort</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>  <A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortStyle">SchematicPortStyle</A></I> indicates the style of a port template, indicating whether it is intended to represent a wide port or a narrow port. There are no semantic rules governing whether <I><A HREF="RMRF0014.HTM#narrowPort">narrowPort</A></I> or <I><A HREF="RMRF0026.HTM#widePort">widePort</A></I> styles are to be used with ports or port bundles as this is dependent on the originating system.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortTemplate A ...</B>
+<B>   (schematicPortStyle (widePort)))</B>
+<B>...</B>
+<B>(cell C ...</B>
+<B>   (cluster C1 </B>
+<B>      (interface ... </B>
+<B>         (portBundle B (portList ...)))</B>
+<B>      (clusterHeader ...)</B>
+<B>      (schematicSymbol ANSI ...</B>
+<B>         (schematicSymbolPortImplementation IN</B>
+<B>            (portRef B)</B>
+<B>            (schematicSymbolPortTemplateRef</B>
+<B>               A)</B>
+<B>            ...))))</B>
+</PRE>
+<P>This example illustrates the use of a template with <I><A HREF="RMRF0021.HTM#schematicPortStyle">schematicPortStyle</A></I> of <I><A HREF="RMRF0026.HTM#widePort">widePort</A></I>, to represent the port bundle <B>B</B>.
+
+<P><HR>
+<H1><A NAME="schematicPortThreeState">schematicPortThreeState</A></H1>
+<PRE>
+<I>schematicPortThreeState ::= '(' 'schematicPortThreeState'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>  <A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortThreeState">SchematicPortThreeState</A></I> indicates that the corresponding port is a three-state port, i.e. can be binary 1, binary 0 or high-impedance.
+<H3>Example:</H3>
+<PRE>
+<B>(port IN2</B>
+<B>   (outputPort)</B>
+<B>   (schematicPortAttributes (schematicPortThreeState)))</B>
+</PRE>
+<P>This example defines a port called <B>IN2</B> that is intended to represent a three-state port.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0009.HTM#ieeeStandard">ieeeStandard</A>  <A HREF="RMRF0021.HTM#schematicPortAcPower">schematicPortAcPower</A>  <A HREF="RMRF0021.HTM#schematicPortAnalog">schematicPortAnalog</A>  <A HREF="RMRF0021.HTM#schematicPortChassisGround">schematicPortChassisGround</A>  <A HREF="RMRF0021.HTM#schematicPortClock">schematicPortClock</A>  <A HREF="RMRF0021.HTM#schematicPortDcPower">schematicPortDcPower</A>  <A HREF="RMRF0021.HTM#schematicPortEarthGround">schematicPortEarthGround</A>  <A HREF="RMRF0021.HTM#schematicPortGround">schematicPortGround</A>  <A HREF="RMRF0021.HTM#schematicPortNonLogical">schematicPortNonLogical</A>  <A HREF="RMRF0021.HTM#schematicPortOpenCollector">schematicPortOpenCollector</A>  <A HREF="RMRF0021.HTM#schematicPortOpenEmitter">schematicPortOpenEmitter</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicRequiredDefaults">schematicRequiredDefaults</A></H1>
+<PRE>
+<I>schematicRequiredDefaults ::= '(' 'schematicRequiredDefaults'</I>
+&#09;<I><A HREF="RMRF0020.HTM#schematicMetric">schematicMetric</A></I>
+&#09;<I><A HREF="RMRF0007.HTM#fontRef">fontRef</A></I>
+&#09;<I><A HREF="RMRF0024.HTM#textHeight">textHeight</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#physicalDefaults">physicalDefaults</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicRequiredDefaults">SchematicRequiredDefaults</A></I> sets defaults which are required when any schematic data is present in the EDIF data. These defaults may be overridden later, e.g. by <I><A HREF="RMRF0016.HTM#physicalScaling">physicalScaling</A></I> or <I><A HREF="RMRF0022.HTM#schematicUnits">schematicUnits</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(edifHeader </B>
+<B>   (edifLevel 0) (keywordMap ...)</B>
+<B>   (unitDefinitions ...)</B>
+<B>   (fontDefinitions ...)</B>
+<B>   (physicalDefaults</B>
+<B>      (schematicRequiredDefaults</B>
+<B>         (schematicMetric</B>
+<B>            (setDistance (unitRef mm))</B>
+<B>            (noHotspotGrid)</B>
+<B>            (nominalHotspotGrid 10))</B>
+<B>         (fontRef courier)</B>
+<B>         (textHeight 10))))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicUnits">schematicUnits</A> 
+</I>
+<P><HR>
+<H1><A NAME="schematicRipperImplementation">schematicRipperImplementation</A></H1>
+<PRE>
+<I>schematicRipperImplementation ::= '(' 'schematicRipperImplementation'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0021.HTM#schematicRipperTemplateRef">schematicRipperTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#transform">transform</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | 
+&#09;<A HREF="RMRF0018.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0018.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0018.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0015.HTM#page">page</A>  <A HREF="RMRF0019.HTM#schematicFrameImplementationDetails">schematicFrameImplementationDetails</A>  
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I> places a <I><A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplate</A></I> on a page, and is used to associate one interconnect with another.
+<P>The <I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I> construct gives a name for the ripper, and indicates the <I><A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplate</A></I> that is to be used to represent the ripper on the schematic page. The actual positioning of the <I><A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplate</A></I> is done by <I><A HREF="RMRF0025.HTM#transform">transform</A></I>.
+<P>Association between the <I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I> and its nets or busses is defined in the <I><A HREF="RMRF0020.HTM#schematicNetJoined">schematicNetJoined</A></I> and <I><A HREF="RMRF0019.HTM#schematicBusJoined">schematicBusJoined</A></I> constructs, which may reference a hotspot of a particular <I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I>.
+<P>For level 0, each interconnect associated with a ripper must have at least one common signal with at least one other interconnect associated with the same ripper. 
+<P>For level 0, a <I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A> </I>must be referenced by at least one schematic bus. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicRipperImplementation I1 </B>
+<B>   (schematicRipperTemplateRef </B>
+<B>      BUS_TO_BUS_RIPPER)</B>
+<B>   (transform (origin (pt 200 300))))</B>
+<B>(schematicRipperImplementation I2</B>
+<B>   (schematicRipperTemplateRef </B>
+<B>      BUS_TO_NET_RIPPER)</B>
+<B>   (transform (origin (pt 500 600))))</B>
+</PRE>
+<P>This example shows two different rippers, with implementation names <B>I1</B> and <B>I2</B>, which each refer to different <I><A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplates</A></I>. They could of course refer to the same template.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0020.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A> 
+</I>
+<P><HR>
+<H1><A NAME="schematicRipperImplementationRef">schematicRipperImplementationRef</A></H1>
+<PRE>
+<I>schematicRipperImplementationRef ::= '(' 'schematicRipperImplementationRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#implementationNameRef">implementationNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#ripperHotspotRef">ripperHotspotRef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicRipperImplementationRef">SchematicRipperImplementationRef</A></I> is used to reference a <I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicRipperImplementationRef I1)</B>
+</PRE>
+<P>This example shows a reference to a <I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I> whose <I><A HREF="RMRF0009.HTM#implementationNameDef">implementationNameDef</A></I> is <B>I1</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0019.HTM#schematicBusJoined">schematicBusJoined</A>  <A HREF="RMRF0020.HTM#schematicNetJoined">schematicNetJoined</A>  <A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A>  
+</I>
+<P><HR>
+<H1><A NAME="schematicRipperTemplate">schematicRipperTemplate</A></H1>
+<PRE>
+<I>schematicRipperTemplate ::= '(' 'schematicRipperTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0006.HTM#figure">figure</A> | &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | 
+&#09;<A HREF="RMRF0018.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0019.HTM#ripperHotspot">ripperHotspot</A> | <A HREF="RMRF0019.HTM#schematicComplexFigure">schematicComplexFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#external">external</A>  <A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicRipperTemplate">SchematicRipperTemplate</A></I> is a graphical template used by a <I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I> to represent the graphics of the <I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A></I>. Typically, it will be a simple oblique line or similar, but more complex graphics and annotation could be incorporated if necessary.
+<P>A ripper typically has two (occasionally more) hotspots, and as these need to be identifiable individually for connections to be made to them, they are represented by <I><A HREF="RMRF0019.HTM#ripperHotspot">ripperHotspot</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicRipperTemplate BUS_BUS_RIPPER</B>
+<B>   (schematicTemplateHeader  ...)</B>
+<B>   (figure BUS_LINES</B>
+<B>      (path (pointList (pt 0 0) (pt 10 -10))))</B>
+<B>   (ripperHotspot END1 (hotspot (pt 0 0)</B>
+<B>      (schematicWireAffinity (wideWire))))</B>
+<B>   (ripperHotspot END2 (hotspot (pt 10 -10)</B>
+<B>      (schematicWireAffinity (wideWire)))))</B>
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplate</A></I> represents a ripper where each end is intended to be connected to a <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicRipperTemplateRef">schematicRipperTemplateRef</A></H1>
+<PRE>
+<I>schematicRipperTemplateRef ::= '(' 'schematicRipperTemplateRef'</I>
+&#09;<I><A HREF="RMRF0013.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0013.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#schematicRipperImplementation">schematicRipperImplementation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicRipperTemplateRef">SchematicRipperTemplateRef</A></I> is used to reference a <I><A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplate</A></I>, which is held in a <I><A HREF="RMRF0012.HTM#library">library</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicRipperTemplateRef BUS_TO_BUS_RIPPER</B>
+<B>   (libraryRef SYSTEM))</B>
+</PRE>
+<P>This example shows a reference to a <I><A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplate</A></I> called <B>BUS_TO_BUS_RIPPER</B> in a <I><A HREF="RMRF0012.HTM#library">library</A></I> called <B>SYSTEM</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplate</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSubBus">schematicSubBus</A></H1>
+<PRE>
+<I>schematicSubBus ::= '(' 'schematicSubBus'</I>
+&#09;<I><A HREF="RMRF0011.HTM#interconnectNameDef">interconnectNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicSubInterconnectHeader">schematicSubInterconnectHeader</A></I>
+&#09;<I><A HREF="RMRF0019.HTM#schematicBusJoined">schematicBusJoined</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0019.HTM#schematicBusDetails">schematicBusDetails</A>&gt; | <A HREF="RMRF0019.HTM#schematicBusSlice">schematicBusSlice</A> | 
+&#09;&lt;<A HREF="RMRF0020.HTM#schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A>&gt; | <A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSubBusSet">schematicSubBusSet</A>  
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0021.HTM#schematicSubBus">schematicSubBus</A></I> is analogous to <I><A HREF="RMRF0022.HTM#schematicSubNet">schematicSubNet</A></I>, in that it provides further structural information about the connectivity of the <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A>, <A HREF="RMRF0019.HTM#schematicBusSlice">schematicBusSlice</A> </I>or <I><A HREF="RMRF0021.HTM#schematicSubBus">schematicSubBus</A> </I>that contains it.
+<P>The <I><A HREF="RMRF0017.HTM#port">ports</A></I> and hotspots referenced in the <I><A HREF="RMRF0019.HTM#schematicBusJoined">schematicBusJoined</A></I> of a <I><A HREF="RMRF0021.HTM#schematicSubBus">schematicSubBus</A> </I>must be referenced in the <I><A HREF="RMRF0019.HTM#schematicBusJoined">schematicBusJoined</A></I> of the immediately-containing <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A>, <A HREF="RMRF0019.HTM#schematicBusSlice">schematicBusSlice</A> </I>or <I><A HREF="RMRF0021.HTM#schematicSubBus">schematicSubBus</A>.
+</I><P><I><A HREF="RMRF0019.HTM#schematicBusDetails">SchematicBusDetails</A></I> provides the details of the <I><A HREF="RMRF0021.HTM#schematicSubBus">schematicSubBus</A></I>, either as the graphical implementation of the subbus, or as a further set of subbusses.
+<P><I><A HREF="RMRF0020.HTM#schematicInterconnectAttributeDisplay">SchematicInterconnectAttributeDisplay</A></I> provides display slots for attributes of the subbus, or its parent busslices, subbusses or bus.
+<P>The width of a subbus is the same as that of the enclosing bus slice or bus.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicBus A (signalGroupRef A) </B>
+<B>   (SchematicInterconnectHeader ...)</B>
+<B>   (schematicBusJoined </B>
+<B>      (portJoined (portRef MP1) (portRef MP2)) ...)</B>
+<B>   (schematicBusDetails</B>
+<B>      (schematicSubBusSet</B>
+<B>         (schematicSubBus S1 </B>
+<B>            (schematicSubInterconnectHeader ...)</B>
+<B>            (schematicBusJoined </B>
+<B>               (portJoined (portRef MP1)) ...) </B>
+<B>            (schematicBusDetails</B>
+<B>               (schematicBusGraphics ...)))</B>
+<B>         (schematicSubBus S2 </B>
+<B>            (schematicSubInterconnectHeader ...)</B>
+<B>            (schematicBusJoined </B>
+<B>               (portJoined (portRef MP2)) ...) ...))))</B>
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A></I> <B>A</B> has two <I><A HREF="RMRF0021.HTM#schematicSubBus">schematicSubBusses</A></I>. The first, <B>S1</B>, joins the master port <B>MP1</B> and the second, <B>S2</B>, joins the master port <B>MP2</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A>
+</I>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

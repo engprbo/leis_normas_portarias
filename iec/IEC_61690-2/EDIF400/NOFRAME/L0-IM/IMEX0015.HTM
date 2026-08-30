@@ -1,0 +1,1860 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcb_assembled_board_model">pcb_assembled_board_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A> describes an <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> and the
+ components mounted onto it.  
+</P><HR>
+<!-- Start of ENTITY: assembled_board -->
+<H2><A NAME="assembled_board">assembled_board</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>;
+    is_based_on                        : <A HREF="IMEX0015.HTM#bare_board">bare_board</A>;
+    component_implementations          : OPTIONAL SET [1:?] OF
+                                         <A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>; 
+    embedded_component_implementations : OPTIONAL SET [1:?] OF -- chips-first
+                                         <A HREF="IMEX0015.HTM#embedded_component_implementation">embedded_component_implementation</A>;
+    drawings                           : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>;
+    drawing_board_subsets              : OPTIONAL SET [1:?] OF <A HREF="IMEX0016.HTM#board_subset">board_subset</A>;
+    physical_nets                      : OPTIONAL SET [1:?] OF
+                                         <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>; 
+    component_assembly_rules           : OPTIONAL SET [1:?] OF
+                                         <A HREF="IMEX0015.HTM#component_assembly_rule">component_assembly_rule</A>;
+    component_orientation_rules        : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0022.HTM#mountable_package_orientation_rule">mountable_package_orientation_rule</A>; 
+    component_realisation_rules        : OPTIONAL SET [1:?] OF
+                                         <A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A>;
+    component_signal_realisation_rules : OPTIONAL SET [1:?] OF
+                                         <A HREF="IMEX0015.HTM#component_signal_realisation_rule">component_signal_realisation_rule</A>;
+    default_maximum_component_height_top_side    : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    default_maximum_component_height_bottom_side : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    wirebond_length                              : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_distance">toleranced_distance</A>;
+  DERIVE
+    containing_view : <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.is_implemented_by');
+  WHERE
+    <A NAME="assembled_board.valid_existence">valid_existence</A> :
+      (* An assembled_board belongs to one internal_pcb_mcm_view. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.is_implemented_by');
+
+    <A NAME="assembled_board.valid_nets">valid_nets</A> :
+      (* The assembled_physical_nets are either all analysed or all
+         non-analysed. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(physicalNet1 &lt;* physical_nets |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(physicalNet2 &lt;* physical_nets - physicalNet1 |
+          TYPEOF(physicalNet1) &lt;&gt; TYPEOF(physicalNet2)))));
+
+    <A NAME="assembled_board.valid_implementation">valid_implementation</A> : -- chips-first
+      (* A component in the containing view can be implemented at most once.
+         That is, it cannot be implemented by a component_implementation and
+         by an embedded_component_implementation at the same time. *)  
+     <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(component &lt;* containing_view.components |
+       (SIZEOF(QUERY(componentImpl &lt;* component_implementations |
+                     componentImpl.implemented_component :=: <A HREF="IMEX0021.HTM#component">component</A>))
+        +
+        SIZEOF(QUERY(componentImpl &lt;* embedded_component_implementations |
+                     componentImpl.implemented_component :=: <A HREF="IMEX0021.HTM#component">component</A>))
+       ) &gt; 1));
+
+    <A NAME="assembled_board.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. An <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> cannot have component_implementations,
+            embedded_component_implementations, component_assembly_rules or
+            component_realisation_rules if its containing view does not define
+            any components. 
+         2. An <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> cannot have component_signal_realisation_rules
+            if its containing view does not define any component_signals. *) 
+      (EXISTS(containing_view.components) OR
+         NOT EXISTS(component_implementations) AND
+         NOT EXISTS(embedded_component_implementations) AND
+         NOT EXISTS(component_assembly_rules) AND
+         NOT EXISTS(component_realisation_rules)) 
+      AND
+      (EXISTS(containing_view.component_signals) OR
+         NOT EXISTS(component_signal_realisation_rules));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> object describes a single bare board and the
+ <A HREF="IMEX0021.HTM#component">components</A> mounted or printed onto it.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> <A HREF="IMEX0016.HTM#board_subset">board_subset</A> <A HREF="IMEX0015.HTM#component_implementation">component_implementation</A> <A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A> <A HREF="IMEX0015.HTM#component_signal_realisation_rule">component_signal_realisation_rule</A> <A HREF="IMEX0016.HTM#component_symbol_selection">component_symbol_selection</A> <A HREF="IMEX0015.HTM#embedded_component_implementation">embedded_component_implementation</A> <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> </P>
+<HR>
+<!-- Start of ENTITY: bare_board -->
+<H2><A NAME="bare_board">bare_board</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#bare_board">bare_board</A>;
+    instantiated_bare_board : <A HREF="IMEX0025.HTM#bare_board_definition">bare_board_definition</A>; -- reference
+    property_overrides      : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property_override">property_override</A>;
+  WHERE
+    <A NAME="bare_board.valid_existence">valid_existence</A> :
+      (* A bare_board belongs to one assembled_board. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.is_based_on');
+
+    <A NAME="bare_board.valid_property_overrides">valid_property_overrides</A> :
+      (* The overridden properties are defined in the instantiated
+         bare_board_definition. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyOverride &lt;* property_overrides |
+        NOT (propertyOverride.overridden_property
+             IN instantiated_bare_board.properties)));
+
+    <A NAME="bare_board.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0015.HTM#bare_board">bare_board</A> cannot have property_overrides if its instantiated
+            <A HREF="IMEX0025.HTM#bare_board_definition">bare_board_definition</A> does not define any properties. *)
+      EXISTS(instantiated_bare_board.properties) OR
+        NOT EXISTS(property_overrides);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#bare_board">bare_board</A> is a single occurrence of a <A HREF="IMEX0025.HTM#bare_board_definition">bare_board_definition</A> object.
+ A bare board is a composition of laminated sheets of conductive material,
+ separated by insulation sheets, and usually interconnected at several
+ places.  The bare board is used in the assembly process, to mount packaged
+ (pre-fabricated) components onto, and appears in the bill of material of the
+ assembled board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> <A HREF="IMEX0025.HTM#bare_board_instance_net">bare_board_instance_net</A> </P>
+<HR>
+<!-- Start of ENTITY: embedded_component_implementation -->
+<H2><A NAME="embedded_component_implementation">embedded_component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#embedded_component_implementation">embedded_component_implementation</A>;     implemented_component : <A HREF="IMEX0021.HTM#component">component</A>; -- reference
+    implementing_die      : <A HREF="IMEX0025.HTM#embedded_die">embedded_die</A>; -- reference
+  DERIVE
+    containing_board : <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+                         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                                        '<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>',
+                                        'embedded_component_implementations'));
+  UNIQUE
+    single_implementation :
+      (* An embedded_die in an assembled_board cannot be used to implement more
+         than one component. *)
+      containing_board, implementing_die;
+  WHERE
+    <A NAME="embedded_component_implementation.valid_existence">valid_existence</A> :
+      (* An embedded_component_implementation belongs to one
+         assembled_board. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+                     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                                    '<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>',
+                                    'embedded_component_implementations'));
+
+    <A NAME="embedded_component_implementation.valid_implemented_component">valid_implemented_component</A> :
+      (* The implemented component must be defined in the containing pcb or
+         mcm view. *)
+      implemented_component IN containing_board.containing_view.components;
+
+    <A NAME="embedded_component_implementation.valid_implementing_die">valid_implementing_die</A> :
+      (* The referenced embedded_die must be defined in the
+         bare_board_definition from which the containing assembled_board is
+         instantiated. *)
+      EXISTS(containing_board.is_based_on.instantiated_bare_board.embedded_dies)
+      AND
+      (implementing_die 
+         IN containing_board.is_based_on.instantiated_bare_board.embedded_dies);
+
+    <A NAME="embedded_component_implementation.valid_implementation">valid_implementation</A> :
+      (* The implemented component must instantiate the same
+         die_electrical_part as the embedded_die. *)
+      implemented_component.instantiated_part
+        :=: implementing_die.embedded_part;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0015.HTM#embedded_component_implementation">embedded_component_implementation</A> describes how a <A HREF="IMEX0021.HTM#component">component</A> is
+ implemented by an <A HREF="IMEX0025.HTM#embedded_die">embedded_die</A> in the bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> </P>
+<HR>
+<!-- Start of ENTITY: component_implementation -->
+<H2><A NAME="component_implementation">component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A>,
+                                    <A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>,
+                                    <A HREF="IMEX0015.HTM#printed_component_implementation">printed_component_implementation</A>));
+    implemented_component                     : <A HREF="IMEX0021.HTM#component">component</A>; -- reference
+    referenced_footprint                      : <A HREF="IMEX0025.HTM#footprint_instance">footprint_instance</A>; -- reference
+    component_designator_fabrication_override : OPTIONAL 
+                                             <A HREF="IMEX0018.HTM#fabricate_text_appearance_override">fabricate_text_appearance_override</A>;
+    component_property_fabrications           : OPTIONAL SET [1:?] OF
+                                                <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;   
+    part_property_fabrications                : OPTIONAL SET [1:?] OF
+                                                <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;   
+    drawing_information                       : OPTIONAL SET [1:?] OF
+                                                <A HREF="IMEX0017.HTM#drawing_element">drawing_element</A>; 
+  DERIVE
+    containing_board : <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.component_implementations');
+  WHERE
+    <A NAME="component_implementation.valid_existence">valid_existence</A> :
+      (* A component_implementation belongs to one assembled_board. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.component_implementations');
+
+    <A NAME="component_implementation.valid_implemented_component">valid_implemented_component</A> :
+      (* The implemented component must be defined in the containing pcb or mcm
+         view. *)
+      implemented_component IN containing_board.containing_view.components;
+
+    <A NAME="component_implementation.valid_referenced_footprint">valid_referenced_footprint</A> :
+      (* The referenced footprint_instance must be within the
+         bare_board_definition which is instanced as the basis for the
+         assembled_board. *)
+      EXISTS(containing_board.is_based_on.instantiated_bare_board.sub_layouts)
+      AND
+      (referenced_footprint 
+         IN containing_board.is_based_on.instantiated_bare_board.sub_layouts);
+
+    <A NAME="component_implementation.valid_component_property_fabrications">valid_component_property_fabrications</A> :
+      (* The fabricated properties are defined in the implemented component. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyFabrication &lt;* component_property_fabrications |
+        NOT (propertyFabrication.fabricated_property
+             IN implemented_component.properties)));
+
+    <A NAME="component_implementation.valid_part_property_fabrications">valid_part_property_fabrications</A> :
+      (* The fabricated properties are defined in the part referenced by the
+         implemented component. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyFabrication &lt;* part_property_fabrications |
+        NOT (propertyFabrication.fabricated_property
+             IN implemented_component.instantiated_part.properties)));
+
+    <A NAME="component_implementation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0015.HTM#component_implementation">component_implementation</A> cannot have
+            component_property_fabrication if its implemented <A HREF="IMEX0021.HTM#component">component</A> does
+            not define any properties. 
+         2. A <A HREF="IMEX0015.HTM#component_implementation">component_implementation</A> cannot have part_property_fabrications
+            if the <A HREF="IMEX0024.HTM#part">part</A> from which the implemented <A HREF="IMEX0021.HTM#component">component</A> is instantiated
+            does not define any properties. *)
+
+      (EXISTS(implemented_component.properties) OR 
+         NOT EXISTS(component_property_fabrications))
+      AND
+      (EXISTS(implemented_component.instantiated_part.properties) OR
+         NOT EXISTS(part_property_fabrications));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#component_implementation">component_implementation</A> describes how a <A HREF="IMEX0021.HTM#component">component</A> is mounted or
+ printed on a bare board.  It specifies the <A HREF="IMEX0025.HTM#footprint_instance">footprint_instance</A> onto which a
+ (packaged) component is mounted, or the <A HREF="IMEX0025.HTM#footprint_instance">footprint_instance</A> which realises
+ the (printed) component.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> <A HREF="IMEX0016.HTM#component_symbol_selection">component_symbol_selection</A> <A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A> <A HREF="IMEX0016.HTM#dimensioned_object">dimensioned_object</A> </P>
+<HR>
+<!-- Start of ENTITY: die_component_implementation -->
+<H2><A NAME="die_component_implementation">die_component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>);
+    SELF\<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>.implemented_component 
+        : <A HREF="IMEX0021.HTM#die_electrical_component">die_electrical_component</A>;
+    location                           : <A HREF="IMEX0008.HTM#unscaled_transform">unscaled_transform</A>;
+    mountable_template : <A HREF="IMEX0014.HTM#mountable_die_physical_template">mountable_die_physical_template</A>; -- reference
+    component_terminal_implementations : OPTIONAL SET [1:?] OF
+                                         <A HREF="IMEX0015.HTM#die_component_terminal_implementation">die_component_terminal_implementation</A>; 
+    overriding_mountable_template_properties : OPTIONAL SET [1:?] OF
+                                               <A HREF="IMEX0029.HTM#property_override">property_override</A>;
+    mountable_template_property_fabrications : OPTIONAL SET [1:?] OF
+                                               <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+    template_property_fabrications           : OPTIONAL SET [1:?] OF
+                                               <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+  WHERE
+    <A NAME="die_component_implementation.valid_mountable_template">valid_mountable_template</A> : 
+      (* The mountable die_physical_template must mount the same
+         die_physical_template that defines the physical interface of
+         the part. *)
+    NOT (
+    <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(mountable_template,
+    '<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>.<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>')
+    AND
+    (implemented_component.instantiated_part.referenced_die_physical_template
+     :&lt;&gt;: mountable_template\<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>
+          .referenced_die_physical_template));
+
+    <A NAME="die_component_implementation.valid_component_terminal_implementations">valid_component_terminal_implementations</A> :
+      (* The part_terminal referenced by the component_terminal_implementation
+         must be defined in the part in which the component is instantiated. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(terminalImpl &lt;* component_terminal_implementations |
+        <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(partTerminal &lt;*
+                         implemented_component.instantiated_part.terminals |
+        terminalImpl\<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>.referenced_part_terminal 
+        :=: partTerminal))));
+
+    <A NAME="die_component_implementation.valid_overriding_mountable_template_properties">valid_overriding_mountable_template_properties</A> :
+      (* The overridden properties are defined in the mountable_template *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyOverride 
+                       &lt;* overriding_mountable_template_properties |
+        NOT (propertyOverride.overridden_property
+             IN mountable_template.properties)));
+
+    <A NAME="die_component_implementation.valid_mountable_template_property_fabrications">valid_mountable_template_property_fabrications</A> :
+      (* The fabricated properties are defined in the
+         mountable_die_physical_template used by the
+         die_component_implementation. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyFabrication 
+                       &lt;* mountable_template_property_fabrications |
+        NOT (propertyFabrication.fabricated_property
+             IN mountable_template.properties)));
+
+    <A NAME="die_component_implementation.valid_template_property_fabrications">valid_template_property_fabrications</A> :
+      (* The fabricated properties are defined in the die_physical_template
+         referenced by the mountable_die_physical_template. *)
+    NOT (
+    <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(mountable_template,
+    '<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>.<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>')
+    AND
+    <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(propertyFabrication &lt;* template_property_fabrications |
+      NOT (propertyFabrication.fabricated_property
+           IN mountable_template\<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>
+              .referenced_die_physical_template.properties))));
+
+    <A NAME="die_component_implementation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A> cannot have
+            overriding_mountable_template_properties or
+            mountable_template_property_fabrications if the referenced
+            <A HREF="IMEX0014.HTM#mountable_die_physical_template">mountable_die_physical_template</A> does not define any properties. *)
+      EXISTS(mountable_template.properties) OR
+        NOT EXISTS(overriding_mountable_template_properties) AND
+        NOT EXISTS(mountable_template_property_fabrications);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A> describes how a die component is mounted
+ onto the bard board.  It specifies the <A HREF="IMEX0014.HTM#mountable_die_physical_template">mountable_die_physical_template</A>
+ (mounting rules) for the component. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#die_component_terminal_implementation">die_component_terminal_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: packaged_component_implementation -->
+<H2><A NAME="packaged_component_implementation">packaged_component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>
+      ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0015.HTM#packaged_electrical_component_implementation">packaged_electrical_component_implementation</A>,
+                                  <A HREF="IMEX0015.HTM#packaged_connector_component_implementation">packaged_connector_component_implementation</A>,
+                                  <A HREF="IMEX0015.HTM#mechanical_component_implementation">mechanical_component_implementation</A>,
+                                  <A HREF="IMEX0015.HTM#jumper_component_implementation">jumper_component_implementation</A>))
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>);
+    location                                : <A HREF="IMEX0008.HTM#unscaled_transform">unscaled_transform</A>;
+    uses_mountable_package                  : <A HREF="IMEX0022.HTM#mountable_package">mountable_package</A>;  -- reference
+    overriding_mountable_package_properties : OPTIONAL SET [1:?] OF
+                                              <A HREF="IMEX0029.HTM#property_override">property_override</A>; 
+    mountable_package_property_fabrications : OPTIONAL SET [1:?] OF
+                                              <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;  
+    package_property_fabrications           : OPTIONAL SET [1:?] OF
+                                              <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;  
+    mountable_fixing_implementations
+      : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#mountable_mechanical_fixing_implementation">mountable_mechanical_fixing_implementation</A> ;  
+    mountable_terminal_implementations
+      : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#mountable_package_terminal_implementation">mountable_package_terminal_implementation</A> ;  
+  WHERE
+    <A NAME="packaged_component_implementation.valid_overriding_mountable_package_properties">valid_overriding_mountable_package_properties</A> :
+      (* The overridden properties are defined in the mountable_package *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyOverride 
+                       &lt;* overriding_mountable_package_properties |
+        NOT (propertyOverride.overridden_property
+             IN uses_mountable_package.properties)));
+
+    <A NAME="packaged_component_implementation.valid_mountable_package_property_fabrications">valid_mountable_package_property_fabrications</A> :
+      (* The fabricated properties are defined in the mountable_package used by
+         the packaged_component_implementation. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyFabrication 
+                       &lt;* mountable_package_property_fabrications |
+        NOT (propertyFabrication.fabricated_property
+             IN uses_mountable_package.properties)));
+
+    <A NAME="packaged_component_implementation.valid_package_property_fabrications">valid_package_property_fabrications</A> :
+      (* The fabricated properties are defined in the package referenced by the
+         mountable_package. *)
+    NOT(<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(uses_mountable_package,
+                  '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A>')
+        AND
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(propertyFabrication &lt;* package_property_fabrications|
+          NOT (propertyFabrication.fabricated_property
+               IN uses_mountable_package\<A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A>
+                  .referenced_package.properties))));
+
+    <A NAME="packaged_component_implementation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A> cannot have
+            mountable_package_property_fabrications or
+            overriding_mountable_package_properties if it does not define any
+            properties. *)
+      EXISTS(uses_mountable_package.properties) OR 
+        NOT EXISTS(overriding_mountable_package_properties) AND
+        NOT EXISTS(mountable_package_property_fabrications);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A> describes how a component is mounted
+ onto the bard board.  It specifies the <A HREF="IMEX0022.HTM#mountable_package">mountable_package</A> (mounting rules)
+ for the component. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#mountable_mechanical_fixing_implementation">mountable_mechanical_fixing_implementation</A> <A HREF="IMEX0015.HTM#mountable_package_terminal_implementation">mountable_package_terminal_implementation</A> <A HREF="IMEX0015.HTM#packaged_component_terminal_implementation">packaged_component_terminal_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: packaged_electrical_component_implementation -->
+<H2><A NAME="packaged_electrical_component_implementation">packaged_electrical_component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#packaged_electrical_component_implementation">packaged_electrical_component_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>);
+    SELF\<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>.implemented_component 
+        : <A HREF="IMEX0021.HTM#packaged_electrical_component">packaged_electrical_component</A>;
+    component_terminal_implementations 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#packaged_component_terminal_implementation">packaged_component_terminal_implementation</A>;  
+  WHERE
+    <A NAME="packaged_electrical_component_implementation.valid_mountable_package">valid_mountable_package</A> :
+      (* The mountable package must mount the same package that the defining
+         part is packaged by. *) 
+      NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(uses_mountable_package,
+                     '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A>')
+           AND
+           (uses_mountable_package\<A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A>.referenced_package
+            :&lt;&gt;: implemented_component.instantiated_part.referenced_package));
+
+    <A NAME="packaged_electrical_component_implementation.valid_component_terminal_implementations">valid_component_terminal_implementations</A> :
+      (* The part_terminal referenced by the component_terminal_implementation
+         must be defined in the part in which the component is instantiated. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(terminalImpl &lt;* component_terminal_implementations |
+        <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(partTerminal &lt;*
+                         implemented_component.instantiated_part.terminals |
+        terminalImpl\<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>.referenced_part_terminal 
+        :=: partTerminal))));
+
+    <A NAME="packaged_electrical_component_implementation.valid_terminal_implementations">valid_terminal_implementations</A> :
+      (* If a mountable_package_terminal is implemented by a
+         packaged_component_terminal_implementation, it cannot be also
+         implemented by a mountable_package_terminal_implementation, and vice
+         versa. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(componentTerminalImpl &lt;*
+                       component_terminal_implementations |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(mountableTerminalImpl &lt;*
+                           SELF\<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>
+                           .mountable_terminal_implementations |
+        componentTerminalImpl.referenced_mountable_terminal
+        :=: mountableTerminalImpl.referenced_mountable_terminal))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#packaged_electrical_component_implementation">packaged_electrical_component_implementation</A> describes how a
+ <A HREF="IMEX0021.HTM#packaged_electrical_component">packaged_electrical_component</A> is mounted onto the bare board.
+</P><HR>
+<!-- Start of ENTITY: packaged_connector_component_implementation -->
+<H2><A NAME="packaged_connector_component_implementation">packaged_connector_component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#packaged_connector_component_implementation">packaged_connector_component_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>);
+    SELF\<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>.implemented_component 
+        : <A HREF="IMEX0021.HTM#packaged_connector_component">packaged_connector_component</A>;
+    component_terminal_implementations 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#packaged_component_terminal_implementation">packaged_component_terminal_implementation</A>;  
+  WHERE
+    <A NAME="packaged_connector_component_implementation.valid_mountable_package">valid_mountable_package</A> :
+      (* The mountable package must mount the same package that the defining
+         part is packaged by. *) 
+      NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(uses_mountable_package,
+                     '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A>')
+           AND
+           (uses_mountable_package\<A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A>.referenced_package
+            :&lt;&gt;: implemented_component.instantiated_part.referenced_package));
+
+    <A NAME="packaged_connector_component_implementation.valid_component_terminal_implementations">valid_component_terminal_implementations</A> :
+      (* The part_terminal referenced by the component_terminal_implementation
+         must be defined in the part in which the component is instantiated. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(terminalImpl &lt;* component_terminal_implementations |
+        <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(partTerminal &lt;*
+                         implemented_component.instantiated_part.terminals |
+        terminalImpl\<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>.referenced_part_terminal 
+        :=: partTerminal))));
+
+    <A NAME="packaged_connector_component_implementation.valid_terminal_implementations">valid_terminal_implementations</A> :
+      (* If a mountable_package_terminal is implemented by a
+         packaged_component_terminal_implementation, it cannot be also
+         implemented by a mountable_package_terminal_implementation, and vice
+         versa. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(componentTerminalImpl &lt;*
+                       component_terminal_implementations |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(mountableTerminalImpl &lt;*
+                           SELF\<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>
+                           .mountable_terminal_implementations |
+        componentTerminalImpl.referenced_mountable_terminal
+        :=: mountableTerminalImpl.referenced_mountable_terminal))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#packaged_connector_component_implementation">packaged_connector_component_implementation</A> describes how a
+ <A HREF="IMEX0021.HTM#packaged_connector_component">packaged_connector_component</A> is mounted onto the bare board. 
+</P><HR>
+<!-- Start of ENTITY: mechanical_component_implementation -->
+<H2><A NAME="mechanical_component_implementation">mechanical_component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#mechanical_component_implementation">mechanical_component_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>);
+    SELF\<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>.implemented_component 
+        : <A HREF="IMEX0021.HTM#mechanical_component">mechanical_component</A>;
+  WHERE
+    <A NAME="mechanical_component_implementation.valid_mountable_package">valid_mountable_package</A> :
+      (* The mountable package must mount the same package that the defining
+         part is packaged by. *) 
+      NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(uses_mountable_package,
+                     '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A>')
+           AND
+           <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(implemented_component.instantiated_part,
+                     '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_mechanical_part">internal_mechanical_part</A>')
+           AND
+           (uses_mountable_package\<A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A>.referenced_package
+            :&lt;&gt;: implemented_component.instantiated_part
+                 \<A HREF="IMEX0024.HTM#internal_mechanical_part">internal_mechanical_part</A>.referenced_package));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#mechanical_component_implementation">mechanical_component_implementation</A> describes how a
+ <A HREF="IMEX0021.HTM#mechanical_component">mechanical_component</A> is mounted onto the bare board.
+</P><HR>
+<!-- Start of ENTITY: jumper_component_implementation -->
+<H2><A NAME="jumper_component_implementation">jumper_component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#jumper_component_implementation">jumper_component_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>);
+    SELF\<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>.implemented_component : <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A>;
+    component_terminal_implementations 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#packaged_component_terminal_implementation">packaged_component_terminal_implementation</A>;  
+  WHERE
+    <A NAME="jumper_component_implementation.valid_mountable_package">valid_mountable_package</A> :
+      (* The mountable package must mount the same package that the defining
+         part is packaged by. *) 
+      NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(uses_mountable_package,
+                     '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A>')
+           AND
+           <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(implemented_component.instantiated_part,
+                     '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A>')
+           AND
+           (uses_mountable_package\<A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A>.referenced_package
+            :&lt;&gt;: implemented_component.instantiated_part
+                 \<A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A>.referenced_package));
+
+    <A NAME="jumper_component_implementation.valid_component_terminal_implementations">valid_component_terminal_implementations</A> :
+      (* The part_terminal referenced by the component_terminal_implementation
+         must be defined in the part in which the component is instantiated. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(terminalImpl &lt;* component_terminal_implementations |
+        <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(partTerminal &lt;*
+                         implemented_component.instantiated_part.terminals |
+        terminalImpl\<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>.referenced_part_terminal 
+        :=: partTerminal))));
+
+    <A NAME="jumper_component_implementation.valid_terminal_implementations">valid_terminal_implementations</A> :
+      (* If a mountable_package_terminal is implemented by a
+         packaged_component_terminal_implementation, it cannot be also
+         implemented by a mountable_package_terminal_implementation, and vice
+         versa. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(componentTerminalImpl &lt;*
+                       component_terminal_implementations |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(mountableTerminalImpl &lt;*
+                           SELF\<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>
+                           .mountable_terminal_implementations |
+        componentTerminalImpl.referenced_mountable_terminal
+        :=: mountableTerminalImpl.referenced_mountable_terminal))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#jumper_component_implementation">jumper_component_implementation</A> describes how a <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A> is
+ mounted onto the bare board. 
+</P><HR>
+<!-- Start of ENTITY: printed_component_implementation -->
+<H2><A NAME="printed_component_implementation">printed_component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#printed_component_implementation">printed_component_implementation</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0015.HTM#printed_electrical_component_implementation">printed_electrical_component_implementation</A>,
+                                   <A HREF="IMEX0015.HTM#printed_connector_component_implementation">printed_connector_component_implementation</A>))
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>);
+    component_terminal_implementations 
+      : SET [1:?] OF <A HREF="IMEX0015.HTM#printed_component_terminal_implementation">printed_component_terminal_implementation</A>; 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#printed_component_implementation">printed_component_implementation</A> specifies how a <A HREF="IMEX0021.HTM#component">component</A> is printed
+ as a section of the bare board.  
+</P><HR>
+<!-- Start of ENTITY: printed_electrical_component_implementation -->
+<H2><A NAME="printed_electrical_component_implementation">printed_electrical_component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#printed_electrical_component_implementation">printed_electrical_component_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#printed_component_implementation">printed_component_implementation</A>);
+    SELF\<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>.implemented_component 
+        : <A HREF="IMEX0021.HTM#printed_electrical_component">printed_electrical_component</A>;
+  WHERE
+    <A NAME="printed_electrical_component_implementation.valid_component_terminal_implementations">valid_component_terminal_implementations</A> :
+      (* The part_terminal referenced by the component_terminal_implementation
+         must be defined in the part in which the component is instantiated. *)
+    <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(terminalImpl &lt;* 
+      SELF\<A HREF="IMEX0015.HTM#printed_component_implementation">printed_component_implementation</A>.component_terminal_implementations |
+        <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(partTerminal &lt;* 
+                         implemented_component.instantiated_part.terminals |
+        terminalImpl\<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>.referenced_part_terminal 
+          :=: partTerminal))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#printed_electrical_component_implementation">printed_electrical_component_implementation</A> specifies how a
+ <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A> is printed as a section of the bare board.
+</P><HR>
+<!-- Start of ENTITY: printed_connector_component_implementation -->
+<H2><A NAME="printed_connector_component_implementation">printed_connector_component_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#printed_connector_component_implementation">printed_connector_component_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#printed_component_implementation">printed_component_implementation</A>);
+    SELF\<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>.implemented_component 
+        : <A HREF="IMEX0021.HTM#printed_connector_component">printed_connector_component</A>;
+  WHERE
+    <A NAME="printed_connector_component_implementation.valid_component_terminal_implementations">valid_component_terminal_implementations</A> :
+      (* The part_terminal referenced by the component_terminal_implementation
+         must be defined in the part in which the component is instantiated. *)
+    <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(terminalImpl &lt;* 
+      SELF\<A HREF="IMEX0015.HTM#printed_component_implementation">printed_component_implementation</A>.component_terminal_implementations |
+        <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(partTerminal &lt;* 
+                         implemented_component.instantiated_part.terminals |
+        terminalImpl\<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>.referenced_part_terminal 
+          :=: partTerminal))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#printed_connector_component_implementation">printed_connector_component_implementation</A> specifies how a
+ <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A> is printed as a section of the bare board.
+</P><HR>
+<!-- Start of ENTITY: component_terminal_implementation -->
+<H2><A NAME="component_terminal_implementation">component_terminal_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0015.HTM#die_component_terminal_implementation">die_component_terminal_implementation</A>,
+                                    <A HREF="IMEX0015.HTM#packaged_component_terminal_implementation">packaged_component_terminal_implementation</A>,
+                                    <A HREF="IMEX0015.HTM#printed_component_terminal_implementation">printed_component_terminal_implementation</A>));
+    referenced_part_terminal           : <A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>; -- reference
+    referenced_padstack                : <A HREF="IMEX0015.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A>;-- reference
+    part_terminal_property_fabrications: OPTIONAL SET [1:?] OF
+                                         <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+    drawing_information                : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_element">drawing_element</A>;
+  DERIVE
+    containing_implementation : <A HREF="IMEX0015.HTM#component_implementation">component_implementation</A> -- reference
+    := <A HREF="IMEX0029.HTM#usedin_any_one_role">usedin_any_one_role</A>(SELF,
+       [<A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                       '<A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A>',
+                       'component_terminal_implementations'),
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                       '<A HREF="IMEX0015.HTM#packaged_electrical_component_implementation">packaged_electrical_component_implementation</A>',
+                       'component_terminal_implementations'),
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                       '<A HREF="IMEX0015.HTM#packaged_connector_component_implementation">packaged_connector_component_implementation</A>',
+                       'component_terminal_implementations'),
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                       '<A HREF="IMEX0015.HTM#printed_component_implementation">printed_component_implementation</A>',
+                       'component_terminal_implementations')]);
+  UNIQUE
+    unique_terminal_implementation :
+      (* There can be only one implementation for a component terminal. *)
+      containing_implementation, referenced_part_terminal;
+  WHERE
+    <A NAME="component_terminal_implementation.valid_referenced_padstack">valid_referenced_padstack</A> :
+      (* The referenced toeprint_instance must be within the
+         footprint_definition which is instanced as the basis for the
+         implementation of the overall component. *)
+      EXISTS(containing_implementation.
+             referenced_footprint.is_defined_by.toeprints)
+      AND
+      (referenced_padstack.referenced_toeprint
+         IN containing_implementation.
+            referenced_footprint.is_defined_by.toeprints);
+
+    <A NAME="component_terminal_implementation.valid_part_terminal_property_fabrications">valid_part_terminal_property_fabrications</A> :
+      (* The fabricated properties are defined on the referenced
+         die_electrical_part_terminal. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyFabrication 
+                       &lt;* part_terminal_property_fabrications |
+        NOT (propertyFabrication.fabricated_property
+             IN referenced_part_terminal.properties)));
+
+    <A NAME="component_terminal_implementation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A> cannot have
+            part_terminal_property_fabrications if the referenced <A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>
+            does not define any properties. *)
+      EXISTS(referenced_part_terminal.properties) OR
+        NOT EXISTS(part_terminal_property_fabrications);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A> specifies how a terminal of a
+ <A HREF="IMEX0021.HTM#component">component</A> is mounted or printed on a bare board.  It specifies the
+ <A HREF="IMEX0015.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A> which is intended to receive this component
+ terminal. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0016.HTM#dimensioned_object">dimensioned_object</A> </P>
+<HR>
+<!-- Start of ENTITY: die_component_terminal_implementation -->
+<H2><A NAME="die_component_terminal_implementation">die_component_terminal_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#die_component_terminal_implementation">die_component_terminal_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>);
+    referenced_mountable_terminal            : <A HREF="IMEX0014.HTM#mountable_bond_pad">mountable_bond_pad</A>; -- reference
+    mountable_bond_pad_property_fabrications : OPTIONAL SET [1:?] OF
+                                               <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+    bond_pad_property_fabrications           : OPTIONAL SET [1:?] OF
+                                               <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+  DERIVE
+    containing_component_implementation : -- reference
+                                          <A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A> 
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+                         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                                        '<A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A>',
+                                        'component_terminal_implementations'));
+  UNIQUE
+    single_implementation :
+      (* There can be only one implementation for a mountable_bond_pad. *)
+      containing_component_implementation, referenced_mountable_terminal;
+  WHERE
+    <A NAME="die_component_terminal_implementation.valid_existence">valid_existence</A> :
+      (* A die_component_terminal_implementation belongs to one
+         die_component_implementation. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+                     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                                    '<A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A>',
+                                    'component_terminal_implementations'));
+
+    <A NAME="die_component_terminal_implementation.valid_referenced_mountable_terminal">valid_referenced_mountable_terminal</A> :
+      (* The referenced mountable_bond_pad must be defined in the
+         mountable_die_physical_template used by the implemented component. *)
+      referenced_mountable_terminal
+      IN containing_component_implementation.mountable_template.mountable_pads;
+
+    <A NAME="die_component_terminal_implementation.valid_mountable_bond_pad_property_fabrications">valid_mountable_bond_pad_property_fabrications</A> :
+      (* The fabricated properties are defined in the referenced
+         mountable_bond_pad. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyFabrication 
+                       &lt;* mountable_bond_pad_property_fabrications |
+        NOT (propertyFabrication.fabricated_property
+             IN referenced_mountable_terminal.properties)));
+
+    <A NAME="die_component_terminal_implementation.valid_bond_pad_property_fabrications">valid_bond_pad_property_fabrications</A> :
+      (* The fabricated properties are defined in the bond_pad
+         referenced by the mountable_bond_pad. *)
+      NOT (('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>.<A HREF="IMEX0014.HTM#internal_mountable_bond_pad">internal_mountable_bond_pad</A>'
+           IN TYPEOF(referenced_mountable_terminal))
+           AND
+           <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(propertyFabrication 
+                              &lt;* bond_pad_property_fabrications |
+             NOT (propertyFabrication.fabricated_property
+                  IN referenced_mountable_terminal\<A HREF="IMEX0014.HTM#internal_mountable_bond_pad">internal_mountable_bond_pad</A>
+                  .mounted_bond_pad.properties))));
+
+    <A NAME="die_component_terminal_implementation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0015.HTM#die_component_terminal_implementation">die_component_terminal_implementation</A> cannot have
+            mountable_bond_pad_property_fabrications if the referenced
+            <A HREF="IMEX0014.HTM#mountable_bond_pad">mountable_bond_pad</A> does not define any properties. *)
+      EXISTS(referenced_mountable_terminal.properties) OR
+        NOT EXISTS(mountable_bond_pad_property_fabrications);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#die_component_terminal_implementation">die_component_terminal_implementation</A> describes how a
+ <A HREF="IMEX0014.HTM#mountable_bond_pad">mountable_bond_pad</A> of the <A HREF="IMEX0014.HTM#mountable_die_physical_template">mountable_die_physical_template</A> used by a
+ <A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A> is placed on a bare board.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: packaged_component_terminal_implementation -->
+<H2><A NAME="packaged_component_terminal_implementation">packaged_component_terminal_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#packaged_component_terminal_implementation">packaged_component_terminal_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>);
+    referenced_mountable_terminal : <A HREF="IMEX0022.HTM#mountable_package_terminal">mountable_package_terminal</A>; -- reference
+    mountable_terminal_property_fabrications : OPTIONAL SET [1:?] OF
+                                               <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+    package_terminal_property_fabrications   : OPTIONAL SET [1:?] OF 
+                                               <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+  DERIVE
+    containing_component_implementation : -- reference
+                                          <A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>
+      := <A HREF="IMEX0029.HTM#usedin_any_one_role">usedin_any_one_role</A>(SELF,
+         [<A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                         '<A HREF="IMEX0015.HTM#packaged_electrical_component_implementation">packaged_electrical_component_implementation</A>',
+                         'component_terminal_implementations'),
+          <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                         '<A HREF="IMEX0015.HTM#packaged_connector_component_implementation">packaged_connector_component_implementation</A>',
+                         'component_terminal_implementations')]);
+  UNIQUE
+    single_implementation :
+      (* There can be only one implementation for a
+         mountable_package_terminal. *) 
+      containing_component_implementation, referenced_mountable_terminal;
+  WHERE
+    <A NAME="packaged_component_terminal_implementation.valid_existence">valid_existence</A> :
+      (* A packaged_component_terminal_implementation either belongs to one
+         packaged_electrical_component_implementation or one
+         packaged_connector_component_implementation. *) 
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+        [<A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                        '<A HREF="IMEX0015.HTM#packaged_electrical_component_implementation">packaged_electrical_component_implementation</A>',
+                        'component_terminal_implementations'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                        '<A HREF="IMEX0015.HTM#packaged_connector_component_implementation">packaged_connector_component_implementation</A>',
+                        'component_terminal_implementations')]);
+
+
+    <A NAME="packaged_component_terminal_implementation.valid_referenced_mountable_terminal">valid_referenced_mountable_terminal</A> :
+      (* The referenced mountable_package_terminal must be defined in the
+         mountable_package used by the implemented component. *)
+      referenced_mountable_terminal
+        IN containing_component_implementation
+           .uses_mountable_package.mountable_terminals;
+
+    <A NAME="packaged_component_terminal_implementation.valid_referenced_mountable_terminal_type">valid_referenced_mountable_terminal_type</A> :
+      (* The referenced mountable_package_terminal cannot be an
+         internal_extra_mountable_pin. *)
+       NOT ('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_extra_mountable_pin">internal_extra_mountable_pin</A>'
+            IN TYPEOF(referenced_mountable_terminal));
+         
+    <A NAME="packaged_component_terminal_implementation.valid_mountable_terminal_property_fabrications">valid_mountable_terminal_property_fabrications</A> :
+      (* The fabricated properties are defined in the referenced
+         mountable_package_terminal. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyFabrication 
+                       &lt;* mountable_terminal_property_fabrications |
+        NOT (propertyFabrication.fabricated_property
+             IN referenced_mountable_terminal.properties)));
+
+    <A NAME="packaged_component_terminal_implementation.valid_package_terminal_property_fabrications">valid_package_terminal_property_fabrications</A> :
+      (* The fabricated properties are defined in the package_terminal
+         referenced by the mountable_package_terminal.  The
+         mountable_package_terminal must be an internal_prepared_mountable_pin
+         or an internal_mountable_solder_ball in this case.  *) 
+
+    NOT(      
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(referenced_mountable_terminal,
+                 '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A>')
+       AND
+       <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(propertyFabrication 
+                          &lt;* package_terminal_property_fabrications |
+          NOT (propertyFabrication.fabricated_property
+               IN referenced_mountable_terminal\<A HREF="IMEX0022.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A>
+                  .referenced_terminal.properties))))
+      OR
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(referenced_mountable_terminal,
+                 '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_mountable_solder_ball">internal_mountable_solder_ball</A>')
+       AND
+       <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(propertyFabrication 
+                          &lt;* package_terminal_property_fabrications |
+          NOT (propertyFabrication.fabricated_property
+               IN referenced_mountable_terminal\<A HREF="IMEX0022.HTM#internal_mountable_solder_ball">internal_mountable_solder_ball</A>
+                  .referenced_terminal.properties)))));
+
+    <A NAME="packaged_component_terminal_implementation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0015.HTM#packaged_component_terminal_implementation">packaged_component_terminal_implementation</A> cannot have
+            mountable_terminal_property_fabrications if it does not define any
+            properties. *)
+      EXISTS(referenced_mountable_terminal.properties) OR 
+        NOT EXISTS(mountable_terminal_property_fabrications);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#packaged_component_terminal_implementation">packaged_component_terminal_implementation</A> describes how a terminal of
+ the <A HREF="IMEX0022.HTM#mountable_package">mountable_package</A> used by a <A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A> is
+ placed on a bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#jumper_component_implementation">jumper_component_implementation</A> <A HREF="IMEX0015.HTM#packaged_connector_component_implementation">packaged_connector_component_implementation</A> <A HREF="IMEX0015.HTM#packaged_electrical_component_implementation">packaged_electrical_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: printed_component_terminal_implementation -->
+<H2><A NAME="printed_component_terminal_implementation">printed_component_terminal_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#printed_component_terminal_implementation">printed_component_terminal_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>);
+  WHERE
+    <A NAME="printed_component_terminal_implementation.valid_existence">valid_existence</A> :
+      (* A printed_component_terminal_implementation belongs to one
+         printed_component_implementation. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+                     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                                    '<A HREF="IMEX0015.HTM#printed_component_implementation">printed_component_implementation</A>',
+                                    'component_terminal_implementations'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#printed_component_terminal_implementation">printed_component_terminal_implementation</A> describes how a terminal of a
+ <A HREF="IMEX0021.HTM#component">component</A> is printed on a bare board.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#printed_component_implementation">printed_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: mountable_package_terminal_implementation -->
+<H2><A NAME="mountable_package_terminal_implementation">mountable_package_terminal_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#mountable_package_terminal_implementation">mountable_package_terminal_implementation</A>;
+    referenced_mountable_terminal : <A HREF="IMEX0022.HTM#mountable_package_terminal">mountable_package_terminal</A>; -- reference
+    referenced_padstack           : <A HREF="IMEX0015.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A>; -- reference
+    mountable_terminal_property_fabrications : OPTIONAL SET [1:?] OF
+                                               <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+    package_terminal_property_fabrications   : OPTIONAL SET [1:?] OF 
+                                               <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+  DERIVE
+    containing_component_implementation : -- reference
+                                          <A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                        '<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>',
+                        'mountable_terminal_implementations'));
+  UNIQUE
+    single_implementation :
+      (* There can be only one implementation for a
+         mountable_package_terminal. *) 
+      containing_component_implementation, referenced_mountable_terminal;
+  WHERE
+    <A NAME="mountable_package_terminal_implementation.valid_existence">valid_existence</A> :
+      (* A mountable_package_terminal_implementation belongs to one
+         packaged_component_implementation. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                       '<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>',
+                       'mountable_terminal_implementations'));
+
+    <A NAME="mountable_package_terminal_implementation.valid_referenced_mountable_terminal">valid_referenced_mountable_terminal</A> :
+      referenced_mountable_terminal
+        IN containing_component_implementation
+           .uses_mountable_package.mountable_terminals;
+
+    <A NAME="mountable_package_terminal_implementation.valid_mountable_terminal_property_fabrications">valid_mountable_terminal_property_fabrications</A> :
+      (* The fabricated properties are defined in the referenced
+         mountable_package_terminal. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyFabrication 
+                       &lt;* mountable_terminal_property_fabrications |
+        NOT (propertyFabrication.fabricated_property
+             IN referenced_mountable_terminal.properties)));
+
+    <A NAME="mountable_package_terminal_implementation.valid_package_terminal_property_fabrications">valid_package_terminal_property_fabrications</A> :
+      (* The fabricated properties are defined in the package_terminal
+         referenced by the mountable_package_terminal.  The
+         mountable_package_terminal must be an internal_prepared_mountable_pin
+         or an internal_mountable_solder_ball in this case.  *) 
+
+    NOT(      
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(referenced_mountable_terminal,
+                 '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A>')
+       AND
+       <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(propertyFabrication 
+                          &lt;* package_terminal_property_fabrications |
+          NOT (propertyFabrication.fabricated_property
+               IN referenced_mountable_terminal\<A HREF="IMEX0022.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A>
+                  .referenced_terminal.properties))))
+      OR
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(referenced_mountable_terminal,
+                 '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_mountable_solder_ball">internal_mountable_solder_ball</A>')
+       AND
+       <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(propertyFabrication 
+                          &lt;* package_terminal_property_fabrications |
+          NOT (propertyFabrication.fabricated_property
+               IN referenced_mountable_terminal\<A HREF="IMEX0022.HTM#internal_mountable_solder_ball">internal_mountable_solder_ball</A>
+                  .referenced_terminal.properties)))));
+
+    <A NAME="mountable_package_terminal_implementation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0015.HTM#mountable_package_terminal_implementation">mountable_package_terminal_implementation</A> cannot have
+            mountable_terminal_property_fabrications if it does not define any
+            properties. *)
+      EXISTS(referenced_mountable_terminal.properties) OR 
+        NOT EXISTS(mountable_terminal_property_fabrications);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#mountable_package_terminal_implementation">mountable_package_terminal_implementation</A> describes how a terminal of a
+ <A HREF="IMEX0022.HTM#mountable_package">mountable_package</A> (used by a <A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>) is
+ mounted onto the bare board.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: mountable_mechanical_fixing_implementation -->
+<H2><A NAME="mountable_mechanical_fixing_implementation">mountable_mechanical_fixing_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#mountable_mechanical_fixing_implementation">mountable_mechanical_fixing_implementation</A>;
+    referenced_mountable_fixing : <A HREF="IMEX0022.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A>; -- reference
+    referenced_padstack         : <A HREF="IMEX0015.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A>;  -- reference
+    mechanical_fixing_property_fabrications           : OPTIONAL SET [1:?] OF 
+                                                        <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+    mountable_mechanical_fixing_property_fabrications : OPTIONAL SET [1:?] OF
+                                                        <A HREF="IMEX0018.HTM#property_fabrication">property_fabrication</A>;
+  DERIVE
+    containing_component_implementation : -- reference
+                                          <A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                        '<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>',
+                        'mountable_fixing_implementations'));
+  UNIQUE
+    single_implementation :
+      (* There can be only one implementation for a
+         mountable_mechanical_fixing. *) 
+      containing_component_implementation, referenced_mountable_fixing;
+  WHERE
+    <A NAME="mountable_mechanical_fixing_implementation.valid_existence">valid_existence</A> :
+      (* A mountable_mechanical_fixing_implementation belongs to one
+         packaged_component_implementation. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                       '<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A>',
+                       'mountable_fixing_implementations'));
+
+    <A NAME="mountable_mechanical_fixing_implementation.valid_referenced_mountable_fixing">valid_referenced_mountable_fixing</A> :
+      referenced_mountable_fixing
+        IN containing_component_implementation
+           .uses_mountable_package.mountable_fixings;
+
+    <A NAME="mountable_mechanical_fixing_implementation.valid_mechanical_fixing_property_fabrications">valid_mechanical_fixing_property_fabrications</A> :
+      (* The fabricated properties are defined in the mechanical_fixing
+         referenced by the mountable_mechanical_fixing. *) 
+
+    NOT(<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(referenced_mountable_fixing,
+        '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A>')
+        AND
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(propertyFabrication 
+                           &lt;* mechanical_fixing_property_fabrications |
+          NOT (propertyFabrication.fabricated_property
+               IN referenced_mountable_fixing
+                  \<A HREF="IMEX0022.HTM#internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A>
+                  .referenced_fixing.properties))));
+
+    <A NAME="mountable_mechanical_fixing_implementation.valid_mountable_mechanical_fixing_property_fabrications">valid_mountable_mechanical_fixing_property_fabrications</A> :
+      (* The fabricated properties are defined in the referenced
+         mountable_mechanical_fixing. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyFabrication 
+                       &lt;* mountable_mechanical_fixing_property_fabrications |
+        NOT (propertyFabrication.fabricated_property
+             IN referenced_mountable_fixing.properties)));
+
+    <A NAME="mountable_mechanical_fixing_implementation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0015.HTM#mountable_mechanical_fixing_implementation">mountable_mechanical_fixing_implementation</A> cannot have
+            mountable_mechanical_fixing_property_fabrications if the referenced
+            <A HREF="IMEX0022.HTM#mountable_mechanical_fixing">mountable_mechanical_fixing</A> does not define any properties. *)
+      EXISTS(referenced_mountable_fixing.properties) OR 
+        NOT EXISTS(mountable_mechanical_fixing_property_fabrications);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#mountable_mechanical_fixing_implementation">mountable_mechanical_fixing_implementation</A> describes how a mechanical
+ fixing of a <A HREF="IMEX0022.HTM#mountable_package">mountable_package</A> is mounted onto the bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#packaged_component_implementation">packaged_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: assembled_physical_net -->
+<H2><A NAME="assembled_physical_net">assembled_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0015.HTM#non_analysed_assembled_physical_net">non_analysed_assembled_physical_net</A>,
+                                    <A HREF="IMEX0015.HTM#analysed_assembled_physical_net">analysed_assembled_physical_net</A>));
+    instance_nets            : OPTIONAL SET [1:?] OF <A HREF="IMEX0025.HTM#instance_net">instance_net</A>;
+    joined_jumper_components : OPTIONAL SET [1:?] OF -- reference
+                               <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A>; 
+    joined_terminals         : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>;
+    jumpers                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#jumper_connection">jumper_connection</A>;
+    name                     : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties               : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_board : <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+         '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.physical_nets');
+  WHERE
+    <A NAME="assembled_physical_net.valid_existence">valid_existence</A> :
+      (* An assembled_physical_net belongs to one assembled_board. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.physical_nets');
+
+    <A NAME="assembled_physical_net.valid_instance_nets">valid_instance_nets</A> :
+      (* An assembled_physical_net can only include instance_nets that are on
+         the bare_board which the assembled_board is based upon. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(instanceNet &lt;* instance_nets |
+        NOT (instanceNet.referenced_net 
+             IN containing_board.is_based_on
+                .instantiated_bare_board\<A HREF="IMEX0025.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets)));
+
+    <A NAME="assembled_physical_net.valid_joined_jumper_components">valid_joined_jumper_components</A> :
+      (* If a jumper_component is joined by an assembled_physical_net, its
+         terminal is not allowed to appear in any component_signal in the
+         containing view. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(jumperComponent &lt;* joined_jumper_components |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(componentSignal &lt;* 
+                           containing_board.containing_view.component_signals |
+          <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(componentTerminal &lt;* 
+                             componentSignal.joined_terminals |
+          jumperComponent :=: componentTerminal.referenced_component))))));
+
+    <A NAME="assembled_physical_net.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. An <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> cannot have instance_nets if the bare
+            board from which its containing <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> is instantiated
+            does not define any physical nets. *)
+      EXISTS(containing_board.is_based_on
+             .instantiated_bare_board\<A HREF="IMEX0025.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets) 
+        OR NOT EXISTS(instance_nets);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> is a collection of <A HREF="IMEX0025.HTM#instance_net">instance_nets</A> on
+ the bare board, <A HREF="IMEX0021.HTM#component_terminal">component_terminals</A> and <A HREF="IMEX0015.HTM#jumper_connection">jumper_connections</A> which
+ are intended to be contiguously equipotential and disjoint from other
+ <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_nets</A>.  Unless the <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_nets</A> are
+ analysed there are no constraints within EDIF that the
+ <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> fulfils this criterion.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> <A HREF="IMEX0015.HTM#jumper_connection">jumper_connection</A> </P>
+<HR>
+<!-- Start of ENTITY: non_analysed_assembled_physical_net -->
+<H2><A NAME="non_analysed_assembled_physical_net">non_analysed_assembled_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#non_analysed_assembled_physical_net">non_analysed_assembled_physical_net</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>);
+    considered_to_implement : OPTIONAL <A HREF="IMEX0021.HTM#component_signal">component_signal</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#non_analysed_assembled_physical_net">non_analysed_assembled_physical_net</A> is an
+ <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> whose validity has not been checked by the
+ sending system.  The sending system may intend the
+ <A HREF="IMEX0015.HTM#non_analysed_assembled_physical_net">non_analysed_assembled_physical_net</A> to implement a
+ <A HREF="IMEX0021.HTM#component_signal">component_signal</A> however no constraints are specified to ensure
+ that it does not short with another <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> or
+ connect the correct <A HREF="IMEX0021.HTM#component_terminal">component_terminals</A>.
+</P><HR>
+<!-- Start of ENTITY: analysed_assembled_physical_net -->
+<H2><A NAME="analysed_assembled_physical_net">analysed_assembled_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#analysed_assembled_physical_net">analysed_assembled_physical_net</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0015.HTM#correct_assembled_physical_net">correct_assembled_physical_net</A>,
+                                    <A HREF="IMEX0015.HTM#incorrect_assembled_physical_net">incorrect_assembled_physical_net</A>))
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0015.HTM#analysed_assembled_physical_net">analysed_assembled_physical_net</A> is an <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>
+ whose validity has been checked by the sending system.  The analysis
+ has determined its correctness.
+</P><HR>
+<!-- Start of ENTITY: correct_assembled_physical_net -->
+<H2><A NAME="correct_assembled_physical_net">correct_assembled_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#correct_assembled_physical_net">correct_assembled_physical_net</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#analysed_assembled_physical_net">analysed_assembled_physical_net</A>);
+    implemented_signal : OPTIONAL <A HREF="IMEX0021.HTM#component_signal">component_signal</A>; -- reference
+  WHERE
+    <A NAME="correct_assembled_physical_net.valid_joined_terminals">valid_joined_terminals</A> :
+      (* The set of terminals joined by the assembled_physical_net is
+         exactly the same as that which the component_signal specifies
+         as to be joined. *)
+      joined_terminals = implemented_signal.joined_terminals;
+
+    <A NAME="correct_assembled_physical_net.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1.  A <A HREF="IMEX0015.HTM#correct_assembled_physical_net">correct_assembled_physical_net</A> cannot have joined_terminals if
+             its associated <A HREF="IMEX0021.HTM#component_signal">component_signal</A> does not join any <A HREF="IMEX0021.HTM#component">component</A>
+             terminals. *)
+      (EXISTS(joined_terminals) AND EXISTS(implemented_signal.joined_terminals))
+      OR
+      (NOT EXISTS(joined_terminals) AND 
+         NOT EXISTS(implemented_signal.joined_terminals));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#correct_assembled_physical_net">correct_assembled_physical_net</A> is an <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>
+ which has been checked and found to correctly implement a
+ <A HREF="IMEX0021.HTM#component_signal">component_signal</A>.
+</P><HR>
+<!-- Start of ENTITY: incorrect_assembled_physical_net -->
+<H2><A NAME="incorrect_assembled_physical_net">incorrect_assembled_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#incorrect_assembled_physical_net">incorrect_assembled_physical_net</A>
+    ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0015.HTM#shorting_assembled_physical_net">shorting_assembled_physical_net</A>,
+                                 <A HREF="IMEX0015.HTM#incorrect_non_shorting_assembled_physical_net">incorrect_non_shorting_assembled_physical_net</A>))
+    SUBTYPE OF (<A HREF="IMEX0015.HTM#analysed_assembled_physical_net">analysed_assembled_physical_net</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0015.HTM#incorrect_assembled_physical_net">incorrect_assembled_physical_net</A> is an
+ <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> which has been analysed by the sending
+ system and determined to be incorrect.
+</P><HR>
+<!-- Start of ENTITY: shorting_assembled_physical_net -->
+<H2><A NAME="shorting_assembled_physical_net">shorting_assembled_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#shorting_assembled_physical_net">shorting_assembled_physical_net</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#incorrect_assembled_physical_net">incorrect_assembled_physical_net</A>);
+    shorted_signals : SET [1:?] OF <A HREF="IMEX0021.HTM#component_signal">component_signal</A>; -- reference
+  WHERE
+    <A NAME="shorting_assembled_physical_net.valid_shorted_component_signals">valid_shorted_component_signals</A> :
+      (* Each of the component_signals which are specified as being
+         shorted have at least one of their component_terminals in the set of
+         terminals actually joined by the assembled_physical_net. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(shortedSignal &lt;* shorted_signals |
+        <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(joinedTerminal &lt;* shortedSignal.joined_terminals |
+          joinedTerminal 
+          IN SELF\<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>.joined_terminals))));
+
+    <A NAME="shorting_assembled_physical_net.valid_extra_terminals">valid_extra_terminals</A> :
+      (* None of the joined terminals is part of another component_signal which
+         is not shorted by the assembled_physical_net. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(terminal &lt;* SELF\<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>.joined_terminals|
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(sig &lt;* SELF\<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>.containing_board
+                                      .containing_view.component_signals |
+           (terminal IN sig.joined_terminals)
+           AND
+           NOT (sig IN shorted_signals)))));
+
+    <A NAME="shorting_assembled_physical_net.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0015.HTM#shorting_assembled_physical_net">shorting_assembled_physical_net</A> cannot have joined_terminals if
+            none of the shorted signals joins any component_terminals. *)
+      <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(sig &lt;* shorted_signals | EXISTS(sig.joined_terminals)))
+        OR NOT EXISTS(SELF\<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>.joined_terminals);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#shorting_assembled_physical_net">shorting_assembled_physical_net</A> represents an <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>
+ that has been checked by an analysis process and found to be shorting
+ together the conductive material that implements one or more component
+ signals, and possibly other conductive material that implements no component
+ signal (e.g. shielding). 
+</P><HR>
+<!-- Start of ENTITY: incorrect_non_shorting_assembled_physical_net -->
+<H2><A NAME="incorrect_non_shorting_assembled_physical_net">incorrect_non_shorting_assembled_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#incorrect_non_shorting_assembled_physical_net">incorrect_non_shorting_assembled_physical_net</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#incorrect_assembled_physical_net">incorrect_assembled_physical_net</A>);
+    should_implement : OPTIONAL <A HREF="IMEX0021.HTM#component_signal">component_signal</A>; -- reference
+  DERIVE
+    signal_terminals  : SET OF <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A> :=
+                        should_implement.joined_terminals;
+    desired_terminals : SET OF <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A> :=
+                        NVL (signal_terminals, []);
+    extra_terminals   : SET OF <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A> :=
+                        joined_terminals - desired_terminals;
+    missing_terminals : SET OF <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A> :=
+                        desired_terminals - joined_terminals;
+  WHERE
+    <A NAME="incorrect_non_shorting_assembled_physical_net.valid_incompletion_or_overkill">valid_incompletion_or_overkill</A> :
+      (* An incorrect, but non-shorting, assembled physical net either
+         joins extra terminals which are not in the set specified by
+         the component_signal, or does not join all of the terminals
+         specified by the component_signal, or both at the same
+         time. *)
+      SIZEOF (extra_terminals) + SIZEOF (missing_terminals) &gt; 0;
+
+    <A NAME="incorrect_non_shorting_assembled_physical_net.valid_non_shorting">valid_non_shorting</A> :
+      (* An incorrect non-shorting assembled_physical_net may join
+         extra terminals which are not specified in the
+         component_signal.  However, as it does not short
+         component_signals, the extra terminals must not belong to a
+         component_signal. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(extraTerminal &lt;* extra_terminals |
+        <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(extraTerminal,
+          '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#component_signal">component_signal</A>.joined_terminals')));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0015.HTM#incorrect_non_shorting_assembled_physical_net">incorrect_non_shorting_assembled_physical_net</A> is an
+ <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> which has been analysed by the sending
+ system and has been found to, whilst not shorting
+ <A HREF="IMEX0021.HTM#component_signal">component_signals</A>, does not correctly implement a single
+ <A HREF="IMEX0021.HTM#component_signal">component_signal</A>.
+</P><HR>
+<!-- Start of ENTITY: jumper_connection -->
+<H2><A NAME="jumper_connection">jumper_connection</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#jumper_connection">jumper_connection</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0015.HTM#discrete_jumper_wire">discrete_jumper_wire</A>,
+                                    <A HREF="IMEX0015.HTM#jumper_wirebond">jumper_wirebond</A>));
+    jumper_points       : SET [2:?] OF <A HREF="IMEX0015.HTM#jumper_point">jumper_point</A>;
+    drawing_information : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_element">drawing_element</A>;
+    properties          : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_net : <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>.jumpers');
+  WHERE
+    <A NAME="jumper_connection.valid_existence">valid_existence</A> :
+      (* A jumper belongs to one assembled_physical_net. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>.jumpers');
+
+    <A NAME="jumper_connection.valid_referenced_component_terminal">valid_referenced_component_terminal</A> :
+      (* If a jumper_point is a component_terminal, it must be defined in a
+         component placed on the containing assembled_board. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(electricalComponentTerminal &lt;*
+                      QUERY(jumperPoint &lt;* jumper_points |
+                            '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A>' 
+                            IN TYPEOF(jumperPoint)) |
+        <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(componentImplementation
+            &lt;* containing_net.containing_board.component_implementations |
+          electricalComponentTerminal.referenced_component
+          :=: componentImplementation.implemented_component))))
+      AND
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(connectorComponentTerminal &lt;*
+                      QUERY(jumperPoint &lt;* jumper_points |
+                            '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#connector_component_terminal">connector_component_terminal</A>' 
+                            IN TYPEOF(jumperPoint)) |
+        <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(componentImplementation
+            &lt;* containing_net.containing_board.component_implementations |
+          connectorComponentTerminal.referenced_component
+          :=: componentImplementation.implemented_component))));
+
+    <A NAME="jumper_connection.valid_referenced_padstack_instance">valid_referenced_padstack_instance</A> :
+      (* If a jumper_point is a padstack_instance, it must be within the
+         bare_board_definition that is instanced as the basis for the
+         assembled_board. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(padstackInstance &lt;*
+                       QUERY(jumperPoint &lt;* jumper_points |
+                             '<A HREF="IMEX0025.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0025.HTM#padstack_instance">padstack_instance</A>'
+                             IN TYPEOF(jumperPoint)) |
+         NOT EXISTS(containing_net.containing_board.is_based_on
+                    .instantiated_bare_board.sub_layouts)
+         OR
+         NOT (padstackInstance IN containing_net.containing_board.is_based_on
+                                  .instantiated_bare_board.sub_layouts)));
+
+    <A NAME="jumper_connection.valid_referenced_toeprint_padstack_instance">valid_referenced_toeprint_padstack_instance</A> :
+      (* If a jumper_point is a toeprint_padstack_instance, the referenced
+         toeprint_instance must be defined within the bare_board_definition
+         that is instanced as the basis for the assembled_board. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(toeprintPadstackInstance &lt;*
+                       QUERY(jumperPoint &lt;* jumper_points |
+                         '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A>'
+                         IN TYPEOF(jumperPoint)) |
+         NOT EXISTS(containing_net.containing_board.is_based_on
+                    .instantiated_bare_board.sub_layouts)
+         OR
+         NOT (toeprintPadstackInstance.referenced_toeprint
+              IN containing_net.containing_board.is_based_on
+                 .instantiated_bare_board.sub_layouts)));
+
+    <A NAME="jumper_connection.valid_referenced_footprint_padstack_instance">valid_referenced_footprint_padstack_instance</A> :
+      (* If a jumper_point is a footprint_padstack_instance, the referenced
+         footprint_instance must be defined within the bare_board_definition
+         that is instanced as the basis for the assembled_board. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(footprintPadstackInstance &lt;*
+                       QUERY(jumperPoint &lt;* jumper_points |
+                         '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#footprint_padstack_instance">footprint_padstack_instance</A>'
+                         IN TYPEOF(jumperPoint)) |
+         NOT EXISTS(containing_net.containing_board.is_based_on
+                    .instantiated_bare_board.sub_layouts)
+         OR
+         NOT (footprintPadstackInstance.referenced_footprint
+              IN containing_net.containing_board.is_based_on
+                 .instantiated_bare_board.sub_layouts)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#jumper_connection">jumper_connection</A> is a wirebond or similar item that completes
+ a connection in an <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>, somewhere in the Z-direction
+ from the plane of the board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> <A HREF="IMEX0016.HTM#dimensioned_object">dimensioned_object</A> </P>
+<HR>
+<!-- Start of ENTITY: discrete_jumper_wire -->
+<H2><A NAME="discrete_jumper_wire">discrete_jumper_wire</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#discrete_jumper_wire">discrete_jumper_wire</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#jumper_connection">jumper_connection</A>);
+  WHERE
+    <A NAME="discrete_jumper_wire.valid_component_terminals">valid_component_terminals</A> :
+      (* A discrete_jumper_wire does not connect to a terminal of a
+         die_electrical_component. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(electricalComponentTerminal
+                       &lt;* QUERY(jumperPoint &lt;* jumper_points |
+                          <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(jumperPoint,
+                          '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A>')) |
+        <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(electricalComponentTerminal.referenced_component,
+                  '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#die_electrical_component">die_electrical_component</A>')));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#discrete_jumper_wire">discrete_jumper_wire</A> is a discrete piece of wire which
+ completes a connection in an <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.
+</P><HR>
+<!-- Start of ENTITY: jumper_wirebond -->
+<H2><A NAME="jumper_wirebond">jumper_wirebond</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#jumper_wirebond">jumper_wirebond</A>
+      SUBTYPE OF (<A HREF="IMEX0015.HTM#jumper_connection">jumper_connection</A>);
+    SELF\<A HREF="IMEX0015.HTM#jumper_connection">jumper_connection</A>.jumper_points : SET [2:2] OF <A HREF="IMEX0015.HTM#jumper_point">jumper_point</A>;
+    instantiated_wirebond_template       : <A HREF="IMEX0020.HTM#wirebond_template">wirebond_template</A>; -- reference
+  WHERE
+    <A NAME="jumper_wirebond.valid_component_terminals">valid_component_terminals</A> :
+      (* A jumper_wirebond may be used to connect terminals of
+         die_electrical_components, or between padstack_instances. *)
+      (SIZEOF(QUERY(electricalComponentTerminal
+                    &lt;* QUERY(jumperPoint &lt;* jumper_points |
+                       <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(jumperPoint,
+                       '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A>')) |
+                   <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(electricalComponentTerminal.referenced_component,
+                             '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#die_electrical_component">die_electrical_component</A>')))
+       = SIZEOF(jumper_points))
+      OR
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(electricalComponentTerminal
+                       &lt;* QUERY(jumperPoint &lt;* jumper_points |
+                          <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(jumperPoint,
+                          '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A>')) |
+                 <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(electricalComponentTerminal.referenced_component,
+                           '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#die_electrical_component">die_electrical_component</A>')));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#jumper_wirebond">jumper_wirebond</A> is a wirebond which completes a connection in
+ an <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.
+</P><HR>
+<!-- Start of TYPE: jumper_point -->
+<H2><A NAME="jumper_point">jumper_point</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0015.HTM#jumper_point">jumper_point</A>
+    = SELECT (<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>, 
+              <A HREF="IMEX0025.HTM#padstack_instance">padstack_instance</A>,
+              <A HREF="IMEX0015.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A>,
+              <A HREF="IMEX0015.HTM#footprint_padstack_instance">footprint_padstack_instance</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#jumper_point">jumper_point</A> is a place where a wire or other electrical connecting
+ device is understood in the design to be connected in order for an
+ <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> to be considered complete.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#jumper_connection">jumper_connection</A> <A HREF="IMEX0015.HTM#jumper_wirebond">jumper_wirebond</A> </P>
+<HR>
+<!-- Start of ENTITY: toeprint_padstack_instance -->
+<H2><A NAME="toeprint_padstack_instance">toeprint_padstack_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A>;
+    referenced_toeprint : <A HREF="IMEX0025.HTM#toeprint_instance">toeprint_instance</A>; -- reference
+    referenced_padstack : <A HREF="IMEX0025.HTM#padstack_instance">padstack_instance</A>; -- reference
+  WHERE
+    <A NAME="toeprint_padstack_instance.valid_referenced_padstack">valid_referenced_padstack</A> :
+      (* The referenced padstack_instance is defined in the toeprint_definition
+         from which the referenced toeprint_instance is instantiated. *)
+      EXISTS(referenced_toeprint.is_defined_by.padstacks)
+      AND
+      (referenced_padstack IN referenced_toeprint.is_defined_by.padstacks);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A> is a <A HREF="IMEX0025.HTM#padstack_instance">padstack_instance</A> within a
+ <A HREF="IMEX0025.HTM#toeprint_instance">toeprint_instance</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A> <A HREF="IMEX0025.HTM#embedded_die_terminal">embedded_die_terminal</A> <A HREF="IMEX0015.HTM#jumper_point">jumper_point</A> <A HREF="IMEX0015.HTM#mountable_mechanical_fixing_implementation">mountable_mechanical_fixing_implementation</A> <A HREF="IMEX0015.HTM#mountable_package_terminal_implementation">mountable_package_terminal_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: footprint_padstack_instance -->
+<H2><A NAME="footprint_padstack_instance">footprint_padstack_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#footprint_padstack_instance">footprint_padstack_instance</A>;
+    referenced_footprint : <A HREF="IMEX0025.HTM#footprint_instance">footprint_instance</A>; -- reference
+    referenced_toeprint  : <A HREF="IMEX0025.HTM#toeprint_instance">toeprint_instance</A>;  -- reference
+    referenced_padstack  : <A HREF="IMEX0025.HTM#padstack_instance">padstack_instance</A>;  -- reference
+  WHERE
+    <A NAME="footprint_padstack_instance.valid_referenced_toeprint">valid_referenced_toeprint</A> :
+      (* The referenced toeprint_instance is defined in the
+         footprint_definition from which the referenced footprint_instance is
+         instantiated. *)
+      EXISTS(referenced_footprint.is_defined_by.toeprints)
+      AND
+      (referenced_toeprint IN referenced_footprint.is_defined_by.toeprints);
+
+    <A NAME="footprint_padstack_instance.valid_referenced_padstack">valid_referenced_padstack</A> :
+      (* The referenced padstack_instance is defined in the toeprint_definition
+         from which the referenced toeprint_instance is instantiated. *)
+      EXISTS(referenced_toeprint.is_defined_by.padstacks)
+      AND
+      (referenced_padstack IN referenced_toeprint.is_defined_by.padstacks);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#footprint_padstack_instance">footprint_padstack_instance</A> is a <A HREF="IMEX0025.HTM#padstack_instance">padstack_instance</A> within a
+ <A HREF="IMEX0025.HTM#toeprint_instance">toeprint_instance</A> of a <A HREF="IMEX0025.HTM#footprint_instance">footprint_instance</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#jumper_point">jumper_point</A> </P>
+<HR>
+<!-- Start of ENTITY: component_signal_realisation_rule -->
+<H2><A NAME="component_signal_realisation_rule">component_signal_realisation_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#component_signal_realisation_rule">component_signal_realisation_rule</A>;
+    implemented_component_signals : SET [1:?] OF <A HREF="IMEX0021.HTM#component_signal">component_signal</A>; -- reference
+    layer_specific_rules          : OPTIONAL SET [1:?] OF 
+                                    <A HREF="IMEX0015.HTM#component_signal_layer_realisation_rule">component_signal_layer_realisation_rule</A>;
+    minimum_spur_length           : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_width           : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    optimum_trace_width           : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    properties                    : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE 
+    containing_board : <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+           <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                          '<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>',
+                          'component_signal_realisation_rules'));
+  WHERE
+    <A NAME="component_signal_realisation_rule.valid_existence">valid_existence</A> :
+      (* A component_signal_realisation_rule belongs to one assembled_board. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                       '<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>',
+                       'component_signal_realisation_rules'));
+
+    <A NAME="component_signal_realisation_rule.valid_trace_width">valid_trace_width</A> :
+      (* The optimum width is greater than the minimum width. *)
+      optimum_trace_width &gt; minimum_trace_width;
+
+    <A NAME="component_signal_realisation_rule.valid_implemented_component_signals">valid_implemented_component_signals</A> :
+      (* The referenced component_signals are defined in the containing
+         pcb_mcm_view. *)
+      implemented_component_signals 
+        &lt;= containing_board.containing_view.component_signals;
+
+    <A NAME="component_signal_realisation_rule.valid_layer_specific_rules">valid_layer_specific_rules</A> :
+      (* Any layer referenced by a component_signal_layer_realisation_rule
+         cannot be also referenced by another
+         component_signal_layer_realisation_rule. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(layerRule1 &lt;* layer_specific_rules |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(layerRule2 &lt;* layer_specific_rules - layerRule1 |
+          <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(layerRule1.applied_layers 
+                       * layerRule2.applied_layers)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#component_signal_realisation_rule">component_signal_realisation_rule</A> is used to state the physical
+ or clearance constraints for <A HREF="IMEX0021.HTM#component_signal">component_signals</A> which are realized by
+ <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_nets</A> on an <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.  It may define the
+ default minimum/optimum trace width.  It is possible to override the default
+ trace width on individual layer(s).
+</P>
+<P>
+ The minimum_spur_length is the smallest length of the trace that must be
+ laid when routing from the main track of a signal to a load pin.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> <A HREF="IMEX0015.HTM#component_signal_layer_realisation_rule">component_signal_layer_realisation_rule</A> </P>
+<HR>
+<!-- Start of ENTITY: component_signal_layer_realisation_rule -->
+<H2><A NAME="component_signal_layer_realisation_rule">component_signal_layer_realisation_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#component_signal_layer_realisation_rule">component_signal_layer_realisation_rule</A>;
+    applied_layers                                 : SET [1:?] OF -- reference
+                                                     <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>;
+    minimum_trace_width                            : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_spur_length                            : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_board_edge                    : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_layout_shape                  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_surface_mount_pad             : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_through_hole_pad              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_trace                         : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_trace_to_via_pad                       : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_surface_mount_pad_to_board_edge        : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_surface_mount_pad_to_layout_shape      : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_surface_mount_pad_to_surface_mount_pad : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_surface_mount_pad_to_through_hole_pad  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_surface_mount_pad_to_via_pad           : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_through_hole_pad_to_board_edge         : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_through_hole_pad_to_layout_shape       : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_through_hole_pad_to_through_hole_pad   : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_through_hole_pad_to_via_pad            : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_via_pad_to_board_edge                  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_via_pad_to_layout_shape                : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_via_pad_to_via_pad                     : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_layout_shape_to_board_edge             : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_layout_shape_to_layout_shape           : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    optimum_trace_width                            : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    properties                                     : OPTIONAL SET [1:?] OF
+                                                     <A HREF="IMEX0029.HTM#property">property</A>; 
+  DERIVE
+    containing_rule : <A HREF="IMEX0015.HTM#component_signal_realisation_rule">component_signal_realisation_rule</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                        '<A HREF="IMEX0015.HTM#component_signal_realisation_rule">component_signal_realisation_rule</A>',
+                        'layer_specific_rules'));
+  WHERE
+    <A NAME="component_signal_layer_realisation_rule.valid_existence">valid_existence</A> :
+      (* A component_signal_layer_realisation_rule belongs to one
+         component_signal_realisation_rule. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                       '<A HREF="IMEX0015.HTM#component_signal_realisation_rule">component_signal_realisation_rule</A>',
+                       'layer_specific_rules'));
+
+    <A NAME="component_signal_layer_realisation_rule.valid_applied_layers">valid_applied_layers</A> :
+      (* All referenced layers must be defined in the bare_board_technology in
+         which the containing assembled_board is implemented. *)
+      applied_layers  &lt;= containing_rule.containing_board.is_based_on
+                         .instantiated_bare_board\<A HREF="IMEX0025.HTM#sub_layout_definition">sub_layout_definition</A>
+                         .is_implemented_in.layers;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#component_signal_layer_realisation_rule">component_signal_layer_realisation_rule</A> specifies the
+ layer-dependent physical constraints for a <A HREF="IMEX0021.HTM#component_signal">component_signal</A> which is
+ realized by an <A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>.  The constraints referred here are
+ trace width and basic clearance. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#component_signal_realisation_rule">component_signal_realisation_rule</A> </P>
+<HR>
+<!-- Start of ENTITY: component_assembly_rule -->
+<H2><A NAME="component_assembly_rule">component_assembly_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#component_assembly_rule">component_assembly_rule</A>;
+    criteria   : SET [1:?] OF <A HREF="IMEX0015.HTM#component_assembly_rule_criterion">component_assembly_rule_criterion</A>;
+    document   : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    region     : OPTIONAL <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>;
+  WHERE
+    <A NAME="component_assembly_rule.valid_existence">valid_existence</A> :
+      (* A component_assembly_rule belongs to one assembled_board. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.component_assembly_rules');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#component_assembly_rule">component_assembly_rule</A> describes an assembly rule for components on an
+ assembled board.
+</P>
+<P>
+ The region attribute specifies the effective area of the assembly rule.  If
+ this attribute is absent, the effective area applies to the whole board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> </P>
+<HR>
+<!-- Start of ENTITY: component_assembly_rule_criterion -->
+<H2><A NAME="component_assembly_rule_criterion">component_assembly_rule_criterion</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#component_assembly_rule_criterion">component_assembly_rule_criterion</A>;
+    maximum_height        : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    minimum_height        : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    referenced_components : SET [1:?] OF <A HREF="IMEX0021.HTM#component">component</A>; -- reference
+    restriction           : <A HREF="IMEX0015.HTM#component_assembly_restriction">component_assembly_restriction</A>;
+    side                  : <A HREF="IMEX0015.HTM#component_assembly_side">component_assembly_side</A>;
+  WHERE
+    <A NAME="component_assembly_rule_criterion.valid_existence">valid_existence</A> :
+      (* A component_assembly_rule_criterion belongs to one
+         component_assembly_rule. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#component_assembly_rule">component_assembly_rule</A>.criteria');
+
+    <A NAME="component_assembly_rule_criterion.valid_referenced_components">valid_referenced_components</A> :
+      (* The referenced components cannot be printed components. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(comp &lt;* referenced_components |
+        <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(comp, '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#printed_connector_component">printed_connector_component</A>')
+        OR
+        <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(comp, '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#printed_electrical_component">printed_electrical_component</A>')));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#component_assembly_rule_criterion">component_assembly_rule_criterion</A> describes an assembly criterion for a
+ <A HREF="IMEX0015.HTM#component_assembly_rule">component_assembly_rule</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#component_assembly_rule">component_assembly_rule</A> </P>
+<HR>
+<!-- Start of TYPE: component_assembly_restriction -->
+<H2><A NAME="component_assembly_restriction">component_assembly_restriction</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0015.HTM#component_assembly_restriction">component_assembly_restriction</A>
+    = ENUMERATION OF (keep_in, keep_out);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#component_assembly_restriction">component_assembly_restriction</A> specifies the purpose of a component
+ assembly rule.  It is used within a <A HREF="IMEX0015.HTM#component_assembly_rule_criterion">component_assembly_rule_criterion</A> to
+ indicate whether components are intended to be kept in or out of specific
+ areas of an assembled board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#component_assembly_rule_criterion">component_assembly_rule_criterion</A> </P>
+<HR>
+<!-- Start of TYPE: component_assembly_side -->
+<H2><A NAME="component_assembly_side">component_assembly_side</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0015.HTM#component_assembly_side">component_assembly_side</A>
+    = ENUMERATION OF (top_side, bottom_side, both_sides);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#component_assembly_side">component_assembly_side</A> specifies which side of an assembled board a
+ <A HREF="IMEX0015.HTM#component_assembly_rule_criterion">component_assembly_rule_criterion</A> applies to.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#component_assembly_rule_criterion">component_assembly_rule_criterion</A> </P>
+<HR>
+<!-- Start of ENTITY: component_realisation_rule -->
+<H2><A NAME="component_realisation_rule">component_realisation_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A>;
+    realised_components : SET [1:?] OF <A HREF="IMEX0021.HTM#component">component</A>; -- reference
+    region_rules        : SET [1:?] OF <A HREF="IMEX0015.HTM#component_region_realisation_rule">component_region_realisation_rule</A>;
+    properties          : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_board : <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> -- reference
+    := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A> (SELF,
+       '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.component_realisation_rules');
+  WHERE
+    <A NAME="component_realisation_rule.valid_existence">valid_existence</A> :
+      (* A component_realisation_rule belongs to one assembled_board. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+       '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.component_realisation_rules');
+
+    <A NAME="component_realisation_rule.valid_realised_components">valid_realised_components</A> :
+      (* The referenced components are defined in the containing
+         pcb_mcm_view. *) 
+      realised_components &lt;= containing_board.containing_view.components;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A> specifies the exclusion of specified types of
+ layout items, e.g. vias, from parts of the <A HREF="IMEX0015.HTM#bare_board">bare_board</A>. The exclusion areas
+ are typically due to the presence of one or more components, which can be
+ referenced from the <A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> <A HREF="IMEX0015.HTM#component_region_realisation_rule">component_region_realisation_rule</A> </P>
+<HR>
+<!-- Start of ENTITY: component_region_realisation_rule -->
+<H2><A NAME="component_region_realisation_rule">component_region_realisation_rule</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0015.HTM#component_region_realisation_rule">component_region_realisation_rule</A>;
+    applied_layers : SET [1:?] OF <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>; -- reference
+    keep_out_items : SET [1:?] OF <A HREF="IMEX0026.HTM#layout_item">layout_item</A>;
+    properties     : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    region         : <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>;
+  DERIVE
+    containing_rule : <A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A> (SELF,
+         '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A>.region_rules');
+  WHERE
+    <A NAME="component_region_realisation_rule.valid_existence">valid_existence</A> :
+      (* A component_region_realisation_rule belongs to one
+         component_realisation_rule. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+        '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A>.region_rules');
+
+    <A NAME="component_region_realisation_rule.valid_applied_layers">valid_applied_layers</A> :
+      (* All referenced layers must be defined in the bare_board_technology in
+         which the containing assembled_board is implemented. *)
+      applied_layers &lt;= containing_rule.containing_board.is_based_on
+                        .instantiated_bare_board\<A HREF="IMEX0025.HTM#sub_layout_definition">sub_layout_definition</A>
+                        .is_implemented_in.layers;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0015.HTM#component_region_realisation_rule">component_region_realisation_rule</A> specifies the exclusion of specified
+ types of layout items, e.g. vias, from parts of the <A HREF="IMEX0015.HTM#bare_board">bare_board</A>. The
+ exclusion areas are typically due to the presence of one or more components,
+ which can be referenced from the <A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A>.
+</P>
+<P>
+ If any of the implementations of the components reference
+ <A HREF="IMEX0025.HTM#footprint_instance">footprint_instances</A>, then it should be noted that the exclusion of items
+ does not apply to items defined or referenced within these
+ <A HREF="IMEX0025.HTM#footprint_instance">footprint_instances</A>. Similarly, in the case of a component which has an
+ embedded die implementation, the exclusion does not apply to items within
+ the <A HREF="IMEX0025.HTM#footprint_instance">footprint_instance</A> referenced by the corresponding
+ <A HREF="IMEX0025.HTM#embedded_die_placement">embedded_die_placement</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A> </P>
+
+<HR>
+
+<!-- Start of schema: pcb_board_subset_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

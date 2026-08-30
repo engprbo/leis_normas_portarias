@@ -1,0 +1,224 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="design_management_model">design_management_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0004.HTM#design_management_model">design_management_model</A> schema provides the design management
+ information.  It records a history of modifications.  It provides the
+ information needed to trace back to the origin or the owner of the data, and
+ also identifies the software or program name which was responsible for
+ creating the data.
+</P><HR>
+<!-- Start of ENTITY: copyright -->
+<H2><A NAME="copyright">copyright</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0004.HTM#copyright">copyright</A>;
+    strings     : OPTIONAL BAG [1:?] OF <A HREF="IMEX0015.HTM#string_token">string_token</A>;
+    year        : SET OF <A HREF="IMEX0015.HTM#positive_integer_token">positive_integer_token</A>;
+  WHERE
+    <A NAME="copyright.containment_constraint">containment_constraint</A> :
+      <A HREF="IMEX0015.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,[
+      '<A HREF="IMEX0006.HTM#documentation_model">documentation_model</A>.<A HREF="IMEX0006.HTM#documentation">documentation</A>.status_of_copyright',
+      '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#edif">edif</A>.status_of_copyright',
+      '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.status_of_copyright',
+      '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>.status_of_copyright',
+      '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster">cluster</A>.status_of_copyright',
+      '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cell">cell</A>.status_of_copyright',
+      '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0003.HTM#design">design</A>.status_of_copyright',
+      '<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>.status_of_copyright',
+      '<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>.status_of_copyright',
+      '<A HREF="IMEX0013.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0013.HTM#page">page</A>.status_of_copyright']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0004.HTM#copyright">copyright</A> is used to indicate the copyright restrictions on the use of
+ the EDIF file, or associated with a particular object within the file. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cell">cell</A> <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> <A HREF="IMEX0009.HTM#cluster">cluster</A> <A HREF="IMEX0003.HTM#design">design</A> <A HREF="IMEX0006.HTM#documentation">documentation</A> <A HREF="IMEX0007.HTM#edif">edif</A> <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A> <A HREF="IMEX0011.HTM#library">library</A> <A HREF="IMEX0013.HTM#page">page</A> <A HREF="IMEX0010.HTM#schematic_template">schematic_template</A> </P>
+<HR>
+<!-- Start of ENTITY: written -->
+<H2><A NAME="written">written</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0004.HTM#written">written</A>;
+    author      : OPTIONAL <A HREF="IMEX0015.HTM#string_token">string_token</A>;
+    date        : <A HREF="IMEX0004.HTM#time_stamp">time_stamp</A>;
+    data_origin : OPTIONAL <A HREF="IMEX0004.HTM#version_information">version_information</A>;
+    program     : OPTIONAL <A HREF="IMEX0004.HTM#version_information">version_information</A>;
+  WHERE
+    <A NAME="written.containment_constraint">containment_constraint</A> :
+      <A HREF="IMEX0015.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, [
+      '<A HREF="IMEX0006.HTM#documentation_model">documentation_model</A>.<A HREF="IMEX0006.HTM#documentation">documentation</A>.status_of_written',
+      '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#edif">edif</A>.status_of_written',
+      '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.status_of_written',
+      '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>.status_of_written',
+      '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cluster">cluster</A>.status_of_written',
+      '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#cell">cell</A>.status_of_written',
+      '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0003.HTM#design">design</A>.status_of_written',
+      '<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>.status_of_written',
+      '<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>.status_of_written',
+      '<A HREF="IMEX0013.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0013.HTM#page">page</A>.status_of_written']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0004.HTM#written">written</A> includes information relating to the writer or generator of the 
+ object with which the written is associated.  It must include a <A HREF="IMEX0004.HTM#time_stamp">time_stamp</A>
+ and may include program identification, human or organisation
+ identification, or location information to help the reader trace the origin 
+ of a particular part of an EDIF file.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#cell">cell</A> <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> <A HREF="IMEX0009.HTM#cluster">cluster</A> <A HREF="IMEX0003.HTM#design">design</A> <A HREF="IMEX0006.HTM#documentation">documentation</A> <A HREF="IMEX0007.HTM#edif">edif</A> <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A> <A HREF="IMEX0011.HTM#library">library</A> <A HREF="IMEX0013.HTM#page">page</A> <A HREF="IMEX0010.HTM#schematic_template">schematic_template</A> </P>
+<HR>
+<!-- Start of ENTITY: version_information -->
+<H2><A NAME="version_information">version_information</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0004.HTM#version_information">version_information</A>;
+    name        : <A HREF="IMEX0015.HTM#string_token">string_token</A>;
+    version     : OPTIONAL <A HREF="IMEX0015.HTM#string_token">string_token</A>;
+  WHERE
+    <A NAME="version_information.containment_constraint">containment_constraint</A> :
+      <A HREF="IMEX0015.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+        ['<A HREF="IMEX0004.HTM#design_management_model">design_management_model</A>.<A HREF="IMEX0004.HTM#written">written</A>.data_origin', 
+         '<A HREF="IMEX0004.HTM#design_management_model">design_management_model</A>.<A HREF="IMEX0004.HTM#written">written</A>.program']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0004.HTM#version_information">version_information</A> is used to provide a revision code which can be used 
+ to keep track of the source and creator of the written EDIF data.  It is
+ intended for human interpretation and should serve as an aid in problem
+ analysis.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0004.HTM#written">written</A> </P>
+<HR>
+<!-- Start of ENTITY: time_stamp -->
+<H2><A NAME="time_stamp">time_stamp</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0004.HTM#time_stamp">time_stamp</A>;
+    recorded_date               : <A HREF="IMEX0004.HTM#date">date</A>;
+    recorded_time               : <A HREF="IMEX0004.HTM#time">time</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0004.HTM#time_stamp">time_stamp</A> identifies when the data was created or last modified.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0004.HTM#written">written</A> </P>
+<HR>
+<!-- Start of ENTITY: time -->
+<H2><A NAME="time">time</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0004.HTM#time">time</A>;
+    hour   : <A HREF="IMEX0015.HTM#integer_token">integer_token</A>;
+    minute : <A HREF="IMEX0015.HTM#integer_token">integer_token</A>;
+    second : <A HREF="IMEX0015.HTM#integer_token">integer_token</A>;
+  WHERE
+    <A NAME="time.valid_hour">valid_hour</A> :
+      (* Twenty four hours each day. *)
+      { 0 &lt;= hour &lt;= 23 };
+
+    <A NAME="time.valid_minute">valid_minute</A> :
+      (* Sixty minutes each hour. *)
+      { 0 &lt;= minute &lt;= 59 };
+
+    <A NAME="time.valid_second">valid_second</A> :
+      (* Sixty seconds each minute. *)
+      { 0 &lt;= second &lt;= 59 };
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0004.HTM#time">time</A> specifies the time in hours, minutes and seconds. The time is
+ specified in Universal Time Coordinated.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0004.HTM#time_stamp">time_stamp</A> </P>
+<HR>
+<!-- Start of ENTITY: date -->
+<H2><A NAME="date">date</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0004.HTM#date">date</A>;
+    year  : <A HREF="IMEX0015.HTM#positive_integer_token">positive_integer_token</A>;
+    month : <A HREF="IMEX0015.HTM#positive_integer_token">positive_integer_token</A>;
+    day   : <A HREF="IMEX0015.HTM#positive_integer_token">positive_integer_token</A>;
+  WHERE
+    <A NAME="date.check_valid_date">check_valid_date</A> :
+      <A HREF="IMEX0004.HTM#valid_date">valid_date</A>(year, month, day);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0004.HTM#date">date</A> specifies the date as three integers representing the year, month
+ and day.  These should be consistent with each other to form a valid date.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_page_title_block_template">internal_page_title_block_template</A> <A HREF="IMEX0013.HTM#page_title_block">page_title_block</A> <A HREF="IMEX0004.HTM#time_stamp">time_stamp</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_date -->
+<H2><A NAME="valid_date">valid_date</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0004.HTM#valid_date">valid_date</A> 
+    (yy, mm, dd : <A HREF="IMEX0015.HTM#positive_integer_token">positive_integer_token</A>) : BOOLEAN;
+    LOCAL
+      leap_year : BOOLEAN;
+      valid     : BOOLEAN;
+    END_LOCAL;
+    leap_year := (yy mod 4 = 0) AND ((yy mod 100 &lt;&gt; 0) OR (yy mod 400 = 0)); 
+    CASE mm OF  
+      1, 3, 5, 7, 8, 10, 12 : valid := dd &lt;= 31;
+      4, 6, 9, 11           : valid := dd &lt;= 30;
+      2                     : IF leap_year THEN
+                                 valid := dd &lt;= 29;
+                              ELSE
+                                 valid := dd &lt;= 28;
+                              END_IF;
+      OTHERWISE             : valid := false;
+    END_CASE;
+    RETURN(valid);	
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0004.HTM#valid_date">valid_date</A> function checks every instance of date.  It is used to
+ check whether the day, month and year fields constitute a valid date or not.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0004.HTM#date">date</A> </P>
+
+<HR>
+
+<!-- Start of schema: display_model -->
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

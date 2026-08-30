@@ -1,0 +1,719 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">General Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="forFrameAnnotate">forFrameAnnotate</A></H1>
+<PRE>
+<I>forFrameAnnotate ::= '(' 'forFrameAnnotate'</I>
+&#09;<I><A HREF="RMRF0007.HTM#extendForFrameMemberDef">extendForFrameMemberDef</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0009.HTM#forFrameAnnotate">forFrameAnnotate</A> | <A HREF="RMRF0010.HTM#ifFrameAnnotate">ifFrameAnnotate</A> | <A HREF="RMRF0012.HTM#interconnectAnnotate">interconnectAnnotate</A> | 
+&#09;<A HREF="RMRF0014.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A> | <A HREF="RMRF0017.HTM#occurrenceAnnotate">occurrenceAnnotate</A> | <A HREF="RMRF0018.HTM#otherwiseFrameAnnotate">otherwiseFrameAnnotate</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0009.HTM#forFrameAnnotate">forFrameAnnotate</A>  *<A HREF="RMRF0010.HTM#ifFrameAnnotate">ifFrameAnnotate</A>  *<A HREF="RMRF0017.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  *<A HREF="RMRF0017.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  *<A HREF="RMRF0018.HTM#otherwiseFrameAnnotate">otherwiseFrameAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0000.HTM#annotate">annotate</A> <A HREF="RMRF0008.HTM#forFrame">forFrame</A> 
+</I>
+<H3>Description:</H3>
+<P>This enables annotation to be attached to a specific element of an expanded <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(forFrameAnnotate </B>
+<B>   (forFrameMemberRef F1 (indexValue 3))</B>
+<B>   ...)</B>
+</PRE>
+<P>Here, the element with index value 3 within F1 is to have annotation attached. 
+<P><HR>
+<H1><A NAME="forFrameIndex">forFrameIndex</A></H1>
+<PRE>
+<I>forFrameIndex ::= '(' 'forFrameIndex'</I>
+&#09;<I><A HREF="RMRF0011.HTM#indexNameDef">indexNameDef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0011.HTM#indexStart">indexStart</A>&gt; | &lt;<A HREF="RMRF0011.HTM#indexStep">indexStep</A>&gt; | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0008.HTM#forFrame">forFrame</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#forFrameIndexDisplay">forFrameIndexDisplay</A> <A HREF="RMRF0009.HTM#forFrameIndexNameCaseSensitive">forFrameIndexNameCaseSensitive</A> <A HREF="RMRF0009.HTM#forFrameIndexRef">forFrameIndexRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>For a given <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I>, the <I><A HREF="RMRF0011.HTM#indexNameDef">indexNameDef</A></I> must not be the same as the <I><A HREF="RMRF0011.HTM#indexNameDef">indexNameDef</A></I> of the <I><A HREF="RMRF0009.HTM#forFrameIndex">forFrameIndex</A></I> of any <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I> in which the given <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I> is enclosed, either directly or indirectly.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0011.HTM#indexNameDef">indexNameDef</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>This specifies the sequence of integer values to be used for the index of a <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I> expansion. <I><A HREF="RMRF0011.HTM#indexNameDef">IndexNameDef</A></I> defines the name of the index. 
+<P>The default value for the index start value is zero. The default value for the index step value is one.
+<H3>Example:</H3>
+<PRE>
+<B>(forFrame F1 (repetitionCount 32)</B>
+<B>   (forFrameIndex I (indexStart 1) (indexStep 2))</B>
+<B>   (logicalConnectivity ...)</B>
+<B>   )</B>
+</PRE>
+<P>In this example, the index starts from one and increases by two for each new element. 
+<P><HR>
+<H1><A NAME="forFrameIndexDisplay">forFrameIndexDisplay</A></H1>
+<PRE>
+<I>forFrameIndexDisplay ::= '(' 'forFrameIndexDisplay'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0011.HTM#indexEndDisplay">indexEndDisplay</A>&gt; | &lt;<A HREF="RMRF0011.HTM#indexNameDisplay">indexNameDisplay</A>&gt; | &lt;<A HREF="RMRF0011.HTM#indexStartDisplay">indexStartDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0011.HTM#indexStepDisplay">indexStepDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0058.HTM#schematicForFrameBorder">schematicForFrameBorder</A>  &lt;<A HREF="RMRF0058.HTM#schematicForFrameBorderTemplate">schematicForFrameBorderTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0008.HTM#forFrame">forFrame</A> <A HREF="RMRF0009.HTM#forFrameIndex">forFrameIndex</A> <A HREF="RMRF0009.HTM#forFrameIndexRef">forFrameIndexRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#forFrameIndexDisplay">ForFrameIndexDisplay</A></I> enables you to display the index name and other details of the index of a <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(forFrameIndexDisplay</B>
+<B>   (indexStartDisplay</B>
+<B>      (addDisplay</B>
+<B>         (display </B>
+<B>            (figureGroupOverride Green</B>
+<B>               (displayAttributes ...)) </B>
+<B>            (transform (origin (pt 25 30)) </B>
+<B>               (rotation 90))))))</B>
+</PRE>
+<P>In this example, only the index start is displayed. 
+<P><HR>
+<H1><A NAME="forFrameIndexNameCaseSensitive">forFrameIndexNameCaseSensitive</A></H1>
+<PRE>
+<I>forFrameIndexNameCaseSensitive ::= '(' 'forFrameIndexNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#forFrame">forFrame</A> <A HREF="RMRF0009.HTM#forFrameIndex">forFrameIndex</A> <A HREF="RMRF0009.HTM#frameNameCaseSensitive">frameNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#forFrameIndexNameCaseSensitive">ForFrameIndexNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for a for frame index name are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example. 
+<P><HR>
+<H1><A NAME="forFrameIndexRef">forFrameIndexRef</A></H1>
+<PRE>
+<I>forFrameIndexRef ::= '(' 'forFrameIndexRef'</I>
+&#09;<I><A HREF="RMRF0011.HTM#indexNameRef">indexNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#forFrame">forFrame</A> <A HREF="RMRF0009.HTM#forFrameIndex">forFrameIndex</A> <A HREF="RMRF0009.HTM#forFrameIndexDisplay">forFrameIndexDisplay</A> <A HREF="RMRF0009.HTM#forFrameMemberRef">forFrameMemberRef</A> <A HREF="RMRF0009.HTM#forFrameRef">forFrameRef</A> <A HREF="RMRF0009.HTM#frameRef">frameRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#forFrameIndexRef">ForFrameIndexRef</A></I> references a for frame index by name. It is used in <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> and returns the value of the for frame index referenced. It may only be used in the context of a for frame or its implementation.
+<H3>Example:</H3>
+<PRE>
+<B>(instanceNameGenerator</B>
+<B>   (stringConcatenate</B>
+<B>      (stringParameterRef instanceNameStem)</B>
+<B>      (decimalToString </B>
+<B>         (integerSum 1</B>
+<B>            (forFrameIndexRef J)))))</B>
+</PRE>
+<P>In this example, the name of the <I><A HREF="RMRF0011.HTM#instance">instance</A></I> is created by concatenating the <I><A HREF="RMRF0063.HTM#stringParameter">stringParameters</A></I> instanceNameStem and the for frame index J, with 1 added and converted to a string. 
+<P><HR>
+<H1><A NAME="forFrameMemberRef">forFrameMemberRef</A></H1>
+<PRE>
+<I>forFrameMemberRef ::= '(' 'forFrameMemberRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#frameNameRef">frameNameRef</A></I>
+&#09;<I><A HREF="RMRF0011.HTM#indexValue">indexValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#extendForFrameMemberDef">extendForFrameMemberDef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#forFrame">forFrame</A> <A HREF="RMRF0009.HTM#forFrameIndexRef">forFrameIndexRef</A> <A HREF="RMRF0009.HTM#forFrameRef">forFrameRef</A> <A HREF="RMRF0009.HTM#frameRef">frameRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#forFrameMemberRef">ForFrameMemberRef</A></I> references a member of a <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I>. The <I><A HREF="RMRF0011.HTM#indexValue">indexValue</A></I> must be valid in the context of the expanded <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I>. It is only possible to reference a member of a <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I> in the context of an expanded occurrence hierarchy, when the value of the <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I> <I><A HREF="RMRF0057.HTM#repetitionCount">repetitionCount</A></I> and <I><A HREF="RMRF0009.HTM#forFrameIndex">forFrameIndex</A></I> are known.
+<H3>Example:</H3>
+<PRE>
+<B>(forFrame F1</B>
+<B>   (repetitionCount 4)</B>
+<B>   (forFrameIndex INDEX1) ...)</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 0))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 1))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 2))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 3))</B>
+</PRE>
+<P>In this first example, the <I><A HREF="RMRF0011.HTM#indexValue">indexValues</A></I> shown are the only valid ones.
+<PRE>
+<B>(forFrame F1</B>
+<B>   (repetitionCount 4)</B>
+<B>   (forFrameIndex INDEX1</B>
+<B>      (indexStart 10) (indexStep 2)) ...)</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 10))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 12))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 14))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 16))</B>
+</PRE>
+<P>In this second example, the <I><A HREF="RMRF0011.HTM#indexValue">indexValues</A></I> shown are the only valid ones. 
+<P><HR>
+<H1><A NAME="forFrameRef">forFrameRef</A></H1>
+<PRE>
+<I>forFrameRef ::= '(' 'forFrameRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#frameNameRef">frameNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0058.HTM#schematicForFrameImplementation">schematicForFrameImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#forFrame">forFrame</A> <A HREF="RMRF0009.HTM#forFrameIndexRef">forFrameIndexRef</A> <A HREF="RMRF0009.HTM#forFrameMemberRef">forFrameMemberRef</A> <A HREF="RMRF0009.HTM#frameRef">frameRef</A> <A HREF="RMRF0058.HTM#schematicForFrameBorderTemplateRef">schematicForFrameBorderTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#forFrameRef">ForFrameRef</A></I> references a <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicForFrameImplementation</B>
+<B>   FF1_IMP</B>
+<B>   (forFrameRef FF1_LOGICAL) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="frameConfiguration">frameConfiguration</A></H1>
+<PRE>
+<I>frameConfiguration ::= '(' 'frameConfiguration'</I>
+&#09;<I><A HREF="RMRF0009.HTM#frameNameRef">frameNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0009.HTM#frameConfiguration">frameConfiguration</A> | <A HREF="RMRF0011.HTM#instanceConfiguration">instanceConfiguration</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>  *<A HREF="RMRF0009.HTM#frameConfiguration">frameConfiguration</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#frameConfiguration">FrameConfiguration</A></I> identifies a frame and specifies the configuration of the instances within the frame. 
+<P>Each repetition of the same instance within a for frame will have the same configuration (when the for frame is expanded).
+<P>Nested <I><A HREF="RMRF0009.HTM#frameConfiguration">frameConfigurations</A></I> refer to nested frames.
+<H3>Example:</H3>
+<PRE>
+<B>(frameConfiguration FOR1</B>
+<B>   (instanceConfiguration INST1 ...)</B>
+<B>   ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="frameNameCaseSensitive">frameNameCaseSensitive</A></H1>
+<PRE>
+<I>frameNameCaseSensitive ::= '(' 'frameNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A> <A HREF="RMRF0005.HTM#designNameCaseSensitive">designNameCaseSensitive</A> <A HREF="RMRF0006.HTM#documentationNameCaseSensitive">documentationNameCaseSensitive</A> <A HREF="RMRF0009.HTM#forFrameIndexNameCaseSensitive">forFrameIndexNameCaseSensitive</A> <A HREF="RMRF0010.HTM#hotspotNameCaseSensitive">hotspotNameCaseSensitive</A> <A HREF="RMRF0010.HTM#implementationNameCaseSensitive">implementationNameCaseSensitive</A> <A HREF="RMRF0011.HTM#instanceNameCaseSensitive">instanceNameCaseSensitive</A> <A HREF="RMRF0012.HTM#interconnectNameCaseSensitive">interconnectNameCaseSensitive</A> <A HREF="RMRF0014.HTM#libraryNameCaseSensitive">libraryNameCaseSensitive</A> <A HREF="RMRF0018.HTM#pageNameCaseSensitive">pageNameCaseSensitive</A> <A HREF="RMRF0019.HTM#parameterNameCaseSensitive">parameterNameCaseSensitive</A> <A HREF="RMRF0055.HTM#portNameCaseSensitive">portNameCaseSensitive</A> <A HREF="RMRF0056.HTM#propertyNameCaseSensitive">propertyNameCaseSensitive</A> <A HREF="RMRF0062.HTM#signalNameCaseSensitive">signalNameCaseSensitive</A> <A HREF="RMRF0066.HTM#viewNameCaseSensitive">viewNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#frameNameCaseSensitive">FrameNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for a frame name are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example. 
+<P><HR>
+<H1><A NAME="frameNameDef">frameNameDef</A></H1>
+<PRE>
+<I>frameNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0008.HTM#forFrame">forFrame</A>  !<A HREF="RMRF0010.HTM#ifFrame">ifFrame</A>  !<A HREF="RMRF0018.HTM#otherwiseFrame">otherwiseFrame</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityFrameStructureNameDef">connectivityFrameStructureNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the name of a <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I>, <I><A HREF="RMRF0010.HTM#ifFrame">ifFrame</A></I> or <I><A HREF="RMRF0018.HTM#otherwiseFrame">otherwiseFrame</A></I>. 
+<P><HR>
+<H1><A NAME="frameNameRef">frameNameRef</A></H1>
+<PRE>
+<I>frameNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#extendFrameDef">extendFrameDef</A>  !<A HREF="RMRF0009.HTM#forFrameMemberRef">forFrameMemberRef</A>  !<A HREF="RMRF0009.HTM#forFrameRef">forFrameRef</A>  !<A HREF="RMRF0009.HTM#frameConfiguration">frameConfiguration</A>  !<A HREF="RMRF0009.HTM#frameRef">frameRef</A>  !<A HREF="RMRF0010.HTM#ifFrameRef">ifFrameRef</A>  !<A HREF="RMRF0018.HTM#otherwiseFrameRef">otherwiseFrameRef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#frameNameRef">FrameNameRef</A></I> is a reference to a <I><A HREF="RMRF0009.HTM#frameNameDef">frameNameDef</A></I>. 
+<P><HR>
+<H1><A NAME="frameRef">frameRef</A></H1>
+<PRE>
+<I>frameRef ::= '(' 'frameRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#frameNameRef">frameNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#connectivityFrameStructure">connectivityFrameStructure</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#forFrameIndexRef">forFrameIndexRef</A> <A HREF="RMRF0009.HTM#forFrameMemberRef">forFrameMemberRef</A> <A HREF="RMRF0009.HTM#forFrameRef">forFrameRef</A> <A HREF="RMRF0010.HTM#ifFrameRef">ifFrameRef</A> <A HREF="RMRF0018.HTM#otherwiseFrameRef">otherwiseFrameRef</A> <A HREF="RMRF0058.HTM#schematicForFrameBorderTemplateRef">schematicForFrameBorderTemplateRef</A> <A HREF="RMRF0058.HTM#schematicIfFrameBorderTemplateRef">schematicIfFrameBorderTemplateRef</A> <A HREF="RMRF0059.HTM#schematicOtherwiseFrameBorderTemplateRef">schematicOtherwiseFrameBorderTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#frameRef">FrameRef</A></I> references an <I><A HREF="RMRF0010.HTM#ifFrame">ifFrame</A></I>, <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I> or <I><A HREF="RMRF0018.HTM#otherwiseFrame">otherwiseFrame</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityFrameStructure FRAME1</B>
+<B>   (frameRef FRAME1_LOGICAL)</B>
+<B>   (connectivityNet NET1 ...)</B>
+<B>   (connectivityBus BUS1 ...) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="frequencyValue">frequencyValue</A></H1>
+<PRE>
+<I>frequencyValue ::= <A HREF="RMRF0015.HTM#miNoMaxValue">miNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0059.HTM#schematicPortAcPowerRecommendedFrequency">schematicPortAcPowerRecommendedFrequency</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#frequencyValue">FrequencyValue</A></I> is a frequency value in units specified by <I><A HREF="RMRF0061.HTM#setFrequency">setFrequency</A></I>.
+<P><HR>
+<H1><A NAME="fromBottom">fromBottom</A></H1>
+<PRE>
+<I>fromBottom ::= '(' 'fromBottom'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0010.HTM#hotspotConnectDirection">hotspotConnectDirection</A>  
+</I>
+<H3>Description:</H3>
+<P>A hotspot may prefer connections to be made to it from one or more specific directions. <I><A HREF="RMRF0009.HTM#fromBottom">FromBottom</A></I> specifies that a preferred direction is from the bottom of the hotspot.
+<H3>Example:</H3>
+<PRE>
+<B>(hotspotConnectDirection (fromBottom) (fromRight))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="fromInteger">fromInteger</A></H1>
+<PRE>
+<I>fromInteger ::= <A HREF="RMRF0012.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#sequence">sequence</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#fromInteger">FromInteger</A></I> specifies the beginning of a sequence of integers.
+<H3>Example:</H3>
+<PRE>
+<B>(sequence 7 2 (step 1))</B>
+</PRE>
+<P>Here, the sequence starts at 7, the value specified by <I><A HREF="RMRF0009.HTM#fromInteger">fromInteger</A></I>.
+<P><HR>
+<H1><A NAME="fromLeft">fromLeft</A></H1>
+<PRE>
+<I>fromLeft ::= '(' 'fromLeft'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0010.HTM#hotspotConnectDirection">hotspotConnectDirection</A>  
+</I>
+<H3>Description:</H3>
+<P>A hotspot may prefer connections to be made to it from one or more specific directions. <I><A HREF="RMRF0009.HTM#fromLeft">FromLeft</A></I> specifies that a preferred direction is from the left of the hotspot.
+<H3>Example:</H3>
+<PRE>
+<B>(hotspotConnectDirection (fromLeft) )</B>
+</PRE>
+<P><HR>
+<H1><A NAME="fromRight">fromRight</A></H1>
+<PRE>
+<I>fromRight ::= '(' 'fromRight'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0010.HTM#hotspotConnectDirection">hotspotConnectDirection</A>  
+</I>
+<H3>Description:</H3>
+<P>A hotspot may prefer connections to be made to it from one or more specific directions. <I><A HREF="RMRF0009.HTM#fromRight">FromRight</A></I> specifies that a preferred direction is from the right of the hotspot.
+<H3>Example:</H3>
+<PRE>
+<B>(hotspotConnectDirection (fromBottom) (fromRight))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="fromTop">fromTop</A></H1>
+<PRE>
+<I>fromTop ::= '(' 'fromTop'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0010.HTM#hotspotConnectDirection">hotspotConnectDirection</A>  
+</I>
+<H3>Description:</H3>
+<P>A hotspot may prefer connections to be made to it from one or more specific directions. <I><A HREF="RMRF0009.HTM#fromTop">FromTop</A></I> specifies that a preferred direction is from the top of the hotspot.
+<H3>Example:</H3>
+<PRE>
+<B>(hotspotConnectDirection (fromTop))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="generated">generated</A></H1>
+<PRE>
+<I>generated ::= '(' 'generated'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameAlias">nameAlias</A>  &lt;<A HREF="RMRF0056.HTM#primaryName">primaryName</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#generated">Generated</A></I> is used to indicate whether an <I><A HREF="RMRF0018.HTM#originalName">originalName</A></I> was generated by the system rather than provided by a user. A name that is not generated (the default) is typically of more value to the user and the system reading the EDIF data should endeavor to keep it. 
+<H3>Example:</H3>
+<PRE>
+<B>(nameInformation </B>
+<B>   (primaryName "I$1"</B>
+<B>      (generated)))</B>
+</PRE>
+<P>This example shows an object has an <I><A HREF="RMRF0018.HTM#originalName">originalName</A></I> I$1, which was generated by the originating system, i.e. not defined by the user.
+<P><HR>
+<H1><A NAME="geometryElementSet">geometryElementSet</A></H1>
+<PRE>
+<I>geometryElementSet ::= '(' 'geometryElementSet'</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#circle">circle</A> | <A HREF="RMRF0002.HTM#circleByCenter">circleByCenter</A> | <A HREF="RMRF0002.HTM#closedAreaWithCutout">closedAreaWithCutout</A> | <A HREF="RMRF0006.HTM#dot">dot</A> | <A HREF="RMRF0017.HTM#openShape">openShape</A> | <A HREF="RMRF0019.HTM#path">path</A> | 
+&#09;<A HREF="RMRF0055.HTM#polygon">polygon</A> | <A HREF="RMRF0056.HTM#rectangle">rectangle</A> | <A HREF="RMRF0061.HTM#shape">shape</A> | <A HREF="RMRF0064.HTM#unfilledCircle">unfilledCircle</A> | <A HREF="RMRF0064.HTM#unfilledCircleByCenter">unfilledCircleByCenter</A> | 
+&#09;<A HREF="RMRF0065.HTM#unfilledPolygon">unfilledPolygon</A> | <A HREF="RMRF0065.HTM#unfilledRectangle">unfilledRectangle</A> | <A HREF="RMRF0065.HTM#unfilledShape">unfilledShape</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0021.HTM#pcbBoardSubsetConstructionFigure">pcbBoardSubsetConstructionFigure</A>  !<A HREF="RMRF0026.HTM#pcbDieFiducialTemplate">pcbDieFiducialTemplate</A>  &lt;<A HREF="RMRF0029.HTM#pcbDimensionEndGeometryNonStandard">pcbDimensionEndGeometryNonStandard</A>  &lt;<A HREF="RMRF0032.HTM#pcbDrawingFigure">pcbDrawingFigure</A>  &lt;<A HREF="RMRF0048.HTM#pcbPhysicalFigure">pcbPhysicalFigure</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Defines a set of geometry elements. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrawingFigure Default_Attrs</B>
+<B>   (geometryElementSet</B>
+<B>      (circle (pt 50 50) (pt 56 50))</B>
+<B>      (path (pointList (pt 49 50) (pt 57 50)))</B>
+<B>      (path (pointList (pt 53 46) (pt 53 54))))) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="geometryMacro">geometryMacro</A></H1>
+<PRE>
+<I>geometryMacro ::= '(' 'geometryMacro'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0009.HTM#geometryMacroHeader">geometryMacroHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#circle">circle</A> | <A HREF="RMRF0002.HTM#circleByCenter">circleByCenter</A> | <A HREF="RMRF0002.HTM#closedAreaWithCutout">closedAreaWithCutout</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | 
+&#09;<A HREF="RMRF0003.HTM#complexGeometry">complexGeometry</A> | <A HREF="RMRF0006.HTM#dot">dot</A> | <A HREF="RMRF0017.HTM#openShape">openShape</A> | <A HREF="RMRF0019.HTM#path">path</A> | <A HREF="RMRF0055.HTM#polygon">polygon</A> | <A HREF="RMRF0056.HTM#rectangle">rectangle</A> | <A HREF="RMRF0061.HTM#shape">shape</A> | 
+&#09;<A HREF="RMRF0064.HTM#unfilledCircle">unfilledCircle</A> | <A HREF="RMRF0064.HTM#unfilledCircleByCenter">unfilledCircleByCenter</A> | <A HREF="RMRF0065.HTM#unfilledPolygon">unfilledPolygon</A> | <A HREF="RMRF0065.HTM#unfilledRectangle">unfilledRectangle</A> 
+&#09;| <A HREF="RMRF0065.HTM#unfilledShape">unfilledShape</A> | <A HREF="RMRF0065.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#geometryMacroRef">geometryMacroRef</A> <A HREF="RMRF0009.HTM#geometryMacroUnits">geometryMacroUnits</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A></I> used within the context of schematics must not contain unfilled elements.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#geometryMacro">GeometryMacro</A></I> is used to define a set of graphical entities for later use. The units of angle are given in <I><A HREF="RMRF0009.HTM#geometryMacroUnits">geometryMacroUnits</A></I> .
+<P>The units of distance are those defined for the <I><A HREF="RMRF0008.HTM#figure">figure</A></I> context in which the geometry macro is used.
+<H3>Example:</H3>
+<PRE>
+<B>(geometryMacro BULLET</B>
+<B>   (geometryMacroHeader ...)</B>
+<B>   (shape </B>
+<B>      (curve (arc (pt 0 -50) (numberPoint -50 0) (pt 0 50))</B>
+<B>         (arc (pt 200 50) (numberPoint 250 0) </B>
+<B>            (pt 200 -50)))))</B>
+</PRE>
+<P>This example shows the definition of a bullet shape, as shown below.
+<P><CENTER><IMG SRC="FIG0058.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="geometryMacroHeader">geometryMacroHeader</A></H1>
+<PRE>
+<I>geometryMacroHeader ::= '(' 'geometryMacroHeader'</I>
+&#09;<I><A HREF="RMRF0009.HTM#geometryMacroUnits">geometryMacroUnits</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#backgroundColor">backgroundColor</A>&gt; | <A HREF="RMRF0006.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0017.HTM#originalBoundingBox">originalBoundingBox</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> | &lt;<A HREF="RMRF0062.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#geometryMacroHeader">GeometryMacroHeader</A></I> provides header information for a <I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A></I>. In the context of <I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A></I>, the geometry is not associated with a <I><A HREF="RMRF0008.HTM#figureGroup">figureGroup</A></I> and so the lines have no thickness defined.
+<H3>Example:</H3>
+<PRE>
+<B>(geometryMacroHeader </B>
+<B>   (geometryMacroUnits (setAngle (unitRef degrees)))</B>
+<B>   ...)</B>
+</PRE>
+<P>This example shows a <I><A HREF="RMRF0009.HTM#geometryMacroHeader">geometryMacroHeader</A></I>. The angle units for the <I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A></I> are in degrees.
+<P><HR>
+<H1><A NAME="geometryMacroRef">geometryMacroRef</A></H1>
+<PRE>
+<I>geometryMacroRef ::= '(' 'geometryMacroRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#complexGeometry">complexGeometry</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#geometryMacroRef">GeometryMacroRef</A></I> references a previously-defined <I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(geometryMacroRef BULLET)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="geometryMacroUnits">geometryMacroUnits</A></H1>
+<PRE>
+<I>geometryMacroUnits ::= '(' 'geometryMacroUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0061.HTM#setAngle">setAngle</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0009.HTM#geometryMacroHeader">geometryMacroHeader</A>  &lt;<A HREF="RMRF0054.HTM#physicalScaling">physicalScaling</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#geometryMacroUnits">GeometryMacroUnits</A></I> defines the units for <I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A></I>. It may be specified as a default for the entire data in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or for a library in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. Refer to <I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A></I> for a full example.
+<P><HR>
+<H1><A NAME="glassMaterial">glassMaterial</A></H1>
+<PRE>
+<I>glassMaterial ::= '(' 'glassMaterial'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0044.HTM#pcbPackageBodyMaterialType">pcbPackageBodyMaterialType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#glassSealedCeramicMaterial">glassSealedCeramicMaterial</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the package is predominantly made from glass.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage DIODE_T1 ...</B>
+<B>   (pcbPackageBodyMaterial</B>
+<B>      (glassMaterial)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="glassSealedCeramicMaterial">glassSealedCeramicMaterial</A></H1>
+<PRE>
+<I>glassSealedCeramicMaterial ::= '(' 'glassSealedCeramicMaterial'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0044.HTM#pcbPackageBodyMaterialType">pcbPackageBodyMaterialType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#glassMaterial">glassMaterial</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the package is predominantly ceramic and is hermetically sealed using glass.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage DILGSC20 ...</B>
+<B>   (pcbPackageBodyMaterial</B>
+<B>      (glassSealedCeramicMaterial)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="globalPort">globalPort</A></H1>
+<PRE>
+<I>globalPort ::= '(' 'globalPort'</I>
+&#09;<I><A HREF="RMRF0010.HTM#globalPortNameDef">globalPortNameDef</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> | 
+&#09;&lt;<A HREF="RMRF0058.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A>&gt; | <A HREF="RMRF0065.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0009.HTM#globalPortDefinitions">globalPortDefinitions</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#globalPortBundle">globalPortBundle</A> <A HREF="RMRF0009.HTM#globalPortList">globalPortList</A> <A HREF="RMRF0009.HTM#globalPortNameCaseSensitive">globalPortNameCaseSensitive</A> <A HREF="RMRF0010.HTM#globalPortNameDisplay">globalPortNameDisplay</A> <A HREF="RMRF0010.HTM#globalPortNameRef">globalPortNameRef</A> <A HREF="RMRF0010.HTM#globalPortPropertyDisplay">globalPortPropertyDisplay</A> <A HREF="RMRF0010.HTM#globalPortRef">globalPortRef</A> <A HREF="RMRF0010.HTM#globalPortScope">globalPortScope</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0058.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A> <A HREF="RMRF0058.HTM#schematicGlobalPortImplementationRef">schematicGlobalPortImplementationRef</A> <A HREF="RMRF0058.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A> <A HREF="RMRF0058.HTM#schematicGlobalPortTemplateRef">schematicGlobalPortTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#globalPort">GlobalPort</A></I> is used to define a global port. This is used to establish connectivity across <I><A HREF="RMRF0011.HTM#instance">instances</A></I> within an instance hierarchy without passing <I><A HREF="RMRF0062.HTM#signal">signals</A></I> through the <I><A HREF="RMRF0055.HTM#port">ports</A></I> of the cell clusters instanced in the hierarchy.
+<P>All <I><A HREF="RMRF0062.HTM#signal">signals</A></I> in a branch of the design hierarchy which refer to the same <I><A HREF="RMRF0009.HTM#globalPort">globalPort</A></I> are connected together. The branch of the design hierarchy is identified by <I><A HREF="RMRF0010.HTM#globalPortScope">globalPortScope</A></I>. See <I><A HREF="RMRF0010.HTM#globalPortScope">globalPortScope</A></I>.
+<P>The <I><A HREF="RMRF0058.HTM#schematicGlobalPortAttributes">schematicGlobalPortAttributes</A></I> construct adds descriptive information to the <I><A HREF="RMRF0009.HTM#globalPort">globalPort</A></I>. The information specifies what kind of global signal the <I><A HREF="RMRF0009.HTM#globalPort">globalPort</A></I> represents in the schematics. No connectivity is implied. For default connectivity, refer to <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(globalPort VCCA)</B>
+<B>...</B>
+<B>(library libA </B>
+<B>   (libraryHeader ...)</B>
+<B>   (cell cellA</B>
+<B>      ...</B>
+<B>      (cluster C1 ...</B>
+<B>         (schematicView view1 </B>
+<B>            (schematicViewHeader ...)</B>
+<B>            (logicalConnectivity ...</B>
+<B>               (signal sigVCC </B>
+<B>                  (signalJoined</B>
+<B>                     (globalPortRef VCCA) ... ))</B>
+<B>               ...) </B>
+<B>            (schematicImplementation ...)) ...) ...)</B>
+<B>   (cell cellB</B>
+<B>      ...</B>
+<B>      (cluster C1 (interface ...) ...</B>
+<B>         (schematicView view1 </B>
+<B>            (schematicViewHeader ...)</B>
+<B>            (logicalConnectivity ...</B>
+<B>               (instance inst1 </B>
+<B>                  (clusterRef C1 </B>
+<B>                     (cellRef cellA)))</B>
+<B>               (instance inst2 </B>
+<B>                  (clusterRef C1 </B>
+<B>                     (cellRef cellA)))</B>
+<B>               (signal sigVCC1 </B>
+<B>                  (signalJoined </B>
+<B>                     (globalPortRef VCCA) ...))</B>
+<B>               ...) </B>
+<B>            (schematicImplementation ...) ...) ...)</B>
+<B>      ...) ...)</B>
+</PRE>
+<P>In this example, it is assumed that the design hierarchy begins at view V1 in cell B and that the instances inst1 and inst2 are expanded using view view1 of cell A.
+<P>The signals sigVCC in inst1 and in inst2 will both be connected to the signal sigVCC1 in view view1 of cell B.
+<P><HR>
+<H1><A NAME="globalPortBundle">globalPortBundle</A></H1>
+<PRE>
+<I>globalPortBundle ::= '(' 'globalPortBundle'</I>
+&#09;<I><A HREF="RMRF0010.HTM#globalPortNameDef">globalPortNameDef</A></I>
+&#09;<I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> | <A HREF="RMRF0065.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0009.HTM#globalPortDefinitions">globalPortDefinitions</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#globalPort">globalPort</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0055.HTM#portBundle">portBundle</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#globalPortBundle">GlobalPortBundle</A></I> defines a wide global port, in a manner analogous with <I><A HREF="RMRF0055.HTM#portBundle">portBundle</A></I>.
+<P>The individual ports within the bundle, as listed in <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, must have been defined previously. A <I><A HREF="RMRF0009.HTM#globalPortBundle">globalPortBundle</A></I> may include another <I><A HREF="RMRF0009.HTM#globalPortBundle">globalPortBundle</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(globalPort VCC)</B>
+<B>(globalPort GND)</B>
+<B>(globalPortBundle power_and_ground</B>
+<B>   (globalPortList </B>
+<B>      (globalPortRef VCC)</B>
+<B>      (globalPortRef GND)))</B>
+</PRE>
+<P>In this example, a global port bundle power_and_ground with two previously-defined global ports, VCC and GND, is defined.
+<P><HR>
+<H1><A NAME="globalPortDefinitions">globalPortDefinitions</A></H1>
+<PRE>
+<I>globalPortDefinitions ::= '(' 'globalPortDefinitions'</I>
+&#09;<I>{ <A HREF="RMRF0009.HTM#globalPort">globalPort</A> | <A HREF="RMRF0009.HTM#globalPortBundle">globalPortBundle</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0007.HTM#edifHeader">edifHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#port">port</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#globalPortDefinitions">GlobalPortDefinitions</A></I> collects together all the definitions of global ports and global port bundles. These are defined once at the top of the file and may be referenced later in the file.
+<H3>Example:</H3>
+<PRE>
+<B>(globalPortDefinitions</B>
+<B>   (globalPort VCC)</B>
+<B>   (globalPort GND)</B>
+<B>   (globalPortBundle POWER_AND_GROUND</B>
+<B>      (globalPortList </B>
+<B>         (globalPortRef VCC)</B>
+<B>         (globalPortRef GND))))</B>
+</PRE>
+<P>In this example, two global ports, VCC and GND, and a <I><A HREF="RMRF0009.HTM#globalPortBundle">globalPortBundle</A></I> POWER_AND_GROUND are declared.
+<P><HR>
+<H1><A NAME="globalPortList">globalPortList</A></H1>
+<PRE>
+<I>globalPortList ::= '(' 'globalPortList'</I>
+&#09;<I>{ <A HREF="RMRF0010.HTM#globalPortRef">globalPortRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0009.HTM#globalPortBundle">globalPortBundle</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#globalPort">globalPort</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0055.HTM#portList">portList</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0009.HTM#globalPortBundle">globalPortBundle</A></I> may not reference a <I><A HREF="RMRF0009.HTM#globalPort">globalPort</A></I> or <I><A HREF="RMRF0009.HTM#globalPortBundle">globalPortBundle</A></I> more than once, either directly or indirectly.
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#globalPortList">GlobalPortList</A></I> defines an ordered list of references to previously-defined global ports. It is used to define the content of a <I><A HREF="RMRF0009.HTM#globalPortBundle">globalPortBundle</A></I>. Each <I><A HREF="RMRF0010.HTM#globalPortRef">globalPortRef</A></I> within a <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I> must be unique.
+<P><HR>
+<H1><A NAME="globalPortNameCaseSensitive">globalPortNameCaseSensitive</A></H1>
+<PRE>
+<I>globalPortNameCaseSensitive ::= '(' 'globalPortNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#globalPort">globalPort</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0055.HTM#portNameCaseSensitive">portNameCaseSensitive</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0009.HTM#globalPortNameCaseSensitive">GlobalPortNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for global ports are to be considered as case sensitive. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

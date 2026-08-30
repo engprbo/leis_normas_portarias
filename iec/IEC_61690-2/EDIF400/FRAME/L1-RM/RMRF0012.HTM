@@ -1,0 +1,703 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="integerConstant">integerConstant</A></H1>
+<PRE>
+<I>integerConstant ::= '(' 'integerConstant'</I>
+&#09;<I><A HREF="RMRF0003.HTM#constantNameDef">constantNameDef</A></I>
+&#09;<I><A HREF="RMRF0012.HTM#integerToken">integerToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0004.HTM#constantValues">constantValues</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> <A HREF="RMRF0012.HTM#integerConstantRef">integerConstantRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Names and assigns a value to an <I><A HREF="RMRF0012.HTM#integerConstant">integerConstant</A></I>. The constant may be used within <I><A HREF="RMRF0012.HTM#integerExpression">integerExpressions</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(integerConstant busWidth 16)</B>
+</PRE>
+<P>This defines an <I><A HREF="RMRF0012.HTM#integerConstant">integerConstant</A></I> named busWidth and assigns to it the value 16. 
+<P><HR>
+<H1><A NAME="integerConstantRef">integerConstantRef</A></H1>
+<PRE>
+<I>integerConstantRef ::= '(' 'integerConstantRef'</I>
+&#09;<I><A HREF="RMRF0004.HTM#constantNameRef">constantNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> <A HREF="RMRF0012.HTM#integerConstant">integerConstant</A> 
+</I>
+<H3>Description:</H3>
+<P>Refers to an <I><A HREF="RMRF0012.HTM#integerConstant">integerConstant</A></I> defined within the <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(edifHeader ...</B>
+<B>   (constantValues</B>
+<B>      (integerConstant maxWidth 32)))</B>
+<B>...</B>
+<B>(lessThan</B>
+<B>   (integerParameterRef w)</B>
+<B>   (integerConstantRef maxWidth))</B>
+</PRE>
+<P>Here, the <I><A HREF="RMRF0012.HTM#integerConstant">integerConstant</A></I> maxWidth is used in a <I><A HREF="RMRF0014.HTM#lessThan">lessThan</A></I> construct. 
+<P><HR>
+<H1><A NAME="integerEqual">integerEqual</A></H1>
+<PRE>
+<I>integerEqual ::= '(' 'integerEqual'</I>
+&#09;<I><A HREF="RMRF0008.HTM#firstIntegerExpression">firstIntegerExpression</A></I>
+&#09;<I><A HREF="RMRF0061.HTM#secondIntegerExpression">secondIntegerExpression</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> 
+</I>
+<H3>Description:</H3>
+<P>This <I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A></I> evaluates to <I><A HREF="RMRF0064.HTM#true">true</A></I> if the two <I><A HREF="RMRF0012.HTM#integerExpression">integerExpressions</A></I> are equal.
+<H3>Example:</H3>
+<PRE>
+<B>(integerEqual</B>
+<B>   (integerParameterRef x)</B>
+<B>   (integerParameterRef y))</B>
+</PRE>
+<P>This yields <I><A HREF="RMRF0064.HTM#true">true</A></I> whenever x = y. 
+<P><HR>
+<H1><A NAME="integerExpression">integerExpression</A></H1>
+<PRE>
+<I>integerExpression ::= ( <A HREF="RMRF0012.HTM#integerParameterRef">integerParameterRef</A> | <A HREF="RMRF0012.HTM#integerToken">integerToken</A> | <A HREF="RMRF0012.HTM#integerProduct">integerProduct</A> | 
+&#09;<A HREF="RMRF0012.HTM#integerSubtract">integerSubtract</A> | <A HREF="RMRF0012.HTM#integerSum">integerSum</A> | <A HREF="RMRF0012.HTM#integerRemainder">integerRemainder</A> | <A HREF="RMRF0012.HTM#integerQuotient">integerQuotient</A> | 
+&#09;<A HREF="RMRF0063.HTM#stringLength">stringLength</A> | <A HREF="RMRF0012.HTM#integerConstantRef">integerConstantRef</A> | <A HREF="RMRF0009.HTM#forFrameIndexRef">forFrameIndexRef</A> | <A HREF="RMRF0055.HTM#portIndexValue">portIndexValue</A> | 
+&#09;<A HREF="RMRF0062.HTM#signalIndexValue">signalIndexValue</A> | <A HREF="RMRF0000.HTM#absolute">absolute</A> | <A HREF="RMRF0011.HTM#instanceIndexValue">instanceIndexValue</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0000.HTM#absolute">absolute</A>  !<A HREF="RMRF0003.HTM#connectedSignalIndexGenerator">connectedSignalIndexGenerator</A>  !<A HREF="RMRF0004.HTM#decimalToString">decimalToString</A>  <A HREF="RMRF0005.HTM#dividend">dividend</A>  <A HREF="RMRF0006.HTM#divisor">divisor</A>  <A HREF="RMRF0008.HTM#firstIntegerExpression">firstIntegerExpression</A>  !<A HREF="RMRF0011.HTM#indexStart">indexStart</A>  !<A HREF="RMRF0011.HTM#indexStep">indexStep</A>  !<A HREF="RMRF0011.HTM#instanceWidth">instanceWidth</A>  !<A HREF="RMRF0011.HTM#integer">integer</A>  !<A HREF="RMRF0012.HTM#integerParameterAssign">integerParameterAssign</A>  *<A HREF="RMRF0012.HTM#integerProduct">integerProduct</A>  *<A HREF="RMRF0012.HTM#integerSum">integerSum</A>  *<A HREF="RMRF0014.HTM#lessThan">lessThan</A>  *<A HREF="RMRF0014.HTM#lessThanOrEqual">lessThanOrEqual</A>  <A HREF="RMRF0016.HTM#minuend">minuend</A>  !<A HREF="RMRF0056.HTM#portWidth">portWidth</A>  !<A HREF="RMRF0057.HTM#repetitionCount">repetitionCount</A>  <A HREF="RMRF0061.HTM#secondIntegerExpression">secondIntegerExpression</A>  !<A HREF="RMRF0062.HTM#signalWidth">signalWidth</A>  <A HREF="RMRF0063.HTM#substringLength">substringLength</A>  <A HREF="RMRF0063.HTM#substringOffset">substringOffset</A>  <A HREF="RMRF0063.HTM#subtrahend">subtrahend</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#integerExpression">IntegerExpressions</A></I> are evaluated only during the process of design hierarchy expansion, not during transfer of the data between systems.
+<P>The expression may contain parameter and index references.
+<H3>Example:</H3>
+<PRE>
+<B>(integerSum (forFrameIndexRef I) 4)</B>
+</PRE>
+<P>Here, the <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> is the sum of the <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I> index and the value 4. 
+<P><HR>
+<H1><A NAME="integerParameter">integerParameter</A></H1>
+<PRE>
+<I>integerParameter ::= '(' 'integerParameter'</I>
+&#09;<I><A HREF="RMRF0019.HTM#parameterNameDef">parameterNameDef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0011.HTM#integer">integer</A>&gt; | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0012.HTM#interface">interface</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0012.HTM#integerParameterAssign">integerParameterAssign</A> <A HREF="RMRF0012.HTM#integerParameterRef">integerParameterRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines an <I><A HREF="RMRF0012.HTM#integerParameter">integerParameter</A></I> and optionally specifies its default value. A <I><A HREF="RMRF0019.HTM#parameterNameRef">parameterNameRef</A></I> corresponding to the <I><A HREF="RMRF0019.HTM#parameterNameDef">parameterNameDef</A></I> may be used in expressions within the containing cluster, including in subsequent parameter definitions. The parameter may be assigned a value using <I><A HREF="RMRF0012.HTM#integerParameterAssign">integerParameterAssign</A></I>.
+<P>If no default is specified there must be a corresponding parameter assignment in all instances of the containing cluster. The parameter is used during expansion of the design hierarchy only. 
+<H3>Example:</H3>
+<PRE>
+<B>(integerParameter dataWidth (integer 32))</B>
+</PRE>
+<P>This defines the <I><A HREF="RMRF0012.HTM#integerParameter">integerParameter</A></I> named dataWidth and assigns the default value 32 to it. 
+<P><HR>
+<H1><A NAME="integerParameterAssign">integerParameterAssign</A></H1>
+<PRE>
+<I>integerParameterAssign ::= '(' 'integerParameterAssign'</I>
+&#09;<I><A HREF="RMRF0019.HTM#parameterNameRef">parameterNameRef</A></I>
+&#09;<I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0005.HTM#designHierarchyHeader">designHierarchyHeader</A>  *<A HREF="RMRF0011.HTM#instance">instance</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> <A HREF="RMRF0012.HTM#integerParameter">integerParameter</A> 
+</I>
+<H3>Description:</H3>
+<P>Assigns a value to an <I><A HREF="RMRF0012.HTM#integerParameter">integerParameter</A></I> which has been defined within the interface of the instantiated cluster.
+<H3>Example:</H3>
+<PRE>
+<B>(instance ...</B>
+<B>   (integerParameterAssign dataWidth 8))</B>
+</PRE>
+<P>This assigns the value 8 to the <I><A HREF="RMRF0012.HTM#integerParameter">integerParameter</A></I> named dataWidth. 
+<P><HR>
+<H1><A NAME="integerParameterRef">integerParameterRef</A></H1>
+<PRE>
+<I>integerParameterRef ::= '(' 'integerParameterRef'</I>
+&#09;<I><A HREF="RMRF0019.HTM#parameterNameRef">parameterNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> <A HREF="RMRF0012.HTM#integerParameter">integerParameter</A> 
+</I>
+<H3>Description:</H3>
+<P>This refers to a parameter defined by an <I><A HREF="RMRF0012.HTM#integerParameter">integerParameter</A></I> construct in the interface of the containing cluster.
+<H3>Example:</H3>
+<PRE>
+<B>(integerSum </B>
+<B>   (integerParameterRef mantissaLength)</B>
+<B>   (integerParameterRef exponentLength))</B>
+</PRE>
+<P>Here, two <I><A HREF="RMRF0012.HTM#integerParameter">integerParameters</A></I> are referenced in an <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I>. 
+<P><HR>
+<H1><A NAME="integerProduct">integerProduct</A></H1>
+<PRE>
+<I>integerProduct ::= '(' 'integerProduct'</I>
+&#09;<I>{ <A HREF="RMRF0012.HTM#integerExpression">integerExpression</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> 
+</I>
+<H3>Description:</H3>
+<P>This evaluates to the product of the values of the nested <I><A HREF="RMRF0012.HTM#integerExpression">integerExpressions</A></I>. <I><A HREF="RMRF0012.HTM#integerProduct">IntegerProduct</A></I> evaluates to one if no <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> is specified.
+<H3>Example:</H3>
+<PRE>
+<B>(integerProduct 2 3)</B>
+</PRE>
+<P>This example yields 6. 
+<P><HR>
+<H1><A NAME="integerQuotient">integerQuotient</A></H1>
+<PRE>
+<I>integerQuotient ::= '(' 'integerQuotient'</I>
+&#09;<I><A HREF="RMRF0005.HTM#dividend">dividend</A></I>
+&#09;<I><A HREF="RMRF0006.HTM#divisor">divisor</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> 
+</I>
+<H3>Description:</H3>
+<P>This performs a division and supplies the result's quotient, rounded down. The <I><A HREF="RMRF0005.HTM#dividend">dividend</A></I> is divided by the <I><A HREF="RMRF0006.HTM#divisor">divisor</A></I>. 
+<P>The following are satisfied:
+<P><I><A HREF="RMRF0005.HTM#dividend">dividend</A></I> = quotient * <I><A HREF="RMRF0006.HTM#divisor">divisor</A>  </I>+ remainder
+<P>0 &lt;= remainder &lt; <I><A HREF="RMRF0006.HTM#divisor">divisor</A>
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(integerQuotient 8 4)</B>
+</PRE>
+<P>The above example yields 2.
+<PRE>
+<B>(integerQuotient 10 3)</B>
+</PRE>
+<P>The above example yields 3.
+<PRE>
+<B>(integerQuotient -8 2)</B>
+</PRE>
+<P>The above example yields -4.
+<PRE>
+<B>(integerQuotient -14 3)</B>
+</PRE>
+<P>The above example yields -5. 
+<P><HR>
+<H1><A NAME="integerRemainder">integerRemainder</A></H1>
+<PRE>
+<I>integerRemainder ::= '(' 'integerRemainder'</I>
+&#09;<I><A HREF="RMRF0005.HTM#dividend">dividend</A></I>
+&#09;<I><A HREF="RMRF0006.HTM#divisor">divisor</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> 
+</I>
+<H3>Description:</H3>
+<P>This performs a division and supplies the result's remainder. The <I><A HREF="RMRF0005.HTM#dividend">dividend</A></I> is divided by the <I><A HREF="RMRF0006.HTM#divisor">divisor</A></I>. 
+<P>The following are satisfied:
+<P><I><A HREF="RMRF0005.HTM#dividend">dividend</A></I> = quotient * <I><A HREF="RMRF0006.HTM#divisor">divisor</A>  </I>+ remainder
+<P>0 &lt;= remainder &lt; <I><A HREF="RMRF0006.HTM#divisor">divisor</A>
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(integerRemainder 20 16)</B>
+</PRE>
+<P>The above example yields 4.
+<PRE>
+<B>(integerRemainder -2 8)</B>
+</PRE>
+<P>The above example yields 6.
+<PRE>
+<B>(integerRemainder 10 5)</B>
+</PRE>
+<P>The above example yields 0. 
+<P><HR>
+<H1><A NAME="integerSubtract">integerSubtract</A></H1>
+<PRE>
+<I>integerSubtract ::= '(' 'integerSubtract'</I>
+&#09;<I><A HREF="RMRF0016.HTM#minuend">minuend</A></I>
+&#09;<I><A HREF="RMRF0063.HTM#subtrahend">subtrahend</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> 
+</I>
+<H3>Description:</H3>
+<P>This <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> evaluates to the value of <I><A HREF="RMRF0016.HTM#minuend">minuend</A></I> minus the value of <I><A HREF="RMRF0063.HTM#subtrahend">subtrahend</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(integerSubtract</B>
+<B>   (integerParameterRef u)</B>
+<B>   (integerParameterRef v))</B>
+</PRE>
+<P>This yields the value of u minus the value of v. 
+<P><HR>
+<H1><A NAME="integerSum">integerSum</A></H1>
+<PRE>
+<I>integerSum ::= '(' 'integerSum'</I>
+&#09;<I>{ <A HREF="RMRF0012.HTM#integerExpression">integerExpression</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> 
+</I>
+<H3>Description:</H3>
+<P>This <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> evaluates to the sum of the nested <I><A HREF="RMRF0012.HTM#integerExpression">integerExpressions</A></I>. <I><A HREF="RMRF0012.HTM#integerSum">IntegerSum</A></I> evaluates to zero if no <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> is specified.
+<H3>Example:</H3>
+<PRE>
+<B>(integerSum (integerParameterRef p) 4)</B>
+</PRE>
+<P>This yields the value p plus 4. 
+<P><HR>
+<H1><A NAME="integerToken">integerToken</A></H1>
+<PRE>
+<B>[ '-' | '+' ] </B>
+<B><A HREF="RMRF0005.HTM#digit">digit</A></B>
+<B>{ <A HREF="RMRF0005.HTM#digit">digit</A> }</B>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#dayNumber">dayNumber</A>  <A HREF="RMRF0007.HTM#edifLevelValue">edifLevelValue</A>  <A HREF="RMRF0007.HTM#exponent">exponent</A>  <A HREF="RMRF0009.HTM#fromInteger">fromInteger</A>  <A HREF="RMRF0010.HTM#hourNumber">hourNumber</A>  *<A HREF="RMRF0010.HTM#ieeeSection">ieeeSection</A>  !<A HREF="RMRF0012.HTM#integerConstant">integerConstant</A>  <A HREF="RMRF0012.HTM#integerExpression">integerExpression</A>  <A HREF="RMRF0012.HTM#integerValue">integerValue</A>  <A HREF="RMRF0013.HTM#iso8859Part">iso8859Part</A>  <A HREF="RMRF0013.HTM#issue">issue</A>  *<A HREF="RMRF0013.HTM#k2Literal">k2Literal</A>  <A HREF="RMRF0015.HTM#mantissa">mantissa</A>  <A HREF="RMRF0015.HTM#mark">mark</A>  <A HREF="RMRF0016.HTM#minuteNumber">minuteNumber</A>  <A HREF="RMRF0016.HTM#monthNumber">monthNumber</A>  <A HREF="RMRF0017.HTM#nonNegativeInteger">nonNegativeInteger</A>  <A HREF="RMRF0056.HTM#positiveInteger">positiveInteger</A>  <A HREF="RMRF0057.HTM#rowSize">rowSize</A>  <A HREF="RMRF0057.HTM#scaledInteger">scaledInteger</A>  <A HREF="RMRF0061.HTM#secondNumber">secondNumber</A>  <A HREF="RMRF0063.HTM#subIssue">subIssue</A>  <A HREF="RMRF0064.HTM#toInteger">toInteger</A>  !<A HREF="RMRF0064.HTM#totalPages">totalPages</A>  *<A HREF="RMRF0065.HTM#userData">userData</A>  <A HREF="RMRF0067.HTM#yearNumber">yearNumber</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#integerToken">IntegerToken</A></I> is a basic EDIF token, expressed in normal decimal notation. Its absolute value must be less than 2<SUP>31</SUP>. <I><A HREF="RMRF0012.HTM#integerToken">IntegerTokens</A></I> are terminated by <I><A HREF="RMRF0066.HTM#whiteSpace">whiteSpace</A></I>, quotation marks, a left or right parenthesis or percent character within <I><A HREF="RMRF0007.HTM#encodedCharacter">encodedCharacter</A></I>. <I><A HREF="RMRF0066.HTM#whiteSpace">WhiteSpace</A></I> must not occur within the token nor after the optional sign.
+<P>An <I><A HREF="RMRF0012.HTM#integerToken">integerToken</A></I> will typically be recognized by a lexical scanner.
+<H3>Example:</H3>
+<PRE>
+<B>0</B>
+<B>123</B>
+<B>-456</B>
+<B>789</B>
+<B>2147483647</B>
+</PRE>
+<P>This example illustrates five integer tokens. The last one is the maximum-allowed value for an <I><A HREF="RMRF0012.HTM#integerToken">integerToken</A></I>.
+<P><HR>
+<H1><A NAME="integerValue">integerValue</A></H1>
+<PRE>
+<I>integerValue ::= <A HREF="RMRF0012.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0004.HTM#criticality">criticality</A>  <A HREF="RMRF0005.HTM#denominator">denominator</A>  <A HREF="RMRF0005.HTM#distanceValue">distanceValue</A>  *<A HREF="RMRF0016.HTM#nameDimensionStructure">nameDimensionStructure</A>  <A HREF="RMRF0017.HTM#numerator">numerator</A>  !<A HREF="RMRF0062.HTM#step">step</A>  <A HREF="RMRF0066.HTM#xCoordinate">xCoordinate</A>  <A HREF="RMRF0066.HTM#yCoordinate">yCoordinate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#integer">integer</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#integerValue">IntegerValue</A></I> is an <I><A HREF="RMRF0012.HTM#integerToken">integerToken</A></I> at EDIF Level 0.
+<H3>Example:</H3>
+<PRE>
+<B>10</B>
+<B>5</B>
+<B>-5</B>
+</PRE>
+<P>These tokens represent ten, five and minus five respectively.
+<P><HR>
+<H1><A NAME="interconnectAnnotate">interconnectAnnotate</A></H1>
+<PRE>
+<I>interconnectAnnotate ::= '(' 'interconnectAnnotate'</I>
+&#09;<I><A HREF="RMRF0007.HTM#extendInterconnectDef">extendInterconnectDef</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0004.HTM#criticality">criticality</A>&gt; | <A HREF="RMRF0012.HTM#interconnectAnnotate">interconnectAnnotate</A> | <A HREF="RMRF0012.HTM#interconnectDelay">interconnectDelay</A> | 
+&#09;<A HREF="RMRF0056.HTM#property">property</A> | <A HREF="RMRF0056.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0009.HTM#forFrameAnnotate">forFrameAnnotate</A>  *<A HREF="RMRF0010.HTM#ifFrameAnnotate">ifFrameAnnotate</A>  *<A HREF="RMRF0012.HTM#interconnectAnnotate">interconnectAnnotate</A>  *<A HREF="RMRF0017.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  *<A HREF="RMRF0017.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  *<A HREF="RMRF0018.HTM#otherwiseFrameAnnotate">otherwiseFrameAnnotate</A>  *<A HREF="RMRF0018.HTM#pageAnnotate">pageAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0000.HTM#annotate">annotate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectAnnotate">InterconnectAnnotate</A></I> is used to associate physical characteristics with interconnects within an instance hierarchy. Nested <I><A HREF="RMRF0012.HTM#interconnectAnnotate">interconnectAnnotates</A></I> are used to annotate nested interconnects.
+<H3>Example:</H3>
+<PRE>
+<B>(pageAnnotate P1</B>
+<B>   (interconnectAnnotate NET1</B>
+<B>      (criticality 100)) ...)</B>
+</PRE>
+<P>In this example, the interconnect named NET1 in page P1 in the context of the containing view, has a criticality of 100.
+<P><HR>
+<H1><A NAME="interconnectAttachedText">interconnectAttachedText</A></H1>
+<PRE>
+<I>interconnectAttachedText ::= '(' 'interconnectAttachedText'</I>
+&#09;<I><A HREF="RMRF0000.HTM#attachmentPoint">attachmentPoint</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | &lt;<A HREF="RMRF0003.HTM#connectivityTagGeneratorDisplay">connectivityTagGeneratorDisplay</A>&gt; | &lt;<A HREF="RMRF0004.HTM#criticalityDisplay">criticalityDisplay</A>&gt; | 
+&#09;<A HREF="RMRF0012.HTM#interconnectDelayDisplay">interconnectDelayDisplay</A> | &lt;<A HREF="RMRF0012.HTM#interconnectNameDisplay">interconnectNameDisplay</A>&gt; | 
+&#09;<A HREF="RMRF0012.HTM#interconnectPropertyDisplay">interconnectPropertyDisplay</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0058.HTM#schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectAttachedText">InterconnectAttachedText</A></I> is used to attach some text to a point on the graphics of the net or bus. The text may be simple annotation or the display of a <I><A HREF="RMRF0056.HTM#property">property</A></I> or attribute. The attachment point must be a specified point within the graphics of the net or bus, though not necessarily at the same level in the nested hierarchy of a net, subnet, bus, subbus or bus slice.
+<P>The display positions are relative to (0, 0) and not relative to the attachment point.
+<H3>Example:</H3>
+<PRE>
+<B>(interconnectAttachedText (pt 200 300)</B>
+<B>   (annotate "See note 3" (display ...))</B>
+<B>   (interconnectPropertyDisplay route_width </B>
+<B>      (display ...)))</B>
+</PRE>
+<P>The annotation and the <I><A HREF="RMRF0056.HTM#property">property</A></I> displayed are both attached to the point (pt 200 300) in this example. The display positions are given separately and are typically different from the attachment point.
+<P><HR>
+<H1><A NAME="interconnectDelay">interconnectDelay</A></H1>
+<PRE>
+<I>interconnectDelay ::= '(' 'interconnectDelay'</I>
+&#09;<I><A HREF="RMRF0012.HTM#interconnectDelayNameDef">interconnectDelayNameDef</A></I>
+&#09;<I><A HREF="RMRF0005.HTM#derivation">derivation</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#delay">delay</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#becomes">becomes</A> | <A HREF="RMRF0064.HTM#transition">transition</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0012.HTM#interconnectAnnotate">interconnectAnnotate</A>  *<A HREF="RMRF0012.HTM#interconnectHeader">interconnectHeader</A>  *<A HREF="RMRF0058.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A>  *<A HREF="RMRF0060.HTM#schematicSubInterconnectHeader">schematicSubInterconnectHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectDelayDisplay">interconnectDelayDisplay</A> <A HREF="RMRF0012.HTM#interconnectDelayNameRef">interconnectDelayNameRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0064.HTM#timeDelay">timeDelay</A></I> associated with an <I><A HREF="RMRF0012.HTM#interconnectDelay">interconnectDelay</A></I> should not be negative.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectDelay">InterconnectDelay</A></I> is an attribute of an interconnect which is used to specify a delay for the given set of transitions. If no <I><A HREF="RMRF0064.HTM#transition">transition</A></I> or <I><A HREF="RMRF0000.HTM#becomes">becomes</A></I> is specified, then the default is relevant for any transition.
+<P>Such a delay is effective between any two ports connected to the interconnect, and acts in addition to any specified port delays.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityNet N1 (signalRef SIG1) </B>
+<B>   (interconnectHeader </B>
+<B>      (interconnectDelay</B>
+<B>         delay1</B>
+<B>         (calculated)</B>
+<B>         (delay (e 3 1))</B>
+<B>         (transition HS LR)))</B>
+<B>   (connectivityNetJoined ...))</B>
+</PRE>
+<P>The above example specifies a calculated delay of 30 time units when a transition from HS to LR occurs on net N1. 
+<P><HR>
+<H1><A NAME="interconnectDelayDisplay">interconnectDelayDisplay</A></H1>
+<PRE>
+<I>interconnectDelayDisplay ::= '(' 'interconnectDelayDisplay'</I>
+&#09;<I><A HREF="RMRF0012.HTM#interconnectDelayNameRef">interconnectDelayNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0012.HTM#interconnectAttachedText">interconnectAttachedText</A>  *<A HREF="RMRF0058.HTM#schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0004.HTM#delay">delay</A> <A HREF="RMRF0012.HTM#interconnectDelay">interconnectDelay</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectDelayDisplay">InterconnectDelayDisplay</A></I> is used to define display positions for the <I><A HREF="RMRF0012.HTM#interconnectDelay">interconnectDelay</A></I> referenced by <I><A HREF="RMRF0012.HTM#interconnectDelayNameRef">interconnectDelayNameRef</A></I>.
+<P><HR>
+<H1><A NAME="interconnectDelayNameDef">interconnectDelayNameDef</A></H1>
+<PRE>
+<I>interconnectDelayNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0012.HTM#interconnectDelay">interconnectDelay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0004.HTM#delay">delay</A> <A HREF="RMRF0012.HTM#interconnectDelayNameRef">interconnectDelayNameRef</A> <A HREF="RMRF0012.HTM#interconnectNameDef">interconnectNameDef</A> <A HREF="RMRF0055.HTM#portDelayNameDef">portDelayNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectDelayNameDef">InterconnectDelayNameDef</A></I> is the name of an interconnect delay.
+<P><HR>
+<H1><A NAME="interconnectDelayNameRef">interconnectDelayNameRef</A></H1>
+<PRE>
+<I>interconnectDelayNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0012.HTM#interconnectDelayDisplay">interconnectDelayDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0004.HTM#delay">delay</A> <A HREF="RMRF0012.HTM#interconnectDelay">interconnectDelay</A> <A HREF="RMRF0012.HTM#interconnectDelayNameDef">interconnectDelayNameDef</A> <A HREF="RMRF0012.HTM#interconnectNameRef">interconnectNameRef</A> <A HREF="RMRF0012.HTM#interconnectRef">interconnectRef</A> <A HREF="RMRF0055.HTM#portDelayNameRef">portDelayNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectDelayNameRef">InterconnectDelayNameRef</A></I> is a reference to an <I><A HREF="RMRF0012.HTM#interconnectDelayNameDef">interconnectDelayNameDef</A></I>.
+<P><HR>
+<H1><A NAME="interconnectHeader">interconnectHeader</A></H1>
+<PRE>
+<I>interconnectHeader ::= '(' 'interconnectHeader'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0004.HTM#criticality">criticality</A>&gt; | <A HREF="RMRF0006.HTM#documentation">documentation</A> | <A HREF="RMRF0012.HTM#interconnectDelay">interconnectDelay</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; 
+&#09;| <A HREF="RMRF0056.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#connectivityBus">connectivityBus</A>  !<A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A>  !<A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A>  !<A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A>  !<A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0058.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A> <A HREF="RMRF0060.HTM#schematicSubInterconnectHeader">schematicSubInterconnectHeader</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectHeader">InterconnectHeader</A></I> gathers together data that applies to the interconnect object as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(interconnectHeader</B>
+<B>   (criticality 100) </B>
+<B>   (property checked (boolean (true))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="interconnectNameCaseSensitive">interconnectNameCaseSensitive</A></H1>
+<PRE>
+<I>interconnectNameCaseSensitive ::= '(' 'interconnectNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A> <A HREF="RMRF0005.HTM#designNameCaseSensitive">designNameCaseSensitive</A> <A HREF="RMRF0006.HTM#documentationNameCaseSensitive">documentationNameCaseSensitive</A> <A HREF="RMRF0009.HTM#frameNameCaseSensitive">frameNameCaseSensitive</A> <A HREF="RMRF0010.HTM#hotspotNameCaseSensitive">hotspotNameCaseSensitive</A> <A HREF="RMRF0010.HTM#implementationNameCaseSensitive">implementationNameCaseSensitive</A> <A HREF="RMRF0011.HTM#instanceNameCaseSensitive">instanceNameCaseSensitive</A> <A HREF="RMRF0014.HTM#libraryNameCaseSensitive">libraryNameCaseSensitive</A> <A HREF="RMRF0018.HTM#pageNameCaseSensitive">pageNameCaseSensitive</A> <A HREF="RMRF0019.HTM#parameterNameCaseSensitive">parameterNameCaseSensitive</A> <A HREF="RMRF0055.HTM#portNameCaseSensitive">portNameCaseSensitive</A> <A HREF="RMRF0056.HTM#propertyNameCaseSensitive">propertyNameCaseSensitive</A> <A HREF="RMRF0062.HTM#signalNameCaseSensitive">signalNameCaseSensitive</A> <A HREF="RMRF0066.HTM#viewNameCaseSensitive">viewNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectNameCaseSensitive">InterconnectNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for interconnects are to be considered as case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<P><HR>
+<H1><A NAME="interconnectNameDef">interconnectNameDef</A></H1>
+<PRE>
+<I>interconnectNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0003.HTM#connectivityBus">connectivityBus</A>  !<A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A>  !<A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A>  !<A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A>  !<A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A>  !<A HREF="RMRF0057.HTM#schematicBus">schematicBus</A>  !<A HREF="RMRF0058.HTM#schematicBusSlice">schematicBusSlice</A>  !<A HREF="RMRF0059.HTM#schematicNet">schematicNet</A>  !<A HREF="RMRF0060.HTM#schematicSubBus">schematicSubBus</A>  !<A HREF="RMRF0060.HTM#schematicSubNet">schematicSubNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectDelayNameDef">interconnectDelayNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectNameDef">InterconnectNameDef</A></I> is used to name interconnect objects, e.g. nets and busses. 
+<P><HR>
+<H1><A NAME="interconnectNameDisplay">interconnectNameDisplay</A></H1>
+<PRE>
+<I>interconnectNameDisplay ::= '(' 'interconnectNameDisplay'</I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | <A HREF="RMRF0005.HTM#displayNameOverride">displayNameOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0012.HTM#interconnectAttachedText">interconnectAttachedText</A>  &lt;<A HREF="RMRF0058.HTM#schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0000.HTM#associatedInterconnectNameDisplay">associatedInterconnectNameDisplay</A> <A HREF="RMRF0005.HTM#displayName">displayName</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectNameDisplay">InterconnectNameDisplay</A></I> is used to provide a display position for the name of an interconnect. Within the context of net or bus graphics, the name of the immediately-enclosing object is displayed.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicBus A </B>
+<B>   (signalGroupRef SIGA)</B>
+<B>   (schematicInterconnectHeader ...)</B>
+<B>   (schematicBusJoined ...)</B>
+<B>   (schematicBusSlice A1 </B>
+<B>      (signalGroupRef A0_1)</B>
+<B>      (schematicInterconnectHeader ...)</B>
+<B>      (schematicBusJoined ...)</B>
+<B>      (schematicInterconnectAttributeDisplay</B>
+<B>         (interconnectNameDisplay </B>
+<B>            (display TEXT </B>
+<B>               (transform </B>
+<B>                  (origin (pt 110 200)))))) ...))</B>
+</PRE>
+<P>In this example, the name of the <I><A HREF="RMRF0058.HTM#schematicBusSlice">schematicBusSlice</A></I> A1 is displayed by the <I><A HREF="RMRF0012.HTM#interconnectNameDisplay">interconnectNameDisplay</A></I> at position (pt 110 200).
+<P><HR>
+<H1><A NAME="interconnectNameRef">interconnectNameRef</A></H1>
+<PRE>
+<I>interconnectNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#extendInterconnectDef">extendInterconnectDef</A>  !<A HREF="RMRF0012.HTM#interconnectRef">interconnectRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectDelayNameRef">interconnectDelayNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectNameRef">InterconnectNameRef</A></I> is a reference to an <I><A HREF="RMRF0012.HTM#interconnectNameDef">interconnectNameDef</A></I> and is used to reference a previously-defined interconnect object. 
+<P><HR>
+<H1><A NAME="interconnectPropertyDisplay">interconnectPropertyDisplay</A></H1>
+<PRE>
+<I>interconnectPropertyDisplay ::= '(' 'interconnectPropertyDisplay'</I>
+&#09;<I><A HREF="RMRF0056.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | &lt;<A HREF="RMRF0056.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0012.HTM#interconnectAttachedText">interconnectAttachedText</A>  *<A HREF="RMRF0058.HTM#schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0056.HTM#property">property</A> <A HREF="RMRF0056.HTM#propertyDisplay">propertyDisplay</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectPropertyDisplay">InterconnectPropertyDisplay</A></I> is used to define the display positions for a property belonging to an interconnect object.
+<P><HR>
+<H1><A NAME="interconnectRef">interconnectRef</A></H1>
+<PRE>
+<I>interconnectRef ::= '(' 'interconnectRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#interconnectNameRef">interconnectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0018.HTM#pageRef">pageRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#event">event</A>  *<A HREF="RMRF0012.HTM#interconnectSet">interconnectSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectDelayNameRef">interconnectDelayNameRef</A> <A HREF="RMRF0058.HTM#schematicInterconnectTerminatorImplementationRef">schematicInterconnectTerminatorImplementationRef</A> <A HREF="RMRF0058.HTM#schematicInterconnectTerminatorTemplateRef">schematicInterconnectTerminatorTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectRef">InterconnectRef</A></I> is used to reference an interconnect. 
+<H3>Example:</H3>
+<PRE>
+<B>(interconnectRef AN1</B>
+<B>   (pageRef P))</B>
+</PRE>
+<P>The first example illustrates a reference to an interconnect named AN1, which is defined within a page named P. 
+<P><HR>
+<H1><A NAME="interconnectSet">interconnectSet</A></H1>
+<PRE>
+<I>interconnectSet ::= '(' 'interconnectSet'</I>
+&#09;<I>{ <A HREF="RMRF0012.HTM#interconnectRef">interconnectRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#event">event</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interconnectSet">InterconnectSet</A></I> is used to specify a group of interconnect references. The group is not ordered. All the interconnects referenced within <I><A HREF="RMRF0012.HTM#interconnectSet">interconnectSet</A></I> must belong to the same view.
+<H3>Example:</H3>
+<PRE>
+<B>(event</B>
+<B>   (interconnectSet</B>
+<B>      (interconnectRef net1)</B>
+<B>      (interconnectRef net2)</B>
+<B>      (interconnectRef net3)</B>
+<B>      (interconnectRef net4))</B>
+<B>   ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="interface">interface</A></H1>
+<PRE>
+<I>interface ::= '(' 'interface'</I>
+&#09;<I><A HREF="RMRF0012.HTM#interfaceUnits">interfaceUnits</A></I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#booleanParameter">booleanParameter</A> | &lt;<A HREF="RMRF0005.HTM#designator">designator</A>&gt; | <A HREF="RMRF0012.HTM#integerParameter">integerParameter</A> | <A HREF="RMRF0012.HTM#interfaceJoined">interfaceJoined</A> | 
+&#09;<A HREF="RMRF0016.HTM#mustJoin">mustJoin</A> | <A HREF="RMRF0017.HTM#numberParameter">numberParameter</A> | <A HREF="RMRF0054.HTM#permutable">permutable</A> | <A HREF="RMRF0055.HTM#port">port</A> | <A HREF="RMRF0055.HTM#portBundle">portBundle</A> | 
+&#09;<A HREF="RMRF0063.HTM#stringParameter">stringParameter</A> | <A HREF="RMRF0064.HTM#timing">timing</A> | <A HREF="RMRF0066.HTM#weakJoined">weakJoined</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0002.HTM#cluster">cluster</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>When a <I><A HREF="RMRF0002.HTM#cluster">cluster</A></I> is instantiated each parameter in the <I><A HREF="RMRF0012.HTM#interface">interface</A></I> of the <I><A HREF="RMRF0002.HTM#cluster">cluster</A></I> must either have a default value or there should be a parameter assign construct in the <I><A HREF="RMRF0011.HTM#instance">instance</A></I> which assigns a value to it.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0011.HTM#instance">instance</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0012.HTM#interface">interface</A></I> defines objects which can be seen, and defines relationships which are true for all views and symbols in the <I><A HREF="RMRF0002.HTM#cluster">cluster</A></I>. 
+<P>Objects include the <I><A HREF="RMRF0055.HTM#port">ports</A></I> themselves, and the properties and attributes defined in the <I><A HREF="RMRF0012.HTM#interface">interface</A></I> and in the <I><A HREF="RMRF0055.HTM#port">ports</A></I>. Relationships define which <I><A HREF="RMRF0055.HTM#port">ports</A></I> of the <I><A HREF="RMRF0001.HTM#cell">cell</A></I> are shorted together (<I><A HREF="RMRF0012.HTM#interfaceJoined">interfaceJoined</A></I>) and which ports can be interchanged (<I><A HREF="RMRF0054.HTM#permutable">permutable</A></I>). 
+<P>The ports defined in the <I><A HREF="RMRF0012.HTM#interface">interface</A></I> are referred to as master ports in this manual.
+<H3>Example:</H3>
+<PRE>
+<B>(cell CZ ...</B>
+<B>   (cluster CZ</B>
+<B>      (interface (interfaceUnits)</B>
+<B>         (port A (inputPort))</B>
+<B>         (port B (inputPort))</B>
+<B>         (port O (outputPort))</B>
+<B>         (designator "000")</B>
+<B>         (interfaceJoined (portRef A) (portRef B)))</B>
+<B>      (clusterHeader (property basic (string "XXX")))</B>
+<B>      (connectivityView CZNet ...)</B>
+<B>      ...))</B>
+</PRE>
+<P>The above example specifies the interface of the cluster named CZ of cell CZ. The objects defined include the ports A, B and O, and the <I><A HREF="RMRF0005.HTM#designator">designator</A></I> attribute. The relationship that port A is joined to port B is also specified. The property basic belongs to the cluster.
+<P><HR>
+<H1><A NAME="interfaceJoined">interfaceJoined</A></H1>
+<PRE>
+<I>interfaceJoined ::= '(' 'interfaceJoined'</I>
+&#09;<I>{ <A HREF="RMRF0056.HTM#portRef">portRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0012.HTM#interface">interface</A>  *<A HREF="RMRF0016.HTM#mustJoin">mustJoin</A>  *<A HREF="RMRF0066.HTM#weakJoined">weakJoined</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0055.HTM#port">port</A></I> can be referenced at most once by any <I><A HREF="RMRF0012.HTM#interfaceJoined">interfaceJoined</A></I>, <I><A HREF="RMRF0016.HTM#mustJoin">mustJoin</A></I> or <I><A HREF="RMRF0066.HTM#weakJoined">weakJoined</A></I> constructs in an <I><A HREF="RMRF0012.HTM#interface">interface</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0016.HTM#mustJoin">mustJoin</A></I>, <I><A HREF="RMRF0066.HTM#weakJoined">weakJoined</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interfaceJoined">InterfaceJoined</A></I> is used to specify that certain ports are shorted together. 
+<P><I><A HREF="RMRF0012.HTM#interfaceJoined">InterfaceJoined</A></I> may refer only to master ports, i.e. ports defined in the interface. The <I><A HREF="RMRF0012.HTM#interfaceJoined">interfaceJoined</A></I> may be nested with <I><A HREF="RMRF0016.HTM#mustJoin">mustJoin</A></I> and <I><A HREF="RMRF0066.HTM#weakJoined">weakJoined</A></I> to specify complex relationships between master ports. This relationship forms a tree structure. Within the interface a port may be referenced no more than once in <I><A HREF="RMRF0012.HTM#interfaceJoined">interfaceJoined</A></I>, <I><A HREF="RMRF0016.HTM#mustJoin">mustJoin</A></I> and <I><A HREF="RMRF0066.HTM#weakJoined">weakJoined</A></I>.
+<P>The <I><A HREF="RMRF0056.HTM#portRef">portRef</A></I> may refer to <I><A HREF="RMRF0055.HTM#port">ports</A></I> and not to <I><A HREF="RMRF0055.HTM#portBundle">portBundles</A></I>. 
+<P><I><A HREF="RMRF0012.HTM#interfaceJoined">InterfaceJoined</A></I> has no influence on how interface ports are joined together when the cluster is instantiated. Thus, two ports that are <I><A HREF="RMRF0012.HTM#interfaceJoined">interfaceJoined</A></I> may or may not be in the same signal when the cluster is instantiated.
+<H3>Example:</H3>
+<PRE>
+<B>(interfaceJoined (portRef A) (portRef B))</B>
+</PRE>
+<P>The first example states that the master ports A and B are connected.
+<P><HR>
+<H1><A NAME="interfaceUnits">interfaceUnits</A></H1>
+<PRE>
+<I>interfaceUnits ::= '(' 'interfaceUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0061.HTM#setCapacitance">setCapacitance</A>&gt; | &lt;<A HREF="RMRF0061.HTM#setTime">setTime</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0012.HTM#interface">interface</A>  &lt;<A HREF="RMRF0054.HTM#physicalScaling">physicalScaling</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#interfaceUnits">InterfaceUnits</A></I> defines the units for <I><A HREF="RMRF0012.HTM#interface">interface</A></I>. It may be specified as a default for the entire data in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I> or for a library in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. Refer to <I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A></I> for a full example.
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

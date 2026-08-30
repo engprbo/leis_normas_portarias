@@ -1,0 +1,228 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1>Chapter 3</H1>
+<H1><A NAME="SECTION04200000000000000000">Reusable objects</A></H1>
+<P>
+<A NAME="chreusableobjects">&#160;</A>
+<P>
+This chapter describes the concept of reusable objects.  The model for the
+various categories of template such as <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>,
+<A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A>, <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A> and
+<A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A> can be found in the
+<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A> schema
+.
+<P>
+<H1><A NAME="SECTION04210000000000000000">3.1 Problem statement</A></H1>
+<P>
+In EDIF Version 2&nbsp;0&nbsp;0, there is only one way of defining the re-use of an
+object via the instantiation process.  This is the instance which may be
+applied to views of a cell.  It follows therefore that the need to allow the
+re-use of a 'dumb graphics' object led to the definition of viewtype <B>
+graphic</B> which in all respects other than re-usability bears no resemblance to
+<EM>true</EM> cell views.  This led to the overloading of the view concept.  Some
+of the EDIF Version 2&nbsp;0&nbsp;0 views are design-oriented views, e.g. schematic,
+netlist, masklayout.  These have interfaces and ports and can be used to form a
+design hierarchy.  Others are miscellaneous views, e.g. document, graphic.
+These do not have ports and are not part of a design hierarchy.
+<P>
+There is a need to define a class of objects which have the common
+characteristic that they are defined once and re-used many times.  This could
+have been met by continued extension of the EDIF view, but this would have
+resulted in the gross overloading of the view concept.
+<P>
+<H1><A NAME="SECTION04220000000000000000">3.2 Solution</A></H1>
+<P>
+In EDIF Version 3&nbsp;0&nbsp;0, the concept of 'reusable object' has been
+recognised.  At present, three types of reusable objects are defined :
+<P>
+<DL>
+<DD>a) <EM>hierarchical design objects</EM> which correspond to cell views<P>
+<DD>b) <EM>instantiable templates</EM> which graphically illustrate connectivity
+structure e.g. offpageconnectors, rippers<P>
+<DD>c) <EM>dumb graphics templates</EM> which were handled by graphic views in EDIF Version
+2&nbsp;0&nbsp;0<P>
+</DL>
+<P><P><H2><A NAME="SECTION04221000000000000000">3.2.1 Instantiatable templates for schematic views</A></H2>
+<P>
+An instantiatable object is a reusable object which has specific semantics
+related to the context in which it is used.  Occurrences of instantiatable
+templates appear in the implementation part of cell views.  Instantiatable
+templates are often defined in CAD libraries.  Such definitions may not contain
+occurrences of other instantiatable templates but they may contain occurrences
+of reusable dumb graphics objects.
+<P>
+At present, the majority of the instantiatable objects in EDIF Version
+3&nbsp;0&nbsp;0 are targeted at schematic transfer.  All schematic
+instantiatable templates share some common attributes, e.g. background colour,
+documentation.  They may have properties which are displayed on the schematic
+<A HREF="IMEX0013.HTM#page">page</A>. The descriptions of the different types of instantiatable template are
+given below.
+<P>
+<UL><LI> <A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A> and
+      <A HREF="IMEX0010.HTM#schematic_onpageconnector_template">schematic_onpageconnector_template</A>
+<P>
+A <A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A>
+ contains information which is
+used in the display definition of a <A HREF="IMEX0013.HTM#schematic_offpageconnector">schematic_offpageconnector</A>
+ on a schematic <A HREF="IMEX0013.HTM#page">page</A>. A
+<A HREF="IMEX0010.HTM#schematic_onpageconnector_template">schematic_onpageconnector_template</A>
+ contains information which is
+used in the display definition of a <A HREF="IMEX0013.HTM#schematic_onpageconnector">schematic_onpageconnector</A>
+ on a schematic <A HREF="IMEX0013.HTM#page">page</A>. The
+<A HREF="IMEX0013.HTM#schematic_offpageconnector">schematic_offpageconnectors</A> and <A HREF="IMEX0013.HTM#schematic_onpageconnector">schematic_onpageconnectors</A> describe aspects
+of the structural implementation of the logical connectivity for a given level
+of hierarchy.  Both types of template have a <A HREF="IMEX0010.HTM#hotspot">hotspot</A> to which connection is
+to be made graphically.  The <A HREF="IMEX0010.HTM#hotspot">hotspot</A> has a <A HREF="IMEX0013.HTM#schematic_wire_style">schematic_wire_style</A> indicator
+which gives its suitability for association with a narrow or wide interconnect
+structure (i.e. <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A> or <A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A>).  Display slot
+information may be given to allow the display of the implementation name and
+the associated interconnect name.
+<P>
+<LI> <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A> and 
+      <A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>
+<P>
+A <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A>
+ contains information
+which is used in the display definition of a
+<A HREF="IMEX0013.HTM#schematic_master_port_representation">schematic_master_port_representation</A>
+ or a
+<A HREF="IMEX0013.HTM#schematic_master_port_bundle_representation">schematic_master_port_bundle_representation</A>
+ on a schematic <A HREF="IMEX0013.HTM#page">page</A>. A
+<A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>
+ contains information
+which is used in the display definition of a
+<A HREF="IMEX0014.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A>
+ or a
+<A HREF="IMEX0014.HTM#schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A>
+ in an
+<A HREF="IMEX0014.HTM#internal_schematic_symbol">internal_schematic_symbol</A>.  Both types of template have a <A HREF="IMEX0010.HTM#hotspot">hotspot</A> to which
+connection is to be made graphically.  The <A HREF="IMEX0010.HTM#hotspot">hotspot</A> has a
+<A HREF="IMEX0010.HTM#schematic_wire_affinity">schematic_wire_affinity</A> indicator which gives its suitability for association
+with a narrow or wide interconnect structure (i.e. <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A> or
+<A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A>).  In addition, these templates have two indicators : the
+<A HREF="IMEX0010.HTM#schematic_port_representation_style">schematic_port_representation_style</A> identifies whether the associated master
+port is narrow or wide, the <A HREF="IMEX0010.HTM#port_direction_indicator">port_direction_indicator</A> gives its suitability for
+association with an input, output, bidirectional or unspecified direction
+master port.  Display slot information may be specified for the display of the
+implementation name, the associated port name and various port attributes, such
+as acload, delay, dcFaninLoad, dcMaxFanin.
+<P>
+<LI> <A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A>
+<P>
+A <A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A>
+ contains information
+which is used in the display definition of a
+<A HREF="IMEX0013.HTM#schematic_global_port_representation">schematic_global_port_representation</A>
+ on a schematic <A HREF="IMEX0013.HTM#page">page</A>.  A
+<A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A> has a <A HREF="IMEX0010.HTM#hotspot">hotspot</A> to which connection
+is to be made graphically.  The <A HREF="IMEX0010.HTM#hotspot">hotspot</A> has a <A HREF="IMEX0013.HTM#schematic_wire_style">schematic_wire_style</A> indicator
+which gives its suitability for association with a narrow or wide interconnect
+structure (i.e. <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A> or <A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A>).  Display slot
+information may be given to allow the display of the implementation name and
+the associated global port name.
+<P>
+<LI> <A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A>
+<P>
+A <A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A>  contains
+information which is used in the display definition of a <A HREF="IMEX0013.HTM#schematic_ripper">schematic_ripper</A>
+ on a schematic <A HREF="IMEX0013.HTM#page">page</A>.  A <A HREF="IMEX0013.HTM#schematic_ripper">schematic_ripper</A> shows
+that two or more structures (i.e. <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_nets</A> or
+<A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_busses</A>) on a schematic <A HREF="IMEX0013.HTM#page">page</A> are linked.  A
+<A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A> has two or more <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspots</A> to which
+connections are to be made graphically.  A <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspot</A> has a
+<A HREF="IMEX0013.HTM#schematic_wire_style">schematic_wire_style</A> indicator which gives its suitability for association with
+a narrow or wide interconnect structure.  Display slot information may be given
+to allow the display of the implementation name.
+<P>
+<LI> <A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A>
+<P>
+A <A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A>  contains
+information which is used in the display definition of a <A HREF="IMEX0013.HTM#schematic_net_junction">schematic_net_junction</A>
+ or a <A HREF="IMEX0013.HTM#schematic_bus_junction">schematic_bus_junction</A>
+ on a schematic <A HREF="IMEX0013.HTM#page">page</A>.  A
+<A HREF="IMEX0013.HTM#schematic_net_junction">schematic_net_junction</A> shows that at least two <A HREF="IMEX0013.HTM#schematic_sub_net">schematic_sub_nets</A> are linked.
+The related sub_nets belong to the same <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A>.  A
+<A HREF="IMEX0013.HTM#schematic_bus_junction">schematic_bus_junction</A> shows that at least two <A HREF="IMEX0013.HTM#schematic_sub_bus">schematic_sub_busses</A> are
+linked.  As for <A HREF="IMEX0013.HTM#schematic_net_junction">schematic_net_junction</A>, the related sub_busses belong to the
+same <A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A>.  A <A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A> has a <A HREF="IMEX0010.HTM#hotspot">hotspot</A> to
+which connection is to be made graphically.  The <A HREF="IMEX0010.HTM#hotspot">hotspot</A> has a
+<A HREF="IMEX0010.HTM#schematic_wire_affinity">schematic_wire_affinity</A> indicator which gives its suitability for association
+with a narrow or wide interconnect structure (i.e. <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A> or
+<A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A>).  Display slot information may be given to allow the
+display of the implementation name.
+<P>
+<LI> <A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A>
+<P>
+A <A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A>
+ contains information
+which is used in the display definition of a <A HREF="IMEX0013.HTM#schematic_interconnect_terminator">schematic_interconnect_terminator</A>
+ on a schematic <A HREF="IMEX0013.HTM#page">page</A>.  A
+<A HREF="IMEX0013.HTM#schematic_interconnect_terminator">schematic_interconnect_terminator</A> is used to indicate the end of an
+interconnect.  It is sometimes referred to as a dangling end.  It has a
+<A HREF="IMEX0010.HTM#hotspot">hotspot</A> to which connection is to be made graphically.  The <A HREF="IMEX0010.HTM#hotspot">hotspot</A> has a
+<A HREF="IMEX0010.HTM#schematic_wire_affinity">schematic_wire_affinity</A> indicator which gives its suitability for association
+with a narrow or wide interconnect structure (i.e. <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A> or
+<A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A>). Display slot information may be given to allow the
+display of the implementation name.
+<P>
+<LI> <A HREF="IMEX0010.HTM#page_title_block_template">page_title_block_template</A>
+<P>
+A <A HREF="IMEX0010.HTM#page_title_block_template">page_title_block_template</A>  contains
+information which is used in the display definition of a <A HREF="IMEX0013.HTM#page_title_block">page_title_block</A>
+ on a schematic <A HREF="IMEX0013.HTM#page">page</A>.  A <A HREF="IMEX0010.HTM#page_title_block_template">page_title_block_template</A>
+allows details about the design to be placed in a special area, e.g. approved
+date, page number.
+<P>
+<LI> <A HREF="IMEX0010.HTM#page_border_template">page_border_template</A> and <A HREF="IMEX0010.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A>
+<P>
+A <A HREF="IMEX0010.HTM#page_border_template">page_border_template</A>  contains information
+which is used in the display definition of a <A HREF="IMEX0013.HTM#page_border">page_border</A>
+ on a schematic <A HREF="IMEX0013.HTM#page">page</A>.  A
+<A HREF="IMEX0010.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A> 
+contains information which is used in the display definition of a
+<A HREF="IMEX0014.HTM#schematic_symbol_border">schematic_symbol_border</A>  for an
+<A HREF="IMEX0014.HTM#internal_schematic_symbol">internal_schematic_symbol</A>.
+<P>
+<LI> <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A>
+<P>
+A <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A>  is
+a collection of figures and annotation text which are themselves associated
+with <A HREF="IMEX0011.HTM#figure_group">figure_groups</A>.  It may contain occurrences of other
+<A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_templates</A>.  Occurrences of
+<A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_templates</A> are used in the same contexts that graphical
+primitives (i.e. <A HREF="IMEX0005.HTM#figure">figure</A>) are used; for example, they can be used to
+implement nets or busses.
+<P>
+</UL><H2><A NAME="SECTION04222000000000000000">3.2.2 Dumb geometry template</A></H2>
+<P>
+The <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>  is a collection
+of geometry primitives (i.e. <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A>).  It may contain occurrences of
+other <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_templates</A>.  Since a <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A> is defined
+without reference to a <A HREF="IMEX0011.HTM#figure_group">figure_group</A>, it may only be used within a <A HREF="IMEX0005.HTM#figure">figure</A> or
+within another <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A> definition.
+<P>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,694 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="portNameDisplay">portNameDisplay</A></H1>
+<PRE>
+<I>portNameDisplay ::= '(' 'portNameDisplay'</I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | <A HREF="RMRF0005.HTM#displayNameOverride">displayNameOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0052.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#displayName">displayName</A> <A HREF="RMRF0008.HTM#globalPortNameDisplay">globalPortNameDisplay</A> <A HREF="RMRF0052.HTM#port">port</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#portNameDisplay">PortNameDisplay</A></I> is used to provide display positions for the display of the name of a port. 
+<P>When used in the context of <I><A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> and <I><A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I>, <I><A HREF="RMRF0053.HTM#portNameDisplay">portNameDisplay</A></I> overrides the <I><A HREF="RMRF0053.HTM#portNameDisplay">portNameDisplay</A></I> within the corresponding <I><A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A></I> or <I><A HREF="RMRF0057.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicMasterPortImplementation I1</B>
+<B>   (schematicMasterPortTemplateRef ...)</B>
+<B>   (portRef INPUT)</B>
+<B>   (transform ...)</B>
+<B>   (portAttributeDisplay</B>
+<B>      (portNameDisplay </B>
+<B>         (display TEXT </B>
+<B>            (transform (origin (pt 20 10))))))</B>
+<B>   ...)</B>
+</PRE>
+<P>In this example, the name of the master port INPUT is displayed at point (20, 10).
+<P><HR>
+<H1><A NAME="portNameRef">portNameRef</A></H1>
+<PRE>
+<I>portNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#extendPortDef">extendPortDef</A>  !<A HREF="RMRF0031.HTM#pcbElectricalPartFunctionPortRef">pcbElectricalPartFunctionPortRef</A>  !<A HREF="RMRF0052.HTM#portInstanceRef">portInstanceRef</A>  !<A HREF="RMRF0053.HTM#portRef">portRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#globalPortNameRef">globalPortNameRef</A> <A HREF="RMRF0012.HTM#localPortGroupNameRef">localPortGroupNameRef</A> <A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0052.HTM#portDelayNameRef">portDelayNameRef</A> <A HREF="RMRF0052.HTM#portLoadDelayNameRef">portLoadDelayNameRef</A> <A HREF="RMRF0059.HTM#symbolPortImplementationNameRef">symbolPortImplementationNameRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0058.HTM#signalJoined">signalJoined</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0052.HTM#port">port</A>
+<BR><BR></I>
+<DT>2. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0053.HTM#portRef">portRef</A></I> &lt;<I><A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0052.HTM#port">port</A>
+<BR><BR></I>
+<DT>3. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0053.HTM#portRef">portRef</A></I> &lt;<I><A HREF="RMRF0052.HTM#permutable">permutable</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0052.HTM#port">port</A>
+<BR><BR></I>
+<DT>4. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0053.HTM#portRef">portRef</A></I> &lt;<I><A HREF="RMRF0014.HTM#mustJoin">mustJoin</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0052.HTM#port">port</A>
+<BR><BR></I>
+<DT>5. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0053.HTM#portRef">portRef</A></I> &lt;<I><A HREF="RMRF0062.HTM#weakJoined">weakJoined</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0052.HTM#port">port</A>
+<BR><BR></I>
+<DT>6. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0053.HTM#portRef">portRef</A></I> &lt;<I><A HREF="RMRF0010.HTM#interfaceJoined">interfaceJoined</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0052.HTM#port">port</A>
+<BR><BR></I>
+<DT>7. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0031.HTM#pcbElectricalPartTerminalConnectedPortSet">pcbElectricalPartTerminalConnectedPortSet</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0052.HTM#port">port</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#portNameRef">PortNameRef</A></I> is used to reference a previously-defined port name. 
+<P><HR>
+<H1><A NAME="portPropertyDisplay">portPropertyDisplay</A></H1>
+<PRE>
+<I>portPropertyDisplay ::= '(' 'portPropertyDisplay'</I>
+&#09;<I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | &lt;<A HREF="RMRF0053.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0052.HTM#portAttributeDisplay">portAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#globalPortPropertyDisplay">globalPortPropertyDisplay</A> <A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0053.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A> <A HREF="RMRF0053.HTM#property">property</A> <A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There may be no more than one <I><A HREF="RMRF0053.HTM#portPropertyDisplay">portPropertyDisplay</A></I> in a given context for each port <I><A HREF="RMRF0053.HTM#property">property</A></I>.
+<BR><BR><DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0057.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>
+<BR><BR></I>
+<DT>3. This construct is illegal in this context:  <I><A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#portPropertyDisplay">PortPropertyDisplay</A></I> provides display positions for port properties.
+<P><HR>
+<H1><A NAME="portPropertyDisplayOverride">portPropertyDisplayOverride</A></H1>
+<PRE>
+<I>portPropertyDisplayOverride ::= '(' 'portPropertyDisplayOverride'</I>
+&#09;<I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0054.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0053.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0009.HTM#instancePortAttributeDisplay">instancePortAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellPropertyDisplayOverride">cellPropertyDisplayOverride</A> <A HREF="RMRF0002.HTM#clusterPropertyDisplayOverride">clusterPropertyDisplayOverride</A> <A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0008.HTM#globalPortPropertyDisplay">globalPortPropertyDisplay</A> <A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0053.HTM#portPropertyDisplay">portPropertyDisplay</A> <A HREF="RMRF0053.HTM#portPropertyOverride">portPropertyOverride</A> <A HREF="RMRF0053.HTM#property">property</A> <A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> <A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>In the context of an <I><A HREF="RMRF0009.HTM#instancePortAttributeDisplay">instancePortAttributeDisplay</A></I> there may be no more than one <I><A HREF="RMRF0053.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A></I> for each <I><A HREF="RMRF0053.HTM#property">property</A></I> within a <I><A HREF="RMRF0052.HTM#port">port</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#portPropertyDisplayOverride">PortPropertyDisplayOverride</A></I> is used to override the display positions for port properties. 
+<P><HR>
+<H1><A NAME="portPropertyOverride">portPropertyOverride</A></H1>
+<PRE>
+<I>portPropertyOverride ::= '(' 'portPropertyOverride'</I>
+&#09;<I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0060.HTM#typedValue">typedValue</A> | <A HREF="RMRF0061.HTM#untyped">untyped</A> )</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0007.HTM#fixed">fixed</A>&gt; | <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0009.HTM#instancePortAttributes">instancePortAttributes</A>  *<A HREF="RMRF0052.HTM#portAnnotate">portAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0053.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A> <A HREF="RMRF0053.HTM#property">property</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#portPropertyOverride">PortPropertyOverride</A></I> is used to override the value of a property belonging to a port either on instantiation using <I><A HREF="RMRF0009.HTM#instancePortAttributes">instancePortAttributes</A></I> or within <I><A HREF="RMRF0052.HTM#portAnnotate">portAnnotate</A></I>.
+<P><HR>
+<H1><A NAME="portRef">portRef</A></H1>
+<PRE>
+<I>portRef ::= '(' 'portRef'</I>
+&#09;<I><A HREF="RMRF0053.HTM#portNameRef">portNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0006.HTM#event">event</A>  !<A HREF="RMRF0009.HTM#instancePortAttributeDisplay">instancePortAttributeDisplay</A>  *<A HREF="RMRF0010.HTM#interfaceJoined">interfaceJoined</A>  *<A HREF="RMRF0014.HTM#mustJoin">mustJoin</A>  *<A HREF="RMRF0014.HTM#nonPermutable">nonPermutable</A>  <A HREF="RMRF0016.HTM#pcbAllocatedInstancePort">pcbAllocatedInstancePort</A>  *<A HREF="RMRF0016.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A>  !<A HREF="RMRF0019.HTM#pcbBoardTerminal">pcbBoardTerminal</A>  *<A HREF="RMRF0052.HTM#permutable">permutable</A>  *<A HREF="RMRF0052.HTM#portJoined">portJoined</A>  *<A HREF="RMRF0052.HTM#portList">portList</A>  *<A HREF="RMRF0053.HTM#portSet">portSet</A>  !<A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A>  !<A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A>  *<A HREF="RMRF0058.HTM#signalJoined">signalJoined</A>  *<A HREF="RMRF0062.HTM#weakJoined">weakJoined</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#globalPortNameRef">globalPortNameRef</A> <A HREF="RMRF0008.HTM#globalPortRef">globalPortRef</A> <A HREF="RMRF0012.HTM#localPortGroupNameRef">localPortGroupNameRef</A> <A HREF="RMRF0012.HTM#localPortGroupRef">localPortGroupRef</A> <A HREF="RMRF0031.HTM#pcbElectricalPartFunctionPortRef">pcbElectricalPartFunctionPortRef</A> <A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0052.HTM#portDelayNameRef">portDelayNameRef</A> <A HREF="RMRF0052.HTM#portInstanceRef">portInstanceRef</A> <A HREF="RMRF0052.HTM#portLoadDelayNameRef">portLoadDelayNameRef</A> <A HREF="RMRF0055.HTM#schematicGlobalPortImplementationRef">schematicGlobalPortImplementationRef</A> <A HREF="RMRF0055.HTM#schematicGlobalPortTemplateRef">schematicGlobalPortTemplateRef</A> <A HREF="RMRF0055.HTM#schematicMasterPortImplementationRef">schematicMasterPortImplementationRef</A> <A HREF="RMRF0055.HTM#schematicMasterPortTemplateRef">schematicMasterPortTemplateRef</A> <A HREF="RMRF0057.HTM#schematicSymbolPortImplementationRef">schematicSymbolPortImplementationRef</A> <A HREF="RMRF0057.HTM#schematicSymbolPortTemplateRef">schematicSymbolPortTemplateRef</A> <A HREF="RMRF0059.HTM#symbolPortImplementationNameRef">symbolPortImplementationNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#portRef">PortRef</A></I> is used to reference a master port.
+<H3>Example:</H3>
+<PRE>
+<B>(portRef P)</B>
+</PRE>
+<P>In this example, the master port P is referenced.
+<P><HR>
+<H1><A NAME="portSet">portSet</A></H1>
+<PRE>
+<I>portSet ::= '(' 'portSet'</I>
+&#09;<I>{ <A HREF="RMRF0053.HTM#portRef">portRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0006.HTM#event">event</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0016.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A> <A HREF="RMRF0031.HTM#pcbElectricalPartTerminalConnectedPortSet">pcbElectricalPartTerminalConnectedPortSet</A> <A HREF="RMRF0052.HTM#port">port</A> 
+</I>
+<H3>Description:</H3>
+<P>This is used as an abbreviation within <I><A HREF="RMRF0006.HTM#event">event</A></I> to indicate a transition on any of these ports. 
+<H3>Example:</H3>
+<PRE>
+<B>(event</B>
+<B>   (portSet</B>
+<B>      (portRef port1)</B>
+<B>      (portRef port2)</B>
+<B>      (portRef port3)</B>
+<B>      (portRef port4))</B>
+<B>   ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="positiveInteger">positiveInteger</A></H1>
+<PRE>
+<I>positiveInteger ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#numberOfZones">numberOfZones</A>  <A HREF="RMRF0025.HTM#pcbDimensionAngularPrecisionCount">pcbDimensionAngularPrecisionCount</A>  !<A HREF="RMRF0043.HTM#pcbPackagePinFormCount">pcbPackagePinFormCount</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0010.HTM#integer">integer</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Numeric constraints: 
+<DD>Greater than: 0   
+</DL>
+<H3>Description:</H3>
+<P>Specifies a positive non-zero integer. 
+<H3>Example:</H3>
+<PRE>
+<B>(numberOfZones 10) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="powerValue">powerValue</A></H1>
+<PRE>
+<I>powerValue ::= <A HREF="RMRF0014.HTM#nonNegativeNumber">nonNegativeNumber</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0023.HTM#pcbDieMaximumThermalDissipation">pcbDieMaximumThermalDissipation</A>  !<A HREF="RMRF0023.HTM#pcbDieNominalThermalDissipation">pcbDieNominalThermalDissipation</A>  !<A HREF="RMRF0024.HTM#pcbDiePowerCell">pcbDiePowerCell</A>  
+</I>
+<H3>Description:</H3>
+<P>Defines a power value in units as defined by <I><A HREF="RMRF0058.HTM#setPower">setPower</A></I>.
+<P><HR>
+<H1><A NAME="presentLogicValue">presentLogicValue</A></H1>
+<PRE>
+<I>presentLogicValue ::= ( logicNameRef | logicList | logicOneOf ) </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0060.HTM#transition">transition</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#logicValue">logicValue</A> 
+</I>
+<H3>Description:</H3>
+<P>The present value of a logic state transition. See <I><A HREF="RMRF0060.HTM#transition">transition</A></I> for an example.
+<P><HR>
+<H1><A NAME="pressureRange">pressureRange</A></H1>
+<PRE>
+<I>pressureRange ::= '(' 'pressureRange'</I>
+&#09;<I><A HREF="RMRF0014.HTM#nonNegativeMiNoMaxValue">nonNegativeMiNoMaxValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0023.HTM#pcbDieEnvironmentalConditions">pcbDieEnvironmentalConditions</A>  
+</I>
+<H3>Description:</H3>
+<P>Describes a range of pressure values. The values will have units as defined by <I><A HREF="RMRF0058.HTM#setPressure">setPressure</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(setPressure (unitRef bar))</B>
+<B>...</B>
+<B>(pressureRange (mnm (e 5 -1) 1 (e 15 -1))) </B>
+</PRE>
+<P>This example describes a pressure range between 0.5 bar and 1.5 bar with a nominal value of 1 bar. 
+<P><HR>
+<H1><A NAME="previousLogicValue">previousLogicValue</A></H1>
+<PRE>
+<I>previousLogicValue ::= ( logicNameRef | logicList | logicOneOf ) </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0060.HTM#transition">transition</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#logicValue">logicValue</A> 
+</I>
+<H3>Description:</H3>
+<P>The previous value of a logic state transition. See <I><A HREF="RMRF0060.HTM#transition">transition</A></I> for an example.
+<P><HR>
+<H1><A NAME="previousVersion">previousVersion</A></H1>
+<PRE>
+<I>previousVersion ::= '(' 'previousVersion'</I>
+&#09;<I><A HREF="RMRF0062.HTM#viewRef">viewRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0053.HTM#reason">reason</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0003.HTM#connectivityViewHeader">connectivityViewHeader</A>  &lt;<A HREF="RMRF0036.HTM#pcbMcmViewHeader">pcbMcmViewHeader</A>  &lt;<A HREF="RMRF0057.HTM#schematicSymbolHeader">schematicSymbolHeader</A>  &lt;<A HREF="RMRF0057.HTM#schematicViewHeader">schematicViewHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0018.HTM#pcbBareBoardTechnologyPreviousVersion">pcbBareBoardTechnologyPreviousVersion</A> <A HREF="RMRF0024.HTM#pcbDiePhysicalTemplatePreviousVersion">pcbDiePhysicalTemplatePreviousVersion</A> <A HREF="RMRF0040.HTM#pcbMountingMethodPreviousVersion">pcbMountingMethodPreviousVersion</A> <A HREF="RMRF0044.HTM#pcbPackagePreviousVersion">pcbPackagePreviousVersion</A> <A HREF="RMRF0045.HTM#pcbPartPreviousVersion">pcbPartPreviousVersion</A> <A HREF="RMRF0050.HTM#pcbSubLayoutPreviousVersion">pcbSubLayoutPreviousVersion</A> <A HREF="RMRF0061.HTM#version">version</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0062.HTM#viewRef">viewRef</A></I> used inside <I><A HREF="RMRF0053.HTM#previousVersion">previousVersion</A></I> should reference a view of the same type as that which contains the <I><A HREF="RMRF0053.HTM#previousVersion">previousVersion</A></I> construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0062.HTM#viewRef">viewRef</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The latest <I><A HREF="RMRF0059.HTM#timeStamp">timeStamp</A></I> in the <I><A HREF="RMRF0059.HTM#status">status</A></I> of the view referenced by <I><A HREF="RMRF0053.HTM#previousVersion">previousVersion</A></I> should be before the earliest <I><A HREF="RMRF0059.HTM#timeStamp">timeStamp</A></I> in the <I><A HREF="RMRF0059.HTM#status">status</A></I> of the view containing the <I><A HREF="RMRF0053.HTM#previousVersion">previousVersion</A></I> construct.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#previousVersion">PreviousVersion</A></I> is used to indicate that a view is a new version of another view. <I><A HREF="RMRF0053.HTM#previousVersion">PreviousVersion</A></I> specifies the view that represents the previous version of this view. 
+<H3>Example:</H3>
+<PRE>
+<B>(cluster C1</B>
+<B>   (interface ...)</B>
+<B>   (clusterHeader)</B>
+<B>   (schematicView SCHEMATIC_0 ...)</B>
+<B>   (schematicView SCHEMATIC </B>
+<B>      (schematicViewHeader</B>
+<B>         (schematicUnits)</B>
+<B>         (previousVersion </B>
+<B>            (viewRef SCHEMATIC_0)</B>
+<B>            ))</B>
+<B>      ...))</B>
+</PRE>
+<P>In this example, the view SCHEMATIC is a new version of the view SCHEMATIC_0.
+<P><HR>
+<H1><A NAME="primaryName">primaryName</A></H1>
+<PRE>
+<I>primaryName ::= '(' 'primaryName'</I>
+&#09;<I><A HREF="RMRF0015.HTM#originalName">originalName</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0005.HTM#displayName">displayName</A>&gt; | &lt;<A HREF="RMRF0008.HTM#generated">generated</A>&gt; | &lt;<A HREF="RMRF0014.HTM#nameStructure">nameStructure</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0015.HTM#originalName">originalName</A></I> within <I><A HREF="RMRF0053.HTM#primaryName">primaryName</A></I> is the basic name of the object in the source system. The other information within <I><A HREF="RMRF0053.HTM#primaryName">primaryName</A></I> provides additional data about the name in the originating system.
+<P>The <I><A HREF="RMRF0015.HTM#originalName">originalName</A></I> within <I><A HREF="RMRF0053.HTM#primaryName">primaryName</A></I> is the name the source system recommends the target system to use for the object being defined.
+<P>Alternative names or aliases may be given using <I><A HREF="RMRF0014.HTM#nameAlias">nameAlias</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(signal S1 (signalJoined ...)</B>
+<B>   (nameInformation </B>
+<B>      (primaryName "BusA0"</B>
+<B>         (displayName "BusA"))) ...)</B>
+</PRE>
+<P>In this example, the signal with EDIF identifier S1 has a <I><A HREF="RMRF0053.HTM#primaryName">primaryName</A></I> BusA0.
+<P><HR>
+<H1><A NAME="program">program</A></H1>
+<PRE>
+<I>program ::= '(' 'program'</I>
+&#09;<I><A HREF="RMRF0059.HTM#stringValue">stringValue</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0061.HTM#version">version</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0062.HTM#written">written</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0053.HTM#program">program</A></I> statement identifies the software or program name which was responsible for creating the data, and optionally the version code of the program. 
+<H3>Example:</H3>
+<PRE>
+<B>(written</B>
+<B>   (timeStamp (date 1987 3 4) (time 18 34 54))</B>
+<B>   (program "EDIF_$Net" (version "5.3")))</B>
+</PRE>
+<P>The above example specifies that the block of information was produced on March 4, 1987 at 18:34:54 UTC by the program EDIF_$Net, version 5.3. 
+<P><HR>
+<H1><A NAME="projectionShape">projectionShape</A></H1>
+<PRE>
+<I>projectionShape ::= <A HREF="RMRF0002.HTM#closedAreaElement">closedAreaElement</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#extrusionVolume">extrusionVolume</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0058.HTM#shape">shape</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the cross-sectional shape of a projection.
+<H3>Example:</H3>
+<PRE>
+<B>(bodyVolume</B>
+<B>   (extrusionVolume</B>
+<B>      (rectangle (pt 0 50) </B>
+<B>         (pt 800 300))</B>
+<B>      (offsetDistance 150)</B>
+<B>      (extrusionLength 175)))</B>
+</PRE>
+<P>See <I><A HREF="RMRF0001.HTM#bodyVolume">bodyVolume</A></I> for a comprehensive example.
+<P><HR>
+<H1><A NAME="property">property</A></H1>
+<PRE>
+<I>property ::= '(' 'property'</I>
+&#09;<I><A HREF="RMRF0053.HTM#propertyNameDef">propertyNameDef</A></I>
+&#09;<I>( <A HREF="RMRF0060.HTM#typedValue">typedValue</A> | <A HREF="RMRF0061.HTM#untyped">untyped</A> )</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | &lt;<A HREF="RMRF0015.HTM#owner">owner</A>&gt; | <A HREF="RMRF0053.HTM#property">property</A> | 
+&#09;&lt;<A HREF="RMRF0053.HTM#propertyInheritanceControl">propertyInheritanceControl</A>&gt; | &lt;<A HREF="RMRF0061.HTM#unitRef">unitRef</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0001.HTM#cellHeader">cellHeader</A>  *<A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>  *<A HREF="RMRF0002.HTM#clusterHeader">clusterHeader</A>  *<A HREF="RMRF0003.HTM#connectivityViewHeader">connectivityViewHeader</A>  *<A HREF="RMRF0004.HTM#designHeader">designHeader</A>  *<A HREF="RMRF0004.HTM#designHierarchyHeader">designHierarchyHeader</A>  *<A HREF="RMRF0006.HTM#edifHeader">edifHeader</A>  *<A HREF="RMRF0007.HTM#figureGroup">figureGroup</A>  *<A HREF="RMRF0007.HTM#font">font</A>  *<A HREF="RMRF0008.HTM#geometryMacroHeader">geometryMacroHeader</A>  *<A HREF="RMRF0008.HTM#globalPort">globalPort</A>  *<A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A>  *<A HREF="RMRF0009.HTM#instance">instance</A>  *<A HREF="RMRF0009.HTM#instancePortAttributes">instancePortAttributes</A>  *<A HREF="RMRF0010.HTM#interconnectAnnotate">interconnectAnnotate</A>  *<A HREF="RMRF0010.HTM#interconnectHeader">interconnectHeader</A>  *<A HREF="RMRF0012.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A>  *<A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A>  *<A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A>  *<A HREF="RMRF0013.HTM#logicValue">logicValue</A>  *<A HREF="RMRF0014.HTM#namedUnitHeader">namedUnitHeader</A>  *<A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  *<A HREF="RMRF0015.HTM#pageHeader">pageHeader</A>  *<A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>  *<A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetHeader">pcbAssembledPhysicalNetHeader</A>  *<A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A>  *<A HREF="RMRF0018.HTM#pcbBareBoardConstraint">pcbBareBoardConstraint</A>  *<A HREF="RMRF0018.HTM#pcbBareBoardProbePoint">pcbBareBoardProbePoint</A>  *<A HREF="RMRF0018.HTM#pcbBareBoardTechnologyHeader">pcbBareBoardTechnologyHeader</A>  *<A HREF="RMRF0019.HTM#pcbBondPadHeader">pcbBondPadHeader</A>  *<A HREF="RMRF0020.HTM#pcbComponentAssemblyRule">pcbComponentAssemblyRule</A>  *<A HREF="RMRF0020.HTM#pcbComponentHeader">pcbComponentHeader</A>  *<A HREF="RMRF0021.HTM#pcbComponentRealizationRule">pcbComponentRealizationRule</A>  *<A HREF="RMRF0021.HTM#pcbComponentRegionRealizationRule">pcbComponentRegionRealizationRule</A>  *<A HREF="RMRF0021.HTM#pcbComponentSignal">pcbComponentSignal</A>  *<A HREF="RMRF0021.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  *<A HREF="RMRF0021.HTM#pcbComponentSignalRealizationRule">pcbComponentSignalRealizationRule</A>  *<A HREF="RMRF0021.HTM#pcbComponentTerminalGroupHeader">pcbComponentTerminalGroupHeader</A>  *<A HREF="RMRF0022.HTM#pcbConnectorPartTerminalHeader">pcbConnectorPartTerminalHeader</A>  *<A HREF="RMRF0024.HTM#pcbDiePhysicalTemplateHeader">pcbDiePhysicalTemplateHeader</A>  *<A HREF="RMRF0024.HTM#pcbDieStorageConditions">pcbDieStorageConditions</A>  *<A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  *<A HREF="RMRF0029.HTM#pcbDrawingFillPattern">pcbDrawingFillPattern</A>  *<A HREF="RMRF0029.HTM#pcbDrawingHeader">pcbDrawingHeader</A>  *<A HREF="RMRF0029.HTM#pcbDrawingLineStyle">pcbDrawingLineStyle</A>  *<A HREF="RMRF0030.HTM#pcbDrawingTemplateHeader">pcbDrawingTemplateHeader</A>  *<A HREF="RMRF0031.HTM#pcbDrillRuleHeader">pcbDrillRuleHeader</A>  *<A HREF="RMRF0031.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A>  *<A HREF="RMRF0032.HTM#pcbElectricalPartTerminalHeader">pcbElectricalPartTerminalHeader</A>  *<A HREF="RMRF0032.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A>  *<A HREF="RMRF0033.HTM#pcbFootprintInstance">pcbFootprintInstance</A>  *<A HREF="RMRF0033.HTM#pcbGeometricAttributeDefault">pcbGeometricAttributeDefault</A>  *<A HREF="RMRF0033.HTM#pcbHoleClearanceRule">pcbHoleClearanceRule</A>  *<A HREF="RMRF0033.HTM#pcbIbisFileInformation">pcbIbisFileInformation</A>  *<A HREF="RMRF0033.HTM#pcbIbisPinBinding">pcbIbisPinBinding</A>  *<A HREF="RMRF0034.HTM#pcbJumperConnectionHeader">pcbJumperConnectionHeader</A>  *<A HREF="RMRF0034.H
+</I>
+<H3>Similar Keywords:</H3>
+
+<P><I><A HREF="RMRF0001.HTM#cellPropertyDisplay">cellPropertyDisplay</A> <A HREF="RMRF0001.HTM#cellPropertyDisplayOverride">cellPropertyDisplayOverride</A> <A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A> <A HREF="RMRF0002.HTM#clusterPropertyDisplay">clusterPropertyDisplay</A> <A HREF="RMRF0002.HTM#clusterPropertyDisplayOverride">clusterPropertyDisplayOverride</A> <A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A> <A HREF="RMRF0008.HTM#globalPortPropertyDisplay">globalPortPropertyDisplay</A> <A HREF="RMRF0010.HTM#instancePropertyDisplay">instancePropertyDisplay</A> <A HREF="RMRF0010.HTM#instancePropertyOverride">instancePropertyOverride</A> <A HREF="RMRF0010.HTM#interconnectPropertyDisplay">interconnectPropertyDisplay</A> <A HREF="RMRF0016.HTM#pagePropertyDisplay">pagePropertyDisplay</A> <A HREF="RMRF0020.HTM#pcbBondPadPropertyDrawing">pcbBondPadPropertyDrawing</A> <A HREF="RMRF0020.HTM#pcbBondPadPropertyFabrication">pcbBondPadPropertyFabrication</A> <A HREF="RMRF0021.HTM#pcbComponentPropertyFabrication">pcbComponentPropertyFabrication</A> <A HREF="RMRF0024.HTM#pcbDieTemplatePropertyDrawing">pcbDieTemplatePropertyDrawing</A> <A HREF="RMRF0024.HTM#pcbDieTemplatePropertyFabrication">pcbDieTemplatePropertyFabrication</A> <A HREF="RMRF0037.HTM#pcbMechanicalFixingPropertyFabrication">pcbMechanicalFixingPropertyFabrication</A> <A HREF="RMRF0038.HTM#pcbMountableBondPadPropertyDrawing">pcbMountableBondPadPropertyDrawing</A> <A HREF="RMRF0038.HTM#pcbMountableBondPadPropertyFabrication">pcbMountableBondPadPropertyFabrication</A> <A HREF="RMRF0038.HTM#pcbMountableDiePhysicalTemplatePropertyFabrication">pcbMountableDiePhysicalTemplatePropertyFabrication</A> <A HREF="RMRF0038.HTM#pcbMountableDiePhysicalTemplatePropertyOverride">pcbMountableDiePhysicalTemplatePropertyOverride</A> <A HREF="RMRF0039.HTM#pcbMountableDieTemplatePropertyDrawing">pcbMountableDieTemplatePropertyDrawing</A> <A HREF="RMRF0039.HTM#pcbMountableMechanicalFixingPropertyFabrication">pcbMountableMechanicalFixingPropertyFabrication</A> <A HREF="RMRF0039.HTM#pcbMountablePackagePropertyDrawing">pcbMountablePackagePropertyDrawing</A> <A HREF="RMRF0039.HTM#pcbMountablePackagePropertyFabrication">pcbMountablePackagePropertyFabrication</A> <A HREF="RMRF0039.HTM#pcbMountablePackagePropertyOverride">pcbMountablePackagePropertyOverride</A> <A HREF="RMRF0040.HTM#pcbMountablePackageTerminalPropertyDrawing">pcbMountablePackageTerminalPropertyDrawing</A> <A HREF="RMRF0040.HTM#pcbMountablePackageTerminalPropertyFabrication">pcbMountablePackageTerminalPropertyFabrication</A> <A HREF="RMRF0044.HTM#pcbPackagePropertyDrawing">pcbPackagePropertyDrawing</A> <A HREF="RMRF0044.HTM#pcbPackagePropertyFabrication">pcbPackagePropertyFabrication</A> <A HREF="RMRF0044.HTM#pcbPackageTerminalPropertyFabrication">pcbPackageTerminalPropertyFabrication</A> <A HREF="RMRF0045.HTM#pcbPartPropertyDrawing">pcbPartPropertyDrawing</A> <A HREF="RMRF0045.HTM#pcbPartPropertyFabrication">pcbPartPropertyFabrication</A> <A HREF="RMRF0045.HTM#pcbPartTerminalPropertyDrawing">pcbPartTerminalPropertyDrawing</A> <A HREF="RMRF0046.HTM#pcbPartTerminalPropertyFabrication">pcbPartTerminalPropertyFabrication</A> <A HREF="RMRF0048.HTM#pcbPropertyDrawing">pcbPropertyDrawing</A> <A HREF="RMRF0048.HTM#pcbPropertyFabrication">pcbPropertyFabrication</A> <A HREF="RMRF0048.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A> <A HREF="RMRF0048.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A> <A HREF="RMRF0048.HTM#pcbPropertyValueFabrication">pcbPropertyValueFabrication</A> <A HREF="RMRF0053.HTM#portPropertyDisplay">portPropertyDisplay</A> <A HREF="RMRF0053.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A> <A HREF="RMRF0053.HTM#portPropertyOverride">portPropertyOverride</A> <A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> <A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> <A HREF="RMRF0053.HTM#propertyNameCaseSensitive">propertyNameCase
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#property">Property</A></I> is used to associate name value pairs with EDIF objects. The property definition is referenced by <I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I>. Its type and value are specified by the <I><A HREF="RMRF0001.HTM#boolean">boolean</A></I>, <I><A HREF="RMRF0010.HTM#integer">integer</A></I>, <I><A HREF="RMRF0013.HTM#miNoMax">miNoMax</A></I>, <I><A HREF="RMRF0014.HTM#number">number</A></I>, <I><A HREF="RMRF0052.HTM#point">point</A></I>, or <I><A HREF="RMRF0059.HTM#string">string</A></I> <I><A HREF="RMRF0060.HTM#typedValue">typedValue</A></I> constructs. 
+<P>The optional <I><A HREF="RMRF0015.HTM#owner">owner</A></I> is used to indicate the owner or originator of the property type and its definition. The optional <I><A HREF="RMRF0061.HTM#unitRef">unitRef</A></I> may be used to describe the units of the property so that the property values may be scaled. Properties can be nested to describe complex structures. Properties cannot be defined as arrays. 
+<P><I><A HREF="RMRF0053.HTM#property">Property</A></I> values may be overridden using <I><A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(property xyz (integer 2)) </B>
+</PRE>
+<P>The above example gives an integer property named xyz the value 2. 
+<PRE>
+<B>(property abc (untyped)</B>
+<B>   (property a (boolean (true)))</B>
+<B>   (property b (integer 2))</B>
+<B>   (property c (string "This is property abc")))</B>
+</PRE>
+<P>In the above example, the nested property abc is defined with three subproperties.
+<P><HR>
+<H1><A NAME="propertyDisplay">propertyDisplay</A></H1>
+<PRE>
+<I>propertyDisplay ::= '(' 'propertyDisplay'</I>
+&#09;<I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | &lt;<A HREF="RMRF0053.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A>  *<A HREF="RMRF0015.HTM#page">page</A>  *<A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A>  *<A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>  *<A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>  *<A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacro</A>  *<A HREF="RMRF0055.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A>  *<A HREF="RMRF0055.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A>  *<A HREF="RMRF0055.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A>  *<A HREF="RMRF0055.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>  *<A HREF="RMRF0056.HTM#schematicOffPageConnectorImplementation">schematicOffPageConnectorImplementation</A>  *<A HREF="RMRF0056.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A>  *<A HREF="RMRF0056.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A>  *<A HREF="RMRF0056.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A>  *<A HREF="RMRF0056.HTM#schematicRipperImplementation">schematicRipperImplementation</A>  *<A HREF="RMRF0056.HTM#schematicRipperTemplate">schematicRipperTemplate</A>  *<A HREF="RMRF0057.HTM#schematicSymbol">schematicSymbol</A>  *<A HREF="RMRF0057.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A>  *<A HREF="RMRF0057.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellPropertyDisplay">cellPropertyDisplay</A> <A HREF="RMRF0001.HTM#cellPropertyDisplayOverride">cellPropertyDisplayOverride</A> <A HREF="RMRF0002.HTM#clusterPropertyDisplay">clusterPropertyDisplay</A> <A HREF="RMRF0002.HTM#clusterPropertyDisplayOverride">clusterPropertyDisplayOverride</A> <A HREF="RMRF0008.HTM#globalPortPropertyDisplay">globalPortPropertyDisplay</A> <A HREF="RMRF0010.HTM#instancePropertyDisplay">instancePropertyDisplay</A> <A HREF="RMRF0010.HTM#interconnectPropertyDisplay">interconnectPropertyDisplay</A> <A HREF="RMRF0016.HTM#pagePropertyDisplay">pagePropertyDisplay</A> <A HREF="RMRF0053.HTM#portPropertyDisplay">portPropertyDisplay</A> <A HREF="RMRF0053.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A> <A HREF="RMRF0053.HTM#property">property</A> <A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> <A HREF="RMRF0061.HTM#viewPropertyDisplay">viewPropertyDisplay</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>In a given context there may be no more than one <I><A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A></I> for each <I><A HREF="RMRF0053.HTM#property">property</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#propertyDisplay">PropertyDisplay</A></I> is used to specify display locations and display attributes for the display of property values. 
+<P>The value to display is referenced by a <I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I>. This refers to a property of the same object as that containing the <I><A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A></I> construct.
+<P>When used in <I><A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A></I>, it refers to a property of the object containing the <I><A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(page P1 (pageHeader ... (property P1 ...) ...)</B>
+<B>   (propertyDisplay P1 (display ...))</B>
+<B>   ...)</B>
+</PRE>
+<P>In the above example, the value of the <I><A HREF="RMRF0015.HTM#page">page</A></I> property named P1 is to be displayed on the page.
+<P><HR>
+<H1><A NAME="propertyDisplayOverride">propertyDisplayOverride</A></H1>
+<PRE>
+<I>propertyDisplayOverride ::= '(' 'propertyDisplayOverride'</I>
+&#09;<I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0054.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0053.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#pageBorder">pageBorder</A>  *<A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>  *<A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A>  *<A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A>  *<A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  *<A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A>  *<A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A>  *<A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A>  *<A HREF="RMRF0056.HTM#schematicOffPageConnectorImplementation">schematicOffPageConnectorImplementation</A>  *<A HREF="RMRF0056.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A>  *<A HREF="RMRF0056.HTM#schematicRipperImplementation">schematicRipperImplementation</A>  *<A HREF="RMRF0057.HTM#schematicSymbolBorder">schematicSymbolBorder</A>  *<A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellPropertyDisplayOverride">cellPropertyDisplayOverride</A> <A HREF="RMRF0002.HTM#clusterPropertyDisplayOverride">clusterPropertyDisplayOverride</A> <A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0053.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A> <A HREF="RMRF0053.HTM#property">property</A> <A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>In a given context there may be no more than one <I><A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A></I> for each <I><A HREF="RMRF0053.HTM#property">property</A></I>.
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>If a <I><A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A></I> is present in the implementation of a template, then there must be a <I><A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A></I> for the <I><A HREF="RMRF0053.HTM#property">property</A></I> in the template.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#propertyDisplayOverride">PropertyDisplayOverride</A></I> is used to override a <I><A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A></I> defined in a template. 
+<P>The original <I><A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A></I> is effectively supplemented (using <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I>), replaced (using <I><A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A></I>) or removed (using <I><A HREF="RMRF0054.HTM#removeDisplay">removeDisplay</A></I>) in the implementation with the display data given in the <I><A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicGlobalPortTemplate GROUND_SYMBOL</B>
+<B>   (schematicTemplateHeader </B>
+<B>      (schematicUnits ...)</B>
+<B>      (property GPTP ...) ...)</B>
+<B>   (hotspot (pt 0 0))</B>
+<B>   (figure LINES ...)</B>
+<B>   (propertyDisplay GPTP </B>
+<B>      (display TEXT </B>
+<B>         (transform (origin (pt 100 200)))))</B>
+<B>   )</B>
+<B>...</B>
+<B>(cell Top_level_schematic (cellHeader ...)</B>
+<B>   (cluster C1</B>
+<B>      (interface ...)</B>
+<B>      (clusterHeader ...)</B>
+<B>      (schematicView schematic_sheet</B>
+<B>         (schematicViewHeader ...)</B>
+<B>         (logicalConnectivity</B>
+<B>            ...</B>
+<B>            (signal N1</B>
+<B>               (signalJoined </B>
+<B>                  (globalPortRef ...) ...) ...))</B>
+<B>         (schematicImplementation</B>
+<B>            (page &amp;1 (pageHeader ...)</B>
+<B>               (schematicGlobalPortImplementation &amp;1</B>
+<B>                  (schematicGlobalPortTemplateRef </B>
+<B>                     GROUND_SYMBOL)</B>
+<B>                  (globalPortRef ...)</B>
+<B>                  (transform (origin (pt 1000 1000)))</B>
+<B>                  (propertyDisplayOverride GPTP</B>
+<B>                     (replaceDisplay</B>
+<B>                        (display TEXT </B>
+<B>                           (transform </B>
+<B>                              (origin (pt 1300 1400)))))))</B>
+<B>               )))))</B>
+</PRE>
+<P>In this example, the property GPTP belonging to the global port template GROUND_SYMBOL will be displayed at (pt 1300 1400) in the page and not at (pt 1100 1200). Note that the position (pt 100 200) is relative to the origin of the template, and was subject to transformation by the <I><A HREF="RMRF0060.HTM#transform">transform</A></I> in the implementation.
+<P><HR>
+<H1><A NAME="propertyInheritanceControl">propertyInheritanceControl</A></H1>
+<PRE>
+<I>propertyInheritanceControl ::= '(' 'propertyInheritanceControl'</I>
+&#09;<I>( <A HREF="RMRF0007.HTM#fixed">fixed</A> | <A HREF="RMRF0014.HTM#notInherited">notInherited</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0053.HTM#property">property</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#propertyInheritanceControl">PropertyInheritanceControl</A></I> controls how a property is inherited. It is applicable only in cases where there is inheritance through instantiation or in a design e.g. where a view is the top level of a design hierarchy, and a property of that view may be overridden in the view annotation. 
+<H3>Example:</H3>
+<PRE>
+<B>(property foo (integer 1) </B>
+<B>   (propertyInheritanceControl (fixed)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="propertyNameCaseSensitive">propertyNameCaseSensitive</A></H1>
+<PRE>
+<I>propertyNameCaseSensitive ::= '(' 'propertyNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A> <A HREF="RMRF0004.HTM#designNameCaseSensitive">designNameCaseSensitive</A> <A HREF="RMRF0005.HTM#documentationNameCaseSensitive">documentationNameCaseSensitive</A> <A HREF="RMRF0009.HTM#hotspotNameCaseSensitive">hotspotNameCaseSensitive</A> <A HREF="RMRF0009.HTM#implementationNameCaseSensitive">implementationNameCaseSensitive</A> <A HREF="RMRF0009.HTM#instanceNameCaseSensitive">instanceNameCaseSensitive</A> <A HREF="RMRF0010.HTM#interconnectNameCaseSensitive">interconnectNameCaseSensitive</A> <A HREF="RMRF0012.HTM#libraryNameCaseSensitive">libraryNameCaseSensitive</A> <A HREF="RMRF0016.HTM#pageNameCaseSensitive">pageNameCaseSensitive</A> <A HREF="RMRF0052.HTM#portNameCaseSensitive">portNameCaseSensitive</A> <A HREF="RMRF0053.HTM#property">property</A> <A HREF="RMRF0058.HTM#signalNameCaseSensitive">signalNameCaseSensitive</A> <A HREF="RMRF0061.HTM#viewNameCaseSensitive">viewNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#propertyNameCaseSensitive">PropertyNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for properties are to be considered as case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0006.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<P><HR>
+<H1><A NAME="propertyNameDef">propertyNameDef</A></H1>
+<PRE>
+<I>propertyNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0053.HTM#property">property</A>  
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0053.HTM#propertyNameDef">propertyNameDef</A></I> is a name used to identify a particular property attached to an object. No special meaning is associated with the choice of name in EDIF. Any external interpretation of a property which depends on the choice of name should only be used with the prior agreement of both sender and receiver.
+<P>This name is local to the smallest-named construct which contains the <I><A HREF="RMRF0053.HTM#property">property</A></I>. 
+<P><HR>
+<H1><A NAME="propertyNameDisplay">propertyNameDisplay</A></H1>
+<PRE>
+<I>propertyNameDisplay ::= '(' 'propertyNameDisplay'</I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | <A HREF="RMRF0005.HTM#displayNameOverride">displayNameOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0001.HTM#cellPropertyDisplay">cellPropertyDisplay</A>  &lt;<A HREF="RMRF0001.HTM#cellPropertyDisplayOverride">cellPropertyDisplayOverride</A>  &lt;<A HREF="RMRF0002.HTM#clusterPropertyDisplay">clusterPropertyDisplay</A>  &lt;<A HREF="RMRF0002.HTM#clusterPropertyDisplayOverride">clusterPropertyDisplayOverride</A>  &lt;<A HREF="RMRF0008.HTM#globalPortPropertyDisplay">globalPortPropertyDisplay</A>  &lt;<A HREF="RMRF0010.HTM#instancePropertyDisplay">instancePropertyDisplay</A>  &lt;<A HREF="RMRF0010.HTM#interconnectPropertyDisplay">interconnectPropertyDisplay</A>  &lt;<A HREF="RMRF0016.HTM#pagePropertyDisplay">pagePropertyDisplay</A>  &lt;<A HREF="RMRF0053.HTM#portPropertyDisplay">portPropertyDisplay</A>  &lt;<A HREF="RMRF0053.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A>  &lt;<A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A>  &lt;<A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A>  &lt;<A HREF="RMRF0061.HTM#viewPropertyDisplay">viewPropertyDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#displayName">displayName</A> <A HREF="RMRF0053.HTM#property">property</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#propertyNameDisplay">PropertyNameDisplay</A></I> is used to display the name of a property.
+<P><HR>
+<H1><A NAME="propertyNameRef">propertyNameRef</A></H1>
+<PRE>
+<I>propertyNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#cellPropertyDisplay">cellPropertyDisplay</A>  !<A HREF="RMRF0001.HTM#cellPropertyDisplayOverride">cellPropertyDisplayOverride</A>  !<A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A>  !<A HREF="RMRF0002.HTM#clusterPropertyDisplay">clusterPropertyDisplay</A>  !<A HREF="RMRF0002.HTM#clusterPropertyDisplayOverride">clusterPropertyDisplayOverride</A>  !<A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A>  !<A HREF="RMRF0008.HTM#globalPortPropertyDisplay">globalPortPropertyDisplay</A>  !<A HREF="RMRF0010.HTM#instancePropertyDisplay">instancePropertyDisplay</A>  !<A HREF="RMRF0010.HTM#instancePropertyOverride">instancePropertyOverride</A>  !<A HREF="RMRF0010.HTM#interconnectPropertyDisplay">interconnectPropertyDisplay</A>  !<A HREF="RMRF0016.HTM#pagePropertyDisplay">pagePropertyDisplay</A>  !<A HREF="RMRF0048.HTM#pcbPropertyDrawing">pcbPropertyDrawing</A>  !<A HREF="RMRF0048.HTM#pcbPropertyFabrication">pcbPropertyFabrication</A>  !<A HREF="RMRF0053.HTM#portPropertyDisplay">portPropertyDisplay</A>  !<A HREF="RMRF0053.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A>  !<A HREF="RMRF0053.HTM#portPropertyOverride">portPropertyOverride</A>  !<A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A>  !<A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A>  !<A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A>  !<A HREF="RMRF0061.HTM#viewPropertyDisplay">viewPropertyDisplay</A>  !<A HREF="RMRF0062.HTM#viewPropertyOverride">viewPropertyOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0053.HTM#property">property</A> 
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I> is used to identify a previously-created property. 
+<P><HR>
+<H1><A NAME="propertyOverride">propertyOverride</A></H1>
+<PRE>
+<I>propertyOverride ::= '(' 'propertyOverride'</I>
+&#09;<I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0060.HTM#typedValue">typedValue</A> | <A HREF="RMRF0061.HTM#untyped">untyped</A> )</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0007.HTM#fixed">fixed</A>&gt; | <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A>  *<A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A>  *<A HREF="RMRF0007.HTM#figureGroupOverride">figureGroupOverride</A>  *<A HREF="RMRF0010.HTM#instancePropertyOverride">instancePropertyOverride</A>  *<A HREF="RMRF0010.HTM#interconnectAnnotate">interconnectAnnotate</A>  *<A HREF="RMRF0015.HTM#pageBorder">pageBorder</A>  *<A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A>  *<A HREF="RMRF0017.HTM#pcbBareBoard">pcbBareBoard</A>  *<A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A>  *<A HREF="RMRF0030.HTM#pcbDrawingTitleBlock">pcbDrawingTitleBlock</A>  *<A HREF="RMRF0033.HTM#pcbFigureAttributeOverride">pcbFigureAttributeOverride</A>  *<A HREF="RMRF0038.HTM#pcbMountableDiePhysicalTemplatePropertyOverride">pcbMountableDiePhysicalTemplatePropertyOverride</A>  *<A HREF="RMRF0039.HTM#pcbMountablePackagePropertyOverride">pcbMountablePackagePropertyOverride</A>  *<A HREF="RMRF0053.HTM#portPropertyOverride">portPropertyOverride</A>  *<A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A>  *<A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A>  *<A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A>  *<A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  *<A HREF="RMRF0055.HTM#schematicInterconnectTerminatorImplementation">schematicInterconnectTerminatorImplementation</A>  *<A HREF="RMRF0055.HTM#schematicJunctionImplementation">schematicJunctionImplementation</A>  *<A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A>  *<A HREF="RMRF0056.HTM#schematicOffPageConnectorImplementation">schematicOffPageConnectorImplementation</A>  *<A HREF="RMRF0056.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A>  *<A HREF="RMRF0056.HTM#schematicRipperImplementation">schematicRipperImplementation</A>  *<A HREF="RMRF0057.HTM#schematicSymbolBorder">schematicSymbolBorder</A>  *<A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A>  *<A HREF="RMRF0058.HTM#signalAnnotate">signalAnnotate</A>  *<A HREF="RMRF0058.HTM#signalGroupAnnotate">signalGroupAnnotate</A>  *<A HREF="RMRF0062.HTM#viewPropertyOverride">viewPropertyOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellPropertyDisplayOverride">cellPropertyDisplayOverride</A> <A HREF="RMRF0002.HTM#clusterPropertyDisplayOverride">clusterPropertyDisplayOverride</A> <A HREF="RMRF0053.HTM#portPropertyDisplayOverride">portPropertyDisplayOverride</A> <A HREF="RMRF0053.HTM#property">property</A> <A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The type of a <I><A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A></I> must match that of the <I><A HREF="RMRF0053.HTM#property">property</A></I> being overridden.
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0053.HTM#property">property</A></I> being overridden with <I><A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A></I> should not be <I><A HREF="RMRF0007.HTM#fixed">fixed</A></I> or <I><A HREF="RMRF0014.HTM#notInherited">notInherited</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0014.HTM#notInherited">notInherited</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#propertyOverride">PropertyOverride</A></I> is used to override the value of a property on instantiation, back annotation or other appropriate positions. 
+<P>It is appropriate to be able to specify <I><A HREF="RMRF0007.HTM#fixed">fixed</A></I> for a <I><A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A></I> because this is used to prevent further <I><A HREF="RMRF0053.HTM#propertyOverride">propertyOverrides</A></I> being applied at a later stage, e.g. in annotation.
+<P>It is not possible to override part of a property using nested <I><A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A></I>; the whole <I><A HREF="RMRF0053.HTM#property">property</A></I> is always overridden.
+<H3>Example:</H3>
+<PRE>
+<B>(signal SIG1 (signalJoined ...)</B>
+<B>   (property P1</B>
+<B>      (string "ABCD")) ...)</B>
+<B>...</B>
+<B>(occurrenceAnnotate I1</B>
+<B>   (signalAnnotate SIG1</B>
+<B>      (propertyOverride P1 (string "PQRS"))))</B>
+</PRE>
+<P>In this example, the property P1 belonging to signal SIG1 is overridden with a new value in the <I><A HREF="RMRF0058.HTM#signalAnnotate">signalAnnotate</A></I> form.
+<P><HR>
+<H1><A NAME="proportionalFont">proportionalFont</A></H1>
+<PRE>
+<I>proportionalFont ::= '(' 'proportionalFont'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0007.HTM#font">font</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#proportionalFont">ProportionalFont</A></I> indicates that a font contains proportionally-spaced characters. If not present, then the font is assumed to have a fixed pitch. 
+<P><HR>
+<H1><A NAME="pt">pt</A></H1>
+<PRE>
+<I>pt ::= '(' 'pt'</I>
+&#09;<I><A HREF="RMRF0062.HTM#xCoordinate">xCoordinate</A></I>
+&#09;<I><A HREF="RMRF0062.HTM#yCoordinate">yCoordinate</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0052.HTM#pointValue">pointValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#pt">Pt</A></I> is used to specify the coordinates of all geometric data such as line drawings and filled areas. It is also used to specify locations of objects. The first <I><A HREF="RMRF0010.HTM#integerValue">integerValue</A></I>, <I><A HREF="RMRF0062.HTM#xCoordinate">xCoordinate</A></I>, is the x-location, and the second <I><A HREF="RMRF0010.HTM#integerValue">integerValue</A></I>, <I><A HREF="RMRF0062.HTM#yCoordinate">yCoordinate</A></I>, is the y-location of the point. 
+<P>Coordinates are scaled between views according to units defined by <I><A HREF="RMRF0058.HTM#setDistance">setDistance</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(pt 100 50)</B>
+</PRE>
+<P>This example specifies a point which is 100 units to the right of the coordinate origin and 50 units above it.
+<P><HR>
+<H1><A NAME="pt1">pt1</A></H1>
+<PRE>
+<I>pt1 ::= <A HREF="RMRF0052.HTM#pointValue">pointValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#circle">circle</A>  !<A HREF="RMRF0054.HTM#rectangle">rectangle</A>  !<A HREF="RMRF0060.HTM#unfilledCircle">unfilledCircle</A>  !<A HREF="RMRF0060.HTM#unfilledRectangle">unfilledRectangle</A>  
+</I>
+<H3>Description:</H3>
+<P>The first point defining a circle or rectangle.
+<P><HR>
+<H1><A NAME="pt2">pt2</A></H1>
+<PRE>
+<I>pt2 ::= <A HREF="RMRF0052.HTM#pointValue">pointValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#circle">circle</A>  !<A HREF="RMRF0054.HTM#rectangle">rectangle</A>  !<A HREF="RMRF0060.HTM#unfilledCircle">unfilledCircle</A>  !<A HREF="RMRF0060.HTM#unfilledRectangle">unfilledRectangle</A>  
+</I>
+<H3>Description:</H3>
+<P>The second point defining a circle or rectangle.
+<P><HR>
+<H1><A NAME="radian">radian</A></H1>
+<PRE>
+<I>radian ::= '(' 'radian'</I>
+&#09;<I><A HREF="RMRF0061.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0061.HTM#unit">unit</A>  &lt;<A HREF="RMRF0061.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#radian">Radian</A></I> is used to specify a user-defined unit in terms of the SI plane angle unit, radian. See <I><A HREF="RMRF0061.HTM#unit">unit</A></I> for examples of the definition of units.
+<P><HR>
+<H1><A NAME="reason">reason</A></H1>
+<PRE>
+<I>reason ::= '(' 'reason'</I>
+&#09;<I><A HREF="RMRF0059.HTM#stringToken">stringToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0004.HTM#derivedFrom">derivedFrom</A>  &lt;<A HREF="RMRF0053.HTM#previousVersion">previousVersion</A>  &lt;<A HREF="RMRF0061.HTM#viewGroupHeader">viewGroupHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0053.HTM#reason">Reason</A></I> is a string to explain the reason for the existence of a particular <I><A HREF="RMRF0061.HTM#viewGroup">viewGroup</A></I> or new version. See <I><A HREF="RMRF0061.HTM#viewGroup">viewGroup</A></I> for an example of its use.
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

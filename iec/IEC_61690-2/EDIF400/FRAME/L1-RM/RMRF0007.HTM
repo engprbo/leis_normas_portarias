@@ -1,0 +1,719 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="e">e</A></H1>
+<PRE>
+<I>e ::= '(' 'e'</I>
+&#09;<I><A HREF="RMRF0015.HTM#mantissa">mantissa</A></I>
+&#09;<I><A HREF="RMRF0007.HTM#exponent">exponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0057.HTM#scaledInteger">scaledInteger</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The absolute value of any <I><A HREF="RMRF0057.HTM#scaledInteger">scaledInteger</A></I> specified using <I><A HREF="RMRF0007.HTM#e">e</A></I> must be either zero or lie in the range 10 to the power of -35 to 10 to the power of 35 inclusive.
+</DL>
+<H3>Description:</H3>
+<P>A scale factor can be applied to an integer to represent fractional numbers or numbers too large to be expressed using an integer alone. The <I><A HREF="RMRF0007.HTM#e">e</A></I> construct consists of two integer tokens, representing the mantissa and exponent respectively. Its value is the mantissa times ten raised to the power of the exponent. 
+<H3>Example:</H3>
+<PRE>
+<B>(e 100 1)</B>
+<B>(e 42 0)</B>
+<B>(e 9 -1)</B>
+<B>(e -12325 -3)</B>
+<B>(e -644 4)</B>
+</PRE>
+<P>The above examples represent the values 1000, 42, 0.9, -12.325 and
+<P> -6440000 respectively.
+<P><HR>
+<H1><A NAME="edif">edif</A></H1>
+<PRE>
+<I>edif ::= '(' 'edif'</I>
+&#09;<I><A HREF="RMRF0007.HTM#edifNameDef">edifNameDef</A></I>
+&#09;<I><A HREF="RMRF0007.HTM#edifVersion">edifVersion</A></I>
+&#09;<I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0005.HTM#design">design</A> | <A HREF="RMRF0007.HTM#external">external</A> | <A HREF="RMRF0014.HTM#library">library</A> | <A HREF="RMRF0065.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#edifLevel">edifLevel</A> <A HREF="RMRF0007.HTM#edifLevelValue">edifLevelValue</A> 
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0007.HTM#edif">edif</A></I> keyword marks the highest-level structure within the EDIF hierarchy, containing, directly or indirectly, all information transmitted within the file. The corresponding set of matching parentheses delimit that logical file. The initial substructures, <I><A HREF="RMRF0007.HTM#edifNameDef">edifNameDef</A></I>, <I><A HREF="RMRF0007.HTM#edifVersion">edifVersion</A></I>, and <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I> contain the information required to read the file. Subsequent structures embody the actual design data and may occur in any order, subject only to the restriction that all references to any name defined within the file occur after the named construct. 
+<P>An EDIF file may contain several designs and several libraries (using <I><A HREF="RMRF0007.HTM#external">external</A></I> and <I><A HREF="RMRF0014.HTM#library">library</A></I>) of cell definitions. The libraries serve to group relevant design information according to common characteristics. The designs indicate the particular cells within the libraries that convey the top-level, or root, descriptions of the design hierarchies. 
+<P>Reference to this file cannot be made by name from within the file. 
+<H3>Example:</H3>
+<PRE>
+<B>(edif Prototype</B>
+<B>   (edifVersion 4 0 0)</B>
+<B>   (edifHeader</B>
+<B>      (edifLevel 0)</B>
+<B>      (keywordMap (k0KeywordLevel))</B>
+<B>      (unitDefinitions ...)</B>
+<B>      (fontDefinitions ...)</B>
+<B>      (physicalDefaults ...)</B>
+<B>      (status ...) ...)</B>
+<B>   (external Standard_Cells ...)</B>
+<B>   (library VHSIC_CMOS</B>
+<B>      (libraryHeader</B>
+<B>         (edifLevel 0)</B>
+<B>         (nameCaseSensitivity)</B>
+<B>         (technology ...) ...)</B>
+<B>      (cell B_Shift ...) ...)</B>
+<B>   (design Barrel_Shifter </B>
+<B>      (cellRef B_Shift (libraryRef VHSIC_CMOS)) ...))</B>
+</PRE>
+<P>In the example, the file named Prototype contains a design named Barrel_Shifter drawn from the VHSIC_CMOS library. The reference to Barrel_Shifter occurs after the defining occurrence within its library. The file is written in Level 0 EDIF Version 4 0 0 and has no mapped keywords. 
+<P><HR>
+<H1><A NAME="edifHeader">edifHeader</A></H1>
+<PRE>
+<I>edifHeader ::= '(' 'edifHeader'</I>
+&#09;<I><A HREF="RMRF0007.HTM#edifLevel">edifLevel</A></I>
+&#09;<I><A HREF="RMRF0014.HTM#keywordMap">keywordMap</A></I>
+&#09;<I><A HREF="RMRF0065.HTM#unitDefinitions">unitDefinitions</A></I>
+&#09;<I><A HREF="RMRF0008.HTM#fontDefinitions">fontDefinitions</A></I>
+&#09;<I><A HREF="RMRF0054.HTM#physicalDefaults">physicalDefaults</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0002.HTM#characterEncoding">characterEncoding</A>&gt; | &lt;<A HREF="RMRF0004.HTM#constantValues">constantValues</A>&gt; | <A HREF="RMRF0006.HTM#documentation">documentation</A> | 
+&#09;&lt;<A HREF="RMRF0009.HTM#globalPortDefinitions">globalPortDefinitions</A>&gt; | &lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>&gt; | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0033.HTM#pcbDrawingStyleDefinitions">pcbDrawingStyleDefinitions</A>&gt; | &lt;<A HREF="RMRF0035.HTM#pcbFigureCollectorDefinitions">pcbFigureCollectorDefinitions</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0054.HTM#physicalScaling">physicalScaling</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> | &lt;<A HREF="RMRF0062.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#edif">edif</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#edifHeader">EdifHeader</A></I> collects all data which, by default, applies to the whole EDIF data. This includes information on unit and global port definitions, how <I><A HREF="RMRF0063.HTM#stringToken">stringTokens</A></I> should be interpreted (<I><A HREF="RMRF0002.HTM#characterEncoding">characterEncoding</A></I>), and <I><A HREF="RMRF0062.HTM#status">status</A></I> information which relates to the entire EDIF data.
+<H3>Example:</H3>
+<PRE>
+<B>(edifHeader (edifLevel 0)</B>
+<B>   (keywordMap (k0KeywordLevel))</B>
+<B>   (unitDefinitions ...)</B>
+<B>   (fontDefinitions ...)</B>
+<B>   (physicalDefaults ...)</B>
+<B>   (status ...)</B>
+<B>   (characterEncoding (ascii))</B>
+<B>   (physicalScaling</B>
+<B>      (pcbLayoutUnits (setDistance (unitRef mm)) ...)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="edifLevel">edifLevel</A></H1>
+<PRE>
+<I>edifLevel ::= '(' 'edifLevel'</I>
+&#09;<I><A HREF="RMRF0007.HTM#edifLevelValue">edifLevelValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#edifHeader">edifHeader</A>  !<A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#edif">edif</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#edifLevel">EdifLevel</A></I> tells the reader the greatest EDIF level that could be found when processing the file or library. The integer token, <I><A HREF="RMRF0007.HTM#edifLevelValue">edifLevelValue</A></I>, may take the value zero or one only. 
+<P>A Level 0 structure will contain only the most primitive of the EDIF constructs. 
+<P>At Level 1, schematic frames are introduced and expressions and parameters may be employed to describe the design information. 
+<H3>Example:</H3>
+<PRE>
+<B>(library nMOS_X</B>
+<B>   (libraryHeader</B>
+<B>      (edifLevel 0)</B>
+<B>      (nameCaseSensitivity)</B>
+<B>      (technology ...))</B>
+<B>   (cell ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>The example indicates that the library has been created using Level 0 EDIF constructs. 
+<P><HR>
+<H1><A NAME="edifLevelValue">edifLevelValue</A></H1>
+<PRE>
+<I>edifLevelValue ::= <A HREF="RMRF0012.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#edifLevel">edifLevel</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#edif">edif</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Numeric constraints: 
+<DD>Minimum value: 0   Maximum value: 1   
+</DL>
+<H3>Description:</H3>
+<P>This represents the integer defining the <I><A HREF="RMRF0007.HTM#edifLevel">edifLevel</A></I> for the file.
+<P><HR>
+<H1><A NAME="edifNameDef">edifNameDef</A></H1>
+<PRE>
+<I>edifNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#edif">edif</A>  
+</I>
+<H3>Description:</H3>
+<P>An <I><A HREF="RMRF0007.HTM#edifNameDef">edifNameDef</A></I> is used to identify the entire EDIF data.
+<P>The name defined by the <I><A HREF="RMRF0007.HTM#edifNameDef">edifNameDef</A></I> has meaning only outside the EDIF data, where it might be used by external file-handling mechanisms. This occurrence does not serve to define this name within any contained name space. Thus, the name is free for further use within the EDIF data.
+<P><HR>
+<H1><A NAME="edifVersion">edifVersion</A></H1>
+<PRE>
+<I>edifVersion ::= '(' 'edifVersion'</I>
+&#09;<I><A HREF="RMRF0015.HTM#mark">mark</A></I>
+&#09;<I><A HREF="RMRF0013.HTM#issue">issue</A></I>
+&#09;<I><A HREF="RMRF0063.HTM#subIssue">subIssue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#edif">edif</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0065.HTM#version">version</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#edifVersion">EdifVersion</A></I> indicates the version of EDIF used to create the file. The three integers are constrained to be those representing valid EDIF versions as defined by the EDIF Steering Committee. At present, this comprises the following versions: 1 0 0, 1 1 0, 2 0 0, 3 0 0, 3 5 0 and 4 0 0. Only the latter is valid for this version.
+<H3>Example:</H3>
+<PRE>
+<B> (edifVersion 4 0 0)</B>
+</PRE>
+<P>The example indicates a file written in the current version of EDIF. 
+<P><HR>
+<H1><A NAME="electricalConductivity">electricalConductivity</A></H1>
+<PRE>
+<I>electricalConductivity ::= '(' 'electricalConductivity'</I>
+&#09;<I><A HREF="RMRF0007.HTM#electricalConductivityValue">electricalConductivityValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0044.HTM#pcbNonStandardMaterial">pcbNonStandardMaterial</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#setElectricalConductivity">setElectricalConductivity</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a construct that defines an electrical conductivity value.
+<H3>Example:</H3>
+<PRE>
+<B>(electricalConductivity (e 10 -4))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="electricalConductivityValue">electricalConductivityValue</A></H1>
+<PRE>
+<I>electricalConductivityValue ::= <A HREF="RMRF0017.HTM#nonNegativeNumber">nonNegativeNumber</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#electricalConductivity">electricalConductivity</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies an electrical conductivity value. It has the units defined by <I><A HREF="RMRF0061.HTM#setElectricalConductivity">setElectricalConductivity</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(electricalConductivity (e 10 -4))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="electricalMaterialType">electricalMaterialType</A></H1>
+<PRE>
+<I>electricalMaterialType ::= ( <A HREF="RMRF0003.HTM#conductiveMaterial">conductiveMaterial</A> | <A HREF="RMRF0057.HTM#resistiveMaterial">resistiveMaterial</A> | <A HREF="RMRF0005.HTM#dielectricMaterial">dielectricMaterial</A> | 
+&#09;<A HREF="RMRF0061.HTM#semiconductiveMaterial">semiconductiveMaterial</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0038.HTM#pcbMaterial">pcbMaterial</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the predominant electrical property of a material.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbMaterial Copper</B>
+<B>   (pcbMaterialHeader ...)</B>
+<B>   (conductiveMaterial)</B>
+<B>   (pcbStandardMaterial))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="encodedCharacter">encodedCharacter</A></H1>
+<PRE>
+<B>'%'</B>
+<B>{ <A HREF="RMRF0012.HTM#integerToken">integerToken</A> }</B>
+<B>'%'</B>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0063.HTM#stringToken">stringToken</A> 
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0002.HTM#character">character</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#encodedCharacter">EncodedCharacter</A></I> represents a sequence of characters within a <I><A HREF="RMRF0063.HTM#stringToken">stringToken</A></I>. The value of each <I><A HREF="RMRF0012.HTM#integerToken">integerToken</A></I> is interpreted as an ASCII code unless the <I><A HREF="RMRF0002.HTM#characterEncoding">characterEncoding</A></I> has been specified in the EDIF header as something other than <I><A HREF="RMRF0000.HTM#ascii">ascii</A></I>, in which case it is interpreted as a code in the specified character set. There are no set bounds for the value of the code, although 65535 should be sufficient for all currently-known sets. 
+<P><I><A HREF="RMRF0066.HTM#whiteSpace">WhiteSpace</A></I> is used within this construct to separate consecutive integer tokens, but it is optional before the first value and after the last value.
+<P>None of the special properties associated with various characters (such as quote and percent) should be attributed to these characters. This enables any character from the applicable character set to be explicitly incorporated into a string token. 
+<H3>Example:</H3>
+<PRE>
+<B>"abc%9%defg"</B>
+</PRE>
+<P>This string represents eight characters.
+<PRE>
+<B>"% 8 9 10 13 32 34 37 %"</B>
+</PRE>
+<P>The second example illustrates a <I><A HREF="RMRF0063.HTM#stringToken">stringToken</A></I> which represents the characters: back-space, horizontal-tab, line-feed, carriage-return, space, quote and percent, assuming the applicable character set is ASCII.
+<P>If 
+<PRE>
+<B>(characterEncoding (iso8859 1)) </B>
+</PRE>
+<P>had been included in the header, then the string: 
+<PRE>
+<B>"viele M%246%glichkeiten"</B>
+</PRE>
+<P>should interpret the %246% sequence as an &ouml; (with an umlaut), so the string represents viele M&ouml;glichkeiten.
+<P><HR>
+<H1><A NAME="endPoint">endPoint</A></H1>
+<PRE>
+<I>endPoint ::= <A HREF="RMRF0055.HTM#pointValue">pointValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0000.HTM#arc">arc</A>  !<A HREF="RMRF0000.HTM#arcByCenter">arcByCenter</A>  !<A HREF="RMRF0014.HTM#lineSegment">lineSegment</A>  !<A HREF="RMRF0016.HTM#mirroringAxis">mirroringAxis</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0038.HTM#pcbLinearDimensionEndPoint">pcbLinearDimensionEndPoint</A> <A HREF="RMRF0054.HTM#point">point</A> 
+</I>
+<H3>Description:</H3>
+<P>The end point of a graphical item.
+<P><HR>
+<H1><A NAME="endType">endType</A></H1>
+<PRE>
+<I>endType ::= '(' 'endType'</I>
+&#09;<I>( <A HREF="RMRF0064.HTM#truncate">truncate</A> | <A HREF="RMRF0057.HTM#round">round</A> | <A HREF="RMRF0007.HTM#extend">extend</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0008.HTM#figureGroup">figureGroup</A>  &lt;<A HREF="RMRF0008.HTM#figureGroupOverride">figureGroupOverride</A>  &lt;<A HREF="RMRF0028.HTM#pcbDimensionDrawingAttributeOverride">pcbDimensionDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0029.HTM#pcbDimensionEndGeometry">pcbDimensionEndGeometry</A>  &lt;<A HREF="RMRF0030.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  &lt;<A HREF="RMRF0032.HTM#pcbDrawingFigureDrawingAttributeOverride">pcbDrawingFigureDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0033.HTM#pcbDrawingSymbolPlacementDrawingAttributeOverride">pcbDrawingSymbolPlacementDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0035.HTM#pcbFigureAttributeOverride">pcbFigureAttributeOverride</A>  &lt;<A HREF="RMRF0036.HTM#pcbGeometricAttributeDefault">pcbGeometricAttributeDefault</A>  &lt;<A HREF="RMRF0038.HTM#pcbLeaderLineDrawingAttributeOverride">pcbLeaderLineDrawingAttributeOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0029.HTM#pcbDimensionEndGeometryType">pcbDimensionEndGeometryType</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#endType">EndType</A></I> is used to describe the ends of, for example, <I><A HREF="RMRF0019.HTM#path">paths</A></I> and <I><A HREF="RMRF0017.HTM#openShape">openShapes</A></I> in figure groups. It may be specified in, for example, <I><A HREF="RMRF0008.HTM#figureGroup">figureGroup</A></I> in the <I><A HREF="RMRF0063.HTM#technology">technology</A></I> block of a library. In this case, the end type is the default end type to be used for all path ends in the figure group. <I><A HREF="RMRF0007.HTM#endType">EndType</A></I> may also be specified in <I><A HREF="RMRF0008.HTM#figureGroupOverride">figureGroupOverride</A></I> within the <I><A HREF="RMRF0008.HTM#figure">figure</A></I> itself. In this case, the end type specified is used to override temporarily the default end type. 
+<P>With <I><A HREF="RMRF0007.HTM#extend">extend</A></I>, the end is extended by half the value of the associated <I><A HREF="RMRF0019.HTM#pathWidth">pathWidth</A></I>. <I><A HREF="RMRF0057.HTM#round">Round</A></I> ends are terminated with a semicircle centered at the end point with its radius half the value of the <I><A HREF="RMRF0019.HTM#pathWidth">pathWidth</A></I>. The figure ends exactly at the specified end point in the case where <I><A HREF="RMRF0007.HTM#endType">endType</A></I> is <I><A HREF="RMRF0064.HTM#truncate">truncate</A></I>. 
+<P><I><A HREF="RMRF0007.HTM#endType">EndType</A></I> and <I><A HREF="RMRF0004.HTM#cornerType">cornerType</A></I> apply to cases in which one or two <I><A HREF="RMRF0000.HTM#arc">arcs</A></I> are used, by using the tangents to those <I><A HREF="RMRF0000.HTM#arc">arcs</A></I> at the point of intersection in the role of the simple center-lines referred to in the above definitions. 
+<P>The default for endType is <I><A HREF="RMRF0064.HTM#truncate">truncate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(figureGroup METAL</B>
+<B>   (endType (extend))</B>
+<B>   (comment "specifies a default end type of extend"))</B>
+<B>...</B>
+<B>(figure </B>
+<B>   (figureGroupOverride METAL</B>
+<B>      (endType (truncate))</B>
+<B>      (comment "override end type with truncate end type"))</B>
+<B>   (path ...))</B>
+</PRE>
+<P>This example illustrates the use of <I><A HREF="RMRF0007.HTM#endType">endType</A></I> to establish a default expansion attribute and to override that attribute within a <I><A HREF="RMRF0008.HTM#figure">figure</A></I> statement.
+<P><CENTER><IMG SRC="FIG0030.GIF">
+</CENTER>
+<P>These figures illustrate an example of each end type.
+<P><HR>
+<H1><A NAME="engineeringDate">engineeringDate</A></H1>
+<PRE>
+<I>engineeringDate ::= '(' 'engineeringDate'</I>
+&#09;<I><A HREF="RMRF0004.HTM#date">date</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0019.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#engineeringDateDisplay">engineeringDateDisplay</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#engineeringDate">EngineeringDate</A></I> is the date of the approval of the revision of a drawing. 
+<H3>Example:</H3>
+<PRE>
+<B>(engineeringDate (date 1991 10 9))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="engineeringDateDisplay">engineeringDateDisplay</A></H1>
+<PRE>
+<I>engineeringDateDisplay ::= '(' 'engineeringDateDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0057.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0018.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0004.HTM#date">date</A> <A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0007.HTM#engineeringDate">engineeringDate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#engineeringDateDisplay">EngineeringDateDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0007.HTM#engineeringDate">engineeringDate</A></I>. When used in the context of <I><A HREF="RMRF0018.HTM#pageTitleBlock">pageTitleBlock</A></I>, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<P><HR>
+<H1><A NAME="event">event</A></H1>
+<PRE>
+<I>event ::= '(' 'event'</I>
+&#09;<I>( <A HREF="RMRF0056.HTM#portRef">portRef</A> | <A HREF="RMRF0055.HTM#portList">portList</A> | <A HREF="RMRF0056.HTM#portSet">portSet</A> | <A HREF="RMRF0012.HTM#interconnectRef">interconnectRef</A> | <A HREF="RMRF0012.HTM#interconnectSet">interconnectSet</A> )</I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#becomes">becomes</A> | <A HREF="RMRF0064.HTM#transition">transition</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0008.HTM#forbiddenEvent">forbiddenEvent</A>  !<A HREF="RMRF0017.HTM#offsetEvent">offsetEvent</A>  *<A HREF="RMRF0019.HTM#pathDelay">pathDelay</A>  !<A HREF="RMRF0064.HTM#timeInterval">timeInterval</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>When a <I><A HREF="RMRF0015.HTM#logicList">logicList</A></I> is used the size of the list should match that of the <I><A HREF="RMRF0055.HTM#port">port</A></I> or <I><A HREF="RMRF0055.HTM#portBundle">portBundle</A></I> or other logic lists associated with the enclosing construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0000.HTM#becomes">becomes</A></I>, <I><A HREF="RMRF0064.HTM#transition">transition</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#event">Event</A></I> is used to describe an event on a port or on an interconnect using logic state transitions. Events can also be described for unordered groups of ports or interconnects using <I><A HREF="RMRF0056.HTM#portSet">portSet</A></I> or <I><A HREF="RMRF0012.HTM#interconnectSet">interconnectSet</A></I>. An ordered list of ports may also be used using a <I><A HREF="RMRF0055.HTM#portList">portList</A></I>. If an ordered list of ports is specified and transitions are also specified, the size of the logic list and the port list must be equal. If no transitions are specified, then the default meaning is any logic state change. 
+<H3>Example:</H3>
+<PRE>
+<B>(event (portRef A) (transition H L))</B>
+</PRE>
+<P>In the first example, the event described is port A changing from logic state H to logic state L. 
+<PRE>
+<B>(event (portSet (portRef A) (portRef B)))</B>
+</PRE>
+<P>In the second example, the event described is any logic state change which occurs on port A or port B. 
+<P> 
+<PRE>
+<B>(event (portList (portRef A) (portRef B) (portRef C))</B>
+<B>   (transition (logicList L H X) (logicList X L H)))</B>
+</PRE>
+<P>In the third example, the event described is a logic state change from L to X on port A and a logic state change from H to L on port B and a logic state change from X to H on port C. The event is satisfied when the all ports have made the transitions; the event occurs at the time of the last such change. None of the ports should have changed value more than once during the time since just before the first port transition.
+<P><HR>
+<H1><A NAME="exponent">exponent</A></H1>
+<PRE>
+<I>exponent ::= <A HREF="RMRF0012.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#e">e</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0065.HTM#unitExponent">unitExponent</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#exponent">Exponent</A></I> is the exponent of a scaled integer. See <I><A HREF="RMRF0007.HTM#e">e</A></I> for an example of its use.
+<P><HR>
+<H1><A NAME="extend">extend</A></H1>
+<PRE>
+<I>extend ::= '(' 'extend'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0004.HTM#cornerType">cornerType</A>  !<A HREF="RMRF0007.HTM#endType">endType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendForFrameMemberDef">extendForFrameMemberDef</A> <A HREF="RMRF0007.HTM#extendFrameDef">extendFrameDef</A> <A HREF="RMRF0007.HTM#extendInstanceDef">extendInstanceDef</A> <A HREF="RMRF0007.HTM#extendInstanceMemberDef">extendInstanceMemberDef</A> <A HREF="RMRF0007.HTM#extendInterconnectDef">extendInterconnectDef</A> <A HREF="RMRF0007.HTM#extendPageDef">extendPageDef</A> <A HREF="RMRF0007.HTM#extendPortDef">extendPortDef</A> <A HREF="RMRF0007.HTM#extendPortMemberDef">extendPortMemberDef</A> <A HREF="RMRF0007.HTM#extendSignalDef">extendSignalDef</A> <A HREF="RMRF0007.HTM#extendSignalGroupDef">extendSignalGroupDef</A> <A HREF="RMRF0007.HTM#extendSignalMemberDef">extendSignalMemberDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that a corner type or an end type is of type extend. See <I><A HREF="RMRF0004.HTM#cornerType">cornerType</A></I> and <I><A HREF="RMRF0007.HTM#endType">endType</A></I> for details.
+<H3>Example:</H3>
+<PRE>
+<B>(cornerType (extend))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="extendForFrameMemberDef">extendForFrameMemberDef</A></H1>
+<PRE>
+<I>extendForFrameMemberDef ::= <A HREF="RMRF0009.HTM#forFrameMemberRef">forFrameMemberRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0009.HTM#forFrameAnnotate">forFrameAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> <A HREF="RMRF0007.HTM#extendFrameDef">extendFrameDef</A> <A HREF="RMRF0008.HTM#forFrame">forFrame</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendForFrameMemberDef">ExtendForFrameMemberDef</A></I> references a <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I> member to add additional data or to override existing data. The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendForFrameMemberDef">extendForFrameMemberDef</A></I> must not clash with existing data within the <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I> member referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendForFrameMemberDef">extendForFrameMemberDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the <I><A HREF="RMRF0008.HTM#forFrame">forFrame</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(forFrame F1 (repetitionCount 4)</B>
+<B>   (forFrameIndex I1) </B>
+<B>   (logicalConnectivity</B>
+<B>      (instance I1 ...) ...))</B>
+<B>...</B>
+<B>(forFrameAnnotate </B>
+<B>   (forFrameMemberRef F1 (indexValue 3))</B>
+<B>   (leafOccurrenceAnnotate I1 ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>In this example, the instance I1 is annotated. The <I><A HREF="RMRF0009.HTM#forFrameMemberRef">forFrameMemberRef</A></I> is an <I><A HREF="RMRF0007.HTM#extendForFrameMemberDef">extendForFrameMemberDef</A></I>. 
+<P><HR>
+<H1><A NAME="extendFrameDef">extendFrameDef</A></H1>
+<PRE>
+<I>extendFrameDef ::= <A HREF="RMRF0009.HTM#frameNameRef">frameNameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0010.HTM#ifFrameAnnotate">ifFrameAnnotate</A>  !<A HREF="RMRF0018.HTM#otherwiseFrameAnnotate">otherwiseFrameAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> <A HREF="RMRF0007.HTM#extendForFrameMemberDef">extendForFrameMemberDef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendFrameDef">ExtendFrameDef</A></I> references a frame to add additional data or to override existing data. 
+<P>The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendFrameDef">extendFrameDef</A></I> must not clash with existing data within the frame referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendFrameDef">extendFrameDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the frame. 
+<P><HR>
+<H1><A NAME="extendInstanceDef">extendInstanceDef</A></H1>
+<PRE>
+<I>extendInstanceDef ::= <A HREF="RMRF0011.HTM#instanceNameRef">instanceNameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A>  !<A HREF="RMRF0017.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> <A HREF="RMRF0007.HTM#extendInstanceMemberDef">extendInstanceMemberDef</A> <A HREF="RMRF0011.HTM#instance">instance</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendInstanceDef">ExtendInstanceDef</A></I> references an instance to add additional data or to override existing data. 
+<P>The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendInstanceDef">extendInstanceDef</A></I> must not clash with existing data within the instance referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendInstanceDef">extendInstanceDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the instance.
+<P><I><A HREF="RMRF0007.HTM#extendInstanceDef">ExtendInstanceDef</A></I> must not be used when the <I><A HREF="RMRF0011.HTM#instanceWidth">instanceWidth</A></I> of the instance referenced is greater than one.
+<P><HR>
+<H1><A NAME="extendInstanceMemberDef">extendInstanceMemberDef</A></H1>
+<PRE>
+<I>extendInstanceMemberDef ::= <A HREF="RMRF0011.HTM#instanceMemberRef">instanceMemberRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A>  !<A HREF="RMRF0017.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> <A HREF="RMRF0007.HTM#extendInstanceDef">extendInstanceDef</A> <A HREF="RMRF0007.HTM#extendPortMemberDef">extendPortMemberDef</A> <A HREF="RMRF0007.HTM#extendSignalMemberDef">extendSignalMemberDef</A> <A HREF="RMRF0011.HTM#instance">instance</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendInstanceMemberDef">ExtendInstanceMemberDef</A></I> references a member of a wide instance to add additional data or to override existing data. The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendInstanceMemberDef">extendInstanceMemberDef</A></I> must not clash with existing data within the instance referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendInstanceMemberDef">extendInstanceMemberDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the instance.
+<P>The following are equivalent:
+<PRE>
+<B>(occurrenceAnnotate I1 ...)</B>
+</PRE>
+<P>and
+<PRE>
+<B>(occurrenceAnnotate</B>
+<B>   (instanceMemberRef I1 (indexValue 0)) ...)</B>
+</PRE>
+<H3>Example:</H3>
+<PRE>
+<B>(instance I1 ...</B>
+<B>   (instanceWidth 48) ...)</B>
+<B>...</B>
+<B>(occurrenceAnnotate</B>
+<B>   (instanceMemberRef I1 (indexValue 3)) ...)</B>
+</PRE>
+<P>In this example, the wide instance I1 has some annotation data applied to it.
+<P><HR>
+<H1><A NAME="extendInterconnectDef">extendInterconnectDef</A></H1>
+<PRE>
+<I>extendInterconnectDef ::= <A HREF="RMRF0012.HTM#interconnectNameRef">interconnectNameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0012.HTM#interconnectAnnotate">interconnectAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendInterconnectDef">ExtendInterconnectDef</A></I> references an interconnect to add additional data or to override existing data. 
+<P>The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendInterconnectDef">extendInterconnectDef</A></I> must not clash with existing data within the interconnect referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendInterconnectDef">extendInterconnectDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the interconnect.
+<P><HR>
+<H1><A NAME="extendPageDef">extendPageDef</A></H1>
+<PRE>
+<I>extendPageDef ::= <A HREF="RMRF0018.HTM#pageNameRef">pageNameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0018.HTM#pageAnnotate">pageAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> <A HREF="RMRF0018.HTM#page">page</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendPageDef">ExtendPageDef</A></I> references a page to add additional data or to override existing data. 
+<P>The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendPageDef">extendPageDef</A></I> must not clash with existing data within the page referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendPageDef">extendPageDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the page.
+<P><HR>
+<H1><A NAME="extendPortDef">extendPortDef</A></H1>
+<PRE>
+<I>extendPortDef ::= <A HREF="RMRF0055.HTM#portNameRef">portNameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0011.HTM#instancePortAttributes">instancePortAttributes</A>  !<A HREF="RMRF0055.HTM#portAnnotate">portAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> <A HREF="RMRF0007.HTM#extendPortMemberDef">extendPortMemberDef</A> <A HREF="RMRF0055.HTM#port">port</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendPortDef">ExtendPortDef</A></I> references a port to add additional data or to override existing data. 
+<P>The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendPortDef">extendPortDef</A></I> must not clash with existing data within the port referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendPortDef">extendPortDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the port.
+<H3>Example:</H3>
+<PRE>
+<B>(cell A ...</B>
+<B>   (cluster C </B>
+<B>      (interface (interfaceUnits ...)</B>
+<B>         (port P ... (property PX (integer 1))</B>
+<B>            (portDelay PD1 (measured) ...))) ...))</B>
+<B>...</B>
+<B>(instance I</B>
+<B>   (clusterRef C (cellRef A))</B>
+<B>   (instancePortAttributes P</B>
+<B>      (property PY (boolean (true)))</B>
+<B>      (portPropertyOverride PX (integer 2))</B>
+<B>      (portDelay PD2 (calculated) ...)))</B>
+</PRE>
+<P>This example shows that in the context of the port instance P in instance I, the property PX is overridden and a new property, PY is added. A <I><A HREF="RMRF0055.HTM#portDelay">portDelay</A></I> PD2 is also added. It would have been a semantic error to specify a <I><A HREF="RMRF0055.HTM#portDelay">portDelay</A></I> PD1 in the <I><A HREF="RMRF0011.HTM#instancePortAttributes">instancePortAttributes</A></I> related to P.
+<P><HR>
+<H1><A NAME="extendPortMemberDef">extendPortMemberDef</A></H1>
+<PRE>
+<I>extendPortMemberDef ::= <A HREF="RMRF0055.HTM#portMemberRef">portMemberRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0055.HTM#portAnnotate">portAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> <A HREF="RMRF0007.HTM#extendInstanceMemberDef">extendInstanceMemberDef</A> <A HREF="RMRF0007.HTM#extendPortDef">extendPortDef</A> <A HREF="RMRF0007.HTM#extendSignalMemberDef">extendSignalMemberDef</A> <A HREF="RMRF0055.HTM#port">port</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendPortMemberDef">ExtendPortMemberDef</A></I> references a member of a wide <I><A HREF="RMRF0055.HTM#port">port</A></I> to add additional data or to override existing data. 
+<P>The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendPortMemberDef">extendPortMemberDef</A></I> must not clash with existing data within the port referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendPortMemberDef">extendPortMemberDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the <I><A HREF="RMRF0055.HTM#port">port</A></I>.
+<P>The following are equivalent for a port P1:
+<P>&#09;(portAnnotate P1 ...)
+<P>and
+<P>&#09;(portAnnotate (portMemberRef P1 (indexValue 0)) ...)
+<H3>Example:</H3>
+<PRE>
+<B>(occurrenceAnnotate I1</B>
+<B>   (portAnnotate (portMemberRef P1 (indexValue 2))</B>
+<B>      (designator "12")</B>
+<B>      ...) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="extendSignalDef">extendSignalDef</A></H1>
+<PRE>
+<I>extendSignalDef ::= <A HREF="RMRF0062.HTM#signalNameRef">signalNameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0062.HTM#signalAnnotate">signalAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> <A HREF="RMRF0007.HTM#extendSignalGroupDef">extendSignalGroupDef</A> <A HREF="RMRF0007.HTM#extendSignalMemberDef">extendSignalMemberDef</A> <A HREF="RMRF0062.HTM#signal">signal</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendSignalDef">ExtendSignalDef</A></I> references a signal to add additional data or to override existing data. 
+<P>The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendSignalDef">extendSignalDef</A></I> must not clash with existing data within the signal referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendSignalDef">extendSignalDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the signal.
+<P><HR>
+<H1><A NAME="extendSignalGroupDef">extendSignalGroupDef</A></H1>
+<PRE>
+<I>extendSignalGroupDef ::= <A HREF="RMRF0062.HTM#signalGroupNameRef">signalGroupNameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0062.HTM#signalGroupAnnotate">signalGroupAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> <A HREF="RMRF0007.HTM#extendSignalDef">extendSignalDef</A> <A HREF="RMRF0007.HTM#extendSignalMemberDef">extendSignalMemberDef</A> <A HREF="RMRF0062.HTM#signal">signal</A> <A HREF="RMRF0062.HTM#signalGroup">signalGroup</A> <A HREF="RMRF0062.HTM#signalGroupNameDef">signalGroupNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendSignalGroupDef">ExtendSignalGroupDef</A></I> references a signal group to add additional data or to override existing data. 
+<P>The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendSignalGroupDef">extendSignalGroupDef</A></I> must not clash with existing data within the signalGroup referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendSignalGroupDef">extendSignalGroupDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the signalGroup.
+<P><HR>
+<H1><A NAME="extendSignalMemberDef">extendSignalMemberDef</A></H1>
+<PRE>
+<I>extendSignalMemberDef ::= <A HREF="RMRF0062.HTM#signalMemberRef">signalMemberRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0062.HTM#signalAnnotate">signalAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#extend">extend</A> <A HREF="RMRF0007.HTM#extendInstanceMemberDef">extendInstanceMemberDef</A> <A HREF="RMRF0007.HTM#extendPortMemberDef">extendPortMemberDef</A> <A HREF="RMRF0007.HTM#extendSignalDef">extendSignalDef</A> <A HREF="RMRF0007.HTM#extendSignalGroupDef">extendSignalGroupDef</A> <A HREF="RMRF0062.HTM#signal">signal</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#extendSignalMemberDef">ExtendSignalMemberDef</A></I> references a member of a wide <I><A HREF="RMRF0062.HTM#signal">signal</A></I> to add additional data or to override existing data. The additional data specified within the context of an <I><A HREF="RMRF0007.HTM#extendSignalMemberDef">extendSignalMemberDef</A></I> must not clash with existing data within the signal referenced. In particular, any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> defined within the scope of an <I><A HREF="RMRF0007.HTM#extendSignalMemberDef">extendSignalMemberDef</A></I> must not clash with any <I><A HREF="RMRF0016.HTM#nameDef">nameDefs</A></I> of the same class already defined within the <I><A HREF="RMRF0062.HTM#signal">signal</A></I>.
+<P>The following are equivalent:
+<P>&#09;(signalAnnotate I1 ...)
+<P>&#09;(signalAnnotate (signalMemberRef I1 (indexValue 0)) ...) 
+<P><HR>
+<H1><A NAME="external">external</A></H1>
+<PRE>
+<I>external ::= '(' 'external'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryNameDef">libraryNameDef</A></I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#cell">cell</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A> | <A HREF="RMRF0018.HTM#pageBorderTemplate">pageBorderTemplate</A> | 
+&#09;<A HREF="RMRF0019.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A> | <A HREF="RMRF0020.HTM#pcbBallPackage">pcbBallPackage</A> | <A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A> | 
+&#09;<A HREF="RMRF0021.HTM#pcbBareBoardTechnology">pcbBareBoardTechnology</A> | <A HREF="RMRF0022.HTM#pcbBondPadDrawingTemplate">pcbBondPadDrawingTemplate</A> | 
+&#09;<A HREF="RMRF0023.HTM#pcbBondPadTemplate">pcbBondPadTemplate</A> | <A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A> | <A HREF="RMRF0026.HTM#pcbDieFiducialTemplate">pcbDieFiducialTemplate</A> | 
+&#09;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A> | <A HREF="RMRF0031.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A> | 
+&#09;<A HREF="RMRF0032.HTM#pcbDrawingFigureMacro">pcbDrawingFigureMacro</A> | <A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A> | 
+&#09;<A HREF="RMRF0035.HTM#pcbFootprintDefinition">pcbFootprintDefinition</A> | <A HREF="RMRF0037.HTM#pcbJumperPart">pcbJumperPart</A> | <A HREF="RMRF0038.HTM#pcbMaterial">pcbMaterial</A> | 
+&#09;<A HREF="RMRF0039.HTM#pcbMechanicalPackage">pcbMechanicalPackage</A> | <A HREF="RMRF0039.HTM#pcbMechanicalPart">pcbMechanicalPart</A> | <A HREF="RMRF0041.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A> | 
+&#09;<A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplate">pcbMountableDiePhysicalTemplate</A> | <A HREF="RMRF0042.HTM#pcbMountableMechanicalPackage">pcbMountableMechanicalPackage</A> | 
+&#09;<A HREF="RMRF0042.HTM#pcbMountablePinPackage">pcbMountablePinPackage</A> | <A HREF="RMRF0043.HTM#pcbMountingMethod">pcbMountingMethod</A> | 
+&#09;<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A> | <A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A> | 
+&#09;<A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A> | <A HREF="RMRF0047.HTM#pcbPackageTerminalDrawingTemplate">pcbPackageTerminalDrawingTemplate</A> | 
+&#09;<A HREF="RMRF0047.HTM#pcbPadstackDefinition">pcbPadstackDefinition</A> | <A HREF="RMRF0049.HTM#pcbPhysicalFigureMacro">pcbPhysicalFigureMacro</A> | <A HREF="RMRF0050.HTM#pcbPinPackage">pcbPinPackage</A> | 
+&#09;<A HREF="RMRF0050.HTM#pcbPinTemplate">pcbPinTemplate</A> | <A HREF="RMRF0051.HTM#pcbPrintedConnectorPart">pcbPrintedConnectorPart</A> | <A HREF="RMRF0051.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A> | 
+&#09;<A HREF="RMRF0051.HTM#pcbPrintedPartTerminalDrawingTemplate">pcbPrintedPartTerminalDrawingTemplate</A> | <A HREF="RMRF0052.HTM#pcbSolderBumpTemplate">pcbSolderBumpTemplate</A> | 
+&#09;<A HREF="RMRF0052.HTM#pcbTabbedBondPadTemplate">pcbTabbedBondPadTemplate</A> | <A HREF="RMRF0053.HTM#pcbTestCouponDefinition">pcbTestCouponDefinition</A> | 
+&#09;<A HREF="RMRF0054.HTM#pcbToeprintDefinition">pcbToeprintDefinition</A> | <A HREF="RMRF0054.HTM#pcbWirebondTemplate">pcbWirebondTemplate</A> | <A HREF="RMRF0058.HTM#schematicFigureMacro">schematicFigureMacro</A> | 
+&#09;<A HREF="RMRF0058.HTM#schematicForFrameBorderTemplate">schematicForFrameBorderTemplate</A> | <A HREF="RMRF0058.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A> | 
+&#09;<A HREF="RMRF0058.HTM#schematicIfFrameBorderTemplate">schematicIfFrameBorderTemplate</A> | 
+&#09;<A HREF="RMRF0058.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A> | <A HREF="RMRF0059.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A> | 
+&#09;<A HREF="RMRF0059.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A> | <A HREF="RMRF0059.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A> | 
+&#09;<A HREF="RMRF0059.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A> | 
+&#09;<A HREF="RMRF0059.HTM#schematicOtherwiseFrameBorderTemplate">schematicOtherwiseFrameBorderTemplate</A> | <A HREF="RMRF0060.HTM#schematicRipperTemplate">schematicRipperTemplate</A> | 
+&#09;<A HREF="RMRF0060.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A> | <A HREF="RMRF0060.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A> | <A HREF="RMRF0065.HTM#userData">userData</A> 
+&#09;} </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#edif">edif</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> <A HREF="RMRF0029.HTM#pcbDimensionLineExternal">pcbDimensionLineExternal</A> <A HREF="RMRF0029.HTM#pcbDimensionLineInternalAndExternal">pcbDimensionLineInternalAndExternal</A> <A HREF="RMRF0032.HTM#pcbDrawingExternalDimensionLineLength">pcbDrawingExternalDimensionLineLength</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#external">External</A></I> declares a library to which reference is made, but which is not actually present within the current EDIF data. This may include any library which has been exchanged by means outside the current EDIF data.
+<P>The structure and semantics of <I><A HREF="RMRF0007.HTM#external">external</A></I> are parallel to those of <I><A HREF="RMRF0014.HTM#library">library</A></I> except that <I><A HREF="RMRF0007.HTM#external">external</A></I> is known to be incomplete; <I><A HREF="RMRF0007.HTM#external">external</A></I> libraries that are declared contain only minimal information. Any information present, such as <I><A HREF="RMRF0062.HTM#status">status</A></I>, must agree with the information available in the reader's library of the same name. <I><A HREF="RMRF0007.HTM#external">External</A></I> represents one way in which reference can be made to external information from within an EDIF file. The information represented is sufficient only to support the instantiation or use of the library objects, not to expand them.
+<P><I><A HREF="RMRF0007.HTM#external">External</A></I> should occur within a file only with prior consent of the intended receiving party, since it must be assumed that the missing library has already been transmitted. 
+<H3>Example:</H3>
+<PRE>
+<B>(external ECL_H</B>
+<B>   (libraryHeader (edifLevel 0)</B>
+<B>      (nameCaseSensitivity)</B>
+<B>      (technology ...))</B>
+<B>   (cell ...)</B>
+<B>   (comment "Access to this library is restricted"))</B>
+</PRE>
+<P>This example shows the declaration of an external Level 0 library.
+<P><HR>
+<H1><A NAME="externalNoData">externalNoData</A></H1>
+<PRE>
+<I>externalNoData ::= '(' 'externalNoData'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0023.HTM#pcbBondPadTemplate">pcbBondPadTemplate</A>  <A HREF="RMRF0023.HTM#pcbBondPadType">pcbBondPadType</A>  !<A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A>  !<A HREF="RMRF0026.HTM#pcbDieFiducialTemplate">pcbDieFiducialTemplate</A>  !<A HREF="RMRF0033.HTM#pcbDrillRule">pcbDrillRule</A>  !<A HREF="RMRF0035.HTM#pcbEmbeddedDie">pcbEmbeddedDie</A>  !<A HREF="RMRF0036.HTM#pcbFootprintInstance">pcbFootprintInstance</A>  !<A HREF="RMRF0037.HTM#pcbJumperPart">pcbJumperPart</A>  !<A HREF="RMRF0039.HTM#pcbMechanicalPart">pcbMechanicalPart</A>  !<A HREF="RMRF0041.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A>  !<A HREF="RMRF0041.HTM#pcbMountableBondPad">pcbMountableBondPad</A>  <A HREF="RMRF0041.HTM#pcbMountableBondPadType">pcbMountableBondPadType</A>  !<A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplate">pcbMountableDiePhysicalTemplate</A>  !<A HREF="RMRF0041.HTM#pcbMountableMechanicalFixing">pcbMountableMechanicalFixing</A>  !<A HREF="RMRF0042.HTM#pcbMountableMechanicalPackage">pcbMountableMechanicalPackage</A>  !<A HREF="RMRF0042.HTM#pcbMountablePinPackage">pcbMountablePinPackage</A>  !<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A>  !<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutInstance">pcbNonSpecificSubLayoutInstance</A>  !<A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A>  !<A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A>  !<A HREF="RMRF0046.HTM#pcbPackagePinGroup">pcbPackagePinGroup</A>  !<A HREF="RMRF0047.HTM#pcbPadstackInstance">pcbPadstackInstance</A>  !<A HREF="RMRF0052.HTM#pcbSolderBumpTemplate">pcbSolderBumpTemplate</A>  !<A HREF="RMRF0052.HTM#pcbTabbedBondPadTemplate">pcbTabbedBondPadTemplate</A>  !<A HREF="RMRF0053.HTM#pcbTestCouponInstance">pcbTestCouponInstance</A>  !<A HREF="RMRF0054.HTM#pcbToeprintInstance">pcbToeprintInstance</A>  !<A HREF="RMRF0054.HTM#pcbWirebondTemplate">pcbWirebondTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#external">external</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>If there is an option of one item or <I><A HREF="RMRF0007.HTM#externalNoData">externalNoData</A></I> then if the context is <I><A HREF="RMRF0007.HTM#external">external</A></I> then <I><A HREF="RMRF0007.HTM#externalNoData">externalNoData</A></I> must be present otherwise the other item must be present.
+</DL>
+<H3>Description:</H3>
+<P>Indicates that there is no data because the item appears in an external library. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDrillRule DR1</B>
+<B>   (pcbDrillRuleHeader)</B>
+<B>   (pcbPlatedDrillRule</B>
+<B>      (pcbDrillRulePlatingMaterial</B>
+<B>         (pcbMaterialRef MAT1))</B>
+<B>      (pcbDrillRulePlatingThickness</B>
+<B>         (mnm 6756 7112 7468)))</B>
+<B>   (externalNoData)</B>
+<B>   (externalNoData))</B>
+</PRE>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

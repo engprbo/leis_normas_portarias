@@ -1,0 +1,716 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="design_hierarchy_model">design_hierarchy_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A> schema describes the annotation data relating
+ to an occurrence hierarchy.  A <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A> is defined by choosing the
+ top <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A>.  It is annotated by an
+ <A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>.  Interconnects and master ports within the
+ top occurrence can be annotated by <A HREF="IMEX0003.HTM#interconnect_annotate">interconnect_annotate</A> and
+ <A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A> respectively.  If further annotation is to be given
+ for occurrences further down in the occurrence hierarchy,
+ <A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> can be used to specify which occurrence is to be
+ annotated next.  Similarly, interconnects and instance ports within an
+ occurrence can be annotated by <A HREF="IMEX0003.HTM#interconnect_annotate">interconnect_annotate</A> and
+ <A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A> respectively. 
+</P><HR>
+<!-- Start of ENTITY: design -->
+<H2><A NAME="design">design</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#design">design</A>;
+    design_hierarchies     : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A>;
+    document               : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name                   : OPTIONAL <A HREF="IMEX0015.HTM#name_information">name_information</A>; 
+    properties             : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#private_property">private_property</A>;
+    top_cell               : <A HREF="IMEX0009.HTM#cell">cell</A>;                               -- reference
+    units                  : <A HREF="IMEX0003.HTM#design_units">design_units</A>;
+    status_of_copyright    : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#copyright">copyright</A>;
+    status_of_written      : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+  WHERE
+    <A NAME="design.containment_constraint">containment_constraint</A> :
+      (* A design belongs to one edif file. *)
+      <A HREF="IMEX0015.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#edif">edif</A>.designs');
+
+    <A NAME="design.valid_design_hierarchies">valid_design_hierarchies</A> :
+      (* All design_hierarchies start with cluster_configurations which are
+         defined in the clusters of the top_cell. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(designHierarchy &lt;* design_hierarchies |
+        NOT (designHierarchy.chosen_cluster_configuration.containing_cluster
+          IN top_cell.clusters)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0003.HTM#design">design</A> identifies the <A HREF="IMEX0009.HTM#cell">cell</A> at the top level of the hierarchy of a
+ particular <A HREF="IMEX0003.HTM#design">design</A> within a <A HREF="IMEX0011.HTM#library">library</A>.  It may have multiple
+ design hierarchies. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0007.HTM#edif">edif</A> </P>
+<HR>
+<!-- Start of ENTITY: design_units -->
+<H2><A NAME="design_units">design_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#design_units">design_units</A>;
+    set_capacitance             : <A HREF="IMEX0015.HTM#capacitance_unit">capacitance_unit</A>;
+    set_time                    : <A HREF="IMEX0015.HTM#time_unit">time_unit</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0003.HTM#design_units">design_units</A> is used to set the scaling for a <A HREF="IMEX0003.HTM#design">design</A>.  It is
+ appropriate to set a capacitance scale and a timing scale.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#design">design</A> </P>
+<HR>
+<!-- Start of ENTITY: design_hierarchy -->
+<H2><A NAME="design_hierarchy">design_hierarchy</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A>;
+    chosen_cluster_configuration   : <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A>;      -- reference
+    occurrence_hierarchy_annotate  : OPTIONAL <A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>; 
+    name                           : OPTIONAL <A HREF="IMEX0015.HTM#name_information">name_information</A>;
+  WHERE
+    <A NAME="design_hierarchy.containment_constraint">containment_constraint</A> :
+      (* A design_hierarchy belongs to one design. *)
+      <A HREF="IMEX0015.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#design">design</A>.design_hierarchies');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A> specifies an expanded occurrence hierarchy by selecting
+ the top <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A>.  The chosen <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A> must be
+ defined in the <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A> of the top_cell in a <A HREF="IMEX0003.HTM#design">design</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#design">design</A> <A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: occurrence_hierarchy_annotate -->
+<H2><A NAME="occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>;
+    interconnect_annotates       : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#interconnect_annotate">interconnect_annotate</A>;
+    leaf_occurrence_annotates    : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#leaf_occurrence_annotate">leaf_occurrence_annotate</A>;
+    master_port_annotates        : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>;
+    occurrence_annotates         : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A>;
+    overriding_cell_properties   : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+    overriding_cluster_properties: OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+    overriding_designator        : OPTIONAL <A HREF="IMEX0015.HTM#string_token">string_token</A>;
+    overriding_view_properties   : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+    signal_annotates             : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#signal_annotate">signal_annotate</A>;
+  DERIVE
+    chosen_view : <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> -- reference
+     := containing_design_hierarchy
+        .chosen_cluster_configuration.chosen_cell_representation;
+    containing_design_hierarchy : <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A> -- reference
+     := <A HREF="IMEX0015.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+        '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A>.<A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>');
+  WHERE
+    <A NAME="occurrence_hierarchy_annotate.containment_constraint">containment_constraint</A> :
+      (* An occurrence_hierarchy_annotate belongs to one design_hierarchy. *)
+      <A HREF="IMEX0015.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A>.<A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>');
+
+    <A NAME="occurrence_hierarchy_annotate.valid_interconnect_annotates">valid_interconnect_annotates</A> :
+      (* The annotated interconnects are defined in the chosen_view of the
+         top occurrence.  No two interconnect_annotates annotate the same
+         interconnect. *)
+      <A HREF="IMEX0015.HTM#not_defined">not_defined</A>;
+
+    <A NAME="occurrence_hierarchy_annotate.valid_leaf_occurrence_annotates">valid_leaf_occurrence_annotates</A> :
+      (* The annotated leaf occurrence must reference instance_configurations
+         which are defined in the chosen cluster_configuration of the
+         containing design_hierarchy. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(leafOccurrenceAnnotate &lt;* leaf_occurrence_annotates |
+        NOT (leafOccurrenceAnnotate.chosen_instance_configuration
+             IN containing_design_hierarchy.chosen_cluster_configuration
+                .instance_configurations)));
+
+    <A NAME="occurrence_hierarchy_annotate.valid_master_port_annotates">valid_master_port_annotates</A> :
+      (* The annotated master_ports are defined in the interface of the
+         chosen_view of the top occurrence.  No two master_port_annotates
+         annotate the same master_port. *)  
+        <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(portAnnotate &lt;* master_port_annotates |
+          NOT (portAnnotate.annotated_port IN chosen_view.interface.ports)))
+    AND <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(portAnnotate1 &lt;* master_port_annotates |
+          <A HREF="IMEX0015.HTM#there_exists">there_exists</A>(QUERY(portAnnotate2 
+            &lt;* master_port_annotates - portAnnotate1 |
+            portAnnotate1.annotated_port :=: portAnnotate2.annotated_port))));
+
+    <A NAME="occurrence_hierarchy_annotate.valid_occurrence_annotates">valid_occurrence_annotates</A> :
+      (* The next level occurrence_annotates must reference
+         instance_configurations which are defined in the chosen
+         cluster_configuration of the containing design_hierarchy. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(occurrenceAnnotate &lt;* occurrence_annotates |
+        NOT (occurrenceAnnotate.chosen_instance_configuration
+             IN containing_design_hierarchy.chosen_cluster_configuration
+                .instance_configurations)));
+
+    <A NAME="occurrence_hierarchy_annotate.valid_overriding_cell_properties">valid_overriding_cell_properties</A> :
+      (* The overridden properties are defined in the containing cell of the
+         chosen_view of the top occurrence. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(cellPropertyOverride &lt;* overriding_cell_properties |
+        NOT (cellPropertyOverride.overridden_property
+             IN chosen_view.containing_cluster.containing_cell.properties)));
+
+    <A NAME="occurrence_hierarchy_annotate.valid_overriding_cluster_properties">valid_overriding_cluster_properties</A> :
+      (* The overridden properties are defined in the containing cluster of the
+         chosen_view of the top occurrence. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(clusterPropertyOverride &lt;* overriding_cluster_properties |
+        NOT (clusterPropertyOverride.overridden_property
+             IN chosen_view.containing_cluster.properties)));
+
+    <A NAME="occurrence_hierarchy_annotate.valid_overriding_view_properties">valid_overriding_view_properties</A> :
+      (* The overridden properties are defined in the chosen_view of the top
+         occurrence. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(viewPropertyOverride &lt;* overriding_view_properties |
+        NOT (viewPropertyOverride.overridden_property 
+             IN chosen_view.properties)));
+
+    <A NAME="occurrence_hierarchy_annotate.valid_signal_annotates">valid_signal_annotates</A> :
+      (* The annotated signals are defined in the chosen_view of the top
+         occurrence.  No two signal_annotates annotate the same signal. *)  
+      <A HREF="IMEX0015.HTM#not_defined">not_defined</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A> is used to annotate the top level
+ occurrence of a <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A>.  The view chosen for annotation is
+ specified by the <A HREF="IMEX0009.HTM#cluster_configuration">cluster_configuration</A> in the containing
+ <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A> </P>
+<HR>
+<!-- Start of ENTITY: occurrence_annotate -->
+<H2><A NAME="occurrence_annotate">occurrence_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A>;
+   chosen_instance_configuration : <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A>;     -- reference
+   instance_member_index         : <A HREF="IMEX0015.HTM#integer_token">integer_token</A>;
+   instance_port_annotates       : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>;
+   interconnect_annotates        : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#interconnect_annotate">interconnect_annotate</A>;
+   leaf_occurrence_annotates     : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#leaf_occurrence_annotate">leaf_occurrence_annotate</A>;
+   new_instance_properties       : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property">property</A>;
+   occurrence_annotates          : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A>;
+   overriding_cell_properties    : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+   overriding_cluster_properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+   overriding_designator         : OPTIONAL <A HREF="IMEX0015.HTM#string_token">string_token</A>;
+   overriding_instance_properties: OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+   overriding_view_properties    : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+   signal_annotates              : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#signal_annotate">signal_annotate</A>;
+  DERIVE
+    annotated_instance : <A HREF="IMEX0009.HTM#instance">instance</A> -- reference
+      := chosen_instance_configuration.configured_instance;
+    chosen_view_for_annotated_instance : <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> -- reference
+      := chosen_instance_configuration
+         .chosen_cluster_configuration.chosen_cell_representation; 
+  WHERE
+    <A NAME="occurrence_annotate.containment_constraint">containment_constraint</A> :
+      (* An occurrence_annotate belongs to either one
+         occurrence_hierarchy_annotate or one occurrence_annotate . *)
+    <A HREF="IMEX0015.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+     ['<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>.occurrence_annotates',
+      '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A>.occurrence_annotates']);
+
+    <A NAME="occurrence_annotate.valid_chosen_instance_configuration">valid_chosen_instance_configuration</A> :
+      (* The chosen instance_configuration must reference an
+         expandable_cluster_configuration. *) 
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#expandable_cluster_configuration">expandable_cluster_configuration</A>' IN 
+            TYPEOF(chosen_instance_configuration.chosen_cluster_configuration);
+
+    <A NAME="occurrence_annotate.valid_instance_member_index">valid_instance_member_index</A> :
+      (* The member index is within the range defined by the width of the
+         annotated instance. *) 
+      {0 &lt;= instance_member_index &lt; annotated_instance.width};
+
+    <A NAME="occurrence_annotate.valid_instance_port_annotates">valid_instance_port_annotates</A> :
+      (* The annotated instance_ports reference the annotated_instance.  No two
+         instance_port_annotates annotate the same instance_port. *) 
+        <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(portAnnotate &lt;* instance_port_annotates |
+          NOT (portAnnotate.annotated_port.referenced_instance 
+               :&lt;&gt;: annotated_instance)))
+    AND <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(portAnnotate1 &lt;* instance_port_annotates |
+          <A HREF="IMEX0015.HTM#there_exists">there_exists</A>(QUERY(portAnnotate2 
+            &lt;* instance_port_annotates - portAnnotate1 |
+            portAnnotate1.annotated_port :=: portAnnotate2.annotated_port))));
+
+    <A NAME="occurrence_annotate.valid_interconnect_annotates">valid_interconnect_annotates</A> :
+      (* The annotated interconnects are defined in the chosen_view for the
+         annotated_instance.  No two interconnect_annotates annotate the same
+         interconnect. *)
+      <A HREF="IMEX0015.HTM#not_defined">not_defined</A>;
+
+    <A NAME="occurrence_annotate.valid_leaf_occurrence_annotates">valid_leaf_occurrence_annotates</A> :
+      (* The annotated leaf occurrences must reference instance_configurations
+         defined in the cluster_configuration which are chosen by the
+         instance_configuration. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(leafOccurrenceAnnotate &lt;* leaf_occurrence_annotates |
+        NOT (leafOccurrenceAnnotate.chosen_instance_configuration
+             IN chosen_instance_configuration
+                .chosen_cluster_configuration.instance_configurations)));
+
+    <A NAME="occurrence_annotate.valid_occurrence_annotates">valid_occurrence_annotates</A> :
+      (* The next level occurrence_annotates must reference
+         instance_configurations defined in the cluster_configuration which are
+         chosen by the instance_configuration. *) 
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(occurrenceAnnotate &lt;* occurrence_annotates |
+        NOT (occurrenceAnnotate.chosen_instance_configuration
+             IN chosen_instance_configuration
+                .chosen_cluster_configuration.instance_configurations)));
+
+    <A NAME="occurrence_annotate.valid_overriding_cell_properties">valid_overriding_cell_properties</A> :
+      (* The overridden properties are defined in the containing cell of the
+         instantiated cluster of the annotated_instance. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(cellPropertyOverride &lt;* overriding_cell_properties |
+        NOT (cellPropertyOverride.overridden_property
+        IN annotated_instance.instantiated_cluster.containing_cell.properties)));
+
+    <A NAME="occurrence_annotate.valid_overriding_cluster_properties">valid_overriding_cluster_properties</A> :
+      (* The overridden properties are defined in the instantiated cluster of
+         the annotated_instance. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(clusterPropertyOverride &lt;* overriding_cluster_properties |
+        NOT (clusterPropertyOverride.overridden_property
+             IN annotated_instance.instantiated_cluster.properties)));
+
+    <A NAME="occurrence_annotate.valid_overriding_instance_properties">valid_overriding_instance_properties</A> :
+      (* The overridden properties are defined in the annotated_instance. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(instancePropertyOverride &lt;* overriding_instance_properties|
+        NOT (instancePropertyOverride.overridden_property 
+             IN annotated_instance.properties)));
+
+    <A NAME="occurrence_annotate.valid_overriding_view_properties">valid_overriding_view_properties</A> :
+      (* The overridden properties are defined in the chosen_view for the
+         annotated_instance. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(viewPropertyOverride &lt;* overriding_view_properties |
+        NOT (viewPropertyOverride.overridden_property 
+             IN chosen_view_for_annotated_instance.properties)));
+
+    <A NAME="occurrence_annotate.valid_signal_annotates">valid_signal_annotates</A> :
+      (* The annotated signals are defined in the chosen_view for the
+         annotated_instance.  No two signal_annotates annotate the same signal. *)
+      <A HREF="IMEX0015.HTM#not_defined">not_defined</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> is used to annotate occurrences of any level (apart
+ from the top level and the leaf level occurrences) in an occurrence
+ hierarchy.  It has a reference to an <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A> which selects
+ the annotated instance and the chosen view for the annotated instance.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> <A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: leaf_occurrence_annotate -->
+<H2><A NAME="leaf_occurrence_annotate">leaf_occurrence_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#leaf_occurrence_annotate">leaf_occurrence_annotate</A>;
+    chosen_instance_configuration  : <A HREF="IMEX0009.HTM#instance_configuration">instance_configuration</A>; -- reference
+    instance_member_index          : <A HREF="IMEX0015.HTM#integer_token">integer_token</A>;
+    instance_port_annotates        : OPTIONAL SET [1:?] OF <A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>;
+    new_instance_properties        : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property">property</A>;
+    overriding_cell_properties     : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+    overriding_cluster_properties  : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+    overriding_designator          : OPTIONAL <A HREF="IMEX0015.HTM#string_token">string_token</A>;
+    overriding_instance_properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+  DERIVE
+    annotated_instance : <A HREF="IMEX0009.HTM#instance">instance</A> -- reference
+      := chosen_instance_configuration.configured_instance;
+  WHERE
+    <A NAME="leaf_occurrence_annotate.containment_constraint">containment_constraint</A> :
+      (* A leaf_occurrence_annotate belongs to either one
+         occurrence_hierarchy_annotate or one occurrence_annotate. *)
+    <A HREF="IMEX0015.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+['<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>.leaf_occurrence_annotates',
+    '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A>.leaf_occurrence_annotates']);
+
+    <A NAME="leaf_occurrence_annotate.valid_chosen_instance_configuration">valid_chosen_instance_configuration</A> :
+      (* The chosen instance_configuration must reference a leaf_configuration. *)
+         '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#leaf_configuration">leaf_configuration</A>' IN 
+            TYPEOF(chosen_instance_configuration.chosen_cluster_configuration);
+
+    <A NAME="leaf_occurrence_annotate.valid_instance_member_index">valid_instance_member_index</A> :
+      (* The member index is within the range defined by the width of the
+         annotated instance. *) 
+      {0 &lt;= instance_member_index &lt; annotated_instance.width};
+
+    <A NAME="leaf_occurrence_annotate.valid_instance_port_annotates">valid_instance_port_annotates</A> :
+      (* The annotated instance_ports reference the annotated_instance.  No two
+         instance_port_annotates annotate the same instance_port. *)
+        <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(portAnnotate &lt;* instance_port_annotates |
+          NOT (portAnnotate.annotated_port.referenced_instance 
+               :&lt;&gt;: annotated_instance)))
+    AND <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(portAnnotate1 &lt;* instance_port_annotates |
+          <A HREF="IMEX0015.HTM#there_exists">there_exists</A>(QUERY(portAnnotate2 
+            &lt;* instance_port_annotates - portAnnotate1 |
+            portAnnotate1.annotated_port :=: portAnnotate2.annotated_port))));
+
+    <A NAME="leaf_occurrence_annotate.valid_overriding_cell_properties">valid_overriding_cell_properties</A> :
+      (* The overridden properties are defined in the containing cell of the
+         instantiated cluster of the annotated_instance. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(cellPropertyOverride &lt;* overriding_cell_properties |
+        NOT (cellPropertyOverride.overridden_property
+        IN annotated_instance.instantiated_cluster.containing_cell.properties)));
+
+    <A NAME="leaf_occurrence_annotate.valid_overriding_cluster_properties">valid_overriding_cluster_properties</A> :
+      (* The overridden properties are defined in the instantiated cluster of
+         the annotated_instance. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(clusterPropertyOverride &lt;* overriding_cluster_properties |
+        NOT (clusterPropertyOverride.overridden_property
+             IN annotated_instance.instantiated_cluster.properties)));
+
+    <A NAME="leaf_occurrence_annotate.valid_overriding_instance_properties">valid_overriding_instance_properties</A> :
+      (* The overridden properties are defined in the annotated_instance. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(instancePropertyOverride &lt;* overriding_instance_properties|
+        NOT (instancePropertyOverride.overridden_property 
+             IN annotated_instance.properties)));
+  END_ENTITY; 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0003.HTM#leaf_occurrence_annotate">leaf_occurrence_annotate</A> is used to annotate the leaf level occurrence
+ of a <A HREF="IMEX0003.HTM#design_hierarchy">design_hierarchy</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> <A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: master_port_annotate -->
+<H2><A NAME="master_port_annotate">master_port_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0003.HTM#input_master_port_annotate">input_master_port_annotate</A>, 
+                                   <A HREF="IMEX0003.HTM#output_master_port_annotate">output_master_port_annotate</A>,
+                                   <A HREF="IMEX0003.HTM#bidirectional_master_port_annotate">bidirectional_master_port_annotate</A>, 
+                                   <A HREF="IMEX0003.HTM#unspecified_direction_master_port_annotate">unspecified_direction_master_port_annotate</A>)); 
+    annotated_port              : <A HREF="IMEX0009.HTM#master_port">master_port</A>;                   -- reference
+    new_delays                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_delay">port_delay</A>;
+    new_load_delays             : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A>;
+    new_properties              : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property">property</A>;
+    overriding_ac_load          : OPTIONAL <A HREF="IMEX0015.HTM#capacitance_value">capacitance_value</A>;
+    overriding_delays           : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_delay_override">port_delay_override</A>;
+    overriding_designator       : OPTIONAL <A HREF="IMEX0015.HTM#string_token">string_token</A>;
+    overriding_load_delays      : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_load_delay_override">port_load_delay_override</A>;
+    overriding_properties       : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+  WHERE
+    <A NAME="master_port_annotate.containment_constraint">containment_constraint</A> :
+      (* A master_port_annotate belongs to one occurrence_hierarchy_annotate. *)
+    <A HREF="IMEX0015.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+    '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>.master_port_annotates');
+
+    <A NAME="master_port_annotate.valid_overriding_delays">valid_overriding_delays</A> :
+      (* The overridden delays are defined in the annotated master_port. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(delayOverride &lt;* overriding_delays |
+        NOT (delayOverride.overridden_delay IN annotated_port.delays)));
+
+    <A NAME="master_port_annotate.valid_overriding_load_delays">valid_overriding_load_delays</A> :
+      (* The overridden load_delays are defined in the annotated master_port. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(delayOverride &lt;* overriding_load_delays |
+        NOT (delayOverride.overridden_load_delay IN annotated_port.load_delays)));
+
+    <A NAME="master_port_annotate.valid_overriding_properties">valid_overriding_properties</A> :
+      (* The overridden properties are defined in the annotated master_port. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(portPropertyOverride &lt;* overriding_properties |
+        NOT (portPropertyOverride.overridden_property
+             IN annotated_port.properties)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A> is used within an <A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>
+ to attach or modify properties and attributes which are associated with a
+ <A HREF="IMEX0009.HTM#master_port">master_port</A> occurrence in the top level occurrence.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: input_master_port_annotate -->
+<H2><A NAME="input_master_port_annotate">input_master_port_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#input_master_port_annotate">input_master_port_annotate</A>
+      SUBTYPE OF (<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>);
+    SELF\<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>.annotated_port -- reference
+                                      : <A HREF="IMEX0009.HTM#input_master_port">input_master_port</A>;
+    overriding_dc_fanout_load         : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanin           : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#input_master_port_annotate">input_master_port_annotate</A> is used to attach or modify properties and
+ attributes which are associated with an <A HREF="IMEX0009.HTM#input_master_port">input_master_port</A> occurrence in
+ the top level occurrence.
+</P><HR>
+<!-- Start of ENTITY: output_master_port_annotate -->
+<H2><A NAME="output_master_port_annotate">output_master_port_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#output_master_port_annotate">output_master_port_annotate</A>
+      SUBTYPE OF (<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>);
+    SELF\<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>.annotated_port -- reference
+                                      : <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A>;
+    overriding_dc_fanin_load          : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanout          : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#output_master_port_annotate">output_master_port_annotate</A> is used to attach or modify properties and 
+ attributes which are associated with an <A HREF="IMEX0009.HTM#output_master_port">output_master_port</A> occurrence in
+ the top level occurrence.
+</P><HR>
+<!-- Start of ENTITY: bidirectional_master_port_annotate -->
+<H2><A NAME="bidirectional_master_port_annotate">bidirectional_master_port_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#bidirectional_master_port_annotate">bidirectional_master_port_annotate</A>
+      SUBTYPE OF (<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>);
+    SELF\<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>.annotated_port -- reference
+                                      : <A HREF="IMEX0009.HTM#bidirectional_master_port">bidirectional_master_port</A>;
+    overriding_dc_fanin_load          : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_fanout_load         : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanin           : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanout          : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0003.HTM#bidirectional_master_port_annotate">bidirectional_master_port_annotate</A> is used to attach or modify
+ properties and attributes which are associated with a
+ <A HREF="IMEX0009.HTM#bidirectional_master_port">bidirectional_master_port</A> occurrence in the top level occurrence.
+</P><HR>
+<!-- Start of ENTITY: unspecified_direction_master_port_annotate -->
+<H2><A NAME="unspecified_direction_master_port_annotate">unspecified_direction_master_port_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#unspecified_direction_master_port_annotate">unspecified_direction_master_port_annotate</A>
+      SUBTYPE OF (<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>);
+    SELF\<A HREF="IMEX0003.HTM#master_port_annotate">master_port_annotate</A>.annotated_port -- reference
+                                      : <A HREF="IMEX0009.HTM#unspecified_direction_master_port">unspecified_direction_master_port</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#unspecified_direction_master_port_annotate">unspecified_direction_master_port_annotate</A> is used to attach or modify 
+ properties and attributes which are associated with an
+ <A HREF="IMEX0009.HTM#unspecified_direction_master_port">unspecified_direction_master_port</A> occurrence in the top level occurrence.
+</P><HR>
+<!-- Start of ENTITY: instance_port_annotate -->
+<H2><A NAME="instance_port_annotate">instance_port_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0003.HTM#input_instance_port_annotate">input_instance_port_annotate</A>, 
+                                   <A HREF="IMEX0003.HTM#output_instance_port_annotate">output_instance_port_annotate</A>,
+                                   <A HREF="IMEX0003.HTM#bidirectional_instance_port_annotate">bidirectional_instance_port_annotate</A>, 
+                                   <A HREF="IMEX0003.HTM#unspecified_direction_instance_port_annotate">unspecified_direction_instance_port_annotate</A>));
+    annotated_port              : <A HREF="IMEX0009.HTM#instance_port">instance_port</A>;                 -- reference
+    new_delays                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_delay">port_delay</A>;
+    new_load_delays             : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_load_delay">port_load_delay</A>;
+    new_properties              : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property">property</A>;
+    overriding_ac_load          : OPTIONAL <A HREF="IMEX0015.HTM#capacitance_value">capacitance_value</A>;
+    overriding_delays           : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_delay_override">port_delay_override</A>;
+    overriding_designator       : OPTIONAL <A HREF="IMEX0015.HTM#string_token">string_token</A>;
+    overriding_load_delays      : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#port_load_delay_override">port_load_delay_override</A>;
+    overriding_properties       : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+  WHERE
+    <A NAME="instance_port_annotate.containment_constraint">containment_constraint</A> :
+      (* An instance_port_annotate belongs to either one occurrence_annotate or
+         one leaf_occurrence_annotate. *) 
+    <A HREF="IMEX0015.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+     ['<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A>.instance_port_annotates',
+      '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#leaf_occurrence_annotate">leaf_occurrence_annotate</A>.instance_port_annotates']);
+
+    <A NAME="instance_port_annotate.valid_overriding_delays">valid_overriding_delays</A> :
+      (* The overridden delays are defined in the annotated instance_port or in
+         the referenced master_port definition. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(delayOverride &lt;* overriding_delays |
+        NOT ((delayOverride.overridden_delay IN annotated_port.new_delays)
+              OR (delayOverride.overridden_delay 
+                  IN annotated_port.referenced_master_port.delays))));
+
+    <A NAME="instance_port_annotate.valid_overriding_load_delays">valid_overriding_load_delays</A> :
+      (* The overridden load_delays are defined in the annotated instance_port
+         or in the referenced master_port definition. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(delayOverride &lt;* overriding_delays |
+        NOT ((delayOverride.overridden_load_delay 
+              IN annotated_port.new_load_delays)
+              OR (delayOverride.overridden_load_delay 
+                  IN annotated_port.referenced_master_port.load_delays))));
+
+    <A NAME="instance_port_annotate.valid_overriding_properties">valid_overriding_properties</A> :
+      (* The overridden properties are defined in the annotated_port or in the
+         referenced master_port definition. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(portPropertyOverride &lt;* overriding_properties |
+        NOT ((portPropertyOverride.overridden_property
+              IN annotated_port.new_properties)
+              OR (portPropertyOverride.overridden_property
+                  IN annotated_port.referenced_master_port.properties))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A> is used within an <A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> or a
+ <A HREF="IMEX0003.HTM#leaf_occurrence_annotate">leaf_occurrence_annotate</A> to attach or modify properties and attributes
+ which are associated with an <A HREF="IMEX0009.HTM#instance_port">instance_port</A> occurrence within an occurrence
+ hierarchy. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#leaf_occurrence_annotate">leaf_occurrence_annotate</A> <A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: input_instance_port_annotate -->
+<H2><A NAME="input_instance_port_annotate">input_instance_port_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#input_instance_port_annotate">input_instance_port_annotate</A>
+      SUBTYPE OF (<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>);
+    SELF\<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>.annotated_port -- reference
+                                      : <A HREF="IMEX0009.HTM#input_instance_port">input_instance_port</A>;
+    overriding_dc_fanout_load         : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanin           : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#input_instance_port_annotate">input_instance_port_annotate</A> is used to attach or modify properties and 
+ attributes which are associated with an <A HREF="IMEX0009.HTM#input_instance_port">input_instance_port</A> occurrence
+ within an occurrence hierarchy.
+</P><HR>
+<!-- Start of ENTITY: output_instance_port_annotate -->
+<H2><A NAME="output_instance_port_annotate">output_instance_port_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#output_instance_port_annotate">output_instance_port_annotate</A>
+      SUBTYPE OF (<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>);
+    SELF\<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>.annotated_port -- reference
+                                      : <A HREF="IMEX0009.HTM#output_instance_port">output_instance_port</A>;
+    overriding_dc_fanin_load          : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanout          : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#output_instance_port_annotate">output_instance_port_annotate</A> is used to attach or modify properties
+ and attributes which are associated with an <A HREF="IMEX0009.HTM#output_instance_port">output_instance_port</A>
+ occurrence within an occurrence hierarchy.
+</P><HR>
+<!-- Start of ENTITY: bidirectional_instance_port_annotate -->
+<H2><A NAME="bidirectional_instance_port_annotate">bidirectional_instance_port_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#bidirectional_instance_port_annotate">bidirectional_instance_port_annotate</A>
+      SUBTYPE OF (<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>);
+    SELF\<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>.annotated_port -- reference
+                                      : <A HREF="IMEX0009.HTM#bidirectional_instance_port">bidirectional_instance_port</A>;
+    overriding_dc_fanin_load          : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_fanout_load         : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanin           : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+    overriding_dc_max_fanout          : OPTIONAL <A HREF="IMEX0009.HTM#load_value">load_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0003.HTM#bidirectional_instance_port_annotate">bidirectional_instance_port_annotate</A> is used to attach or modify
+ properties and attributes which are associated with a
+ <A HREF="IMEX0009.HTM#bidirectional_instance_port">bidirectional_instance_port</A> occurrence within an occurrence hierarchy.
+</P><HR>
+<!-- Start of ENTITY: unspecified_direction_instance_port_annotate -->
+<H2><A NAME="unspecified_direction_instance_port_annotate">unspecified_direction_instance_port_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#unspecified_direction_instance_port_annotate">unspecified_direction_instance_port_annotate</A>
+      SUBTYPE OF (<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>);
+    SELF\<A HREF="IMEX0003.HTM#instance_port_annotate">instance_port_annotate</A>.annotated_port -- reference
+                                      : <A HREF="IMEX0009.HTM#unspecified_direction_instance_port">unspecified_direction_instance_port</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#unspecified_direction_instance_port_annotate">unspecified_direction_instance_port_annotate</A> is used to attach or
+ modify properties and attributes which are associated with an
+ <A HREF="IMEX0009.HTM#unspecified_direction_instance_port">unspecified_direction_instance_port</A> occurrence within an occurrence
+ hierarchy. 
+</P><HR>
+<!-- Start of ENTITY: signal_annotate -->
+<H2><A NAME="signal_annotate">signal_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#signal_annotate">signal_annotate</A>;
+    annotated_signal            : <A HREF="IMEX0012.HTM#signal">signal</A>; -- reference
+    new_properties              : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property">property</A>;
+    overriding_properties       : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+  WHERE
+    <A NAME="signal_annotate.containment_constraint">containment_constraint</A> :
+      (* A signal_annotate belongs to either one occurrence_hierarchy_annotate
+         or one occurrence_annotate. *)
+    <A HREF="IMEX0015.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      ['<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>.signal_annotates',
+       '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A>.signal_annotates']);
+
+    <A NAME="signal_annotate.valid_overriding_properties">valid_overriding_properties</A> :
+      (* The overridden properties are defined in the annotated_signal. *)
+      <A HREF="IMEX0015.HTM#not_exists">not_exists</A>(QUERY(signalPropertyOverride &lt;* overriding_properties |
+        NOT (signalPropertyOverride.overridden_property
+             IN annotated_signal.properties)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0003.HTM#signal_annotate">signal_annotate</A> is used to attach or modify properties which are
+ associated with a signal occurrence within an occurrence hierarchy. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> <A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A> </P>
+<HR>
+<!-- Start of ENTITY: interconnect_annotate -->
+<H2><A NAME="interconnect_annotate">interconnect_annotate</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0003.HTM#interconnect_annotate">interconnect_annotate</A>;
+    annotated_interconnect      : <A HREF="IMEX0009.HTM#referenced_interconnect">referenced_interconnect</A>;       -- reference
+    new_delays                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#interconnect_delay">interconnect_delay</A>;
+    new_properties              : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property">property</A>;
+    overriding_criticality      : OPTIONAL <A HREF="IMEX0015.HTM#integer_token">integer_token</A>;
+    overriding_properties       : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#property_override">property_override</A>;
+  WHERE
+    <A NAME="interconnect_annotate.containment_constraint">containment_constraint</A> :
+      (* An interconnect_annotate belongs to either one
+         occurrence_hierarchy_annotate or one occurrence_annotate. *)
+   <A HREF="IMEX0015.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+   ['<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A>.interconnect_annotates',
+    '<A HREF="IMEX0003.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A>.interconnect_annotates']);
+
+    <A NAME="interconnect_annotate.valid_overriding_properties">valid_overriding_properties</A> :
+      (* The overridden properties are defined in the annotated interconnect. *)
+      <A HREF="IMEX0015.HTM#not_defined">not_defined</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0003.HTM#interconnect_annotate">interconnect_annotate</A> is used to associate physical net characteristics
+ with a net structure or a bus structure within an occurrence hierarchy.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0003.HTM#occurrence_annotate">occurrence_annotate</A> <A HREF="IMEX0003.HTM#occurrence_hierarchy_annotate">occurrence_hierarchy_annotate</A> </P>
+
+<HR>
+
+<!-- Start of schema: design_management_model -->
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

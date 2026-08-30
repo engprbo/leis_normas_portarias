@@ -1,0 +1,972 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcb_mcm_view_model">pcb_mcm_view_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A> schema describes the structural connectivity and
+ the physical implementation of a PCB/MCM view.
+</P><HR>
+<!-- Start of ENTITY: internal_pcb_mcm_view -->
+<H2><A NAME="internal_pcb_mcm_view">internal_pcb_mcm_view</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representation</A>);
+    components        : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#component">component</A>;
+    component_signals : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#component_signal">component_signal</A>;
+    is_implemented_by : OPTIONAL <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>;
+    instances         : OPTIONAL SET [1:?] OF <A HREF="IMEX0009.HTM#instance">instance</A>;
+    signals           : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#signal">signal</A>; 
+    signal_groups     : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#signal_group">signal_group</A>; 
+    swap_groups       : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#swap_group">swap_group</A>;
+    units             : <A HREF="IMEX0021.HTM#pcb_layout_units">pcb_layout_units</A>;
+  WHERE
+    <A NAME="internal_pcb_mcm_view.valid_instances">valid_instances</A> :
+      (* An internal_pcb_mcm_view should not contain instances of clusters of
+         the containing cell, either directly or indirectly. *)
+      <A HREF="IMEX0009.HTM#non_recursive_cell">non_recursive_cell</A>(SELF\<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>.containing_cluster
+                             .containing_cell, instances);
+
+    <A NAME="internal_pcb_mcm_view.valid_instance_width">valid_instance_width</A> :
+      (* All instances must have width equal to one. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(inst &lt;* instances |
+        inst.width &lt;&gt; 1));
+
+    <A NAME="internal_pcb_mcm_view.valid_signals">valid_signals</A> :
+      (* All signals are disjoint.  That is only one signal may connect to a
+         particular global_port, instance_member_port or master_port. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(sig1 &lt;* signals |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(sig2 &lt;* signals - sig1 |
+          <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(sig1.joined_global_ports * sig2.joined_global_ports)
+       OR <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(sig1.joined_instance_member_ports 
+                       * sig2.joined_instance_member_ports)
+       OR <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(sig1.joined_master_ports * sig2.joined_master_ports)))));
+
+    <A NAME="internal_pcb_mcm_view.valid_component_signals">valid_component_signals</A> :
+      (* All component_signals are disjoint.  That is only component_signal may
+         connect to a particular component_terminal. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(sig1 &lt;* component_signals |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(sig2 &lt;* component_signals - sig1 |
+          <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(sig1.joined_terminals * sig2.joined_terminals)))));
+
+    <A NAME="internal_pcb_mcm_view.valid_swap_groups">valid_swap_groups</A> :
+      (* All swap_groups are disjoint.  That is only one swap_group may
+         reference to a particular instance. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(swapGroup1 &lt;* swap_groups |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(swapGroup2 &lt;* swap_groups - swapGroup1 |
+          <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(swapGroup1.instances * swapGroup2.instances)))));
+
+    <A NAME="internal_pcb_mcm_view.valid_optional_attributes">valid_optional_attributes</A> :
+       (* The dependencies of these optional attributes are stated as follows:
+          1. A component_signals cannot be defined if there are no components
+             defined.
+          2. Signal_groups cannot be defined if there are no signals
+             defined. 
+          3. Swap_groups cannot be defined if there are no instances. *)
+       (EXISTS(components) OR NOT EXISTS(component_signals))
+       AND
+       (EXISTS(signals) OR NOT EXISTS(signal_groups))
+       AND
+       (EXISTS(instances) OR NOT EXISTS(swap_groups));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> is a <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> which describes a
+ printed circuit assembly.  Three types of information are identified.  The
+ logical connectivity information describes the required electrical
+ functionality that is to be realised by the assembled board, in terms of
+ <A HREF="IMEX0009.HTM#instance">instances</A> and <A HREF="IMEX0012.HTM#signal">signals</A>.  The component connectivity information specifies
+ the <A HREF="IMEX0021.HTM#component">components</A> to be used on the assembled board and their
+ interconnections.  The physical connectivity information describes the
+ component placements on the board and the connections implemented by
+ conductive material.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> <A HREF="IMEX0021.HTM#component">component</A> <A HREF="IMEX0021.HTM#component_signal">component_signal</A> <A HREF="IMEX0021.HTM#swap_group">swap_group</A> </P>
+<HR>
+<!-- Start of ENTITY: external_pcb_mcm_view -->
+<H2><A NAME="external_pcb_mcm_view">external_pcb_mcm_view</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#external_pcb_mcm_view">external_pcb_mcm_view</A>
+      SUBTYPE OF (<A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representation</A>);
+    units : <A HREF="IMEX0021.HTM#pcb_layout_units">pcb_layout_units</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0021.HTM#external_pcb_mcm_view">external_pcb_mcm_view</A> is a <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> which describes a
+ printed circuit assembly in an <A HREF="IMEX0009.HTM#external_cell">external_cell</A>.
+</P><HR>
+<!-- Start of ENTITY: pcb_layout_units -->
+<H2><A NAME="pcb_layout_units">pcb_layout_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#pcb_layout_units">pcb_layout_units</A>;
+    set_angle                  : <A HREF="IMEX0029.HTM#angle_unit">angle_unit</A>;
+    set_capacitance            : <A HREF="IMEX0029.HTM#capacitance_unit">capacitance_unit</A>;
+    set_distance               : <A HREF="IMEX0029.HTM#distance_unit">distance_unit</A>;
+    set_power                  : <A HREF="IMEX0019.HTM#power_unit">power_unit</A>;
+    set_pressure               : <A HREF="IMEX0019.HTM#pressure_unit">pressure_unit</A>;
+    set_specific_heat_capacity : <A HREF="IMEX0019.HTM#specific_heat_capacity_unit">specific_heat_capacity_unit</A>;
+    set_temperature            : <A HREF="IMEX0019.HTM#temperature_unit">temperature_unit</A>;
+    set_thermal_conductivity   : <A HREF="IMEX0019.HTM#thermal_conductivity_unit">thermal_conductivity_unit</A>;
+    set_time                   : <A HREF="IMEX0029.HTM#time_unit">time_unit</A>;
+    set_voltage                : <A HREF="IMEX0029.HTM#voltage_unit">voltage_unit</A>;
+  WHERE
+    <A NAME="pcb_layout_units.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      ['<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A>.default_pcb_layout_units',
+       '<A HREF="IMEX0013.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>.units',
+       '<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>.<A HREF="IMEX0014.HTM#mountable_die_physical_template">mountable_die_physical_template</A>.units',
+       '<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>.<A HREF="IMEX0020.HTM#pcb_template">pcb_template</A>.units',
+       '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#external_pcb_mcm_view">external_pcb_mcm_view</A>.units',
+       '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.units',
+       '<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0022.HTM#mountable_package">mountable_package</A>.units',
+       '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#package">package</A>.units',
+       '<A HREF="IMEX0025.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0025.HTM#sub_layout_definition">sub_layout_definition</A>.units',
+       '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.units']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#pcb_layout_units">pcb_layout_units</A> is used to set the scaling for a pcb or mcm view. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A> <A HREF="IMEX0021.HTM#external_pcb_mcm_view">external_pcb_mcm_view</A> <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> <A HREF="IMEX0014.HTM#mountable_die_physical_template">mountable_die_physical_template</A> <A HREF="IMEX0022.HTM#mountable_package">mountable_package</A> <A HREF="IMEX0023.HTM#package">package</A> <A HREF="IMEX0020.HTM#pcb_template">pcb_template</A> <A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A> <A HREF="IMEX0025.HTM#sub_layout_definition">sub_layout_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: component -->
+<H2><A NAME="component">component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#component">component</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>,
+                                    <A HREF="IMEX0021.HTM#mechanical_component">mechanical_component</A>,
+                                    <A HREF="IMEX0021.HTM#connector_component">connector_component</A>,
+                                    <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A>));
+    instantiated_part : <A HREF="IMEX0024.HTM#part">part</A>; -- reference
+    designator        : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    name              : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties        : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_view : <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+                         '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.components');
+  WHERE
+    <A NAME="component.valid_existence">valid_existence</A> :
+      (* A component belongs to one internal_pcb_mcm_view. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.components');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#component">component</A> is the instantiation of a <A HREF="IMEX0024.HTM#part">part</A> object.  A <A HREF="IMEX0021.HTM#component">component</A> is
+ an <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>, a <A HREF="IMEX0021.HTM#mechanical_component">mechanical_component</A>, a <A HREF="IMEX0021.HTM#connector_component">connector_component</A>
+ or a <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A>.  Electrical components have electrical
+ functionality, whereas connector, mechanical or jumper components have no
+ intentional electrical functionality. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#component_assembly_rule_criterion">component_assembly_rule_criterion</A> <A HREF="IMEX0015.HTM#component_implementation">component_implementation</A> <A HREF="IMEX0015.HTM#component_realisation_rule">component_realisation_rule</A> <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A> <A HREF="IMEX0015.HTM#embedded_component_implementation">embedded_component_implementation</A> <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> </P>
+<HR>
+<!-- Start of ENTITY: electrical_component -->
+<H2><A NAME="electrical_component">electrical_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A>,
+                                    <A HREF="IMEX0021.HTM#minimally_defined_electrical_component">minimally_defined_electrical_component</A>)
+                             AND
+                             ONEOF (<A HREF="IMEX0021.HTM#die_electrical_component">die_electrical_component</A>,
+                                    <A HREF="IMEX0021.HTM#packaged_electrical_component">packaged_electrical_component</A>,
+                                    <A HREF="IMEX0021.HTM#printed_electrical_component">printed_electrical_component</A>))
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component">component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part : <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A> is the instantiation of an <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>.
+ Electrical components are those components that have intended electrical
+ functionality. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: fully_defined_electrical_component -->
+<H2><A NAME="fully_defined_electrical_component">fully_defined_electrical_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part 
+        : <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>; -- reference
+    component_function_allocations : SET [1:?] OF <A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A>;
+  WHERE
+    <A NAME="fully_defined_electrical_component.valid_component_function_allocations">valid_component_function_allocations</A> :
+      (* The number of component_function_allocations must be the same as the
+         number of part_functions in the instantiated
+         fully_defined_electrical_part. *)
+      SIZEOF(component_function_allocations)
+      = SIZEOF(instantiated_part.functions);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A> is the instantiation of a
+ <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A> </P>
+<HR>
+<!-- Start of ENTITY: minimally_defined_electrical_component -->
+<H2><A NAME="minimally_defined_electrical_component">minimally_defined_electrical_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#minimally_defined_electrical_component">minimally_defined_electrical_component</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part 
+        : <A HREF="IMEX0024.HTM#minimally_defined_electrical_part">minimally_defined_electrical_part</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#minimally_defined_electrical_component">minimally_defined_electrical_component</A> is the instantiation of a
+ <A HREF="IMEX0024.HTM#minimally_defined_electrical_part">minimally_defined_electrical_part</A>. 
+</P><HR>
+<!-- Start of ENTITY: die_electrical_component -->
+<H2><A NAME="die_electrical_component">die_electrical_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#die_electrical_component">die_electrical_component</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part : <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#die_electrical_component">die_electrical_component</A> is the instantiation of a
+ <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#die_component_implementation">die_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: packaged_electrical_component -->
+<H2><A NAME="packaged_electrical_component">packaged_electrical_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#packaged_electrical_component">packaged_electrical_component</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part : <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#packaged_electrical_component">packaged_electrical_component</A> is the instantiation of a
+ <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#packaged_electrical_component_implementation">packaged_electrical_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: printed_electrical_component -->
+<H2><A NAME="printed_electrical_component">printed_electrical_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#printed_electrical_component">printed_electrical_component</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part : <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#printed_electrical_component">printed_electrical_component</A> is the instantiation of a
+ <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#printed_electrical_component_implementation">printed_electrical_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: mechanical_component -->
+<H2><A NAME="mechanical_component">mechanical_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#mechanical_component">mechanical_component</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component">component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part : <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#mechanical_component">mechanical_component</A> is the instantiation of a <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A>.
+ Mechanical components are those components that have no intended electrical
+ functionality. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#mechanical_component_implementation">mechanical_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: connector_component -->
+<H2><A NAME="connector_component">connector_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#connector_component">connector_component</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0021.HTM#packaged_connector_component">packaged_connector_component</A>,
+                                   <A HREF="IMEX0021.HTM#printed_connector_component">printed_connector_component</A>))
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component">component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part : <A HREF="IMEX0024.HTM#connector_part">connector_part</A>; -- reference
+    board_terminals                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#board_terminal">board_terminal</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#connector_component">connector_component</A> is the instantiation of a
+ <A HREF="IMEX0024.HTM#connector_part">connector_part</A>. Connector components are mainly sockets or discrete
+ connectors. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#board_terminal">board_terminal</A> <A HREF="IMEX0021.HTM#connector_component_terminal">connector_component_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: packaged_connector_component -->
+<H2><A NAME="packaged_connector_component">packaged_connector_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#packaged_connector_component">packaged_connector_component</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#connector_component">connector_component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part : <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#packaged_connector_component">packaged_connector_component</A> is the instantiation of a
+ <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#packaged_connector_component_implementation">packaged_connector_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: printed_connector_component -->
+<H2><A NAME="printed_connector_component">printed_connector_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#printed_connector_component">printed_connector_component</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#connector_component">connector_component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part : <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#printed_connector_component">printed_connector_component</A> is the instantiation of a
+ <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#printed_connector_component_implementation">printed_connector_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: jumper_component -->
+<H2><A NAME="jumper_component">jumper_component</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component">component</A>);
+    SELF\<A HREF="IMEX0021.HTM#component">component</A>.instantiated_part : <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>; -- reference
+  WHERE
+    <A NAME="jumper_component.valid_reference">valid_reference</A> :
+      (* The terminals are referenced by one or more
+         component_signals. *)
+    <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(componentSignal 
+                       &lt;* SELF\<A HREF="IMEX0021.HTM#component">component</A>.containing_view.component_signals |
+      <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(componentTerminal 
+                         &lt;* componentSignal.joined_terminals |
+        SELF :=: componentTerminal.referenced_component))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A> is the instantiation of a <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> <A HREF="IMEX0015.HTM#jumper_component_implementation">jumper_component_implementation</A> <A HREF="IMEX0021.HTM#jumper_component_terminal">jumper_component_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: board_terminal -->
+<H2><A NAME="board_terminal">board_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#board_terminal">board_terminal</A>;
+    allocated_master_port : <A HREF="IMEX0009.HTM#master_port">master_port</A>; -- reference
+    referenced_terminal   : <A HREF="IMEX0024.HTM#connector_part_terminal">connector_part_terminal</A>; -- reference
+  DERIVE
+    containing_component : <A HREF="IMEX0021.HTM#connector_component">connector_component</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#connector_component">connector_component</A>.board_terminals');
+  WHERE
+    <A NAME="board_terminal.valid_existence">valid_existence</A> :
+      (* A board_terminal belongs to one connector_component. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#connector_component">connector_component</A>.board_terminals');
+
+    <A NAME="board_terminal.valid_referenced_terminal">valid_referenced_terminal</A> :
+      (* The referenced terminal must be the terminal of a
+         connector_component. *) 
+      referenced_terminal 
+        IN containing_component.instantiated_part.terminals;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#board_terminal">board_terminal</A> describes a place which can be connected to from outside
+ of the <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.  A board terminal is realised by a terminal of a
+ <A HREF="IMEX0021.HTM#connector_component">connector_component</A> and it corresponds to a <A HREF="IMEX0009.HTM#master_port">master_port</A> defined in the
+ interface of a pcb or mcm view.   
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#connector_component">connector_component</A> </P>
+<HR>
+<!-- Start of ENTITY: swap_group -->
+<H2><A NAME="swap_group">swap_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#swap_group">swap_group</A>;
+    instances  : SET [1:?] OF <A HREF="IMEX0009.HTM#instance">instance</A>; -- reference
+    name       : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_view : <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.swap_groups');
+  WHERE
+    <A NAME="swap_group.valid_existence">valid_existence</A> :
+      (* A swap_group belongs to one internal_pcb_mcm_view. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.swap_groups');
+
+    <A NAME="swap_group.valid_instances">valid_instances</A> :
+      (* All instances must be defined in the containing
+         internal_pcb_mcm_view. *) 
+      instances &lt;= containing_view.instances;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#swap_group">swap_group</A> describes a component allocation swapping restriction rule.
+ It collects together a group of <A HREF="IMEX0009.HTM#instance">instances</A>.  If an <A HREF="IMEX0009.HTM#instance">instance</A> within this
+ group is allocated to a component function, its allocation can be swapped
+ with that of another <A HREF="IMEX0009.HTM#instance">instance</A> in the same <A HREF="IMEX0021.HTM#swap_group">swap_group</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> </P>
+<HR>
+<!-- Start of ENTITY: component_signal -->
+<H2><A NAME="component_signal">component_signal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#component_signal">component_signal</A>;
+    joined_terminals   : SET [1:?] OF <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>;
+    terminal_groupings : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>;
+    name               : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_view : <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.component_signals');
+  WHERE
+    <A NAME="component_signal.valid_existence">valid_existence</A> :
+      (* A component_signal belongs to one internal_pcb_mcm_view. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>.component_signals');
+
+    <A NAME="component_signal.valid_joined_terminals">valid_joined_terminals</A> :
+      (* All joined component_terminals refer to components in the
+         containing internal_pcb_mcm_view. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(componentTerminal &lt;* joined_terminals |
+        NOT (componentTerminal.referenced_component
+             IN containing_view.components)));
+
+    <A NAME="component_signal.valid_implementating_assembled_physical_nets">valid_implementating_assembled_physical_nets</A> :
+      (* Any assembled_physical_nets which implement the
+         component_signal must be in the same internal_pcb_mcm_view as the
+         component_signal. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(assembledPhysicalNet &lt;* 
+                       QUERY(entityInstance &lt;* USEDIN(SELF, '') |
+                       '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>'
+                       IN TYPEOF(entityInstance)) |
+                 assembledPhysicalNet.containing_board.containing_view
+                 :&lt;&gt;: containing_view));
+
+    <A NAME="component_signal.valid_implementation">valid_implementation</A> :
+      (* A component_signal may be implemented by zero, one or more
+         non_analysed_assembled_physical_nets or by exactly one
+         correct_assembled_physical_net or by zero, one or more
+         incorrect_assembled_physical_nets. *)
+      NOT EXISTS(containing_view.is_implemented_by)
+      OR
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(entityInstance &lt;* USEDIN(SELF, '') |
+                       '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A>'
+                       IN TYPEOF(entityInstance)))
+      OR
+      (SIZEOF(USEDIN(SELF,
+              <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                             '<A HREF="IMEX0015.HTM#non_analysed_assembled_physical_net">non_analysed_assembled_physical_net</A>',
+                             'considered_to_implement'))) &gt;= 1)
+      OR
+      (SIZEOF(USEDIN(SELF,
+              <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                             '<A HREF="IMEX0015.HTM#correct_assembled_physical_net">correct_assembled_physical_net</A>',
+                             'implemented_signal'))) = 1)
+      OR
+      (SIZEOF(USEDIN(SELF,
+              <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                             '<A HREF="IMEX0015.HTM#shorting_assembled_physical_net">shorting_assembled_physical_net</A>',
+                             'shorted_signals'))) &gt;= 1)
+      OR
+      (SIZEOF(USEDIN(SELF,
+              <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                             '<A HREF="IMEX0015.HTM#incorrect_non_shorting_assembled_physical_net">incorrect_non_shorting_assembled_physical_net</A>',
+                             'should_implement'))) &gt;= 1);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#component_signal">component_signal</A> joins terminals belonged to <A HREF="IMEX0021.HTM#electrical_component">electrical_components</A>,
+ <A HREF="IMEX0021.HTM#connector_component">connector_components</A> or <A HREF="IMEX0021.HTM#jumper_component">jumper_components</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#component_signal_realisation_rule">component_signal_realisation_rule</A> <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A> <A HREF="IMEX0015.HTM#correct_assembled_physical_net">correct_assembled_physical_net</A> <A HREF="IMEX0015.HTM#incorrect_non_shorting_assembled_physical_net">incorrect_non_shorting_assembled_physical_net</A> <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A> <A HREF="IMEX0015.HTM#non_analysed_assembled_physical_net">non_analysed_assembled_physical_net</A> <A HREF="IMEX0015.HTM#shorting_assembled_physical_net">shorting_assembled_physical_net</A> </P>
+<HR>
+<!-- Start of ENTITY: component_terminal -->
+<H2><A NAME="component_terminal">component_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0021.HTM#connector_component_terminal">connector_component_terminal</A>,
+                                   <A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A>, 
+                                   <A HREF="IMEX0021.HTM#jumper_component_terminal">jumper_component_terminal</A>));
+    referenced_component : <A HREF="IMEX0021.HTM#component">component</A>; -- reference
+    referenced_terminal  : <A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>; -- reference
+  UNIQUE
+      uniqueness_constraint :
+      (* There is only one component_terminal for a particular part_terminal on
+         a component. *) 
+      referenced_component, referenced_terminal;
+  WHERE    
+    <A NAME="component_terminal.valid_component_signal">valid_component_signal</A> :
+      (* A component_terminal is referenced by at most one component_signal and
+         that component_signal is defined in the same internal_pcb_mcm_view
+         as the component. *) 
+      SIZEOF(QUERY(sig 
+                   &lt;* referenced_component.containing_view.component_signals |
+             SELF IN sig.joined_terminals)) &lt;= 1;
+
+    <A NAME="component_terminal.valid_assembled_physical_net">valid_assembled_physical_net</A> :
+      (* A component_terminal is referenced by at most one
+         assembled_physical_net and that assembled_physical_net is defined in 
+         the assembled_board which implements the internal_pcb_mcm_view that
+         owns the component. *)
+      SIZEOF(QUERY(net &lt;* 
+        referenced_component.containing_view.is_implemented_by.physical_nets |
+        SELF IN net.joined_terminals)) &lt;= 1;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A> is a terminal on a <A HREF="IMEX0021.HTM#connector_component">connector_component</A>, an
+ <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A> or a <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#assembled_physical_net">assembled_physical_net</A> <A HREF="IMEX0021.HTM#component_signal">component_signal</A> <A HREF="IMEX0021.HTM#component_terminal_group_element">component_terminal_group_element</A> <A HREF="IMEX0015.HTM#incorrect_non_shorting_assembled_physical_net">incorrect_non_shorting_assembled_physical_net</A> <A HREF="IMEX0015.HTM#jumper_point">jumper_point</A> </P>
+<HR>
+<!-- Start of ENTITY: electrical_component_terminal -->
+<H2><A NAME="electrical_component_terminal">electrical_component_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>);
+    SELF\<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>.referenced_component : <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>;
+    SELF\<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>.referenced_terminal  : <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>;
+  WHERE
+    <A NAME="electrical_component_terminal.valid_referenced_terminal">valid_referenced_terminal</A> :
+      (* The referenced electrical_part_terminal must be defined in the
+         instantiated electrical_part of the referenced electrical_component. *)
+      referenced_terminal IN referenced_component.instantiated_part.terminals;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A> describes a terminal on an
+ <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>. 
+</P><HR>
+<!-- Start of ENTITY: connector_component_terminal -->
+<H2><A NAME="connector_component_terminal">connector_component_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#connector_component_terminal">connector_component_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>);
+    SELF\<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>.referenced_component : <A HREF="IMEX0021.HTM#connector_component">connector_component</A>;
+    SELF\<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>.referenced_terminal  : <A HREF="IMEX0024.HTM#connector_part_terminal">connector_part_terminal</A>;
+  WHERE
+    <A NAME="connector_component_terminal.valid_referenced_terminal">valid_referenced_terminal</A> :
+      (* The referenced connector_part_terminal must be defined in the
+         instantiated connector_part of the referenced connector_component. *)
+      referenced_terminal IN referenced_component.instantiated_part.terminals;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#connector_component_terminal">connector_component_terminal</A> describes a terminal on an
+ <A HREF="IMEX0021.HTM#connector_component">connector_component</A>.  
+</P><HR>
+<!-- Start of ENTITY: jumper_component_terminal -->
+<H2><A NAME="jumper_component_terminal">jumper_component_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#jumper_component_terminal">jumper_component_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>);
+    SELF\<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>.referenced_component : <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A>;
+    SELF\<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>.referenced_terminal  : <A HREF="IMEX0024.HTM#jumper_part_terminal">jumper_part_terminal</A>;
+  WHERE
+    <A NAME="jumper_component_terminal.valid_referenced_terminal">valid_referenced_terminal</A> :
+      (* The referenced jumper_part_terminal must be defined in the
+         instantiated jumper_part of the referenced jumper_component. *)
+      referenced_terminal IN referenced_component.instantiated_part.terminals;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0021.HTM#jumper_component_terminal">jumper_component_terminal</A> describes a terminal on a <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A>. 
+</P><HR>
+<!-- Start of ENTITY: component_terminal_group -->
+<H2><A NAME="component_terminal_group">component_terminal_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0021.HTM#component_terminal_ordered_group">component_terminal_ordered_group</A>,
+                                   <A HREF="IMEX0021.HTM#component_terminal_unordered_group">component_terminal_unordered_group</A>));
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_signal : <A HREF="IMEX0021.HTM#component_signal">component_signal</A> -- reference
+      := <A HREF="IMEX0021.HTM#containing_signal_of_component_terminal_group">containing_signal_of_component_terminal_group</A>(SELF);
+  WHERE
+    <A NAME="component_terminal_group.valid_existence">valid_existence</A> :
+      (* A component_terminal_group belongs to either one component_signal, one
+         component_terminal_ordered_group or one
+         component_terminal_unordered_group. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      ['<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#component_signal">component_signal</A>.terminal_groupings',
+       '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#component_terminal_ordered_group">component_terminal_ordered_group</A>.sub_groupings',
+       '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#component_terminal_unordered_group">component_terminal_unordered_group</A>.sub_groupings']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A> defines a grouping structure of
+ <A HREF="IMEX0021.HTM#component_terminal">component_terminals</A> and <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_groups</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#component_signal">component_signal</A> <A HREF="IMEX0021.HTM#component_terminal_group_element">component_terminal_group_element</A> </P>
+<HR>
+<!-- Start of ENTITY: component_terminal_ordered_group -->
+<H2><A NAME="component_terminal_ordered_group">component_terminal_ordered_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#component_terminal_ordered_group">component_terminal_ordered_group</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>);
+    sub_groupings : LIST [1:?] OF <A HREF="IMEX0021.HTM#component_terminal_group_element">component_terminal_group_element</A>;
+  WHERE
+    <A NAME="component_terminal_ordered_group.valid_sub_groupings">valid_sub_groupings</A> :
+    (* The referenced component_terminals are joined by the containing
+       component_signal. *)
+    <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(componentTerminal &lt;*
+                     QUERY(groupElement &lt;* sub_groupings |
+                           '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>'
+                          IN TYPEOF(groupElement)) |
+      NOT (componentTerminal IN
+           SELF\<A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>.containing_signal.joined_terminals)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#component_terminal_ordered_group">component_terminal_ordered_group</A> defines a grouping structure of
+ <A HREF="IMEX0021.HTM#component_terminal">component_terminals</A> and <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_groups</A>.  The order of
+ grouping is important.
+</P><HR>
+<!-- Start of ENTITY: component_terminal_unordered_group -->
+<H2><A NAME="component_terminal_unordered_group">component_terminal_unordered_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#component_terminal_unordered_group">component_terminal_unordered_group</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>);
+    sub_groupings : SET [1:?] OF <A HREF="IMEX0021.HTM#component_terminal_group_element">component_terminal_group_element</A>;
+  WHERE
+    <A NAME="component_terminal_unordered_group.valid_sub_groupings">valid_sub_groupings</A> :
+    (* The referenced component_terminals are joined by the containing
+       component_signal. *)
+    <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(componentTerminal &lt;*
+                     QUERY(groupElement &lt;* sub_groupings |
+                           '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>'
+                          IN TYPEOF(groupElement)) |
+      NOT (componentTerminal IN
+           SELF\<A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>.containing_signal.joined_terminals)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#component_terminal_unordered_group">component_terminal_unordered_group</A> defines a grouping structure of
+ <A HREF="IMEX0021.HTM#component_terminal">component_terminals</A> and <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_groups</A>.  There is no order in
+ the grouping structure.
+</P><HR>
+<!-- Start of TYPE: component_terminal_group_element -->
+<H2><A NAME="component_terminal_group_element">component_terminal_group_element</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0021.HTM#component_terminal_group_element">component_terminal_group_element</A>
+    = SELECT (<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A>,
+              <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#component_terminal_group_element">component_terminal_group_element</A> defines an element which constitutes a
+ <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>.   It can be either a <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A> or a
+ <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#component_terminal_ordered_group">component_terminal_ordered_group</A> <A HREF="IMEX0021.HTM#component_terminal_unordered_group">component_terminal_unordered_group</A> </P>
+<HR>
+<!-- Start of FUNCTION: containing_signal_of_component_terminal_group -->
+<H2><A NAME="containing_signal_of_component_terminal_group">containing_signal_of_component_terminal_group</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0021.HTM#containing_signal_of_component_terminal_group">containing_signal_of_component_terminal_group</A>
+    (terminalGroup : <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>) : <A HREF="IMEX0021.HTM#component_signal">component_signal</A>;
+    LOCAL
+      componentSignals : BAG OF <A HREF="IMEX0021.HTM#component_signal">component_signal</A> := [ ];
+      orderedGroups    : BAG OF <A HREF="IMEX0021.HTM#component_terminal_ordered_group">component_terminal_ordered_group</A> := [ ];
+      unorderedGroups  : BAG OF <A HREF="IMEX0021.HTM#component_terminal_unordered_group">component_terminal_unordered_group</A> := [ ];
+    END_LOCAL;
+
+    componentSignals := USEDIN(terminalGroup,
+      '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#component_signal">component_signal</A>.terminal_groupings');
+
+    IF (SIZEOF(componentSignals) = 1) THEN
+      RETURN(componentSignals[1]);
+    ELSE
+      orderedGroups := USEDIN(terminalGroup,
+      '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#component_terminal_ordered_group">component_terminal_ordered_group</A>.sub_groupings');
+      IF (SIZEOF(orderedGroups) = 1) THEN
+          RETURN(<A HREF="IMEX0021.HTM#containing_signal_of_component_terminal_group">containing_signal_of_component_terminal_group</A>
+                 (orderedGroups[1]));
+      ELSE
+        unorderedGroups := USEDIN(terminalGroup,
+        '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#component_terminal_unordered_group">component_terminal_unordered_group</A>.sub_groupings');
+        IF (SIZEOF(unorderedGroups) = 1) THEN
+            RETURN(<A HREF="IMEX0021.HTM#containing_signal_of_component_terminal_group">containing_signal_of_component_terminal_group</A>
+                   (unorderedGroups[1]));
+        ELSE
+            RETURN(?);
+        END_IF;
+      END_IF;
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0021.HTM#containing_signal_of_component_terminal_group">containing_signal_of_component_terminal_group</A> returns the
+ <A HREF="IMEX0021.HTM#component_signal">component_signal</A> containing the <A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#component_terminal_group">component_terminal_group</A> </P>
+<HR>
+<!-- Start of ENTITY: component_function_allocation -->
+<H2><A NAME="component_function_allocation">component_function_allocation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A>,
+                                   <A HREF="IMEX0021.HTM#unallocated_component_function">unallocated_component_function</A>,
+                                   <A HREF="IMEX0021.HTM#unknown_component_function_allocation">unknown_component_function_allocation</A>,
+                                   <A HREF="IMEX0021.HTM#post_function_layout">post_function_layout</A>));
+    referenced_part_function : <A HREF="IMEX0024.HTM#part_function">part_function</A>; -- reference
+  DERIVE
+    containing_component : <A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+                         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>',
+                                        '<A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A>',
+                                        'component_function_allocations'));
+  UNIQUE
+    uniqueness_constraint :
+      (* A component function can be allocated only once. *)
+      referenced_part_function, containing_component;
+  WHERE
+    <A NAME="component_function_allocation.valid_existence">valid_existence</A> :
+      (* A component_function_allocation belongs to one
+         fully_defined_electrical_component. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>',
+                                          '<A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A>',
+                                          'component_function_allocations'));
+
+    <A NAME="component_function_allocation.valid_referenced_function">valid_referenced_function</A> :
+      (* The referenced part_function must be defined in the
+         instantiated fully_defined_electrical_part of the containing
+         fully_defined_electrical_component. *)
+      referenced_part_function
+        IN containing_component.instantiated_part.functions;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A> specifies the status of allocation of an
+ electrical function in a <A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A>.  A
+ <A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A> is the instantiation of a
+ <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> which its <A HREF="IMEX0024.HTM#part_function">part_functions</A> are instantiated
+ as the component functions.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A> </P>
+<HR>
+<!-- Start of ENTITY: allocated_component_function -->
+<H2><A NAME="allocated_component_function">allocated_component_function</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A>);
+    allocated_instance  : <A HREF="IMEX0009.HTM#instance">instance</A>; -- reference
+    allocation_status   : <A HREF="IMEX0021.HTM#swap_indicator">swap_indicator</A>;
+    allocated_terminals : OPTIONAL SET [1:?] OF 
+                          <A HREF="IMEX0021.HTM#allocated_component_function_terminal">allocated_component_function_terminal</A>;
+  UNIQUE
+    only_allocated_once :
+      (* An instance can be allocated only once. *)
+      allocated_instance;
+  WHERE
+    <A NAME="allocated_component_function.valid_allocated_instance">valid_allocated_instance</A> :
+      (* The allocated instance must be defined in the containing
+         internal_pcb_mcm_view. *) 
+      EXISTS(containing_component.containing_view.instances)
+      AND
+      (allocated_instance IN containing_component.containing_view.instances);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A> describes how a component function is
+ allocated to an <A HREF="IMEX0009.HTM#instance">instance</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#allocated_component_function_terminal">allocated_component_function_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: allocated_component_function_terminal -->
+<H2><A NAME="allocated_component_function_terminal">allocated_component_function_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#allocated_component_function_terminal">allocated_component_function_terminal</A>;
+    allocated_port       : <A HREF="IMEX0009.HTM#instance_port">instance_port</A>; -- reference
+    allocation_status    : <A HREF="IMEX0021.HTM#swap_indicator">swap_indicator</A>;
+    referenced_terminals : SET [1:?] OF <A HREF="IMEX0024.HTM#part_function_terminal">part_function_terminal</A>; -- reference
+  DERIVE
+    containing_allocation : <A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+        '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A>.allocated_terminals');
+  UNIQUE
+    only_allocated_once :
+      (* An instance_port can be allocated only once. *)
+      allocated_port;
+  WHERE
+    <A NAME="allocated_component_function_terminal.valid_existence">valid_existence</A> :
+      (* An allocated_component_function_terminal belongs to one
+         allocated_component_function. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A>.allocated_terminals');
+
+    <A NAME="allocated_component_function_terminal.valid_allocated_port">valid_allocated_port</A> :
+      (* The allocated instance_port must refer to the instance which is
+         allocated in the containing allocated_component_function. *)
+      allocated_port.referenced_instance
+        :=: containing_allocation.allocated_instance;
+
+    <A NAME="allocated_component_function_terminal.valid_referenced_terminals">valid_referenced_terminals</A> :
+      (* The referenced part_function_terminal must refer to the part_function
+         which is referenced in the containing allocated_component_function.*) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(functionTerminal &lt;* referenced_terminals |
+        functionTerminal.referenced_part_function
+        :&lt;&gt;: containing_allocation\<A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A>
+                                  .referenced_part_function));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0021.HTM#allocated_component_function_terminal">allocated_component_function_terminal</A> describes how a terminal on a
+ component function is allocated to a port on an <A HREF="IMEX0009.HTM#instance">instance</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A> </P>
+<HR>
+<!-- Start of ENTITY: unallocated_component_function -->
+<H2><A NAME="unallocated_component_function">unallocated_component_function</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#unallocated_component_function">unallocated_component_function</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A>);
+    can_be_used : <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0021.HTM#unallocated_component_function">unallocated_component_function</A> specifies that a component function is
+ unallocated.  The can_be_used attribute is a boolean flag stating whether
+ this electrical function can be used for further allocation or not. 
+</P><HR>
+<!-- Start of ENTITY: unknown_component_function_allocation -->
+<H2><A NAME="unknown_component_function_allocation">unknown_component_function_allocation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#unknown_component_function_allocation">unknown_component_function_allocation</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0021.HTM#unknown_component_function_allocation">unknown_component_function_allocation</A> specifies that the allocation of
+ a component function is unknown to the sending system.
+</P><HR>
+<!-- Start of ENTITY: post_function_layout -->
+<H2><A NAME="post_function_layout">post_function_layout</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0021.HTM#post_function_layout">post_function_layout</A>
+      SUBTYPE OF (<A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#post_function_layout">post_function_layout</A> specifies that the component function is for
+ specific purpose and should not be used in allocation, for example, pull-up
+ resistor or decoupling capacitor.  
+</P><HR>
+<!-- Start of TYPE: swap_indicator -->
+<H2><A NAME="swap_indicator">swap_indicator</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0021.HTM#swap_indicator">swap_indicator</A>
+    = ENUMERATION OF (fixed_,
+                      unfixed);
+  WHERE
+    <A NAME="swap_indicator.valid_existence">valid_existence</A> :
+      (* A swap_indicator belongs to either one allocated_component_function
+         or one allocated_component_function_terminal. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      ['<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A>.allocation_status',
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>',
+                      '<A HREF="IMEX0021.HTM#allocated_component_function_terminal">allocated_component_function_terminal</A>',
+                      'allocation_status')]);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0021.HTM#swap_indicator">swap_indicator</A> specifies the status of an allocation.  If the status is
+ fixed, it implies the allocation cannot be removed.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A> <A HREF="IMEX0021.HTM#allocated_component_function_terminal">allocated_component_function_terminal</A> </P>
+
+<HR>
+
+<!-- Start of schema: pcb_mountable_package_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

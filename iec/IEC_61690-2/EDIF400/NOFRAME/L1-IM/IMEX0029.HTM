@@ -1,0 +1,2520 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMCHG.HTM">Changes from Level 0</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcb_sub_layout_model">pcb_sub_layout_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A> schema is used to describes various types of
+ <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definitions</A> which can be instanced on many different bare
+ boards.  For example, a <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A> may consist of a number of
+ <A HREF="IMEX0029.HTM#toeprint_instance">toeprint_instance</A>, where each <A HREF="IMEX0029.HTM#toeprint_instance">toeprint_instance</A> references a
+ <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>.  The <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A> can then be instanced
+ within a <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>. 
+</P><HR>
+<!-- Start of ENTITY: sub_layout_definition -->
+<H2><A NAME="sub_layout_definition">sub_layout_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>,
+                                    <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>,
+                                    <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>,
+                                    <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>,
+                                    <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>,
+                                    <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A>)
+                             AND
+                             ONEOF (<A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>,
+                                    <A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>));
+    document          : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>;
+    is_implemented_in : <A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A>; -- reference
+    name              : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    physical_nets     : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#physical_net">physical_net</A>;
+    previous_version  : OPTIONAL <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>; -- reference
+    properties        : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+    units             : <A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A>;
+    written_status    : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#written">written</A>;
+  WHERE
+    <A NAME="sub_layout_definition.valid_existence">valid_existence</A> :
+      (* A sub_layout_definition belongs to one library. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#library">library</A>.sub_layout_definitions');
+
+    <A NAME="sub_layout_definition.valid_previous_version">valid_previous_version</A> :
+      (* A sub_layout_definition cannot be a new version of itself, either
+         directly or indirectly. *)
+      <A HREF="IMEX0034.HTM#non_recursive_previous_version">non_recursive_previous_version</A>(SELF, []);
+
+    <A NAME="sub_layout_definition.valid_written_in_previous_version">valid_written_in_previous_version</A> :
+      (* The earliest timestamp of a sub_layout_definition is later than the
+         latest timestamp of its previous version. *)  
+      <A HREF="IMEX0005.HTM#valid_timestamp_in_previous_version">valid_timestamp_in_previous_version</A>(written_status,
+                                          previous_version.written_status);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> object is a description of a collection of layout
+ items, which can later be instanced into another sub-layout or onto a bare
+ board.  An example of a sub-layout is a footprint (a collection of layout
+ items which is specifically reserved for connection to the pins of a
+ component). 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0014.HTM#library">library</A> <A HREF="IMEX0029.HTM#physical_net">physical_net</A> <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: external_sub_layout_definition -->
+<H2><A NAME="external_sub_layout_definition">external_sub_layout_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#external_bare_board_definition">external_bare_board_definition</A>,
+                                    <A HREF="IMEX0029.HTM#external_test_coupon_definition">external_test_coupon_definition</A>, 
+                                    <A HREF="IMEX0029.HTM#external_footprint_definition">external_footprint_definition</A>, 
+                                    <A HREF="IMEX0029.HTM#external_toeprint_definition">external_toeprint_definition</A>, 
+                                    <A HREF="IMEX0029.HTM#external_non_specific_sub_layout_definition">external_non_specific_sub_layout_definition</A>,
+                                    <A HREF="IMEX0029.HTM#external_padstack_definition">external_padstack_definition</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in 
+         : <A HREF="IMEX0030.HTM#external_bare_board_technology">external_bare_board_technology</A>;              -- retype
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets     
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#external_physical_net">external_physical_net</A>; -- retype
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.previous_version 
+        : OPTIONAL <A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>;      -- retype
+  WHERE
+    <A NAME="external_sub_layout_definition.valid_existence">valid_existence</A> :
+      (* An external_sub_layout_definition belongs to one external_library. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#external_library">external_library</A>.sub_layout_definitions'); 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A> is a <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> defined in
+ an <A HREF="IMEX0014.HTM#external_library">external_library</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0014.HTM#external_library">external_library</A> <A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_sub_layout_definition -->
+<H2><A NAME="internal_sub_layout_definition">internal_sub_layout_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>,
+                                    <A HREF="IMEX0029.HTM#internal_test_coupon_definition">internal_test_coupon_definition</A>, 
+                                    <A HREF="IMEX0029.HTM#internal_footprint_definition">internal_footprint_definition</A>, 
+                                    <A HREF="IMEX0029.HTM#internal_toeprint_definition">internal_toeprint_definition</A>, 
+                                    <A HREF="IMEX0029.HTM#internal_non_specific_sub_layout_definition">internal_non_specific_sub_layout_definition</A>,
+                                    <A HREF="IMEX0029.HTM#internal_padstack_definition">internal_padstack_definition</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets -- retype
+                          : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>;
+    layout_features       : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>;
+    associated_text       : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#layout_text">layout_text</A>;
+    drawing_information   : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#drawing_element">drawing_element</A>;
+    name_fabrication      : OPTIONAL SET [1:?] OF <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>;
+    property_fabrications : OPTIONAL SET [1:?] OF <A HREF="IMEX0022.HTM#property_fabrication">property_fabrication</A>;
+  WHERE
+    <A NAME="internal_sub_layout_definition.valid_existence">valid_existence</A> :
+      (* An internal_sub_layout_definition belongs to one internal_library. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#internal_library">internal_library</A>.sub_layout_definitions');
+
+    <A NAME="internal_sub_layout_definition.valid_property_fabrications">valid_property_fabrications</A> :
+      (* The fabricated properties are defined in the sub_layout_definition. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(propertyFabrication &lt;* property_fabrications |
+        NOT (propertyFabrication.fabricated_property 
+               IN SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.properties)));
+
+    <A NAME="internal_sub_layout_definition.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A sub-layout cannot have property_fabrications if it does not
+            define any properties. *)
+      EXISTS(SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.properties) 
+        OR NOT EXISTS(property_fabrications);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A> is a <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> defined in
+ an <A HREF="IMEX0014.HTM#internal_library">internal_library</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0014.HTM#internal_library">internal_library</A> </P>
+<HR>
+<!-- Start of ENTITY: bare_board_definition -->
+<H2><A NAME="bare_board_definition">bare_board_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#external_bare_board_definition">external_bare_board_definition</A>,
+                                    <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets     
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A>; -- retype
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.previous_version 
+        : OPTIONAL <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>;                -- retype
+    sub_layouts   : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>;
+    embedded_dies : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#embedded_die">embedded_die</A>; -- chips-first
+  WHERE
+    <A NAME="bare_board_definition.valid_sub_layouts">valid_sub_layouts</A> :
+      (* The bare_board_technology of the sub_layout_instances must be the same
+         as the one used by the bare_board_definition. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(subLayoutInstance &lt;* sub_layouts |
+        subLayoutInstance.is_defined_by.is_implemented_in
+        :&lt;&gt;: SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A bare board is a composition of laminated sheets of conductive material,
+ separated by insulation sheets, and usually interconnected at several
+ places.  The bare board is used in the assembly process, to mount packaged
+ (pre-fabricated) components onto, and appears in the bill of material of the
+ assembled board.
+</P>
+<P>
+ A <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> is a description of a re-usable bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#bare_board">bare_board</A> <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> <A HREF="IMEX0029.HTM#embedded_die">embedded_die</A> </P>
+<HR>
+<!-- Start of ENTITY: external_bare_board_definition -->
+<H2><A NAME="external_bare_board_definition">external_bare_board_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#external_bare_board_definition">external_bare_board_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>, 
+                  <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets -- retype
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#external_bare_board_physical_net">external_bare_board_physical_net</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#external_bare_board_definition">external_bare_board_definition</A> is a <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> defined in
+ an <A HREF="IMEX0014.HTM#external_library">external_library</A>.
+</P><HR>
+<!-- Start of ENTITY: internal_bare_board_definition -->
+<H2><A NAME="internal_bare_board_definition">internal_bare_board_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>,
+                  <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets -- retype  
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A>;
+    drawings                              : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A>;
+    drawing_board_subsets                 : OPTIONAL SET [1:?] OF <A HREF="IMEX0020.HTM#board_subset">board_subset</A>;
+    outline                               : <A HREF="IMEX0029.HTM#board_outline">board_outline</A>;
+    probe_points                          : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#probe_point">probe_point</A>;
+    embedded_die_placements               : OPTIONAL SET [1:?] OF 
+                                            <A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A>;
+    sub_layout_placements                 : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0029.HTM#sub_layout_placement">sub_layout_placement</A>; 
+    assembled_board_name_fabrication_slot : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>;
+    constraint                            : OPTIONAL <A HREF="IMEX0029.HTM#bare_board_constraint">bare_board_constraint</A>;
+    cavities                              : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A>; -- chips-first
+  WHERE
+    <A NAME="internal_bare_board_definition.valid_embedded_die_placements">valid_embedded_die_placements</A> :
+      (* The placed dies must be defined in the bare_board_definition. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(embeddedDiePlacement &lt;* embedded_die_placements |
+        NOT (embeddedDiePlacement.placed_die 
+               IN SELF\<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.embedded_dies)));
+
+    <A NAME="internal_bare_board_definition.valid_sub_layout_placements">valid_sub_layout_placements</A> :
+      (* The placed sub_layout_instance must be defined in the
+         bare_board_definition. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(subLayoutPlacement &lt;* sub_layout_placements |
+        NOT (subLayoutPlacement.placed_instance 
+               IN SELF\<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.sub_layouts)));
+
+    <A NAME="internal_bare_board_definition.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A bare board cannot have embedded_die_placements if it does not
+            define any embedded dies.
+         2. A bare board cannot have sub_layout_placements if it does not
+            define any sub-layouts. *)
+      (EXISTS(SELF\<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.embedded_dies) 
+         OR NOT EXISTS(embedded_die_placements))
+      AND
+      (EXISTS(SELF\<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.sub_layouts) 
+         OR NOT EXISTS(sub_layout_placements));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> is a <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> defined in
+ an <A HREF="IMEX0014.HTM#internal_library">internal_library</A>.
+</P>
+<P>
+ The assembled_board_name_fabrication_slot attribute specifies the places
+ where the name of the <A HREF="IMEX0019.HTM#assembled_board">assembled_board</A> will be fabricated when the bare
+ board is used as an <A HREF="IMEX0019.HTM#assembled_board">assembled_board</A>.
+</P>
+<P>
+ The embedded_die_placements attribute specifies the placement of the
+ embedded dies. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A> <A HREF="IMEX0029.HTM#bare_board_constraint">bare_board_constraint</A> <A HREF="IMEX0020.HTM#board_subset">board_subset</A> <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A> <A HREF="IMEX0029.HTM#probe_point">probe_point</A> </P>
+<HR>
+<!-- Start of ENTITY: bare_board_cavity -->
+<H2><A NAME="bare_board_cavity">bare_board_cavity</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A>;     applied_layer : <A HREF="IMEX0030.HTM#physical_layer">physical_layer</A>; -- reference
+    side          : <A HREF="IMEX0029.HTM#physical_layer_side">physical_layer_side</A>;
+    surface_area  : <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>;
+    wells         : SET [1:?] OF <A HREF="IMEX0029.HTM#bare_board_cavity_well">bare_board_cavity_well</A>;
+  DERIVE
+    containing_board : <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>.cavities');
+  WHERE
+    <A NAME="bare_board_cavity.valid_existence">valid_existence</A> :
+      (* A bare_board_cavity belongs to one internal_bare_board_definition. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>.cavities');
+
+    <A NAME="bare_board_cavity.valid_applied_layer">valid_applied_layer</A>:
+      (* The layer must be defined in the bare_board_technology in which the
+         containing internal_bare_board_definition is implemented. *) 
+      applied_layer IN
+        containing_board\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in.layers;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A> describes a cavity on a layer of a bare board in which
+ dies are placed.  A cavity consists one or more <A HREF="IMEX0029.HTM#bare_board_cavity_well">bare_board_cavity_wells</A>
+ which may or may not have a uniform depth. 
+</P>
+<P>
+ The applied_layer attribute specifies the physical layer in which a cavity
+ is formed so that bare dies are placed inside.  The side attribute
+ determines whether a cavity is formed on the top side or on the bottom side
+ of the layer. The surface_area attribute specifies the area of the cavity
+ on the substrate surface.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#bare_board_cavity_well">bare_board_cavity_well</A> <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: bare_board_cavity_well -->
+<H2><A NAME="bare_board_cavity_well">bare_board_cavity_well</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#bare_board_cavity_well">bare_board_cavity_well</A>;
+    wall_angle         : <A HREF="IMEX0034.HTM#angle_value">angle_value</A>;
+    surface_area       : OPTIONAL <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>;
+    bottom_area        : OPTIONAL <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>;
+    die_placement_area : OPTIONAL <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>;
+    depth              : <A HREF="IMEX0034.HTM#toleranced_distance">toleranced_distance</A>;
+  DERIVE
+    containing_cavity : <A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A>.wells');
+  WHERE
+    <A NAME="bare_board_cavity_well.valid_existence">valid_existence</A> :
+      (* A bare_board_cavity_well belongs to one bare_board_cavity. *)
+       <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A>.wells');
+
+    <A NAME="bare_board_cavity_well.valid_depth">valid_depth</A> :
+      (* The depth of the well must be less than the thickness of the
+         layer.  This constraint can be checked only if the layer is an
+         internal_physical_layer for which the thickness of a layer is
+         known. *)  
+      NOT (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(containing_cavity.applied_layer, 
+                     '<A HREF="IMEX0030.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0030.HTM#internal_physical_layer">internal_physical_layer</A>')
+           AND
+           EXISTS(containing_cavity
+                  .applied_layer\<A HREF="IMEX0030.HTM#internal_physical_layer">internal_physical_layer</A>.thickness)
+           AND
+           (containing_cavity
+            .applied_layer\<A HREF="IMEX0030.HTM#internal_physical_layer">internal_physical_layer</A>.thickness.range.min
+            &lt;= depth.range.max));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#bare_board_cavity_well">bare_board_cavity_well</A> describes a well inside a <A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A>. 
+</P>
+<P>
+ The wall_angle attribute specifies the angle of the well wall measured from
+ the bottom of the well.
+</P>
+<P>
+ The surface_area attribute specifies the area of the well as seen from the
+ layer surface.  If it is not specified (e.g. when a cavity has only one 
+ well), uses the surface_area information from the <A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A>.
+</P>
+<P>
+ The bottom_area attribute specifies the area of the bottom of the well as
+ seen from the layer surface.  It it is not specified (e.g. when the angle of
+ the well wall is equal to 90 degrees), use the surface_area information from
+ the well. 
+</P>
+<P>
+ The die_placement_area attribute specifies the well area in which dies can
+ be placed.  If it is not specified, use the bottom_area information from the
+ well. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A> <A HREF="IMEX0029.HTM#embedded_die_placement_region">embedded_die_placement_region</A> </P>
+<HR>
+<!-- Start of TYPE: physical_layer_side -->
+<H2><A NAME="physical_layer_side">physical_layer_side</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0029.HTM#physical_layer_side">physical_layer_side</A>
+    = ENUMERATION OF (top_of_layer,
+                      bottom_of_layer);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#physical_layer_side">physical_layer_side</A> specifies which side of a layer a cavity is formed.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A> </P>
+<HR>
+<!-- Start of ENTITY: embedded_die -->
+<H2><A NAME="embedded_die">embedded_die</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#embedded_die">embedded_die</A>;
+    embedded_part : <A HREF="IMEX0028.HTM#die_electrical_part">die_electrical_part</A>; -- reference
+    name          : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties    : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  DERIVE
+    containing_board : <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.embedded_dies');
+  WHERE
+    <A NAME="embedded_die.valid_existence">valid_existence</A> :
+      (* An embedded_dies belongs to one bare_board_definition. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.embedded_dies');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#embedded_die">embedded_die</A> describes a <A HREF="IMEX0028.HTM#die_electrical_part">die_electrical_part</A> which is embedded inside
+ a bare board. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> <A HREF="IMEX0019.HTM#embedded_component_implementation">embedded_component_implementation</A> <A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A> </P>
+<HR>
+<!-- Start of ENTITY: embedded_die_placement -->
+<H2><A NAME="embedded_die_placement">embedded_die_placement</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A>;
+    placed_die           : <A HREF="IMEX0029.HTM#embedded_die">embedded_die</A>; -- reference
+    placement            : <A HREF="IMEX0029.HTM#embedded_die_placement_region">embedded_die_placement_region</A>;
+    die_position         : <A HREF="IMEX0011.HTM#unscaled_transform">unscaled_transform</A>;
+    mounting_template    : <A HREF="IMEX0017.HTM#mountable_die_physical_template">mountable_die_physical_template</A>; -- reference
+    referenced_footprint : <A HREF="IMEX0029.HTM#footprint_instance">footprint_instance</A>; -- reference
+    die_terminals        : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#embedded_die_terminal">embedded_die_terminal</A>;
+  WHERE 
+    <A NAME="embedded_die_placement.valid_existence">valid_existence</A> :
+      (* An embedded_die_placement belongs to one
+         internal_bare_board_definition. *)  
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>',
+                       '<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>',
+                       'embedded_die_placements'));
+
+    <A NAME="embedded_die_placement.valid_mounting_side">valid_mounting_side</A> :
+      (* If the mounting_template is an
+         internal_mountable_die_physical_template and the die is placed inside
+         a bare_board_cavity_well, then the mounting side of the template must
+         be the same as the side of the cavity. *)
+    NOT (
+    <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(mounting_template,
+    '<A HREF="IMEX0017.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>.<A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>')
+    AND
+      <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(placement, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_cavity_well">bare_board_cavity_well</A>')
+      AND
+      (((mounting_template\<A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>
+         .side_of_mounting = <A HREF="IMEX0026.HTM#mounting_side">mounting_side</A>.top)
+         AND
+        (placement.containing_cavity.side
+         = <A HREF="IMEX0029.HTM#physical_layer_side">physical_layer_side</A>.bottom_of_layer)) 
+       OR
+       ((mounting_template\<A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>
+         .side_of_mounting = <A HREF="IMEX0026.HTM#mounting_side">mounting_side</A>.bottom)
+         AND
+        (placement.containing_cavity.side
+         = <A HREF="IMEX0029.HTM#physical_layer_side">physical_layer_side</A>.top_of_layer))));
+
+    <A NAME="embedded_die_placement.valid_mounting_template">valid_mounting_template</A> :
+      (* The referenced mountable_die_physical_template must refer to the same
+         die_physical_template as the embedded die_electrical_part. *)
+    NOT (
+    <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(mounting_template,
+    '<A HREF="IMEX0017.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>.<A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>')
+    AND
+      (placed_die.embedded_part.referenced_die_physical_template
+       :&lt;&gt;:
+       mounting_template\<A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>
+                         .referenced_die_physical_template));
+
+    <A NAME="embedded_die_placement.valid_referenced_footprint">valid_referenced_footprint</A> :
+      (* The referenced footprint_instance must be within the containing
+         internal_bare_board_definition. *)
+      EXISTS(placed_die.containing_board.sub_layouts)
+      AND
+      (referenced_footprint 
+         IN placed_die.containing_board.sub_layouts);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A> specifies the placement information of a die.
+</P>
+<P>
+ The placement attribute specifies a layer or a cavity on a layer in which
+ the die is placed.  The mounting_template attribute describes how a die is
+ placed on the layer.
+</P>
+<P>
+ NOTE: The mounting_template uses the <A HREF="IMEX0017.HTM#mountable_die_physical_template">mountable_die_physical_template</A>
+ which describes various chip bonding technologies, such as wirebonds, TABs
+ and solder-bumps.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#embedded_die_terminal">embedded_die_terminal</A> <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> </P>
+<HR>
+<!-- Start of TYPE: embedded_die_placement_region -->
+<H2><A NAME="embedded_die_placement_region">embedded_die_placement_region</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0029.HTM#embedded_die_placement_region">embedded_die_placement_region</A>
+    = SELECT (<A HREF="IMEX0030.HTM#physical_layer">physical_layer</A>, 
+              <A HREF="IMEX0029.HTM#bare_board_cavity_well">bare_board_cavity_well</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#embedded_die_placement_region">embedded_die_placement_region</A> specifies a layer or a cavity of a layer
+ in which a die is placed.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A> </P>
+<HR>
+<!-- Start of ENTITY: embedded_die_terminal -->
+<H2><A NAME="embedded_die_terminal">embedded_die_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#embedded_die_terminal">embedded_die_terminal</A>;     referenced_bond_pad : <A HREF="IMEX0017.HTM#mountable_bond_pad">mountable_bond_pad</A>; -- reference
+    referenced_padstack : <A HREF="IMEX0019.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A>; -- reference
+  DERIVE
+    containing_die : <A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+        '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A>.die_terminals');
+  UNIQUE
+    uniqueness_constraint :
+      referenced_bond_pad, containing_die;
+  WHERE 
+    <A NAME="embedded_die_terminal.valid_existence">valid_existence</A> :
+      (* An embedded_die_terminal belongs to one embedded_die_placement. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A>.die_terminals');
+
+    <A NAME="embedded_die_terminal.valid_referenced_padstack">valid_referenced_padstack</A> :
+      (* The referenced padstack_instance must be defined in a
+         toeprint_instance which is within the footprint_instance referenced
+         by the embedded_die. *)
+      EXISTS(containing_die.referenced_footprint.is_defined_by.toeprints)
+      AND
+      (referenced_padstack.referenced_toeprint
+         IN containing_die.referenced_footprint.is_defined_by.toeprints);
+
+    <A NAME="embedded_die_terminal.valid_mountable_bond_pad">valid_mountable_bond_pad</A> :
+      (* The referenced mountable_bond_pad must be defined in the
+         mountable_die_physical_template referenced by the embedded_die. *)
+      referenced_bond_pad IN containing_die.mounting_template.mountable_pads;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#embedded_die_terminal">embedded_die_terminal</A> describes how a <A HREF="IMEX0017.HTM#mountable_bond_pad">mountable_bond_pad</A> of the
+ <A HREF="IMEX0017.HTM#mountable_die_physical_template">mountable_die_physical_template</A> used by an <A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A> is
+ placed on a bare board.  It specifies the padstack which is intended to
+ receive this <A HREF="IMEX0017.HTM#mountable_bond_pad">mountable_bond_pad</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A> </P>
+<HR>
+<!-- Start of ENTITY: bare_board_constraint -->
+<H2><A NAME="bare_board_constraint">bare_board_constraint</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#bare_board_constraint">bare_board_constraint</A>;
+    board_thickness        : OPTIONAL <A HREF="IMEX0034.HTM#toleranced_distance">toleranced_distance</A>;
+    chosen_technology_rule : <A HREF="IMEX0030.HTM#technology_rule">technology_rule</A>; -- reference
+    region_specific_rules  : OPTIONAL SET [1:?] OF
+                             <A HREF="IMEX0030.HTM#internal_bare_board_region_technology_rule">internal_bare_board_region_technology_rule</A>; 
+  DERIVE
+    containing_bare_board : <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>.constraint');
+  WHERE
+    <A NAME="bare_board_constraint.valid_existence">valid_existence</A> :
+      (* A bare_board_constraint belongs to one
+         internal_bare_board_definition. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>.constraint');
+
+    <A NAME="bare_board_constraint.valid_chosen_technology_rule">valid_chosen_technology_rule</A> :
+      (* The referenced technology_rule must be defined in the
+         bare_board_technology in which the containing bare_board_definition is
+         implemented. *)
+      EXISTS(containing_bare_board\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>
+             .is_implemented_in.technology_rules)
+      AND
+      (chosen_technology_rule
+         IN containing_bare_board\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>
+            .is_implemented_in.technology_rules);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#bare_board_constraint">bare_board_constraint</A> describes the manufacturing constraint and
+ the clearance constraint on a <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.  It selects a
+ technology rule within a <A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A> in which the
+ <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> is implemented.  In addition, it specifies
+ region-specific technology rules which override the manufacture constraint
+ or clearance constraint specified on the layer or on the whole board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> <A HREF="IMEX0030.HTM#internal_bare_board_region_technology_rule">internal_bare_board_region_technology_rule</A> </P>
+<HR>
+<!-- Start of ENTITY: board_outline -->
+<H2><A NAME="board_outline">board_outline</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#board_outline">board_outline</A>;
+    outline : <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>; -- closed <A HREF="IMEX0006.HTM#figure">figure</A>
+  WHERE
+    <A NAME="board_outline.valid_existence">valid_existence</A> :
+      (* A board_outline belongs to one internal_bare_board_definition. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>.outline');
+
+    <A NAME="board_outline.valid_outline">valid_outline</A> :
+      (* The fabricate_figure which defines the outline must have one
+         closed_area_element only. *)
+      (SIZEOF(outline.associated_figures) = 1)
+      AND
+      (SIZEOF(outline.associated_figures[1].associated_geometries) = 1)
+      AND
+      <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(outline.associated_figures[1].associated_geometries[1],
+                '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#board_outline">board_outline</A> defines the geometry of the boundary of a
+ <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: sub_layout_placement -->
+<H2><A NAME="sub_layout_placement">sub_layout_placement</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#sub_layout_placement">sub_layout_placement</A>;
+    placed_instance : <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>; -- reference
+    position        : <A HREF="IMEX0011.HTM#fixed_scale_transform">fixed_scale_transform</A>;
+  WHERE
+    <A NAME="sub_layout_placement.valid_existence">valid_existence</A> :
+      (* A sub_layout_placement belongs to either one
+         internal_bare_board_definition, one internal_test_coupon_definition,
+         one internal_footprint_definition, one internal_toeprint_definition or
+         one internal_non_specific_sub_layout_definition. *)
+    <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      [<A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>',
+                      '<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>',
+                      'sub_layout_placements'),
+       <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>',
+                      '<A HREF="IMEX0029.HTM#internal_footprint_definition">internal_footprint_definition</A>',
+                      'sub_layout_placements'),
+       <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>',
+                      '<A HREF="IMEX0029.HTM#internal_non_specific_sub_layout_definition">internal_non_specific_sub_layout_definition</A>',
+                      'sub_layout_placements'),
+       <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>',
+                      '<A HREF="IMEX0029.HTM#internal_test_coupon_definition">internal_test_coupon_definition</A>',
+                      'sub_layout_placements'),
+       <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>',
+                      '<A HREF="IMEX0029.HTM#internal_toeprint_definition">internal_toeprint_definition</A>',
+                      'sub_layout_placements')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#sub_layout_placement">sub_layout_placement</A> specifies the placement of a <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> <A HREF="IMEX0029.HTM#internal_footprint_definition">internal_footprint_definition</A> <A HREF="IMEX0029.HTM#internal_non_specific_sub_layout_definition">internal_non_specific_sub_layout_definition</A> <A HREF="IMEX0029.HTM#internal_test_coupon_definition">internal_test_coupon_definition</A> <A HREF="IMEX0029.HTM#internal_toeprint_definition">internal_toeprint_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: probe_point -->
+<H2><A NAME="probe_point">probe_point</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#probe_point">probe_point</A>;
+    refers_to_layout_feature : <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>; -- reference
+    probe_position           : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    drawing_information      : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#drawing_element">drawing_element</A>;
+  DERIVE
+    containing_bare_board : <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>.probe_points');
+  WHERE
+    <A NAME="probe_point.valid_existence">valid_existence</A> :
+      (* A probe_point belongs to one internal_bare_board_definition. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A>.probe_points');
+
+    <A NAME="probe_point.valid_referenced_layout_feature">valid_referenced_layout_feature</A> : 
+      (* The referenced layout_feature must be in the same bare_board_definition
+         as the probe_point. *)
+    EXISTS(containing_bare_board\<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>.layout_features)
+    AND
+    (refers_to_layout_feature 
+      IN containing_bare_board\<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>.layout_features);
+
+    <A NAME="probe_point.valid_probe_position">valid_probe_position</A> :
+      (* The probe position is physically within the geometry of the referenced
+         layout_feature. *)
+      <A HREF="IMEX0029.HTM#point_inside_layout_feature">point_inside_layout_feature</A>(probe_position, refers_to_layout_feature);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#probe_point">probe_point</A> object describes an object on the bare board which may also
+ be used as a probe position for testing purpose.  A <A HREF="IMEX0029.HTM#probe_point">probe_point</A> references
+ a single <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A> object (which is the object that can be probed).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> <A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: test_coupon_definition -->
+<H2><A NAME="test_coupon_definition">test_coupon_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#external_test_coupon_definition">external_test_coupon_definition</A>,
+                                    <A HREF="IMEX0029.HTM#internal_test_coupon_definition">internal_test_coupon_definition</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets     
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>; -- retype
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.previous_version 
+        : OPTIONAL <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>;                 -- retype
+    sub_layouts : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>;
+  WHERE
+    <A NAME="test_coupon_definition.valid_sub_layouts">valid_sub_layouts</A> :
+      (* The bare_board_technology of the sub_layout_instances must be the same
+         as the one used by the test_coupon_definition. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(subLayout &lt;* sub_layouts |
+        subLayout.is_defined_by.is_implemented_in
+        :&lt;&gt;: SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A> object is a description of a collection of layout
+ items, which can later be instanced into another sub-layout or onto a bare
+ board as a test coupon.
+</P>
+<P>
+ A test coupon is a collection of layout items which is used purely for
+ testing purposes, and will typically consist of the narrowest possible
+ track, tracks which are as close together as allowed by the design
+ technology, the smallest allowable holes, and so on.  This region of the
+ bare board can be subjected to a series of (possibly destructive) tests.  If
+ this region fails the tests, then it is likely that the board as a whole has
+ not been manufactured correctly.  (If it passes the tests, it does no more
+ than increase the tester's confidence in the state of the rest of the bare
+ board). 
+</P>
+<P>
+ The internal nets of a test coupon would normally have no intended
+ functional impact on the printed circuit board. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A> <A HREF="IMEX0029.HTM#test_coupon_instance">test_coupon_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: external_test_coupon_definition -->
+<H2><A NAME="external_test_coupon_definition">external_test_coupon_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#external_test_coupon_definition">external_test_coupon_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>, 
+                  <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A>; -- retype
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#external_test_coupon_definition">external_test_coupon_definition</A> is a <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A> defined
+ in an <A HREF="IMEX0014.HTM#external_library">external_library</A>.
+</P><HR>
+<!-- Start of ENTITY: internal_test_coupon_definition -->
+<H2><A NAME="internal_test_coupon_definition">internal_test_coupon_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#internal_test_coupon_definition">internal_test_coupon_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>, 
+                  <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A>; -- retype
+    sub_layout_placements : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#sub_layout_placement">sub_layout_placement</A>;
+  WHERE
+    <A NAME="internal_test_coupon_definition.valid_sub_layout_placements">valid_sub_layout_placements</A> :
+      (* The placed sub_layout_instance must be defined in the
+         test_coupon_definition. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(subLayoutPlacement &lt;* sub_layout_placements |
+        NOT (subLayoutPlacement.placed_instance
+             IN SELF\<A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>.sub_layouts)));
+
+    <A NAME="internal_test_coupon_definition.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A test coupon cannot have sub_layout_placements if it does not
+            define any sub-layouts. *)
+      EXISTS(SELF\<A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>.sub_layouts) 
+        OR NOT EXISTS(sub_layout_placements);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#internal_test_coupon_definition">internal_test_coupon_definition</A> is a <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A> defined
+ in an <A HREF="IMEX0014.HTM#internal_library">internal_library</A>.
+</P><HR>
+<!-- Start of ENTITY: footprint_definition -->
+<H2><A NAME="footprint_definition">footprint_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#external_footprint_definition">external_footprint_definition</A>,
+                                    <A HREF="IMEX0029.HTM#internal_footprint_definition">internal_footprint_definition</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets     
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>; -- retype
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.previous_version 
+        : OPTIONAL <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>;                   -- retype
+    toeprints         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#toeprint_instance">toeprint_instance</A>;
+    other_sub_layouts : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#non_specific_sub_layout_instance">non_specific_sub_layout_instance</A>;
+  WHERE
+    <A NAME="footprint_definition.valid_toeprints">valid_toeprints</A> :
+      (* The bare_board_technology of the toeprint_instances must be the same
+         as the one used by the footprint_definition. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(toeprintInstance &lt;* toeprints |
+        toeprintInstance.is_defined_by\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in
+        :&lt;&gt;: SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in));
+
+    <A NAME="footprint_definition.valid_other_sub_layouts">valid_other_sub_layouts</A> :
+      (* The bare_board_technology of the non_specific_sub_layout_instances
+         must be the same as the one used by the footprint_definition. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(subLayoutInstance &lt;* other_sub_layouts |
+        subLayoutInstance.is_defined_by\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in
+        :&lt;&gt;: SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A> object is a description of a collection of layout
+ items, which can later be instanced into another sub-layout or onto a bare
+ board as a footprint.  A footprint is a collection of layout items
+ (toeprints and non-specific sub-layouts) which is specifically reserved for
+ connection to a component. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A> <A HREF="IMEX0029.HTM#footprint_instance">footprint_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: external_footprint_definition -->
+<H2><A NAME="external_footprint_definition">external_footprint_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#external_footprint_definition">external_footprint_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>, 
+                  <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A>; -- retype
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#external_footprint_definition">external_footprint_definition</A> is a <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A> defined in an
+ <A HREF="IMEX0014.HTM#external_library">external_library</A>. 
+</P><HR>
+<!-- Start of ENTITY: internal_footprint_definition -->
+<H2><A NAME="internal_footprint_definition">internal_footprint_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#internal_footprint_definition">internal_footprint_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>, 
+                  <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A>; -- retype
+    sub_layout_placements                 : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0029.HTM#sub_layout_placement">sub_layout_placement</A>; 
+    component_name_fabrication_slot       : OPTIONAL SET [1:?] OF 
+                                            <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>;
+    component_designator_fabrication_slot : OPTIONAL SET [1:?] OF 
+                                            <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>;
+    package_name_fabrication_slot         : OPTIONAL SET [1:?] OF 
+                                            <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>;
+    part_name_fabrication_slot            : OPTIONAL SET [1:?] OF 
+                                            <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>;
+  WHERE
+    <A NAME="internal_footprint_definition.valid_sub_layout_placements">valid_sub_layout_placements</A> :
+      (* The placed sub_layout_instance must be defined in the
+         footprint_definition. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(subLayoutPlacement &lt;* sub_layout_placements |
+        <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(toeprint &lt;* SELF\<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>.toeprints |
+          subLayoutPlacement.placed_instance :=: toeprint))
+        AND
+        <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(layout &lt;* SELF\<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>.other_sub_layouts |
+          subLayoutPlacement.placed_instance :=: layout))));
+
+    <A NAME="internal_footprint_definition.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A footprint cannot have sub_layout_placements if it does not
+            define any sub-layouts. *)
+      EXISTS(SELF\<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>.toeprints) OR
+        EXISTS(SELF\<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>.other_sub_layouts) OR
+        NOT EXISTS(sub_layout_placements);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#internal_footprint_definition">internal_footprint_definition</A> is a <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A> defined in an
+ <A HREF="IMEX0014.HTM#internal_library">internal_library</A>. 
+</P>
+<P>
+ The component_name_fabrication_slot specifies the places where the
+ <A HREF="IMEX0025.HTM#component">component</A> name will be fabricated.
+</P>
+<P>
+ The component_designator_fabrication_slot specifies the places where the
+ <A HREF="IMEX0025.HTM#component">component</A> designator will be fabricated. 
+</P>
+<P>
+ The package_name_fabrication_slot specifies the places where the <A HREF="IMEX0027.HTM#package">package</A>
+ name will be fabricated.
+</P>
+<P>
+ The part_name_fabrication_slot specifies the places where the name of the
+ <A HREF="IMEX0028.HTM#part">part</A> (which is referenced by the <A HREF="IMEX0025.HTM#component">component</A>) will be fabricated.  
+</P><HR>
+<!-- Start of ENTITY: toeprint_definition -->
+<H2><A NAME="toeprint_definition">toeprint_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#external_toeprint_definition">external_toeprint_definition</A>,
+                                    <A HREF="IMEX0029.HTM#internal_toeprint_definition">internal_toeprint_definition</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>; -- retype
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.previous_version 
+        : OPTIONAL <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>;                    -- retype
+    padstacks         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#padstack_instance">padstack_instance</A>;
+    other_sub_layouts : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#non_specific_sub_layout_instance">non_specific_sub_layout_instance</A>;
+  WHERE
+    <A NAME="toeprint_definition.valid_padstacks">valid_padstacks</A> :
+      (* The bare_board_technology of the padstack_instances must be the same
+         as the one used by the toeprint_definition. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(padstackInstance &lt;* padstacks |
+        padstackInstance.is_defined_by\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in
+        :&lt;&gt;: SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in));
+
+    <A NAME="toeprint_definition.valid_other_sub_layouts">valid_other_sub_layouts</A> :
+      (* The bare_board_technology of the non_specific_sub_layout_instances
+         must be the same as the one used by the toeprint_definition. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(subLayoutInstance &lt;* other_sub_layouts |
+        subLayoutInstance.is_defined_by\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in
+        :&lt;&gt;: SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in));
+
+    <A NAME="toeprint_definition.valid_padstack_instance">valid_padstack_instance</A> : 
+      (* A toeprint_definition must contain, directly or indirectly, at least
+         one padstack_instance which has an intended usage of other than
+         routing_via_place and test_point_place. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(padstack &lt;* padstacks |
+        (padstack.<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                                 .routing_via_place)
+        OR
+        (padstack.<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                                 .test_point_place)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A> object is a description of a collection of layout
+ items, which can later be instanced into another sub-layout or onto a bare
+ board as a toeprint.  A toeprint is a collection of layout items which is
+ specifically reserved for connection to a component pin.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A> <A HREF="IMEX0029.HTM#toeprint_instance">toeprint_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: external_toeprint_definition -->
+<H2><A NAME="external_toeprint_definition">external_toeprint_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#external_toeprint_definition">external_toeprint_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>, 
+                  <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A>; -- retype
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#external_toeprint_definition">external_toeprint_definition</A> is a <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A> defined in an
+ <A HREF="IMEX0014.HTM#external_library">external_library</A>. 
+</P><HR>
+<!-- Start of ENTITY: internal_toeprint_definition -->
+<H2><A NAME="internal_toeprint_definition">internal_toeprint_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#internal_toeprint_definition">internal_toeprint_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>, 
+                  <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A>; -- retype
+    sub_layout_placements                  : OPTIONAL SET [1:?] OF
+                                             <A HREF="IMEX0029.HTM#sub_layout_placement">sub_layout_placement</A>; 
+    component_designator_fabrication_slot  : OPTIONAL SET [1:?] OF
+                                             <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>; 
+    package_terminal_name_fabrication_slot : OPTIONAL SET [1:?] OF
+                                             <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>;
+    part_terminal_name_fabrication_slot    : OPTIONAL SET [1:?] OF
+                                             <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>;
+  WHERE
+    <A NAME="internal_toeprint_definition.valid_sub_layout_placements">valid_sub_layout_placements</A> :
+      (* The placed sub_layout_instance must be defined in the
+         toeprint_definition. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(subLayoutPlacement &lt;* sub_layout_placements |
+        <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(padstack &lt;* SELF\<A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>.padstacks |
+          subLayoutPlacement.placed_instance :=: padstack))
+        AND
+        <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(layout &lt;* SELF\<A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>.other_sub_layouts |
+          subLayoutPlacement.placed_instance :=: layout))));
+
+    <A NAME="internal_toeprint_definition.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A toeprint cannot have sub_layout_placements if it does not
+            define any sub-layouts. *)
+      EXISTS(SELF\<A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>.padstacks) OR
+        EXISTS(SELF\<A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>.other_sub_layouts) OR
+        NOT EXISTS(sub_layout_placements);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#internal_toeprint_definition">internal_toeprint_definition</A> is a <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A> defined in an
+ <A HREF="IMEX0014.HTM#internal_library">internal_library</A>. 
+</P>
+<P>
+ The component_designator_fabrication_slot specifies the places where the
+ <A HREF="IMEX0025.HTM#component">component</A> designator will be fabricated. 
+</P>
+<P>
+ The package_terminal_name_fabrication_slot specifies the places where the
+ <A HREF="IMEX0027.HTM#package_terminal">package_terminal</A> name will be fabricated.
+</P><HR>
+<!-- Start of ENTITY: padstack_definition -->
+<H2><A NAME="padstack_definition">padstack_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#external_padstack_definition">external_padstack_definition</A>,
+                                    <A HREF="IMEX0029.HTM#internal_padstack_definition">internal_padstack_definition</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets     
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>; -- retype
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.previous_version 
+        : OPTIONAL <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A>;                     -- retype
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A> object is a description of a collection of layout
+ items, which can later be instanced into a toeprint, a sub-layout or onto a
+ bare board as a padstack.  A padstack is usually a collection of pads on
+ many different physical layers, and often has a plated through hole passing
+ through the pads.  A padstack is used primarily to provide for vertical
+ connection between the conducting layers of a bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A> <A HREF="IMEX0029.HTM#padstack_instance">padstack_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: external_padstack_definition -->
+<H2><A NAME="external_padstack_definition">external_padstack_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#external_padstack_definition">external_padstack_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>, 
+                  <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A>; -- retype
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#external_padstack_definition">external_padstack_definition</A> is a <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A> defined in an
+ <A HREF="IMEX0014.HTM#external_library">external_library</A>. 
+</P><HR>
+<!-- Start of ENTITY: internal_padstack_definition -->
+<H2><A NAME="internal_padstack_definition">internal_padstack_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#internal_padstack_definition">internal_padstack_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>, 
+                  <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A>; -- retype
+  WHERE
+    <A NAME="internal_padstack_definition.valid_layout_feature">valid_layout_feature</A> :
+      (* An internal_padstack_definition object must contain at least one hole
+         or at least one pad. *)
+      <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(layoutFeature &lt;* 
+                         SELF\<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>.layout_features |
+        <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(layoutFeature, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#hole">hole</A>')
+        OR
+        <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(layoutFeature, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#pad">pad</A>')));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#internal_padstack_definition">internal_padstack_definition</A> is a <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A> defined in an
+ <A HREF="IMEX0014.HTM#internal_library">internal_library</A>. 
+</P><HR>
+<!-- Start of ENTITY: non_specific_sub_layout_definition -->
+<H2><A NAME="non_specific_sub_layout_definition">non_specific_sub_layout_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>
+      ABSTRACT SUPERTYPE OF 
+        (ONEOF (<A HREF="IMEX0029.HTM#external_non_specific_sub_layout_definition">external_non_specific_sub_layout_definition</A>,
+                <A HREF="IMEX0029.HTM#internal_non_specific_sub_layout_definition">internal_non_specific_sub_layout_definition</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets     
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>; -- retype
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.previous_version 
+        : OPTIONAL <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>;     -- retype
+    other_sub_layouts : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#non_specific_sub_layout_instance">non_specific_sub_layout_instance</A>;
+  WHERE
+    <A NAME="non_specific_sub_layout_definition.valid_other_sub_layouts">valid_other_sub_layouts</A> :
+      (* The bare_board_technology of the non_specific_sub_layout_instances
+         must be the same as the one used by the
+         non_specific_sub_layout_definition. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(subLayoutInstance &lt;* other_sub_layouts |
+        subLayoutInstance.is_defined_by\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in
+        :&lt;&gt;: SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.is_implemented_in));
+
+    <A NAME="non_specific_sub_layout_definition.non_recursive">non_recursive</A> : 
+      (* A non_specific_sub_layout_definition cannot directly or indirectly
+         contain instances of itself. *)
+      <A HREF="IMEX0029.HTM#non_recursive_non_specific_sub_layout">non_recursive_non_specific_sub_layout</A> ( [], [SELF]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A> object is a description of a
+ collection of layout items, which can later be instanced into another
+ sub-layout or onto a bare board as a non-specific sub-layout.  A
+ non-specific sub-layout is a collection of layout items which has no
+ particular purpose.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A> <A HREF="IMEX0029.HTM#non_specific_sub_layout_instance">non_specific_sub_layout_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: external_non_specific_sub_layout_definition -->
+<H2><A NAME="external_non_specific_sub_layout_definition">external_non_specific_sub_layout_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#external_non_specific_sub_layout_definition">external_non_specific_sub_layout_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>, 
+                  <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A>; -- retype
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#external_non_specific_sub_layout_definition">external_non_specific_sub_layout_definition</A> is a
+ <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A> defined in an <A HREF="IMEX0014.HTM#external_library">external_library</A>. 
+</P><HR>
+<!-- Start of ENTITY: internal_non_specific_sub_layout_definition -->
+<H2><A NAME="internal_non_specific_sub_layout_definition">internal_non_specific_sub_layout_definition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#internal_non_specific_sub_layout_definition">internal_non_specific_sub_layout_definition</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>,
+                  <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets 
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A>; -- retype
+    intended_usage        : <A HREF="IMEX0029.HTM#intended_use">intended_use</A>;
+    sub_layout_placements : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#sub_layout_placement">sub_layout_placement</A>;
+  WHERE
+    <A NAME="internal_non_specific_sub_layout_definition.valid_sub_layout_placements">valid_sub_layout_placements</A> :
+      (* The placed sub_layout_instance must be defined in the
+         internal_non_specific_sub_layout_definition. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(subLayoutPlacement &lt;* sub_layout_placements |
+        <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(sublayout &lt;*
+                   SELF\<A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>.other_sub_layouts |
+          subLayoutPlacement.placed_instance :=: sublayout))));
+
+    <A NAME="internal_non_specific_sub_layout_definition.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A non-specific sub-layout cannot have sub_layout_placements if it
+            does not define any sub-layouts. *)
+      EXISTS(SELF\<A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>.other_sub_layouts) OR
+        NOT EXISTS(sub_layout_placements);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#internal_non_specific_sub_layout_definition">internal_non_specific_sub_layout_definition</A> is a
+ <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A> defined in an <A HREF="IMEX0014.HTM#internal_library">internal_library</A>. 
+</P><HR>
+<!-- Start of TYPE: intended_use -->
+<H2><A NAME="intended_use">intended_use</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0029.HTM#intended_use">intended_use</A>
+    = ENUMERATION OF (mounting_place,
+                      fiducial,
+                      test_point,
+                      logo,
+                      barcode,
+                      nothing_special,
+                      other);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0029.HTM#intended_use">intended_use</A> describes the intended use of the
+ <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#internal_non_specific_sub_layout_definition">internal_non_specific_sub_layout_definition</A> </P>
+<HR>
+<!-- Start of FUNCTION: non_recursive_non_specific_sub_layout -->
+<H2><A NAME="non_recursive_non_specific_sub_layout">non_recursive_non_specific_sub_layout</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0029.HTM#non_recursive_non_specific_sub_layout">non_recursive_non_specific_sub_layout</A> 
+    (referenced, current_level : SET OF <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>) 
+    : BOOLEAN;
+    LOCAL
+      next_level : SET OF <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A> := [];
+      result     : BOOLEAN := TRUE;
+      i          : INTEGER;
+      j          : INTEGER;
+      instances  : SET OF <A HREF="IMEX0029.HTM#non_specific_sub_layout_instance">non_specific_sub_layout_instance</A>;
+    END_LOCAL;
+    referenced := referenced + current_level;
+    REPEAT i := LOINDEX (current_level) TO HIINDEX (current_level);
+    (*
+      For all non specific sub layout definitions in the current level, find the
+      sub layout instances contained within them.
+    *)
+      instances := current_level [i].other_sub_layouts;
+      REPEAT j := LOINDEX (instances) TO HIINDEX (instances);
+        next_level := next_level + instances [j].is_defined_by;
+      END_REPEAT;
+    END_REPEAT;
+    IF (referenced * next_level &lt;&gt; []) THEN
+      result := FALSE;
+    ELSE
+      IF (next_level &lt;&gt; []) THEN
+       result := <A HREF="IMEX0029.HTM#non_recursive_non_specific_sub_layout">non_recursive_non_specific_sub_layout</A> (referenced, next_level);
+      ELSE
+       result := TRUE;
+      END_IF;
+    END_IF;
+    RETURN (result);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> This function returns a boolean value which is set if a
+ <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A> does not contain instances of
+ itself.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: sub_layout_instance -->
+<H2><A NAME="sub_layout_instance">sub_layout_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#test_coupon_instance">test_coupon_instance</A>, 
+                                    <A HREF="IMEX0029.HTM#footprint_instance">footprint_instance</A>, 
+                                    <A HREF="IMEX0029.HTM#toeprint_instance">toeprint_instance</A>, 
+                                    <A HREF="IMEX0029.HTM#padstack_instance">padstack_instance</A>,
+                                    <A HREF="IMEX0029.HTM#non_specific_sub_layout_instance">non_specific_sub_layout_instance</A>));
+    is_defined_by : <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>; -- reference
+    fixed_status  : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    name          : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties    : SET [0:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A> is a single occurrence of a <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>
+ object.  An example of a sub-layout is a footprint (a collection of layout
+ items which is specifically reserved for connection to the pins of a
+ component).  
+</P>
+<P>
+ The fixed_status attribute is a boolean flag indicating whether or not the
+ <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A> is fixed.  If a <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A> is declared to
+ be fixed, then none of its constituents should be deleted or changed by any
+ automatic process (e.g. automatic component placement, automatic router).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> <A HREF="IMEX0029.HTM#sub_layout_instance_net">sub_layout_instance_net</A> <A HREF="IMEX0020.HTM#sub_layout_occurrence">sub_layout_occurrence</A> <A HREF="IMEX0029.HTM#sub_layout_placement">sub_layout_placement</A> <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: test_coupon_instance -->
+<H2><A NAME="test_coupon_instance">test_coupon_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#test_coupon_instance">test_coupon_instance</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>.is_defined_by : <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>;
+  WHERE
+    <A NAME="test_coupon_instance.valid_existence">valid_existence</A> :
+      (* A test_coupon_instance belongs to either one bare_board_definition or
+         one test_coupon_definition. *)
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A> (SELF,
+        ['<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.sub_layouts',
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>.sub_layouts']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#test_coupon_instance">test_coupon_instance</A> object is a description of a single occurrence of a
+ <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A> object.
+</P>
+<P>
+ A test coupon is a collection of layout items which is used purely for
+ testing purposes, and will typically consist of the narrowest possible
+ track, tracks which are as close together as allowed by the design
+ technology, the smallest allowable holes, and so on.  This region of the
+ bare board can be subjected to a series of (possibly destructive) tests.  If
+ this region fails the tests, then it is likely that the board as a whole has
+ not been manufactured correctly.  (If it passes the tests, it does no more
+ than increase the tester's confidence in the state of the rest of the bare
+ board). 
+</P>
+<P>
+ The internal nets of a test coupon would normally have no intended
+ functional impact on the printed circuit board. 
+</P><HR>
+<!-- Start of ENTITY: footprint_instance -->
+<H2><A NAME="footprint_instance">footprint_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#footprint_instance">footprint_instance</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>.is_defined_by : <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>;
+  WHERE
+    <A NAME="footprint_instance.valid_existence">valid_existence</A> :
+      (* A footprint_instance belongs to either one bare_board_definition or
+         one test_coupon_definition. *)
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A> (SELF,
+        ['<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.sub_layouts',
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>.sub_layouts']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#footprint_instance">footprint_instance</A> object is a single occurrence of a
+ <A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A> object.  A footprint is a collection of layout items
+ (toeprints and non-specific sub-layouts) which specifically reserved for
+ connection to the pins of a component.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#component_implementation">component_implementation</A> <A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A> <A HREF="IMEX0019.HTM#footprint_padstack_instance">footprint_padstack_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: toeprint_instance -->
+<H2><A NAME="toeprint_instance">toeprint_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#toeprint_instance">toeprint_instance</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>.is_defined_by : <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>;
+  WHERE
+    <A NAME="toeprint_instance.valid_existence">valid_existence</A> :
+      (* A toeprint_instance belongs to either one bare_board_definition,
+         one test_coupon_definition or one footprint_definition. *)
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.sub_layouts',
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>.sub_layouts',
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>.toeprints']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#toeprint_instance">toeprint_instance</A> object is a description of a single occurrence of a
+ <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A> object.  A toeprint is a collection of layout items
+ which is specifically reserved for connection to a component pin.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A> <A HREF="IMEX0019.HTM#footprint_padstack_instance">footprint_padstack_instance</A> <A HREF="IMEX0019.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A> </P>
+<HR>
+<!-- Start of ENTITY: non_specific_sub_layout_instance -->
+<H2><A NAME="non_specific_sub_layout_instance">non_specific_sub_layout_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#non_specific_sub_layout_instance">non_specific_sub_layout_instance</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>.is_defined_by : <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>;
+  WHERE
+   <A NAME="non_specific_sub_layout_instance.valid_existence">valid_existence</A> :
+      (* A non_specific_sub_layout_instance belongs to either one
+         bare_board_definition, one test_coupon_definition, one
+         footprint_definition, one toeprint_definition or one
+         non_specific_sub_layout_definition. *)
+   <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+   ['<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.sub_layouts',
+    '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>.sub_layouts',
+    '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>.other_sub_layouts',
+    '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>.other_sub_layouts',
+    '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>.other_sub_layouts']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#non_specific_sub_layout_instance">non_specific_sub_layout_instance</A> object is a single occurrence of a
+ <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A> object.  A non-specific sub-layout is a
+ collection of layout items which has no particular purpose.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A> <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A> <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: padstack_instance -->
+<H2><A NAME="padstack_instance">padstack_instance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#padstack_instance">padstack_instance</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>);
+    SELF\<A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>.is_defined_by : <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A>;
+    intended_use                           : <A HREF="IMEX0029.HTM#padstack_instance_intended_usage">padstack_instance_intended_usage</A>;
+  WHERE
+    <A NAME="padstack_instance.valid_existence">valid_existence</A> :
+      (* A padstack_instance belongs to either one bare_board_definition, one
+         test_coupon_definition or one toeprint_definition. *)
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.sub_layouts',
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>.sub_layouts',
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>.padstacks']);
+
+    <A NAME="padstack_instance.valid_padstack_definition">valid_padstack_definition</A> :
+      (* There are constraints on the referenced padstack_definition
+         corresponding to different padstack_instance_intended usage. 
+         1. The referenced padstack_definition must contain at least one hole
+            if the intended use is routing_via,
+            through_hole_electrical_pin_place or
+            through_hole_securing_pin_place. 
+         2. The referenced padstack_definition must contain at least one pad if
+            the intended use is bumped_bond_pad_attachment_place,
+            jumper_connection_attachment_place,
+            printed_component_terminal_place, solder_ball_attachment_place,
+            surface_mount_electrical_pin_place,
+            surface_mount_securing_pin_place, tab_attachment_place or  
+            wirebond_attachment_place. *)
+      NOT (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(is_defined_by, 
+                     '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_padstack_definition">internal_padstack_definition</A>')
+           AND
+           ((<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .routing_via_place)
+            OR
+            (<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .through_hole_electrical_pin_place)
+            OR
+            (<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .through_hole_securing_pin_place)
+            AND
+            <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(feature &lt;* is_defined_by
+                                        \<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>
+                                        .layout_features |
+              <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(feature, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#hole">hole</A>'))))
+           OR
+           ((<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .bumped_bond_pad_attachment_place)
+            OR
+            (<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .jumper_connection_attachment_place)
+            OR
+            (<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .printed_component_terminal_place)
+            OR
+            (<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .solder_ball_attachment_place)
+            OR
+            (<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .surface_mount_electrical_pin_place)
+            OR
+            (<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .surface_mount_securing_pin_place)
+            OR
+            (<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .tab_attachment_place)
+            OR
+            (<A HREF="IMEX0029.HTM#intended_use">intended_use</A> = <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+                            .wirebond_attachment_place)
+            AND
+            <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(feature &lt;* is_defined_by
+                                        \<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>
+                                        .layout_features |
+              <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(feature, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#pad">pad</A>')))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#padstack_instance">padstack_instance</A> object is a description of a single occurrence of a
+ <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A> object.  A padstack object describes a feature of a
+ bare board that primarily provides for vertical connection between the
+ conducting layers of the bare board.  A padstack is usually a collection of
+ pads on many different physical layers, and often has a plated through hole
+ passing through the pads.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#footprint_padstack_instance">footprint_padstack_instance</A> <A HREF="IMEX0019.HTM#jumper_point">jumper_point</A> <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A> <A HREF="IMEX0019.HTM#toeprint_padstack_instance">toeprint_padstack_instance</A> </P>
+<HR>
+<!-- Start of TYPE: padstack_instance_intended_usage -->
+<H2><A NAME="padstack_instance_intended_usage">padstack_instance_intended_usage</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0029.HTM#padstack_instance_intended_usage">padstack_instance_intended_usage</A>
+    = SELECT (<A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>,
+              <A HREF="IMEX0034.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#padstack_instance_intended_usage">padstack_instance_intended_usage</A> describes what use the
+ <A HREF="IMEX0029.HTM#padstack_instance">padstack_instance</A> is intended.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#padstack_instance">padstack_instance</A> </P>
+<HR>
+<!-- Start of TYPE: standard_padstack_instance_intended_usage -->
+<H2><A NAME="standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A>
+    = ENUMERATION OF (board_fixing_place,
+                      bumped_bond_pad_attachment_place,
+                      embedded_bare_bond_pad_attachment_place,
+                      jumper_connection_attachment_place,
+                      mechanical_securing_place,
+                      printed_component_terminal_place,
+                      routing_via_place,
+                      solder_ball_attachment_place,
+                      surface_mount_electrical_pin_place,
+                      surface_mount_securing_pin_place,
+                      tab_attachment_place,
+                      test_point_place,
+                      through_hole_electrical_pin_place,
+                      through_hole_securing_pin_place,
+                      wirebond_attachment_place);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#standard_padstack_instance_intended_usage">standard_padstack_instance_intended_usage</A> describes the standard usage
+ of a <A HREF="IMEX0029.HTM#padstack_instance">padstack_instance</A>.
+</P>
+<P>
+ board_fixing_place - a padstack that is intended for attaching the board to
+ a frame.
+</P>
+<P>
+ bumped_bond_pad_attachment_place - a padstack that is intended as an
+ attachment place for a bond pad (with associated solder ball) on a flipped
+ or unflipped bare die.
+</P>
+<P>
+ embedded_bare_bond_pad_attachment_place - a padstack that is created
+ specifically to connect to a bare bond pad of an embedded die.
+</P>
+<P>
+ jumper_connection_attachment_place - a padstack upon which one end of a
+ <A HREF="IMEX0019.HTM#jumper_connection">jumper_connection</A> can land.
+</P>
+<P>
+ mechanical_securing_place - a padstack that is intended to receive a fixing
+ feature of a mechanical part.
+</P>
+<P>
+ printed_component_terminal_place - a padstack that realises (part of) a
+ printed component terminal.
+</P>
+<P>
+ routing_via_place - a padstack is intended to be used as a cross-layer
+ vertical routing element.
+</P>
+<P>
+ solder_ball_attachment_place - a padstack that is intended as an attachment
+ place for a <A HREF="IMEX0027.HTM#solder_ball">solder_ball</A> of a <A HREF="IMEX0027.HTM#ball_package">ball_package</A>.
+</P>
+<P>
+ surface_mount_electrical_pin_place - a padstack is intended to receive an
+ electrical package pin that is surface-mounted.
+</P>
+<P>
+ surface_mount_securing_pin_place - a padstack is intended to receive a
+ non-electrical package pin that is surface-mounted.
+</P>
+<P>
+ test_point_place - a padstack that is intended as a test-point only.
+</P>
+<P>
+ tab_attachment_place - a padstack that is intended to receive the end of a
+ tab lead.
+</P>
+<P>
+ through_hole_electrical_pin_place - a padstack is intended to receive an
+ electrical package pin that is through-hole-mounted.
+</P>
+<P>
+ through_hole_securing_pin_place - a padstack is intended to receive a
+ non-electrical package pin that is through-hole-mounted.
+</P>
+<P>
+ wirebond_attachment_place - a padstack upon which one end of a wirebond can
+ land. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#padstack_instance_intended_usage">padstack_instance_intended_usage</A> </P>
+<HR>
+<!-- Start of ENTITY: layout_feature -->
+<H2><A NAME="layout_feature">layout_feature</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#trace">trace</A>, 
+                                    <A HREF="IMEX0029.HTM#layout_shape">layout_shape</A>, 
+                                    <A HREF="IMEX0029.HTM#hole">hole</A>,
+                                    <A HREF="IMEX0029.HTM#teardrop">teardrop</A>));
+    fixed_status : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    properties   : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  DERIVE
+    referenced_technology : <A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A>
+                            := <A HREF="IMEX0029.HTM#layout_feature_referenced_technology">layout_feature_referenced_technology</A>(SELF);
+  WHERE
+    <A NAME="layout_feature.valid_existence">valid_existence</A> :
+      (* A layout_feature belongs to either one internal_sub_layout_definition,
+         or one internal_physical_net. *)
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>.layout_features',
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>.layout_features']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A> object describes a single feature of the bare board.  
+</P>
+<P>
+ The fixed_status attribute is a boolean flag indicating whether or not the
+ <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A> is fixed.  If a <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A> is declared to be fixed,
+ then it should not be deleted or changed by any automatic process (e.g.
+ automatic component placement, automatic router). 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A> <A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A> <A HREF="IMEX0020.HTM#layout_feature_occurrence">layout_feature_occurrence</A> <A HREF="IMEX0029.HTM#probe_point">probe_point</A> </P>
+<HR>
+<!-- Start of FUNCTION: layout_feature_referenced_technology -->
+<H2><A NAME="layout_feature_referenced_technology">layout_feature_referenced_technology</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0029.HTM#layout_feature_referenced_technology">layout_feature_referenced_technology</A>
+    (layoutFeature : <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>) : <A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A>;
+    LOCAL
+      containingSubLayout : <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>;
+      containingNet       : BAG OF <A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A> := [ ];
+    END_LOCAL;
+
+    containingNet := USEDIN(layoutFeature, 
+      '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>.layout_features');
+
+    IF (SIZEOF(containingNet) = 0) THEN
+       containingSubLayout := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(layoutFeature, 
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>.layout_features');
+    ELSE
+      IF (SIZEOF(containingNet) = 1) THEN
+         containingSubLayout
+           := containingNet[1]\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.containing_sub_layout_definition;
+      END_IF;
+    END_IF;
+
+    RETURN(containingSubLayout.is_implemented_in);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0029.HTM#layout_feature_referenced_technology">layout_feature_referenced_technology</A> returns the
+ <A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A> referenced by a <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>.  A
+ <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A> is defined within a <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> either 
+ directly or indirectly.  This function returns the <A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A>
+ of which the containing <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> is implemented in. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#layout_feature">layout_feature</A> </P>
+<HR>
+<!-- Start of ENTITY: trace -->
+<H2><A NAME="trace">trace</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#trace">trace</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>);
+    actual_geometry    : OPTIONAL <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>; -- open <A HREF="IMEX0006.HTM#figure">figure</A>
+    clearance_geometry : OPTIONAL SET [1:?] OF <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>; -- open <A HREF="IMEX0006.HTM#figure">figure</A>
+  DERIVE
+     positive_layers : SET OF <A HREF="IMEX0030.HTM#physical_layer">physical_layer</A>
+       := QUERY (layer &lt;* referenced_technology.layers |
+            (actual_geometry.contributes_to_fabrication *
+             layer.positive_contributing_collectors) &lt;&gt; []);
+  WHERE
+    <A NAME="trace.valid_actual_geometry">valid_actual_geometry</A> :
+      (* If actual_geometry exists, it must contribute positively to at least
+         one physical_layer. *)
+      NOT (EXISTS(actual_geometry) AND (positive_layers = []));
+
+    <A NAME="trace.valid_clearance_geometry_from_actual_geometry">valid_clearance_geometry_from_actual_geometry</A> :
+      (* If both actual_geometry and clearance_geometry exist, then the
+         clearance_geometry must clear from at least one physical_layer 
+         which the actual_geometry contributes to. *) 
+      NOT (EXISTS(actual_geometry) AND EXISTS(clearance_geometry) AND
+           <A HREF="IMEX0034.HTM#there_exists">there_exists</A> (QUERY(cg &lt;* clearance_geometry |
+              <A HREF="IMEX0034.HTM#not_exists">not_exists</A> (QUERY (layer &lt;* positive_layers |
+                cg.contributes_to_fabrication &lt;=
+                layer.negative_contributing_collectors)))));
+
+    <A NAME="trace.valid_clearance_geometry">valid_clearance_geometry</A> :
+      (* If only clearance_geometry exists, then the clearance_geometry must
+         clear from at least one physical_layer. *)
+      NOT (EXISTS(clearance_geometry) AND NOT EXISTS(actual_geometry) AND
+           <A HREF="IMEX0034.HTM#there_exists">there_exists</A> (QUERY(cg &lt;* clearance_geometry |
+              <A HREF="IMEX0034.HTM#not_exists">not_exists</A> (QUERY (layer &lt;* referenced_technology.layers |
+                cg.contributes_to_fabrication &lt;=
+                layer.negative_contributing_collectors)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#trace">trace</A> object describes a connected set of lines and arcs, which is
+ applied to the bare board using real material, or cut out of other material
+ that has already been applied to the bare board, or both.
+</P>
+<P>
+ Note that a <A HREF="IMEX0029.HTM#trace">trace</A> object does not necessarily have to be made of
+ conductive material (e.g. it could part of the documentation for a design). 
+</P>
+<P>
+ The actual_geometry attribute specifies the geometrical shape that realises
+ the <A HREF="IMEX0029.HTM#trace">trace</A>.  The clearance_geometry attribute specifies the set of
+ geometrical shapes that form the clearance regions (within a power plane)
+ for the <A HREF="IMEX0029.HTM#trace">trace</A>.
+</P><HR>
+<!-- Start of ENTITY: layout_shape -->
+<H2><A NAME="layout_shape">layout_shape</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#layout_shape">layout_shape</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0029.HTM#pad">pad</A>,
+                                   <A HREF="IMEX0029.HTM#non_specific_layout_shape">non_specific_layout_shape</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>);
+    actual_geometry    : OPTIONAL <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>;
+    clearance_geometry : OPTIONAL SET [1:?] OF <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>;
+  DERIVE
+     positive_layers : SET OF <A HREF="IMEX0030.HTM#physical_layer">physical_layer</A>
+       := QUERY (layer &lt;* referenced_technology.layers |
+            (actual_geometry.contributes_to_fabrication *
+             layer.positive_contributing_collectors) &lt;&gt; []);
+  WHERE
+    <A NAME="layout_shape.valid_actual_geometry">valid_actual_geometry</A> :
+      (* If actual_geometry exists, it must contribute positively to at least
+         one physical_layer. *)
+      NOT (EXISTS(actual_geometry) AND (positive_layers = []));
+
+    <A NAME="layout_shape.valid_clearance_geometry_from_actual_geometry">valid_clearance_geometry_from_actual_geometry</A> :
+      (* If both actual_geometry and clearance_geometry exist, then the
+         clearance_geometry must clear from at least one physical_layer 
+         which the actual_geometry contributes to. *) 
+      NOT (EXISTS(actual_geometry) AND EXISTS(clearance_geometry) AND
+           <A HREF="IMEX0034.HTM#there_exists">there_exists</A> (QUERY(cg &lt;* clearance_geometry |
+              <A HREF="IMEX0034.HTM#not_exists">not_exists</A> (QUERY (layer &lt;* positive_layers |
+                cg.contributes_to_fabrication &lt;=
+                layer.negative_contributing_collectors)))));
+
+    <A NAME="layout_shape.valid_clearance_geometry">valid_clearance_geometry</A> :
+      (* If only clearance_geometry exists, then the clearance_geometry must
+         clear from at least one physical_layer. *)
+      NOT (EXISTS(clearance_geometry) AND NOT EXISTS(actual_geometry) AND
+           <A HREF="IMEX0034.HTM#there_exists">there_exists</A> (QUERY(cg &lt;* clearance_geometry |
+              <A HREF="IMEX0034.HTM#not_exists">not_exists</A> (QUERY (layer &lt;* referenced_technology.layers |
+                cg.contributes_to_fabrication &lt;=
+                layer.negative_contributing_collectors)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#layout_shape">layout_shape</A> object describes a feature on the bare board (or
+ elsewhere), which is applied to the bare board using real material, or cut
+ out of other material that has already been applied to the bare board, or
+ both.
+</P>
+<P>
+ The actual_geometry attribute specifies the geometrical shape that realises
+ the <A HREF="IMEX0029.HTM#layout_shape">layout_shape</A> and the clearance_geometry attribute specifies the set of
+ geometrical shapes that form the clearance regions for the <A HREF="IMEX0029.HTM#layout_shape">layout_shape</A>. 
+</P><HR>
+<!-- Start of ENTITY: pad -->
+<H2><A NAME="pad">pad</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#pad">pad</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#layout_shape">layout_shape</A>);
+    intended_use        : <A HREF="IMEX0029.HTM#pad_intended_usage">pad_intended_usage</A>;
+    routing_information : OPTIONAL <A HREF="IMEX0029.HTM#pad_routing_information">pad_routing_information</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#pad">pad</A> object describes a feature on the bare board (or elsewhere) which
+ has a simple geometrical shape.  It is either applied to the bare board
+ using real material, or cut out of other material that has already been
+ applied to the bare board.
+</P><HR>
+<!-- Start of TYPE: pad_intended_usage -->
+<H2><A NAME="pad_intended_usage">pad_intended_usage</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0029.HTM#pad_intended_usage">pad_intended_usage</A>
+    = SELECT (<A HREF="IMEX0029.HTM#standard_pad_intended_usage">standard_pad_intended_usage</A>,
+              <A HREF="IMEX0034.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#pad_intended_usage">pad_intended_usage</A> describes what use the pad is intended.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#pad">pad</A> </P>
+<HR>
+<!-- Start of TYPE: standard_pad_intended_usage -->
+<H2><A NAME="standard_pad_intended_usage">standard_pad_intended_usage</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0029.HTM#standard_pad_intended_usage">standard_pad_intended_usage</A>
+    = ENUMERATION OF (connection_negative_pad,
+                      isolation_negative_pad,
+                      signal_positive_pad);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#standard_pad_intended_usage">standard_pad_intended_usage</A> describes the standard usage of a <A HREF="IMEX0029.HTM#pad">pad</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#pad_intended_usage">pad_intended_usage</A> </P>
+<HR>
+<!-- Start of TYPE: pad_routing_information -->
+<H2><A NAME="pad_routing_information">pad_routing_information</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0029.HTM#pad_routing_information">pad_routing_information</A>
+    = SELECT (<A HREF="IMEX0029.HTM#pad_routing_target">pad_routing_target</A>, 
+              <A HREF="IMEX0029.HTM#not_stated_information">not_stated_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#pad_routing_information">pad_routing_information</A> describes the routing information of a <A HREF="IMEX0029.HTM#pad">pad</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#pad">pad</A> </P>
+<HR>
+<!-- Start of ENTITY: pad_routing_target -->
+<H2><A NAME="pad_routing_target">pad_routing_target</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#pad_routing_target">pad_routing_target</A>;
+    connection_points : SET [1:?] OF <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+  WHERE
+    <A NAME="pad_routing_target.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#pad">pad</A>.routing_information');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#pad_routing_target">pad_routing_target</A> describes a collection of connection points on a
+ <A HREF="IMEX0029.HTM#pad">pad</A>.  These connection points are used for routing purpose.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#pad_routing_information">pad_routing_information</A> </P>
+<HR>
+<!-- Start of TYPE: not_stated_information -->
+<H2><A NAME="not_stated_information">not_stated_information</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0029.HTM#not_stated_information">not_stated_information</A>
+    = ENUMERATION OF (unknown_information);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#not_stated_information">not_stated_information</A> is to be used when the information is not
+ specified. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#pad_routing_information">pad_routing_information</A> </P>
+<HR>
+<!-- Start of ENTITY: non_specific_layout_shape -->
+<H2><A NAME="non_specific_layout_shape">non_specific_layout_shape</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#non_specific_layout_shape">non_specific_layout_shape</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#layout_shape">layout_shape</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#non_specific_layout_shape">non_specific_layout_shape</A> object describes a feature on the bare board
+ (or elsewhere) which has a geometrical shape of arbitrary complexity.  It is
+ either applied to the bare board using real material, or cut out of other
+ material that has already been applied to the bare board.
+</P><HR>
+<!-- Start of ENTITY: hole -->
+<H2><A NAME="hole">hole</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#hole">hole</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#plated_through_hole">plated_through_hole</A>, 
+                                    <A HREF="IMEX0029.HTM#unplated_hole">unplated_hole</A>)
+                             AND
+                             ONEOF (<A HREF="IMEX0029.HTM#conformant_hole">conformant_hole</A>,
+                                    <A HREF="IMEX0029.HTM#non_conformant_hole">non_conformant_hole</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#hole">hole</A> object describes the absence of material spanning multiple
+ consecutive physical layers.  The <A HREF="IMEX0029.HTM#hole">hole</A> may be plated through or unplated.
+ The two types of <A HREF="IMEX0029.HTM#hole">holes</A> need to be distinguished because
+ <A HREF="IMEX0029.HTM#plated_through_hole">plated_through_holes</A> can form part of a <A HREF="IMEX0029.HTM#physical_net">physical_net</A>, whereas
+ <A HREF="IMEX0029.HTM#unplated_hole">unplated_holes</A> cannot.
+</P><HR>
+<!-- Start of ENTITY: plated_through_hole -->
+<H2><A NAME="plated_through_hole">plated_through_hole</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#plated_through_hole">plated_through_hole</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#hole">hole</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#plated_through_hole">plated_through_hole</A> object describes a single plated through hole on a
+ bare board. 
+</P><HR>
+<!-- Start of ENTITY: unplated_hole -->
+<H2><A NAME="unplated_hole">unplated_hole</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#unplated_hole">unplated_hole</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#hole">hole</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#unplated_hole">unplated_hole</A> object describes a hole that is unplated on the bare
+ board. 
+</P><HR>
+<!-- Start of ENTITY: conformant_hole -->
+<H2><A NAME="conformant_hole">conformant_hole</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#conformant_hole">conformant_hole</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#hole">hole</A>);
+    cross_section : <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>;
+    conforms_to   : <A HREF="IMEX0030.HTM#drill_rule">drill_rule</A>; -- reference
+  WHERE
+    <A NAME="conformant_hole.valid_conforms_to">valid_conforms_to</A> :
+      (* The referenced drill_rule must be defined in the referenced
+         bare_board_technology. *)
+      EXISTS(referenced_technology.drill_rules)
+      AND
+      (conforms_to IN referenced_technology.drill_rules);
+
+    <A NAME="conformant_hole.valid_drill_rule">valid_drill_rule</A> :
+      (* A conformant_hole must conform to the appropriate type of drill_rule
+         object (i.e. either a plated_drill_rule or a non_plated_drill_rule).
+         This is because a conformant hole can also be either a
+         plated_through_hole or an unplated_hole. *)
+      (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(SELF, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#plated_through_hole">plated_through_hole</A>')
+       AND 
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(conforms_to, '<A HREF="IMEX0030.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0030.HTM#plated_drill_rule">plated_drill_rule</A>'))
+      OR
+      (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(SELF, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#unplated_hole">unplated_hole</A>')
+       AND 
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(conforms_to, '<A HREF="IMEX0030.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0030.HTM#non_plated_drill_rule">non_plated_drill_rule</A>'));
+
+    <A NAME="conformant_hole.valid_cross_section">valid_cross_section</A> :
+      (* The circle object referenced by a conformant_hole must be compatible
+         with the recommended hole size indicated in the referenced drill_rule
+         object. *)
+      <A HREF="IMEX0029.HTM#valid_conformant_hole_size">valid_conformant_hole_size</A>(cross_section, conforms_to);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#conformant_hole">conformant_hole</A> object describes a hole that conforms to a drill rule.
+ This means that the hole will most likely be manufactured by a drilling
+ process, but that, in any case, it will have a circular cross-section.
+</P><HR>
+<!-- Start of ENTITY: non_conformant_hole -->
+<H2><A NAME="non_conformant_hole">non_conformant_hole</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#non_conformant_hole">non_conformant_hole</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#hole">hole</A>);
+    cross_section       : <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>;
+    drilled_from        : SET [1:?] OF <A HREF="IMEX0030.HTM#internal_physical_layer">internal_physical_layer</A>; -- reference
+    drilled_to          : SET [1:?] OF <A HREF="IMEX0030.HTM#internal_physical_layer">internal_physical_layer</A>; -- reference
+    drawing_information : OPTIONAL SET [1:?] OF <A HREF="IMEX0021.HTM#drawing_element">drawing_element</A>;
+  WHERE
+    <A NAME="non_conformant_hole.valid_drilled_from">valid_drilled_from</A> :
+      (* The drilled_from layers must be defined in the referenced
+         bare_board_technology. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(layer &lt;* drilled_from |
+        NOT (layer IN SELF\<A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>.referenced_technology.layers)));
+  
+    <A NAME="non_conformant_hole.valid_drilled_to">valid_drilled_to</A> :
+      (* The drilled_to physical_layers must be defined in the referenced
+         bare_board_technology. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(layer &lt;* drilled_to |
+        NOT (layer IN SELF\<A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>.referenced_technology.layers)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#non_conformant_hole">non_conformant_hole</A> object describes a hole that does not conform to a
+ drill rule.  This means that the hole can be manufactured by any appropriate
+ process (including drilling or stamping).  Such a hole will have an
+ arbitrarily-shaped cross-section.
+</P><HR>
+<!-- Start of ENTITY: teardrop -->
+<H2><A NAME="teardrop">teardrop</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#teardrop">teardrop</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>);
+    actual_geometry    : <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>;
+    clearance_geometry : OPTIONAL SET [1:?] OF <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#teardrop">teardrop</A> describes a pad taper which can be applied to a routed pad in
+ order to provide a gradually narrowing connection to the route that the pad
+ is connected to.  
+</P><HR>
+<!-- Start of ENTITY: layout_text -->
+<H2><A NAME="layout_text">layout_text</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#layout_text">layout_text</A>;
+    actual_geometry    : LIST [1:?] OF <A HREF="IMEX0022.HTM#fabricate_text">fabricate_text</A>;
+    clearance_geometry : OPTIONAL SET [1:?] OF <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>;
+    properties         : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  WHERE
+    <A NAME="layout_text.valid_existence">valid_existence</A> :
+      (* A layout_text belongs to either one internal_sub_layout_definition,
+         or one internal_physical_net. *)
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>.associated_text',
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>.associated_text']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#layout_text">layout_text</A> object describes a string of characters which is either
+ applied to the bare board using real material, or cut out of other material
+ that has already been applied to the bare board.  
+</P>
+<P>
+ The actual_geometry attribute specifies the ordered list of geometrical text
+ that realise the <A HREF="IMEX0029.HTM#layout_text">layout_text</A>.  The list is ordered so that the original
+ text string which gave rise to the geometrical text can be re-formed.  The
+ clearance_geometry attribute specifies the set of geometrical shapes that
+ form the clearance regions for the <A HREF="IMEX0029.HTM#layout_text">layout_text</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A> <A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: physical_net -->
+<H2><A NAME="physical_net">physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#physical_net">physical_net</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A>,
+                                    <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>)
+                             AND 
+                             ONEOF (<A HREF="IMEX0029.HTM#external_physical_net">external_physical_net</A>,
+                                    <A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>));
+    internal_nets : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#physical_net">physical_net</A>;
+    includes      : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#sub_layout_instance_net">sub_layout_instance_net</A>;
+    name          : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties    : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  DERIVE
+    containing_sub_layout_definition : <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> -- reference
+      := <A HREF="IMEX0029.HTM#containing_sub_layout_definition_of_physical_net">containing_sub_layout_definition_of_physical_net</A>(SELF);
+  WHERE
+    <A NAME="physical_net.valid_internal_nets">valid_internal_nets</A> :
+      (* A physical_net cannot indirectly contain instances of itself. *)
+      <A HREF="IMEX0029.HTM#non_recursive_physical_net">non_recursive_physical_net</A>([SELF], []);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#physical_net">physical_net</A> describes a geometrically connected region of conductive
+ material. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#instance_net">instance_net</A> <A HREF="IMEX0020.HTM#layout_feature_occurrence">layout_feature_occurrence</A> <A HREF="IMEX0029.HTM#physical_net">physical_net</A> <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> </P>
+<HR>
+<!-- Start of FUNCTION: containing_sub_layout_definition_of_physical_net -->
+<H2><A NAME="containing_sub_layout_definition_of_physical_net">containing_sub_layout_definition_of_physical_net</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0029.HTM#containing_sub_layout_definition_of_physical_net">containing_sub_layout_definition_of_physical_net</A>
+    (physicalNet : <A HREF="IMEX0029.HTM#physical_net">physical_net</A>) : <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>;
+    LOCAL
+      containingNet : BAG OF <A HREF="IMEX0029.HTM#physical_net">physical_net</A> := [ ];
+    END_LOCAL;
+
+    containingNet := USEDIN(physicalNet,
+                     '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.internal_nets');
+
+    IF (SIZEOF(containingNet) = 0) THEN
+        RETURN(<A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(physicalNet,
+               '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.physical_nets'));
+    ELSE
+    IF (SIZEOF(containingNet) = 1) THEN
+        RETURN(<A HREF="IMEX0029.HTM#containing_sub_layout_definition_of_physical_net">containing_sub_layout_definition_of_physical_net</A>
+               (containingNet[1]));
+    ELSE
+        RETURN(?);
+    END_IF;
+    END_IF;
+
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0029.HTM#containing_sub_layout_definition_of_physical_net">containing_sub_layout_definition_of_physical_net</A> returns the
+ <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> containing the <A HREF="IMEX0029.HTM#physical_net">physical_net</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#physical_net">physical_net</A> </P>
+<HR>
+<!-- Start of FUNCTION: non_recursive_physical_net -->
+<H2><A NAME="non_recursive_physical_net">non_recursive_physical_net</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0029.HTM#non_recursive_physical_net">non_recursive_physical_net</A>
+    (parents, invalidAncestors : SET OF <A HREF="IMEX0029.HTM#physical_net">physical_net</A>) : BOOLEAN;
+    LOCAL
+      i           : INTEGER;
+      descendents : SET OF <A HREF="IMEX0029.HTM#physical_net">physical_net</A> := [];
+    END_LOCAL;
+
+    REPEAT i := 1 TO SIZEOF(parents);
+      descendents := descendents + parents[i].internal_nets;
+    END_REPEAT;
+    invalidAncestors := parents + invalidAncestors;
+    RETURN(<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(descendents)
+           XOR
+           (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(descendents * invalidAncestors)
+            AND 
+            <A HREF="IMEX0029.HTM#non_recursive_physical_net">non_recursive_physical_net</A>(descendents, invalidAncestors)));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0029.HTM#non_recursive_physical_net">non_recursive_physical_net</A> function returns true if a <A HREF="IMEX0029.HTM#physical_net">physical_net</A>
+ does not contain members which reference itself.  It prevents cyclic
+ definition of a <A HREF="IMEX0029.HTM#physical_net">physical_net</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#physical_net">physical_net</A> </P>
+<HR>
+<!-- Start of ENTITY: external_physical_net -->
+<H2><A NAME="external_physical_net">external_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#external_physical_net">external_physical_net</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#external_bare_board_physical_net">external_bare_board_physical_net</A>,
+                                    <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#physical_net">physical_net</A>);
+    SELF\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.internal_nets : OPTIONAL SET [1:?] OF 
+                                      <A HREF="IMEX0029.HTM#external_physical_net">external_physical_net</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#external_physical_net">external_physical_net</A> is a <A HREF="IMEX0029.HTM#physical_net">physical_net</A> belonged to an
+ <A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#external_physical_net">external_physical_net</A> <A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_physical_net -->
+<H2><A NAME="internal_physical_net">internal_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A>,
+                                    <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#physical_net">physical_net</A>);
+    SELF\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.internal_nets : OPTIONAL SET [1:?] OF
+                                      <A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>;
+    layout_features                 : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>;
+    associated_text                 : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#layout_text">layout_text</A>;
+  WHERE
+    <A NAME="internal_physical_net.valid_layout_features">valid_layout_features</A> :
+      (* It cannot own any unplated hole objects, either directly or
+         indirectly. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(layoutFeature &lt;* layout_features |
+        <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(layoutFeature, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#unplated_hole">unplated_hole</A>')));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A> is a <A HREF="IMEX0029.HTM#physical_net">physical_net</A> belonged to an
+ <A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A> <A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: bare_board_physical_net -->
+<H2><A NAME="bare_board_physical_net">bare_board_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#external_bare_board_physical_net">external_bare_board_physical_net</A>,
+                                    <A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#physical_net">physical_net</A>);
+    SELF\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.internal_nets : OPTIONAL SET [1:?] OF
+                                      <A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A>;
+  WHERE
+    <A NAME="bare_board_physical_net.valid_existence">valid_existence</A> :
+      (* A bare_board_physical_net belongs to either one bare_board_definition
+         or another bare_board_physical_net. *)
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A>.physical_nets',
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A>.internal_nets']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A> describes a particular type of <A HREF="IMEX0029.HTM#physical_net">physical_net</A>,
+ namely one that is owned directly by a <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> object.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> <A HREF="IMEX0029.HTM#bare_board_instance_net">bare_board_instance_net</A> <A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A> </P>
+<HR>
+<!-- Start of ENTITY: external_bare_board_physical_net -->
+<H2><A NAME="external_bare_board_physical_net">external_bare_board_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#external_bare_board_physical_net">external_bare_board_physical_net</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#external_physical_net">external_physical_net</A>,
+                  <A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A>);
+    SELF\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.internal_nets
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#external_bare_board_physical_net">external_bare_board_physical_net</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The type of sub-nets must be the same as the type of its parent net.
+ Therefore, an <A HREF="IMEX0029.HTM#external_bare_board_physical_net">external_bare_board_physical_net</A> can have sub-nets which are
+ <A HREF="IMEX0029.HTM#external_bare_board_physical_net">external_bare_board_physical_nets</A> only.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#external_bare_board_definition">external_bare_board_definition</A> <A HREF="IMEX0029.HTM#external_bare_board_physical_net">external_bare_board_physical_net</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_bare_board_physical_net -->
+<H2><A NAME="internal_bare_board_physical_net">internal_bare_board_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A>
+       SUBTYPE OF (<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>,
+                   <A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A>);
+    SELF\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.internal_nets
+           : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A>;
+    planes : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#plane">plane</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The type of sub-nets must be the same as the type of its parent net.
+ Therefore, an <A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A> can have sub-nets which are
+ <A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_nets</A> only.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> <A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A> <A HREF="IMEX0029.HTM#plane">plane</A> </P>
+<HR>
+<!-- Start of ENTITY: plane -->
+<H2><A NAME="plane">plane</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#plane">plane</A>;
+    has_template : <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>; -- closed <A HREF="IMEX0006.HTM#figure">figure</A>
+    looks_like   : <A HREF="IMEX0008.HTM#fabricate_figure_collector">fabricate_figure_collector</A>; -- reference
+    name         : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties   : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  DERIVE
+    containing_physical_net : <A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A>.planes');
+  WHERE
+    <A NAME="plane.valid_existence">valid_existence</A> :
+      (* A plane belongs to one internal_bare_board_physical_net. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A>.planes');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#plane">plane</A> object describes a region of a bare board which is to be plated
+ with conductive material in order to provide connection of other artefacts
+ to power, ground or a commonly used signal.  Not all of the defined region
+ will necessarily be plated, as some artefacts enclosed within the region
+ will need to be isolated from the plane's conductive material (to prevent
+ shorting). 
+</P>
+<P>
+ The has_template attribute specifies the maximum region that can be plated.
+ The looks_like attribute defines the final geometric description of the
+ <A HREF="IMEX0029.HTM#plane">plane</A>.  It contains the result of a series of complex geometrical
+ operations (i.e. those that are necessary to &quot;eat away&quot; at the plane's
+ template in order to make space for other artefacts passing through it). 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#dimensioned_object">dimensioned_object</A> <A HREF="IMEX0029.HTM#internal_bare_board_physical_net">internal_bare_board_physical_net</A> </P>
+<HR>
+<!-- Start of ENTITY: non_specific_physical_net -->
+<H2><A NAME="non_specific_physical_net">non_specific_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A>,
+                                    <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A>))
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#physical_net">physical_net</A>);
+    SELF\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.internal_nets : OPTIONAL SET [1:?] OF 
+                                      <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>;
+  WHERE
+    <A NAME="non_specific_physical_net.valid_existence">valid_existence</A> :
+      (* A non_specific_physical_net belongs to either one
+         test_coupon_definition, one footprint_definition, one
+         toeprint_definition, one padstack_definition, one
+         non_specific_sub_layout_definition  or another
+         non_specific_physical_net. *) 
+    <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      ['<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A>.physical_nets',
+       '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A>.physical_nets',
+       '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A>.physical_nets',
+       '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A>.physical_nets',
+       '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A>.physical_nets',
+       '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>.internal_nets']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A> describes a particular type of <A HREF="IMEX0029.HTM#physical_net">physical_net</A>,
+ namely one that is not owned directly by a <A HREF="IMEX0029.HTM#bare_board_definition">bare_board_definition</A> object.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#footprint_definition">footprint_definition</A> <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A> <A HREF="IMEX0029.HTM#non_specific_sub_layout_definition">non_specific_sub_layout_definition</A> <A HREF="IMEX0029.HTM#padstack_definition">padstack_definition</A> <A HREF="IMEX0029.HTM#sub_layout_instance_net">sub_layout_instance_net</A> <A HREF="IMEX0029.HTM#test_coupon_definition">test_coupon_definition</A> <A HREF="IMEX0029.HTM#toeprint_definition">toeprint_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: external_non_specific_physical_net -->
+<H2><A NAME="external_non_specific_physical_net">external_non_specific_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A>
+       SUBTYPE OF (<A HREF="IMEX0029.HTM#external_physical_net">external_physical_net</A>,
+                   <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>);
+    SELF\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.internal_nets
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The type of sub-nets must be the same as the type of its parent net.
+ Therefore, an <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A> can have sub-nets which
+ are <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_nets</A> only.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#external_footprint_definition">external_footprint_definition</A> <A HREF="IMEX0029.HTM#external_non_specific_physical_net">external_non_specific_physical_net</A> <A HREF="IMEX0029.HTM#external_non_specific_sub_layout_definition">external_non_specific_sub_layout_definition</A> <A HREF="IMEX0029.HTM#external_padstack_definition">external_padstack_definition</A> <A HREF="IMEX0029.HTM#external_test_coupon_definition">external_test_coupon_definition</A> <A HREF="IMEX0029.HTM#external_toeprint_definition">external_toeprint_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_non_specific_physical_net -->
+<H2><A NAME="internal_non_specific_physical_net">internal_non_specific_physical_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A>
+       SUBTYPE OF (<A HREF="IMEX0029.HTM#internal_physical_net">internal_physical_net</A>,
+                   <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>);
+    SELF\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.internal_nets
+         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The type of sub-nets must be the same as the type of its parent net.
+ Therefore, an <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A> can have sub-nets which
+ are <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_nets</A> only.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#internal_footprint_definition">internal_footprint_definition</A> <A HREF="IMEX0029.HTM#internal_non_specific_physical_net">internal_non_specific_physical_net</A> <A HREF="IMEX0029.HTM#internal_non_specific_sub_layout_definition">internal_non_specific_sub_layout_definition</A> <A HREF="IMEX0029.HTM#internal_padstack_definition">internal_padstack_definition</A> <A HREF="IMEX0029.HTM#internal_test_coupon_definition">internal_test_coupon_definition</A> <A HREF="IMEX0029.HTM#internal_toeprint_definition">internal_toeprint_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: instance_net -->
+<H2><A NAME="instance_net">instance_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#instance_net">instance_net</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0029.HTM#bare_board_instance_net">bare_board_instance_net</A>,
+                                    <A HREF="IMEX0029.HTM#sub_layout_instance_net">sub_layout_instance_net</A>));
+    referenced_net : <A HREF="IMEX0029.HTM#physical_net">physical_net</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0029.HTM#instance_net">instance_net</A> represents an instance of a <A HREF="IMEX0029.HTM#physical_net">physical_net</A> defined within
+ a <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> object.  It is used as a handle when tying
+ physical nets together to make a net assembly (within an assembled board).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#assembled_physical_net">assembled_physical_net</A> </P>
+<HR>
+<!-- Start of ENTITY: bare_board_instance_net -->
+<H2><A NAME="bare_board_instance_net">bare_board_instance_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#bare_board_instance_net">bare_board_instance_net</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#instance_net">instance_net</A>);
+    SELF\<A HREF="IMEX0029.HTM#instance_net">instance_net</A>.referenced_net : <A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A>; -- reference
+    referenced_instance              : <A HREF="IMEX0019.HTM#bare_board">bare_board</A>;              -- reference
+  UNIQUE 
+    u1 : 
+      (* There can be at most one instance of a given bare_board_physical_net
+         within a particular bare_board. *)
+      referenced_instance, referenced_net;
+  WHERE
+    <A NAME="bare_board_instance_net.valid_referenced_net">valid_referenced_net</A> : 
+      (* The referenced bare_board_physical_net must be defined in the
+         bare_board_definition for the referenced bare_board. *)
+      referenced_net\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.containing_sub_layout_definition
+      :=: referenced_instance.instantiated_bare_board;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#bare_board_instance_net">bare_board_instance_net</A> describes an instance of a
+ <A HREF="IMEX0029.HTM#bare_board_physical_net">bare_board_physical_net</A> on a <A HREF="IMEX0019.HTM#bare_board">bare_board</A>.
+</P><HR>
+<!-- Start of ENTITY: sub_layout_instance_net -->
+<H2><A NAME="sub_layout_instance_net">sub_layout_instance_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0029.HTM#sub_layout_instance_net">sub_layout_instance_net</A>
+      SUBTYPE OF (<A HREF="IMEX0029.HTM#instance_net">instance_net</A>);
+    SELF\<A HREF="IMEX0029.HTM#instance_net">instance_net</A>.referenced_net : <A HREF="IMEX0029.HTM#non_specific_physical_net">non_specific_physical_net</A>; -- reference
+    referenced_instance              : <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A>;       -- reference
+  UNIQUE 
+    u1 : 
+      (* There can be at most one instance of a given non_specific_physical_net
+         within a particular sub_layout_instance. *)
+      referenced_instance, referenced_net;
+  WHERE
+    <A NAME="sub_layout_instance_net.valid_referenced_net">valid_referenced_net</A> : 
+      (* The referenced non_specific_physical_net must be defined in the
+         sub_layout_definition for the referenced sub_layout_instance. *)
+      referenced_net\<A HREF="IMEX0029.HTM#physical_net">physical_net</A>.containing_sub_layout_definition
+      :=: referenced_instance.is_defined_by;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0029.HTM#sub_layout_instance_net">sub_layout_instance_net</A> is a reference to a net in a
+ <A HREF="IMEX0029.HTM#sub_layout_instance">sub_layout_instance</A> which is included in a physical net within a
+ <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#physical_net">physical_net</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_conformant_hole_size -->
+<H2><A NAME="valid_conformant_hole_size">valid_conformant_hole_size</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0029.HTM#valid_conformant_hole_size">valid_conformant_hole_size</A> 
+    (hole : <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>; drillRule : <A HREF="IMEX0030.HTM#drill_rule">drill_rule</A>) : BOOLEAN;
+    LOCAL
+      holeWidth : NUMBER;
+    END_LOCAL;
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(drillRule, '<A HREF="IMEX0030.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0030.HTM#internal_drill_rule">internal_drill_rule</A>') THEN
+       IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(<A HREF="IMEX0029.HTM#hole">hole</A>, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+          holeWidth := <A HREF="IMEX0029.HTM#hole">hole</A>\<A HREF="IMEX0011.HTM#circle">circle</A>.radius*2;
+       ELSE
+          holeWidth := <A HREF="IMEX0029.HTM#hole">hole</A>\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>.diameter;
+       END_IF;
+       RETURN(<A HREF="IMEX0034.HTM#valid_range">valid_range</A>(drillRule\<A HREF="IMEX0030.HTM#internal_drill_rule">internal_drill_rule</A>.hole_size.range.min,
+                          holeWidth,
+                          drillRule\<A HREF="IMEX0030.HTM#internal_drill_rule">internal_drill_rule</A>.hole_size.range.max));
+    ELSE
+       RETURN(TRUE);
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0029.HTM#valid_conformant_hole_size">valid_conformant_hole_size</A> function is used within <A HREF="IMEX0029.HTM#conformant_hole">conformant_hole</A>
+ to check that the hole size required by a <A HREF="IMEX0029.HTM#conformant_hole">conformant_hole</A> is compatible
+ with the hole size of the referenced <A HREF="IMEX0030.HTM#drill_rule">drill_rule</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#conformant_hole">conformant_hole</A> </P>
+<HR>
+<!-- Start of FUNCTION: point_inside_layout_feature -->
+<H2><A NAME="point_inside_layout_feature">point_inside_layout_feature</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0029.HTM#point_inside_layout_feature">point_inside_layout_feature</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; layout : <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>) : BOOLEAN;
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(layout, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#trace">trace</A>') THEN
+       RETURN(<A HREF="IMEX0022.HTM#point_inside_fabricate_figure">point_inside_fabricate_figure</A>(pt, 
+                layout\<A HREF="IMEX0029.HTM#trace">trace</A>.actual_geometry));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(layout, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#layout_shape">layout_shape</A>') THEN
+       RETURN(<A HREF="IMEX0022.HTM#point_inside_fabricate_figure">point_inside_fabricate_figure</A>(pt, 
+                layout\<A HREF="IMEX0029.HTM#layout_shape">layout_shape</A>.actual_geometry));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(layout, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#teardrop">teardrop</A>') THEN
+       RETURN(<A HREF="IMEX0022.HTM#point_inside_fabricate_figure">point_inside_fabricate_figure</A>(pt, 
+                layout\<A HREF="IMEX0029.HTM#teardrop">teardrop</A>.actual_geometry));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(layout, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#conformant_hole">conformant_hole</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_geometry_element">point_inside_geometry_element</A>(pt, 
+                layout\<A HREF="IMEX0029.HTM#conformant_hole">conformant_hole</A>.cross_section));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(layout, '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#non_conformant_hole">non_conformant_hole</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_geometry_element">point_inside_geometry_element</A>(pt, 
+                layout\<A HREF="IMEX0029.HTM#non_conformant_hole">non_conformant_hole</A>.cross_section));
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0029.HTM#point_inside_layout_feature">point_inside_layout_feature</A> returns true if a point lies inside a
+ <A HREF="IMEX0029.HTM#layout_feature">layout_feature</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#probe_point">probe_point</A> </P>
+
+<HR>
+
+<!-- Start of schema: pcb_technology_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

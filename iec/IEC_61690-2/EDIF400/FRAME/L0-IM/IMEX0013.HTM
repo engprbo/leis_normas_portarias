@@ -1,0 +1,504 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="mcm_die_physical_model">mcm_die_physical_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0013.HTM#mcm_die_physical_model">mcm_die_physical_model</A> schema describes a <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>
+ which provides information of a die.
+</P><HR>
+<!-- Start of TYPE: die_side -->
+<H2><A NAME="die_side">die_side</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0013.HTM#die_side">die_side</A> 
+    = ENUMERATION OF (top_of_die,
+                      bottom_of_die);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0013.HTM#die_side">die_side</A> specifies which side of a die an object lies on.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0013.HTM#bond_pad">bond_pad</A> <A HREF="IMEX0013.HTM#die_fiducial">die_fiducial</A> </P>
+<HR>
+<!-- Start of ENTITY: die_physical_template -->
+<H2><A NAME="die_physical_template">die_physical_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0013.HTM#external_die_physical_template">external_die_physical_template</A>,
+                                    <A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>));
+    document         : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name             : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    pads             : SET [1:?] OF <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A>;
+    previous_version : OPTIONAL <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>; -- reference
+    properties       : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    units            : <A HREF="IMEX0021.HTM#pcb_layout_units">pcb_layout_units</A>;
+    written_status   : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+  WHERE
+    <A NAME="die_physical_template.valid_previous_version">valid_previous_version</A> :
+      (* A template cannot be a new version of itself, either directly
+         or indirectly. *)
+      <A HREF="IMEX0029.HTM#non_recursive_previous_version">non_recursive_previous_version</A>(SELF, []);
+
+    <A NAME="die_physical_template.valid_written_in_previous_version">valid_written_in_previous_version</A> :
+      (* The earliest timestamp of a die_physical_template is later than the
+         latest timestamp of its previous version. *)  
+      <A HREF="IMEX0004.HTM#valid_timestamp_in_previous_version">valid_timestamp_in_previous_version</A>(written_status,
+                                          previous_version.written_status);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A> is a template for the physical interaction between
+ a <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A> and an MCM. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A> <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A> <A HREF="IMEX0014.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A> <A HREF="IMEX0011.HTM#library">library</A> </P>
+<HR>
+<!-- Start of ENTITY: external_die_physical_template -->
+<H2><A NAME="external_die_physical_template">external_die_physical_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#external_die_physical_template">external_die_physical_template</A>
+      SUBTYPE OF (<A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>);
+    SELF\<A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>.pads : SET [1:?] OF <A HREF="IMEX0013.HTM#external_bond_pad">external_bond_pad</A>;
+  WHERE
+    <A NAME="external_die_physical_template.valid_existence">valid_existence</A> :
+      (* An &quot;external_die_physical_template&quot; is in an &quot;external_library" *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+        '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#external_library">external_library</A>.die_templates');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0013.HTM#external_die_physical_template">external_die_physical_template</A> is a <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>
+ within an <A HREF="IMEX0011.HTM#external_library">external_library</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#external_library">external_library</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_die_physical_template -->
+<H2><A NAME="internal_die_physical_template">internal_die_physical_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>
+      SUBTYPE OF (<A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>);
+    SELF\<A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>.pads : SET [1:?] OF <A HREF="IMEX0013.HTM#internal_bond_pad">internal_bond_pad</A>;
+    fiducials                       : OPTIONAL SET [1:?] OF <A HREF="IMEX0013.HTM#die_fiducial">die_fiducial</A>;
+    die_tabbing                     : OPTIONAL <A HREF="IMEX0013.HTM#tabbing">tabbing</A>;
+    body_volume                     : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#extrusion_volume">extrusion_volume</A>;
+    occupied_space                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#extrusion_volume">extrusion_volume</A>;
+    DIE_flatness                    : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    DIE_pad_dielectric              : OPTIONAL LIST [1:?] OF <A HREF="IMEX0019.HTM#material">material</A>;
+    DIE_pad_metal                   : OPTIONAL LIST [1:?] OF <A HREF="IMEX0019.HTM#material">material</A>;
+    DIE_pad_pitch                   : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    DIE_pad_position_tolerance      : OPTIONAL <A HREF="IMEX0029.HTM#x_y_tolerance">x_y_tolerance</A>;
+    DIE_passivation_extent          : OPTIONAL <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>;
+    DIE_passivation_material        : OPTIONAL LIST [1:?] OF <A HREF="IMEX0019.HTM#material">material</A>;
+    DIE_size_tolerance              : OPTIONAL <A HREF="IMEX0029.HTM#x_y_tolerance">x_y_tolerance</A>;
+    DIE_specific_heat_capacity      : OPTIONAL <A HREF="IMEX0019.HTM#specific_heat_capacity_value">specific_heat_capacity_value</A>;
+    DIE_storage_condition           : OPTIONAL <A HREF="IMEX0013.HTM#DIE_storage_condition">DIE_storage_condition</A>;
+    DIE_substrate_material          : OPTIONAL LIST [1:?] OF <A HREF="IMEX0019.HTM#material">material</A>;
+    DIE_thermal_conductivity        : OPTIONAL <A HREF="IMEX0019.HTM#thermal_conductivity_value">thermal_conductivity_value</A>;
+    DIE_thickness_tolerance         : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    DIE_nominal_thermal_dissipation : OPTIONAL <A HREF="IMEX0019.HTM#power_value">power_value</A>;
+    DIE_maximum_thermal_dissipation : OPTIONAL <A HREF="IMEX0019.HTM#power_value">power_value</A>;
+    DIE_power_cells                 : OPTIONAL SET [1:?] OF <A HREF="IMEX0013.HTM#DIE_power_cell">DIE_power_cell</A>;
+    DIE_power_capacitance           : OPTIONAL <A HREF="IMEX0029.HTM#capacitance_value">capacitance_value</A>;
+  WHERE
+    <A NAME="internal_die_physical_template.valid_existence">valid_existence</A> :
+      (* An &quot;internal_die_physical_template&quot; is in an &quot;internal_library" *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+        '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#internal_library">internal_library</A>.die_templates');
+
+    <A NAME="internal_die_physical_template.valid_body_volume">valid_body_volume</A> :
+      (* The offset_distance of each extrusion_volume must be greater than or
+         equal to zero. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(bodyVolume &lt;* body_volume |
+        bodyVolume.offset_distance &lt; 0));
+
+    <A NAME="internal_die_physical_template.valid_occupied_space">valid_occupied_space</A> :
+      (* The offset_distance of each extrusion_volume must be greater than or
+         equal to zero.  At least one of the extrusion_volume must have an
+         offset_distance equal to zero*)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(occupiedSpace &lt;* occupied_space |
+        occupiedSpace.offset_distance &lt; 0))
+      AND
+      <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(occupiedSpace &lt;* occupied_space |
+        occupiedSpace.offset_distance = 0));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A> is a <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>
+ within an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.
+</P>
+<P>
+ The DIE_flatness attribute indicates the distance between the lowest
+ object on the top of the die and the highest object.  The DIE_flatness may
+ limit the applicability of certain MCM processes.  This attribute has been
+ derived from the DIE format, Section 5.19. 
+</P>
+<P>
+ The DIE_pad_dielectric attribute indicates the composition and thickness
+ of the dielectric material under the metal pads.  This attribute has been
+ derived from the DIE format, Section 5.35. 
+</P>
+<P>
+ The DIE_pad_metal attribute indicates the composition and thickness of the
+ pad metal material.  This attribute has been derived from the DIE format,
+ Section 5.36. 
+</P>
+<P>
+ The DIE_pad_pitch attribute specifies the minimum pad-to-pad separation on
+ the die.  This value is not a rule; it is an additional piece of information
+ for the user of the die.  This attribute has been derived from the DIE
+ format, Section 5.37. 
+</P>
+<P>
+ The DIE_pad_position_tolerance attribute indicates the tolerance of the
+ placement of the templates within the <A HREF="IMEX0013.HTM#internal_bond_pad">internal_bond_pads</A>.  This attribute
+ has been derived from the DIE format, Section 5.42. 
+</P>
+<P>
+ The DIE_passivation_extent attribute specifies the shape of the die
+ passivation over the surface of the die substrate.  This attribute has been
+ derived from the DIE format, Section 5.44. 
+</P>
+<P>
+ The DIE_passivation_material attribute specifies the thickness and
+ material of the passivation covering the die.  This attribute has been
+ derived from the DIE format, Section 5.45. 
+</P>
+<P>
+ The DIE_size_tolerance attribute indicates the tolerance in the specified
+ body_volume of the die.  This attribute has been derived from the DIE
+ format, Section 5.56. 
+</P>
+<P>
+ The DIE_specific_heat_capacity attribute indicates the specific heat
+ capacity of the die substrate material.  This value is used for thermal
+ analysis.  Note that this value is more accurate than a derived value from
+ the DIE_substrate_material attribute. This attribute has been derived from
+ the DIE format, Section 5.59. 
+</P>
+<P>
+ The DIE_storage_condition attribute indicates a set of environmental
+ condition which should be satisfied during the storage of the die before
+ its inclusion in an MCM.  This attribute has been derived from the DIE
+ format, Section 5.17. 
+</P>
+<P>
+ The DIE_substrate_material attribute indicates the thickness and material
+ out of which the substrate of the die is made.  This attribute has been
+ derived from the DIE format, Section 5.61. 
+</P>
+<P>
+ The DIE_thermal_conductivity attribute indicates the thermal conductivity
+ of the die substrate material.  Note that this value is more accurate than a
+ derived value from the DIE_substrate_material attribute.  This attribute
+ has been derived from the DIE format, Section 5.63
+</P>
+<P>
+ The DIE_thickness_tolerance attribute indicates the tolerance in the
+ thickness of the die.  This attribute has been derived from the DIE format,
+ Section 5.65.  Note that the thickness of the die can be derived from the
+ body_volume attribute. 
+</P>
+<P>
+ The DIE_nominal_thermal_dissipation indicates the nominal thermal power
+ dissipation of the die.  This attribute has been derived from the DIE
+ format, Section 5.49. 
+</P>
+<P>
+ The DIE_maximum_thermal_dissipation indicates the maximum thermal power
+ dissipation of the die.  This attribute has been derived from the DIE
+ format, Section 5.48. 
+</P>
+<P>
+ The DIE_power_cells attribute indicates specific areas of the die which
+ generate heat.  This attribute has been derived from the DIE format, Section
+ 5.47. 
+</P>
+<P>
+ The DIE_power_capacitance attribute indicates the frequency dependency of
+ the power dissipation of the die.  This attribute has been derived from the
+ DIE format, Section 5.46. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0013.HTM#internal_bond_pad">internal_bond_pad</A> <A HREF="IMEX0011.HTM#internal_library">internal_library</A> </P>
+<HR>
+<!-- Start of ENTITY: tabbing -->
+<H2><A NAME="tabbing">tabbing</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#tabbing">tabbing</A>;
+    tabbing_material : <A HREF="IMEX0019.HTM#material_value">material_value</A>; -- reference
+    tabbing_space    : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#extrusion_volume">extrusion_volume</A>;
+  WHERE
+    <A NAME="tabbing.valid_existence">valid_existence</A> :
+      (* A tabbing belongs to either one internal_die_physical_template
+         or one internal_mountable_die_physical_template. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A> (SELF,
+        ['<A HREF="IMEX0013.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>.die_tabbing',
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                        '<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>',
+                        'die_tabbing')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0013.HTM#tabbing">tabbing</A> is a block of material which may surround a die and allow
+ access through it for <A HREF="IMEX0013.HTM#bond_pad">bond_pads</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A> <A HREF="IMEX0014.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A> </P>
+<HR>
+<!-- Start of ENTITY: bond_pad -->
+<H2><A NAME="bond_pad">bond_pad</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0013.HTM#electrical_bond_pad">electrical_bond_pad</A>,
+                                    <A HREF="IMEX0013.HTM#non_electrical_bond_pad">non_electrical_bond_pad</A>)
+                             AND
+                             ONEOF (<A HREF="IMEX0013.HTM#external_bond_pad">external_bond_pad</A>,
+                                    <A HREF="IMEX0013.HTM#internal_bond_pad">internal_bond_pad</A>));
+    name       : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    side       : <A HREF="IMEX0013.HTM#die_side">die_side</A>;
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A> is a physical location on a die at which contact may
+ be made.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A> <A HREF="IMEX0014.HTM#internal_mountable_bond_pad">internal_mountable_bond_pad</A> </P>
+<HR>
+<!-- Start of ENTITY: electrical_bond_pad -->
+<H2><A NAME="electrical_bond_pad">electrical_bond_pad</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#electrical_bond_pad">electrical_bond_pad</A>
+      SUBTYPE OF (<A HREF="IMEX0013.HTM#bond_pad">bond_pad</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0013.HTM#electrical_bond_pad">electrical_bond_pad</A> is a <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A> which is intended to be
+ used for electrical functionality.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#die_electrical_part_terminal">die_electrical_part_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: non_electrical_bond_pad -->
+<H2><A NAME="non_electrical_bond_pad">non_electrical_bond_pad</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#non_electrical_bond_pad">non_electrical_bond_pad</A>
+      SUBTYPE OF (<A HREF="IMEX0013.HTM#bond_pad">bond_pad</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0013.HTM#non_electrical_bond_pad">non_electrical_bond_pad</A> is a <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A> which is intended to be
+ used for functionality which is non-electric e.g. for mounting.
+</P><HR>
+<!-- Start of ENTITY: external_bond_pad -->
+<H2><A NAME="external_bond_pad">external_bond_pad</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#external_bond_pad">external_bond_pad</A>
+      SUBTYPE OF (<A HREF="IMEX0013.HTM#bond_pad">bond_pad</A>);
+  WHERE
+    <A NAME="external_bond_pad.valid_existence">valid_existence</A> :
+      (* An external_bond_pad is in an external_die_physical_template. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+        '<A HREF="IMEX0013.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0013.HTM#external_die_physical_template">external_die_physical_template</A>.pads');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0013.HTM#external_bond_pad">external_bond_pad</A> is a <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A> of an
+ <A HREF="IMEX0013.HTM#external_die_physical_template">external_die_physical_template</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0013.HTM#external_die_physical_template">external_die_physical_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_bond_pad -->
+<H2><A NAME="internal_bond_pad">internal_bond_pad</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#internal_bond_pad">internal_bond_pad</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0013.HTM#internal_bare_bond_pad">internal_bare_bond_pad</A>,
+                                    <A HREF="IMEX0013.HTM#internal_pre_tabbed_bond_pad">internal_pre_tabbed_bond_pad</A>,
+                                    <A HREF="IMEX0013.HTM#internal_pre_bumped_bond_pad">internal_pre_bumped_bond_pad</A>))
+      SUBTYPE OF (<A HREF="IMEX0013.HTM#bond_pad">bond_pad</A>);
+    instantiated_bond_pad_template : <A HREF="IMEX0020.HTM#bond_pad_template">bond_pad_template</A>; -- reference
+    bond_pad_position              : <A HREF="IMEX0008.HTM#fixed_scale_transform">fixed_scale_transform</A>;
+  DERIVE
+    containing_die : <A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A> (SELF,
+         '<A HREF="IMEX0013.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>.pads');
+  WHERE
+    <A NAME="internal_bond_pad.valid_existence">valid_existence</A> :
+      (* An internal_bond_pad belongs to one internal_die_physical_template. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+        '<A HREF="IMEX0013.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>.pads');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0013.HTM#internal_bond_pad">internal_bond_pad</A> is a <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A> of an
+ <A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>.  It is defined by instantiating a
+ <A HREF="IMEX0020.HTM#bond_pad_template">bond_pad_template</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_bare_bond_pad -->
+<H2><A NAME="internal_bare_bond_pad">internal_bare_bond_pad</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#internal_bare_bond_pad">internal_bare_bond_pad</A>
+      SUBTYPE OF (<A HREF="IMEX0013.HTM#internal_bond_pad">internal_bond_pad</A>);
+    DIE_non_contact_areas : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0013.HTM#internal_bare_bond_pad">internal_bare_bond_pad</A> is a bare bond pad of an
+ <A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>.  
+</P>
+<P>
+ The DIE_non_contact_areas specify areas within the geometry of the
+ <A HREF="IMEX0013.HTM#internal_bare_bond_pad">internal_bare_bond_pad</A> to which contact cannot be made.  This concept has
+ been derived from the DIE format Section 5.40.  The non-contact areas are
+ specified in the coordinate space of the <A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>
+ which contains the <A HREF="IMEX0013.HTM#internal_bare_bond_pad">internal_bare_bond_pad</A>.
+</P><HR>
+<!-- Start of ENTITY: internal_pre_tabbed_bond_pad -->
+<H2><A NAME="internal_pre_tabbed_bond_pad">internal_pre_tabbed_bond_pad</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#internal_pre_tabbed_bond_pad">internal_pre_tabbed_bond_pad</A>
+      SUBTYPE OF (<A HREF="IMEX0013.HTM#internal_bond_pad">internal_bond_pad</A>);
+    instantiated_tabbed_bond_pad_template : -- reference
+                                            <A HREF="IMEX0020.HTM#tabbed_bond_pad_template">tabbed_bond_pad_template</A>;
+    tabbed_bond_pad_position              : <A HREF="IMEX0008.HTM#fixed_scale_transform">fixed_scale_transform</A>;
+    tab_lead                              : <A HREF="IMEX0008.HTM#open_element">open_element</A>;
+    tab_lead_material                     : <A HREF="IMEX0019.HTM#material_value">material_value</A>; -- reference
+  WHERE
+    <A NAME="internal_pre_tabbed_bond_pad.tabbing_exists">tabbing_exists</A> :
+      (* In order for a bond_pad to be pre-tabbed, the whole die must
+        have tabbing. *)
+      EXISTS (SELF\<A HREF="IMEX0013.HTM#internal_bond_pad">internal_bond_pad</A>.containing_die.die_tabbing);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0013.HTM#internal_pre_tabbed_bond_pad">internal_pre_tabbed_bond_pad</A> is a pre-tabbed <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A> on an
+ &quot;internal_die_physical_template.  It is defined by instantiating a
+ <A HREF="IMEX0020.HTM#tabbed_bond_pad_template">tabbed_bond_pad_template</A>. 
+</P><HR>
+<!-- Start of ENTITY: internal_pre_bumped_bond_pad -->
+<H2><A NAME="internal_pre_bumped_bond_pad">internal_pre_bumped_bond_pad</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#internal_pre_bumped_bond_pad">internal_pre_bumped_bond_pad</A>
+      SUBTYPE OF (<A HREF="IMEX0013.HTM#internal_bond_pad">internal_bond_pad</A>);
+    instantiated_bump_template : <A HREF="IMEX0020.HTM#solder_bump_template">solder_bump_template</A>; -- reference
+    bump_origin                : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0013.HTM#internal_pre_bumped_bond_pad">internal_pre_bumped_bond_pad</A> is a pre-bumped <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A> on an
+ <A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>.  The pad is defined by instantiating a
+ <A HREF="IMEX0020.HTM#bond_pad_template">bond_pad_template</A> and the solder bump is defined by instantiating a
+ <A HREF="IMEX0020.HTM#solder_bump_template">solder_bump_template</A>. 
+</P><HR>
+<!-- Start of ENTITY: die_fiducial -->
+<H2><A NAME="die_fiducial">die_fiducial</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#die_fiducial">die_fiducial</A>;
+    template : <A HREF="IMEX0020.HTM#die_fiducial_template">die_fiducial_template</A>; -- reference
+    position : <A HREF="IMEX0008.HTM#fixed_scale_transform">fixed_scale_transform</A>;
+    side     : <A HREF="IMEX0013.HTM#die_side">die_side</A>;
+  WHERE
+    <A NAME="die_fiducial.valid_existence">valid_existence</A> :
+      (* A die_fiducial belongs to one internal_die_physical_template. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+        '<A HREF="IMEX0013.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>.fiducials');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0013.HTM#die_fiducial">die_fiducial</A> is a piece of geometry which is used to identify the
+ position of a die.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A> </P>
+<HR>
+<!-- Start of ENTITY: DIE_power_cell -->
+<H2><A NAME="DIE_power_cell">DIE_power_cell</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#DIE_power_cell">DIE_power_cell</A>;
+    geometry            : <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>;
+    thermal_dissipation : <A HREF="IMEX0019.HTM#power_value">power_value</A>;
+  WHERE
+    <A NAME="DIE_power_cell.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+      '<A HREF="IMEX0013.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>.DIE_power_cells');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0013.HTM#DIE_power_cell">DIE_power_cell</A> identifies a potential hot area on the surface of a die.
+ <A HREF="IMEX0013.HTM#DIE_power_cell">DIE_power_cells</A> provide more detailed information than that specified by
+ the DIE_nominal_thermal_dissipation of an <A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>.
+</P>
+<P>
+ This concept has been derived from the DIE format Section 5.47.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A> </P>
+<HR>
+<!-- Start of ENTITY: DIE_storage_condition -->
+<H2><A NAME="DIE_storage_condition">DIE_storage_condition</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0013.HTM#DIE_storage_condition">DIE_storage_condition</A>;
+    relative_humidity  : <A HREF="IMEX0019.HTM#relative_humidity_value">relative_humidity_value</A>;
+    storage_properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    temperature        : <A HREF="IMEX0019.HTM#temperature_range">temperature_range</A>;
+  WHERE
+    <A NAME="DIE_storage_condition.valid_existence">valid_existence</A> :
+     (* A DIE_storage_condition belongs to one
+        internal_die_physical_template. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0013.HTM#mcm_die_physical_model">mcm_die_physical_model</A>',
+                       '<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A>',
+                       '<A HREF="IMEX0013.HTM#DIE_storage_condition">DIE_storage_condition</A>'));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0013.HTM#DIE_storage_condition">DIE_storage_condition</A> specifies the condition under which a die must
+ be stored before it is assembled into an MCM. 
+</P>
+<P>
+ This concept has been derived from the DIE format, Section 5.16.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0013.HTM#internal_die_physical_template">internal_die_physical_template</A> </P>
+
+<HR>
+
+<!-- Start of schema: mcm_mountable_die_physical_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

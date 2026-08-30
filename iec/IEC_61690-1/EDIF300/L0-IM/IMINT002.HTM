@@ -1,0 +1,209 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="SECTION04000000000000000000">Part I: EDIF concepts (Level 0)</A></H1>
+<P>
+<H1>Chapter 2</H1>
+<H1><A NAME="SECTION04100000000000000000">The structure of an EDIF description</A></H1>
+<P>
+<A NAME="chedifstructure">&#160;</A>
+<P>
+An EDIF description is expressed in the form of a hierarchy, abstract at its
+higher levels, and becoming progressively more detailed as it descends the
+hierarchy.  At the highest level of this structure, an <A HREF="IMEX0007.HTM#edif">edif</A> description may
+contain several <A HREF="IMEX0003.HTM#design">designs</A> and several libraries of <A HREF="IMEX0009.HTM#cell">cell</A> definitions.  Each
+<A HREF="IMEX0011.HTM#library">library</A> is a collection of <A HREF="IMEX0009.HTM#cell">cells</A> and reusable templates which are grouped
+according to a set of common characteristics.  A <A HREF="IMEX0009.HTM#cell">cell</A> is the main design
+object which may be instantiated later in another <A HREF="IMEX0009.HTM#cell">cell</A> to build a design
+hierarchy.  These concepts are elaborated in the following sections.
+<P>
+<H1><A NAME="SECTION04110000000000000000">2.1 Libraries</A></H1>
+<P>
+An EDIF <A HREF="IMEX0011.HTM#library">library</A> is a grouping of <A HREF="IMEX0009.HTM#cell">cells</A> and reusable
+templates  according to some set of common
+characteristics.  This grouping is arbitrary except for the technology
+information which is shared by all <A HREF="IMEX0009.HTM#cell">cells</A> and templates within the <A HREF="IMEX0011.HTM#library">library</A>.
+The technology information includes definitions of <A HREF="IMEX0011.HTM#figure_group">figure_groups</A>.
+<P>
+EDIF libraries may be locally defined; that is the descriptions of constituent
+<A HREF="IMEX0009.HTM#cell">cells</A> and templates are included in the current EDIF file.  Libraries may
+also be external which implies that the details of the constituent <A HREF="IMEX0009.HTM#cell">cells</A> and
+templates are not available at all in the current EDIF file.
+<P>
+The model for <A HREF="IMEX0011.HTM#library">library</A>  can be found in the <A HREF="IMEX0011.HTM#library_model">library_model</A>
+schema.  A <A HREF="IMEX0011.HTM#library">library</A> is classified into <A HREF="IMEX0011.HTM#internal_library">internal_library</A> and <A HREF="IMEX0011.HTM#external_library">external_library</A>.
+An <A HREF="IMEX0011.HTM#internal_library">internal_library</A> may contain implementation information, whereas an
+<A HREF="IMEX0011.HTM#external_library">external_library</A> does not include implementation details.
+<P>
+<H1><A NAME="SECTION04120000000000000000">2.2 Cells</A></H1>
+<P>
+In EDIF Version 2&nbsp;0&nbsp;0, each cell has a cellType attribute which describes the
+use of the cell.  The cellType can be either GENERIC, TIE or RIPPER.  However,
+TIE and RIPPER cells are not real design objects and they exist only to support
+the description of connectivity information.
+<P>
+In EDIF Version 3&nbsp;0&nbsp;0, the underlying concept of a cell has been
+tidied up; rippers and ties are dealt with as connectivity objects.
+Consequently, cells are untyped and do not require the cellType attribute.
+<P>
+The model for <A HREF="IMEX0009.HTM#cell">cell</A>  can be found in the <A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>
+schema.  A <A HREF="IMEX0009.HTM#cell">cell</A> is classified into <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A> and <A HREF="IMEX0009.HTM#external_cell">external_cell</A>.  An
+<A HREF="IMEX0009.HTM#internal_cell">internal_cell</A> may contain implementation information, whereas an
+<A HREF="IMEX0009.HTM#external_cell">external_cell</A> does not include implementation details.
+<P>
+<H1><A NAME="SECTION04130000000000000000">2.3 Clusters and view_groups</A></H1>
+<P>
+<A NAME="seclusterviewgroup">&#160;</A>
+<P>
+<H2><A NAME="SECTION04131000000000000000">2.3.1 Objectives</A></H2>
+<P>
+In EDIF Version 2&nbsp;0&nbsp;0, a cell may contain many views of the same or different
+types.  Each view is structured as an interface and an optional contents.  The
+interface defines objects which can be seen and relationships which are
+guaranteed to be true for all instances of the view.  Such objects include the
+ports or the symbol of the cell.
+<P>
+There are a number of changes in the structuring of views in cell definitions
+between EDIF Version 2&nbsp;0&nbsp;0 and EDIF Version 3&nbsp;0&nbsp;0.  The reasons
+for these changes include :
+<DL>
+<DD>a) Support for multiple symbols for a cell.<P>
+<DD>b) Support for a mechanism which allows a number of cell representations i.e. views and symbols
+to share a common interface.<P>
+<DD>c)Provision of a grouping mechanism when there are multiple representations of a cell.
+</DL>
+<P><P><H2><A NAME="SECTION04132000000000000000">2.3.2 Solution</A></H2>
+<P>
+In EDIF Version 2&nbsp;0&nbsp;0, a symbol is embedded within the interface of views of
+certain types.  In EDIF 3&nbsp;0&nbsp;0, the symbol associated with a cell
+is not embedded within the interface of a view.  Instead, a symbol is
+recognised as a form of cell representation in its own right.  Furthermore, in
+EDIF Version 2&nbsp;0&nbsp;0, the interface is contained within the view.  In EDIF
+3&nbsp;0&nbsp;0, the interface is removed from within view.  The notion of
+<A HREF="IMEX0009.HTM#cluster">cluster</A> is introduced.  The model for <A HREF="IMEX0009.HTM#cluster">cluster</A>  can be
+found in the <A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A> schema.  A <A HREF="IMEX0009.HTM#cluster">cluster</A> defines an interface and
+groups together the <A HREF="IMEX0009.HTM#cell_representation">cell_representations</A> (i.e. views and symbols) which share
+this common interface.  A <A HREF="IMEX0009.HTM#cell">cell</A> may contain many <A HREF="IMEX0009.HTM#cluster">clusters</A>.  Since views and
+symbols are defined directly inside <A HREF="IMEX0009.HTM#cluster">cluster</A>, symbols may be shared between
+views in the same <A HREF="IMEX0009.HTM#cluster">cluster</A>.  A <A HREF="IMEX0009.HTM#cluster">cluster</A> is the object which may be
+instantiated in another cell view to build a design hierarchy.  As mentioned
+before, a <A HREF="IMEX0009.HTM#cell">cell</A> is classified into <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A> and <A HREF="IMEX0009.HTM#external_cell">external_cell</A>.  An
+<A HREF="IMEX0009.HTM#internal_cell">internal_cell</A> defines a set of <A HREF="IMEX0009.HTM#internal_cluster">internal_clusters</A>, whereas an <A HREF="IMEX0009.HTM#external_cell">external_cell</A>
+defines a set of <A HREF="IMEX0009.HTM#external_cluster">external_clusters</A>.  Only <A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representations</A> (i.e.
+internal views or internal symbols) are allowed in an <A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A>, and
+only <A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representations</A> (i.e. external views or external symbols)
+are allowed in an <A HREF="IMEX0009.HTM#external_cluster">external_cluster</A>.
+<P>
+At present, the following types of view are supported : connectivity (analogous
+to the EDIF Version 2&nbsp;0&nbsp;0 netlist viewtype), schematic, symboliclayout,
+masklayout, pcblayout, logicmodel and behavior.  The view of type graphic is
+removed and is replaced by reusable graphics objects
+.  In addition, in order to simplify the
+transfer process, different types of symbols are explicitly identified.  There
+is a symbol type for each type of view for which a coordinate space exists,
+i.e. schematic, masklayout, pcblayout and symboliclayout.
+<P>
+In addition, views or symbols may have a particularly close relationship based
+on factors other than sharing a common interface.  There are various reasons
+for this close relationship; for example, a netlist may be related to a
+hierarchical schematic, or a flattened netlist may be related to a derived
+layout implementation.  This relationship can be captured by the concept of
+<A HREF="IMEX0009.HTM#view_group">view_group</A> in EDIF Version 3&nbsp;0&nbsp;0.  The model for <A HREF="IMEX0009.HTM#view_group">view_group</A>
+ can be found in the <A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A> schema.  A <A HREF="IMEX0009.HTM#cell">cell</A>
+may contain many <A HREF="IMEX0009.HTM#view_group">view_groups</A>.  A <A HREF="IMEX0009.HTM#view_group">view_group</A> groups together the relevant
+<A HREF="IMEX0009.HTM#cell_representation">cell_representations</A> within the same <A HREF="IMEX0009.HTM#cell">cell</A>.  Simple annotation is provided
+within a <A HREF="IMEX0009.HTM#view_group">view_group</A> to indicate the reason for the grouping. As for <A HREF="IMEX0009.HTM#cluster">cluster</A>,
+a <A HREF="IMEX0009.HTM#view_group">view_group</A> can be either an <A HREF="IMEX0009.HTM#internal_view_group">internal_view_group</A> or an <A HREF="IMEX0009.HTM#external_view_group">external_view_group</A>.
+An <A HREF="IMEX0009.HTM#internal_view_group">internal_view_group</A> indicates a relationship between
+<A HREF="IMEX0009.HTM#internal_cell_representation">internal_cell_representations</A> belonging to the same <A HREF="IMEX0009.HTM#internal_cell">internal_cell</A>.  An
+<A HREF="IMEX0009.HTM#external_view_group">external_view_group</A> indicates a relationship between
+<A HREF="IMEX0009.HTM#external_cell_representation">external_cell_representations</A> belonging to the same <A HREF="IMEX0009.HTM#external_cell">external_cell</A>.
+<P>
+ The relationship between <A HREF="IMEX0009.HTM#cell">cell</A>, <A HREF="IMEX0009.HTM#cluster">cluster</A> and <A HREF="IMEX0009.HTM#view_group">view_group</A> is shown in
+figure&nbsp;<A HREF="#figcellclusterviewgroup">2.1</A>.
+<P>
+<P><A NAME="11720">&#160;</A><A NAME="figcellclusterviewgroup">&#160;</A><BR>
+<CENTER>
+<IMG ALT="gif" SRC="FIG_2_1.GIF"><BR>
+<STRONG>Figure 2.1:</STRONG> The relationship between <A HREF="IMEX0009.HTM#cell">cell</A>, <A HREF="IMEX0009.HTM#cluster">cluster</A> and <A HREF="IMEX0009.HTM#view_group">view_group</A><BR>
+</CENTER>
+<P><H1><A NAME="SECTION04140000000000000000">2.4 Views and symbols</A></H1>
+<P>
+A <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> specifies a representation or perspective of a <A HREF="IMEX0009.HTM#cell">cell</A>.
+It can either be a view or a symbol.  A <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> obtains its
+interface definition from its containing <A HREF="IMEX0009.HTM#cluster">cluster</A>.  A direct relationship may
+be established between two <A HREF="IMEX0009.HTM#cell_representation">cell_representations</A>.  This relationship may be
+used to support basic versioning and data management control.  Any
+<A HREF="IMEX0009.HTM#cell_representation">cell_representation</A> may be a new version of another <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>, or
+may be derived from another <A HREF="IMEX0009.HTM#cell_representation">cell_representation</A>.  When one view or symbol is
+defined to be a new version of another view or symbol, the types of the two
+views or symbols must be the same.  On the other hand, when one view or symbol
+is defined to be derived from another view or symbol, the views or symbols may
+be of the same or of different types.
+<P>
+<H1><A NAME="SECTION04150000000000000000">2.5 Ports and port_bundles</A></H1>
+<P>
+Ports and port_bundles are defined in the interface of a <A HREF="IMEX0009.HTM#cluster">cluster</A> of a <A HREF="IMEX0009.HTM#cell">cell</A>.
+These objects represent the only places where a connection can be made to a
+cell.  The models for <A HREF="IMEX0009.HTM#master_port">master_port</A>  and
+<A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>  can be found in the
+<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A> schema.
+<P>
+A <A HREF="IMEX0009.HTM#master_port">master_port</A> describes a port in the interface of a <A HREF="IMEX0009.HTM#cluster">cluster</A>.  The size of a
+<A HREF="IMEX0009.HTM#master_port">master_port</A> is always one.  It may have a direction characteristic, which can
+be either input, output or bidirectional.  In addition, it has information
+about its external load capacitance, delays for the given set of transitions
+and its designator name.
+<P>
+Similarly, a <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> describes a port_bundle in the interface of a
+<A HREF="IMEX0009.HTM#cluster">cluster</A>.  The purpose of <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> is to build structured ports.  In
+EDIF 3&nbsp;0&nbsp;0 a <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> explicitly groups <A HREF="IMEX0009.HTM#master_port">master_ports</A>
+or other <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundles</A> defined in the same interface.  The same
+<A HREF="IMEX0009.HTM#master_port">master_port</A> may be referenced by more than one <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>.  However,
+the same <A HREF="IMEX0009.HTM#master_port">master_port</A> is not allowed to be referenced more than once by a
+<A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A>.
+<P>
+<H1><A NAME="SECTION04160000000000000000">2.6 Instances</A></H1>
+<P>
+In EDIF Version 3&nbsp;0&nbsp;0, <A HREF="IMEX0009.HTM#cluster">cluster</A> is the object which is instanced
+in another cell view to build a design hierarchy.  An <A HREF="IMEX0009.HTM#instance">instance</A> is defined by
+referencing a <A HREF="IMEX0009.HTM#cluster">cluster</A> in a <A HREF="IMEX0009.HTM#cell">cell</A>.  Since the <A HREF="IMEX0009.HTM#cluster">cluster</A> defines the interface
+of the instantiated <A HREF="IMEX0009.HTM#cell">cell</A>, it is possible to establish connectivity between the
+<A HREF="IMEX0009.HTM#instance">instance</A> and its instantiating view.
+<P>
+The benefit of this instantiation mechanism is that there is no need to decide
+which specific representation of a cell is being used in the instantiating
+view.  The decision to select a particular representation (which may be a view
+or a symbol) is delayed until the instantiating view is implemented.  For
+example, a schematic view may contain <A HREF="IMEX0009.HTM#instance">instances</A> of <A HREF="IMEX0009.HTM#cluster">clusters</A> of other
+<A HREF="IMEX0009.HTM#cell">cells</A>.  When that schematic view is implemented, <A HREF="IMEX0009.HTM#instance">instances</A> are configured
+by selecting suitable symbol representations and placing them on <A HREF="IMEX0013.HTM#page">pages</A>.
+<P>
+The model for <A HREF="IMEX0009.HTM#instance">instance</A>  can be found in the
+<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A> schema.  Every <A HREF="IMEX0009.HTM#instance">instance</A> has a width attribute.  If the width
+is greater than 1, it represents an arrayed <A HREF="IMEX0009.HTM#instance">instance</A>.
+<P>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

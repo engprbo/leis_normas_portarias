@@ -1,0 +1,810 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMSTART.HTM">General Introduction</A>
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="numberPoint">numberPoint</A></H1>
+<PRE>
+<I>numberPoint ::= '(' 'numberPoint'</I>
+&#09;<I><A HREF="RMRF0062.HTM#xNumberValue">xNumberValue</A></I>
+&#09;<I><A HREF="RMRF0062.HTM#yNumberValue">yNumberValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0025.HTM#pcbDimensionArcCenterPoint">pcbDimensionArcCenterPoint</A>  <A HREF="RMRF0059.HTM#throughPoint">throughPoint</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#number">number</A> <A HREF="RMRF0052.HTM#point">point</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#numberPoint">NumberPoint</A></I> is used to represent a point whose coordinates may not be integers. 
+<H3>Example:</H3>
+<PRE>
+<B>(arc</B>
+<B>   (pt 40 100)</B>
+<B>   (numberPoint (e 601 -1) (e 1102 -1))</B>
+<B>   (pt 40 120))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="numberValue">numberValue</A></H1>
+<PRE>
+<I>numberValue ::= <A HREF="RMRF0054.HTM#scaledInteger">scaledInteger</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#angleValue">angleValue</A>  <A HREF="RMRF0004.HTM#denominatorNumber">denominatorNumber</A>  <A HREF="RMRF0013.HTM#miNoMaxValue">miNoMaxValue</A>  !<A HREF="RMRF0013.HTM#mnm">mnm</A>  <A HREF="RMRF0014.HTM#nonNegativeNumber">nonNegativeNumber</A>  !<A HREF="RMRF0014.HTM#number">number</A>  <A HREF="RMRF0015.HTM#numeratorNumber">numeratorNumber</A>  !<A HREF="RMRF0015.HTM#offsetEvent">offsetEvent</A>  <A HREF="RMRF0059.HTM#temperatureValue">temperatureValue</A>  <A HREF="RMRF0062.HTM#xNumberValue">xNumberValue</A>  <A HREF="RMRF0062.HTM#yNumberValue">yNumberValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#numberValue">NumberValue</A></I> represents a number.
+<H3>Example:</H3>
+<PRE>
+<B>5</B>
+<B>(e 54323 -3)</B>
+</PRE>
+<P>These expressions represent the number values 5 and 54.323 respectively.
+<P><HR>
+<H1><A NAME="numerator">numerator</A></H1>
+<PRE>
+<I>numerator ::= <A HREF="RMRF0010.HTM#integerValue">integerValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0054.HTM#scale">scale</A>  !<A HREF="RMRF0054.HTM#scaleX">scaleX</A>  !<A HREF="RMRF0054.HTM#scaleY">scaleY</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0015.HTM#numeratorNumber">numeratorNumber</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  When required within <I><A HREF="RMRF0054.HTM#scale">scale</A></I>; When required within <I><A HREF="RMRF0054.HTM#scaleY">scaleY</A></I>; When required within <I><A HREF="RMRF0054.HTM#scaleX">scaleX</A>
+</I>
+<DD>The <I><A HREF="RMRF0015.HTM#numerator">numerator</A></I> of a scale construct should not be zero.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0054.HTM#scale">scale</A></I>, <I><A HREF="RMRF0054.HTM#scaleX">scaleX</A></I>, <I><A HREF="RMRF0054.HTM#scaleY">scaleY</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#numerator">Numerator</A></I> is the numerator within the definition of scaling. The value is obtained by dividing the numerator by the denominator. 
+<P><HR>
+<H1><A NAME="numeratorNumber">numeratorNumber</A></H1>
+<PRE>
+<I>numeratorNumber ::= <A HREF="RMRF0015.HTM#numberValue">numberValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0030.HTM#pcbDrawingScaleFactor">pcbDrawingScaleFactor</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#number">number</A> <A HREF="RMRF0015.HTM#numerator">numerator</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a numerator value.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBoardSubsetPlacementScaled</B>
+<B>   (pcbDrawingScaleFactor 1 2 "Half Scale") ...)</B>
+</PRE>
+<P>Here, the <I><A HREF="RMRF0015.HTM#numeratorNumber">numeratorNumber</A></I> is 1.
+<P><HR>
+<H1><A NAME="occupiedSpace">occupiedSpace</A></H1>
+<PRE>
+<I>occupiedSpace ::= '(' 'occupiedSpace'</I>
+&#09;<I>{ <A HREF="RMRF0007.HTM#extrusionVolume">extrusionVolume</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0017.HTM#pcbBallPackage">pcbBallPackage</A>  *<A HREF="RMRF0024.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  &lt;<A HREF="RMRF0038.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A>  *<A HREF="RMRF0038.HTM#pcbMountableDiePhysicalTemplate">pcbMountableDiePhysicalTemplate</A>  &lt;<A HREF="RMRF0039.HTM#pcbMountableMechanicalPackage">pcbMountableMechanicalPackage</A>  &lt;<A HREF="RMRF0040.HTM#pcbMountablePinPackage">pcbMountablePinPackage</A>  &lt;<A HREF="RMRF0047.HTM#pcbPinPackage">pcbPinPackage</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  When present within <I><A HREF="RMRF0024.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A></I> &lt;<I><A HREF="RMRF0012.HTM#library">library</A>
+</I>
+<DD>The tabbing space is contained within the occupied space.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0050.HTM#pcbTabbing">pcbTabbing</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  When present within <I><A HREF="RMRF0024.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A></I> &lt;<I><A HREF="RMRF0012.HTM#library">library</A>
+</I>
+<DD>The offset distance of each extrusion volume must be greater than or equal to zero. At least one of the extrusion volume must have an offset distance equal to zero.
+<BR><BR><DT>3. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Describes the total volume occupied by a physical object. It includes the volume occupied by the package's pins and any other attached items.
+<P>Multiple <I><A HREF="RMRF0007.HTM#extrusionVolume">extrusionVolumes</A></I> can be specified to describe complex volumes. For example, the following volume (viewed from the side) could be described by using three <I><A HREF="RMRF0007.HTM#extrusionVolume">extrusionVolumes</A></I> (A, B and C).
+<P><CENTER><IMG SRC="FIG0070.GIF">
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(occupiedSpace</B>
+<B>   (extrusionVolume</B>
+<B>      (rectangle (pt 0 0) (pt 800 350))</B>
+<B>      (offsetDistance -200)</B>
+<B>      (extrusionLength 450)))</B>
+</PRE>
+<P>This example describes the <I><A HREF="RMRF0015.HTM#occupiedSpace">occupiedSpace</A></I> of the following 14-pin DIL <I><A HREF="RMRF0047.HTM#pcbPinPackage">pcbPinPackage</A></I>:
+<P><CENTER><IMG SRC="FIG0072.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="occurrenceAnnotate">occurrenceAnnotate</A></H1>
+<PRE>
+<I>occurrenceAnnotate ::= '(' 'occurrenceAnnotate'</I>
+&#09;<I>( <A HREF="RMRF0006.HTM#extendInstanceDef">extendInstanceDef</A> | <A HREF="RMRF0006.HTM#extendInstanceMemberDef">extendInstanceMemberDef</A> )</I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A> | <A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0004.HTM#designator">designator</A>&gt; 
+&#09;| <A HREF="RMRF0010.HTM#instancePropertyOverride">instancePropertyOverride</A> | <A HREF="RMRF0010.HTM#interconnectAnnotate">interconnectAnnotate</A> | <A HREF="RMRF0012.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A> 
+&#09;| <A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A> | <A HREF="RMRF0015.HTM#pageAnnotate">pageAnnotate</A> | <A HREF="RMRF0052.HTM#portAnnotate">portAnnotate</A> | <A HREF="RMRF0053.HTM#property">property</A> | 
+&#09;<A HREF="RMRF0058.HTM#signalAnnotate">signalAnnotate</A> | <A HREF="RMRF0058.HTM#signalGroupAnnotate">signalGroupAnnotate</A> | <A HREF="RMRF0060.HTM#timing">timing</A> | <A HREF="RMRF0062.HTM#viewPropertyOverride">viewPropertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  *<A HREF="RMRF0015.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0000.HTM#annotate">annotate</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>Only one <I><A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A></I> is allowed per instance within a <I><A HREF="RMRF0004.HTM#designHierarchy">designHierarchy</A></I>.
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A></I> associated in an <I><A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A></I> must be expandable, i.e. it should not be a leaf configuration or unconfigured.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#occurrenceAnnotate">OccurrenceAnnotate</A></I> introduces annotation data for an <I><A HREF="RMRF0009.HTM#instance">instance</A></I>, or in the case of a wide instance an instance member, and all of the <I><A HREF="RMRF0009.HTM#instance">instances</A></I> beneath it in the instance (occurrence) hierarchy. 
+<P><I><A HREF="RMRF0006.HTM#extendInstanceDef">ExtendInstanceDef</A></I> or <I><A HREF="RMRF0006.HTM#extendInstanceMemberDef">extendInstanceMemberDef</A></I> refers to the instance or instance member to which this annotation applies. This identifies a cluster which is being instantiated. If further annotation is to be given for instances below this one, then nested <I><A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A></I> or <I><A HREF="RMRF0012.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A></I> forms are used to give their annotation. Nested annotation must be consistent with the hierarchy configuration.
+<H3>Example:</H3>
+<PRE>
+<B>(occurrenceAnnotate hier1</B>
+<B>   (leafOccurrenceAnnotate elem1</B>
+<B>      (designator "U2")</B>
+<B>      (portAnnotate &amp;1 ...</B>
+<B>         (designator "11"))</B>
+<B>      (portAnnotate &amp;2 ...</B>
+<B>         (designator "12"))</B>
+<B>      (portAnnotate &amp;3 ...</B>
+<B>         (designator "13")))</B>
+<B>   (leafOccurrenceAnnotate elem2</B>
+<B>      (designator "U2")</B>
+<B>      (portAnnotate &amp;1 ...</B>
+<B>         (designator "6"))</B>
+<B>      (portAnnotate &amp;2 ...</B>
+<B>         (designator "7"))</B>
+<B>      (portAnnotate &amp;3 ...</B>
+<B>         (designator "8"))))</B>
+</PRE>
+<P>In this example, hier1 is a hierarchical instance. Within the selected view of the cluster instantiated by hier1, there are two instances: elem1 and elem2. Each of these has a <I><A HREF="RMRF0004.HTM#designator">designator</A></I> and port annotation data.
+<P><HR>
+<H1><A NAME="occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A></H1>
+<PRE>
+<I>occurrenceHierarchyAnnotate ::= '(' 'occurrenceHierarchyAnnotate'</I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A> | <A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | 
+&#09;<A HREF="RMRF0010.HTM#interconnectAnnotate">interconnectAnnotate</A> | <A HREF="RMRF0012.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A> | <A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A> | 
+&#09;<A HREF="RMRF0015.HTM#pageAnnotate">pageAnnotate</A> | <A HREF="RMRF0052.HTM#portAnnotate">portAnnotate</A> | <A HREF="RMRF0058.HTM#signalAnnotate">signalAnnotate</A> | <A HREF="RMRF0058.HTM#signalGroupAnnotate">signalGroupAnnotate</A> | <A HREF="RMRF0060.HTM#timing">timing</A> 
+&#09;| <A HREF="RMRF0062.HTM#viewPropertyOverride">viewPropertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0004.HTM#designHierarchy">designHierarchy</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0000.HTM#annotate">annotate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#occurrenceHierarchyAnnotate">OccurrenceHierarchyAnnotate</A></I> provides a set of annotation for an occurrence hierarchy. It provides overriding properties for the top view in the occurrence hierarchy tree and further annotation data for instances below this are provided using <I><A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A></I> and <I><A HREF="RMRF0012.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(design TOP</B>
+<B>   (cellRef Fee ...) </B>
+<B>   (designHeader ...)</B>
+<B>   (designHierarchy H1</B>
+<B>      (clusterRef C1)</B>
+<B>      (clusterConfigurationRef CONFIG1)</B>
+<B>      (designHierarchyHeader ...)</B>
+<B>      (occurrenceHierarchyAnnotate </B>
+<B>         (occurrenceAnnotate I2</B>
+<B>            (designator "U42")</B>
+<B>            (portAnnotate A</B>
+<B>               ... (designator "2"))))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="offsetDistance">offsetDistance</A></H1>
+<PRE>
+<I>offsetDistance ::= '(' 'offsetDistance'</I>
+&#09;<I><A HREF="RMRF0005.HTM#distanceValue">distanceValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#extrusionVolume">extrusionVolume</A>  
+</I>
+<H3>Description:</H3>
+<P>Defines the offset distance from the surface of the board to the base of an <I><A HREF="RMRF0007.HTM#extrusionVolume">extrusionVolume</A></I>.
+<P>A negative value indicates that the <I><A HREF="RMRF0007.HTM#extrusionVolume">extrusionVolume</A></I> starts from below the board surface.
+<H3>Example:</H3>
+<PRE>
+<B>(bodyVolume</B>
+<B>   (extrusionVolume</B>
+<B>      (rectangle (pt 0 50) </B>
+<B>         (pt 800 300))</B>
+<B>      (offsetDistance 150)</B>
+<B>      (extrusionLength 175)))</B>
+</PRE>
+<P>See <I><A HREF="RMRF0001.HTM#bodyVolume">bodyVolume</A></I> for a comprehensive example.
+<P><HR>
+<H1><A NAME="offsetEvent">offsetEvent</A></H1>
+<PRE>
+<I>offsetEvent ::= '(' 'offsetEvent'</I>
+&#09;<I><A HREF="RMRF0006.HTM#event">event</A></I>
+&#09;<I><A HREF="RMRF0015.HTM#numberValue">numberValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0059.HTM#timeInterval">timeInterval</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#offsetEvent">OffsetEvent</A></I> is used to define a time relative to an event. A positive number value indicates a time after the specified event. A negative number value indicates a time before the specified event. The number value is the offset time, and is in units defined by <I><A HREF="RMRF0058.HTM#setTime">setTime</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(offsetEvent</B>
+<B>   (event</B>
+<B>      (portRef CK)</B>
+<B>      (transition H L))</B>
+<B>   (e -48 -1))</B>
+</PRE>
+<P>This example defines a time 4.8 units before a transition from H to L on port CK. 
+<P><HR>
+<H1><A NAME="ohm">ohm</A></H1>
+<PRE>
+<I>ohm ::= '(' 'ohm'</I>
+&#09;<I><A HREF="RMRF0061.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0061.HTM#unit">unit</A>  &lt;<A HREF="RMRF0061.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#ohm">Ohm</A></I> is used to specify a user-defined unit in terms of the SI resistance unit, ohm. See <I><A HREF="RMRF0061.HTM#unit">unit</A></I> for examples of the definition of units.
+<P><HR>
+<H1><A NAME="openElement">openElement</A></H1>
+<PRE>
+<I>openElement ::= ( <A HREF="RMRF0015.HTM#openShape">openShape</A> | <A HREF="RMRF0016.HTM#path">path</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0020.HTM#pcbBondPadPreTabbedTabLead">pcbBondPadPreTabbedTabLead</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a geometric element which is open and therefore not filled. 
+<P><HR>
+<H1><A NAME="openShape">openShape</A></H1>
+<PRE>
+<I>openShape ::= '(' 'openShape'</I>
+&#09;<I><A HREF="RMRF0003.HTM#curve">curve</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#figure">figure</A>  *<A HREF="RMRF0008.HTM#geometryElementSet">geometryElementSet</A>  *<A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A>  <A HREF="RMRF0015.HTM#openElement">openElement</A>  *<A HREF="RMRF0060.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0058.HTM#shape">shape</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#openShape">OpenShape</A></I> is similar to <I><A HREF="RMRF0016.HTM#path">path</A></I> except that it may include arcs. <I><A HREF="RMRF0015.HTM#openShape">OpenShape</A></I> is open by definition, and therefore not filled. 
+<H3>Example:</H3>
+<P>The following examples are considered to be in the schematics domain.
+<PRE>
+<B>(openShape</B>
+<B>   (curve</B>
+<B>      (arc (pt 0 4) (numberPoint 1 2) (pt 0 0))))</B>
+<B>(openShape</B>
+<B>   (curve</B>
+<B>      (arc (pt 1 4) (numberPoint 4 3) (pt 5 2))</B>
+<B>      (arc (pt 5 2) (numberPoint 4 1) (pt 1 0))</B>
+<B>      (arc (pt 1 0) (numberPoint 2 2) (pt 1 4))))</B>
+</PRE>
+<P>This example uses <I><A HREF="RMRF0015.HTM#openShape">openShape</A></I> describing all the graphics for a typical xor symbol. In this case, the main body of the symbol would not be filled, as shown in the figure below.
+<P><CENTER><IMG SRC="FIG0061.GIF">
+</CENTER>
+<PRE>
+<B>(openShape</B>
+<B>   (curve</B>
+<B>      (arc (pt 0 4) (numberPoint 1 2) (pt 0 0))))</B>
+<B>(shape</B>
+<B>   (curve</B>
+<B>      (arc (pt 1 4) (numberPoint 4 3) (pt 5 2))</B>
+<B>      (arc (pt 5 2) (numberPoint 4 1) (pt 1 0))</B>
+<B>      (arc (pt 1 0) (numberPoint 2 2) (pt 1 4))))</B>
+</PRE>
+<P>This example uses <I><A HREF="RMRF0015.HTM#openShape">openShape</A></I> as part of the graphics for a typical xor symbol, as shown in the figure below. 
+<P><CENTER><IMG SRC="FIG0059.GIF">
+</CENTER>
+<P>The <I><A HREF="RMRF0058.HTM#shape">shape</A></I> would be filled according to the <I><A HREF="RMRF0007.HTM#fillPattern">fillPattern</A></I> and <I><A HREF="RMRF0007.HTM#fillPatternVisible">fillPatternVisible</A></I> described for the <I><A HREF="RMRF0007.HTM#figureGroup">figureGroup</A></I> referenced by the <I><A HREF="RMRF0007.HTM#figure">figure</A></I> containing the <I><A HREF="RMRF0058.HTM#shape">shape</A></I>.
+<P><HR>
+<H1><A NAME="origin">origin</A></H1>
+<PRE>
+<I>origin ::= '(' 'origin'</I>
+&#09;<I><A HREF="RMRF0052.HTM#pointValue">pointValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0007.HTM#fixedScaleTransform">fixedScaleTransform</A>  <A HREF="RMRF0019.HTM#pcbBondPadBumpOrigin">pcbBondPadBumpOrigin</A>  !<A HREF="RMRF0035.HTM#pcbLayoutGrid">pcbLayoutGrid</A>  !<A HREF="RMRF0038.HTM#pcbMountableBondPadBumped">pcbMountableBondPadBumped</A>  !<A HREF="RMRF0038.HTM#pcbMountableBondPadWirebonded">pcbMountableBondPadWirebonded</A>  !<A HREF="RMRF0044.HTM#pcbPackageTerminalSolderBall">pcbPackageTerminalSolderBall</A>  !<A HREF="RMRF0051.HTM#pcbTranslatedFabricateFigureCollector">pcbTranslatedFabricateFigureCollector</A>  &lt;<A HREF="RMRF0060.HTM#transform">transform</A>  &lt;<A HREF="RMRF0060.HTM#uniformScaleTransform">uniformScaleTransform</A>  &lt;<A HREF="RMRF0061.HTM#unscaledTransform">unscaledTransform</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#dataOrigin">dataOrigin</A> <A HREF="RMRF0015.HTM#originNegativeDisplacement">originNegativeDisplacement</A> <A HREF="RMRF0015.HTM#originPositiveDisplacement">originPositiveDisplacement</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#origin">Origin</A></I> is used to specify the translation point of an object when it is transformed. Translation of an object is always the last operation performed when transforming an object.
+<P>The <I><A HREF="RMRF0052.HTM#pointValue">pointValue</A></I> identifies the location with respect to the enclosing context which corresponds to the point with zero coordinates in an instantiated object, or the point indicated by the justification in a textual <I><A HREF="RMRF0005.HTM#display">display</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicInstanceImplementation &amp;123 </B>
+<B>   (instanceRef NAND1)</B>
+<B>   (schematicSymbolRef SYMBOL)</B>
+<B>   (transform (origin (pt 100 0))))</B>
+</PRE>
+<P>The first example specifies that the symbol is placed so that its origin lies at point (100, 0).
+<PRE>
+<B>(annotate "U12"</B>
+<B>   (display </B>
+<B>      (figureGroupOverride text </B>
+<B>         (displayAttributes </B>
+<B>            (verticalJustification (bottomJustify))</B>
+<B>            (horizontalJustification (leftJustify))))</B>
+<B>      (transform (rotation 270)</B>
+<B>         (origin (pt 4 6)))))</B>
+</PRE>
+<P>The second example specifies that the string "U12" is to be displayed such that the lower left of the text (below and left of the "U"), is at point (4, 6).
+<P><HR>
+<H1><A NAME="originalBoundingBox">originalBoundingBox</A></H1>
+<PRE>
+<I>originalBoundingBox ::= '(' 'originalBoundingBox'</I>
+&#09;<I><A HREF="RMRF0054.HTM#rectangle">rectangle</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A>  &lt;<A HREF="RMRF0008.HTM#geometryMacroHeader">geometryMacroHeader</A>  &lt;<A HREF="RMRF0015.HTM#pageHeader">pageHeader</A>  &lt;<A HREF="RMRF0057.HTM#schematicSymbolHeader">schematicSymbolHeader</A>  &lt;<A HREF="RMRF0057.HTM#schematicTemplateHeader">schematicTemplateHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#originalBoundingBox">OriginalBoundingBox</A></I> is the bounding box defined in the original (source) system which can contain all of the graphical information specified in the same context. There are no semantic rules associated with <I><A HREF="RMRF0015.HTM#originalBoundingBox">originalBoundingBox</A></I> because its definition will depend on the source system. It may be used by a reader as a guide only.
+<H3>Example:</H3>
+<PRE>
+<B>(commentGraphics</B>
+<B>   (originalBoundingBox </B>
+<B>      (rectangle (pt 38 65) (pt 110 250)))</B>
+<B>   (figure Green</B>
+<B>      (rectangle (pt 100 65) (pt 110 120)))</B>
+<B>   (figure Orange</B>
+<B>      (dot (pt 38 250))))</B>
+</PRE>
+<P>This example shows the use of a <I><A HREF="RMRF0015.HTM#originalBoundingBox">originalBoundingBox</A></I> within a <I><A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A></I> that uses two figures. This is illustrated in the figure below.
+<P><CENTER><IMG SRC="FIG0062.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="originalDrawingDate">originalDrawingDate</A></H1>
+<PRE>
+<I>originalDrawingDate ::= '(' 'originalDrawingDate'</I>
+&#09;<I><A HREF="RMRF0003.HTM#date">date</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#drawingDate">drawingDate</A> <A HREF="RMRF0005.HTM#drawingDateDrawing">drawingDateDrawing</A> <A HREF="RMRF0015.HTM#originalDrawingDateDisplay">originalDrawingDateDisplay</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#originalDrawingDate">OriginalDrawingDate</A></I> serves to establish the original date for historical record purposes. It should be retained for the life of the drawing, including redrawn drawings.
+<H3>Example:</H3>
+<PRE>
+<B>(originalDrawingDate (date 1991 10 9))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="originalDrawingDateDisplay">originalDrawingDateDisplay</A></H1>
+<PRE>
+<I>originalDrawingDateDisplay ::= '(' 'originalDrawingDateDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0054.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0054.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0003.HTM#date">date</A> <A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0005.HTM#drawingDate">drawingDate</A> <A HREF="RMRF0005.HTM#drawingDateDrawing">drawingDateDrawing</A> <A HREF="RMRF0015.HTM#originalDrawingDate">originalDrawingDate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#originalDrawingDateDisplay">OriginalDrawingDateDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0015.HTM#originalDrawingDate">originalDrawingDate</A></I>. When used in the context of <I><A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A></I>, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<P><HR>
+<H1><A NAME="originalName">originalName</A></H1>
+<PRE>
+<I>originalName ::= <A HREF="RMRF0059.HTM#stringToken">stringToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#nameAlias">nameAlias</A>  !<A HREF="RMRF0053.HTM#primaryName">primaryName</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0059.HTM#stringToken">stringToken</A></I> specifies the basic name of an object in the source system.
+<P><I><A HREF="RMRF0015.HTM#originalName">OriginalName</A></I> is not scoped within EDIF, so it is legal for several objects within the same EDIF name space and name scope to have identical original names. This could be the case if they were all generated from one object in the originating system.
+<H3>Example:</H3>
+<PRE>
+<B>(signal S1 (signalJoined ...)</B>
+<B>   (nameInformation </B>
+<B>      (primaryName "BusA0"</B>
+<B>         (displayName "BusA"))))</B>
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0015.HTM#originalName">originalName</A></I> for the <I><A HREF="RMRF0058.HTM#signal">signal</A></I> is "BusA0".
+<P><HR>
+<H1><A NAME="originNegativeDisplacement">originNegativeDisplacement</A></H1>
+<PRE>
+<I>originNegativeDisplacement ::= '(' 'originNegativeDisplacement'</I>
+&#09;<I><A HREF="RMRF0062.HTM#xDisplacement">xDisplacement</A></I>
+&#09;<I><A HREF="RMRF0062.HTM#yDisplacement">yDisplacement</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0024.HTM#pcbDiePositionTolerance">pcbDiePositionTolerance</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0015.HTM#origin">origin</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the amount by which the origin of an item may vary in placement in the negative x and y directions.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePositionTolerance</B>
+<B>   (originPositiveDisplacement 20 20)</B>
+<B>   (originNegativeDisplacement 5 5)</B>
+<B>   (rotationDisplacement  5 5))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="originPositiveDisplacement">originPositiveDisplacement</A></H1>
+<PRE>
+<I>originPositiveDisplacement ::= '(' 'originPositiveDisplacement'</I>
+&#09;<I><A HREF="RMRF0062.HTM#xDisplacement">xDisplacement</A></I>
+&#09;<I><A HREF="RMRF0062.HTM#yDisplacement">yDisplacement</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0024.HTM#pcbDiePositionTolerance">pcbDiePositionTolerance</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0015.HTM#origin">origin</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the amount by which the origin of an item may vary in placement in the positive x and y directions.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDiePositionTolerance</B>
+<B>   (originPositiveDisplacement 20 20)</B>
+<B>   (originNegativeDisplacement 5 5)</B>
+<B>   (rotationDisplacement  5 5))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="other">other</A></H1>
+<PRE>
+<I>other ::= '(' 'other'</I>
+&#09;<I><A HREF="RMRF0004.HTM#description">description</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingAnnotationGroupPurposeType">pcbDrawingAnnotationGroupPurposeType</A>  <A HREF="RMRF0029.HTM#pcbDrawingDimensioningStandardType">pcbDrawingDimensioningStandardType</A>  <A HREF="RMRF0039.HTM#pcbMountablePackageMountingClassType">pcbMountablePackageMountingClassType</A>  !<A HREF="RMRF0040.HTM#pcbMountingOrientation">pcbMountingOrientation</A>  <A HREF="RMRF0041.HTM#pcbNonConductingLayerType">pcbNonConductingLayerType</A>  !<A HREF="RMRF0041.HTM#pcbNonSpecificSubLayoutIntendedUse">pcbNonSpecificSubLayoutIntendedUse</A>  <A HREF="RMRF0041.HTM#pcbPackageBodyMaterialType">pcbPackageBodyMaterialType</A>  <A HREF="RMRF0041.HTM#pcbPackageBodyProfile">pcbPackageBodyProfile</A>  <A HREF="RMRF0043.HTM#pcbPackageOutlineStyleType">pcbPackageOutlineStyleType</A>  <A HREF="RMRF0043.HTM#pcbPackagePinArrangementType">pcbPackagePinArrangementType</A>  <A HREF="RMRF0043.HTM#pcbPackagePinFormType">pcbPackagePinFormType</A>  !<A HREF="RMRF0044.HTM#pcbPadIntendedUse">pcbPadIntendedUse</A>  <A HREF="RMRF0045.HTM#pcbPadstackInstanceIntendedUsage">pcbPadstackInstanceIntendedUsage</A>  !<A HREF="RMRF0050.HTM#pcbSubMounting">pcbSubMounting</A>  
+</I>
+<H3>Description:</H3>
+<P>Describes a type of item. This construct should be used only if the type is not one of the known types.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage CML20 ...</B>
+<B>   (pcbPackageBodyMaterial</B>
+<B>      (other "Nylon")) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="output">output</A></H1>
+<PRE>
+<I>output ::= '(' 'output'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0052.HTM#portDirectionIndicator">portDirectionIndicator</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0012.HTM#logicMapOutput">logicMapOutput</A> <A HREF="RMRF0015.HTM#outputPort">outputPort</A> <A HREF="RMRF0015.HTM#outputPortAttributes">outputPortAttributes</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#output">Output</A></I> is used to indicate that a port template is to be used for ports of type <I><A HREF="RMRF0015.HTM#outputPort">outputPort</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortTemplate AN_OUTPUT</B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (hotspot ...)</B>
+<B>   (output)</B>
+<B>   ...)</B>
+</PRE>
+<P>This example shows a <I><A HREF="RMRF0057.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I> is to be used for output ports.
+<P><HR>
+<H1><A NAME="outputPort">outputPort</A></H1>
+<PRE>
+<I>outputPort ::= '(' 'outputPort'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0015.HTM#outputPortAttributes">outputPortAttributes</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0052.HTM#portDirection">portDirection</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0015.HTM#output">output</A> <A HREF="RMRF0052.HTM#port">port</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#outputPort">OutputPort</A></I> defines the attributes, if any, for an output port.
+<H3>Example:</H3>
+<PRE>
+<B>(port OUT </B>
+<B>   (outputPort </B>
+<B>      (outputPortAttributes (dcFanInLoad ...))))</B>
+</PRE>
+<P>This example shows that the <I><A HREF="RMRF0052.HTM#port">port</A></I> OUT is an <I><A HREF="RMRF0015.HTM#outputPort">outputPort</A></I> with a given <I><A HREF="RMRF0003.HTM#dcFanInLoad">dcFanInLoad</A></I>.
+<P><HR>
+<H1><A NAME="outputPortAttributes">outputPortAttributes</A></H1>
+<PRE>
+<I>outputPortAttributes ::= '(' 'outputPortAttributes'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0003.HTM#dcFanInLoad">dcFanInLoad</A>&gt; | &lt;<A HREF="RMRF0004.HTM#dcMaxFanOut">dcMaxFanOut</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0005.HTM#directionalPortAttributeOverride">directionalPortAttributeOverride</A>  &lt;<A HREF="RMRF0015.HTM#outputPort">outputPort</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0015.HTM#output">output</A> <A HREF="RMRF0052.HTM#port">port</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#outputPortAttributes">OutputPortAttributes</A></I> gathers together attributes appropriate to an output port.
+<H3>Example:</H3>
+<PRE>
+<B>(directionalPortAttributeOverride </B>
+<B>   (outputPortAttributes</B>
+<B>      (dcFanInLoad ...)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="owner">owner</A></H1>
+<PRE>
+<I>owner ::= '(' 'owner'</I>
+&#09;<I><A HREF="RMRF0059.HTM#stringValue">stringValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0053.HTM#property">property</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0015.HTM#owner">owner</A></I> construct is provided to specify the owner or source of the enclosing property. This provides a source for the meaning or definition of the property. Some external understanding between the sender and receiver of the meaning of the owner string is necessary if this is to be treated as more than annotation.
+<H3>Example:</H3>
+<PRE>
+<B>(property PRS (number (e 12 -1))</B>
+<B>   (owner "Birnbaum"))</B>
+</PRE>
+<P>The above example specifies that the source of the property PRS is Birnbaum. 
+<P><HR>
+<H1><A NAME="page">page</A></H1>
+<PRE>
+<I>page ::= '(' 'page'</I>
+&#09;<I><A HREF="RMRF0016.HTM#pageNameDef">pageNameDef</A></I>
+&#09;<I><A HREF="RMRF0015.HTM#pageHeader">pageHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#cellPropertyDisplay">cellPropertyDisplay</A> | <A HREF="RMRF0002.HTM#clusterPropertyDisplay">clusterPropertyDisplay</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A> 
+&#09;| <A HREF="RMRF0015.HTM#pageCommentGraphics">pageCommentGraphics</A> | <A HREF="RMRF0016.HTM#pageTitleBlock">pageTitleBlock</A> | <A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0054.HTM#schematicBus">schematicBus</A> | 
+&#09;<A HREF="RMRF0055.HTM#schematicGlobalPortImplementation">schematicGlobalPortImplementation</A> | <A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A> | 
+&#09;<A HREF="RMRF0055.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A> | <A HREF="RMRF0055.HTM#schematicNet">schematicNet</A> | 
+&#09;<A HREF="RMRF0056.HTM#schematicOffPageConnectorImplementation">schematicOffPageConnectorImplementation</A> | 
+&#09;<A HREF="RMRF0056.HTM#schematicOnPageConnectorImplementation">schematicOnPageConnectorImplementation</A> | <A HREF="RMRF0056.HTM#schematicRipperImplementation">schematicRipperImplementation</A> 
+&#09;| <A HREF="RMRF0061.HTM#userData">userData</A> | <A HREF="RMRF0061.HTM#viewPropertyDisplay">viewPropertyDisplay</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0055.HTM#schematicImplementation">schematicImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0006.HTM#extendPageDef">extendPageDef</A> <A HREF="RMRF0015.HTM#pageAnnotate">pageAnnotate</A> <A HREF="RMRF0015.HTM#pageBorder">pageBorder</A> <A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A> <A HREF="RMRF0015.HTM#pageBorderTemplateRef">pageBorderTemplateRef</A> <A HREF="RMRF0016.HTM#pageIdentification">pageIdentification</A> <A HREF="RMRF0016.HTM#pageIdentificationDisplay">pageIdentificationDisplay</A> <A HREF="RMRF0016.HTM#pageIdentificationDrawing">pageIdentificationDrawing</A> <A HREF="RMRF0016.HTM#pageNameCaseSensitive">pageNameCaseSensitive</A> <A HREF="RMRF0016.HTM#pageNameRef">pageNameRef</A> <A HREF="RMRF0016.HTM#pagePropertyDisplay">pagePropertyDisplay</A> <A HREF="RMRF0016.HTM#pageRef">pageRef</A> <A HREF="RMRF0016.HTM#pageSize">pageSize</A> <A HREF="RMRF0016.HTM#pageTitle">pageTitle</A> <A HREF="RMRF0016.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A> <A HREF="RMRF0016.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A> <A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A> <A HREF="RMRF0016.HTM#pageTitleBlockTemplateRef">pageTitleBlockTemplateRef</A> <A HREF="RMRF0016.HTM#pageTitleDisplay">pageTitleDisplay</A> <A HREF="RMRF0056.HTM#schematicOffPageConnectorImplementationRef">schematicOffPageConnectorImplementationRef</A> <A HREF="RMRF0056.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A> <A HREF="RMRF0056.HTM#schematicOffPageConnectorTemplateRef">schematicOffPageConnectorTemplateRef</A> <A HREF="RMRF0056.HTM#schematicOnPageConnectorImplementationRef">schematicOnPageConnectorImplementationRef</A> <A HREF="RMRF0056.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A> <A HREF="RMRF0056.HTM#schematicOnPageConnectorTemplateRef">schematicOnPageConnectorTemplateRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#page">Page</A></I> is used for implementing the pages of a schematic design. <I><A HREF="RMRF0015.HTM#page">Page</A></I> contains much of the same information found in the implementation section of other views of a cell. 
+<P>In the schematic view, all schematics sheets are represented as <I><A HREF="RMRF0015.HTM#page">page</A></I>. If a system does not support multiple page designs, only one <I><A HREF="RMRF0015.HTM#page">page</A></I> will exist per schematic view. 
+<P>Each <I><A HREF="RMRF0015.HTM#page">page</A></I> establishes a local coordinate space.
+<H3>Example:</H3>
+<PRE>
+<B>(cell BIG ...</B>
+<B>   (cluster C1</B>
+<B>      (interface ...) ...</B>
+<B>      (schematicView V1  </B>
+<B>         (schematicViewHeader ...)</B>
+<B>         (logicalConnectivity </B>
+<B>            (instance I1 ...)</B>
+<B>            (instance I2 ...)</B>
+<B>            (instance I3 ...)</B>
+<B>            (instance I4 ...)</B>
+<B>            (signal SIG1 ...) ...)</B>
+<B>         (schematicImplementation </B>
+<B>            (page &amp;1 (pageHeader ...)</B>
+<B>               (schematicInstanceImplementation I1 ...)</B>
+<B>               (schematicInstanceImplementation I2 ...)</B>
+<B>               (schematicNet N1 (signalRef SIG1) ...)</B>
+<B>               (schematicNet N2 ...)</B>
+<B>               ...)</B>
+<B>            (page &amp;2 (pageHeader ...)</B>
+<B>               (schematicInstanceImplementation I3 ...)</B>
+<B>               (schematicInstanceImplementation I4 ...)</B>
+<B>               (schematicNet N1 (signalRef SIG1) ...)</B>
+<B>               (schematicNet N3 ...)</B>
+<B>               ...)</B>
+<B>            ...))))</B>
+</PRE>
+<P>In the above example, the view named V1 of cell BIG is implemented with two schematic pages named 1 and 2. The <I><A HREF="RMRF0009.HTM#instance">instances</A></I> are defined in the <I><A HREF="RMRF0012.HTM#logicalConnectivity">logicalConnectivity</A></I> section and implemented within <I><A HREF="RMRF0015.HTM#page">page</A></I>, with only one implementation allowed per <I><A HREF="RMRF0009.HTM#instance">instance</A></I>. Three <I><A HREF="RMRF0055.HTM#schematicNet">schematicNets</A></I> named N1, N2 and N3 are defined and implemented within <I><A HREF="RMRF0015.HTM#page">pages</A></I> 1 and 2. 
+<P>Notice that there is a <I><A HREF="RMRF0055.HTM#schematicNet">schematicNet</A></I> N1 is defined in both <I><A HREF="RMRF0015.HTM#page">pages</A></I>, but they are distinct nets which are, in this case, associated with the same signal and will therefore be electrically common.
+<P><HR>
+<H1><A NAME="pageAnnotate">pageAnnotate</A></H1>
+<PRE>
+<I>pageAnnotate ::= '(' 'pageAnnotate'</I>
+&#09;<I><A HREF="RMRF0006.HTM#extendPageDef">extendPageDef</A></I>
+&#09;<I>{ <A HREF="RMRF0010.HTM#interconnectAnnotate">interconnectAnnotate</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  *<A HREF="RMRF0015.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0000.HTM#annotate">annotate</A> <A HREF="RMRF0015.HTM#page">page</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#pageAnnotate">PageAnnotate</A></I> allows annotation data to be provided for interconnects defined within a page.
+<H3>Example:</H3>
+<PRE>
+<B>(pageAnnotate PAGE1</B>
+<B>   (interconnectAnnotate NET1 ...)</B>
+<B>   (interconnectAnnotate NET2 ...) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pageBorder">pageBorder</A></H1>
+<PRE>
+<I>pageBorder ::= '(' 'pageBorder'</I>
+&#09;<I><A HREF="RMRF0015.HTM#pageBorderTemplateRef">pageBorderTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0060.HTM#transform">transform</A></I>
+&#09;<I>{ <A HREF="RMRF0053.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0015.HTM#pageHeader">pageHeader</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0015.HTM#page">page</A> <A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#pageBorder">PageBorder</A></I> references a <I><A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A></I> to provide a border for a page. There may be only one per <I><A HREF="RMRF0015.HTM#page">page</A></I>. <I><A HREF="RMRF0015.HTM#pageBorder">PageBorder</A></I> provides a <I><A HREF="RMRF0060.HTM#transform">transform</A></I> for the placement of the <I><A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A></I> on the <I><A HREF="RMRF0015.HTM#page">page</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pageBorder </B>
+<B>   (pageBorderTemplateRef PAGE_BORDER)</B>
+<B>   (transform (origin (pt 0 0))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pageBorderTemplate">pageBorderTemplate</A></H1>
+<PRE>
+<I>pageBorderTemplate ::= '(' 'pageBorderTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0057.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I><A HREF="RMRF0061.HTM#usableArea">usableArea</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0007.HTM#figure">figure</A> | <A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> | 
+&#09;<A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0015.HTM#page">page</A> <A HREF="RMRF0015.HTM#pageBorder">pageBorder</A> <A HREF="RMRF0015.HTM#pageBorderTemplateRef">pageBorderTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#pageBorderTemplate">PageBorderTemplate</A></I> provides a template for the graphics associated with the border of a schematic <I><A HREF="RMRF0015.HTM#page">page</A></I>. This typically includes graphics for such items as the border itself, company logos, etc. 
+<P><I><A HREF="RMRF0061.HTM#usableArea">UsableArea</A></I> represents the area within the <I><A HREF="RMRF0015.HTM#pageBorder">pageBorder</A></I> that is available for drawing the schematic itself. 
+<H3>Example:</H3>
+<PRE>
+<B>(pageBorderTemplate PAGE_BORDER</B>
+<B>   (schematicTemplateHeader </B>
+<B>      (schematicUnits ...) ...)</B>
+<B>   (usableArea ...)</B>
+<B>   (figure ...)</B>
+<B>   (annotate ...)</B>
+<B>   ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pageBorderTemplateRef">pageBorderTemplateRef</A></H1>
+<PRE>
+<I>pageBorderTemplateRef ::= '(' 'pageBorderTemplateRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#pageBorder">pageBorder</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0015.HTM#page">page</A> <A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A> <A HREF="RMRF0016.HTM#pageRef">pageRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#pageBorderTemplateRef">PageBorderTemplateRef</A></I> is a reference to a <I><A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pageBorderTemplateRef PAGE_BORDER)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pageCommentGraphics">pageCommentGraphics</A></H1>
+<PRE>
+<I>pageCommentGraphics ::= '(' 'pageCommentGraphics'</I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0007.HTM#figure">figure</A> | <A HREF="RMRF0055.HTM#schematicComplexFigure">schematicComplexFigure</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#page">page</A>  *<A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#pageCommentGraphics">PageCommentGraphics</A></I> is used to include comment figures and text within a page. The text and figures within <I><A HREF="RMRF0015.HTM#pageCommentGraphics">pageCommentGraphics</A></I> have no effect on connectivity, they are for comment purposes only.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicInstanceImplementation ...</B>
+<B>   (pageCommentGraphics</B>
+<B>      (figure graphics</B>
+<B>         (rectangle (pt 0 0) (pt 7 3)))</B>
+<B>      (annotate</B>
+<B>         "ABC"</B>
+<B>         (display textGraphics</B>
+<B>            (transform (origin (pt 0 0))))) ...))</B>
+</PRE>
+<P>The above example describes a picture which contains the string "ABC" and a rectangle, as shown in the figure below. 
+<P><CENTER><IMG SRC="FIG0064.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="pageHeader">pageHeader</A></H1>
+<PRE>
+<I>pageHeader ::= '(' 'pageHeader'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#backgroundColor">backgroundColor</A>&gt; | <A HREF="RMRF0005.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0015.HTM#originalBoundingBox">originalBoundingBox</A>&gt; | &lt;<A HREF="RMRF0015.HTM#pageBorder">pageBorder</A>&gt; | &lt;<A HREF="RMRF0016.HTM#pageSize">pageSize</A>&gt; | <A HREF="RMRF0053.HTM#property">property</A> | 
+&#09;&lt;<A HREF="RMRF0059.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#page">page</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0015.HTM#pageHeader">PageHeader</A></I> gathers together data relating to the page as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(pageHeader </B>
+<B>   (status ...)</B>
+<B>   (backgroundColor ...)</B>
+<B>   (pageBorder </B>
+<B>      (pageBorderTemplateRef PAGE_SURROUND)</B>
+<B>      (transform ...))</B>
+<B>   ...)</B>
+</PRE>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

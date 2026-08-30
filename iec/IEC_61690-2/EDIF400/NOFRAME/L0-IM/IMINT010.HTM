@@ -1,0 +1,52 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H2><A NAME="REF15712"> 15      Bare board technologies</A></H2>
+<P>This chapter describes the "technology" of a bare board. The model for <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> can be found in the <A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A> schema. A <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> is the set of data which (a) guides a designer (or CAD system) in such a way as to create a layout which is fully manufacturable in a particular manner, and (b) fully describes the physical structure of a bare board.
+<P>A <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> defines a collection of <A HREF="IMEX0026.HTM#physical_layer">physical_layers</A> which represents the final layered construction of a complete bare board. It can be either an <A HREF="IMEX0026.HTM#external_bare_board_technology">external_bare_board_technology</A> or an <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A>. Only <A HREF="IMEX0026.HTM#internal_bare_board_technology">internal_bare_board_technology</A> contains information on how <A HREF="IMEX0026.HTM#physical_layer">physical_layers</A> are stacked to form the layup of a board. A <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_group</A> is an ordered list of <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layers</A> or <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_groups</A>, arranged in a vertical stack. Figure <A HREF="IMINT010.HTM#REF63899">15.1</A> shows an example of a simple stacked_layer_group. A <A HREF="IMEX0026.HTM#co_planar_layer_group">co_planar_layer_group</A> is an unordered group of <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layers</A> and <A HREF="IMEX0026.HTM#stacked_layer_group">stacked_layer_groups</A> in the same z-plane. Figure <A HREF="IMINT010.HTM#REF80149">15.2</A> shows an example of a co_planar_layer_group. Figure <A HREF="IMINT010.HTM#REF52062">15.3</A> shows the model of <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A>.
+<P><A NAME="REF63899"><CENTER><IMG SRC="FIG0054.GIF">
+</CENTER></A>
+<P><CENTER> Figure 15.1:  An example of a simple stacked_layer_group</CENTER>
+<P><A NAME="REF80149"><CENTER><IMG SRC="FIG0055.GIF">
+</CENTER></A>
+<P><CENTER> Figure 15.2:  An example of a co_planar_layer_group</CENTER>
+
+<P><A NAME="REF52062"><CENTER><IMG SRC="FIG0056.GIF">
+</CENTER></A>
+<P><CENTER> Figure 15.3:  The model of bare_board_technology</CENTER>
+<H3><A NAME="HDR30"> 15.1    Physical layers</A></H3>
+<P>A <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A> can be either a <A HREF="IMEX0026.HTM#conducting_layer">conducting_layer</A> or a <A HREF="IMEX0026.HTM#non_conducting_layer">non_conducting_layer</A>. An <A HREF="IMEX0026.HTM#internal_physical_layer">internal_physical_layer</A> describes the physical data for a layer. It contains information such as the thickness of the layer and the <A HREF="IMEX0019.HTM#material">material</A> (see chapter <A HREF="IMINT009.HTM#REF13247">14</A>) of which the layer is made. It is important to note that a physical layer represents a potential for material, not actual material. That is, if no artifacts contribute to the physical layer (through associated <A HREF="IMEX0007.HTM#fabricate_figure_collector">fabricate_figure_collectors</A>, see chapter <A HREF="IMINT017.HTM#REF63798">22</A>), then there will be no material in that physical layer. Figure <A HREF="IMINT010.HTM#REF26785">15.4</A> shows the model of <A HREF="IMEX0026.HTM#physical_layer">physical_layer</A>.
+<P><A NAME="REF26785"><CENTER><IMG SRC="FIG0057.GIF">
+</CENTER></A>
+<P><CENTER> Figure 15.4:  The model of physical_layer</CENTER>
+<H3><A NAME="HDR31"> 15.2    Drill rules</A></H3>
+
+<P>A <A HREF="IMEX0026.HTM#bare_board_technology">bare_board_technology</A> may define a set of <A HREF="IMEX0026.HTM#drill_rule">drill_rules</A> which indicate the preferred method of creating holes for cross-layer connections or for securing purposes. A <A HREF="IMEX0026.HTM#plated_drill_rule">plated_drill_rule</A> is a type of <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> which specifically applies to the manufacture of plated through holes. It indicates the <A HREF="IMEX0019.HTM#material">material</A> that is to be used to plate the inside of holes in order to make them conductive. Similarly, a <A HREF="IMEX0026.HTM#non_plated_drill_rule">non_plated_drill_rule</A> is a <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A> which specifically applies to the manufacture of unplated holes. Figure <A HREF="IMINT010.HTM#REF23453">15.5</A> shows the model of <A HREF="IMEX0026.HTM#drill_rule">drill_rule</A>.
+<P><A NAME="REF23453"><CENTER><IMG SRC="FIG0058.GIF">
+</CENTER></A>
+<P><CENTER> Figure 15.5:  The model of drill_rule</CENTER>
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

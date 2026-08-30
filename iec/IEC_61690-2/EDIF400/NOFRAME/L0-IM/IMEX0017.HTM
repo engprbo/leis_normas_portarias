@@ -1,0 +1,2446 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcb_drawing_model">pcb_drawing_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A> schema describes the objects which are used
+ to specify drawing documentation for printed circuit boards and
+ assemblies.
+</P><HR>
+<!-- Start of ENTITY: pcb_drawing -->
+<H2><A NAME="pcb_drawing">pcb_drawing</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>;
+    annotations                    : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#annotation_note">annotation_note</A>;
+    annotation_groups              : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#annotation_group">annotation_group</A>;
+    board_subset_placements        : OPTIONAL SET [1:?] OF
+                                     <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>;
+    border                         : OPTIONAL <A HREF="IMEX0017.HTM#drawing_border">drawing_border</A>;
+    conforms_to                    : <A HREF="IMEX0017.HTM#dimensioning_standard">dimensioning_standard</A>;
+    datum_dimension_line_length    : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    default_dimension_units        : <A HREF="IMEX0017.HTM#pcb_dimension_units">pcb_dimension_units</A>;
+    default_scale_factor           : <A HREF="IMEX0017.HTM#scale_factor">scale_factor</A>;
+    dimension_end_geometries       : OPTIONAL SET [1:?] OF
+                                     <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; 
+    dimensioning_information       : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#dimension">dimension</A>;
+    drawing_size                   : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    drawing_units                  : <A HREF="IMEX0017.HTM#pcb_drawing_units">pcb_drawing_units</A>;
+    external_dimension_line_length : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    name                           : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    physical_paper_size            : OPTIONAL <A HREF="IMEX0008.HTM#rectangle">rectangle</A>;
+    projection_line_gap            : <A HREF="IMEX0029.HTM#non_negative_distance_value">non_negative_distance_value</A>;
+    projection_line_overshoot      : <A HREF="IMEX0029.HTM#non_negative_distance_value">non_negative_distance_value</A>;
+    properties                     : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    property_drawings              : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#property_drawing">property_drawing</A>;
+    status_of_written              : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+    text_enclosure_clearance       : <A HREF="IMEX0029.HTM#non_negative_distance_value">non_negative_distance_value</A>;
+    title_block                    : OPTIONAL <A HREF="IMEX0017.HTM#drawing_title_block">drawing_title_block</A>;
+  DERIVE
+    containing_assembled_board : <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.drawings');
+    containing_bare_board : <A HREF="IMEX0025.HTM#internal_bare_board_definition">internal_bare_board_definition</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0025.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0025.HTM#internal_bare_board_definition">internal_bare_board_definition</A>.drawings');
+  WHERE
+    <A NAME="pcb_drawing.valid_existence">valid_existence</A>:
+      (* A pcb_drawing must belong to one assembled_board or to one
+         bare_board_definition. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#assembled_board">assembled_board</A>.drawings',
+         '<A HREF="IMEX0025.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0025.HTM#internal_bare_board_definition">internal_bare_board_definition</A>.drawings']);
+
+    <A NAME="pcb_drawing.valid_property_drawings">valid_property_drawings</A> :
+      (* The drawn properties are defined in the drawing. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyDrawing &lt;* property_drawings |
+        NOT (propertyDrawing.drawn_property IN properties)));
+
+    <A NAME="pcb_drawing.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A drawing cannot have annotation_groups if it does not define any
+            annotation_notes. 
+         2. A drawing cannot have property_drawings if it does not define any
+            properties.
+         3. A drawing cannot have dimensioning_information if it does not
+            define any board_subset_placements.  *)
+      (EXISTS(annotations) OR NOT EXISTS(annotation_groups))
+      AND
+      (EXISTS(properties) OR NOT EXISTS(property_drawings))
+      AND
+      (EXISTS(board_subset_placements) OR NOT EXISTS(dimensioning_information));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> is a drawing used to aid the specification and construction
+ of a printed circuit board either at the bare board or assembled board
+ level.  
+</P>
+<P>
+ The default_dimension_unit attribute gives the default unit for the
+ dimensions, whereas the drawing_units attribute gives the unit of the
+ drawing. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#annotation_group">annotation_group</A> <A HREF="IMEX0017.HTM#annotation_note">annotation_note</A> <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A> <A HREF="IMEX0017.HTM#dimension">dimension</A> <A HREF="IMEX0025.HTM#internal_bare_board_definition">internal_bare_board_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: pcb_dimension_units -->
+<H2><A NAME="pcb_dimension_units">pcb_dimension_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#pcb_dimension_units">pcb_dimension_units</A>;
+    set_distance : <A HREF="IMEX0029.HTM#distance_unit">distance_unit</A>;
+  WHERE
+    <A NAME="pcb_dimension_units.valid_existence">valid_existence</A> :
+      (* A pcb_dimension_units belongs to one circular_dimension, one
+         linear_dimension or one pcb_drawing. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+        ['<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A>.measure_unit',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>.measure_unit',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.default_dimension_units']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#pcb_dimension_units">pcb_dimension_units</A> is used to set the units for the dimensions in a
+ <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A> <A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A> <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> </P>
+<HR>
+<!-- Start of ENTITY: pcb_drawing_units -->
+<H2><A NAME="pcb_drawing_units">pcb_drawing_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#pcb_drawing_units">pcb_drawing_units</A>;
+    set_angle    : <A HREF="IMEX0029.HTM#angle_unit">angle_unit</A>;
+    set_distance : <A HREF="IMEX0029.HTM#distance_unit">distance_unit</A>;
+  WHERE
+    <A NAME="pcb_drawing_units.valid_existence">valid_existence</A> :
+      (* A pcb_drawing_units belongs to one drawing_fill_pattern, one
+         pcb_drawing, one pcb_drawing_attribute_default, one
+         pcb_drawing_template or one physical_scaling. *)
+    <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+    ['<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>.drawing_units',
+     '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A>.default_pcb_drawing_units',
+     '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A>.drawing_units',
+     '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.drawing_units',
+     '<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>.<A HREF="IMEX0020.HTM#pcb_drawing_template">pcb_drawing_template</A>.units'
+     ]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#pcb_drawing_units">pcb_drawing_units</A> is used to set the units for a <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A> <A HREF="IMEX0007.HTM#drawing_line_style">drawing_line_style</A> <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> <A HREF="IMEX0011.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A> <A HREF="IMEX0020.HTM#pcb_drawing_template">pcb_drawing_template</A> <A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A> </P>
+<HR>
+<!-- Start of ENTITY: board_subset_placement -->
+<H2><A NAME="board_subset_placement">board_subset_placement</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>
+    ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0017.HTM#scaled_board_subset_placement">scaled_board_subset_placement</A>,
+                                <A HREF="IMEX0017.HTM#unscaled_board_subset_placement">unscaled_board_subset_placement</A>));
+    associated_figures                : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_figure">drawing_figure</A>;
+    clipping_outline_drawing_defaults : -- reference
+                                        OPTIONAL <A HREF="IMEX0011.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A>;
+    referenced_board_subset           : <A HREF="IMEX0016.HTM#board_subset">board_subset</A>; -- reference
+    position                          : <A HREF="IMEX0008.HTM#uniform_scale_transform">uniform_scale_transform</A>;
+  DERIVE
+    containing_drawing : <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.board_subset_placements');
+  WHERE
+    <A NAME="board_subset_placement.valid_existence">valid_existence</A>:
+      (* a board_subset_placement must belong to a pcb_drawing *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.board_subset_placements');
+
+    <A NAME="board_subset_placement.valid_board_subset">valid_board_subset</A>:
+      (* The referenced board_subset is defined in the assembled_board or
+         internal_bare_board_definition containing the pcb_drawing. *) 
+    (EXISTS(containing_drawing.containing_assembled_board.drawing_board_subsets)
+     AND
+     (referenced_board_subset
+        IN containing_drawing.containing_assembled_board.drawing_board_subsets))
+    OR
+    (EXISTS(containing_drawing.containing_bare_board.drawing_board_subsets)
+     AND
+     (referenced_board_subset
+        IN containing_drawing.containing_bare_board.drawing_board_subsets));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A> describes the way a <A HREF="IMEX0016.HTM#board_subset">board_subset</A> is represented
+ on a drawing. 
+</P>
+<P>
+ The position attribute allows the board subset to be scaled and placed
+ anywhere on the drawing.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A> <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> </P>
+<HR>
+<!-- Start of ENTITY: scaled_board_subset_placement -->
+<H2><A NAME="scaled_board_subset_placement">scaled_board_subset_placement</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#scaled_board_subset_placement">scaled_board_subset_placement</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>);
+    scale         : <A HREF="IMEX0017.HTM#scale_factor">scale_factor</A>;
+    scale_drawing : <A HREF="IMEX0017.HTM#drawing_text_display">drawing_text_display</A>;
+  WHERE
+    <A NAME="scaled_board_subset_placement.valid_scale_factor">valid_scale_factor</A>:
+      (* The scale used in SELF is different from the scale of the containing
+         pcb_drawing. *) 
+      scale &lt;&gt;
+        SELF\<A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>.containing_drawing.default_scale_factor;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#scaled_board_subset_placement">scaled_board_subset_placement</A> describes a board subset placement which
+ has a scale that is different from that of the main drawing.  The scale
+ information must be displayed in this case.
+</P><HR>
+<!-- Start of ENTITY: scale_factor -->
+<H2><A NAME="scale_factor">scale_factor</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#scale_factor">scale_factor</A>;
+    scale_value    : <A HREF="IMEX0017.HTM#scale_representation">scale_representation</A>;
+    display_string : <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+  WHERE
+    <A NAME="scale_factor.valid_existence">valid_existence</A> :
+      (* A scale_factor belongs to one scaled_board_subset_placement. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#scaled_board_subset_placement">scaled_board_subset_placement</A>.scale');
+
+    <A NAME="scale_factor.valid_scale">valid_scale</A>:
+      (* One factor must be 1 and the other must be greater than 1. *)
+      ((scale_value.numerator = 1) AND (scale_value.denominator &gt;= 1))
+      OR
+      ((scale_value.numerator &gt;= 1) AND (scale_value.denominator = 1));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#scale_factor">scale_factor</A> specifies the scale information that is used in the
+ <A HREF="IMEX0017.HTM#scaled_board_subset_placement">scaled_board_subset_placement</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> <A HREF="IMEX0017.HTM#scaled_board_subset_placement">scaled_board_subset_placement</A> </P>
+<HR>
+<!-- Start of ENTITY: scale_representation -->
+<H2><A NAME="scale_representation">scale_representation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#scale_representation">scale_representation</A>;
+    numerator, denominator : <A HREF="IMEX0029.HTM#number_token">number_token</A>;
+  WHERE
+    <A NAME="scale_representation.valid_existence">valid_existence</A> :
+      (* A scale_representation belongs to one scale_factor. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#scale_factor">scale_factor</A>.scale_value');
+
+    <A NAME="scale_representation.valid_denominator">valid_denominator</A>:
+      (* The denominator value is not equal to zero. *)
+      denominator &lt;&gt; 0;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#scale_representation">scale_representation</A> specifies the scale value that is used in the
+ <A HREF="IMEX0017.HTM#scaled_board_subset_placement">scaled_board_subset_placement</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#scale_factor">scale_factor</A> </P>
+<HR>
+<!-- Start of ENTITY: unscaled_board_subset_placement -->
+<H2><A NAME="unscaled_board_subset_placement">unscaled_board_subset_placement</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#unscaled_board_subset_placement">unscaled_board_subset_placement</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0017.HTM#unscaled_board_subset_placement">unscaled_board_subset_placement</A> describes a board subset 
+ placement that has the same scale as the main drawing.
+</P><HR>
+<!-- Start of ENTITY: drawing_border -->
+<H2><A NAME="drawing_border">drawing_border</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#drawing_border">drawing_border</A>;
+    instantiated_template : <A HREF="IMEX0020.HTM#drawing_border_template">drawing_border_template</A>; -- reference
+    template_position     : <A HREF="IMEX0008.HTM#unscaled_transform">unscaled_transform</A>;
+    overriding_properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property_override">property_override</A>;
+  WHERE
+    <A NAME="drawing_border.valid_existence">valid_existence</A>:
+      (* A drawing_border belongs to one pcb_drawing. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.border');
+
+    <A NAME="drawing_border.valid_overriding_properties">valid_overriding_properties</A> :
+      (* The overridden properties are defined in the instantiated template. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyOverride &lt;* overriding_properties |
+        NOT (propertyOverride.overridden_property
+             IN instantiated_template.properties)));
+
+    <A NAME="drawing_border.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0017.HTM#drawing_border">drawing_border</A> cannot have overriding_properties if its
+            instantiated template does not define any properties. *)
+      EXISTS(instantiated_template.properties) OR 
+        NOT EXISTS(overriding_properties);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#drawing_border">drawing_border</A> describes the border of a <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.  It is defined
+ by specifying the position and orientation of the occurrence of the
+ referenced <A HREF="IMEX0020.HTM#drawing_border_template">drawing_border_template</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> </P>
+<HR>
+<!-- Start of ENTITY: drawing_title_block -->
+<H2><A NAME="drawing_title_block">drawing_title_block</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#drawing_title_block">drawing_title_block</A>;
+    instantiated_template : <A HREF="IMEX0020.HTM#drawing_title_block_template">drawing_title_block_template</A>; -- reference
+    template_position                 : <A HREF="IMEX0008.HTM#unscaled_transform">unscaled_transform</A>;
+    overriding_company_name           : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    overriding_descriptive_title      : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    overriding_drawing_date           : OPTIONAL <A HREF="IMEX0004.HTM#date">date</A>;
+    overriding_drawing_identification : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    overriding_first_used_on          : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    overriding_general_tolerances     : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    overriding_issue_information      : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    overriding_number_of_sheets       : OPTIONAL <A HREF="IMEX0029.HTM#integer_token">integer_token</A>;
+    overriding_page_identification    : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    overriding_properties             : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property_override">property_override</A>;
+    overriding_reference_to_standards : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+  WHERE
+    <A NAME="drawing_title_block.valid_existence">valid_existence</A>:
+      (* A drawing_title_block belongs to one pcb_drawing. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.title_block');
+
+    <A NAME="drawing_title_block.valid_overriding_properties">valid_overriding_properties</A> :
+      (* The overridden properties are defined in the instantiated template. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyOverride &lt;* overriding_properties |
+        NOT (propertyOverride.overridden_property
+             IN instantiated_template.properties)));
+
+    <A NAME="drawing_title_block.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0017.HTM#drawing_title_block">drawing_title_block</A> cannot have overriding_properties if its
+            instantiated template does not define any properties. *)
+      EXISTS(instantiated_template.properties) OR 
+        NOT EXISTS(overriding_properties);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#drawing_title_block">drawing_title_block</A> is used to hold and display title block information
+ in a <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.  It is defined directly within a <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> by
+ specifying the position and orientation of the occurrence of the referenced
+ <A HREF="IMEX0020.HTM#drawing_title_block_template">drawing_title_block_template</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> </P>
+<HR>
+<!-- Start of ENTITY: annotation_note -->
+<H2><A NAME="annotation_note">annotation_note</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#annotation_note">annotation_note</A>;
+    associated_symbols       : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_symbol_placement">drawing_symbol_placement</A>;
+    associated_figures       : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_figure">drawing_figure</A>;
+    associated_figure_macros : OPTIONAL SET [1:?] OF <A HREF="IMEX0020.HTM#drawing_figure_macro">drawing_figure_macro</A>;
+    associated_text          : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_text">drawing_text</A>;
+    annotation_enclosure     : OPTIONAL <A HREF="IMEX0017.HTM#text_enclosure">text_enclosure</A>;
+    leader                   : OPTIONAL <A HREF="IMEX0017.HTM#leader_line">leader_line</A>;
+  DERIVE
+    containing_drawing : <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF, '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.annotations');
+  WHERE
+    <A NAME="annotation_note.valid_existence">valid_existence</A>:
+      (* An annotation_note belongs to one pcb_drawing. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.annotations');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0017.HTM#annotation_note">annotation_note</A> describes an annotation that may contain text, graphics
+ and symbols.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#annotation_group">annotation_group</A> <A HREF="IMEX0017.HTM#leader_line">leader_line</A> <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> </P>
+<HR>
+<!-- Start of ENTITY: drawing_symbol_placement -->
+<H2><A NAME="drawing_symbol_placement">drawing_symbol_placement</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#drawing_symbol_placement">drawing_symbol_placement</A>;
+    referenced_symbol              : <A HREF="IMEX0016.HTM#drawing_symbol">drawing_symbol</A>; -- reference
+    symbol_position                : <A HREF="IMEX0008.HTM#uniform_scale_transform">uniform_scale_transform</A>;
+    default_attributes             : <A HREF="IMEX0011.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A>; -- reference
+    overriding_border_pattern      : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>; -- reference
+    overriding_border_width        : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_border_visible      : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_fill_pattern        : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>; -- reference
+    overriding_fill_pattern_visible: OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_colour              : OPTIONAL <A HREF="IMEX0005.HTM#colour">colour</A>;
+    overriding_corner_type         : OPTIONAL <A HREF="IMEX0005.HTM#path_corner_type">path_corner_type</A>;
+    overriding_end_type            : OPTIONAL <A HREF="IMEX0005.HTM#path_end_type">path_end_type</A>;
+    overriding_path_width          : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_visible             : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  WHERE
+    <A NAME="drawing_symbol_placement.valid_existence">valid_existence</A> :
+      (* A drawing_symbol_placement belongs to one annotation_note. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#annotation_note">annotation_note</A>.associated_symbols');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#drawing_symbol_placement">drawing_symbol_placement</A> describes a symbol displayed as a part of an
+ annotation (e.g. in a legend). 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#annotation_note">annotation_note</A> </P>
+<HR>
+<!-- Start of ENTITY: leader_line -->
+<H2><A NAME="leader_line">leader_line</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#leader_line">leader_line</A>;
+    referenced_point               : <A HREF="IMEX0017.HTM#board_subset_dimensioned_point">board_subset_dimensioned_point</A>;-- reference
+    end_geometry                   : OPTIONAL <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>;--reference
+    leader_line                    : <A HREF="IMEX0008.HTM#path">path</A>;
+    leader_defaults                : <A HREF="IMEX0011.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A>; -- reference
+    overriding_border_pattern      : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>; -- reference
+    overriding_border_visible      : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_fill_pattern        : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>; -- reference
+    overriding_fill_pattern_visible: OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_colour              : OPTIONAL <A HREF="IMEX0005.HTM#colour">colour</A>;
+    overriding_corner_type         : OPTIONAL <A HREF="IMEX0005.HTM#path_corner_type">path_corner_type</A>;
+    overriding_end_type            : OPTIONAL <A HREF="IMEX0005.HTM#path_end_type">path_end_type</A>;
+    overriding_path_width          : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_visible             : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  DERIVE
+    containing_annotation : <A HREF="IMEX0017.HTM#annotation_note">annotation_note</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#annotation_note">annotation_note</A>.leader');
+  WHERE
+    <A NAME="leader_line.valid_existence">valid_existence</A> :
+      (* A leader_line belongs to one annotation_note. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#annotation_note">annotation_note</A>.leader');
+
+    <A NAME="leader_line.valid_referenced_point">valid_referenced_point</A> :
+      (* The board_subset_placement containing the dimensioned point must be
+         defined in the containing pcb_drawing. *) 
+      EXISTS(containing_annotation.containing_drawing.board_subset_placements)
+      AND
+      (referenced_point\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_board
+         IN containing_annotation.containing_drawing.board_subset_placements);
+
+    <A NAME="leader_line.valid_end_geometry">valid_end_geometry</A> :
+      (* The referenced dimension_end_geometry must be defined in the
+         containing pcb_drawing. *)
+      end_geometry IN 
+        containing_annotation.containing_drawing.dimension_end_geometries;
+
+    <A NAME="leader_line.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0017.HTM#leader_line">leader_line</A> cannot have end_geometry if its containing
+            <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> does not define any <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>. *)
+      EXISTS(containing_annotation.containing_drawing.dimension_end_geometries)
+        OR NOT EXISTS(end_geometry);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#leader_line">leader_line</A> describes a leader line used in an <A HREF="IMEX0017.HTM#annotation_note">annotation_note</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#annotation_note">annotation_note</A> </P>
+<HR>
+<!-- Start of ENTITY: annotation_group -->
+<H2><A NAME="annotation_group">annotation_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#annotation_group">annotation_group</A>;
+    associated_annotations : SET [1:?] OF <A HREF="IMEX0017.HTM#annotation_note">annotation_note</A>; -- reference
+    purpose                : <A HREF="IMEX0017.HTM#annotation_group_purpose">annotation_group_purpose</A>;
+  DERIVE
+    containing_drawing : <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.annotation_groups'); 
+  WHERE
+    <A NAME="annotation_group.valid_existence">valid_existence</A>:
+      (* An annotation_group belongs to one pcb_drawing. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.annotation_groups');
+
+    <A NAME="annotation_group.valid_annotations">valid_annotations</A>:
+      (* The referenced annotations must be defined in the containing pcb
+         drawing *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(annotation &lt;* associated_annotations |
+        NOT (annotation IN containing_drawing.annotations)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0017.HTM#annotation_group">annotation_group</A> entity provides a way of grouping annotations that are
+ semantically related.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> </P>
+<HR>
+<!-- Start of TYPE: annotation_group_purpose -->
+<H2><A NAME="annotation_group_purpose">annotation_group_purpose</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#annotation_group_purpose">annotation_group_purpose</A>
+    = SELECT(<A HREF="IMEX0017.HTM#standard_annotation_group_purpose">standard_annotation_group_purpose</A>,
+             <A HREF="IMEX0029.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#annotation_group_purpose">annotation_group_purpose</A> type describes the meaning
+ of an annotation group. It may have either a standard or a
+ user defined significance.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#annotation_group">annotation_group</A> </P>
+<HR>
+<!-- Start of TYPE: standard_annotation_group_purpose -->
+<H2><A NAME="standard_annotation_group_purpose">standard_annotation_group_purpose</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#standard_annotation_group_purpose">standard_annotation_group_purpose</A>
+    = ENUMERATION OF(parts_list,
+                     drill_hole_table,
+                     note_list);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#standard_annotation_group_purpose">standard_annotation_group_purpose</A> type describes the meaning
+ of a standard annotation group.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#annotation_group_purpose">annotation_group_purpose</A> </P>
+<HR>
+<!-- Start of ENTITY: dimension -->
+<H2><A NAME="dimension">dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#dimension">dimension</A>
+      ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>,
+                                  <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A>,
+                                  <A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>));
+    referenced_defaults : <A HREF="IMEX0011.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A>; -- reference
+  DERIVE
+    containing_drawing : <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.dimensioning_information');
+  WHERE
+    <A NAME="dimension.valid_existence">valid_existence</A>:
+      (* A dimension belongs to one pcb_drawing. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.dimensioning_information');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#dimension">dimension</A> is used within a <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> to indicate the size
+ or position of objects within a PCB.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> </P>
+<HR>
+<!-- Start of ENTITY: angular_dimension -->
+<H2><A NAME="angular_dimension">angular_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>
+      ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0017.HTM#single_angular_dimension">single_angular_dimension</A>,
+                                  <A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>))
+      SUBTYPE OF(<A HREF="IMEX0017.HTM#dimension">dimension</A>);
+    start_line : <A HREF="IMEX0017.HTM#board_subset_dimensioned_line">board_subset_dimensioned_line</A>;
+  WHERE
+    <A NAME="angular_dimension.valid_start_line">valid_start_line</A>:
+      (* The board_subset_placement containing the dimensioned line must be
+         defined in the containing pcb_drawing. *)
+      start_line\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_board
+        IN SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.board_subset_placements;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A> is used to show the angle between two linear
+ objects within a <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A> </P>
+<HR>
+<!-- Start of ENTITY: single_angular_dimension -->
+<H2><A NAME="single_angular_dimension">single_angular_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#single_angular_dimension">single_angular_dimension</A>
+    SUBTYPE OF (<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>);
+    measure_item   : <A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A>;
+    arrow_geometry : <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+  WHERE
+    <A NAME="single_angular_dimension.valid_measure_item">valid_measure_item</A>:
+      (* The end line must not be parallel with the start line *)
+      NOT <A HREF="IMEX0017.HTM#parallel_dimensioned_line">parallel_dimensioned_line</A>(SELF\<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>.start_line,
+                                    measure_item.end_line);
+
+    <A NAME="single_angular_dimension.valid_dimension">valid_dimension</A> :
+      (* It cannot be used to dimension objects between two
+         board_subset_extra_details, or between a board_subset_definition and a
+         board_subset_extra_detail. *)
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF\<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>.start_line
+                 .dimensioned_board.referenced_board_subset, 
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_definition">board_subset_definition</A>')
+       AND
+       <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(measure_item.end_line
+                 .dimensioned_board.referenced_board_subset, 
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_definition">board_subset_definition</A>'))
+      OR
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF\<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>.start_line
+                 .dimensioned_board.referenced_board_subset,
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_extra_detail">board_subset_extra_detail</A>')
+       AND
+       <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(measure_item.end_line
+                 .dimensioned_board.referenced_board_subset,
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_extra_detail">board_subset_extra_detail</A>')
+       AND
+       (SELF\<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>.start_line
+            .dimensioned_board.referenced_board_subset
+        :=:
+        measure_item.end_line.dimensioned_board.referenced_board_subset));
+
+    <A NAME="single_angular_dimension.valid_arrow_geometry">valid_arrow_geometry</A> :
+      (* The referenced dimension_end_geometry must be defined in the
+         containing pcb_drawing. *)
+      EXISTS(SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries)
+      AND
+      (arrow_geometry IN
+         SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries); 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#single_angular_dimension">single_angular_dimension</A> is used to measure the angular value
+ between two lines. The dimension arc has the same geometry on
+ both ends.
+</P><HR>
+<!-- Start of ENTITY: multiple_angular_dimension -->
+<H2><A NAME="multiple_angular_dimension">multiple_angular_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>
+    ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0017.HTM#datum_angular_dimension">datum_angular_dimension</A>,
+                                <A HREF="IMEX0017.HTM#chained_angular_dimension">chained_angular_dimension</A>))
+    SUBTYPE OF (<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>);
+    measure_items : LIST [2:?] OF UNIQUE <A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A>;
+  WHERE
+    <A NAME="multiple_angular_dimension.valid_measure_items">valid_measure_items</A>:
+      (* The end line must not be parallel with the start line. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(item &lt;* measure_items |
+        <A HREF="IMEX0017.HTM#parallel_dimensioned_line">parallel_dimensioned_line</A>(SELF\<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>.start_line,
+                                  item.end_line)));
+
+    <A NAME="multiple_angular_dimension.valid_dimension">valid_dimension</A> :
+      (* It cannot be used to dimension objects between two
+         board_subset_extra_details, or between a board_subset_definition and a
+         board_subset_extra_detail. *)
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF\<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>.start_line
+                 .dimensioned_board.referenced_board_subset,
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_definition">board_subset_definition</A>')
+       AND
+       <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(item &lt;* measure_items |
+          NOT <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(item.end_line
+                        .dimensioned_board.referenced_board_subset,
+                        '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_definition">board_subset_definition</A>'))))
+      OR
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF\<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>.start_line
+                 .dimensioned_board.referenced_board_subset,
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_extra_detail">board_subset_extra_detail</A>')
+       AND
+       <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(item &lt;* measure_items |
+         <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(item.end_line
+                   .dimensioned_board.referenced_board_subset, 
+                   '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_definition">board_subset_definition</A>')
+         OR
+         (SELF\<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>.start_line
+              .dimensioned_board.referenced_board_subset
+          :&lt;&gt;:
+          item.end_line.dimensioned_board.referenced_board_subset))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A> is used to measure the angular values
+ between a list of lines.
+</P><HR>
+<!-- Start of ENTITY: angular_dimension_item -->
+<H2><A NAME="angular_dimension_item">angular_dimension_item</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A>;
+    end_line                            : <A HREF="IMEX0017.HTM#board_subset_dimensioned_line">board_subset_dimensioned_line</A>;
+    precision_type                      : <A HREF="IMEX0017.HTM#angular_precision_type">angular_precision_type</A>;
+    precision_count                     : OPTIONAL <A HREF="IMEX0029.HTM#integer_token">integer_token</A>;
+    dimension_arc_type                  : <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A>;
+    dimension_arc_offset                : <A HREF="IMEX0029.HTM#integer_distance_value">integer_distance_value</A>;
+    dimension_arc_extension             : <A HREF="IMEX0017.HTM#dimension_line_extension_type">dimension_line_extension_type</A>;
+    dimension_text_alignment            : <A HREF="IMEX0017.HTM#text_alignment">text_alignment</A>;
+    dimension_text_enclosure            : OPTIONAL <A HREF="IMEX0017.HTM#text_enclosure">text_enclosure</A>;
+    dimension_text_offset               : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    dimension_tolerance                 : OPTIONAL <A HREF="IMEX0017.HTM#tolerance_data">tolerance_data</A>;
+    overriding_border_pattern             -- reference
+                                        : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;
+    overriding_border_visible           : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_fill_pattern               -- reference
+                                        : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;
+    overriding_fill_pattern_visible     : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_colour                   : OPTIONAL <A HREF="IMEX0005.HTM#colour">colour</A>;
+    overriding_corner_type              : OPTIONAL <A HREF="IMEX0005.HTM#path_corner_type">path_corner_type</A>;
+    overriding_end_type                 : OPTIONAL <A HREF="IMEX0005.HTM#path_end_type">path_end_type</A>;
+    overriding_font                     : OPTIONAL <A HREF="IMEX0007.HTM#text_font">text_font</A>;  -- reference
+    overriding_gap_width                : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_horizontal_justification : OPTIONAL <A HREF="IMEX0005.HTM#horizontal_justification">horizontal_justification</A>;
+    overriding_vertical_justification   : OPTIONAL <A HREF="IMEX0005.HTM#vertical_justification">vertical_justification</A>;
+    overriding_line_spacing             : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_path_width               : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_right_readable           : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_space_width              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_stroke_width             : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_text_height              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_visible                  : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  DERIVE
+    containing_dimension : <A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_any_one_role">usedin_any_one_role</A>(SELF,
+         ['<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#single_angular_dimension">single_angular_dimension</A>.measure_item',
+          '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>.measure_items']);
+  WHERE
+    <A NAME="angular_dimension_item.valid_existence">valid_existence</A>:
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#single_angular_dimension">single_angular_dimension</A>.measure_item',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>.measure_items']);
+
+    <A NAME="angular_dimension_item.valid_precision_count">valid_precision_count</A>:
+      (NOT EXISTS(precision_count))
+       OR
+      ((precision_type = <A HREF="IMEX0017.HTM#angular_precision_type">angular_precision_type</A>.degrees_only) 
+        AND (precision_count &gt;= 0))
+       OR
+      ((precision_type = <A HREF="IMEX0017.HTM#angular_precision_type">angular_precision_type</A>.degrees_and_minutes) 
+        AND (precision_count &gt; 0))
+       OR
+      ((precision_type = <A HREF="IMEX0017.HTM#angular_precision_type">angular_precision_type</A>.degrees_minutes_and_seconds)
+        AND (precision_count &gt; 0));
+
+    <A NAME="angular_dimension_item.valid_end_line">valid_end_line</A>:
+      (* The board_subset_placement containing the dimensioned line must be
+         defined in the containing pcb_drawing. *)
+      end_line\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_board
+        IN containing_dimension\<A HREF="IMEX0017.HTM#dimension">dimension</A>
+           .containing_drawing.board_subset_placements;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A> specifies how to draw an angular dimension
+ line.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A> <A HREF="IMEX0017.HTM#single_angular_dimension">single_angular_dimension</A> </P>
+<HR>
+<!-- Start of TYPE: angular_precision_type -->
+<H2><A NAME="angular_precision_type">angular_precision_type</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#angular_precision_type">angular_precision_type</A>
+    = ENUMERATION OF(degrees_only,
+                     degrees_and_minutes,
+                     degrees_minutes_and_seconds);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#angular_precision_type">angular_precision_type</A> specifies how to display the
+ angular dimensioning value.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A> </P>
+<HR>
+<!-- Start of ENTITY: datum_angular_dimension -->
+<H2><A NAME="datum_angular_dimension">datum_angular_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#datum_angular_dimension">datum_angular_dimension</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0017.HTM#datum_parallel_angular_dimension">datum_parallel_angular_dimension</A>,
+                                   <A HREF="IMEX0017.HTM#datum_running_angular_dimension">datum_running_angular_dimension</A>))
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>);
+    dimension_arc_centre_point : <A HREF="IMEX0008.HTM#number_point">number_point</A>;
+    start_geometry             : <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+    end_geometry               : <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+    first_datum_start_geometry : OPTIONAL <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+  WHERE
+    <A NAME="datum_angular_dimension.valid_dimension_arc_centre_point">valid_dimension_arc_centre_point</A> :
+      (* All dimension arcs are centred at the same point.  Hence the centre
+         point must lie on the line emanating from each dimensioned line. *)
+      <A HREF="IMEX0017.HTM#valid_datum_angular_dimension_centre_point">valid_datum_angular_dimension_centre_point</A>
+        (dimension_arc_centre_point,
+         SELF\<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>.start_line,
+         SELF\<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>.measure_items);
+
+    <A NAME="datum_angular_dimension.valid_end_geometry">valid_end_geometry</A> :
+      (* The referenced dimension_end_geometry must be defined in the
+         containing pcb_drawing. *)
+      EXISTS(SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries)
+      AND
+      ([start_geometry, end_geometry, first_datum_start_geometry] &lt;=
+         SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#datum_angular_dimension">datum_angular_dimension</A> is used to measure the angular values between a
+ common start line and a list of end lines.
+</P><HR>
+<!-- Start of ENTITY: datum_parallel_angular_dimension -->
+<H2><A NAME="datum_parallel_angular_dimension">datum_parallel_angular_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#datum_parallel_angular_dimension">datum_parallel_angular_dimension</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#datum_angular_dimension">datum_angular_dimension</A>);
+  WHERE
+    <A NAME="datum_parallel_angular_dimension.valid_dimension_arc_offsets">valid_dimension_arc_offsets</A> :
+      (* All dimension arc offsets are different. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(p1 &lt;* 
+                       SELF\<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>.measure_items |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(p2 &lt;*
+                           SELF\<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>.measure_items |
+        (p1 &lt;&gt; p2)
+        AND 
+        (p1.dimension_arc_offset = p2.dimension_arc_offset)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#datum_parallel_angular_dimension">datum_parallel_angular_dimension</A> is a <A HREF="IMEX0017.HTM#datum_angular_dimension">datum_angular_dimension</A> in which
+ all dimension arcs have different offsets and they are drawn full length
+ between projection lines.
+</P><HR>
+<!-- Start of ENTITY: datum_running_angular_dimension -->
+<H2><A NAME="datum_running_angular_dimension">datum_running_angular_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#datum_running_angular_dimension">datum_running_angular_dimension</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0017.HTM#datum_full_length_angular_dimension">datum_full_length_angular_dimension</A>,
+                                    <A HREF="IMEX0017.HTM#datum_partial_angular_dimension">datum_partial_angular_dimension</A>))
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#datum_angular_dimension">datum_angular_dimension</A>);
+  WHERE
+    <A NAME="datum_running_angular_dimension.valid_dimension_arc_offsets">valid_dimension_arc_offsets</A> :
+      (* All dimension arc offsets are the same. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(p1 &lt;* 
+                       SELF\<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>.measure_items |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(p2 &lt;*
+                           SELF\<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>.measure_items |
+        (p1 &lt;&gt; p2)
+        AND 
+        (p1.dimension_arc_offset &lt;&gt; p2.dimension_arc_offset)))));
+                     
+    <A NAME="datum_running_angular_dimension.valid_dimension_arc_types">valid_dimension_arc_types</A>:
+      (* All dimension arcs must have the internal-only arc type. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(p &lt;* SELF\<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>.measure_items |
+        p.dimension_arc_type &lt;&gt; <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A>.internal_only));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#datum_running_angular_dimension">datum_running_angular_dimension</A> is a <A HREF="IMEX0017.HTM#datum_angular_dimension">datum_angular_dimension</A> in which
+ all dimension arcs have the same offset and they may or may not be drawn
+ full length between projection lines.
+</P><HR>
+<!-- Start of ENTITY: datum_full_length_angular_dimension -->
+<H2><A NAME="datum_full_length_angular_dimension">datum_full_length_angular_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#datum_full_length_angular_dimension">datum_full_length_angular_dimension</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#datum_running_angular_dimension">datum_running_angular_dimension</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#datum_full_length_angular_dimension">datum_full_length_angular_dimension</A> is a
+ <A HREF="IMEX0017.HTM#datum_running_angular_dimension">datum_running_angular_dimension</A> where the dimension arc is drawn full
+ length between projection lines.
+</P><HR>
+<!-- Start of ENTITY: datum_partial_angular_dimension -->
+<H2><A NAME="datum_partial_angular_dimension">datum_partial_angular_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#datum_partial_angular_dimension">datum_partial_angular_dimension</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#datum_running_angular_dimension">datum_running_angular_dimension</A>);
+    datum_dimension_arc_length : OPTIONAL LIST [2:?] OF <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+  WHERE
+    <A NAME="datum_partial_angular_dimension.valid_dimension_arc_length">valid_dimension_arc_length</A>:
+      (* Each dimension arc must be given a length value. *)
+      SIZEOF(datum_dimension_arc_length) = SIZEOF(measure_items);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#datum_partial_angular_dimension">datum_partial_angular_dimension</A> is a <A HREF="IMEX0017.HTM#datum_running_angular_dimension">datum_running_angular_dimension</A>
+ where the dimension arc is not always drawn full length between projection
+ lines.
+</P>
+<P>
+ The datum_dimension_arc_length attribute specifies the length of each
+ dimension arc.  The length of each dimension arc may vary.  If the value
+ of the datum_dimension_arc_length attribute is not specified, the length of
+ the dimension arc is determined by the datum_dimension_line_length
+ attribute of the containing <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.
+</P><HR>
+<!-- Start of ENTITY: chained_angular_dimension -->
+<H2><A NAME="chained_angular_dimension">chained_angular_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#chained_angular_dimension">chained_angular_dimension</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>);
+    arrow_geometry : <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+  WHERE
+    <A NAME="chained_angular_dimension.valid_dimension_arc_types">valid_dimension_arc_types</A>:
+      (* Any two adjacent dimension arcs with the same offset should both have
+         internal-only line types.  This restriction does not apply to the first
+         and the last dimension arcs. *)  
+      <A HREF="IMEX0017.HTM#valid_chained_angular_dimension_arc_types">valid_chained_angular_dimension_arc_types</A>
+        (SELF\<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A>.measure_items);
+
+    <A NAME="chained_angular_dimension.valid_measure_items">valid_measure_items</A>:
+      (* The sum of measured angle between adjacent dimension lines must be
+         equal to the angle between the first and the last dimension lines. *)
+      <A HREF="IMEX0017.HTM#valid_chained_angular_dimension">valid_chained_angular_dimension</A>(start_line, measure_items);
+
+    <A NAME="chained_angular_dimension.valid_arrow_geometry">valid_arrow_geometry</A> :
+      (* The referenced dimension_end_geometry must be defined in the
+         containing pcb_drawing. *)
+      EXISTS(SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries)
+      AND
+      (arrow_geometry IN
+         SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries); 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#chained_angular_dimension">chained_angular_dimension</A> is used to measure the angular values between
+ consecutive lines. The first arc is between start line and the first measure
+ line. All the others are between measure_items[N-1] and measure_items[N].
+ All dimension arcs have the same geometry on both ends.
+</P><HR>
+<!-- Start of ENTITY: circular_dimension -->
+<H2><A NAME="circular_dimension">circular_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A>
+    ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0017.HTM#radial_dimension">radial_dimension</A>,
+                                <A HREF="IMEX0017.HTM#diametric_dimension">diametric_dimension</A>))
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#dimension">dimension</A>);
+    measure_unit                        : OPTIONAL <A HREF="IMEX0017.HTM#pcb_dimension_units">pcb_dimension_units</A>;
+    dimension_lines                     : <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A>;
+    arrow_geometry                      : <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+    dimension_line_offset               : <A HREF="IMEX0029.HTM#integer_distance_value">integer_distance_value</A>;
+    dimension_line_angle                : <A HREF="IMEX0029.HTM#angle_value">angle_value</A>;
+    dimension_line_extension            : <A HREF="IMEX0017.HTM#dimension_line_extension_type">dimension_line_extension_type</A>;
+    dimension_text_alignment            : <A HREF="IMEX0017.HTM#text_alignment">text_alignment</A>;
+    dimension_text_enclosure            : OPTIONAL <A HREF="IMEX0017.HTM#text_enclosure">text_enclosure</A>;
+    dimension_text_offset               : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    dimension_tolerance                 : OPTIONAL <A HREF="IMEX0017.HTM#tolerance_data">tolerance_data</A>;
+    overriding_border_pattern             -- reference
+                                        : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;
+    overriding_border_visible           : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_fill_pattern               -- reference
+                                        : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;
+    overriding_fill_pattern_visible     : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_colour                   : OPTIONAL <A HREF="IMEX0005.HTM#colour">colour</A>;
+    overriding_corner_type              : OPTIONAL <A HREF="IMEX0005.HTM#path_corner_type">path_corner_type</A>;
+    overriding_end_type                 : OPTIONAL <A HREF="IMEX0005.HTM#path_end_type">path_end_type</A>;
+    overriding_font                     : OPTIONAL <A HREF="IMEX0007.HTM#text_font">text_font</A>;  -- reference
+    overriding_gap_width                : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_horizontal_justification : OPTIONAL <A HREF="IMEX0005.HTM#horizontal_justification">horizontal_justification</A>;
+    overriding_vertical_justification   : OPTIONAL <A HREF="IMEX0005.HTM#vertical_justification">vertical_justification</A>;
+    overriding_line_spacing             : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_path_width               : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_right_readable           : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_space_width              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_stroke_width             : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_text_height              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_visible                  : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  WHERE
+    <A NAME="circular_dimension.valid_arrow_geometry">valid_arrow_geometry</A> :
+      (* The referenced dimension_end_geometry must be defined in the
+         containing pcb_drawing. *)
+      EXISTS(SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries)
+      AND
+      (arrow_geometry IN
+         SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries); 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A> shows the size of a diameter or radius of a circle or
+ arc.
+</P>
+<P>
+ The measure_unit attribute shows the units that are to be used for this
+ dimension.  The diametric dimension line has the same geometry on both ends.
+</P><HR>
+<!-- Start of ENTITY: radial_dimension -->
+<H2><A NAME="radial_dimension">radial_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#radial_dimension">radial_dimension</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A>);
+    ref_item : <A HREF="IMEX0017.HTM#board_subset_dimensioned_circarc">board_subset_dimensioned_circarc</A>;
+  WHERE
+    <A NAME="radial_dimension.valid_ref_item">valid_ref_item</A>:
+      (* The board_subset_placement containing the dimensioned circle or arc
+         must be defined in the containing pcb_drawing. *)
+      ref_item\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_board
+        IN SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.board_subset_placements;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#radial_dimension">radial_dimension</A> is used to measure the radius of a circle or arc.  The
+ measured figure is a circle, or it is an arc and the dimension line is drawn
+ from its centre and at an angle equal to the dimension_line_angle attribute
+ inherited from the <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A>.
+</P><HR>
+<!-- Start of ENTITY: diametric_dimension -->
+<H2><A NAME="diametric_dimension">diametric_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#diametric_dimension">diametric_dimension</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A>);
+    ref_item : <A HREF="IMEX0017.HTM#board_subset_dimensioned_circle">board_subset_dimensioned_circle</A>;
+  WHERE
+    <A NAME="diametric_dimension.valid_ref_item">valid_ref_item</A>:
+      (* The board_subset_placement containing the dimensioned circle
+         must be defined in the containing pcb_drawing. *)
+      ref_item\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_board
+        IN SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.board_subset_placements;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#diametric_dimension">diametric_dimension</A> is used to measure the diameter of a circle.  The
+ measured figure is a circle and the dimension line is drawn at an angle
+ equal to the dimension_line_angle.  The distance between the dimension line
+ and the centre of the circle is given by the dimension_line_offset attribute
+ inherited from the <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A>.
+</P><HR>
+<!-- Start of ENTITY: linear_dimension -->
+<H2><A NAME="linear_dimension">linear_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>
+      ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0017.HTM#single_linear_dimension">single_linear_dimension</A>,
+                                  <A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>)
+                            AND
+                            ONEOF(<A HREF="IMEX0017.HTM#direct_dimension">direct_dimension</A>,
+                                  <A HREF="IMEX0017.HTM#horizontal_dimension">horizontal_dimension</A>,
+                                  <A HREF="IMEX0017.HTM#vertical_dimension">vertical_dimension</A>))
+      SUBTYPE OF(<A HREF="IMEX0017.HTM#dimension">dimension</A>);
+    measure_unit : OPTIONAL <A HREF="IMEX0017.HTM#pcb_dimension_units">pcb_dimension_units</A>;
+    start_point  : <A HREF="IMEX0017.HTM#board_subset_dimensioned_point">board_subset_dimensioned_point</A>;
+  WHERE
+    <A NAME="linear_dimension.valid_start_point">valid_start_point</A>:
+      (* The board_subset_placement containing the dimensioned point must be
+         defined in the containing pcb_drawing. *)
+      start_point\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_board
+        IN SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.board_subset_placements;
+
+    <A NAME="linear_dimension.valid_visible_point">valid_visible_point</A>:
+      (* The start_point should be in the clipping area of the board_subset
+         where it is defined.  This constraint is not applicable if the
+         clipping outline is not defined for the dimensioned board_subset. *)
+      <A HREF="IMEX0008.HTM#point_inside_geometry_element">point_inside_geometry_element</A>
+      (start_point.dimensioned_figure.reference_point,
+       start_point.dimensioned_board.referenced_board_subset.clipping_outline);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A> is used within a <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> to show the distance
+ between two <A HREF="IMEX0016.HTM#dimensioned_point">dimensioned_points</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A> </P>
+<HR>
+<!-- Start of ENTITY: single_linear_dimension -->
+<H2><A NAME="single_linear_dimension">single_linear_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#single_linear_dimension">single_linear_dimension</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>);
+    arrow_geometry   : <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+    measure_type     : <A HREF="IMEX0017.HTM#linear_type">linear_type</A>;
+    measure_position : <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A>;
+  WHERE
+    <A NAME="single_linear_dimension.valid_measure_position">valid_measure_position</A>:
+      (* The end_point must be different from the start point. *)
+      start_point :&lt;&gt;: measure_position.end_point;
+
+    <A NAME="single_linear_dimension.valid_dimension">valid_dimension</A> :
+      (* It cannot be used to dimension objects between two
+         board_subset_extra_details, or between a board_subset_definition and a
+         board_subset_extra_detail. *)
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF\<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>.start_point
+                 .dimensioned_board.referenced_board_subset,
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_definition">board_subset_definition</A>')
+       AND
+       <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(measure_position.end_point
+                 .dimensioned_board.referenced_board_subset, 
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_definition">board_subset_definition</A>'))
+      OR
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF\<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>.start_point
+                 .dimensioned_board.referenced_board_subset,
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_extra_detail">board_subset_extra_detail</A>')
+       AND
+       <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(measure_position.end_point
+                 .dimensioned_board.referenced_board_subset,
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_extra_detail">board_subset_extra_detail</A>')
+       AND
+       (SELF\<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>.start_point
+            .dimensioned_board.referenced_board_subset
+        :=:
+        measure_position.end_point.dimensioned_board.referenced_board_subset));
+
+    <A NAME="single_linear_dimension.valid_arrow_geometry">valid_arrow_geometry</A> :
+      (* The referenced dimension_end_geometry must be defined in the
+         containing pcb_drawing. *)
+      EXISTS(SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries)
+      AND
+      (arrow_geometry IN
+         SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries); 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#single_linear_dimension">single_linear_dimension</A> is used to measure the distance between two
+ points.  It has the same arrow geometry on both ends.
+</P><HR>
+<!-- Start of TYPE: linear_type -->
+<H2><A NAME="linear_type">linear_type</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#linear_type">linear_type</A>
+    = ENUMERATION OF(radius_measure,
+                     diameter_measure,
+                     distance_measure);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#linear_type">linear_type</A> shows how a linear_dimension is used.  If it is used to
+ measure a radius or a diameter, the appropriate symbols will be added to the
+ dimension text.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#single_linear_dimension">single_linear_dimension</A> </P>
+<HR>
+<!-- Start of ENTITY: multiple_linear_dimension -->
+<H2><A NAME="multiple_linear_dimension">multiple_linear_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>
+    ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0017.HTM#datum_linear_dimension">datum_linear_dimension</A>,
+                                <A HREF="IMEX0017.HTM#chained_linear_dimension">chained_linear_dimension</A>))
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>);
+    measure_positions : LIST [2:?] OF UNIQUE <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A>;
+  WHERE
+    <A NAME="multiple_linear_dimension.non_direct">non_direct</A> :
+      (* A multiple_linear_dimension is not a direct_dimension. *)
+      NOT <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF, '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#direct_dimension">direct_dimension</A>');
+
+    <A NAME="multiple_linear_dimension.valid_dimension">valid_dimension</A> :
+      (* It cannot be used to dimension objects between two
+         board_subset_extra_details, or between a board_subset_definition and a
+         board_subset_extra_detail. *)
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF\<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>.start_point
+                 .dimensioned_board.referenced_board_subset, 
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_definition">board_subset_definition</A>')
+       AND
+       <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(item &lt;* measure_positions |
+          NOT <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(item.end_point
+                        .dimensioned_board.referenced_board_subset,
+                        '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_definition">board_subset_definition</A>'))))
+      OR
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF\<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>.start_point
+                 .dimensioned_board.referenced_board_subset,
+                 '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_extra_detail">board_subset_extra_detail</A>')
+       AND
+       <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(item &lt;* measure_positions |
+         <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(item.end_point
+                   .dimensioned_board.referenced_board_subset,
+                   '<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>.<A HREF="IMEX0016.HTM#board_subset_definition">board_subset_definition</A>')
+         OR
+         (SELF\<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>.start_point
+              .dimensioned_board.referenced_board_subset
+          :&lt;&gt;:
+          item.end_point.dimensioned_board.referenced_board_subset))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A> is used to measure the distance between
+ several related points.
+</P><HR>
+<!-- Start of ENTITY: linear_dimension_item -->
+<H2><A NAME="linear_dimension_item">linear_dimension_item</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A>;
+    end_point                           : <A HREF="IMEX0017.HTM#board_subset_dimensioned_point">board_subset_dimensioned_point</A>;
+    precision                           : OPTIONAL <A HREF="IMEX0029.HTM#integer_token">integer_token</A>;
+    dimension_line_offset               : <A HREF="IMEX0029.HTM#integer_distance_value">integer_distance_value</A>;
+    dimension_line_type                 : <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A>;
+    dimension_line_extension            : <A HREF="IMEX0017.HTM#dimension_line_extension_type">dimension_line_extension_type</A>;
+    dimension_text_alignment            : <A HREF="IMEX0017.HTM#text_alignment">text_alignment</A>;
+    dimension_text_enclosure            : OPTIONAL <A HREF="IMEX0017.HTM#text_enclosure">text_enclosure</A>;
+    dimension_text_offset               : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    dimension_tolerance                 : OPTIONAL <A HREF="IMEX0017.HTM#tolerance_data">tolerance_data</A>;
+    overriding_border_pattern             -- reference
+                                        : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;
+    overriding_border_visible           : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_fill_pattern               -- reference
+                                        : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;
+    overriding_fill_pattern_visible     : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_colour                   : OPTIONAL <A HREF="IMEX0005.HTM#colour">colour</A>;
+    overriding_corner_type              : OPTIONAL <A HREF="IMEX0005.HTM#path_corner_type">path_corner_type</A>;
+    overriding_end_type                 : OPTIONAL <A HREF="IMEX0005.HTM#path_end_type">path_end_type</A>;
+    overriding_font                     : OPTIONAL <A HREF="IMEX0007.HTM#text_font">text_font</A>;  -- reference
+    overriding_gap_width                : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_horizontal_justification : OPTIONAL <A HREF="IMEX0005.HTM#horizontal_justification">horizontal_justification</A>;
+    overriding_vertical_justification   : OPTIONAL <A HREF="IMEX0005.HTM#vertical_justification">vertical_justification</A>;
+    overriding_line_spacing             : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_path_width               : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_right_readable           : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_space_width              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_stroke_width             : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_text_height              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_visible                  : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  DERIVE
+    containing_dimension : <A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_any_one_role">usedin_any_one_role</A>(SELF,
+         ['<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#single_linear_dimension">single_linear_dimension</A>.measure_position',
+          '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>.measure_positions']);
+  WHERE
+    <A NAME="linear_dimension_item.valid_existence">valid_existence</A>:
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#single_linear_dimension">single_linear_dimension</A>.measure_position',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>.measure_positions']);
+
+    <A NAME="linear_dimension_item.valid_end_point">valid_end_point</A>:
+      (* The board_subset_placement containing the dimensioned point must be
+         defined in the containing pcb_drawing. *)
+      end_point\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_board
+        IN containing_dimension\<A HREF="IMEX0017.HTM#dimension">dimension</A>
+           .containing_drawing.board_subset_placements;
+
+    <A NAME="linear_dimension_item.valid_precision">valid_precision</A>:
+       (* The precision must be positive or zero *)
+       (NOT EXISTS(precision)) OR (precision &gt;= 0);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A> entity describes a linear dimension line.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A> <A HREF="IMEX0017.HTM#single_linear_dimension">single_linear_dimension</A> </P>
+<HR>
+<!-- Start of ENTITY: datum_linear_dimension -->
+<H2><A NAME="datum_linear_dimension">datum_linear_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#datum_linear_dimension">datum_linear_dimension</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0017.HTM#datum_parallel_linear_dimension">datum_parallel_linear_dimension</A>,
+                                   <A HREF="IMEX0017.HTM#datum_running_linear_dimension">datum_running_linear_dimension</A>))
+      SUBTYPE OF(<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>);
+    start_geometry              : <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+    end_geometry                : <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+    first_datum_start_geometry  : OPTIONAL <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+  WHERE
+    <A NAME="datum_linear_dimension.valid_end_geometry">valid_end_geometry</A> :
+      (* The referenced dimension_end_geometry must be defined in the
+         containing pcb_drawing. *)
+      EXISTS(SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries)
+      AND
+      ([start_geometry, end_geometry, first_datum_start_geometry] &lt;=
+         SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#datum_linear_dimension">datum_linear_dimension</A> is used to measure the distances between a common
+ start point and the end points given by the measure_positions list.  The
+ first measure from the datum will possibly use a different start_geometry
+ than all the other measures.
+</P><HR>
+<!-- Start of ENTITY: datum_parallel_linear_dimension -->
+<H2><A NAME="datum_parallel_linear_dimension">datum_parallel_linear_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#datum_parallel_linear_dimension">datum_parallel_linear_dimension</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#datum_linear_dimension">datum_linear_dimension</A>);
+  WHERE
+    <A NAME="datum_parallel_linear_dimension.valid_dimension_line_offsets">valid_dimension_line_offsets</A> :
+      (* All dimension line offsets are different. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(p1 &lt;* 
+                       SELF\<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>.measure_positions |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(p2 &lt;*
+                           SELF\<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>.measure_positions |
+        (p1 &lt;&gt; p2)
+        AND 
+        (p1.dimension_line_offset = p2.dimension_line_offset)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#datum_parallel_linear_dimension">datum_parallel_linear_dimension</A> is a <A HREF="IMEX0017.HTM#datum_linear_dimension">datum_linear_dimension</A> in which
+ all dimension lines have different offsets and they are drawn full length
+ between projection lines.
+</P><HR>
+<!-- Start of ENTITY: datum_running_linear_dimension -->
+<H2><A NAME="datum_running_linear_dimension">datum_running_linear_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#datum_running_linear_dimension">datum_running_linear_dimension</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0017.HTM#datum_full_length_linear_dimension">datum_full_length_linear_dimension</A>,
+                                    <A HREF="IMEX0017.HTM#datum_partial_linear_dimension">datum_partial_linear_dimension</A>))
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#datum_linear_dimension">datum_linear_dimension</A>);
+  WHERE
+    <A NAME="datum_running_linear_dimension.valid_dimension_line_offsets">valid_dimension_line_offsets</A> :
+      (* All dimension line offsets are the same. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(p1 &lt;* 
+                       SELF\<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>.measure_positions |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(p2 &lt;*
+                           SELF\<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>.measure_positions |
+        (p1 &lt;&gt; p2)
+        AND 
+        (p1.dimension_line_offset &lt;&gt; p2.dimension_line_offset)))));
+                     
+    <A NAME="datum_running_linear_dimension.valid_dimension_line_types">valid_dimension_line_types</A>:
+      (* All dimension lines must have the internal-only line type. *) 
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(p &lt;* SELF\<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>.measure_positions |
+        p.<A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A> &lt;&gt; <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A>.internal_only));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#datum_running_linear_dimension">datum_running_linear_dimension</A> is a <A HREF="IMEX0017.HTM#datum_linear_dimension">datum_linear_dimension</A> in which
+ all dimension lines have the same offset and they may or may not be drawn
+ full length between projection lines.
+</P><HR>
+<!-- Start of ENTITY: datum_full_length_linear_dimension -->
+<H2><A NAME="datum_full_length_linear_dimension">datum_full_length_linear_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#datum_full_length_linear_dimension">datum_full_length_linear_dimension</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#datum_running_linear_dimension">datum_running_linear_dimension</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#datum_full_length_linear_dimension">datum_full_length_linear_dimension</A> is a <A HREF="IMEX0017.HTM#datum_running_linear_dimension">datum_running_linear_dimension</A>
+ where the dimension line is drawn full length between projection lines.
+</P><HR>
+<!-- Start of ENTITY: datum_partial_linear_dimension -->
+<H2><A NAME="datum_partial_linear_dimension">datum_partial_linear_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#datum_partial_linear_dimension">datum_partial_linear_dimension</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#datum_running_linear_dimension">datum_running_linear_dimension</A>);
+    datum_dimension_line_length : OPTIONAL LIST [2:?] OF <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+  WHERE
+    <A NAME="datum_partial_linear_dimension.valid_dimension_line_length">valid_dimension_line_length</A>:
+      (* Each dimension line must be given a length value. *)
+      SIZEOF(datum_dimension_line_length) = SIZEOF(measure_positions);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#datum_partial_linear_dimension">datum_partial_linear_dimension</A> is a <A HREF="IMEX0017.HTM#datum_running_linear_dimension">datum_running_linear_dimension</A>
+ where the dimension line is not always drawn full length between projection
+ lines.
+</P>
+<P>
+ The datum_dimension_line_length attribute specifies the length of each
+ dimension line.  The length of each dimension line may vary.  If the value
+ of the datum_dimension_line_length attribute is not specified, the length of
+ the dimension line is determined by the datum_dimension_line_length
+ attribute of the containing <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.
+</P><HR>
+<!-- Start of ENTITY: chained_linear_dimension -->
+<H2><A NAME="chained_linear_dimension">chained_linear_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#chained_linear_dimension">chained_linear_dimension</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>);
+    arrow_geometry  : <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>; -- reference
+  WHERE
+    <A NAME="chained_linear_dimension.valid_dimension_line_types">valid_dimension_line_types</A>:
+      (* Any two adjacent dimension lines with the same offset should both have
+         internal-only line types.  This restriction does not apply to the first
+         and the last dimension lines. *)  
+      <A HREF="IMEX0017.HTM#valid_chained_linear_dimension_line_types">valid_chained_linear_dimension_line_types</A>
+        (SELF\<A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>.measure_positions);
+
+    <A NAME="chained_linear_dimension.valid_measure_positions">valid_measure_positions</A>:
+      (* The sum of measured distance between adjacent dimension points must be
+         equal to the distance between the first and the last dimension
+         points. *) 
+      <A HREF="IMEX0017.HTM#valid_chained_linear_dimension">valid_chained_linear_dimension</A>(start_point, measure_positions);
+
+    <A NAME="chained_linear_dimension.valid_arrow_geometry">valid_arrow_geometry</A> :
+      (* The referenced dimension_end_geometry must be defined in the
+         containing pcb_drawing. *)
+      EXISTS(SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries)
+      AND
+      (arrow_geometry IN
+         SELF\<A HREF="IMEX0017.HTM#dimension">dimension</A>.containing_drawing.dimension_end_geometries); 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#chained_linear_dimension">chained_linear_dimensioning</A> is used to measure the distances between
+ consecutive points. The first line is between the start point and the first
+ measure point. All the rest are between measure_positions[N-1] and
+ measure_positions[N].  All dimension lines have the same arrow geometry on
+ both ends.  The list of points in the measured_positions attribute
+ (inherited from <A HREF="IMEX0017.HTM#multiple_linear_dimension">multiple_linear_dimension</A>) must move uniformly away from
+ the dimension start_point (inherited from <A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>).
+</P><HR>
+<!-- Start of ENTITY: horizontal_dimension -->
+<H2><A NAME="horizontal_dimension">horizontal_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#horizontal_dimension">horizontal_dimension</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#horizontal_dimension">horizontal_dimension</A> shows the horizontal distance between two
+ <A HREF="IMEX0016.HTM#dimensioned_point">dimensioned_points</A> on a <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.
+</P><HR>
+<!-- Start of ENTITY: vertical_dimension -->
+<H2><A NAME="vertical_dimension">vertical_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#vertical_dimension">vertical_dimension</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#vertical_dimension">vertical_dimension</A> shows the vertical distance between two
+ <A HREF="IMEX0016.HTM#dimensioned_point">dimensioned_points</A> on a <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.
+</P><HR>
+<!-- Start of ENTITY: direct_dimension -->
+<H2><A NAME="direct_dimension">direct_dimension</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#direct_dimension">direct_dimension</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>);
+    projection_line_angle : OPTIONAL <A HREF="IMEX0029.HTM#angle_value">angle_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#direct_dimension">direct_dimension</A> shows the actual distance between two
+ <A HREF="IMEX0016.HTM#dimensioned_point">dimensioned_points</A> on a <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.  The angled dimension is a special
+ case of direct dimension where the projection_line_angle attribute is
+ specified.
+</P><HR>
+<!-- Start of ENTITY: board_subset_dimensioned_figure -->
+<H2><A NAME="board_subset_dimensioned_figure">board_subset_dimensioned_figure</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0017.HTM#board_subset_dimensioned_circarc">board_subset_dimensioned_circarc</A>,
+                                   <A HREF="IMEX0017.HTM#board_subset_dimensioned_circle">board_subset_dimensioned_circle</A>,
+                                   <A HREF="IMEX0017.HTM#board_subset_dimensioned_line">board_subset_dimensioned_line</A>,
+                                   <A HREF="IMEX0017.HTM#board_subset_dimensioned_point">board_subset_dimensioned_point</A>));
+    dimensioned_board  : <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>;       -- reference
+    dimensioned_figure : <A HREF="IMEX0016.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A>; -- reference
+  WHERE
+    <A NAME="board_subset_dimensioned_figure.valid_dimensioned_figure">valid_dimensioned_figure</A> :
+      (* The referenced dimensioned_geometric_figure must be defined in the
+         board_subset which is placed by the referenced
+         board_subset_placement. *) 
+      dimensioned_figure.containing_board_subset
+        :=: dimensioned_board.referenced_board_subset;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A> is used to select a
+ <A HREF="IMEX0016.HTM#dimensioned_geometric_figure">dimensioned_geometric_figure</A> on a <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>.
+</P><HR>
+<!-- Start of ENTITY: board_subset_dimensioned_circarc -->
+<H2><A NAME="board_subset_dimensioned_circarc">board_subset_dimensioned_circarc</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#board_subset_dimensioned_circarc">board_subset_dimensioned_circarc</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>);
+    SELF\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_figure
+      : <A HREF="IMEX0016.HTM#dimensioned_circarc">dimensioned_circarc</A>;
+  WHERE
+    <A NAME="board_subset_dimensioned_circarc.valid_existence">valid_existence</A> :
+      (* A board_subset_dimensioned_circarc belongs to one radial_dimension. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#radial_dimension">radial_dimension</A>.ref_item');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#board_subset_dimensioned_circarc">board_subset_dimensioned_circarc</A> is used to select a
+ <A HREF="IMEX0016.HTM#dimensioned_circarc">dimensioned_circarc</A> on a <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#radial_dimension">radial_dimension</A> </P>
+<HR>
+<!-- Start of ENTITY: board_subset_dimensioned_circle -->
+<H2><A NAME="board_subset_dimensioned_circle">board_subset_dimensioned_circle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#board_subset_dimensioned_circle">board_subset_dimensioned_circle</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>);
+    SELF\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_figure
+      : <A HREF="IMEX0016.HTM#dimensioned_circle">dimensioned_circle</A>;
+  WHERE
+    <A NAME="board_subset_dimensioned_circle.valid_existence">valid_existence</A> :
+      (* A board_subset_dimensioned_circle belongs to one
+         diametric_dimension. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#diametric_dimension">diametric_dimension</A>.ref_item');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#board_subset_dimensioned_circle">board_subset_dimensioned_circle</A> is used to select a <A HREF="IMEX0016.HTM#dimensioned_circle">dimensioned_circle</A>
+ on a <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#diametric_dimension">diametric_dimension</A> </P>
+<HR>
+<!-- Start of ENTITY: board_subset_dimensioned_line -->
+<H2><A NAME="board_subset_dimensioned_line">board_subset_dimensioned_line</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#board_subset_dimensioned_line">board_subset_dimensioned_line</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>);
+    SELF\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_figure
+      : <A HREF="IMEX0016.HTM#dimensioned_line">dimensioned_line</A>;
+  WHERE
+    <A NAME="board_subset_dimensioned_line.valid_existence">valid_existence</A> :
+      (* A board_subset_dimensioned_line belongs to either one
+         angular_dimension or one angular_dimension_item. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A>.start_line',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A>.end_line']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#board_subset_dimensioned_line">board_subset_dimensioned_line</A> is used to select a <A HREF="IMEX0016.HTM#dimensioned_line">dimensioned_line</A>
+ on a <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#angular_dimension">angular_dimension</A> <A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A> </P>
+<HR>
+<!-- Start of ENTITY: board_subset_dimensioned_point -->
+<H2><A NAME="board_subset_dimensioned_point">board_subset_dimensioned_point</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#board_subset_dimensioned_point">board_subset_dimensioned_point</A>
+      SUBTYPE OF (<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>);
+    SELF\<A HREF="IMEX0017.HTM#board_subset_dimensioned_figure">board_subset_dimensioned_figure</A>.dimensioned_figure 
+      : <A HREF="IMEX0016.HTM#dimensioned_point">dimensioned_point</A>;
+  WHERE
+    <A NAME="board_subset_dimensioned_point.valid_existence">valid_existence</A> :
+      (* A board_subset_dimensioned_point belongs to either one leader_line,
+         one linear_dimension or one linear_dimension_item. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#leader_line">leader_line</A>.referenced_point',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A>.start_point',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A>.end_point']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#board_subset_dimensioned_point">board_subset_dimensioned_point</A> is used to select a <A HREF="IMEX0016.HTM#dimensioned_point">dimensioned_point</A>
+ on a <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#leader_line">leader_line</A> <A HREF="IMEX0017.HTM#linear_dimension">linear_dimension</A> <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A> </P>
+<HR>
+<!-- Start of TYPE: dimensioning_standard -->
+<H2><A NAME="dimensioning_standard">dimensioning_standard</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#dimensioning_standard">dimensioning_standard</A>
+    = SELECT(<A HREF="IMEX0017.HTM#standard_dimensioning_standard">standard_dimensioning_standard</A>,
+             <A HREF="IMEX0029.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#dimensioning_standard">dimensioning_standard</A> states which standard to use to generate the
+ actual drawing from the specified information.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> </P>
+<HR>
+<!-- Start of TYPE: standard_dimensioning_standard -->
+<H2><A NAME="standard_dimensioning_standard">standard_dimensioning_standard</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#standard_dimensioning_standard">standard_dimensioning_standard</A>
+    = ENUMERATION OF(afnor,
+                     ansi,
+                     bs,
+                     din,
+                     iso,
+                     mil);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#standard_dimensioning_standard">standard_dimensioning_standard</A> describes the standard style of
+ dimensioning standard.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#dimensioning_standard">dimensioning_standard</A> </P>
+<HR>
+<!-- Start of ENTITY: dimension_end_geometry -->
+<H2><A NAME="dimension_end_geometry">dimension_end_geometry</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>
+    ABSTRACT SUPERTYPE OF(ONEOF(<A HREF="IMEX0017.HTM#circular_end_geometry">circular_end_geometry</A>,
+                                <A HREF="IMEX0017.HTM#cross_end_geometry">cross_end_geometry</A>,
+                                <A HREF="IMEX0017.HTM#slash_end_geometry">slash_end_geometry</A>,
+                                <A HREF="IMEX0017.HTM#triangular_end_geometry">triangular_end_geometry</A>,
+                                <A HREF="IMEX0017.HTM#non_standard_end_geometry">non_standard_end_geometry</A>));
+    overriding_border_pattern       : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;-- reference
+    overriding_border_width         : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_border_visible       : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_fill_pattern         : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;-- reference
+    overriding_fill_pattern_visible : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_colour               : OPTIONAL <A HREF="IMEX0005.HTM#colour">colour</A>;
+    overriding_corner_type          : OPTIONAL <A HREF="IMEX0005.HTM#path_corner_type">path_corner_type</A>;
+    overriding_end_type             : OPTIONAL <A HREF="IMEX0005.HTM#path_end_type">path_end_type</A>;
+    overriding_path_width           : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_visible              : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  WHERE
+    <A NAME="dimension_end_geometry.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.dimension_end_geometries');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A> is used to specify the shape of the end used for
+ a <A HREF="IMEX0017.HTM#dimension">dimension</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#chained_angular_dimension">chained_angular_dimension</A> <A HREF="IMEX0017.HTM#chained_linear_dimension">chained_linear_dimension</A> <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A> <A HREF="IMEX0017.HTM#datum_angular_dimension">datum_angular_dimension</A> <A HREF="IMEX0017.HTM#datum_linear_dimension">datum_linear_dimension</A> <A HREF="IMEX0017.HTM#leader_line">leader_line</A> <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> <A HREF="IMEX0017.HTM#single_angular_dimension">single_angular_dimension</A> <A HREF="IMEX0017.HTM#single_linear_dimension">single_linear_dimension</A> </P>
+<HR>
+<!-- Start of ENTITY: circular_end_geometry -->
+<H2><A NAME="circular_end_geometry">circular_end_geometry</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#circular_end_geometry">circular_end_geometry</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>);
+    diameter : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#circular_end_geometry">circular_end_geometry</A> specifies the circular shape which is  used for
+ one end of a <A HREF="IMEX0017.HTM#dimension">dimension</A>.
+</P><HR>
+<!-- Start of ENTITY: cross_end_geometry -->
+<H2><A NAME="cross_end_geometry">cross_end_geometry</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#cross_end_geometry">cross_end_geometry</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>);
+    width : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#cross_end_geometry">cross_end_geometry</A> specifies the cross shape which is to used for one
+ end of a <A HREF="IMEX0017.HTM#dimension">dimension</A>.
+</P><HR>
+<!-- Start of ENTITY: slash_end_geometry -->
+<H2><A NAME="slash_end_geometry">slash_end_geometry</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#slash_end_geometry">slash_end_geometry</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>);
+    width : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#slash_end_geometry">slash_end_geometry</A> specifies the slash shape which is to used for one
+ end of a <A HREF="IMEX0017.HTM#dimension">dimension</A>.
+</P><HR>
+<!-- Start of ENTITY: triangular_end_geometry -->
+<H2><A NAME="triangular_end_geometry">triangular_end_geometry</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#triangular_end_geometry">triangular_end_geometry</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>);
+    triangle_length : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    triangle_width  : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    open_ended      : <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#triangular_end_geometry">triangular_end_geometry</A> specifies the triangular shape which is to used
+ for one end of a <A HREF="IMEX0017.HTM#dimension">dimension</A>.
+</P><HR>
+<!-- Start of ENTITY: non_standard_end_geometry -->
+<H2><A NAME="non_standard_end_geometry">non_standard_end_geometry</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#non_standard_end_geometry">non_standard_end_geometry</A>
+    SUBTYPE OF(<A HREF="IMEX0017.HTM#dimension_end_geometry">dimension_end_geometry</A>);
+    associated_geometries : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#non_standard_end_geometry">non_standard_end_geometry</A> describes a non-standard way of terminating a
+ <A HREF="IMEX0017.HTM#dimension">dimension</A>.
+</P><HR>
+<!-- Start of TYPE: dimension_line_extension_type -->
+<H2><A NAME="dimension_line_extension_type">dimension_line_extension_type</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#dimension_line_extension_type">dimension_line_extension_type</A>
+    = ENUMERATION OF(no_extension,
+                     single_line_extension,
+                     double_line_extension_to_text_centre,
+                     double_line_extension_to_underline_text);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#dimension_line_extension_type">dimension_line_extension_type</A> specifies how far a dimension line is
+ to be extended.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A> <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A> <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A> </P>
+<HR>
+<!-- Start of TYPE: dimension_line_type -->
+<H2><A NAME="dimension_line_type">dimension_line_type</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A>
+    = ENUMERATION OF(internal_only,
+                     external_only,
+                     internal_and_external);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A> specifies if the dimension line is
+ internal, external or both.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A> <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A> <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A> </P>
+<HR>
+<!-- Start of TYPE: text_alignment -->
+<H2><A NAME="text_alignment">text_alignment</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#text_alignment">text_alignment</A>
+    = ENUMERATION OF(align_horizontal,
+                     align_vertical,
+                     align_parallel);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#text_alignment">text_alignment</A> specifies how the dimensioning value is to be drawn
+ relative to the dimensioning line.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A> <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A> <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A> </P>
+<HR>
+<!-- Start of TYPE: text_enclosure -->
+<H2><A NAME="text_enclosure">text_enclosure</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#text_enclosure">text_enclosure</A>
+    = ENUMERATION OF(box_enclosure,
+                     bracket_enclosure,
+                     circle_enclosure);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#text_enclosure">text_enclosure</A> specified how the text using it is to be enclosed.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A> <A HREF="IMEX0017.HTM#annotation_note">annotation_note</A> <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A> <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A> </P>
+<HR>
+<!-- Start of ENTITY: tolerance_data -->
+<H2><A NAME="tolerance_data">tolerance_data</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#tolerance_data">tolerance_data</A>;
+    tolerance_text_type     : <A HREF="IMEX0017.HTM#tolerance_type">tolerance_type</A>;
+    negative_tolerance      : <A HREF="IMEX0029.HTM#number_token">number_token</A>;
+    positive_tolerance      : <A HREF="IMEX0029.HTM#number_token">number_token</A>;
+    overriding_gap_width    : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_line_spacing : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_space_width  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_stroke_width : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_text_height  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+  WHERE
+    <A NAME="tolerance_data.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A>.dimension_tolerance',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A>.dimension_tolerance',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A>.dimension_tolerance']);
+    
+    <A NAME="tolerance_data.valid_tolerance_text_height">valid_tolerance_text_height</A>:
+      (* tolerance_text_height exists if and only if the
+         tolerance_text_type is nominal_with_deltas *)
+      ((tolerance_text_type &lt;&gt; nominal_with_deltas) AND
+       (NOT EXISTS(overriding_text_height)))
+      OR
+      ((tolerance_text_type = nominal_with_deltas) AND
+       (EXISTS(overriding_text_height)));
+
+    <A NAME="tolerance_data.valid_negative_tolerance">valid_negative_tolerance</A>:
+      (* it should be a positive or zero number *)
+      negative_tolerance &gt;= 0;
+
+    <A NAME="tolerance_data.valid_positive_tolerance">valid_positive_tolerance</A>:
+      (* it should be a positive or zero number *)
+      positive_tolerance &gt;= 0;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#tolerance_data">tolerance_data</A> entity provides information on how the tolerance is to be
+ displayed in a dimensioning.  The overriding attributes are used by the
+ tolerance text.  The default attributes are given by the
+ <A HREF="IMEX0011.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A> referenced by the dimension that uses the
+ tolerance data.  The text height is provided only if the tolerance type is
+ nominal with deltas.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A> <A HREF="IMEX0017.HTM#circular_dimension">circular_dimension</A> <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A> </P>
+<HR>
+<!-- Start of TYPE: tolerance_type -->
+<H2><A NAME="tolerance_type">tolerance_type</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0017.HTM#tolerance_type">tolerance_type</A>
+    = ENUMERATION OF(minimum_and_maximum,
+                     nominal_with_deltas);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#tolerance_type">tolerance_type</A> specifies how the tolerances of a dimensioning value are
+ to be shown.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#tolerance_data">tolerance_data</A> </P>
+<HR>
+<!-- Start of ENTITY: drawing_figure -->
+<H2><A NAME="drawing_figure">drawing_figure</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#drawing_figure">drawing_figure</A>;
+    associated_geometries           : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A>;
+    associated_geometry_macros      : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#geometry_macro">geometry_macro</A>;
+    default_attributes              : <A HREF="IMEX0011.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A>;-- reference
+    overriding_border_pattern       : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;-- reference
+    overriding_border_visible       : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_border_width         : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_colour               : OPTIONAL <A HREF="IMEX0005.HTM#colour">colour</A>;
+    overriding_corner_type          : OPTIONAL <A HREF="IMEX0005.HTM#path_corner_type">path_corner_type</A>;
+    overriding_end_type             : OPTIONAL <A HREF="IMEX0005.HTM#path_end_type">path_end_type</A>;
+    overriding_fill_pattern         : OPTIONAL <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>;-- reference
+    overriding_fill_pattern_visible : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_path_width           : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_line_style           : OPTIONAL <A HREF="IMEX0007.HTM#drawing_line_style">drawing_line_style</A>;  -- reference
+    overriding_visible              : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+  WHERE
+    <A NAME="drawing_figure.valid_existence">valid_existence</A>:
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+    ['<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A>.pattern_graphics',
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0016.HTM#pcb_board_subset_model">pcb_board_subset_model</A>',
+                    '<A HREF="IMEX0016.HTM#board_subset_extra_detail_figure">board_subset_extra_detail_figure</A>',
+                    'associated_figures'),
+     '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#annotation_note">annotation_note</A>.associated_figures',
+     '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A>.associated_figures',
+     '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#drawing_element">drawing_element</A>.associated_figures',
+     '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A>.associated_figures',
+     '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A>.associated_figures',
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                    '<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A>',
+                    'associated_figures'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                    '<A HREF="IMEX0020.HTM#internal_bond_pad_drawing_template">internal_bond_pad_drawing_template</A>',
+                    'associated_figures'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                    '<A HREF="IMEX0020.HTM#internal_drawing_border_template">internal_drawing_border_template</A>',
+                    'associated_figures'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                    '<A HREF="IMEX0020.HTM#internal_drawing_border_template">internal_drawing_border_template</A>',
+                    'centring_mark'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                    '<A HREF="IMEX0020.HTM#internal_drawing_border_template">internal_drawing_border_template</A>',
+                    'orientation_mark'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                    '<A HREF="IMEX0020.HTM#internal_drawing_figure_macro_template">internal_drawing_figure_macro_template</A>',
+                    'associated_figures'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                    '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                    'associated_figures'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                    '<A HREF="IMEX0020.HTM#internal_package_terminal_drawing_template">internal_package_terminal_drawing_template</A>',
+                    'associated_figures'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                    '<A HREF="IMEX0020.HTM#internal_printed_part_terminal_drawing_template">internal_printed_part_terminal_drawing_template</A>',
+                    'associated_figures'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                    '<A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                    'associated_figures')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#drawing_figure">drawing_figure</A> describes a collection of geometrical shapes.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#annotation_note">annotation_note</A> <A HREF="IMEX0016.HTM#board_subset_extra_detail_figure">board_subset_extra_detail_figure</A> <A HREF="IMEX0017.HTM#board_subset_placement">board_subset_placement</A> <A HREF="IMEX0017.HTM#drawing_element">drawing_element</A> <A HREF="IMEX0007.HTM#drawing_fill_pattern">drawing_fill_pattern</A> <A HREF="IMEX0020.HTM#internal_bond_pad_drawing_template">internal_bond_pad_drawing_template</A> <A HREF="IMEX0020.HTM#internal_drawing_border_template">internal_drawing_border_template</A> <A HREF="IMEX0020.HTM#internal_drawing_figure_macro_template">internal_drawing_figure_macro_template</A> <A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A> <A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A> <A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A> <A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> <A HREF="IMEX0020.HTM#internal_package_terminal_drawing_template">internal_package_terminal_drawing_template</A> <A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A> <A HREF="IMEX0020.HTM#internal_printed_part_terminal_drawing_template">internal_printed_part_terminal_drawing_template</A> <A HREF="IMEX0022.HTM#mountable_fixing_representation">mountable_fixing_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: drawing_text -->
+<H2><A NAME="drawing_text">drawing_text</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#drawing_text">drawing_text</A>;
+    has_value : <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    displays  : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_text_display">drawing_text_display</A>;
+  WHERE
+    <A NAME="drawing_text.valid_existence">valid_existence</A>:
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#annotation_note">annotation_note</A>.associated_text',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#drawing_element">drawing_element</A>.associated_text',
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A>.associated_text',
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A>.associated_text',
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                        '<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A>',
+                        'associated_text'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_bond_pad_drawing_template">internal_bond_pad_drawing_template</A>',
+                        'associated_text'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_border_template">internal_drawing_border_template</A>',
+                        'associated_text'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'associated_text'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_package_terminal_drawing_template">internal_package_terminal_drawing_template</A>',
+                        'associated_text'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_printed_part_terminal_drawing_template">internal_printed_part_terminal_drawing_template</A>',
+                        'associated_text'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                        '<A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                        'associated_text')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#drawing_text">drawing_text</A> specifies the appearances of a text string on a drawing.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#annotation_note">annotation_note</A> <A HREF="IMEX0017.HTM#drawing_element">drawing_element</A> <A HREF="IMEX0020.HTM#internal_bond_pad_drawing_template">internal_bond_pad_drawing_template</A> <A HREF="IMEX0020.HTM#internal_drawing_border_template">internal_drawing_border_template</A> <A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A> <A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A> <A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A> <A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> <A HREF="IMEX0020.HTM#internal_package_terminal_drawing_template">internal_package_terminal_drawing_template</A> <A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A> <A HREF="IMEX0020.HTM#internal_printed_part_terminal_drawing_template">internal_printed_part_terminal_drawing_template</A> <A HREF="IMEX0022.HTM#mountable_fixing_representation">mountable_fixing_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: drawing_text_display -->
+<H2><A NAME="drawing_text_display">drawing_text_display</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#drawing_text_display">drawing_text_display</A>;
+    maximum_string_length               : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    maximum_string_height               : <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    mirrored_text                       : <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    origin                              : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    default_attributes                    -- reference
+                                        : <A HREF="IMEX0011.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A>;
+    overriding_colour                   : OPTIONAL <A HREF="IMEX0005.HTM#colour">colour</A>;
+    overriding_font                     : OPTIONAL <A HREF="IMEX0007.HTM#text_font">text_font</A>;  -- reference
+    overriding_gap_width                : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_horizontal_justification : OPTIONAL <A HREF="IMEX0005.HTM#horizontal_justification">horizontal_justification</A>;
+    overriding_vertical_justification   : OPTIONAL <A HREF="IMEX0005.HTM#vertical_justification">vertical_justification</A>;
+    overriding_line_spacing             : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_right_readable           : OPTIONAL <A HREF="IMEX0029.HTM#boolean_token">boolean_token</A>;
+    overriding_space_width              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    overriding_stroke_width             : OPTIONAL <A HREF="IMEX0029.HTM#width_value">width_value</A>;
+    overriding_text_height              : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+    rotation                            : <A HREF="IMEX0029.HTM#angle_value">angle_value</A>;
+  WHERE
+    <A NAME="drawing_text_display.valid_existence">valid_existence</A>:
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#drawing_text">drawing_text</A>.displays',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#property_drawing">property_drawing</A>.name_drawing',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#property_drawing">property_drawing</A>.value_drawing',
+         '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#scaled_board_subset_placement">scaled_board_subset_placement</A>.scale_drawing',
+         '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A>.drill_name_drawing',
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                        '<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A>',
+                        'component_designator_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                        '<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A>',
+                        'component_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                        '<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A>',
+                        'die_template_name_drawing'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                        '<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A>',
+                        'mountable_die_template_name_drawing'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                        '<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A>',
+                        'part_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_package_terminal_drawing_template">internal_package_terminal_drawing_template</A>',
+                        'mountable_terminal_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_package_terminal_drawing_template">internal_package_terminal_drawing_template</A>',
+                        'package_terminal_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_package_terminal_drawing_template">internal_package_terminal_drawing_template</A>',
+                        'part_terminal_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_bond_pad_drawing_template">internal_bond_pad_drawing_template</A>',
+                        'bond_pad_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_bond_pad_drawing_template">internal_bond_pad_drawing_template</A>',
+                        'mountable_bond_pad_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_bond_pad_drawing_template">internal_bond_pad_drawing_template</A>',
+                        'part_terminal_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'company_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'copyright_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'descriptive_title_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'drawing_date_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'drawing_identification_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'drawing_size_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'first_used_on_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'general_tolerances_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'issue_information_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'number_of_sheets_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'page_identification_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'reference_to_standards_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'scale_factor_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'units_appearances'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0020.HTM#internal_printed_part_terminal_drawing_template">internal_printed_part_terminal_drawing_template</A>',
+                        'part_terminal_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                        '<A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                        'component_designator_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                        '<A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                        'component_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                        '<A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                        'mountable_package_name_drawing'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                        '<A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                        'package_name_drawing'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                        '<A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                        'part_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>',
+                        '<A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A>',
+                        'component_designator_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>',
+                        '<A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A>',
+                        'component_name_drawing_slot'),
+
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>',
+                        '<A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A>',
+                        'part_name_drawing')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#drawing_text_display">drawing_text_display</A> specifies the position and attributes which
+ are used to display a text string.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#drawing_text">drawing_text</A> <A HREF="IMEX0020.HTM#internal_bond_pad_drawing_template">internal_bond_pad_drawing_template</A> <A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A> <A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A> <A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A> <A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> <A HREF="IMEX0020.HTM#internal_package_terminal_drawing_template">internal_package_terminal_drawing_template</A> <A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A> <A HREF="IMEX0020.HTM#internal_printed_part_terminal_drawing_template">internal_printed_part_terminal_drawing_template</A> <A HREF="IMEX0022.HTM#mountable_fixing_representation">mountable_fixing_representation</A> <A HREF="IMEX0017.HTM#property_drawing">property_drawing</A> <A HREF="IMEX0017.HTM#scaled_board_subset_placement">scaled_board_subset_placement</A> </P>
+<HR>
+<!-- Start of ENTITY: drawing_element -->
+<H2><A NAME="drawing_element">drawing_element</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#drawing_element">drawing_element</A>;
+    associated_figures       : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_figure">drawing_figure</A>;
+    associated_figure_macros : OPTIONAL SET [1:?] OF <A HREF="IMEX0020.HTM#drawing_figure_macro">drawing_figure_macro</A>;
+    associated_text          : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_text">drawing_text</A>;
+    contributes_to_drawing   : SET [1:?] OF <A HREF="IMEX0007.HTM#drawing_figure_collector">drawing_figure_collector</A>;--reference
+  WHERE
+    <A NAME="drawing_element.valid_existence">valid_existence</A> :
+    <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+    ['<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A>.drawing_information',
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>',
+                    '<A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A>',
+                    'drawing_information'),
+     '<A HREF="IMEX0025.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0025.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>.drawing_information',
+     '<A HREF="IMEX0015.HTM#pcb_assembled_board_model">pcb_assembled_board_model</A>.<A HREF="IMEX0015.HTM#jumper_connection">jumper_connection</A>.drawing_information',
+     '<A HREF="IMEX0025.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0025.HTM#non_conformant_hole">non_conformant_hole</A>.drawing_information',
+     '<A HREF="IMEX0025.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0025.HTM#probe_point">probe_point</A>.drawing_information']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#drawing_element">drawing_element</A> specifies the drawing of geometrical shapes or text
+ strings and includes them in a <A HREF="IMEX0007.HTM#drawing_figure_collector">drawing_figure_collector</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0015.HTM#component_implementation">component_implementation</A> <A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A> <A HREF="IMEX0025.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A> <A HREF="IMEX0015.HTM#jumper_connection">jumper_connection</A> <A HREF="IMEX0025.HTM#non_conformant_hole">non_conformant_hole</A> <A HREF="IMEX0025.HTM#probe_point">probe_point</A> </P>
+<HR>
+<!-- Start of ENTITY: property_drawing -->
+<H2><A NAME="property_drawing">property_drawing</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0017.HTM#property_drawing">property_drawing</A>;
+    drawn_property  : <A HREF="IMEX0029.HTM#property">property</A>;  -- reference
+    name_drawing    : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_text_display">drawing_text_display</A>;
+    value_drawing   : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_text_display">drawing_text_display</A>;
+  WHERE
+    <A NAME="property_drawing.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      [<A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                      '<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A>',
+                      'die_template_property_drawings'),
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                      '<A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A>',
+                      'mountable_die_template_property_drawings'),
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                      '<A HREF="IMEX0014.HTM#mountable_bond_pad_representation">mountable_bond_pad_representation</A>',
+                      'bond_pad_property_drawings'),
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                      '<A HREF="IMEX0014.HTM#mountable_bond_pad_representation">mountable_bond_pad_representation</A>',
+                      'mountable_bond_pad_property_drawings'),
+       '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A>.property_drawings',
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                      '<A HREF="IMEX0020.HTM#internal_drawing_border_template">internal_drawing_border_template</A>',
+                      'property_drawings'),
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                      '<A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                      'property_drawings'),
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                      '<A HREF="IMEX0022.HTM#mountable_terminal_representation">mountable_terminal_representation</A>',
+                      'mountable_terminal_property_drawings'),
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                      '<A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                      'mountable_package_property_drawings'),
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0022.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>',
+                      '<A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A>',
+                      'package_property_drawings'),
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>',
+                      '<A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A>',
+                      'part_property_drawings'),
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>',
+                      '<A HREF="IMEX0024.HTM#printed_part_terminal_representation">printed_part_terminal_representation</A>',
+                      'part_terminal_property_drawings'),
+       '<A HREF="IMEX0026.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A>.drill_property_drawings']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0017.HTM#property_drawing">property_drawing</A> is used to specify drawing locations and attributes
+ for the drawing of <A HREF="IMEX0029.HTM#property">property</A> value and name.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#internal_drawing_border_template">internal_drawing_border_template</A> <A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A> <A HREF="IMEX0026.HTM#internal_drill_symbol">internal_drill_symbol</A> <A HREF="IMEX0014.HTM#internal_mountable_die_physical_template_symbol">internal_mountable_die_physical_template_symbol</A> <A HREF="IMEX0022.HTM#internal_mountable_package_symbol">internal_mountable_package_symbol</A> <A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A> <A HREF="IMEX0014.HTM#mountable_bond_pad_representation">mountable_bond_pad_representation</A> <A HREF="IMEX0022.HTM#mountable_fixing_representation">mountable_fixing_representation</A> <A HREF="IMEX0022.HTM#mountable_terminal_representation">mountable_terminal_representation</A> <A HREF="IMEX0017.HTM#pcb_drawing">pcb_drawing</A> <A HREF="IMEX0024.HTM#printed_part_terminal_representation">printed_part_terminal_representation</A> </P>
+<HR>
+<!-- Start of FUNCTION: parallel_dimensioned_line -->
+<H2><A NAME="parallel_dimensioned_line">parallel_dimensioned_line</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0017.HTM#parallel_dimensioned_line">parallel_dimensioned_line</A>
+    (startLine, endLine : <A HREF="IMEX0017.HTM#board_subset_dimensioned_line">board_subset_dimensioned_line</A>) : BOOLEAN;
+    LOCAL
+      line1    : <A HREF="IMEX0008.HTM#line_segment">line_segment</A> := startLine.dimensioned_figure.reference_line;
+      line2    : <A HREF="IMEX0008.HTM#line_segment">line_segment</A> := endLine.dimensioned_figure.reference_line;
+      parallel : BOOLEAN;
+    END_LOCAL;
+    parallel := 
+      ((line1.end_point.y_coordinate - line1.start_point.y_coordinate)
+       * 
+       (line2.end_point.x_coordinate - line2.start_point.x_coordinate))
+      =
+       ((line1.end_point.x_coordinate - line1.start_point.x_coordinate)
+       * 
+       (line2.end_point.y_coordinate - line2.start_point.y_coordinate));
+    RETURN(parallel);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#parallel_dimensioned_line">parallel_dimensioned_line</A> function returns true if the two dimensioned
+ lines are parallel.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#multiple_angular_dimension">multiple_angular_dimension</A> <A HREF="IMEX0017.HTM#single_angular_dimension">single_angular_dimension</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_chained_angular_dimension_arc_types -->
+<H2><A NAME="valid_chained_angular_dimension_arc_types">valid_chained_angular_dimension_arc_types</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0017.HTM#valid_chained_angular_dimension_arc_types">valid_chained_angular_dimension_arc_types</A>
+    (items : LIST OF <A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A>) : BOOLEAN;
+    REPEAT i := 2 TO SIZEOF(items)-2;
+      IF (items[i].dimension_arc_offset = items[i+1].dimension_arc_offset) 
+         AND 
+         (items[i].dimension_arc_type &lt;&gt; <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A>.internal_only)
+         OR
+         (items[i+1].dimension_arc_type &lt;&gt; <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A>.internal_only)
+      THEN 
+         RETURN(FALSE);
+      END_IF;
+    END_REPEAT;
+    RETURN(TRUE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#valid_chained_angular_dimension_arc_types">valid_chained_angular_dimension_arc_types</A> function returns true if
+ within a <A HREF="IMEX0017.HTM#chained_angular_dimension">chained_angular_dimension</A>, any two adjacent dimension arcs
+ (except the first and the last dimension arcs) with the same offset have
+ internal-only line type.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#chained_angular_dimension">chained_angular_dimension</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_chained_linear_dimension_line_types -->
+<H2><A NAME="valid_chained_linear_dimension_line_types">valid_chained_linear_dimension_line_types</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0017.HTM#valid_chained_linear_dimension_line_types">valid_chained_linear_dimension_line_types</A>
+    (items : LIST OF <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A>) : BOOLEAN;
+    REPEAT i := 2 TO SIZEOF(items)-2;
+      IF (items[i].dimension_line_offset = items[i+1].dimension_line_offset) 
+         AND 
+         (items[i].<A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A> &lt;&gt; <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A>.internal_only)
+         OR
+         (items[i+1].<A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A> &lt;&gt; <A HREF="IMEX0017.HTM#dimension_line_type">dimension_line_type</A>.internal_only)
+      THEN 
+         RETURN(FALSE);
+      END_IF;
+    END_REPEAT;
+    RETURN(TRUE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#valid_chained_linear_dimension_line_types">valid_chained_linear_dimension_line_types</A> function returns true if
+ within a <A HREF="IMEX0017.HTM#chained_linear_dimension">chained_linear_dimension</A>, any two adjacent dimension lines
+ (except the first and the last dimension lines) with the same offset have
+ internal-only line type.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#chained_linear_dimension">chained_linear_dimension</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_chained_angular_dimension -->
+<H2><A NAME="valid_chained_angular_dimension">valid_chained_angular_dimension</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0017.HTM#valid_chained_angular_dimension">valid_chained_angular_dimension</A>
+    (startLine    : <A HREF="IMEX0017.HTM#board_subset_dimensioned_line">board_subset_dimensioned_line</A>;
+     measurements : LIST OF <A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A>) : BOOLEAN;
+    LOCAL
+      ln1, ln2 : <A HREF="IMEX0008.HTM#line_segment">line_segment</A>;
+      angle    : NUMBER := 0;
+    END_LOCAL;
+
+    -- Calculate the accumulated angle between all measured lines
+    ln1 := startLine.dimensioned_figure.reference_line;
+    ln2 := measurements[1].end_line.dimensioned_figure.reference_line;
+    REPEAT i := 1 TO SIZEOF(measurements)-1;
+      angle := angle + ABS(<A HREF="IMEX0008.HTM#angle_of_line">angle_of_line</A>(ln2.start_point, ln2.end_point) -
+                           <A HREF="IMEX0008.HTM#angle_of_line">angle_of_line</A>(ln1.start_point, ln1.end_point));
+      ln1 := measurements[i].end_line.dimensioned_figure.reference_line;
+      ln2 := measurements[i+1].end_line.dimensioned_figure.reference_line;
+    END_REPEAT;
+
+    -- Calculate the angle between the start line and the end line of the
+    -- last measurements.  
+    ln1 := startLine.dimensioned_figure.reference_line;
+    ln2 := measurements[SIZEOF(measurements)].end_line.dimensioned_figure
+           .reference_line;
+
+    -- If the angle between the start line and the end line of the last
+    -- measurements is equal to the accumlated angle between all measured
+    -- lines, then the function returns true. 
+    angle := angle - ABS(<A HREF="IMEX0008.HTM#angle_of_line">angle_of_line</A>(ln2.start_point, ln2.end_point) -
+                         <A HREF="IMEX0008.HTM#angle_of_line">angle_of_line</A>(ln1.start_point, ln1.end_point));
+    RETURN(angle = 0);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#valid_chained_angular_dimension">valid_chained_angular_dimension</A> function is used to check all measured
+ lines in a <A HREF="IMEX0017.HTM#chained_angular_dimension">chained_angular_dimension</A>.  The function returns true if all
+ end lines move away from the start line.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#chained_angular_dimension">chained_angular_dimension</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_chained_linear_dimension -->
+<H2><A NAME="valid_chained_linear_dimension">valid_chained_linear_dimension</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0017.HTM#valid_chained_linear_dimension">valid_chained_linear_dimension</A>
+    (startPt      : <A HREF="IMEX0017.HTM#board_subset_dimensioned_point">board_subset_dimensioned_point</A>;
+     measurements : LIST OF <A HREF="IMEX0017.HTM#linear_dimension_item">linear_dimension_item</A>) : BOOLEAN;
+    LOCAL
+      pt1, pt2 : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+      distance : NUMBER := 0;
+    END_LOCAL;
+
+    -- Calculate the accumulated distance between all measured positions
+    pt1 := startPt.dimensioned_figure.reference_point;
+    pt2 := measurements[1].end_point.dimensioned_figure.reference_point;
+    REPEAT i := 1 TO SIZEOF(measurements)-1;
+      distance := distance + SQRT((pt2.x_coordinate-pt1.x_coordinate)**2 +
+                                  (pt2.y_coordinate-pt1.y_coordinate)**2);
+      pt1 := measurements[i].end_point.dimensioned_figure.reference_point;
+      pt2 := measurements[i+1].end_point.dimensioned_figure.reference_point;
+    END_REPEAT;
+
+    -- Calculate the distance between the start <A HREF="IMEX0008.HTM#point">point</A> and the end <A HREF="IMEX0008.HTM#point">point</A> of the
+    -- last measurements.  
+    pt1 := startPt.dimensioned_figure.reference_point;
+    pt2 := measurements[SIZEOF(measurements)].end_point.dimensioned_figure
+           .reference_point;
+
+    -- If the distance between the start <A HREF="IMEX0008.HTM#point">point</A> and the end <A HREF="IMEX0008.HTM#point">point</A> of the last
+    -- measurements is equal to the accumlated distance between all measured
+    -- positions, then the function returns true. 
+    distance := distance - SQRT((pt2.x_coordinate-pt1.x_coordinate)**2 +
+                                (pt2.y_coordinate-pt1.y_coordinate)**2);
+    RETURN(distance = 0);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#valid_chained_linear_dimension">valid_chained_linear_dimension</A> function is used to check all measured
+ points in a <A HREF="IMEX0017.HTM#chained_linear_dimension">chained_linear_dimension</A>.  The function returns true if all
+ end points move away from the start point.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#chained_linear_dimension">chained_linear_dimension</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_datum_angular_dimension_centre_point -->
+<H2><A NAME="valid_datum_angular_dimension_centre_point">valid_datum_angular_dimension_centre_point</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0017.HTM#valid_datum_angular_dimension_centre_point">valid_datum_angular_dimension_centre_point</A>
+    (pt        : <A HREF="IMEX0008.HTM#number_point">number_point</A>;
+     startLine : <A HREF="IMEX0017.HTM#board_subset_dimensioned_line">board_subset_dimensioned_line</A>;
+     items     : LIST OF <A HREF="IMEX0017.HTM#angular_dimension_item">angular_dimension_item</A>) : BOOLEAN;
+
+    LOCAL
+      pt1, pt2 : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    END_LOCAL;
+    pt1 := startLine.dimensioned_figure.reference_line.start_point;
+    pt2  := startLine.dimensioned_figure.reference_line.end_point;
+    IF NOT <A HREF="IMEX0008.HTM#colinear_points">colinear_points</A>(pt, pt1, pt2) THEN
+       RETURN(FALSE);
+    ELSE
+       REPEAT i := 1 TO SIZEOF(items);
+         pt1 := items[i].end_line.dimensioned_figure.reference_line.start_point;
+         pt2 := items[i].end_line.dimensioned_figure.reference_line.end_point;
+         IF NOT <A HREF="IMEX0008.HTM#colinear_points">colinear_points</A>(pt, pt1, pt2) THEN
+            RETURN(FALSE);
+         END_IF;
+       END_REPEAT;
+    END_IF;
+    RETURN(TRUE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0017.HTM#valid_datum_angular_dimension_centre_point">valid_datum_angular_dimension_centre_point</A> function returns true if
+ the centre point of an <A HREF="IMEX0017.HTM#datum_angular_dimension">datum_angular_dimension</A> lies on the line emanating
+ from each dimensioned line.  This ensures that all dimension arcs are
+ centred at the same point.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#datum_angular_dimension">datum_angular_dimension</A> </P>
+
+<HR>
+
+<!-- Start of schema: pcb_fabricate_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

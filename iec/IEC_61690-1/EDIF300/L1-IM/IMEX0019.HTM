@@ -1,0 +1,771 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="schematic_view_model">schematic_view_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0019.HTM#schematic_view_model">schematic_view_model</A> schema describes what information can be found in
+ an EDIF schematic view.  The schematic view conveys hierarchy, connectivity
+ and implementation information.  The hierarchy information describes how a
+ circuit is broken down into a number of cells.  The connectivity information
+ defines how circuits are connected.  The implementation of a schematic view
+ is split into <A HREF="IMEX0018.HTM#page">pages</A>, which form a graphical representation of its
+ structure. 
+</P><HR>
+<!-- Start of ENTITY: internal_schematic_view -->
+<H2><A NAME="internal_schematic_view">internal_schematic_view</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#internal_schematic_view">internal_schematic_view</A>
+      SUBTYPE OF (<A HREF="IMEX0012.HTM#internal_cell_representation">internal_cell_representation</A>);
+    frames                      : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#frame">frame</A>;
+    instances                   : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#instance">instance</A>;
+    pages                       : OPTIONAL SET [1:?] OF <A HREF="IMEX0018.HTM#page">page</A>;
+    signals                     : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#signal">signal</A>;
+    signal_groups               : OPTIONAL SET [1:?] OF <A HREF="IMEX0015.HTM#signal_group">signal_group</A>;
+    timings                     : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#timing">timing</A>;
+    total_pages                 : OPTIONAL <A HREF="IMEX0020.HTM#integer_token">integer_token</A>;
+    units                       : <A HREF="IMEX0019.HTM#schematic_units">schematic_units</A>;
+  WHERE
+    <A NAME="internal_schematic_view.valid_instances">valid_instances</A> :
+      (* An internal_schematic_view should not contain instances of clusters of
+         the containing_cell either directly or indirectly. *)
+      <A HREF="IMEX0020.HTM#not_defined">not_defined</A>;
+
+    <A NAME="internal_schematic_view.valid_signals">valid_signals</A> :
+      (* All signals are disjoint.  That is only one signal may connect to a 
+         particular global_port, instance_member_port_member, instance_port,
+         master_port or master_port_member.  Also, the same port cannot be
+         referenced by more than one signal.  Therefore, if a wide port has
+         been referenced by a signal, it is illegal to reference members of
+         that wide port from other signals.  Conversely, if a member port has
+         been referenced by a signal, it is illegal to reference the wide port
+         containing that member port from another signal. *)  
+
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(sig1 &lt;* signals |
+        <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(QUERY(sig2 &lt;* signals - sig1 |
+          <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(sig1.joined_global_ports * sig2.joined_global_ports)
+       OR <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(sig1.joined_instance_member_port_members 
+                       * sig2.joined_instance_member_port_members)
+       OR <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(sig1.joined_instance_ports * sig2.joined_instance_ports)
+       OR <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(sig1.joined_master_ports * sig2.joined_master_ports)
+       OR <A HREF="IMEX0020.HTM#there_exists">there_exists</A>(sig1.joined_master_port_members 
+                       * sig2.joined_master_port_members)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0019.HTM#internal_schematic_view">internal_schematic_view</A> is a <A HREF="IMEX0012.HTM#cell_representation">cell_representation</A> which describes the 
+ connectivity of a cell and the representation of the cell on a schematic.
+ The implementation of an <A HREF="IMEX0019.HTM#internal_schematic_view">internal_schematic_view</A> is split into <A HREF="IMEX0018.HTM#page">pages</A>
+ which may contain <A HREF="IMEX0018.HTM#schematic_bus">schematic_busses</A>, <A HREF="IMEX0018.HTM#schematic_net">schematic_nets</A> and occurrences of
+ various <A HREF="IMEX0013.HTM#schematic_template">schematic_templates</A>, such as <A HREF="IMEX0018.HTM#schematic_offpageconnector">schematic_offpageconnectors</A>,
+ <A HREF="IMEX0018.HTM#schematic_onpageconnector">schematic_onpageconnectors</A>, <A HREF="IMEX0018.HTM#schematic_master_port_representation">schematic_master_port_representations</A>,
+ <A HREF="IMEX0018.HTM#schematic_global_port_representation">schematic_global_port_representations</A>, <A HREF="IMEX0018.HTM#schematic_ripper">schematic_rippers</A>,
+ <A HREF="IMEX0018.HTM#schematic_bus_junction">schematic_bus_junctions</A>, <A HREF="IMEX0018.HTM#schematic_net_junction">schematic_net_junctions</A> and
+ <A HREF="IMEX0018.HTM#schematic_interconnect_terminator">schematic_interconnect_terminators</A>. 
+<PRE>
+ CHANGES (from LEVEL 0)
+ ======================
+ Added   : frames (explicit attribute)
+</PRE>
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0018.HTM#page">page</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_symbol -->
+<H2><A NAME="internal_schematic_symbol">internal_schematic_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A>
+      SUBTYPE OF (<A HREF="IMEX0012.HTM#internal_cell_representation">internal_cell_representation</A>);
+    annotate                        : OPTIONAL BAG [1:?] OF <A HREF="IMEX0006.HTM#string_display">string_display</A>;
+    background_colour               : <A HREF="IMEX0006.HTM#colour">colour</A>;                 
+    border                          : OPTIONAL <A HREF="IMEX0019.HTM#schematic_symbol_border">schematic_symbol_border</A>;
+    cell_name_display               : OPTIONAL BAG [1:?] OF <A HREF="IMEX0006.HTM#display">display</A>;
+    cell_property_displays          : OPTIONAL BAG [1:?] OF <A HREF="IMEX0020.HTM#property_display">property_display</A>;
+    cluster_property_displays       : OPTIONAL BAG [1:?] OF <A HREF="IMEX0020.HTM#property_display">property_display</A>;
+    comment_graphics_info           : OPTIONAL BAG [1:?] OF <A HREF="IMEX0006.HTM#comment_graphics">comment_graphics</A>;
+    designator_display              : OPTIONAL BAG [1:?] OF <A HREF="IMEX0006.HTM#display">display</A>;
+    figures                         : OPTIONAL BAG [1:?] OF <A HREF="IMEX0006.HTM#figure">figure</A>;
+    figure_macros                   : OPTIONAL BAG [1:?] OF
+                                      <A HREF="IMEX0013.HTM#schematic_figure_macro">schematic_figure_macro</A>; 
+    implementation_name_display_slot: OPTIONAL BAG [1:?] OF <A HREF="IMEX0006.HTM#display">display</A>;
+    instance_name_display_slot      : OPTIONAL BAG [1:?] OF <A HREF="IMEX0006.HTM#display">display</A>;
+    instance_name_generator_display_slot : OPTIONAL BAG [1:?] OF <A HREF="IMEX0006.HTM#display">display</A>;
+    instance_width_display_slot     : OPTIONAL BAG [1:?] OF <A HREF="IMEX0006.HTM#display">display</A>;
+    original_bounding_box           : OPTIONAL <A HREF="IMEX0011.HTM#rectangle">rectangle</A>;
+    page_size                       : OPTIONAL <A HREF="IMEX0011.HTM#rectangle">rectangle</A>;
+    parameter_displays              : OPTIONAL BAG [1:?] OF <A HREF="IMEX0016.HTM#parameter_display">parameter_display</A>;
+    symbol_name_display             : OPTIONAL BAG [1:?] OF <A HREF="IMEX0006.HTM#display">display</A>;
+    symbol_port_representations     : OPTIONAL SET [1:?] OF 
+                                      <A HREF="IMEX0019.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A>;
+    symbol_port_bundle_representations : OPTIONAL SET [1:?] OF 
+                                      <A HREF="IMEX0019.HTM#schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A>;
+    symbol_property_displays        : OPTIONAL BAG [1:?] OF <A HREF="IMEX0020.HTM#property_display">property_display</A>;
+    units                           : <A HREF="IMEX0019.HTM#schematic_units">schematic_units</A>;
+  WHERE
+    <A NAME="internal_schematic_symbol.valid_cell_property_displays">valid_cell_property_displays</A> :
+      (* The displayed properties are defined in the containing internal_cell.*)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(cellPropertyDisplay &lt;* cell_property_displays |
+        NOT (cellPropertyDisplay.displayed_property
+             IN SELF\<A HREF="IMEX0012.HTM#internal_cell_representation">internal_cell_representation</A>
+                .containing_cluster.containing_cell.properties)));
+
+    <A NAME="internal_schematic_symbol.valid_cluster_property_displays">valid_cluster_property_displays</A> :
+      (* The displayed properties are defined in the containing
+         internal_cluster. *) 
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(clusterPropertyDisplay &lt;* cluster_property_displays |
+        NOT (clusterPropertyDisplay.displayed_property
+            IN SELF\<A HREF="IMEX0012.HTM#internal_cell_representation">internal_cell_representation</A>.containing_cluster.properties)));
+
+    <A NAME="internal_schematic_symbol.valid_parameter_displays">valid_parameter_displays</A> :
+      (* The displayed parameters are defined in the interface of the
+         containing cluster. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(parameterDisplay &lt;* parameter_displays |
+        NOT (parameterDisplay.displayed_parameter
+             IN SELF\<A HREF="IMEX0012.HTM#internal_cell_representation">internal_cell_representation</A>.interface.parameters)));
+
+    <A NAME="internal_schematic_symbol.valid_symbol_port_representations">valid_symbol_port_representations</A> :
+      (* The symbol_port_representations reference master_ports defined in the
+         cluster interface. *) 
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(portRepresentation &lt;* symbol_port_representations |
+        NOT (portRepresentation.implemented_master_port
+             IN SELF\<A HREF="IMEX0012.HTM#internal_cell_representation">internal_cell_representation</A>.interface.ports)));
+
+    <A NAME="internal_schematic_symbol.valid_symbol_port_bundle_representations">valid_symbol_port_bundle_representations</A> :
+      (* The symbol_port_bundle_representations reference master_port_bundles
+         defined in the cluster interface. *) 
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(portRepresentation &lt;* symbol_port_bundle_representations |
+        NOT (portRepresentation.implemented_master_port_bundle
+             IN SELF\<A HREF="IMEX0012.HTM#internal_cell_representation">internal_cell_representation</A>.interface.port_bundles)));
+
+    <A NAME="internal_schematic_symbol.valid_symbol_property_displays">valid_symbol_property_displays</A> :
+      (* The displayed properties are defined in the internal_schematic_symbol.*)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(symbolPropertyDisplay &lt;* symbol_property_displays |
+        NOT (symbolPropertyDisplay.displayed_property
+             IN SELF\<A HREF="IMEX0012.HTM#internal_cell_representation">internal_cell_representation</A>.properties)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A> describes a symbol for representation of a
+ cell on a schematic.
+<PRE>
+ CHANGES (from LEVEL 0)
+ ======================
+ Added : instance_name_generator_display_slot (explicit attribute)
+         parameter_displays (explicit attribute)
+         valid_parameter_displays (constraint)
+</PRE>
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_symbol_border">schematic_symbol_border</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_view -->
+<H2><A NAME="external_schematic_view">external_schematic_view</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#external_schematic_view">external_schematic_view</A>
+      SUBTYPE OF (<A HREF="IMEX0012.HTM#external_cell_representation">external_cell_representation</A>);
+    units                       : <A HREF="IMEX0019.HTM#schematic_units">schematic_units</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0019.HTM#external_schematic_view">external_schematic_view</A> is a schematic view found in an
+ <A HREF="IMEX0012.HTM#external_cell">external_cell</A>.  It may not contain any <A HREF="IMEX0018.HTM#page">pages</A>.
+</P><HR>
+<!-- Start of ENTITY: external_schematic_symbol -->
+<H2><A NAME="external_schematic_symbol">external_schematic_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#external_schematic_symbol">external_schematic_symbol</A>
+      SUBTYPE OF (<A HREF="IMEX0012.HTM#external_cell_representation">external_cell_representation</A>);
+    background_colour           : <A HREF="IMEX0006.HTM#colour">colour</A>;                 
+    original_bounding_box       : OPTIONAL <A HREF="IMEX0011.HTM#rectangle">rectangle</A>;
+    page_size                   : OPTIONAL <A HREF="IMEX0011.HTM#rectangle">rectangle</A>;
+    units                       : <A HREF="IMEX0019.HTM#schematic_units">schematic_units</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0019.HTM#external_schematic_symbol">external_schematic_symbol</A> is a schematic symbol found in an
+ <A HREF="IMEX0012.HTM#external_cell">external_cell</A>.
+</P><HR>
+<!-- Start of ENTITY: schematic_units -->
+<H2><A NAME="schematic_units">schematic_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_units">schematic_units</A>;
+    hotspot_grid         : OPTIONAL <A HREF="IMEX0020.HTM#length_value">length_value</A>;
+    nominal_hotspot_grid : OPTIONAL <A HREF="IMEX0020.HTM#length_value">length_value</A>;
+    set_angle            : <A HREF="IMEX0020.HTM#angle_unit">angle_unit</A>;
+    set_capacitance      : <A HREF="IMEX0020.HTM#capacitance_unit">capacitance_unit</A>;
+    set_distance         : <A HREF="IMEX0020.HTM#distance_unit">distance_unit</A>;
+    set_frequency        : <A HREF="IMEX0020.HTM#frequency_unit">frequency_unit</A>;
+    set_time             : <A HREF="IMEX0020.HTM#time_unit">time_unit</A>;
+    set_voltage          : <A HREF="IMEX0020.HTM#voltage_unit">voltage_unit</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0019.HTM#schematic_units">schematic_units</A> is used to set the scaling for a schematic view.  In a 
+ schematic view, it is appropriate to set an angle scale, a capacitance
+ scale, a distance scale and a timing scale.  The hotspot_grid is specified
+ in terms of integer distance value.  If the hotspot_grid is not present, it
+ implies the schematic view has no grid specified. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#external_schematic_symbol">external_schematic_symbol</A> <A HREF="IMEX0019.HTM#external_schematic_view">external_schematic_view</A> <A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A> <A HREF="IMEX0019.HTM#internal_schematic_view">internal_schematic_view</A> <A HREF="IMEX0008.HTM#physical_scaling">physical_scaling</A> <A HREF="IMEX0013.HTM#schematic_template">schematic_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_symbol_border -->
+<H2><A NAME="schematic_symbol_border">schematic_symbol_border</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_symbol_border">schematic_symbol_border</A>;
+    instantiated_template          : <A HREF="IMEX0013.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A>;-- reference
+    overriding_template_properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0020.HTM#property_override">property_override</A>;
+    overriding_template_property_displays : OPTIONAL SET [1:?] OF 
+                                            <A HREF="IMEX0020.HTM#property_display_override">property_display_override</A>;
+    template_position              : <A HREF="IMEX0006.HTM#transform">transform</A>;
+  DERIVE
+    containing_symbol : <A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A>                -- reference
+      := <A HREF="IMEX0020.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+         '<A HREF="IMEX0019.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A>.border');
+  WHERE
+    <A NAME="schematic_symbol_border.containment_constraint">containment_constraint</A> :
+      (* A schematic_symbol_border belongs to one internal_schematic_symbol. *)
+      <A HREF="IMEX0020.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0019.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A>.border'); 
+
+    <A NAME="schematic_symbol_border.valid_overriding_template_properties">valid_overriding_template_properties</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(valueOverride &lt;* overriding_template_properties |
+        NOT (valueOverride.overridden_property
+             IN instantiated_template.properties)));
+
+    <A NAME="schematic_symbol_border.valid_overriding_template_property_displays">valid_overriding_template_property_displays</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(displayOverride&lt;*overriding_template_property_displays |
+        NOT (displayOverride.overridden_property
+             IN instantiated_template.properties)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0019.HTM#schematic_symbol_border">schematic_symbol_border</A> is used directly within an
+ <A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A> definition. It is defined by specifying the
+ position and orientation of the occurrence of the referenced
+ <A HREF="IMEX0013.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_symbol_port_representation -->
+<H2><A NAME="schematic_symbol_port_representation">schematic_symbol_port_representation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A>;
+    instantiated_template  :                                     -- reference
+                             <A HREF="IMEX0013.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>;
+    name                                  : OPTIONAL <A HREF="IMEX0020.HTM#name_information">name_information</A>;
+    implemented_master_port               : <A HREF="IMEX0012.HTM#master_port">master_port</A>;         -- reference
+    overriding_ac_load_display            : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_dc_fanin_load_display      : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_dc_fanout_load_display     : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_dc_max_fanin_display       : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_dc_max_fanout_display      : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_designator_display         : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_implementation_name_display: OPTIONAL <A HREF="IMEX0020.HTM#display_name_override">display_name_override</A>;
+    overriding_port_name_display          : OPTIONAL <A HREF="IMEX0020.HTM#display_name_override">display_name_override</A>;
+    overriding_port_name_generator_display: OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_template_properties        : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0020.HTM#property_override">property_override</A>; 
+    overriding_template_property_displays : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0020.HTM#property_display_override">property_display_override</A>; 
+    delay_displays                        : OPTIONAL BAG [1:?] OF
+                                            <A HREF="IMEX0012.HTM#port_delay_display">port_delay_display</A>; 
+    load_delay_displays                   : OPTIONAL BAG [1:?] OF
+                                            <A HREF="IMEX0012.HTM#port_load_delay_display">port_load_delay_display</A>; 
+    port_property_displays                : OPTIONAL BAG [1:?] OF
+                                            <A HREF="IMEX0020.HTM#property_display">property_display</A>; 
+    template_position                     : <A HREF="IMEX0006.HTM#transform">transform</A>;
+  WHERE
+    <A NAME="schematic_symbol_port_representation.containment_constraint">containment_constraint</A> :
+      (* A schematic_symbol_port_representation belongs to one
+         internal_schematic_symbol. *) 
+    <A HREF="IMEX0020.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+    '<A HREF="IMEX0019.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A>.symbol_port_representations');
+
+    <A NAME="schematic_symbol_port_representation.valid_overriding_template_properties">valid_overriding_template_properties</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(valueOverride &lt;* overriding_template_properties |
+        NOT (valueOverride.overridden_property
+             IN instantiated_template.properties)));
+
+    <A NAME="schematic_symbol_port_representation.valid_overriding_template_property_displays">valid_overriding_template_property_displays</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(displayOverride&lt;*overriding_template_property_displays |
+        NOT (displayOverride.overridden_property
+             IN instantiated_template.properties)));
+
+    <A NAME="schematic_symbol_port_representation.valid_delay_displays">valid_delay_displays</A> :
+      (* The displayed delays are defined in the implemented master_port. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(delayDisplay &lt;* delay_displays |
+        NOT (delayDisplay.displayed_delay IN implemented_master_port.delays)));
+
+    <A NAME="schematic_symbol_port_representation.valid_load_delay_displays">valid_load_delay_displays</A> :
+      (* The displayed load_delays are defined in the implemented master_port. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(loadDelayDisplay &lt;* load_delay_displays |
+        NOT (loadDelayDisplay.displayed_load_delay 
+             IN implemented_master_port.load_delays)));
+
+    <A NAME="schematic_symbol_port_representation.valid_port_property_displays">valid_port_property_displays</A> :
+      (* The displayed properties are defined in the implemented_master_port. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(propertyDisplay &lt;* port_property_displays |
+        NOT (propertyDisplay.displayed_property
+             IN implemented_master_port.properties)));
+
+    <A NAME="schematic_symbol_port_representation.matching_direction">matching_direction</A> :
+      (* The direction of the implemented_master_port must be compatible with the 
+         direction_indicator of the symbol_port_template. *)
+      <A HREF="IMEX0020.HTM#not_defined">not_defined</A>; 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0019.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A> describes a representation of a
+ master port in an <A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A>.  It is defined by specifying
+ the position and orientation of the occurrence of the referenced
+ <A HREF="IMEX0013.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>.
+<PRE>
+ CHANGES (from LEVEL 0)
+ ======================
+ Added : overriding_port_name_generator_display (explicit attribute)
+</PRE>
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0018.HTM#instance_port_display">instance_port_display</A> <A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A> <A HREF="IMEX0018.HTM#schematic_instance_port_representation">schematic_instance_port_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_symbol_port_bundle_representation -->
+<H2><A NAME="schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A>;
+    instantiated_template  :                                     -- reference
+                             <A HREF="IMEX0013.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>;
+    name                                  : OPTIONAL <A HREF="IMEX0020.HTM#name_information">name_information</A>;
+    implemented_master_port_bundle        : <A HREF="IMEX0012.HTM#master_port_bundle">master_port_bundle</A>;  -- reference
+    overriding_ac_load_display            : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_dc_fanin_load_display      : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_dc_fanout_load_display     : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_dc_max_fanin_display       : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_dc_max_fanout_display      : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_designator_display         : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_implementation_name_display: OPTIONAL <A HREF="IMEX0020.HTM#display_name_override">display_name_override</A>;
+    overriding_port_name_display          : OPTIONAL <A HREF="IMEX0020.HTM#display_name_override">display_name_override</A>;
+    overriding_template_properties        : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0020.HTM#property_override">property_override</A>; 
+    overriding_template_property_displays : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0020.HTM#property_display_override">property_display_override</A>; 
+    delay_displays                        : OPTIONAL BAG [1:?] OF
+                                            <A HREF="IMEX0012.HTM#port_delay_display">port_delay_display</A>; 
+    load_delay_displays                   : OPTIONAL BAG [1:?] OF
+                                            <A HREF="IMEX0012.HTM#port_load_delay_display">port_load_delay_display</A>; 
+    port_property_displays                : OPTIONAL BAG [1:?] OF
+                                            <A HREF="IMEX0020.HTM#property_display">property_display</A>; 
+    template_position                     : <A HREF="IMEX0006.HTM#transform">transform</A>;
+  WHERE
+    <A NAME="schematic_symbol_port_bundle_representation.containment_constraint">containment_constraint</A> :
+      (* A schematic_symbol_port_bundle_representation belongs to one
+         internal_schematic_symbol. *) 
+    <A HREF="IMEX0020.HTM#belongs_to_one">belongs_to_one</A>(SELF, <A HREF="IMEX0020.HTM#specified_role">specified_role</A>('<A HREF="IMEX0019.HTM#schematic_view_model">schematic_view_model</A>',
+                                        '<A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A>',
+                                        'symbol_port_bundle_representations'));
+
+    <A NAME="schematic_symbol_port_bundle_representation.valid_overriding_template_properties">valid_overriding_template_properties</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(valueOverride &lt;* overriding_template_properties |
+        NOT (valueOverride.overridden_property
+             IN instantiated_template.properties)));
+
+    <A NAME="schematic_symbol_port_bundle_representation.valid_overriding_template_property_displays">valid_overriding_template_property_displays</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(displayOverride&lt;*overriding_template_property_displays |
+        NOT (displayOverride.overridden_property
+             IN instantiated_template.properties)));
+
+    <A NAME="schematic_symbol_port_bundle_representation.valid_delay_displays">valid_delay_displays</A> :
+      (* The displayed delays are defined in the members of the implemented
+         master_port_bundle. *) 
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(delayDisplay &lt;* delay_displays |
+        <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(memberPort 
+          &lt;* implemented_master_port_bundle.flattened_port_list |
+          delayDisplay.displayed_delay IN memberPort.delays))));
+
+    <A NAME="schematic_symbol_port_bundle_representation.valid_load_delay_displays">valid_load_delay_displays</A> :
+      (* The displayed load_delays are defined in the members of the
+         implemented master_port_bundle. *) 
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(loadDelayDisplay &lt;* load_delay_displays |
+        <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(memberPort 
+          &lt;* implemented_master_port_bundle.flattened_port_list |
+          loadDelayDisplay.displayed_load_delay IN memberPort.load_delays))));
+
+    <A NAME="schematic_symbol_port_bundle_representation.valid_port_property_displays">valid_port_property_displays</A> :
+      (* The displayed properties are defined in the implemented
+         master_port_bundle. *) 
+      <A HREF="IMEX0020.HTM#not_exists">not_exists</A>(QUERY(propertyDisplay &lt;* port_property_displays |
+        NOT (propertyDisplay.displayed_property
+             IN implemented_master_port_bundle.properties)));
+
+    <A NAME="schematic_symbol_port_bundle_representation.matching_direction">matching_direction</A> :
+      (* The direction of the implemented_master_port_bundle must be compatible
+         with the direction_indicator of the symbol_port_template. *)
+      <A HREF="IMEX0020.HTM#not_defined">not_defined</A>; 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0019.HTM#schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A> describes a representation
+ of a <A HREF="IMEX0012.HTM#master_port">master_port</A> in an <A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A>.  It is defined by
+ specifying the position and orientation of the occurrence of the referenced
+ <A HREF="IMEX0013.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0018.HTM#instance_port_bundle_display">instance_port_bundle_display</A> <A HREF="IMEX0019.HTM#internal_schematic_symbol">internal_schematic_symbol</A> <A HREF="IMEX0018.HTM#schematic_instance_port_bundle_representation">schematic_instance_port_bundle_representation</A> </P>
+<HR>
+<!-- Start of TYPE: schematic_global_port_attribute -->
+<H2><A NAME="schematic_global_port_attribute">schematic_global_port_attribute</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> 
+    = SELECT (<A HREF="IMEX0019.HTM#schematic_port_ac_power">schematic_port_ac_power</A>, <A HREF="IMEX0019.HTM#schematic_port_analog">schematic_port_analog</A>,
+              <A HREF="IMEX0019.HTM#schematic_port_chassis_ground">schematic_port_chassis_ground</A>, <A HREF="IMEX0019.HTM#schematic_port_clock">schematic_port_clock</A>,
+              <A HREF="IMEX0019.HTM#schematic_port_dc_power">schematic_port_dc_power</A>, <A HREF="IMEX0019.HTM#schematic_port_earth_ground">schematic_port_earth_ground</A>,  
+              <A HREF="IMEX0019.HTM#schematic_port_ground">schematic_port_ground</A>, <A HREF="IMEX0019.HTM#schematic_port_non_logical">schematic_port_non_logical</A>,
+              <A HREF="IMEX0019.HTM#schematic_port_open_collector">schematic_port_open_collector</A>, <A HREF="IMEX0019.HTM#schematic_port_open_emitter">schematic_port_open_emitter</A>, 
+              <A HREF="IMEX0019.HTM#schematic_port_power">schematic_port_power</A>, <A HREF="IMEX0019.HTM#schematic_port_three_state">schematic_port_three_state</A>,
+              <A HREF="IMEX0019.HTM#ieee_external_reference">ieee_external_reference</A>); 
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> adds description about a <A HREF="IMEX0008.HTM#global_port">global_port</A>
+ that may be of interest to the receiving system.  They are information
+ stored in the originating system, and there are no semantic rules to enforce
+ proper use and connection based on the <A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> in
+ EDIF.
+</P>
+<P>
+ When used in the context of <A HREF="IMEX0013.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A>,
+ it indicates the suitability of the template to represent that type of port.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#global_port">global_port</A> <A HREF="IMEX0013.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A> </P>
+<HR>
+<!-- Start of TYPE: schematic_port_attribute -->
+<H2><A NAME="schematic_port_attribute">schematic_port_attribute</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> 
+    = SELECT (<A HREF="IMEX0019.HTM#schematic_port_ac_power">schematic_port_ac_power</A>, <A HREF="IMEX0019.HTM#schematic_port_analog">schematic_port_analog</A>,
+              <A HREF="IMEX0019.HTM#schematic_port_chassis_ground">schematic_port_chassis_ground</A>, <A HREF="IMEX0019.HTM#schematic_port_clock">schematic_port_clock</A>,
+              <A HREF="IMEX0019.HTM#schematic_port_dc_power">schematic_port_dc_power</A>, <A HREF="IMEX0019.HTM#schematic_port_earth_ground">schematic_port_earth_ground</A>,  
+              <A HREF="IMEX0019.HTM#schematic_port_ground">schematic_port_ground</A>, <A HREF="IMEX0019.HTM#schematic_port_non_logical">schematic_port_non_logical</A>,
+              <A HREF="IMEX0019.HTM#schematic_port_open_collector">schematic_port_open_collector</A>, <A HREF="IMEX0019.HTM#schematic_port_open_emitter">schematic_port_open_emitter</A>, 
+              <A HREF="IMEX0019.HTM#schematic_port_power">schematic_port_power</A>, <A HREF="IMEX0019.HTM#schematic_port_three_state">schematic_port_three_state</A>,
+              <A HREF="IMEX0019.HTM#ieee_external_reference">ieee_external_reference</A>); 
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> adds description about a <A HREF="IMEX0012.HTM#master_port">master_port</A> that
+ may be of interest to the receiving system.  They are information stored in
+ the originating system, and there are no semantic rules to enforce proper use
+ and connection based on the <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> in EDIF.   
+</P>
+<P>
+ When used in the context of <A HREF="IMEX0013.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>,
+ it indicates the suitability of the template to represent that type of port.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0012.HTM#master_port">master_port</A> <A HREF="IMEX0013.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_power -->
+<H2><A NAME="schematic_port_power">schematic_port_power</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_power">schematic_port_power</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_power">schematic_port_power</A>, it indicates that a power supply is intended to be
+ connected to the associated port.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_ac_power -->
+<H2><A NAME="schematic_port_ac_power">schematic_port_ac_power</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_ac_power">schematic_port_ac_power</A>;
+    root_mean_square_voltage : <A HREF="IMEX0020.HTM#voltage_value">voltage_value</A>;
+    frequency                : <A HREF="IMEX0020.HTM#frequency_value">frequency_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_ac_power">schematic_port_ac_power</A>, it indicates that an Alternating Current power 
+ supply is intended to be connected to the associated port.  The voltage
+ attribute specifies the Root-Mean-Square voltage (RMS) associated with the
+ power supply. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_dc_power -->
+<H2><A NAME="schematic_port_dc_power">schematic_port_dc_power</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_dc_power">schematic_port_dc_power</A>;
+    used_by_analog_circuitry : <A HREF="IMEX0020.HTM#boolean_token">boolean_token</A>;
+    voltage                  : <A HREF="IMEX0020.HTM#voltage_value">voltage_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_dc_power">schematic_port_dc_power</A>, it indicates that a Direct Current power supply
+ is intended to be connected to the associated port.  The voltage attribute
+ specifies the voltage range associated with the power supply.  The
+ used_by_analog_circuitry attribute is a boolean flag indicating whether or
+ not the designer has intentions for this power to be used by analog
+ circuitry. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_ground -->
+<H2><A NAME="schematic_port_ground">schematic_port_ground</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_ground">schematic_port_ground</A>;
+    used_by_analog_circuitry    : <A HREF="IMEX0020.HTM#boolean_token">boolean_token</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_ground">schematic_port_ground</A>, it represents a connection to ground.  In this
+ context, ground is the voltage reference of the circuit.  It should be used
+ when the sending system does not distinguish the type of ground precisely.
+ The used_by_analog_circuitry attribute is a boolean flag indicating whether
+ or not the designer has intentions for this ground to be used by analog
+ circuitry.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_earth_ground -->
+<H2><A NAME="schematic_port_earth_ground">schematic_port_earth_ground</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_earth_ground">schematic_port_earth_ground</A>;
+    used_by_analog_circuitry     : <A HREF="IMEX0020.HTM#boolean_token">boolean_token</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_earth_ground">schematic_port_earth_ground</A>, it represents a connection to a earth ground.
+ The exact description is in accordance with the IEEE standard 315-1975,
+ section 3.9.1.  The used_by_analog_circuitry attribute is a boolean flag
+ indicating whether or not the designer has intentions for this ground to be
+ used by analog circuitry. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_chassis_ground -->
+<H2><A NAME="schematic_port_chassis_ground">schematic_port_chassis_ground</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_chassis_ground">schematic_port_chassis_ground</A>;
+    used_by_analog_circuitry     : <A HREF="IMEX0020.HTM#boolean_token">boolean_token</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_chassis_ground">schematic_port_chassis_ground</A>, it represents a connection to a chassis
+ ground.  The exact description is in accordance with the IEEE standard
+ 315-1975, section 3.9.2.  The used_by_analog_circuitry attribute is a
+ boolean flag indicating whether or not the designer has intentions for this
+ ground to be used by analog circuitry.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_clock -->
+<H2><A NAME="schematic_port_clock">schematic_port_clock</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_clock">schematic_port_clock</A>;
+    external_hook : <A HREF="IMEX0019.HTM#ieee_external_reference">ieee_external_reference</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_clock">schematic_port_clock</A>, it represents a connection to a signal that triggers
+ events, synchronises circuits, etc. Usually it is characterised with high
+ fanout, capacitance, resistance, etc., and might get special treatment from
+ an automatic router. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_analog -->
+<H2><A NAME="schematic_port_analog">schematic_port_analog</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_analog">schematic_port_analog</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_analog">schematic_port_analog</A>, it indicates that time-varying, arbitrary voltage
+ levels will be present on this port, all of which are significant, as
+ opposed to one of two exclusive voltage ranges normally associated with
+ binary digital information.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_non_logical -->
+<H2><A NAME="schematic_port_non_logical">schematic_port_non_logical</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_non_logical">schematic_port_non_logical</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_non_logical">schematic_port_non_logical</A>, it indicates that the port does not carry
+ logic information. No other assumptions about what it does or does not carry
+ is assumed. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_open_collector -->
+<H2><A NAME="schematic_port_open_collector">schematic_port_open_collector</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_open_collector">schematic_port_open_collector</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_open_collector">schematic_port_open_collector</A>, it indicates that the port is connected to
+ the collector of a transistor.  In terms of logic modelling, the output
+ state is typically a 0 or weak 1. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_open_emitter -->
+<H2><A NAME="schematic_port_open_emitter">schematic_port_open_emitter</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_open_emitter">schematic_port_open_emitter</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_open_emitter">schematic_port_open_emitter</A>, it indicates that the port is connected to
+ the emitter of a transistor. In terms of logic modelling, the output state
+ is typically a 1 or weak 0. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_port_three_state -->
+<H2><A NAME="schematic_port_three_state">schematic_port_three_state</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#schematic_port_three_state">schematic_port_three_state</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> If a <A HREF="IMEX0012.HTM#master_port">master_port</A> or a <A HREF="IMEX0008.HTM#global_port">global_port</A> has a schematic port attribute of
+ <A HREF="IMEX0019.HTM#schematic_port_three_state">schematic_port_three_state</A>, it indicates that the port exhibits 3 state
+ conditions. Two of the states are signals equivalent to binary 1 and 0,
+ similar to conventional gates. The third state is a high-impedance state.
+ This means, for all practical purposes, that the circuit behaves as if the
+ output is disconnected. As a consequence, the output cannot affect or be
+ affected by any external signal when it is in a high-impedance state.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> </P>
+<HR>
+<!-- Start of ENTITY: ieee_external_reference -->
+<H2><A NAME="ieee_external_reference">ieee_external_reference</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0019.HTM#ieee_external_reference">ieee_external_reference</A>;
+    name    : <A HREF="IMEX0020.HTM#string_token">string_token</A>;
+    year    : <A HREF="IMEX0020.HTM#positive_integer_token">positive_integer_token</A>;
+    section : LIST of <A HREF="IMEX0020.HTM#integer_token">integer_token</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0019.HTM#ieee_external_reference">ieee_external_reference</A> is used to include a reference to a specific
+ section of a specific IEEE standard. The standards referred to are limited
+ to these section groups of these standards:
+ IEEE 91-1984 -- This standard describes several kinds of input and output 
+ ports. usage is currently restricted to 3.1.1 to 3.1.11, 3.3.1 to 3.3.24, 
+ 3.3.27 to 3.4.5, and 4.3.2.1 to 4.3.11.1.
+</P>
+<P>
+ IEEE 1149.1-1990 -- This standard describes Boundary scan port types, like 
+ TCK, TMS, TDI, TDO, TRST*. The section references are restricted to 3.2 to
+ 3.6 inclusive, which cover the ports just mentioned in the same order.
+</P>
+<P>
+ The LIST of integer forms a section reference: 3 2 1 means section 3.2.1.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_attribute">schematic_port_attribute</A> <A HREF="IMEX0019.HTM#schematic_port_clock">schematic_port_clock</A> </P>
+
+<HR>
+
+<!-- Start of schema: support_definition_model -->
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

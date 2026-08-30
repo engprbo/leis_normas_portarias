@@ -1,0 +1,754 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">General Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pageTitleBlockAttributes">pageTitleBlockAttributes</A></H1>
+<PRE>
+<I>pageTitleBlockAttributes ::= '(' 'pageTitleBlockAttributes'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#approvedDate">approvedDate</A>&gt; | &lt;<A HREF="RMRF0002.HTM#checkDate">checkDate</A>&gt; | &lt;<A HREF="RMRF0002.HTM#companyName">companyName</A>&gt; | &lt;<A HREF="RMRF0004.HTM#contract">contract</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0006.HTM#drawingDescription">drawingDescription</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingIdentification">drawingIdentification</A>&gt; | &lt;<A HREF="RMRF0006.HTM#drawingSize">drawingSize</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0007.HTM#engineeringDate">engineeringDate</A>&gt; | &lt;<A HREF="RMRF0017.HTM#originalDrawingDate">originalDrawingDate</A>&gt; | &lt;<A HREF="RMRF0018.HTM#pageIdentification">pageIdentification</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0018.HTM#pageTitle">pageTitle</A>&gt; | &lt;<A HREF="RMRF0057.HTM#revision">revision</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0018.HTM#pageTitleBlock">pageTitleBlock</A>  &lt;<A HREF="RMRF0019.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0018.HTM#page">page</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0019.HTM#pageTitleBlockAttributes">PageTitleBlockAttributes</A></I> collects keywords used to provide the values for title block attributes. The display positions of the attributes are specified within <I><A HREF="RMRF0018.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pageTitleBlockAttributes</B>
+<B>   (companyName "Electronic Industries Association")</B>
+<B>   (revision ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pageTitleBlockTemplate">pageTitleBlockTemplate</A></H1>
+<PRE>
+<I>pageTitleBlockTemplate ::= '(' 'pageTitleBlockTemplate'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0060.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0008.HTM#figure">figure</A> | &lt;<A HREF="RMRF0018.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>&gt; 
+&#09;| &lt;<A HREF="RMRF0019.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A>&gt; | <A HREF="RMRF0056.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0058.HTM#schematicComplexFigure">schematicComplexFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0018.HTM#page">page</A> <A HREF="RMRF0018.HTM#pageTitle">pageTitle</A> <A HREF="RMRF0018.HTM#pageTitleBlock">pageTitleBlock</A> <A HREF="RMRF0019.HTM#pageTitleBlockTemplateRef">pageTitleBlockTemplateRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0019.HTM#pageTitleBlockTemplate">PageTitleBlockTemplate</A></I> provides a graphical template for a <I><A HREF="RMRF0018.HTM#pageTitleBlock">pageTitleBlock</A></I>. It may also provide display positions and default values for title block attributes and properties. 
+<H3>Example:</H3>
+<PRE>
+<B>(pageTitleBlockTemplate TITLE_BLOCK</B>
+<B>   (schematicTemplateHeader </B>
+<B>      (schematicUnits)</B>
+<B>      ...)</B>
+<B>   (figure LINES</B>
+<B>      (rectangle (pt 0 0) (pt 200 50))))</B>
+</PRE>
+<P>In this example, the title block is represented by a simple <I><A HREF="RMRF0056.HTM#rectangle">rectangle</A></I>.
+<P><HR>
+<H1><A NAME="pageTitleBlockTemplateRef">pageTitleBlockTemplateRef</A></H1>
+<PRE>
+<I>pageTitleBlockTemplateRef ::= '(' 'pageTitleBlockTemplateRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0018.HTM#pageTitleBlock">pageTitleBlock</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0018.HTM#page">page</A> <A HREF="RMRF0018.HTM#pageRef">pageRef</A> <A HREF="RMRF0018.HTM#pageTitle">pageTitle</A> <A HREF="RMRF0019.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0019.HTM#pageTitleBlockTemplateRef">PageTitleBlockTemplateRef</A></I> is a reference to a <I><A HREF="RMRF0019.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pageTitleBlockTemplateRef TITLE_BLOCK)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pageTitleDisplay">pageTitleDisplay</A></H1>
+<PRE>
+<I>pageTitleDisplay ::= '(' 'pageTitleDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0057.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0018.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0018.HTM#page">page</A> <A HREF="RMRF0018.HTM#pageTitle">pageTitle</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0019.HTM#pageTitleDisplay">PageTitleDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0018.HTM#pageTitle">pageTitle</A></I>. When used in the context of <I><A HREF="RMRF0018.HTM#pageTitleBlock">pageTitleBlock</A></I>, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<P><HR>
+<H1><A NAME="parameterDisplay">parameterDisplay</A></H1>
+<PRE>
+<I>parameterDisplay ::= '(' 'parameterDisplay'</I>
+&#09;<I><A HREF="RMRF0019.HTM#parameterNameRef">parameterNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0057.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0019.HTM#parameterNameDisplay">parameterNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0058.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  *<A HREF="RMRF0060.HTM#schematicSymbol">schematicSymbol</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#display">display</A> 
+</I>
+<H3>Description:</H3>
+<P>Adds, replaces or removes display positions for the specified parameter. The value is only known after expansion and so would only be displayed if the schematic was being viewed as part of an expanded hierarchy.
+<H3>Example:</H3>
+<PRE>
+<B>(parameterDisplay busWidth </B>
+<B>   (addDisplay</B>
+<B>      (display </B>
+<B>         (figureGroupOverride Green</B>
+<B>            (displayAttributes ...)) </B>
+<B>         (transform (origin (pt 25 30)) </B>
+<B>            (rotation 90)))))</B>
+</PRE>
+<P>This adds a display position for the value of the parameter busWidth at the specified location. 
+<P><HR>
+<H1><A NAME="parameterNameCaseSensitive">parameterNameCaseSensitive</A></H1>
+<PRE>
+<I>parameterNameCaseSensitive ::= '(' 'parameterNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A> <A HREF="RMRF0005.HTM#designNameCaseSensitive">designNameCaseSensitive</A> <A HREF="RMRF0006.HTM#documentationNameCaseSensitive">documentationNameCaseSensitive</A> <A HREF="RMRF0009.HTM#frameNameCaseSensitive">frameNameCaseSensitive</A> <A HREF="RMRF0010.HTM#hotspotNameCaseSensitive">hotspotNameCaseSensitive</A> <A HREF="RMRF0010.HTM#implementationNameCaseSensitive">implementationNameCaseSensitive</A> <A HREF="RMRF0011.HTM#instanceNameCaseSensitive">instanceNameCaseSensitive</A> <A HREF="RMRF0012.HTM#interconnectNameCaseSensitive">interconnectNameCaseSensitive</A> <A HREF="RMRF0014.HTM#libraryNameCaseSensitive">libraryNameCaseSensitive</A> <A HREF="RMRF0018.HTM#pageNameCaseSensitive">pageNameCaseSensitive</A> <A HREF="RMRF0055.HTM#portNameCaseSensitive">portNameCaseSensitive</A> <A HREF="RMRF0056.HTM#propertyNameCaseSensitive">propertyNameCaseSensitive</A> <A HREF="RMRF0062.HTM#signalNameCaseSensitive">signalNameCaseSensitive</A> <A HREF="RMRF0066.HTM#viewNameCaseSensitive">viewNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0019.HTM#parameterNameCaseSensitive">ParameterNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for a parameter name are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example. 
+<P><HR>
+<H1><A NAME="parameterNameDef">parameterNameDef</A></H1>
+<PRE>
+<I>parameterNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#booleanParameter">booleanParameter</A>  !<A HREF="RMRF0012.HTM#integerParameter">integerParameter</A>  !<A HREF="RMRF0017.HTM#numberParameter">numberParameter</A>  !<A HREF="RMRF0063.HTM#stringParameter">stringParameter</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0019.HTM#parameterNameDef">ParameterNameDef</A></I> specifies the name definition of a parameter.
+<H3>Example:</H3>
+<PRE>
+<B>(booleanParameter doubleBuffer (boolean (true)))</B>
+</PRE>
+<P>This defines the <I><A HREF="RMRF0001.HTM#booleanParameter">booleanParameter</A></I> named doubleBuffer and assigns the value <I><A HREF="RMRF0064.HTM#true">true</A></I> to it. 
+<P><HR>
+<H1><A NAME="parameterNameDisplay">parameterNameDisplay</A></H1>
+<PRE>
+<I>parameterNameDisplay ::= '(' 'parameterNameDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0057.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0019.HTM#parameterDisplay">parameterDisplay</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#display">display</A> <A HREF="RMRF0005.HTM#displayName">displayName</A> 
+</I>
+<H3>Description:</H3>
+<P>Adds, replaces or removes display positions for the name of the parameter specified in the enclosing <I><A HREF="RMRF0019.HTM#parameterDisplay">parameterDisplay</A></I>. 
+<P><HR>
+<H1><A NAME="parameterNameRef">parameterNameRef</A></H1>
+<PRE>
+<I>parameterNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#booleanParameterAssign">booleanParameterAssign</A>  !<A HREF="RMRF0001.HTM#booleanParameterRef">booleanParameterRef</A>  !<A HREF="RMRF0012.HTM#integerParameterAssign">integerParameterAssign</A>  !<A HREF="RMRF0012.HTM#integerParameterRef">integerParameterRef</A>  !<A HREF="RMRF0017.HTM#numberParameterAssign">numberParameterAssign</A>  !<A HREF="RMRF0017.HTM#numberParameterRef">numberParameterRef</A>  !<A HREF="RMRF0019.HTM#parameterDisplay">parameterDisplay</A>  !<A HREF="RMRF0063.HTM#stringParameterAssign">stringParameterAssign</A>  !<A HREF="RMRF0063.HTM#stringParameterRef">stringParameterRef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0019.HTM#parameterNameRef">ParameterNameRef</A></I> references a <I><A HREF="RMRF0019.HTM#parameterNameDef">parameterNameDef</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(booleanParameterAssign doubleBuffer (false))</B>
+</PRE>
+<P>This assigns the value <I><A HREF="RMRF0008.HTM#false">false</A></I> to the <I><A HREF="RMRF0001.HTM#booleanParameter">booleanParameter</A></I> named doubleBuffer. 
+<P><HR>
+<H1><A NAME="path">path</A></H1>
+<PRE>
+<I>path ::= '(' 'path'</I>
+&#09;<I><A HREF="RMRF0055.HTM#pointList">pointList</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0008.HTM#figure">figure</A>  *<A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A>  *<A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A>  <A HREF="RMRF0017.HTM#openElement">openElement</A>  !<A HREF="RMRF0038.HTM#pcbLeaderLine">pcbLeaderLine</A>  *<A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0019.HTM#pathDelay">pathDelay</A> <A HREF="RMRF0019.HTM#pathWidth">pathWidth</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0019.HTM#path">path</A></I> is a collection of joining line segments with an associated width. The width is specified in the <I><A HREF="RMRF0008.HTM#figureGroup">figureGroup</A></I> attribute <I><A HREF="RMRF0019.HTM#pathWidth">pathWidth</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(figure black_line</B>
+<B>   (path</B>
+<B>      (pointList</B>
+<B>         (pt 3000 500)</B>
+<B>         (pt 3000 9500)</B>
+<B>         (pt 12000 5000)</B>
+<B>         (pt 3000 500)))</B>
+<B>   (circle</B>
+<B>      (pt 12000 5000)</B>
+<B>      (pt 13000 5000))</B>
+<B>   (path</B>
+<B>      (pointList</B>
+<B>         (pt 0 5000)</B>
+<B>         (pt 3000 5000)))</B>
+<B>   (path</B>
+<B>      (pointList</B>
+<B>         (pt 13000 5000)</B>
+<B>         (pt 16000 5000))))</B>
+</PRE>
+<P>This example describes a typical symbol for an inverter, using three paths and a circle, as shown in the figure below.
+<P><CENTER><IMG SRC="FIG0066.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="pathDelay">pathDelay</A></H1>
+<PRE>
+<I>pathDelay ::= '(' 'pathDelay'</I>
+&#09;<I><A HREF="RMRF0004.HTM#delay">delay</A></I>
+&#09;<I>{ <A HREF="RMRF0007.HTM#event">event</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0064.HTM#timing">timing</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0019.HTM#path">path</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>At least two events must be specified in a <I><A HREF="RMRF0019.HTM#pathDelay">pathDelay</A></I> construct.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0019.HTM#pathDelay">PathDelay</A></I> associates a delay with a specified chain of events. This does not specify the enabling conditions for the path, but does state that whenever the given path is enabled it has the given delay range. The path is described by an ordered sequence of events on ports or on interconnects, or both; at least two events must be given. Not all of the transitions on interconnects or ports in the path need to be specified in detail. 
+<P>The <I><A HREF="RMRF0004.HTM#delay">delay</A></I> contains the time from the first <I><A HREF="RMRF0007.HTM#event">event</A></I> in the path to the final <I><A HREF="RMRF0007.HTM#event">event</A></I>, and must evaluate to a non-negative number. Each <I><A HREF="RMRF0007.HTM#event">event</A></I> is taken to be a contributing cause of the following <I><A HREF="RMRF0007.HTM#event">event</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(pathDelay</B>
+<B>   (delay (mnm (e 13 -1) (e 27 -1) (e 59 -1)))</B>
+<B>   (event (portRef CK) (transition A B))</B>
+<B>   (event (portRef Q) (transition B A)))</B>
+</PRE>
+<P>The above example describes the path from port CK, with a logic transition from A to B, to port Q, with a transition from B to A. The path has associated with it a delay of 1.3 time units minimum, 2.7 time units nominal and 5.9 time units maximum.
+<P><HR>
+<H1><A NAME="pathWidth">pathWidth</A></H1>
+<PRE>
+<I>pathWidth ::= '(' 'pathWidth'</I>
+&#09;<I>( <A HREF="RMRF0014.HTM#lengthValue">lengthValue</A> | <A HREF="RMRF0015.HTM#minimalWidth">minimalWidth</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0008.HTM#figureGroup">figureGroup</A>  &lt;<A HREF="RMRF0008.HTM#figureGroupOverride">figureGroupOverride</A>  &lt;<A HREF="RMRF0028.HTM#pcbDimensionDrawingAttributeOverride">pcbDimensionDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0029.HTM#pcbDimensionEndGeometry">pcbDimensionEndGeometry</A>  &lt;<A HREF="RMRF0030.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  &lt;<A HREF="RMRF0032.HTM#pcbDrawingFigureDrawingAttributeOverride">pcbDrawingFigureDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0033.HTM#pcbDrawingSymbolPlacementDrawingAttributeOverride">pcbDrawingSymbolPlacementDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0035.HTM#pcbFigureAttributeOverride">pcbFigureAttributeOverride</A>  &lt;<A HREF="RMRF0036.HTM#pcbGeometricAttributeDefault">pcbGeometricAttributeDefault</A>  &lt;<A HREF="RMRF0038.HTM#pcbLeaderLineDrawingAttributeOverride">pcbLeaderLineDrawingAttributeOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0019.HTM#path">path</A> <A HREF="RMRF0066.HTM#width">width</A> 
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0019.HTM#pathWidth">pathWidth</A></I> attribute is used to define the width of, for example, <I><A HREF="RMRF0019.HTM#path">paths</A></I> and <I><A HREF="RMRF0017.HTM#openShape">openShapes</A></I> in a figure group. <I><A HREF="RMRF0014.HTM#lengthValue">LengthValue</A></I> indicates the required perpendicular distance between pairs of edges in an expanded path, corresponding to each center line in the original path. A path does have a border, defined by <I><A HREF="RMRF0001.HTM#borderPattern">borderPattern</A></I>, <I><A HREF="RMRF0001.HTM#borderWidth">borderWidth</A></I> and <I><A HREF="RMRF0001.HTM#borderPatternVisible">borderPatternVisible</A></I>.
+<P><I><A HREF="RMRF0019.HTM#pathWidth">PathWidth</A></I> may be specified within <I><A HREF="RMRF0008.HTM#figureGroup">figureGroup</A></I> in the <I><A HREF="RMRF0063.HTM#technology">technology</A></I> block of a library. In this case, the width is the default width to be used for all paths and open shapes in a figure group. <I><A HREF="RMRF0019.HTM#pathWidth">PathWidth</A></I> may also be specified within <I><A HREF="RMRF0008.HTM#figureGroupOverride">figureGroupOverride</A></I> in the <I><A HREF="RMRF0008.HTM#figure">figure</A></I> itself. In this case, the width value is used to override temporarily the default path-width value. 
+<P><I><A HREF="RMRF0019.HTM#pathWidth">PathWidth</A></I> has no effect on the interpretation of <I><A HREF="RMRF0055.HTM#polygon">polygon</A></I>, <I><A HREF="RMRF0061.HTM#shape">shape</A></I>, <I><A HREF="RMRF0056.HTM#rectangle">rectangle</A></I>, <I><A HREF="RMRF0002.HTM#circle">circle</A></I>, or <I><A HREF="RMRF0006.HTM#dot">dot</A></I> figures. A <I><A HREF="RMRF0019.HTM#pathWidth">pathWidth</A></I> of <I><A HREF="RMRF0015.HTM#minimalWidth">minimalWidth</A></I> means that a path of minimum displayable width is displayed.
+<P>The default <I><A HREF="RMRF0019.HTM#pathWidth">pathWidth</A></I> is <I><A HREF="RMRF0015.HTM#minimalWidth">minimalWidth</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(physicalScaling</B>
+<B>   (schematicUnits </B>
+<B>      (schematicMetric (setDistance (unitRef mm)) ...)))</B>
+<B>(figureGroup Display (pathWidth 10) ...)</B>
+</PRE>
+<P>The first example defines a default path width of 10 mm.
+<PRE>
+<B>(figure</B>
+<B>   (figureGroupOverride Display (pathWidth 15)) ...)</B>
+</PRE>
+<P>The second example overrides the default path width with a value of 15 mm. The default value of 10 mm is still in effect for subsequent <I><A HREF="RMRF0008.HTM#figure">figures</A></I> which reference the Display figure group.
+<P><HR>
+<H1><A NAME="pcbAllocatedComponentFunction">pcbAllocatedComponentFunction</A></H1>
+<PRE>
+<I>pcbAllocatedComponentFunction ::= '(' 'pcbAllocatedComponentFunction'</I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbComponentAllocatedInstance">pcbComponentAllocatedInstance</A></I>
+&#09;<I>{ <A HREF="RMRF0019.HTM#pcbAllocatedComponentFunctionPortAssociation">pcbAllocatedComponentFunctionPortAssociation</A> | 
+&#09;&lt;<A HREF="RMRF0019.HTM#pcbAllocationSwapStatus">pcbAllocationSwapStatus</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocationType">pcbComponentFunctionAllocationType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A> <A HREF="RMRF0054.HTM#pcbUnallocatedComponentFunction">pcbUnallocatedComponentFunction</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>An <I><A HREF="RMRF0011.HTM#instance">instance</A></I> can be referenced at most once by any <I><A HREF="RMRF0019.HTM#pcbAllocatedComponentFunction">pcbAllocatedComponentFunction</A></I> within the <I><A HREF="RMRF0039.HTM#pcbMcmImplementation">pcbMcmImplementation</A></I>.
+</DL>
+<H3>Description:</H3>
+<P>Specifies that the named instance in the logical connectivity is allocated to the function in the component. 
+<P>The cluster referenced by the part function (referenced by <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunctionRef">pcbElectricalPartFunctionRef</A></I> within <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I>) should normally be the same cluster as referenced by the instance that is referenced by <I><A HREF="RMRF0023.HTM#pcbComponentAllocatedInstance">pcbComponentAllocatedInstance</A></I> within <I><A HREF="RMRF0019.HTM#pcbAllocatedComponentFunction">pcbAllocatedComponentFunction</A></I>. 
+<P><I><A HREF="RMRF0019.HTM#pcbAllocationSwapStatus">PcbAllocationSwapStatus</A></I> specifies the status of the instance-to-function allocation.
+<P>Each <I><A HREF="RMRF0019.HTM#pcbAllocatedComponentFunctionPortAssociation">pcbAllocatedComponentFunctionPortAssociation</A> </I>specifies the allocation of an instance port to one or more function ports.
+<P>See <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I> for an example.
+<P><HR>
+<H1><A NAME="pcbAllocatedComponentFunctionPortAssociation">pcbAllocatedComponentFunctionPortAssociation</A></H1>
+<PRE>
+<I>pcbAllocatedComponentFunctionPortAssociation ::= '(' 
+&#09;'pcbAllocatedComponentFunctionPortAssociation'</I>
+&#09;<I><A HREF="RMRF0019.HTM#pcbAllocatedInstancePort">pcbAllocatedInstancePort</A></I>
+&#09;<I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0019.HTM#pcbAllocationSwapStatus">pcbAllocationSwapStatus</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0019.HTM#pcbAllocatedComponentFunction">pcbAllocatedComponentFunction</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#port">port</A> 
+</I>
+<H3>Description:</H3>
+<P>References an instance port (<I><A HREF="RMRF0019.HTM#pcbAllocatedInstancePort">pcbAllocatedInstancePort</A></I>) and specifies the part function port(s) that are associated with it (<I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>).
+<P>A function port must not have more than one instance port allocated to it.
+<P>The instance port referenced belongs to the instance allocated to the function. Likewise, the function port belongs to the function that the instance is allocated to.
+<P><I><A HREF="RMRF0019.HTM#pcbAllocationSwapStatus">PcbAllocationSwapStatus</A></I> specifies the status of the allocation of the instance port to function port(s).
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAllocatedComponentFunctionPortAssociation</B>
+<B>   (portRef P1)</B>
+<B>   (pcbAllocatedPartFunctionPortSet </B>
+<B>      (portRef B))</B>
+<B>   (pcbAllocationSwapStatus </B>
+<B>      (pcbAllocationNotFixed)))</B>
+</PRE>
+<P>Here, instance port P1 is allocated to function port B, and the allocation is not fixed, i.e. the allocation is allowed to be modified. 
+<P><HR>
+<H1><A NAME="pcbAllocatedInstancePort">pcbAllocatedInstancePort</A></H1>
+<PRE>
+<I>pcbAllocatedInstancePort ::= <A HREF="RMRF0056.HTM#portRef">portRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0019.HTM#pcbAllocatedComponentFunctionPortAssociation">pcbAllocatedComponentFunctionPortAssociation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#instance">instance</A> <A HREF="RMRF0023.HTM#pcbComponentAllocatedInstance">pcbComponentAllocatedInstance</A> <A HREF="RMRF0055.HTM#port">port</A> 
+</I>
+<H3>Description:</H3>
+<P>References the instance port that is allocated to one or more component part function ports.
+<P><HR>
+<H1><A NAME="pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></H1>
+<PRE>
+<I>pcbAllocatedPartFunctionPortSet ::= '(' 'pcbAllocatedPartFunctionPortSet'</I>
+&#09;<I>{ <A HREF="RMRF0056.HTM#portRef">portRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0019.HTM#pcbAllocatedComponentFunctionPortAssociation">pcbAllocatedComponentFunctionPortAssociation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0056.HTM#portSet">portSet</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllowedRotations">pcbAllowedRotations</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>References one or more of the ports of a part function. 
+<P><HR>
+<H1><A NAME="pcbAllocationFixed">pcbAllocationFixed</A></H1>
+<PRE>
+<I>pcbAllocationFixed ::= '(' 'pcbAllocationFixed'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0019.HTM#pcbAllocationSwapStatus">pcbAllocationSwapStatus</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#fixed">fixed</A> <A HREF="RMRF0019.HTM#pcbAllocationNotFixed">pcbAllocationNotFixed</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the allocation is fixed, i.e. cannot be changed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAllocatedComponentFunctionPortAssociation</B>
+<B>   (portRef P1)</B>
+<B>   (pcbAllocatedPartFunctionPortSet</B>
+<B>      (portRef B))</B>
+<B>   (pcbAllocationSwapStatus </B>
+<B>      (pcbAllocationFixed)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAllocationNotFixed">pcbAllocationNotFixed</A></H1>
+<PRE>
+<I>pcbAllocationNotFixed ::= '(' 'pcbAllocationNotFixed'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0019.HTM#pcbAllocationSwapStatus">pcbAllocationSwapStatus</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#fixed">fixed</A> <A HREF="RMRF0017.HTM#not">not</A> <A HREF="RMRF0019.HTM#pcbAllocationFixed">pcbAllocationFixed</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the allocation is not fixed, i.e. the allocation can be changed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAllocatedComponentFunctionPortAssociation</B>
+<B>   (portRef P1)</B>
+<B>   (pcbAllocatedPartFunctionPortSet</B>
+<B>      (portRef B))</B>
+<B>   (pcbAllocationSwapStatus </B>
+<B>      (pcbAllocationNotFixed)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAllocationSwapStatus">pcbAllocationSwapStatus</A></H1>
+<PRE>
+<I>pcbAllocationSwapStatus ::= '(' 'pcbAllocationSwapStatus'</I>
+&#09;<I>( <A HREF="RMRF0019.HTM#pcbAllocationFixed">pcbAllocationFixed</A> | <A HREF="RMRF0019.HTM#pcbAllocationNotFixed">pcbAllocationNotFixed</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0019.HTM#pcbAllocatedComponentFunction">pcbAllocatedComponentFunction</A>  &lt;<A HREF="RMRF0019.HTM#pcbAllocatedComponentFunctionPortAssociation">pcbAllocatedComponentFunctionPortAssociation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#status">status</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies whether the allocation is fixed or not fixed. If it is not fixed, the allocation can be changed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAllocatedComponentFunctionPortAssociation</B>
+<B>   (portRef P1)</B>
+<B>   (pcbAllocatedPartFunctionPortSet </B>
+<B>      (portRef B))</B>
+<B>   (pcbAllocationSwapStatus </B>
+<B>      (pcbAllocationNotFixed)))</B>
+</PRE>
+<P>Here, the allocation of P1 to B is not fixed.
+<P><HR>
+<H1><A NAME="pcbAllowedRotations">pcbAllowedRotations</A></H1>
+<PRE>
+<I>pcbAllowedRotations ::= '(' 'pcbAllowedRotations'</I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#angleValue">angleValue</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0042.HTM#pcbMountablePackageOrientationRule">pcbMountablePackageOrientationRule</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least one item (in addition to any required items) in the construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#closedAreaCutout">closedAreaCutout</A></I>, <I><A HREF="RMRF0002.HTM#closedAreaElementSet">closedAreaElementSet</A></I>, <I><A HREF="RMRF0003.HTM#complexName">complexName</A></I>, <I><A HREF="RMRF0009.HTM#geometryElementSet">geometryElementSet</A></I>, <I><A HREF="RMRF0009.HTM#globalPortList">globalPortList</A></I>, <I><A HREF="RMRF0019.HTM#pcbAllocatedPartFunctionPortSet">pcbAllocatedPartFunctionPortSet</A></I>, <I><A HREF="RMRF0021.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A></I>, <I><A HREF="RMRF0023.HTM#pcbClearanceGeometry">pcbClearanceGeometry</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSet">pcbComponentSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentSignalSet">pcbComponentSignalSet</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A></I>, <I><A HREF="RMRF0024.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToDrawing">pcbContributesToDrawing</A></I>, <I><A HREF="RMRF0025.HTM#pcbContributesToFabrication">pcbContributesToFabrication</A></I>, <I><A HREF="RMRF0025.HTM#pcbDieBondSites">pcbDieBondSites</A></I>, <I><A HREF="RMRF0028.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A></I>, <I><A HREF="RMRF0030.HTM#pcbDrawingAnnotationSet">pcbDrawingAnnotationSet</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A></I>, <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleFromLayer">pcbDrillRuleFromLayer</A></I>, <I><A HREF="RMRF0033.HTM#pcbDrillRuleLayerSet">pcbDrillRuleLayerSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleSet">pcbDrillRuleSet</A></I>, <I><A HREF="RMRF0034.HTM#pcbDrillRuleToLayer">pcbDrillRuleToLayer</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceAdd">pcbFabricateTextAppearanceAdd</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextAppearanceReplace">pcbFabricateTextAppearanceReplace</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextImplementation">pcbFabricateTextImplementation</A></I>, <I><A HREF="RMRF0035.HTM#pcbFabricateTextSet">pcbFabricateTextSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedDrawingFigureCollectorSet">pcbIncludedDrawingFigureCollectorSet</A></I>, <I><A HREF="RMRF0036.HTM#pcbIncludedFabricateFigureCollectorSet">pcbIncludedFabricateFigureCollectorSet</A></I>, <I><A HREF="RMRF0038.HTM#pcbMaterialList">pcbMaterialList</A></I>, <I><A HREF="RMRF0041.HTM#pcbMountableBondPadSet">pcbMountableBondPadSet</A></I>, <I><A HREF="RMRF0042.HTM#pcbMountablePackageSet">pcbMountablePackageSet</A></I>, <I><A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A></I>, <I><A HREF="RMRF0046.HTM#pcbPackagePinGroupPins">pcbPackagePinGroupPins</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadRoutingTarget">pcbPadRoutingTarget</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalLayerSet">pcbPhysicalLayerSet</A></I>, <I><A HREF="RMRF0049.HTM#pcbPhysicalTextSet">pcbPhysicalTextSet</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyNameDrawing">pcbPropertyNameDrawing</A></I>, <I><A HREF="RMRF0051.HTM#pcbPropertyValueDrawing">pcbPropertyValueDrawing</A></I>, <I><A HREF="RMRF0053.HTM#pcbTextAppearanceSet">pcbTextAppearanceSet</A></I>, <I><A HREF="RMRF0055.HTM#portList">portList</A></I>, <I><A HREF="RMRF0057.HTM#replaceDisplay">replaceDisplay</A></I>, <I><A HREF="RMRF0062.HTM#signalList">signalList</A></I>, <I><A HREF="RMRF0065.HTM#unfilledOrOpenElementSet">unfilledOrOpenElementSet</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Specifies a set of allowed orientations. Each orientation angle is measured counter-clockwise as seen from the top side of the board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbMountablePackageOrientationRule OR1</B>
+<B>   (pcbMountablePackageSet</B>
+<B>      (pcbMountablePackageRef DIP14_Dip_Top))</B>
+<B>   (pcbAllowedRotations 45 90 180))</B>
+</PRE>
+<P>In this example, the mountable package is allowed to be oriented at 45, 90 or 180 degrees.
+<P><HR>
+<H1><A NAME="pcbAnalyzedAssembledPhysicalNets">pcbAnalyzedAssembledPhysicalNets</A></H1>
+<PRE>
+<I>pcbAnalyzedAssembledPhysicalNets ::= '(' 'pcbAnalyzedAssembledPhysicalNets'</I>
+&#09;<I>{ <A HREF="RMRF0025.HTM#pcbCorrectNet">pcbCorrectNet</A> | <A HREF="RMRF0036.HTM#pcbIncorrectNet">pcbIncorrectNet</A> | <A HREF="RMRF0052.HTM#pcbShortingNet">pcbShortingNet</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0020.HTM#pcbAssembledPhysicalNets">pcbAssembledPhysicalNets</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0043.HTM#pcbNonAnalyzedAssembledPhysicalNets">pcbNonAnalyzedAssembledPhysicalNets</A> 
+</I>
+<H3>Description:</H3>
+<P>Describes a set of assembled physical nets whose connectivity has been checked.
+<P><I><A HREF="RMRF0025.HTM#pcbCorrectNet">PcbCorrectNet</A></I> indicates that the assembled physical net is known to implement a given <I><A HREF="RMRF0024.HTM#pcbComponentSignal">pcbComponentSignal</A></I> correctly.
+<P><I><A HREF="RMRF0052.HTM#pcbShortingNet">PcbShortingNet</A></I> indicates that the assembled physical net is known to short two or more <I><A HREF="RMRF0024.HTM#pcbComponentSignal">pcbComponentSignals</A></I>.
+<P><I><A HREF="RMRF0036.HTM#pcbIncorrectNet">PcbIncorrectNet</A></I> indicates that the assembled physical net is known to be attempting to implement a given <I><A HREF="RMRF0024.HTM#pcbComponentSignal">pcbComponentSignal</A></I>, but doesn't do so for some reason.
+<P>See <I><A HREF="RMRF0020.HTM#pcbAssembledPhysicalNets">pcbAssembledPhysicalNets</A></I> for an example.
+<P> 
+<P><HR>
+<H1><A NAME="pcbAngularDimensionItem">pcbAngularDimensionItem</A></H1>
+<PRE>
+<I>pcbAngularDimensionItem ::= '(' 'pcbAngularDimensionItem'</I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDimensionDrawingAttributeOverride">pcbDimensionDrawingAttributeOverride</A></I>
+&#09;<I><A HREF="RMRF0029.HTM#pcbDimensionEndLine">pcbDimensionEndLine</A></I>
+&#09;<I><A HREF="RMRF0027.HTM#pcbDimensionAngularPrecision">pcbDimensionAngularPrecision</A></I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDimensionArcOffset">pcbDimensionArcOffset</A></I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDimensionArcType">pcbDimensionArcType</A></I>
+&#09;<I><A HREF="RMRF0028.HTM#pcbDimensionArcExtensionType">pcbDimensionArcExtensionType</A></I>
+&#09;<I><A HREF="RMRF0053.HTM#pcbTextAlignmentType">pcbTextAlignmentType</A></I>
+&#09;<I><A HREF="RMRF0030.HTM#pcbDimensionTextOffset">pcbDimensionTextOffset</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0030.HTM#pcbDimensionToleranceData">pcbDimensionToleranceData</A>&gt; | &lt;<A HREF="RMRF0053.HTM#pcbTextEnclosure">pcbTextEnclosure</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0019.HTM#pcbAngularDimensionItemList">pcbAngularDimensionItemList</A>  !<A HREF="RMRF0030.HTM#pcbDimensionSingleAngular">pcbDimensionSingleAngular</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0027.HTM#pcbDimension">pcbDimension</A> <A HREF="RMRF0028.HTM#pcbDimensionChainedAngular">pcbDimensionChainedAngular</A> <A HREF="RMRF0028.HTM#pcbDimensionDatumAngular">pcbDimensionDatumAngular</A> <A HREF="RMRF0038.HTM#pcbLinearDimensionItem">pcbLinearDimensionItem</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies details of how an angular dimension arc, its projection line and text are drawn.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDimensionSingleAngular</B>
+<B>   (pcbDimensionedLineRef Line1</B>
+<B>      (pcbBoardSubsetPlacementRef BSP1))</B>
+<B>   (pcbAngularDimensionItem</B>
+<B>      (pcbDimensionDrawingAttributeOverride)</B>
+<B>      (pcbDimensionedLineRef Line2</B>
+<B>         (pcbBoardSubsetPlacementRef BSP1))</B>
+<B>      (pcbDimensionAngularPrecision</B>
+<B>         (pcbDimensionAngularPrecisionDegrees 1))</B>
+<B>      (pcbDimensionLineOffset 100)</B>
+<B>      (pcbDimensionLineInternal)</B>
+<B>      (pcbDimensionLineExtensionNone)</B>
+<B>      (pcbTextAlignmentHorizontal)</B>
+<B>      (pcbDimensionTextOffset (pt -30 10))</B>
+<B>      (pcbTextEnclosure</B>
+<B>         (pcbTextEnclosureBox))</B>
+<B>      (pcbDimensionToleranceData </B>
+<B>         (pcbDimensionPositiveTolerance (e 1 -1))</B>
+<B>         (pcbDimensionNegativeTolerance (e 1 -1))</B>
+<B>         (pcbDimensionToleranceNominalWithDeltas</B>
+<B>            (textHeight 12))))</B>
+<B>   (pcbDimensionArrowGeometry</B>
+<B>      (pcbDimensionEndGeometryRef TRIANGULAR_OPEN)))</B>
+</PRE>
+<P>See <I><A HREF="RMRF0030.HTM#pcbDimensionSingleAngular">pcbDimensionSingleAngular</A></I> for a diagram that shows the resultant dimension arc.
+<P><HR>
+<H1><A NAME="pcbAngularDimensionItemList">pcbAngularDimensionItemList</A></H1>
+<PRE>
+<I>pcbAngularDimensionItemList ::= '(' 'pcbAngularDimensionItemList'</I>
+&#09;<I>{ <A HREF="RMRF0019.HTM#pcbAngularDimensionItem">pcbAngularDimensionItem</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDimensionChainedAngular">pcbDimensionChainedAngular</A>  !<A HREF="RMRF0028.HTM#pcbDimensionDatumAngular">pcbDimensionDatumAngular</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0027.HTM#pcbDimension">pcbDimension</A> <A HREF="RMRF0038.HTM#pcbLinearDimensionItemList">pcbLinearDimensionItemList</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There must be at least two <I><A HREF="RMRF0019.HTM#pcbAngularDimensionItem">pcbAngularDimensionItems</A></I> in this construct.
+</DL>
+<H3>Description:</H3>
+<P>Specifies a list of angular dimensions. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDimensionDatumAngular</B>
+<B>   (pcbDimensionedLineRef ...)</B>
+<B>   (pcbDimensionArcCenterPoint ...)</B>
+<B>   (pcbAngularDimensionItemList</B>
+<B>      (pcbAngularDimensionItem ...)</B>
+<B>      (pcbAngularDimensionItem ...)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAnyHole">pcbAnyHole</A></H1>
+<PRE>
+<I>pcbAnyHole ::= '(' 'pcbAnyHole'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0035.HTM#pcbFirstHoleInformation">pcbFirstHoleInformation</A>  <A HREF="RMRF0052.HTM#pcbSecondHoleInformation">pcbSecondHoleInformation</A>  
+</I>
+<H3>Description:</H3>
+<P>Means any type of hole.
+<P> 
+<P><HR>
+<H1><A NAME="pcbAssembledBoard">pcbAssembledBoard</A></H1>
+<PRE>
+<I>pcbAssembledBoard ::= '(' 'pcbAssembledBoard'</I>
+&#09;<I><A HREF="RMRF0020.HTM#pcbBareBoard">pcbBareBoard</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0020.HTM#pcbAssembledPhysicalNets">pcbAssembledPhysicalNets</A>&gt; | <A HREF="RMRF0021.HTM#pcbBoardSubsetDefinition">pcbBoardSubsetDefinition</A> | 
+&#09;<A HREF="RMRF0021.HTM#pcbBoardSubsetExtraDetail">pcbBoardSubsetExtraDetail</A> | <A HREF="RMRF0023.HTM#pcbComponentAssemblyRule">pcbComponentAssemblyRule</A> | 
+&#09;&lt;<A HREF="RMRF0024.HTM#pcbComponentOrientationRule">pcbComponentOrientationRule</A>&gt; | <A HREF="RMRF0024.HTM#pcbComponentRealizationRule">pcbComponentRealizationRule</A> | 
+&#09;<A HREF="RMRF0024.HTM#pcbComponentSignalRealizationRule">pcbComponentSignalRealizationRule</A> | 
+&#09;&lt;<A HREF="RMRF0025.HTM#pcbDefaultMaximumComponentHeight">pcbDefaultMaximumComponentHeight</A>&gt; | <A HREF="RMRF0025.HTM#pcbDieComponentImplementation">pcbDieComponentImplementation</A> 
+&#09;| <A HREF="RMRF0030.HTM#pcbDrawing">pcbDrawing</A> | <A HREF="RMRF0035.HTM#pcbEmbeddedComponentImplementation">pcbEmbeddedComponentImplementation</A> | 
+&#09;<A HREF="RMRF0037.HTM#pcbJumperComponentImplementation">pcbJumperComponentImplementation</A> | 
+&#09;<A HREF="RMRF0039.HTM#pcbMechanicalComponentImplementation">pcbMechanicalComponentImplementation</A> | 
+&#09;<A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentImplementation">pcbPackagedConnectorComponentImplementation</A> | 
+&#09;<A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentImplementation">pcbPackagedElectricalComponentImplementation</A> | 
+&#09;<A HREF="RMRF0050.HTM#pcbPrintedConnectorComponentImplementation">pcbPrintedConnectorComponentImplementation</A> | 
+&#09;<A HREF="RMRF0051.HTM#pcbPrintedElectricalComponentImplementation">pcbPrintedElectricalComponentImplementation</A> | &lt;<A HREF="RMRF0054.HTM#pcbWirebondLength">pcbWirebondLength</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0039.HTM#pcbMcmImplementation">pcbMcmImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0019.HTM#pcbAssembledBoardNameFabrication">pcbAssembledBoardNameFabrication</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There may be at most one implementation for each component.
+<BR><BR><DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0019.HTM#pcbAssembledBoard">pcbAssembledBoard</A></I> construct describes a complete physical assembly for a particular printed circuit board or multi-chip module. It includes a reference to a bare board definition, on which the assembled board is based, and optionally:
+<P>1. The implementations (assembly details) of components that are mounted on or in the bare board, and of components that are printed as part of the bare board.
+<P>2. The assembly of physical nets within the bare board (with special jumpers) into assembled physical nets.
+<P>3. PCB/MCM drawings (documentation of the assembled board).
+<P>4. Some technology rules that pertain to the assembled board. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAssembledBoard</B>
+<B>   (pcbBareBoard ...)</B>
+<B>   (pcbPackagedElectricalComponentImplementation ...)</B>
+<B>   (pcbPackagedConnectorComponentImplementation ...)</B>
+<B>   (pcbAssembledPhysicalNets ...) ...)</B>
+</PRE>
+<P>For more detailed examples of each keyword, see the keyword descriptions.
+<P><HR>
+<H1><A NAME="pcbAssembledBoardNameFabrication">pcbAssembledBoardNameFabrication</A></H1>
+<PRE>
+<I>pcbAssembledBoardNameFabrication ::= '(' 'pcbAssembledBoardNameFabrication'</I>
+&#09;<I>{ <A HREF="RMRF0035.HTM#pcbFabricateTextAppearance">pcbFabricateTextAppearance</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0019.HTM#pcbAssembledBoard">pcbAssembledBoard</A> <A HREF="RMRF0043.HTM#pcbNameFabrication">pcbNameFabrication</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies display positions and appearances for an assembled board name.
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNetHeader">pcbAssembledPhysicalNetHeader</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNetHeader ::= '(' 'pcbAssembledPhysicalNetHeader'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0025.HTM#pcbCorrectNet">pcbCorrectNet</A>  !<A HREF="RMRF0036.HTM#pcbIncorrectNet">pcbIncorrectNet</A>  !<A HREF="RMRF0043.HTM#pcbNonAnalyzedNet">pcbNonAnalyzedNet</A>  !<A HREF="RMRF0052.HTM#pcbShortingNet">pcbShortingNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0019.HTM#pcbAssembledPhysicalNetRef">pcbAssembledPhysicalNetRef</A> <A HREF="RMRF0049.HTM#pcbPhysicalNet">pcbPhysicalNet</A> <A HREF="RMRF0049.HTM#pcbPhysicalNetHeader">pcbPhysicalNetHeader</A> 
+</I>
+<H3>Description:</H3>
+<P>Gathers together data relating to the assembled physical net as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAssembledPhysicalNetHeader</B>
+<B>   (nameInformation (primaryName "GND")) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNetNameCaseSensitive">pcbAssembledPhysicalNetNameCaseSensitive</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNetNameCaseSensitive ::= '(' 
+&#09;'pcbAssembledPhysicalNetNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0049.HTM#pcbPhysicalNet">pcbPhysicalNet</A> <A HREF="RMRF0049.HTM#pcbPhysicalNetNameCaseSensitive">pcbPhysicalNetNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for items with a <I><A HREF="RMRF0019.HTM#pcbAssembledPhysicalNetNameDef">pcbAssembledPhysicalNetNameDef</A></I> are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example. 
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNetNameDef">pcbAssembledPhysicalNetNameDef</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNetNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0025.HTM#pcbCorrectNet">pcbCorrectNet</A>  !<A HREF="RMRF0036.HTM#pcbIncorrectNet">pcbIncorrectNet</A>  !<A HREF="RMRF0043.HTM#pcbNonAnalyzedNet">pcbNonAnalyzedNet</A>  !<A HREF="RMRF0052.HTM#pcbShortingNet">pcbShortingNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0019.HTM#pcbAssembledPhysicalNetNameRef">pcbAssembledPhysicalNetNameRef</A> <A HREF="RMRF0049.HTM#pcbPhysicalNet">pcbPhysicalNet</A> <A HREF="RMRF0049.HTM#pcbPhysicalNetNameDef">pcbPhysicalNetNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a name for an assembled physical net.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAssembledPhysicalNets</B>
+<B>   (pcbAnalyzedAssembledPhysicalNets</B>
+<B>      (pcbCorrectNet NET_FOR_SIG1 ...)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNetNameRef">pcbAssembledPhysicalNetNameRef</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNetNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0019.HTM#pcbAssembledPhysicalNetRef">pcbAssembledPhysicalNetRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0019.HTM#pcbAssembledPhysicalNetNameDef">pcbAssembledPhysicalNetNameDef</A> <A HREF="RMRF0049.HTM#pcbPhysicalNet">pcbPhysicalNet</A> <A HREF="RMRF0049.HTM#pcbPhysicalNetNameRef">pcbPhysicalNetNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a <I><A HREF="RMRF0019.HTM#pcbAssembledPhysicalNetNameDef">pcbAssembledPhysicalNetNameDef</A></I>. 
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNetRef">pcbAssembledPhysicalNetRef</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNetRef ::= '(' 'pcbAssembledPhysicalNetRef'</I>
+&#09;<I><A HREF="RMRF0019.HTM#pcbAssembledPhysicalNetNameRef">pcbAssembledPhysicalNetNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0037.HTM#pcbJumperConnectionRef">pcbJumperConnectionRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0019.HTM#pcbAssembledPhysicalNetHeader">pcbAssembledPhysicalNetHeader</A> <A HREF="RMRF0049.HTM#pcbPhysicalNet">pcbPhysicalNet</A> <A HREF="RMRF0049.HTM#pcbPhysicalNetNameRef">pcbPhysicalNetNameRef</A> <A HREF="RMRF0049.HTM#pcbPhysicalNetOccurrenceRef">pcbPhysicalNetOccurrenceRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References an assembled physical net, e.g. a <I><A HREF="RMRF0025.HTM#pcbCorrectNet">pcbCorrectNet</A></I>.   
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

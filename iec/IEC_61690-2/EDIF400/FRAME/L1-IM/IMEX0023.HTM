@@ -1,0 +1,642 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="pcb_material_model">pcb_material_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A> schema describes the set of <A HREF="IMEX0023.HTM#material">materials</A> which may
+ be used during the construction of a bare board.
+</P><HR>
+<!-- Start of ENTITY: material -->
+<H2><A NAME="material">material</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#material">material</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#external_material">external_material</A>,
+                                   <A HREF="IMEX0023.HTM#internal_material">internal_material</A>)
+                             AND
+                             ONEOF(<A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>,
+                                   <A HREF="IMEX0023.HTM#standard_material">standard_material</A>));
+    document        : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>;
+    electrical_type : <A HREF="IMEX0023.HTM#material_electrical_type">material_electrical_type</A>;
+    name            : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties      : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+    written_status  : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#written">written</A>;
+  WHERE
+    <A NAME="material.valid_existence">valid_existence</A> :
+      (* A material belongs to one library. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#library">library</A>.materials');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#material">material</A> object describes a particular physical material, in terms of
+ its name and physical properties (e.g. electrical conductivity, relative
+ permittivity, thermal conductivity, density, etc).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#DIE_metallized_backside_finish">DIE_metallized_backside_finish</A> <A HREF="IMEX0016.HTM#internal_die_physical_template">internal_die_physical_template</A> <A HREF="IMEX0030.HTM#internal_physical_layer">internal_physical_layer</A> <A HREF="IMEX0014.HTM#library">library</A> <A HREF="IMEX0023.HTM#material_value">material_value</A> <A HREF="IMEX0030.HTM#plated_drill_rule">plated_drill_rule</A> </P>
+<HR>
+<!-- Start of ENTITY: external_material -->
+<H2><A NAME="external_material">external_material</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#external_material">external_material</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#material">material</A>);
+  WHERE
+    <A NAME="external_material.valid_existence">valid_existence</A> :
+      (* An external_material belongs to one external_library. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#external_library">external_library</A>.materials');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#external_material">external_material</A> is defined in an <A HREF="IMEX0014.HTM#external_library">external_library</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0014.HTM#external_library">external_library</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_material -->
+<H2><A NAME="internal_material">internal_material</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#internal_material">internal_material</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#material">material</A>);
+  WHERE
+    <A NAME="internal_material.valid_existence">valid_existence</A> :
+      (* An internal_material belongs to one internal_library. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#internal_library">internal_library</A>.materials');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#internal_material">internal_material</A> is defined in an <A HREF="IMEX0014.HTM#internal_library">internal_library</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0014.HTM#internal_library">internal_library</A> </P>
+<HR>
+<!-- Start of ENTITY: non_standard_material -->
+<H2><A NAME="non_standard_material">non_standard_material</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#material">material</A>);
+    electrical_conductivity : OPTIONAL <A HREF="IMEX0023.HTM#electrical_conductivity_value">electrical_conductivity_value</A>;
+    relative_permittivity   : OPTIONAL <A HREF="IMEX0023.HTM#relative_permittivity_value">relative_permittivity_value</A>;
+    thermal_conductivity    : OPTIONAL <A HREF="IMEX0023.HTM#thermal_conductivity_value">thermal_conductivity_value</A>;
+    density                 : OPTIONAL <A HREF="IMEX0023.HTM#density_value">density_value</A>;
+    specific_heat_capacity  : OPTIONAL <A HREF="IMEX0023.HTM#specific_heat_capacity_value">specific_heat_capacity_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A> object describes a particular physical material,
+ in terms of its local name (inherited from the <A HREF="IMEX0023.HTM#material">material</A> super-entity) and
+ a series of locally-defined material properties. 
+</P><HR>
+<!-- Start of ENTITY: standard_material -->
+<H2><A NAME="standard_material">standard_material</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#standard_material">standard_material</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#material">material</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#standard_material">standard_material</A> describes a <A HREF="IMEX0023.HTM#material">material</A> which is assumed to be defined
+ elsewhere, perhaps in a dictionary of standard materials. 
+</P><HR>
+<!-- Start of TYPE: material_electrical_type -->
+<H2><A NAME="material_electrical_type">material_electrical_type</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#material_electrical_type">material_electrical_type</A>
+    = ENUMERATION OF (conductive, 
+                      resistive, 
+                      dielectric, 
+                      semiconductive);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0023.HTM#material_electrical_type">material_electrical_type</A> describes the electrical type of the
+ <A HREF="IMEX0023.HTM#material">material</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#material">material</A> </P>
+<HR>
+<!-- Start of ENTITY: material_units -->
+<H2><A NAME="material_units">material_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#material_units">material_units</A>;
+    set_density                 : OPTIONAL <A HREF="IMEX0023.HTM#density_unit">density_unit</A>;
+    set_electrical_conductivity : OPTIONAL <A HREF="IMEX0023.HTM#electrical_conductivity_unit">electrical_conductivity_unit</A>;
+    set_specific_heat_capacity  : OPTIONAL <A HREF="IMEX0023.HTM#specific_heat_capacity_unit">specific_heat_capacity_unit</A>;
+    set_thermal_conductivity    : OPTIONAL <A HREF="IMEX0023.HTM#thermal_conductivity_unit">thermal_conductivity_unit</A>;
+  WHERE
+    <A NAME="material_units.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#physical_scaling">physical_scaling</A>.default_material_units');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#material_units">material_units</A> is used to set the unit of measurement for a
+ <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#physical_scaling">physical_scaling</A> </P>
+<HR>
+<!-- Start of TYPE: material_value -->
+<H2><A NAME="material_value">material_value</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#material_value">material_value</A>
+    = SELECT (<A HREF="IMEX0023.HTM#material">material</A>,
+              <A HREF="IMEX0023.HTM#not_stated_material">not_stated_material</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#material_value">material_value</A> is the type of <A HREF="IMEX0023.HTM#material">material</A> to be used for a given
+ purpose.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#internal_mountable_bond_pad">internal_mountable_bond_pad</A> <A HREF="IMEX0017.HTM#internal_mountable_tabbed_bond_pad">internal_mountable_tabbed_bond_pad</A> <A HREF="IMEX0016.HTM#internal_pre_tabbed_bond_pad">internal_pre_tabbed_bond_pad</A> <A HREF="IMEX0024.HTM#internal_solder_bump_template">internal_solder_bump_template</A> <A HREF="IMEX0024.HTM#internal_wirebond_template">internal_wirebond_template</A> <A HREF="IMEX0016.HTM#tabbing">tabbing</A> </P>
+<HR>
+<!-- Start of TYPE: not_stated_material -->
+<H2><A NAME="not_stated_material">not_stated_material</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#not_stated_material">not_stated_material</A>
+    = ENUMERATION OF (any_material,
+                      no_material,
+                      unknown_value);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#not_stated_material">not_stated_material</A> is the information known about the
+ <A HREF="IMEX0023.HTM#material">material</A> to be used where a specific value is not specified.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#material_value">material_value</A> </P>
+<HR>
+<!-- Start of ENTITY: density_unit -->
+<H2><A NAME="density_unit">density_unit</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#density_unit">density_unit</A>;
+    referenced_unit : <A HREF="IMEX0034.HTM#unit">unit</A>; -- reference
+  WHERE
+    <A NAME="density_unit.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0023.HTM#material_units">material_units</A>.set_density');
+
+    <A NAME="density_unit.valid_referenced_unit">valid_referenced_unit</A> :
+      (* The physical_type of the unit is kilogram per cubic metre. *)
+      (SIZEOF(referenced_unit.physical_type) = 2)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.kilogram)
+                    AND (physicalType.exponent = 1))) = 1)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.metre)
+                    AND (physicalType.exponent = -3))) = 1);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#density_unit">density_unit</A> specifies a <A HREF="IMEX0034.HTM#unit">unit</A> which is used for the scaling of
+ <A HREF="IMEX0023.HTM#density_value">density_value</A>.  The physical type of the chosen <A HREF="IMEX0034.HTM#unit">unit</A> is defined in
+ kilogram per cubic metre.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#material_units">material_units</A> </P>
+<HR>
+<!-- Start of TYPE: density_value -->
+<H2><A NAME="density_value">density_value</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#density_value">density_value</A>
+    = <A HREF="IMEX0034.HTM#number_token">number_token</A>;
+  WHERE
+    <A NAME="density_value.valid_existence">valid_existence</A> :
+      (* A density_value cannot exist without being used. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>.density');
+
+    <A NAME="density_value.valid_value">valid_value</A> :
+      (* The value of density is non-negative. *)
+      SELF &gt;= 0;
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0023.HTM#density_value">density_value</A> specifies the density of a <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A> </P>
+<HR>
+<!-- Start of ENTITY: electrical_conductivity_unit -->
+<H2><A NAME="electrical_conductivity_unit">electrical_conductivity_unit</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#electrical_conductivity_unit">electrical_conductivity_unit</A>;
+    referenced_unit : <A HREF="IMEX0034.HTM#unit">unit</A>; -- reference
+  WHERE
+    <A NAME="electrical_conductivity_unit.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0023.HTM#material_units">material_units</A>.set_electrical_conductivity');
+
+    <A NAME="electrical_conductivity_unit.valid_referenced_unit">valid_referenced_unit</A> :
+      (* The physical_type of the unit is siemens per metre. *)
+      (SIZEOF(referenced_unit.physical_type) = 2)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.siemens)
+                    AND (physicalType.exponent = 1))) = 1)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.metre)
+                    AND (physicalType.exponent = -1))) = 1);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#electrical_conductivity_unit">electrical_conductivity_unit</A> specifies a <A HREF="IMEX0034.HTM#unit">unit</A> which is used for the
+ scaling of <A HREF="IMEX0023.HTM#electrical_conductivity_value">electrical_conductivity_value</A>.  The physical type of the chosen
+ <A HREF="IMEX0034.HTM#unit">unit</A> is defined in siemens per metre.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#material_units">material_units</A> </P>
+<HR>
+<!-- Start of TYPE: electrical_conductivity_value -->
+<H2><A NAME="electrical_conductivity_value">electrical_conductivity_value</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#electrical_conductivity_value">electrical_conductivity_value</A>
+    = <A HREF="IMEX0034.HTM#number_token">number_token</A>;
+  WHERE
+    <A NAME="electrical_conductivity_value.valid_existence">valid_existence</A> :
+      (* An electrical_conductivity_value cannot exist without being used. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>.electrical_conductivity');
+
+    <A NAME="electrical_conductivity_value.valid_value">valid_value</A> :
+      (* The value of electrical_conductivity is non-negative. *)
+      SELF &gt;= 0;
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#electrical_conductivity_value">electrical_conductivity_value</A> specifies the electrical conductivity of
+ a <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A> </P>
+<HR>
+<!-- Start of ENTITY: power_unit -->
+<H2><A NAME="power_unit">power_unit</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#power_unit">power_unit</A>;
+    referenced_unit : <A HREF="IMEX0034.HTM#unit">unit</A>; -- reference
+  WHERE
+    <A NAME="power_unit.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0025.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A>.set_power');
+
+    <A NAME="power_unit.valid_referenced_unit">valid_referenced_unit</A> :
+      (* The physical_type of the unit is watt. *)
+      <A HREF="IMEX0034.HTM#valid_unit_type">valid_unit_type</A>(referenced_unit, <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.watt);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#power_unit">power_unit</A> specifies a <A HREF="IMEX0034.HTM#unit">unit</A> which is used for the scaling of
+ <A HREF="IMEX0023.HTM#power_value">power_value</A>.  The physical type of the chosen <A HREF="IMEX0034.HTM#unit">unit</A> is defined in
+ watt. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A> </P>
+<HR>
+<!-- Start of TYPE: power_value -->
+<H2><A NAME="power_value">power_value</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#power_value">power_value</A> 
+    = <A HREF="IMEX0034.HTM#number_token">number_token</A>;
+  WHERE
+    <A NAME="power_value.valid_value">valid_value</A> :
+      (* The value of power is non-negative. *)
+      SELF &gt;= 0;
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#power_value">power_value</A> is used in describing the value of power in <A HREF="IMEX0023.HTM#power_unit">power_units</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0016.HTM#DIE_power_cell">DIE_power_cell</A> <A HREF="IMEX0016.HTM#internal_die_physical_template">internal_die_physical_template</A> </P>
+<HR>
+<!-- Start of ENTITY: pressure_unit -->
+<H2><A NAME="pressure_unit">pressure_unit</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#pressure_unit">pressure_unit</A>;
+    referenced_unit : <A HREF="IMEX0034.HTM#unit">unit</A>; -- reference
+  WHERE
+    <A NAME="pressure_unit.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0025.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A>.set_pressure');
+
+    <A NAME="pressure_unit.valid_referenced_unit">valid_referenced_unit</A> :
+      (* The physical_type of the unit is kilogram per metre per
+         second per second. *)
+      (SIZEOF(referenced_unit.physical_type) = 3)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.kilogram)
+                    AND (physicalType.exponent = 1))) = 1)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.metre)
+                    AND (physicalType.exponent = -1))) = 1)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.second)
+                    AND (physicalType.exponent = -2))) = 1);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#pressure_unit">pressure_unit</A> specifies a <A HREF="IMEX0034.HTM#unit">unit</A> which is used for the
+ scaling of <A HREF="IMEX0023.HTM#pressure_range">pressure_range</A>.  The physical type of the chosen
+ <A HREF="IMEX0034.HTM#unit">unit</A> is defined in kilogram per metre per second per second.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A> </P>
+<HR>
+<!-- Start of ENTITY: pressure_range -->
+<H2><A NAME="pressure_range">pressure_range</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#pressure_range">pressure_range</A>;
+    range : <A HREF="IMEX0034.HTM#minomax_value">minomax_value</A>;
+  WHERE
+    <A NAME="pressure_range.valid_range">valid_range</A> :
+      (* The minimum, the nominal and the maximum values must be
+         non-negative. *) 
+      <A HREF="IMEX0034.HTM#non_negative_minomax_value">non_negative_minomax_value</A>(range);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0023.HTM#pressure_range">pressure_range</A> specifies a range of pressure values in
+ <A HREF="IMEX0023.HTM#pressure_unit">pressure_units</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#DIE_environmental_condition">DIE_environmental_condition</A> </P>
+<HR>
+<!-- Start of TYPE: relative_humidity_value -->
+<H2><A NAME="relative_humidity_value">relative_humidity_value</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#relative_humidity_value">relative_humidity_value</A>
+    = <A HREF="IMEX0034.HTM#number_token">number_token</A>;
+  WHERE
+    <A NAME="relative_humidity_value.valid_existence">valid_existence</A> :
+      (* A relative_humidity_value cannot exist without being used. *)
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0016.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0016.HTM#DIE_storage_condition">DIE_storage_condition</A>.relative_humidity',
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0017.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                        '<A HREF="IMEX0017.HTM#DIE_environmental_condition">DIE_environmental_condition</A>',
+                        'relative_humidity')]);
+
+    <A NAME="relative_humidity_value.valid_value">valid_value</A> :
+      (* The value of relative permittivity is between 0 and 100. *)
+      { 0 &lt;= SELF &lt;= 100};
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0023.HTM#relative_humidity_value">relative_humidity_value</A> specifies the relative humidity of a
+ <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#DIE_environmental_condition">DIE_environmental_condition</A> <A HREF="IMEX0016.HTM#DIE_storage_condition">DIE_storage_condition</A> </P>
+<HR>
+<!-- Start of TYPE: relative_permittivity_value -->
+<H2><A NAME="relative_permittivity_value">relative_permittivity_value</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#relative_permittivity_value">relative_permittivity_value</A>
+    = <A HREF="IMEX0034.HTM#number_token">number_token</A>;
+  WHERE
+    <A NAME="relative_permittivity_value.valid_existence">valid_existence</A> :
+      (* A relative_permittivity_value cannot exist without being used. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>.relative_permittivity');
+
+    <A NAME="relative_permittivity_value.valid_value">valid_value</A> :
+      (* The value of relative permittivity is non-negative. *)
+      SELF &gt;= 0;
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0023.HTM#relative_permittivity_value">relative_permittivity_value</A> specifies the relative permittivity of a
+ <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A> </P>
+<HR>
+<!-- Start of ENTITY: specific_heat_capacity_unit -->
+<H2><A NAME="specific_heat_capacity_unit">specific_heat_capacity_unit</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#specific_heat_capacity_unit">specific_heat_capacity_unit</A>;
+    referenced_unit : <A HREF="IMEX0034.HTM#unit">unit</A>; -- reference
+  WHERE
+    <A NAME="specific_heat_capacity_unit.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0023.HTM#material_units">material_units</A>.set_specific_heat_capacity',
+         '<A HREF="IMEX0025.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A>.set_specific_heat_capacity']);
+
+    <A NAME="specific_heat_capacity_unit.valid_referenced_unit">valid_referenced_unit</A> :
+      (* The physical_type of the unit is in joule per kilogram per kelvin. *)
+      (SIZEOF(referenced_unit.physical_type) = 3)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.joule)
+                    AND (physicalType.exponent = 1))) = 1)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.kilogram)
+                    AND (physicalType.exponent = -1))) = 1)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.kelvin)
+                    AND (physicalType.exponent = -1))) = 1);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#specific_heat_capacity_unit">specific_heat_capacity_unit</A> specifies a <A HREF="IMEX0034.HTM#unit">unit</A> which is used for the
+ scaling of <A HREF="IMEX0023.HTM#specific_heat_capacity_value">specific_heat_capacity_value</A>.  The physical type of the chosen
+ <A HREF="IMEX0034.HTM#unit">unit</A> is defined in joule per kilogram per kelvin.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#material_units">material_units</A> <A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A> </P>
+<HR>
+<!-- Start of TYPE: specific_heat_capacity_value -->
+<H2><A NAME="specific_heat_capacity_value">specific_heat_capacity_value</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#specific_heat_capacity_value">specific_heat_capacity_value</A>
+    = <A HREF="IMEX0034.HTM#number_token">number_token</A>;
+  WHERE
+    <A NAME="specific_heat_capacity_value.valid_existence">valid_existence</A> :
+      (* A specific_heat_capacity_value cannot exist without being used. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>.specific_heat_capacity');
+
+    <A NAME="specific_heat_capacity_value.valid_value">valid_value</A> :
+      (* The value of specific heat capacity is non-negative. *)
+      SELF &gt;= 0;
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0023.HTM#specific_heat_capacity_value">specific_heat_capacity_value</A> specifies the specific heat capacity of a
+ <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0016.HTM#internal_die_physical_template">internal_die_physical_template</A> <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A> </P>
+<HR>
+<!-- Start of ENTITY: thermal_conductivity_unit -->
+<H2><A NAME="thermal_conductivity_unit">thermal_conductivity_unit</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#thermal_conductivity_unit">thermal_conductivity_unit</A>;
+    referenced_unit : <A HREF="IMEX0034.HTM#unit">unit</A>; -- reference
+  WHERE
+    <A NAME="thermal_conductivity_unit.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0023.HTM#material_units">material_units</A>.set_thermal_conductivity',
+         '<A HREF="IMEX0025.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A>.set_thermal_conductivity']);
+
+    <A NAME="thermal_conductivity_unit.valid_referenced_unit">valid_referenced_unit</A> :
+      (* The physical_type of the unit is watt per metre per kelvin. *)
+      (SIZEOF(referenced_unit.physical_type) = 3)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.watt)
+                    AND (physicalType.exponent = 1))) = 1)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.metre)
+                    AND (physicalType.exponent = -1))) = 1)
+       AND
+      (SIZEOF(QUERY(physicalType &lt;* referenced_unit.physical_type |
+                    (physicalType.basic_unit = <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.kelvin)
+                    AND (physicalType.exponent = -1))) = 1);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#thermal_conductivity_unit">thermal_conductivity_unit</A> specifies a <A HREF="IMEX0034.HTM#unit">unit</A> which is used for the
+ scaling of <A HREF="IMEX0023.HTM#thermal_conductivity_value">thermal_conductivity_value</A>.  The physical type of the chosen
+ <A HREF="IMEX0034.HTM#unit">unit</A> is defined in watt per metre per kelvin.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#material_units">material_units</A> <A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A> </P>
+<HR>
+<!-- Start of TYPE: thermal_conductivity_value -->
+<H2><A NAME="thermal_conductivity_value">thermal_conductivity_value</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#thermal_conductivity_value">thermal_conductivity_value</A>
+    = <A HREF="IMEX0034.HTM#number_token">number_token</A>;
+  WHERE
+    <A NAME="thermal_conductivity_value.valid_existence">valid_existence</A> :
+      (* A thermal_conductivity_value cannot exist without being used. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>.thermal_conductivity');
+
+    <A NAME="thermal_conductivity_value.valid_value">valid_value</A> :
+      (* The value of thermal conductivity is non-negative. *)
+      SELF &gt;= 0;
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0023.HTM#thermal_conductivity_value">thermal_conductivity_value</A> specifies the thermal conductivity of a
+ <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0016.HTM#internal_die_physical_template">internal_die_physical_template</A> <A HREF="IMEX0023.HTM#non_standard_material">non_standard_material</A> </P>
+<HR>
+<!-- Start of ENTITY: temperature_unit -->
+<H2><A NAME="temperature_unit">temperature_unit</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#temperature_unit">temperature_unit</A>;
+    referenced_unit : <A HREF="IMEX0034.HTM#unit">unit</A>; -- reference
+  WHERE
+    <A NAME="temperature_unit.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0025.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A>.<A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A>.set_temperature');
+
+    <A NAME="temperature_unit.valid_referenced_unit">valid_referenced_unit</A> :
+      (* The physical_type of the unit can be celsius, kelvin or fahrenheit. *)
+      <A HREF="IMEX0034.HTM#valid_unit_type">valid_unit_type</A>(referenced_unit, <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.celsius)
+      OR
+      <A HREF="IMEX0034.HTM#valid_unit_type">valid_unit_type</A>(referenced_unit, <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.fahrenheit)
+      OR
+      <A HREF="IMEX0034.HTM#valid_unit_type">valid_unit_type</A>(referenced_unit, <A HREF="IMEX0034.HTM#physical_unit">physical_unit</A>.kelvin);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#temperature_unit">temperature_unit</A> specifies a <A HREF="IMEX0034.HTM#unit">unit</A> which is used for the scaling of
+ <A HREF="IMEX0023.HTM#temperature_range">temperature_range</A>.  The physical type of the chosen <A HREF="IMEX0034.HTM#unit">unit</A> can be defined
+ in celsius, kelvin or farenheit. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0025.HTM#pcb_layout_units">pcb_layout_units</A> </P>
+<HR>
+<!-- Start of ENTITY: temperature_range -->
+<H2><A NAME="temperature_range">temperature_range</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#temperature_range">temperature_range</A>;
+    range : <A HREF="IMEX0034.HTM#minomax_value">minomax_value</A>;
+  WHERE
+    <A NAME="temperature_range.valid_existence">valid_existence</A> :
+      (* A temperature_range cannot exist without being used. *)
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0016.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0016.HTM#DIE_storage_condition">DIE_storage_condition</A>.temperature',
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0017.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                        '<A HREF="IMEX0017.HTM#DIE_environmental_condition">DIE_environmental_condition</A>',
+                        'temperature')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#temperature_range">temperature_range</A> is used in describing the minimum, nominal and maximum
+ values of temperature in <A HREF="IMEX0023.HTM#temperature_unit">temperature_units</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#DIE_environmental_condition">DIE_environmental_condition</A> <A HREF="IMEX0016.HTM#DIE_storage_condition">DIE_storage_condition</A> </P>
+
+<HR>
+
+<!-- Start of schema: pcb_mcm_instantiatable_object_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,158 @@
+<HTML>
+
+<BODY BGCOLOR="#ffffff">
+<form name="buttonbar">
+<script>
+  function reset () {
+    parent.DisplayArea.location=parent.currentdir+'CONTENT.HTM';
+    history.go(0);
+  }
+
+document.write('<CENTER><B>IM (Level 1)</B></CENTER><HR>');
+
+// state 20: home page
+
+if (parent.state == 20) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Introduction" onClick="parent.state=24; parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+   document.write('<input type="button" value="EXPRESS Model" onClick="parent.state=25; parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Both" onClick="parent.state=23; parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+}
+
+
+
+// state 21: introduction only
+
+else if (parent.state == 21) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Table of Contents" onClick="parent.state=24; parent.setIntroURL(parent.DisplayArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+   document.write('<input type="button" value="List of Figures" onClick="parent.state=27; parent.setIntroURL(parent.DisplayArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+   document.write('<input type="button" value="EXPRESS Model" onClick="parent.state=23; parent.setIntroURL(parent.DisplayArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+}
+
+
+
+// state 22: EXPRESS model only
+
+else if (parent.state == 22) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Introduction" onClick="parent.state=23;parent.setModelURL(parent.DisplayArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Level 0 Changes" onClick="parent.state=28; parent.setModelURL(parent.DisplayArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Index" onClick="parent.state=25; parent.setModelURL(parent.DisplayArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Permuted Index" onClick="parent.state=26; parent.setModelURL(parent.DisplayArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+}
+
+
+
+// state 23: top frame    - table of contents
+//           middle frame - introduction
+//           bottom frame - EXPRESS model
+
+else if (parent.state == 23) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Index" onClick="parent.state=25; parent.setIntroURL(parent.DisplayArea.IntroArea.location); parent.setModelURL(parent.DisplayArea.ModelArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Permuted Index" onClick="parent.state=26; parent.setIntroURL(parent.DisplayArea.IntroArea.location); parent.setModelURL(parent.DisplayArea.ModelArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR><BR>');
+
+   document.write('<B>Hide</B><BR>');
+   document.write('<input type="button" value="Introduction" onClick="parent.state=22; parent.setIntroURL(parent.DisplayArea.IntroArea.location); parent.DisplayArea.location=parent.DisplayArea.ModelArea.location; history.go(0);">')
+   document.write('<BR>');
+   document.write('<input type="button" value="EXPRESS Model" onClick="parent.state=24; parent.setIntroURL(parent.DisplayArea.IntroArea.location); parent.setModelURL(parent.DisplayArea.ModelArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+}
+
+
+
+// state 24: top frame    - table of contents
+//           bottom frame - introduction
+
+else if (parent.state == 24) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="List of Figures" onClick="parent.state=27; parent.setIntroURL(parent.DisplayArea.IntroArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR>');
+   document.write('<input type="button" value="EXPRESS model" onClick="parent.state=23; parent.setIntroURL(parent.DisplayArea.IntroArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR><BR>');
+
+   document.write('<B>Hide</B><BR>');
+   document.write('<input type="button" value="Table of Contents" onClick="parent.state=21; parent.DisplayArea.location=parent.DisplayArea.IntroArea.location; history.go(0);">')
+   document.write('<BR>');
+}
+
+
+// state 25: top frame    - index
+//           bottom frame - EXPRESS model
+
+else if (parent.state == 25) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Permuted Index" onClick="parent.state=26; parent.setModelURL(parent.DisplayArea.ModelArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<input type="button" value="Level 0 Changes" onClick="parent.state=28; parent.setModelURL(parent.DisplayArea.ModelArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<input type="button" value="Introduction" onClick="parent.state=23; parent.setModelURL(parent.DisplayArea.ModelArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR><BR>');
+
+   document.write('<B>Hide</B><BR>');
+   document.write('<input type="button" value="Index" onClick="parent.state=22; parent.DisplayArea.location=parent.DisplayArea.ModelArea.location; history.go(0);">')
+   document.write('<BR>');
+}
+
+
+
+// state 26: top frame    - permuted index
+//           bottom frame - EXPRESS model
+
+else if (parent.state == 26) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Index" onClick="parent.state=25; parent.setModelURL(parent.DisplayArea.ModelArea.location);  parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<input type="button" value="Level 0 Changes" onClick="parent.state=28; parent.setModelURL(parent.DisplayArea.ModelArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<input type="button" value="Introduction" onClick="parent.state=23; parent.setModelURL(parent.DisplayArea.ModelArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR><BR>');
+
+   document.write('<B>Hide</B><BR>');
+   document.write('<input type="button" value="Permuted Index" onClick="parent.state=22; parent.DisplayArea.location=parent.DisplayArea.ModelArea.location; history.go(0);">')
+   document.write('<BR>');
+}
+
+
+
+// state 27: top frame    - list of figures
+//           bottom frame - introduction
+
+else if (parent.state == 27) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Table of Contents" onClick="parent.state=24; parent.setIntroURL(parent.DisplayArea.IntroArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR><BR>');
+
+   document.write('<B>Hide</B><BR>');
+   document.write('<input type="button" value="List of Figures" onClick="parent.state=21; parent.DisplayArea.location=parent.DisplayArea.IntroArea.location; history.go(0);">')
+   document.write('<BR>');
+}
+
+// state 28: top frame    - Level 0 Changes
+//           bottom frame - EXPRESS model
+
+else if (parent.state == 28) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Index" onClick="parent.state=25; parent.setModelURL(parent.DisplayArea.ModelArea.location);  parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<input type="button" value="Permuted Index" onClick="parent.state=26; parent.setModelURL(parent.DisplayArea.ModelArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\';history.go(0);">')
+   document.write('<BR><BR>');
+
+   document.write('<B>Hide</B><BR>');
+   document.write('<input type="button" value="Level 0 Changes" onClick="parent.state=22; parent.DisplayArea.location=parent.DisplayArea.ModelArea.location; history.go(0);">')
+   document.write('<BR>');
+}
+
+</SCRIPT>
+</form>
+</BODY>
+
+</HTML>

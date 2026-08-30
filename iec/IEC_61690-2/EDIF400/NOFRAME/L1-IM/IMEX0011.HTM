@@ -1,0 +1,2723 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMCHG.HTM">Changes from Level 0</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="geometry_model">geometry_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#geometry_model">geometry_model</A> schema describes all geometrical definitions in EDIF.
+ This includes <A HREF="IMEX0011.HTM#dot">dot</A>, <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>, <A HREF="IMEX0011.HTM#open_element">open_element</A> and
+ <A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A>. 
+</P><HR>
+<!-- Start of ENTITY: geometry_element -->
+<H2><A NAME="geometry_element">geometry_element</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0011.HTM#dot">dot</A>, 
+                                   <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>, 
+                                   <A HREF="IMEX0011.HTM#open_element">open_element</A>,
+                                   <A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A>));
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A> describes geometry definition in EDIF.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#board_subset_construction_figure">board_subset_construction_figure</A> <A HREF="IMEX0021.HTM#drawing_figure">drawing_figure</A> <A HREF="IMEX0006.HTM#figure">figure</A> <A HREF="IMEX0024.HTM#internal_die_fiducial_template">internal_die_fiducial_template</A> <A HREF="IMEX0013.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A> <A HREF="IMEX0021.HTM#non_standard_end_geometry">non_standard_end_geometry</A> <A HREF="IMEX0022.HTM#physical_figure">physical_figure</A> <A HREF="IMEX0008.HTM#text_font_character">text_font_character</A> </P>
+<HR>
+<!-- Start of ENTITY: dot -->
+<H2><A NAME="dot">dot</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#dot">dot</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#geometry_element">geometry_element</A>);
+    position                    : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#dot">dot</A> is a <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A> which is defined by a single point and is
+ intended for use in schematic diagrams and other places where a marker is
+ required.  A <A HREF="IMEX0011.HTM#dot">dot</A> is intended to be used for display purposes only and is
+ not permitted to be used for fabrication.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0006.HTM#dot_display">dot_display</A> </P>
+<HR>
+<!-- Start of ENTITY: closed_area_element -->
+<H2><A NAME="closed_area_element">closed_area_element</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0011.HTM#circle">circle</A>, 
+                                    <A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, 
+                                    <A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>,
+                                    <A HREF="IMEX0011.HTM#polygon">polygon</A>,
+                                    <A HREF="IMEX0011.HTM#rectangle">rectangle</A>, 
+                                    <A HREF="IMEX0011.HTM#shape">shape</A>))
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#geometry_element">geometry_element</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A> describes a <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A> which encloses an
+ area.  The interior area enclosed by the boundary is filled.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0016.HTM#DIE_power_cell">DIE_power_cell</A> <A HREF="IMEX0029.HTM#bare_board_cavity">bare_board_cavity</A> <A HREF="IMEX0029.HTM#bare_board_cavity_well">bare_board_cavity_well</A> <A HREF="IMEX0006.HTM#closed_area_display">closed_area_display</A> <A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A> <A HREF="IMEX0019.HTM#component_assembly_rule">component_assembly_rule</A> <A HREF="IMEX0019.HTM#component_region_realisation_rule">component_region_realisation_rule</A> <A HREF="IMEX0011.HTM#extrusion_volume">extrusion_volume</A> <A HREF="IMEX0030.HTM#internal_bare_board_region_technology_rule">internal_bare_board_region_technology_rule</A> <A HREF="IMEX0016.HTM#internal_bare_bond_pad">internal_bare_bond_pad</A> <A HREF="IMEX0024.HTM#internal_bond_pad_template">internal_bond_pad_template</A> <A HREF="IMEX0016.HTM#internal_die_physical_template">internal_die_physical_template</A> <A HREF="IMEX0027.HTM#internal_mechanical_fixing">internal_mechanical_fixing</A> <A HREF="IMEX0017.HTM#internal_mountable_bond_pad">internal_mountable_bond_pad</A> <A HREF="IMEX0026.HTM#internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A> <A HREF="IMEX0024.HTM#internal_pin_template">internal_pin_template</A> <A HREF="IMEX0026.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A> <A HREF="IMEX0024.HTM#internal_tabbed_bond_pad_template">internal_tabbed_bond_pad_template</A> <A HREF="IMEX0029.HTM#non_conformant_hole">non_conformant_hole</A> </P>
+<HR>
+<!-- Start of ENTITY: circle -->
+<H2><A NAME="circle">circle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#circle">circle</A> 
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>); 
+    diameter : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>;
+  DERIVE
+    centre_point : <A HREF="IMEX0011.HTM#number_point">number_point</A>
+                   := <A HREF="IMEX0011.HTM#number_point">number_point</A>((diameter.start_point.x_coordinate +
+                                    diameter.end_point.x_coordinate) / 2,
+                                   (diameter.start_point.y_coordinate +
+                                    diameter.end_point.y_coordinate) / 2);
+    radius       : <A HREF="IMEX0034.HTM#distance_value">distance_value</A>
+                   := <A HREF="IMEX0011.HTM#point_distance">point_distance</A>(diameter.start_point,
+                                     diameter.end_point) / 2;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#circle">circle</A> is used to describe a circle which has the specified points at
+ either end of a diameter of the circle.  The two points need not be
+ distinct. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#generic_circle">generic_circle</A> </P>
+<HR>
+<!-- Start of ENTITY: circle_by_centre -->
+<H2><A NAME="circle_by_centre">circle_by_centre</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>); 
+    centre_point : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    diameter     : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+  DERIVE
+    radius : <A HREF="IMEX0034.HTM#distance_value">distance_value</A> := diameter / 2;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A> is used to describe a circle which has a defined centre
+ and diameter.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#generic_circle">generic_circle</A> </P>
+<HR>
+<!-- Start of ENTITY: closed_area_element_with_cutout -->
+<H2><A NAME="closed_area_element_with_cutout">closed_area_element_with_cutout</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>);
+    outline : <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>;
+    cutouts : SET [1:?] OF <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>; -- cutout boundaries
+  WHERE
+    <A NAME="closed_area_element_with_cutout.valid_outline">valid_outline</A> :
+      (* The outline cannot be a closed_area_element_with_cutout. *)
+      NOT('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>'
+          IN TYPEOF(outline));
+
+    <A NAME="closed_area_element_with_cutout.valid_cutouts">valid_cutouts</A> :
+      (* A cutout may intersect its outline at a single point but may not
+         intersect at more than one point or go outside the outline.  No cutout
+         can overlap or intersect any other cutout of the same
+         closed_area_element_with_cutout. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(cutout &lt;* cutouts |
+        NOT <A HREF="IMEX0011.HTM#closed_area_element_inside_closed_area_element">closed_area_element_inside_closed_area_element</A>(cutout, outline)))
+      AND
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(c1 &lt;* cutouts |
+        <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(c2 &lt;* cutouts - c1 |
+          <A HREF="IMEX0011.HTM#closed_area_element_inside_closed_area_element">closed_area_element_inside_closed_area_element</A>(c1, c2)
+          OR
+          <A HREF="IMEX0011.HTM#closed_area_element_inside_closed_area_element">closed_area_element_inside_closed_area_element</A>(c2, c1)
+          OR
+          <A HREF="IMEX0011.HTM#closed_area_element_intersect_closed_area_element">closed_area_element_intersect_closed_area_element</A>(c1, c2)))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A> describes a <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A> which
+ encloses an area.  It is defined as the area enclosed by a given outline
+ boundary, less the areas enclosed by a given set of one or more cutout
+ boundaries.  Each outline and cutout boundary may be a
+ <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>.
+</P><HR>
+<!-- Start of ENTITY: polygon -->
+<H2><A NAME="polygon">polygon</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#polygon">polygon</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>);
+    segments : LIST [3:?] OF <A HREF="IMEX0011.HTM#line_segment">line_segment</A>;
+  DERIVE
+    vertices : LIST OF <A HREF="IMEX0011.HTM#integer_point">integer_point</A>
+               := <A HREF="IMEX0011.HTM#find_polygon_point">find_polygon_point</A>(segments);
+  WHERE                                                                       
+    <A NAME="polygon.joined_segments">joined_segments</A> :
+      (* All adjacent segments are joined. *)
+      <A HREF="IMEX0011.HTM#connected">connected</A>(segments);
+
+    <A NAME="polygon.closed_element">closed_element</A> : 
+      (* The first segment is joined with the last segment. *)
+      segments[1].start_point = segments[HIINDEX(segments)].end_point; 
+
+    <A NAME="polygon.not_self_intersecting">not_self_intersecting</A> :
+      (* A polygon may not intersect or touch itself, nor have coincidence
+         segments. *) 
+      NOT <A HREF="IMEX0011.HTM#intersecting_or_touching_or_coincident">intersecting_or_touching_or_coincident</A>(segments);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#polygon">polygon</A> represents a figure bounded by <A HREF="IMEX0011.HTM#line_segment">line_segments</A>. The number of
+ <A HREF="IMEX0011.HTM#line_segment">line_segments</A> must be at least three.  A <A HREF="IMEX0011.HTM#polygon">polygon</A> must not intersect or
+ touch itself, nor may it have coincident segments.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#generic_polygon">generic_polygon</A> </P>
+<HR>
+<!-- Start of ENTITY: rectangle -->
+<H2><A NAME="rectangle">rectangle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#rectangle">rectangle</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>);
+    diagonal : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>;
+  DERIVE
+    segments : LIST [4:4] OF <A HREF="IMEX0011.HTM#line_segment">line_segment</A> 
+               := [<A HREF="IMEX0011.HTM#line_segment">line_segment</A>(vertices[1], vertices[2]),
+                   <A HREF="IMEX0011.HTM#line_segment">line_segment</A>(vertices[2], vertices[3]),
+                   <A HREF="IMEX0011.HTM#line_segment">line_segment</A>(vertices[3], vertices[4]),
+                   <A HREF="IMEX0011.HTM#line_segment">line_segment</A>(vertices[4], vertices[1])];
+    vertices : LIST [4:4] OF <A HREF="IMEX0011.HTM#integer_point">integer_point</A>
+               := [<A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x_min, y_min),
+                   <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x_max, y_min),
+                   <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x_max, y_max),
+                   <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x_min, y_max)];
+    x_max    : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>
+               := <A HREF="IMEX0011.HTM#maximum_distance_value">maximum_distance_value</A>(diagonal.start_point.x_coordinate, 
+                                         diagonal.end_point.x_coordinate);
+    x_min    : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>
+               := <A HREF="IMEX0011.HTM#minimum_distance_value">minimum_distance_value</A>(diagonal.start_point.x_coordinate, 
+                                         diagonal.end_point.x_coordinate);
+    y_max    : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>
+               := <A HREF="IMEX0011.HTM#maximum_distance_value">maximum_distance_value</A>(diagonal.start_point.y_coordinate, 
+                                         diagonal.end_point.y_coordinate);
+    y_min    : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>
+               := <A HREF="IMEX0011.HTM#minimum_distance_value">minimum_distance_value</A>(diagonal.start_point.y_coordinate, 
+                                         diagonal.end_point.y_coordinate);
+  END_ENTITY; 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#rectangle">rectangle</A> is a four-sided polygon with sides parallel to the axes. It is
+ specified by the end-points of either diagonal.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0006.HTM#comment_graphics">comment_graphics</A> <A HREF="IMEX0024.HTM#drawing_border_template">drawing_border_template</A> <A HREF="IMEX0024.HTM#drawing_border_zoned_area">drawing_border_zoned_area</A> <A HREF="IMEX0008.HTM#drawing_fill_pattern">drawing_fill_pattern</A> <A HREF="IMEX0033.HTM#external_schematic_symbol">external_schematic_symbol</A> <A HREF="IMEX0011.HTM#generic_rectangle">generic_rectangle</A> <A HREF="IMEX0013.HTM#geometry_macro_template">geometry_macro_template</A> <A HREF="IMEX0033.HTM#internal_schematic_symbol">internal_schematic_symbol</A> <A HREF="IMEX0032.HTM#page">page</A> <A HREF="IMEX0013.HTM#page_border_template">page_border_template</A> <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A> <A HREF="IMEX0013.HTM#schematic_for_frame_border_template">schematic_for_frame_border_template</A> <A HREF="IMEX0013.HTM#schematic_if_frame_border_template">schematic_if_frame_border_template</A> <A HREF="IMEX0013.HTM#schematic_otherwise_frame_border_template">schematic_otherwise_frame_border_template</A> <A HREF="IMEX0013.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A> <A HREF="IMEX0013.HTM#schematic_template">schematic_template</A> </P>
+<HR>
+<!-- Start of ENTITY: shape -->
+<H2><A NAME="shape">shape</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#shape">shape</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>);
+    segments : LIST [2:?] OF <A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A>; 
+  WHERE
+    <A NAME="shape.joined_segments">joined_segments</A> :
+      (* All adjacent segments are joined. *)
+      <A HREF="IMEX0011.HTM#connected">connected</A>(segments);     
+
+    <A NAME="shape.closed_element">closed_element</A> : 
+      (* the first segment is joined with the last segment. *)
+      segments[1].start_point = segments[HIINDEX(segments)].end_point; 
+
+    <A NAME="shape.not_self_intersecting">not_self_intersecting</A> :
+      (* A shape must not intersect or touch itself, nor have coincidence
+         segments. *) 
+      NOT <A HREF="IMEX0011.HTM#intersecting_or_touching_or_coincident">intersecting_or_touching_or_coincident</A>(segments);
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#shape">shape</A> is a sequence of connected <A HREF="IMEX0011.HTM#arc">arcs</A> and <A HREF="IMEX0011.HTM#line_segment">line_segments</A>. It is used
+ to describe shapes which are closed by definition.  A <A HREF="IMEX0011.HTM#shape">shape</A> must not
+ intersect or touch itself, nor may its edges be coincident.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#generic_shape">generic_shape</A> </P>
+<HR>
+<!-- Start of ENTITY: open_element -->
+<H2><A NAME="open_element">open_element</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#open_element">open_element</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0011.HTM#open_shape">open_shape</A>,
+                                   <A HREF="IMEX0011.HTM#path">path</A>))
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#geometry_element">geometry_element</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#open_element">open_element</A> describes a <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A> which normally ends at a
+ different point to where it starts.  Such an element can, of course, have
+ its start and end point coincident.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#internal_mountable_tabbed_bond_pad">internal_mountable_tabbed_bond_pad</A> <A HREF="IMEX0016.HTM#internal_pre_tabbed_bond_pad">internal_pre_tabbed_bond_pad</A> <A HREF="IMEX0006.HTM#path_display">path_display</A> </P>
+<HR>
+<!-- Start of ENTITY: open_shape -->
+<H2><A NAME="open_shape">open_shape</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#open_shape">open_shape</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#open_element">open_element</A>);
+    segments                    : LIST [1:?] OF <A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A>;
+  WHERE
+    <A NAME="open_shape.joined_segments">joined_segments</A> :
+      (* All adjacent segments are joined. *)
+      <A HREF="IMEX0011.HTM#connected">connected</A>(segments);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#open_shape">open_shape</A> is an <A HREF="IMEX0011.HTM#open_element">open_element</A> which is described by a sequence of 
+ connected <A HREF="IMEX0011.HTM#arc">arcs</A> and <A HREF="IMEX0011.HTM#line_segment">line_segments</A>.  It is open by definition.
+</P><HR>
+<!-- Start of ENTITY: path -->
+<H2><A NAME="path">path</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#path">path</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#open_element">open_element</A>);
+    segments                    : LIST [1:?] OF <A HREF="IMEX0011.HTM#line_segment">line_segment</A>;
+  WHERE
+    <A NAME="path.joined_segments">joined_segments</A> :
+      (* All adjacent segments are joined. *)
+      <A HREF="IMEX0011.HTM#connected">connected</A>(segments);
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#path">path</A> is an <A HREF="IMEX0011.HTM#open_element">open_element</A> which is described by a sequence of connected
+ <A HREF="IMEX0011.HTM#line_segment">line_segments</A>.  It is open by definition.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#leader_line">leader_line</A> </P>
+<HR>
+<!-- Start of ENTITY: unfilled_element -->
+<H2><A NAME="unfilled_element">unfilled_element</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0011.HTM#unfilled_circle">unfilled_circle</A>, 
+                                   <A HREF="IMEX0011.HTM#unfilled_circle_by_centre">unfilled_circle_by_centre</A>, 
+                                   <A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A>,
+                                   <A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A>, 
+                                   <A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A>))
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#geometry_element">geometry_element</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A> describes a <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A> which encloses an
+ area with its perimeter.  The interior area enclosed by the boundary is not
+ filled. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0020.HTM#board_subset">board_subset</A> </P>
+<HR>
+<!-- Start of ENTITY: unfilled_circle -->
+<H2><A NAME="unfilled_circle">unfilled_circle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#unfilled_circle">unfilled_circle</A> 
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A>); 
+    diameter : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>;
+  DERIVE
+    centre_point : <A HREF="IMEX0011.HTM#number_point">number_point</A>
+                   := <A HREF="IMEX0011.HTM#number_point">number_point</A>((diameter.start_point.x_coordinate +
+                                    diameter.end_point.x_coordinate) / 2,
+                                   (diameter.start_point.y_coordinate +
+                                    diameter.end_point.y_coordinate) / 2);
+    radius       : <A HREF="IMEX0034.HTM#distance_value">distance_value</A>
+                   := <A HREF="IMEX0011.HTM#point_distance">point_distance</A>(diameter.start_point,
+                                     diameter.end_point) / 2;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#unfilled_circle">unfilled_circle</A> is used to describe a circle which has the specified
+ points at either end of a diameter of the circle.  The two points need not
+ be distinct. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#generic_circle">generic_circle</A> </P>
+<HR>
+<!-- Start of ENTITY: unfilled_circle_by_centre -->
+<H2><A NAME="unfilled_circle_by_centre">unfilled_circle_by_centre</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#unfilled_circle_by_centre">unfilled_circle_by_centre</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A>); 
+    centre_point : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    diameter     : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+  DERIVE
+    radius : <A HREF="IMEX0034.HTM#distance_value">distance_value</A> := diameter / 2;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#unfilled_circle_by_centre">unfilled_circle_by_centre</A> is used to describe a circle which has a
+ defined centre and diameter.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#generic_circle">generic_circle</A> </P>
+<HR>
+<!-- Start of ENTITY: unfilled_polygon -->
+<H2><A NAME="unfilled_polygon">unfilled_polygon</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A>);
+    segments : LIST [3:?] OF <A HREF="IMEX0011.HTM#line_segment">line_segment</A>; 
+  WHERE                                                                       
+    <A NAME="unfilled_polygon.joined_segments">joined_segments</A> :
+      (* All adjacent segments are joined. *)
+      <A HREF="IMEX0011.HTM#connected">connected</A>(segments);
+
+    <A NAME="unfilled_polygon.closed_element">closed_element</A> : 
+      (* The first segment is joined with the last segment. *)
+      segments[1].start_point = segments[HIINDEX(segments)].end_point; 
+
+    <A NAME="unfilled_polygon.not_self_intersecting">not_self_intersecting</A> :
+      (* An unfilled_polygon may not intersect or touch itself, nor have
+         coincidence segments. *) 
+      NOT <A HREF="IMEX0011.HTM#intersecting_or_touching_or_coincident">intersecting_or_touching_or_coincident</A>(segments);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A> represents a figure bounded by <A HREF="IMEX0011.HTM#line_segment">line_segments</A>. The
+ number of <A HREF="IMEX0011.HTM#line_segment">line_segments</A> must be at least three.  An <A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A>
+ must not intersect or touch itself, nor may it have coincident segments.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#generic_polygon">generic_polygon</A> </P>
+<HR>
+<!-- Start of ENTITY: unfilled_rectangle -->
+<H2><A NAME="unfilled_rectangle">unfilled_rectangle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A>);
+    diagonal : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>;
+  DERIVE
+    segments : LIST [4:4] OF <A HREF="IMEX0011.HTM#line_segment">line_segment</A> 
+               := [<A HREF="IMEX0011.HTM#line_segment">line_segment</A>(vertices[1], vertices[2]),
+                   <A HREF="IMEX0011.HTM#line_segment">line_segment</A>(vertices[2], vertices[3]),
+                   <A HREF="IMEX0011.HTM#line_segment">line_segment</A>(vertices[3], vertices[4]),
+                   <A HREF="IMEX0011.HTM#line_segment">line_segment</A>(vertices[4], vertices[1])];
+    vertices : LIST [4:4] OF <A HREF="IMEX0011.HTM#integer_point">integer_point</A>
+               := [<A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x_min, y_min),
+                   <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x_max, y_min),
+                   <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x_max, y_max),
+                   <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x_min, y_max)];
+    x_min    : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>
+               := <A HREF="IMEX0011.HTM#minimum_distance_value">minimum_distance_value</A>(diagonal.start_point.x_coordinate, 
+                                         diagonal.end_point.x_coordinate);
+    x_max    : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>
+               := <A HREF="IMEX0011.HTM#maximum_distance_value">maximum_distance_value</A>(diagonal.start_point.x_coordinate, 
+                                         diagonal.end_point.x_coordinate);
+    y_min    : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>
+               := <A HREF="IMEX0011.HTM#minimum_distance_value">minimum_distance_value</A>(diagonal.start_point.y_coordinate, 
+                                         diagonal.end_point.y_coordinate);
+    y_max    : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>
+               := <A HREF="IMEX0011.HTM#maximum_distance_value">maximum_distance_value</A>(diagonal.start_point.y_coordinate, 
+                                         diagonal.end_point.y_coordinate);
+  END_ENTITY; 
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A> is a four-sided polygon with sides parallel to the
+ axes. It is specified by the end-points of either diagonal.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#generic_rectangle">generic_rectangle</A> </P>
+<HR>
+<!-- Start of ENTITY: unfilled_shape -->
+<H2><A NAME="unfilled_shape">unfilled_shape</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A>
+      SUBTYPE OF (<A HREF="IMEX0011.HTM#unfilled_element">unfilled_element</A>);
+    segments : LIST [2:?] OF <A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A>; 
+  WHERE
+    <A NAME="unfilled_shape.joined_segments">joined_segments</A> :
+      (* All adjacent segments are joined. *)
+      <A HREF="IMEX0011.HTM#connected">connected</A>(segments);     
+
+    <A NAME="unfilled_shape.closed_element">closed_element</A> : 
+      (* the first segment is joined with the last segment. *)
+      segments[1].start_point = segments[HIINDEX(segments)].end_point; 
+
+    <A NAME="unfilled_shape.not_self_intersecting">not_self_intersecting</A> :
+      (* An unfilled_shape must not intersect or touch itself, nor have
+         coincidence segments. *) 
+      NOT <A HREF="IMEX0011.HTM#intersecting_or_touching_or_coincident">intersecting_or_touching_or_coincident</A>(segments);
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A> is a sequence of connected <A HREF="IMEX0011.HTM#arc">arcs</A> and
+ <A HREF="IMEX0011.HTM#line_segment">line_segments</A>. It is used to describe shapes which are closed by
+ definition.  An <A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A> must not intersect or touch itself, nor may
+ its edges be coincident.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#generic_shape">generic_shape</A> </P>
+<HR>
+<!-- Start of TYPE: arc_or_line_segment -->
+<H2><A NAME="arc_or_line_segment">arc_or_line_segment</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A>
+      = SELECT (<A HREF="IMEX0011.HTM#arc">arc</A>, <A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>, <A HREF="IMEX0011.HTM#line_segment">line_segment</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A> is used to describe the concept of curve in EDIF.
+ Curve is described by a list of <A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#open_shape">open_shape</A> <A HREF="IMEX0011.HTM#shape">shape</A> <A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A> </P>
+<HR>
+<!-- Start of ENTITY: arc -->
+<H2><A NAME="arc">arc</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#arc">arc</A> ;
+    start_point   : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    through_point : <A HREF="IMEX0011.HTM#number_point">number_point</A>;
+    end_point     : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+  DERIVE
+    centre_point  : <A HREF="IMEX0011.HTM#point">point</A> := <A HREF="IMEX0011.HTM#centre_point_of_arc">centre_point_of_arc</A>(SELF);
+    radius        : <A HREF="IMEX0034.HTM#distance_value">distance_value</A> := <A HREF="IMEX0011.HTM#point_distance">point_distance</A>(centre_point,start_point);
+  WHERE
+    <A NAME="arc.distinct_points">distinct_points</A> :
+      (* The three points of the arc specification must be distinct. *)
+      ((start_point.x_coordinate &lt;&gt; through_point.x_coordinate)
+        OR (start_point.y_coordinate &lt;&gt; through_point.y_coordinate))
+      AND      
+      ((start_point.x_coordinate &lt;&gt; end_point.x_coordinate)
+        OR (start_point.y_coordinate &lt;&gt; end_point.y_coordinate))
+      AND 
+      ((through_point.x_coordinate &lt;&gt; end_point.x_coordinate)
+        OR (through_point.y_coordinate &lt;&gt; end_point.y_coordinate));
+
+    <A NAME="arc.valid_points">valid_points</A> :
+      (* The three points should not lie on a straight line. *)
+      NOT <A HREF="IMEX0011.HTM#colinear_points">colinear_points</A>(start_point, end_point, through_point);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#arc">arc</A> is used in describing shapes with curved edges. It is defined by
+ three points.  Each point coordinate is specified in distance value.  The
+ point coordinate values of the starting point and the end point of the <A HREF="IMEX0011.HTM#arc">arc</A>
+ must be integers.  The point coordinate values of the middle point of the
+ <A HREF="IMEX0011.HTM#arc">arc</A> can be given as numbers.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A> <A HREF="IMEX0011.HTM#generic_arc">generic_arc</A> </P>
+<HR>
+<!-- Start of ENTITY: arc_by_centre -->
+<H2><A NAME="arc_by_centre">arc_by_centre</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>;
+    centre_point        : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    clockwise_direction : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    end_point           : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    start_point         : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+  DERIVE
+    radius : <A HREF="IMEX0034.HTM#distance_value">distance_value</A> := <A HREF="IMEX0011.HTM#point_distance">point_distance</A>(centre_point,start_point);
+  WHERE
+    <A NAME="arc_by_centre.valid_points">valid_points</A>:
+      (* The distance between centre_point and start_point must be
+         equal to the distance between the centre_point and the 
+         end_point. *)
+      ((start_point.x_coordinate - centre_point.x_coordinate)**2
+       + (start_point.y_coordinate - centre_point.y_coordinate)**2)
+      = 
+      ((end_point.x_coordinate - centre_point.x_coordinate)**2
+       + (end_point.y_coordinate - centre_point.y_coordinate)**2);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A> is used to describe an arc which has a defined centre
+ point, a starting point and an end point.
+</P>
+<P>
+ The clockwise_direction attribute indicates the direction which the arc is
+ drawn.  If the value is true, the arc is drawn clockwise from the
+ start_point to the end_point; otherwise the arc is drawn anti-clockwise.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A> <A HREF="IMEX0020.HTM#dimensioned_arc">dimensioned_arc</A> <A HREF="IMEX0011.HTM#generic_arc">generic_arc</A> </P>
+<HR>
+<!-- Start of ENTITY: line_segment -->
+<H2><A NAME="line_segment">line_segment</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#line_segment">line_segment</A>;
+    start_point                    : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    end_point                      : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#line_segment">line_segment</A> is defined by two points which specify the starting point
+ and the end point of a line segment.  The starting and the end points need
+ not be distinct. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A> <A HREF="IMEX0011.HTM#circle">circle</A> <A HREF="IMEX0020.HTM#dimensioned_line">dimensioned_line</A> <A HREF="IMEX0008.HTM#mirrored_fabricate_figure_collector">mirrored_fabricate_figure_collector</A> <A HREF="IMEX0011.HTM#path">path</A> <A HREF="IMEX0011.HTM#polygon">polygon</A> <A HREF="IMEX0011.HTM#rectangle">rectangle</A> <A HREF="IMEX0011.HTM#unfilled_circle">unfilled_circle</A> <A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A> <A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A> </P>
+<HR>
+<!-- Start of ENTITY: integer_point -->
+<H2><A NAME="integer_point">integer_point</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    x_coordinate, y_coordinate  : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#integer_point">integer_point</A> is a point for which the x and y coordinates are
+ specified by <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_values</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#angular_dimension_item">angular_dimension_item</A> <A HREF="IMEX0011.HTM#arc">arc</A> <A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A> <A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A> <A HREF="IMEX0021.HTM#circular_dimension">circular_dimension</A> <A HREF="IMEX0020.HTM#dimensioned_point">dimensioned_point</A> <A HREF="IMEX0006.HTM#display">display</A> <A HREF="IMEX0011.HTM#dot">dot</A> <A HREF="IMEX0021.HTM#drawing_text_display">drawing_text_display</A> <A HREF="IMEX0011.HTM#fixed_scale_transform">fixed_scale_transform</A> <A HREF="IMEX0013.HTM#hotspot">hotspot</A> <A HREF="IMEX0024.HTM#internal_bond_pad_template">internal_bond_pad_template</A> <A HREF="IMEX0017.HTM#internal_mountable_bumped_bond_pad">internal_mountable_bumped_bond_pad</A> <A HREF="IMEX0017.HTM#internal_mountable_wirebonded_bond_pad">internal_mountable_wirebonded_bond_pad</A> <A HREF="IMEX0016.HTM#internal_pre_bumped_bond_pad">internal_pre_bumped_bond_pad</A> <A HREF="IMEX0026.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A> <A HREF="IMEX0027.HTM#internal_solder_ball">internal_solder_ball</A> <A HREF="IMEX0030.HTM#layout_grid">layout_grid</A> <A HREF="IMEX0011.HTM#line_segment">line_segment</A> <A HREF="IMEX0021.HTM#linear_dimension_item">linear_dimension_item</A> <A HREF="IMEX0029.HTM#pad_routing_target">pad_routing_target</A> <A HREF="IMEX0011.HTM#point">point</A> <A HREF="IMEX0034.HTM#point_property">point_property</A> <A HREF="IMEX0034.HTM#point_property_override">point_property_override</A> <A HREF="IMEX0011.HTM#polygon">polygon</A> <A HREF="IMEX0029.HTM#probe_point">probe_point</A> <A HREF="IMEX0011.HTM#rectangle">rectangle</A> <A HREF="IMEX0013.HTM#ripper_hotspot">ripper_hotspot</A> <A HREF="IMEX0008.HTM#rotated_fabricate_figure_collector">rotated_fabricate_figure_collector</A> <A HREF="IMEX0032.HTM#schematic_interconnect_attached_text">schematic_interconnect_attached_text</A> <A HREF="IMEX0022.HTM#text_appearance">text_appearance</A> <A HREF="IMEX0006.HTM#transform">transform</A> <A HREF="IMEX0008.HTM#translated_fabricate_figure_collector">translated_fabricate_figure_collector</A> <A HREF="IMEX0011.HTM#unfilled_circle_by_centre">unfilled_circle_by_centre</A> <A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A> <A HREF="IMEX0011.HTM#uniform_scale_transform">uniform_scale_transform</A> <A HREF="IMEX0011.HTM#unscaled_transform">unscaled_transform</A> </P>
+<HR>
+<!-- Start of ENTITY: number_point -->
+<H2><A NAME="number_point">number_point</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#number_point">number_point</A>;
+    x_coordinate, y_coordinate  : <A HREF="IMEX0034.HTM#number_distance_value">number_distance_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#number_point">number_point</A> is a point for which the x and y coordinates are defined by
+ <A HREF="IMEX0034.HTM#number_distance_value">number_distance_values</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#arc">arc</A> <A HREF="IMEX0011.HTM#circle">circle</A> <A HREF="IMEX0021.HTM#datum_angular_dimension">datum_angular_dimension</A> <A HREF="IMEX0011.HTM#point">point</A> <A HREF="IMEX0011.HTM#unfilled_circle">unfilled_circle</A> </P>
+<HR>
+<!-- Start of FUNCTION: connected -->
+<H2><A NAME="connected">connected</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#connected">connected</A> 
+    (segments : LIST OF <A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A>) : BOOLEAN;
+    LOCAL
+      i       : INTEGER;
+    END_LOCAL;
+
+    REPEAT i := 1 TO HIINDEX(segments)-1;
+      IF segments[i].end_point &lt;&gt; segments[i+1].start_point THEN
+         RETURN(FALSE);
+      END_IF;
+    END_REPEAT;
+    RETURN(TRUE);  
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#connected">connected</A> function accepts a list of <A HREF="IMEX0011.HTM#arc">arc</A> or <A HREF="IMEX0011.HTM#line_segment">line_segment</A> elements
+ as its argument. It checks that the last point of each <A HREF="IMEX0011.HTM#arc">arc</A> or
+ <A HREF="IMEX0011.HTM#line_segment">line_segment</A> element is the same as the first point of the next <A HREF="IMEX0011.HTM#arc">arc</A> or
+ <A HREF="IMEX0011.HTM#line_segment">line_segment</A> element on the list.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#open_shape">open_shape</A> <A HREF="IMEX0011.HTM#path">path</A> <A HREF="IMEX0011.HTM#polygon">polygon</A> <A HREF="IMEX0011.HTM#shape">shape</A> <A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A> <A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A> </P>
+<HR>
+<!-- Start of FUNCTION: colinear_points -->
+<H2><A NAME="colinear_points">colinear_points</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#colinear_points">colinear_points</A>
+    (p1, p2, p3: <A HREF="IMEX0011.HTM#point">point</A>) : BOOLEAN;
+    LOCAL
+      m, c : NUMBER;
+    END_LOCAL;
+
+     m := (p2.y_coordinate - p1.y_coordinate) /
+          (p2.x_coordinate - p1.x_coordinate);
+     c :=  p1.y_coordinate - m*p1.x_coordinate;
+
+     RETURN(p3.y_coordinate = (m*p3.x_coordinate + c));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#colinear_points">colinear_points</A> function returns true if three points lie on a
+ straight line.
+</P>
+<P>
+ The function calculates the equation of the line for the start and end
+ points (i.e. p1, p2).  Then, it checks whether or not the third point
+ (i.e. p3) satisfies the equation.  If it does, then p1, p2 and p3 are
+ colinear.  The formula of a line is represented as below:
+<PRE>
+ y = m*x + c
+ where m = (p2.y - p1.y)/(p2.x - p1.x) and c = p1.y - m*p1.x
+</PRE>
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#arc">arc</A> </P>
+<HR>
+<!-- Start of ENTITY: extrusion_volume -->
+<H2><A NAME="extrusion_volume">extrusion_volume</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#extrusion_volume">extrusion_volume</A>;
+    projection_shape : <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>;
+    offset_distance  : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>;
+    extrusion_length : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+  WHERE
+    <A NAME="extrusion_volume.valid_existence">valid_existence</A> :
+      (* An extrusion_volume object cannot exist without being referenced. *)
+    <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A> (SELF,
+      ['<A HREF="IMEX0016.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0016.HTM#internal_die_physical_template">internal_die_physical_template</A>.body_volume',
+       '<A HREF="IMEX0016.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0016.HTM#internal_die_physical_template">internal_die_physical_template</A>.occupied_space',
+       <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0017.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                      '<A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>',
+                      'body_volume'),
+       <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0017.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                      '<A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>',
+                      'occupied_space'),
+       '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>.body_volume',
+       '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>.occupied_space',
+       '<A HREF="IMEX0027.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0027.HTM#internal_package">internal_package</A>.body_volume',
+       '<A HREF="IMEX0027.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0027.HTM#internal_package">internal_package</A>.occupied_space',
+       '<A HREF="IMEX0016.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0016.HTM#tabbing">tabbing</A>.tabbing_space']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#extrusion_volume">extrusion_volume</A> is defined in terms of a 2-dimensional extrusion shape
+ and an extrusion distance.
+</P>
+<P>
+ The offset_distance attribute specifies the position (in the Z-axis) of the
+ base of the <A HREF="IMEX0011.HTM#extrusion_volume">extrusion_volume</A>.  Such value is expressed relative to an
+ arbitrary plane and may be negative.  The extrusion_length attribute
+ specifies the length of the <A HREF="IMEX0011.HTM#extrusion_volume">extrusion_volume</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0016.HTM#internal_die_physical_template">internal_die_physical_template</A> <A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A> <A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A> <A HREF="IMEX0027.HTM#internal_package">internal_package</A> <A HREF="IMEX0016.HTM#tabbing">tabbing</A> </P>
+<HR>
+<!-- Start of ENTITY: fixed_scale_transform -->
+<H2><A NAME="fixed_scale_transform">fixed_scale_transform</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#fixed_scale_transform">fixed_scale_transform</A>;
+    mirror_axis : <A HREF="IMEX0011.HTM#mirroring_axis">mirroring_axis</A>;
+    origin      : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;      
+    rotation    : <A HREF="IMEX0034.HTM#angle_value">angle_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#fixed_scale_transform">fixed_scale_transform</A> is used to locate an instantiatable object in a
+ coordinate space.  The mirror_axis attribute specifies either the x or the y
+ axis which the mirroring operation is based on.  An origin is given to
+ describe the translation point of the instantiated object.  The rotation
+ attribute is used to specify a counter clockwise rotation angle to be
+ applied as part of a transformation.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0016.HTM#die_fiducial">die_fiducial</A> <A HREF="IMEX0016.HTM#internal_bond_pad">internal_bond_pad</A> <A HREF="IMEX0017.HTM#internal_mountable_tabbed_bond_pad">internal_mountable_tabbed_bond_pad</A> <A HREF="IMEX0016.HTM#internal_pre_tabbed_bond_pad">internal_pre_tabbed_bond_pad</A> <A HREF="IMEX0017.HTM#mountable_bond_pad_representation">mountable_bond_pad_representation</A> <A HREF="IMEX0026.HTM#mountable_terminal_representation">mountable_terminal_representation</A> <A HREF="IMEX0024.HTM#physical_figure_macro">physical_figure_macro</A> <A HREF="IMEX0028.HTM#printed_part_terminal_representation">printed_part_terminal_representation</A> <A HREF="IMEX0029.HTM#sub_layout_placement">sub_layout_placement</A> </P>
+<HR>
+<!-- Start of ENTITY: unscaled_transform -->
+<H2><A NAME="unscaled_transform">unscaled_transform</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#unscaled_transform">unscaled_transform</A>;
+    origin   : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;      
+    rotation : <A HREF="IMEX0034.HTM#angle_value">angle_value</A>;        
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0011.HTM#unscaled_transform">unscaled_transform</A> is used to locate an instantiatable object
+ in a coordinate space.  An origin is given to describe the
+ translation point of the instantiated object.  The rotation
+ attribute is used to specify a counter clockwise rotation angle to
+ be applied as part of a transformation.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#die_component_implementation">die_component_implementation</A> <A HREF="IMEX0021.HTM#drawing_border">drawing_border</A> <A HREF="IMEX0021.HTM#drawing_title_block">drawing_title_block</A> <A HREF="IMEX0029.HTM#embedded_die_placement">embedded_die_placement</A> <A HREF="IMEX0026.HTM#internal_extra_mountable_pin">internal_extra_mountable_pin</A> <A HREF="IMEX0027.HTM#internal_pin">internal_pin</A> <A HREF="IMEX0019.HTM#packaged_component_implementation">packaged_component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: uniform_scale_transform -->
+<H2><A NAME="uniform_scale_transform">uniform_scale_transform</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0011.HTM#uniform_scale_transform">uniform_scale_transform</A>;
+    mirror_axis  : <A HREF="IMEX0011.HTM#mirroring_axis">mirroring_axis</A>;
+    origin       : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;      
+    rotation     : <A HREF="IMEX0034.HTM#angle_value">angle_value</A>;
+    scale_factor : <A HREF="IMEX0034.HTM#fraction">fraction</A>;
+  WHERE
+    <A NAME="uniform_scale_transform.valid_scale_factor">valid_scale_factor</A> :
+      (* The numerator of a scaling factor must not be equal to zero. *)
+      <A HREF="IMEX0021.HTM#scale_factor">scale_factor</A>.numerator &lt;&gt; 0;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#uniform_scale_transform">uniform_scale_transform</A> is used to locate an instantiatable object in a
+ coordinate space.  The mirror_axis attribute specifies either the x or the y
+ axis which the mirroring operation is based on.  An origin is given to
+ describe the translation point of the instantiated object.  The rotation
+ attribute is used to specify a counter clockwise rotation angle to be
+ applied as part of a transformation.  The scaling factor are applicable to
+ both the x direction and the y direction.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#board_subset_placement">board_subset_placement</A> <A HREF="IMEX0024.HTM#drawing_figure_macro">drawing_figure_macro</A> <A HREF="IMEX0021.HTM#drawing_symbol_placement">drawing_symbol_placement</A> </P>
+<HR>
+<!-- Start of TYPE: mirroring_axis -->
+<H2><A NAME="mirroring_axis">mirroring_axis</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0011.HTM#mirroring_axis">mirroring_axis</A>
+    = ENUMERATION OF (x_axis, y_axis, no_mirroring);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#mirroring_axis">mirroring_axis</A> specifies the axis which the mirroring operation is to
+ be performed.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#fixed_scale_transform">fixed_scale_transform</A> <A HREF="IMEX0011.HTM#uniform_scale_transform">uniform_scale_transform</A> </P>
+<HR>
+<!-- Start of TYPE: point -->
+<H2><A NAME="point">point</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0011.HTM#point">point</A>
+    = SELECT (<A HREF="IMEX0011.HTM#integer_point">integer_point</A>, <A HREF="IMEX0011.HTM#number_point">number_point</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#point">point</A> is either an <A HREF="IMEX0011.HTM#integer_point">integer_point</A> or a <A HREF="IMEX0011.HTM#number_point">number_point</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#arc">arc</A> </P>
+<HR>
+<!-- Start of FUNCTION: point_distance -->
+<H2><A NAME="point_distance">point_distance</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_distance">point_distance</A>
+    (p1, p2 : <A HREF="IMEX0011.HTM#point">point</A>) : <A HREF="IMEX0034.HTM#distance_value">distance_value</A>;
+
+    RETURN(SQRT((p2.x_coordinate - p1.x_coordinate) ** 2 +
+                (p2.y_coordinate - p1.y_coordinate) ** 2));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_distance">point_distance</A> returns the distance between two <A HREF="IMEX0011.HTM#point">points</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#arc">arc</A> <A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A> <A HREF="IMEX0011.HTM#circle">circle</A> <A HREF="IMEX0011.HTM#unfilled_circle">unfilled_circle</A> </P>
+<HR>
+<!-- Start of FUNCTION: point_and_line_distance -->
+<H2><A NAME="point_and_line_distance">point_and_line_distance</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_and_line_distance">point_and_line_distance</A>
+    (C : <A HREF="IMEX0011.HTM#point">point</A>; l : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>) : <A HREF="IMEX0034.HTM#distance_value">distance_value</A>;
+
+    -- The algorithm is based on the FAQ of the comp.graphics.algorithms
+    -- newsgroup                                                       
+    --                                                                 
+    --    Let the <A HREF="IMEX0011.HTM#point">point</A> be C (XC,YC) and the line be AB (XA,YA) to
+    --    (XB,YB). The length of the line segment AB is L:
+    --                                                                 
+    --                (YA-YC)(YA-YB)-(XA-XC)(XB-XA)
+    --            r = -----------------------------
+    --                            L**2
+    --                                                                 
+    --    Let I be the <A HREF="IMEX0011.HTM#point">point</A> of perpendicular projection of C onto AB
+    --            XI=XA+r(XB-XA)
+    --            YI=YA+r(YB-YA)
+
+    LOCAL
+      A, B : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+      I    : <A HREF="IMEX0011.HTM#number_point">number_point</A>;
+      r    : NUMBER;
+    END_LOCAL;
+
+    A := l.start_point;
+    B := l.end_point;
+
+    r := ((A.y_coordinate-C.y_coordinate)*(A.y_coordinate-B.y_coordinate) -
+          (A.x_coordinate-C.x_coordinate)*(B.x_coordinate-A.x_coordinate))
+         /
+         ((B.x_coordinate-A.x_coordinate)**2 + 
+          (B.y_coordinate-A.y_coordinate)**2);
+  
+    I.x_coordinate := A.x_coordinate + r * (B.x_coordinate - A.x_coordinate);
+    I.y_coordinate := A.y_coordinate + r * (B.y_coordinate - A.y_coordinate);
+
+    RETURN(<A HREF="IMEX0011.HTM#point_distance">point_distance</A>(C, I));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_and_line_distance">point_and_line_distance</A> returns the distance between a <A HREF="IMEX0011.HTM#point">point</A> to a
+ line. 
+</P><HR>
+<!-- Start of FUNCTION: find_polygon_point -->
+<H2><A NAME="find_polygon_point">find_polygon_point</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#find_polygon_point">find_polygon_point</A>
+    (s : LIST OF <A HREF="IMEX0011.HTM#line_segment">line_segment</A>) : LIST OF <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    LOCAL
+      pt : LIST OF <A HREF="IMEX0011.HTM#integer_point">integer_point</A> := [ ];
+    END_LOCAL;
+
+    REPEAT i := 1 TO SIZEOF(s);
+      INSERT(pt, s[i].start_point, i);
+    END_REPEAT;
+
+    RETURN(pt);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#find_polygon_point">find_polygon_point</A> returns the list of points which are vertices of a
+ polygon.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#polygon">polygon</A> </P>
+<HR>
+<!-- Start of TYPE: generic_arc -->
+<H2><A NAME="generic_arc">generic_arc</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0011.HTM#generic_arc">generic_arc</A>
+    = SELECT(<A HREF="IMEX0011.HTM#arc">arc</A>, <A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#generic_arc">generic_arc</A> is either an <A HREF="IMEX0011.HTM#arc">arc</A> or an <A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>.
+</P><HR>
+<!-- Start of TYPE: generic_circle -->
+<H2><A NAME="generic_circle">generic_circle</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>
+    = SELECT (<A HREF="IMEX0011.HTM#circle">circle</A>, <A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, <A HREF="IMEX0011.HTM#unfilled_circle">unfilled_circle</A>,
+              <A HREF="IMEX0011.HTM#unfilled_circle_by_centre">unfilled_circle_by_centre</A>); 
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A> is either a <A HREF="IMEX0011.HTM#circle">circle</A>, a <A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, an
+ <A HREF="IMEX0011.HTM#unfilled_circle">unfilled_circle</A> or an <A HREF="IMEX0011.HTM#unfilled_circle_by_centre">unfilled_circle_by_centre</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#conformant_hole">conformant_hole</A> <A HREF="IMEX0020.HTM#dimensioned_circle">dimensioned_circle</A> </P>
+<HR>
+<!-- Start of TYPE: generic_polygon -->
+<H2><A NAME="generic_polygon">generic_polygon</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0011.HTM#generic_polygon">generic_polygon</A>
+    = SELECT (<A HREF="IMEX0011.HTM#polygon">polygon</A>, <A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#generic_polygon">generic_polygon</A> is either a <A HREF="IMEX0011.HTM#polygon">polygon</A> or an <A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A>.
+</P><HR>
+<!-- Start of TYPE: generic_rectangle -->
+<H2><A NAME="generic_rectangle">generic_rectangle</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0011.HTM#generic_rectangle">generic_rectangle</A>
+    = SELECT (<A HREF="IMEX0011.HTM#rectangle">rectangle</A>, <A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#generic_rectangle">generic_rectangle</A> is either a <A HREF="IMEX0011.HTM#rectangle">rectangle</A> or an <A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A>.
+</P><HR>
+<!-- Start of TYPE: generic_shape -->
+<H2><A NAME="generic_shape">generic_shape</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0011.HTM#generic_shape">generic_shape</A>
+    = SELECT (<A HREF="IMEX0011.HTM#shape">shape</A>, <A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0011.HTM#generic_shape">generic_shape</A> is either a <A HREF="IMEX0011.HTM#shape">shape</A> or an <A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A>.
+</P><HR>
+<!-- Start of FUNCTION: intersecting_or_touching_or_coincident -->
+<H2><A NAME="intersecting_or_touching_or_coincident">intersecting_or_touching_or_coincident</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#intersecting_or_touching_or_coincident">intersecting_or_touching_or_coincident</A>
+    (segments : LIST OF <A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A>) : BOOLEAN;
+
+    LOCAL
+      n                   : INTEGER := SIZEOF(segments);
+      adj_pairs           : SET OF SET [2:2] OF INTEGER := [ ];
+      opp_pairs           : SET OF SET [2:2] OF INTEGER := [ ];
+      s1, s2              : <A HREF="IMEX0011.HTM#arc_or_line_segment">arc_or_line_segment</A>;
+      intersecting_points : SET OF <A HREF="IMEX0011.HTM#point">point</A>;
+    END_LOCAL;
+
+    -- Finding pairs of arc_or_line_segments which are adjacent to each other.
+    -- For example, if there is 5 segments, adjacent pairs are [1,2], [2,3],
+    -- [3,4], [4,5] and [1,5].
+
+    REPEAT i := 1 TO n-1;
+      adj_pairs := adj_pairs + [[i,i+1]];
+    END_REPEAT;
+    adj_pairs := adj_pairs + [[1,n]];
+
+    -- Finding pairs of arc_or_line_segments which are not adjacent to each
+    -- other.  For example, if there is 5 segments, non-adjacent pairs are
+    -- [1,3], [1,4], [2,4], [2,5] and [3,5].
+
+    REPEAT i := 1 TO n;
+      REPEAT j := 1 TO n;
+        opp_pairs := opp_pairs + [[i,j]];
+      END_REPEAT;
+      opp_pairs := opp_pairs - [[i,i]];
+      CASE i OF
+        1         : opp_pairs := opp_pairs - [[1,2], [1,n]];
+        n         : opp_pairs := opp_pairs - [[1,n], [n-1,n]];
+        OTHERWISE : opp_pairs := opp_pairs - [[i-1,i], [i,i+1]];
+      END_CASE;
+    END_REPEAT;
+
+    -- Checking whether non-adjacent pairs of arc_or_line_segments are
+    -- intersecting, touching or coincident.
+
+    REPEAT i := 1 TO SIZEOF(opp_pairs);
+      s1 := segments[opp_pairs[i][1]];
+      s2 := segments[opp_pairs[i][2]];
+      IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') AND
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') THEN
+         IF <A HREF="IMEX0011.HTM#line_touching_line">line_touching_line</A>(s1, s2) OR
+            <A HREF="IMEX0011.HTM#line_intersect_line">line_intersect_line</A>(s1, s2) THEN
+            RETURN(TRUE);
+         END_IF;
+      ELSE
+      IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') AND
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') THEN
+         IF <A HREF="IMEX0011.HTM#arc_touching_line">arc_touching_line</A>(s1, s2) OR
+            <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>(s1, s2) THEN
+            RETURN(TRUE);
+         END_IF;
+      ELSE
+      IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') AND
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') THEN
+         IF <A HREF="IMEX0011.HTM#arc_touching_line">arc_touching_line</A>(s2, s1) OR
+            <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>(s2, s1) THEN
+            RETURN(TRUE);
+         END_IF;
+      ELSE
+      IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') AND
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') THEN
+         IF <A HREF="IMEX0011.HTM#arc_touching_arc">arc_touching_arc</A>(s1, s2) OR
+            <A HREF="IMEX0011.HTM#arc_intersect_arc">arc_intersect_arc</A>(s1, s2) THEN
+            RETURN(TRUE);
+         END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+    END_REPEAT;
+
+    -- Checking whether adjacent pairs of arc_or_line_segments are intersecting,
+    -- touching or coincident.  
+
+    REPEAT i := 1 TO SIZEOF(adj_pairs);
+      s1 := segments[adj_pairs[i][1]];
+      s2 := segments[adj_pairs[i][2]];
+      IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') AND
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') THEN
+         IF <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(s1.start_point, s2) OR
+            <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(s2.end_point, s1) THEN
+            RETURN(TRUE);
+         END_IF;
+      ELSE
+      IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') AND
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') THEN
+         IF <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>(s1, s2) THEN
+            RETURN(TRUE);
+         END_IF;
+      ELSE
+      IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') AND
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') THEN
+         IF <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>(s2, s1) THEN
+            RETURN(TRUE);
+         END_IF;
+      ELSE
+      IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') AND
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR
+         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') THEN
+         IF <A HREF="IMEX0011.HTM#arc_intersect_arc">arc_intersect_arc</A>(s1, s2) THEN
+            RETURN(TRUE);
+         END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+      END_IF;
+    END_REPEAT;
+
+    RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#intersecting_or_touching_or_coincident">intersecting_or_touching_or_coincident</A> function returns true if any
+ line or arc segments are intersecting, touching or coincident.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#polygon">polygon</A> <A HREF="IMEX0011.HTM#shape">shape</A> <A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A> <A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A> </P>
+<HR>
+<!-- Start of FUNCTION: arc_intersect_arc -->
+<H2><A NAME="arc_intersect_arc">arc_intersect_arc</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#arc_intersect_arc">arc_intersect_arc</A>
+    (a1, a2 : <A HREF="IMEX0011.HTM#generic_arc">generic_arc</A>) : BOOLEAN;
+    LOCAL
+      pts : SET OF <A HREF="IMEX0011.HTM#point">point</A>;
+    END_LOCAL;
+
+    -- Find the intersection points of two circles.  The <A HREF="IMEX0011.HTM#circle">circle</A> is
+    -- specified by the centre_point and the radius of the circular <A HREF="IMEX0011.HTM#arc">arc</A>.
+    pts := <A HREF="IMEX0011.HTM#circle_and_circle_intersection">circle_and_circle_intersection</A>(a1.centre_point, a1.radius, 
+                                          a2.centre_point, a2.radius);
+
+    -- The function returns true if there is any intersection <A HREF="IMEX0011.HTM#point">point</A> which lies
+    -- on both arcs.  In addition, the <A HREF="IMEX0011.HTM#point">point</A> cannot be the start points or the
+    -- end points of the two arcs. 
+    IF SIZEOF(pts) = 2 THEN
+       REPEAT i := 1 TO SIZEOF(pts);
+         IF <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>(pts[i], a1) AND <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>(pts[i], a2) AND
+            NOT (pts[i] IN [a1.start_point, a1.end_point, 
+                            a2.start_point, a2.end_point]) THEN
+            RETURN(TRUE);
+         END_IF;
+       END_REPEAT;
+    END_IF;
+    RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#arc_intersect_arc">arc_intersect_arc</A> function returns true if the two arcs intersect.
+</P><HR>
+<!-- Start of FUNCTION: arc_intersect_line -->
+<H2><A NAME="arc_intersect_line">arc_intersect_line</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>
+    (a : <A HREF="IMEX0011.HTM#generic_arc">generic_arc</A>; l : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>) : BOOLEAN;
+    LOCAL
+      pts : SET OF <A HREF="IMEX0011.HTM#point">point</A>;
+    END_LOCAL;
+
+    -- Find the intersection points of a <A HREF="IMEX0011.HTM#circle">circle</A> and a line.  The <A HREF="IMEX0011.HTM#circle">circle</A> is
+    -- specified by the centre_point and the radius of the circular <A HREF="IMEX0011.HTM#arc">arc</A>.
+    pts := <A HREF="IMEX0011.HTM#circle_and_line_intersection">circle_and_line_intersection</A>(a.centre_point, a.radius, l);
+
+    -- The function returns true if there is any intersection <A HREF="IMEX0011.HTM#point">point</A> which lies
+    -- on both the line and the <A HREF="IMEX0011.HTM#arc">arc</A>.  In addition, the <A HREF="IMEX0011.HTM#point">point</A> cannot be the
+    -- start points or the end points of the line and the <A HREF="IMEX0011.HTM#arc">arc</A>.
+    IF SIZEOF(pts) = 2 THEN
+       REPEAT i := 1 TO SIZEOF(pts);
+         IF <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(pts[i], l) AND <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>(pts[i], a) AND
+            NOT (pts[i] IN [a.start_point, a.end_point, 
+                            l.start_point, l.end_point]) THEN
+            RETURN(TRUE);
+         END_IF;
+       END_REPEAT;
+    END_IF;
+    RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A> function returns true if a line and an arc
+ intersect.
+</P><HR>
+<!-- Start of FUNCTION: line_intersect_line -->
+<H2><A NAME="line_intersect_line">line_intersect_line</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#line_intersect_line">line_intersect_line</A>
+    (line1, line2 : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>) : BOOLEAN;
+
+    -- The algorithm is based on the FAQ of the comp.graphics.algorithms
+    -- newsgroup                                                       
+    --                                                                 
+    -- Let A,B,C,D be 2-space position vectors.  Then the directed line
+    -- segments AB &amp; CD are given by:                                  
+    --                                                                 
+    --    AB=A+r(B-A), r in [0,1]                                      
+    --    CD=C+s(D-C), s in [0,1]                                      
+    --                                                                 
+    -- If AB &amp; CD intersect, then                                      
+    --                                                                 
+    --    A+r(B-A)=C+s(D-C), or                                        
+    --                                                                 
+    --    XA+r(XB-XA)=XC+s(XD-XC)                                      
+    --    YA+r(YB-YA)=YC+s(YD-YC)  for some r,s in [0,1]               
+    --                                                                 
+    -- Solving the above for r and s yields                            
+    --                                                                 
+    --        (YA-YC)(XD-XC)-(XA-XC)(YD-YC)                            
+    --    r = -----------------------------                            
+    --        (XB-XA)(YD-YC)-(YB-YA)(XD-XC)                            
+    --                                                                 
+    --        (YA-YC)(XB-XA)-(XA-XC)(YB-YA)                            
+    --    s = -----------------------------                            
+    --        (XB-XA)(YD-YC)-(YB-YA)(XD-XC)                            
+    --                                                                 
+    -- Let I be the position vector of the intersection <A HREF="IMEX0011.HTM#point">point</A>, then    
+    --                                                                 
+    --    I=A+r(B-A) or                                                
+    --                                                                 
+    --    XI=XA+r(XB-XA)                                               
+    --    YI=YA+r(YB-YA)                                               
+    --                                                                 
+    -- If 0&lt;r&lt;1 &amp; 0&lt;s&lt;1, intersection exists                       
+
+    LOCAL
+      r, s : NUMBER;
+      x, y, denominator : INTEGER;
+      A, B, C, D : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    END_LOCAL;
+
+    A := line1.start_point;
+    B := line1.end_point;
+    C := line2.start_point;
+    D := line2.end_point;
+
+    denominator := (B.x_coordinate - A.x_coordinate)
+                    * (D.y_coordinate - C.y_coordinate)
+                    - (B.y_coordinate - A.y_coordinate)
+                       *(D.x_coordinate - C.x_coordinate);
+
+    r := ((A.y_coordinate - C.y_coordinate)*(D.x_coordinate - C.x_coordinate) -
+          (A.x_coordinate - C.x_coordinate)*(D.y_coordinate - C.y_coordinate))
+         / denominator;
+   
+    s := ((A.y_coordinate - C.y_coordinate)*(B.x_coordinate - A.x_coordinate) -
+          (A.x_coordinate - C.x_coordinate)*(B.y_coordinate - A.y_coordinate)) 
+         / denominator;
+
+    RETURN({0 &lt; r &lt; 1} AND {0 &lt; s &lt; 1});
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#line_intersect_line">line_intersect_line</A> function returns true if the two lines intersect.
+</P><HR>
+<!-- Start of FUNCTION: arc_touching_arc -->
+<H2><A NAME="arc_touching_arc">arc_touching_arc</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#arc_touching_arc">arc_touching_arc</A>
+    (a1, a2 : <A HREF="IMEX0011.HTM#generic_arc">generic_arc</A>) : BOOLEAN;
+    LOCAL
+      pts : SET OF <A HREF="IMEX0011.HTM#point">point</A>;
+    END_LOCAL;
+
+    -- Find the intersection points of two circles.  The <A HREF="IMEX0011.HTM#circle">circle</A> is
+    -- specified by the centre_point and the radius of the circular <A HREF="IMEX0011.HTM#arc">arc</A>.
+    pts := <A HREF="IMEX0011.HTM#circle_and_circle_intersection">circle_and_circle_intersection</A>(a1.centre_point, a1.radius, 
+                                          a2.centre_point, a2.radius);
+
+    IF (SIZEOF(pts) = 1) AND <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>(pts[1],a1) AND 
+       <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>(pts[1],a2) THEN
+       RETURN(TRUE);
+    ELSE
+    IF SIZEOF(pts) = 2 THEN
+       REPEAT i := 1 TO SIZEOF(pts);
+         IF <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>(pts[i], a1) AND <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>(pts[i], a2) AND
+            (pts[i] IN [a1.start_point, a1.end_point, 
+                        a2.start_point, a2.end_point]) THEN
+            RETURN(TRUE);
+         END_IF;
+       END_REPEAT;
+    END_IF;
+    END_IF;
+    RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#arc_touching_arc">arc_touching_arc</A> function returns true if two arcs are touching.
+</P><HR>
+<!-- Start of FUNCTION: arc_touching_line -->
+<H2><A NAME="arc_touching_line">arc_touching_line</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#arc_touching_line">arc_touching_line</A>
+    (a : <A HREF="IMEX0011.HTM#generic_arc">generic_arc</A>; l : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>) : BOOLEAN;
+    LOCAL
+      pts : SET OF <A HREF="IMEX0011.HTM#point">point</A>;
+    END_LOCAL;
+
+    -- Find the intersection points of a <A HREF="IMEX0011.HTM#circle">circle</A> and a line.  The <A HREF="IMEX0011.HTM#circle">circle</A> is
+    -- specified by the centre_point and the radius of the circular <A HREF="IMEX0011.HTM#arc">arc</A>.
+    pts := <A HREF="IMEX0011.HTM#circle_and_line_intersection">circle_and_line_intersection</A>(a.centre_point, a.radius, l);
+
+    IF (SIZEOF(pts) = 1) AND <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(pts[1],l) AND 
+       <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>(pts[1],a) THEN
+       RETURN(TRUE);
+    ELSE
+    IF SIZEOF(pts) = 2 THEN
+       REPEAT i := 1 TO SIZEOF(pts);
+         IF <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(pts[i], l) AND <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>(pts[i], a) AND
+            (pts[i] IN [a.start_point, a.end_point, 
+                        l.start_point, l.end_point]) THEN
+            RETURN(TRUE);
+         END_IF;
+       END_REPEAT;
+    END_IF;
+    END_IF;
+    RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#arc_touching_line">arc_touching_line</A> function returns true if an arc and a line are
+ touching.  
+</P><HR>
+<!-- Start of FUNCTION: line_touching_line -->
+<H2><A NAME="line_touching_line">line_touching_line</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#line_touching_line">line_touching_line</A>
+    (l1, l2 : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>) : BOOLEAN;
+
+    RETURN(<A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(l1.start_point, l2) OR
+           <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(l1.end_point,   l2) OR
+           <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(l2.start_point, l1) OR
+           <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(l2.end_point,   l1));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#line_touching_line">line_touching_line</A> function returns true if the two lines are
+ touching.  That is, either the start or the end point (or both) of the first
+ line lies on the second line or the start or the end point (or both) of the
+ second line lies on the first line.
+</P><HR>
+<!-- Start of FUNCTION: point_on_arc -->
+<H2><A NAME="point_on_arc">point_on_arc</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>
+    (pt : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>; a : <A HREF="IMEX0011.HTM#generic_arc">generic_arc</A>) : BOOLEAN;
+    -- This function is not fully defined in the current information model.
+    RETURN(?);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A> function returns true if a point lies on an arc.
+</P><HR>
+<!-- Start of FUNCTION: point_on_line -->
+<H2><A NAME="point_on_line">point_on_line</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>
+    (pt : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>; line : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>) : BOOLEAN;
+    LOCAL
+      p1 : <A HREF="IMEX0011.HTM#integer_point">integer_point</A> := line.start_point;
+      p2 : <A HREF="IMEX0011.HTM#integer_point">integer_point</A> := line.end_point;
+    END_LOCAL;
+    RETURN({p1.x_coordinate &lt;= pt.x_coordinate &lt;= p2.x_coordinate} AND
+           {p1.y_coordinate &lt;= pt.y_coordinate &lt;= p2.y_coordinate} AND
+            <A HREF="IMEX0011.HTM#colinear_points">colinear_points</A>(p1, p2, pt));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A> function returns true if a point lies on a line.  A
+ point lies on a line if its x and y coordinates lie between the end points
+ of the line and it is colinear with the end points of the line.
+</P><HR>
+<!-- Start of FUNCTION: point_inside_geometry_element -->
+<H2><A NAME="point_inside_geometry_element">point_inside_geometry_element</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_inside_geometry_element">point_inside_geometry_element</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; element : <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A>) : BOOLEAN;
+    LOCAL
+      elementType : SET OF STRING := TYPEOF(element);
+    END_LOCAL;
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_circle">point_inside_circle</A>(pt, element\<A HREF="IMEX0011.HTM#circle">circle</A>));
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_circle">point_inside_circle</A>(pt, element\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>));
+    ELSE
+    IF '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>' IN elementType THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_geometry_element">point_inside_geometry_element</A>(pt, 
+                element\<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>.outline)
+              AND
+              <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(cutout &lt;* 
+                               element\<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>.cutouts |
+                               <A HREF="IMEX0011.HTM#point_inside_geometry_element">point_inside_geometry_element</A>(pt, cutout))));    
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#open_shape">open_shape</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_open_shape">point_inside_open_shape</A>(pt, element\<A HREF="IMEX0011.HTM#open_shape">open_shape</A>));
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#path">path</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_path">point_inside_path</A>(pt, element\<A HREF="IMEX0011.HTM#path">path</A>));
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_polygon">point_inside_polygon</A>(pt, element\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_rectangle">point_inside_rectangle</A>(pt, element\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_shape">point_inside_shape</A>(pt, element\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#unfilled_circle">unfilled_circle</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_circle">point_inside_circle</A>(pt, element\<A HREF="IMEX0011.HTM#unfilled_circle">unfilled_circle</A>));
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#unfilled_circle_by_centre">unfilled_circle_by_centre</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_circle">point_inside_circle</A>(pt, element\<A HREF="IMEX0011.HTM#unfilled_circle_by_centre">unfilled_circle_by_centre</A>));
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_polygon">point_inside_polygon</A>(pt, element\<A HREF="IMEX0011.HTM#unfilled_polygon">unfilled_polygon</A>));
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_rectangle">point_inside_rectangle</A>(pt, element\<A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A>));
+    ELSE
+    IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A>' IN elementType) THEN
+       RETURN(<A HREF="IMEX0011.HTM#point_inside_shape">point_inside_shape</A>(pt, element\<A HREF="IMEX0011.HTM#unfilled_shape">unfilled_shape</A>));
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_inside_geometry_element">point_inside_geometry_element</A> returns true if a point lies inside a
+ <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#linear_dimension">linear_dimension</A> </P>
+<HR>
+<!-- Start of FUNCTION: point_inside_circle -->
+<H2><A NAME="point_inside_circle">point_inside_circle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_inside_circle">point_inside_circle</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; c : <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>) : BOOLEAN;
+
+    -- The function returns true if the distance between a <A HREF="IMEX0011.HTM#point">point</A> and the <A HREF="IMEX0011.HTM#circle">circle</A>
+    -- centre is less than or equal to the <A HREF="IMEX0011.HTM#circle">circle</A> radius.
+
+    RETURN(<A HREF="IMEX0011.HTM#point_distance">point_distance</A>(pt, c.centre_point) &lt;= c.radius);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_inside_circle">point_inside_circle</A> function returns true if a point lies inside a
+ circle.
+</P><HR>
+<!-- Start of FUNCTION: point_inside_path -->
+<H2><A NAME="point_inside_path">point_inside_path</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_inside_path">point_inside_path</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; p : <A HREF="IMEX0011.HTM#path">path</A>) : BOOLEAN;
+    REPEAT i := 1 TO SIZEOF(p.segments);
+      IF <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(pt, p.segments[i]) THEN
+         RETURN(TRUE);
+      END_IF;
+    END_REPEAT;
+    RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_inside_path">point_inside_path</A> function returns true if a point lies on any line
+ segment of a <A HREF="IMEX0011.HTM#path">path</A>.
+</P><HR>
+<!-- Start of FUNCTION: point_inside_polygon -->
+<H2><A NAME="point_inside_polygon">point_inside_polygon</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_inside_polygon">point_inside_polygon</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; p : <A HREF="IMEX0011.HTM#generic_polygon">generic_polygon</A>) : BOOLEAN;
+
+    -- The algorithm is based on the FAQ of the comp.graphics.algorithms
+    -- newsgroup 
+
+    LOCAL
+      inside : BOOLEAN := FALSE;
+      j, numOfVertices : INTEGER;
+      v : LIST OF <A HREF="IMEX0011.HTM#integer_point">integer_point</A> := p.vertices;
+    END_LOCAL;
+
+    numOfVertices := SIZEOF(v);
+    j :=  numOfVertices - 1;
+
+    REPEAT i := 0 TO (numOfVertices - 1);
+      IF ({v[i].y_coordinate &lt;= pt.y_coordinate &lt; v[j].y_coordinate} OR
+          {v[j].y_coordinate &lt;= pt.y_coordinate &lt; v[i].y_coordinate})
+         AND
+         ((v[j].y_coordinate - v[i].y_coordinate)
+             / (v[j].x_coordinate - v[i].x_coordinate) 
+          &lt;
+          (pt.y_coordinate - v[i].y_coordinate)
+             / (pt.x_coordinate - v[i].x_coordinate)) THEN
+         inside := NOT inside;
+      END_IF;
+      j := i;
+    END_REPEAT;
+    RETURN(inside);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_inside_polygon">point_inside_polygon</A> function returns true if a point lies inside a
+ polygon.
+</P><HR>
+<!-- Start of FUNCTION: point_inside_open_shape -->
+<H2><A NAME="point_inside_open_shape">point_inside_open_shape</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_inside_open_shape">point_inside_open_shape</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; s : <A HREF="IMEX0011.HTM#open_shape">open_shape</A>) : BOOLEAN;
+    REPEAT i := 1 TO SIZEOF(s.segments);
+      IF '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>' IN TYPEOF(s.segments[i]) THEN
+         IF <A HREF="IMEX0011.HTM#point_on_line">point_on_line</A>(pt, s.segments[i]) THEN
+            RETURN(TRUE);
+         END_IF;
+      ELSE
+      IF ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>' IN TYPEOF(s.segments[i])) OR
+         ('<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>' IN TYPEOF(s.segments[i])) THEN
+         IF <A HREF="IMEX0011.HTM#point_on_arc">point_on_arc</A>(pt, s.segments[i]) THEN
+            RETURN(TRUE);
+         END_IF;
+      END_IF;
+      END_IF;
+    END_REPEAT;
+    RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_inside_open_shape">point_inside_open_shape</A> function returns true if a point lies on any
+ line or arc segment of an <A HREF="IMEX0011.HTM#open_shape">open_shape</A>.
+</P><HR>
+<!-- Start of FUNCTION: point_inside_rectangle -->
+<H2><A NAME="point_inside_rectangle">point_inside_rectangle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_inside_rectangle">point_inside_rectangle</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; r : <A HREF="IMEX0011.HTM#generic_rectangle">generic_rectangle</A>) : BOOLEAN;
+
+    RETURN({r.x_min &lt;= pt.x_coordinate &lt;= r.x_max} AND
+           {r.y_min &lt;= pt.y_coordinate &lt;= r.y_max});
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_inside_rectangle">point_inside_rectangle</A> function returns true if a point lies inside a
+ rectangle.
+</P><HR>
+<!-- Start of FUNCTION: point_inside_shape -->
+<H2><A NAME="point_inside_shape">point_inside_shape</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#point_inside_shape">point_inside_shape</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; s : <A HREF="IMEX0011.HTM#generic_shape">generic_shape</A>) : BOOLEAN;
+    -- This function is not fully defined in the current information model.
+    RETURN(?);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#point_inside_shape">point_inside_shape</A> function returns true if a point lies inside a
+ shape.
+</P><HR>
+<!-- Start of FUNCTION: closed_area_element_inside_closed_area_element -->
+<H2><A NAME="closed_area_element_inside_closed_area_element">closed_area_element_inside_closed_area_element</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#closed_area_element_inside_closed_area_element">closed_area_element_inside_closed_area_element</A>
+    (a1, a2 : <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>) : BOOLEAN;
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#closed_area_element_inside_closed_area_element">closed_area_element_inside_closed_area_element</A>
+               (a1\<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>.outline, a2));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#closed_area_element_inside_closed_area_element">closed_area_element_inside_closed_area_element</A>
+               (a1, a2\<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>.outline)
+              AND
+              <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(cutout &lt;* 
+                               a2\<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>.cutouts |
+                <A HREF="IMEX0011.HTM#closed_area_element_inside_closed_area_element">closed_area_element_inside_closed_area_element</A>(a1,cutout)
+                OR
+                <A HREF="IMEX0011.HTM#closed_area_element_intersect_closed_area_element">closed_area_element_intersect_closed_area_element</A>(a1,cutout))));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_inside_circle">circle_inside_circle</A>(a1\<A HREF="IMEX0011.HTM#circle">circle</A>, a2\<A HREF="IMEX0011.HTM#circle">circle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_inside_circle">circle_inside_circle</A>(a1\<A HREF="IMEX0011.HTM#circle">circle</A>, a2\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_inside_circle">circle_inside_circle</A>(a1\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a2\<A HREF="IMEX0011.HTM#circle">circle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_inside_circle">circle_inside_circle</A>(a1\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a2\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_inside_polygon">circle_inside_polygon</A>(a1\<A HREF="IMEX0011.HTM#circle">circle</A>, a2\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_inside_polygon">circle_inside_polygon</A>(a1\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a2\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_inside_rectangle">circle_inside_rectangle</A>(a1\<A HREF="IMEX0011.HTM#circle">circle</A>, a2\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_inside_rectangle">circle_inside_rectangle</A>(a1\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a2\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_inside_shape">circle_inside_shape</A>(a1\<A HREF="IMEX0011.HTM#circle">circle</A>, a2\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_inside_shape">circle_inside_shape</A>(a1\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a2\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#polygon_inside_circle">polygon_inside_circle</A>(a1\<A HREF="IMEX0011.HTM#polygon">polygon</A>, a2\<A HREF="IMEX0011.HTM#circle">circle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#polygon_inside_circle">polygon_inside_circle</A>(a1\<A HREF="IMEX0011.HTM#polygon">polygon</A>, a2\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#polygon_inside_polygon">polygon_inside_polygon</A>(a1\<A HREF="IMEX0011.HTM#polygon">polygon</A>, a2\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#polygon_inside_rectangle">polygon_inside_rectangle</A>(a1\<A HREF="IMEX0011.HTM#polygon">polygon</A>, a2\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#polygon_inside_shape">polygon_inside_shape</A>(a1\<A HREF="IMEX0011.HTM#polygon">polygon</A>, a2\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#rectangle_inside_circle">rectangle_inside_circle</A>(a1\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>, a2\<A HREF="IMEX0011.HTM#circle">circle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#rectangle_inside_circle">rectangle_inside_circle</A>(a1\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>, a2\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#rectangle_inside_polygon">rectangle_inside_polygon</A>(a1\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>, a2\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#rectangle_inside_rectangle">rectangle_inside_rectangle</A>(a1\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>, a2\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#rectangle_inside_shape">rectangle_inside_shape</A>(a1\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>, a2\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#shape_inside_circle">shape_inside_circle</A>(a1\<A HREF="IMEX0011.HTM#shape">shape</A>, a2\<A HREF="IMEX0011.HTM#circle">circle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#shape_inside_circle">shape_inside_circle</A>(a1\<A HREF="IMEX0011.HTM#shape">shape</A>, a2\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#shape_inside_polygon">shape_inside_polygon</A>(a1\<A HREF="IMEX0011.HTM#shape">shape</A>, a2\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#shape_inside_rectangle">shape_inside_rectangle</A>(a1\<A HREF="IMEX0011.HTM#shape">shape</A>, a2\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#shape_inside_shape">shape_inside_shape</A>(a1\<A HREF="IMEX0011.HTM#shape">shape</A>, a2\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#closed_area_element_inside_closed_area_element">closed_area_element_inside_closed_area_element</A> returns true if a
+ <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A> lies inside another <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A> </P>
+<HR>
+<!-- Start of FUNCTION: circle_inside_circle -->
+<H2><A NAME="circle_inside_circle">circle_inside_circle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#circle_inside_circle">circle_inside_circle</A>
+    (c1, c2 : <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>) : BOOLEAN;
+
+    -- The function returns true if the distance between the two <A HREF="IMEX0011.HTM#circle">circle</A> centres
+    -- is less than or equal to the difference in their radii.
+
+    RETURN(<A HREF="IMEX0011.HTM#point_distance">point_distance</A>(c1.centre_point, c2.centre_point)
+           &lt;= ABS(c1.radius - c2.radius));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#circle_inside_circle">circle_inside_circle</A> function returns true if a circle lies inside
+ another circle.
+</P><HR>
+<!-- Start of FUNCTION: circle_inside_polygon -->
+<H2><A NAME="circle_inside_polygon">circle_inside_polygon</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#circle_inside_polygon">circle_inside_polygon</A>
+    (c: <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>; p : <A HREF="IMEX0011.HTM#polygon">polygon</A>) : BOOLEAN;
+
+    -- The function returns true if the <A HREF="IMEX0011.HTM#circle">circle</A> centre lies inside the <A HREF="IMEX0011.HTM#polygon">polygon</A>
+    -- and the distance between the <A HREF="IMEX0011.HTM#circle">circle</A> centre and each vertex of the
+    -- <A HREF="IMEX0011.HTM#polygon">polygon</A> must be greater than or equal to the <A HREF="IMEX0011.HTM#circle">circle</A> radius and the
+    -- <A HREF="IMEX0011.HTM#polygon">polygon</A> does not intersect with the <A HREF="IMEX0011.HTM#circle">circle</A>.
+
+    RETURN(<A HREF="IMEX0011.HTM#point_inside_polygon">point_inside_polygon</A>(c.centre_point, p)
+           AND
+           <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(pt &lt;* p.vertices |
+             <A HREF="IMEX0011.HTM#point_distance">point_distance</A>(pt, c.centre_point) &lt; c.radius))
+           AND
+           NOT <A HREF="IMEX0011.HTM#circle_intersect_polygon">circle_intersect_polygon</A>(c, p));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#circle_inside_polygon">circle_inside_polygon</A> function returns true if a circle lies inside a
+ polygon. 
+</P><HR>
+<!-- Start of FUNCTION: circle_inside_rectangle -->
+<H2><A NAME="circle_inside_rectangle">circle_inside_rectangle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#circle_inside_rectangle">circle_inside_rectangle</A>
+    (c: <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>; r : <A HREF="IMEX0011.HTM#rectangle">rectangle</A>) : BOOLEAN;
+
+    RETURN((c.radius &lt;= (c.centre_point.x_coordinate - r.x_min)) AND
+           (c.radius &lt;= (r.x_max - c.centre_point.x_coordinate)) AND
+           (c.radius &lt;= (c.centre_point.y_coordinate - r.y_min)) AND
+           (c.radius &lt;= (r.y_max - c.centre_point.y_coordinate)));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#circle_inside_rectangle">circle_inside_rectangle</A> function returns true if a circle lies inside
+ a rectangle.  
+</P><HR>
+<!-- Start of FUNCTION: circle_inside_shape -->
+<H2><A NAME="circle_inside_shape">circle_inside_shape</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#circle_inside_shape">circle_inside_shape</A>
+    (c: <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>; s : <A HREF="IMEX0011.HTM#shape">shape</A>) : BOOLEAN;
+    -- This function is not fully defined in the current information model.
+    RETURN(?);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#circle_inside_shape">circle_inside_shape</A> function returns true if a circle lies inside a
+ shape. 
+</P><HR>
+<!-- Start of FUNCTION: polygon_inside_circle -->
+<H2><A NAME="polygon_inside_circle">polygon_inside_circle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#polygon_inside_circle">polygon_inside_circle</A>
+    (p : <A HREF="IMEX0011.HTM#polygon">polygon</A>; c : <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>) : BOOLEAN;
+
+    -- The function returns true if all vertices of a <A HREF="IMEX0011.HTM#polygon">polygon</A> lie inside a
+    -- <A HREF="IMEX0011.HTM#circle">circle</A>. 
+
+    RETURN(<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(pt &lt;* p.vertices |
+             NOT <A HREF="IMEX0011.HTM#point_inside_circle">point_inside_circle</A>(pt, c))));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#polygon_inside_circle">polygon_inside_circle</A> function returns true if a polygon lies inside a
+ circle.
+</P><HR>
+<!-- Start of FUNCTION: polygon_inside_polygon -->
+<H2><A NAME="polygon_inside_polygon">polygon_inside_polygon</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#polygon_inside_polygon">polygon_inside_polygon</A>
+    (p1, p2 : <A HREF="IMEX0011.HTM#polygon">polygon</A>) : BOOLEAN;
+
+    -- The function returns true if all vertices of a <A HREF="IMEX0011.HTM#polygon">polygon</A> (p1) lie inside
+    -- another <A HREF="IMEX0011.HTM#polygon">polygon</A> (p2).  In addition, all line segments of p1 must not
+    -- intersect with any line segments of p2.
+
+    RETURN(<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(pt &lt;* p1.vertices | 
+                            NOT <A HREF="IMEX0011.HTM#point_inside_polygon">point_inside_polygon</A>(pt, p2)))
+           AND 
+           NOT <A HREF="IMEX0011.HTM#polygon_intersect_polygon">polygon_intersect_polygon</A>(p1, p2));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#polygon_inside_polygon">polygon_inside_polygon</A> function returns true if a polygon lies inside
+ a polygon.
+</P><HR>
+<!-- Start of FUNCTION: polygon_inside_rectangle -->
+<H2><A NAME="polygon_inside_rectangle">polygon_inside_rectangle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#polygon_inside_rectangle">polygon_inside_rectangle</A>
+    (p : <A HREF="IMEX0011.HTM#polygon">polygon</A>; r : <A HREF="IMEX0011.HTM#rectangle">rectangle</A>) : BOOLEAN;
+
+    -- The function returns true if all vertices of the <A HREF="IMEX0011.HTM#polygon">polygon</A> lie inside the
+    -- <A HREF="IMEX0011.HTM#rectangle">rectangle</A>.
+
+    RETURN(<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(pt &lt;* p.vertices |
+             NOT <A HREF="IMEX0011.HTM#point_inside_rectangle">point_inside_rectangle</A>(pt, r))));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#polygon_inside_rectangle">polygon_inside_rectangle</A> function returns true if a polygon lies
+ inside a rectangle. 
+</P><HR>
+<!-- Start of FUNCTION: polygon_inside_shape -->
+<H2><A NAME="polygon_inside_shape">polygon_inside_shape</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#polygon_inside_shape">polygon_inside_shape</A>
+    (p : <A HREF="IMEX0011.HTM#polygon">polygon</A>; s : <A HREF="IMEX0011.HTM#shape">shape</A>) : BOOLEAN;
+
+    -- The function returns true if all vertices of a <A HREF="IMEX0011.HTM#polygon">polygon</A> (p) lie inside a
+    -- <A HREF="IMEX0011.HTM#shape">shape</A> (s).  In addition, all line segments of p must not intersect with
+    -- any segments of s.
+
+    RETURN(<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(pt &lt;* p.vertices | NOT <A HREF="IMEX0011.HTM#point_inside_shape">point_inside_shape</A>(pt, s)))
+           AND
+           NOT <A HREF="IMEX0011.HTM#polygon_intersect_shape">polygon_intersect_shape</A>(p,s));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#polygon_inside_shape">polygon_inside_shape</A> function returns true if a polygon lies inside a
+ shape.
+</P><HR>
+<!-- Start of FUNCTION: rectangle_inside_circle -->
+<H2><A NAME="rectangle_inside_circle">rectangle_inside_circle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#rectangle_inside_circle">rectangle_inside_circle</A>
+    (r : <A HREF="IMEX0011.HTM#rectangle">rectangle</A>; c : <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>) : BOOLEAN;
+
+    -- The function returns true if all four vertices of a <A HREF="IMEX0011.HTM#rectangle">rectangle</A> lies
+    -- inside a <A HREF="IMEX0011.HTM#circle">circle</A>. 
+ 
+    RETURN(<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(vertex &lt;* r.vertices |
+             NOT <A HREF="IMEX0011.HTM#point_inside_circle">point_inside_circle</A>(vertex, c))));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#rectangle_inside_circle">rectangle_inside_circle</A> function returns true if a rectangle lies
+ inside a circle.  
+</P><HR>
+<!-- Start of FUNCTION: rectangle_inside_polygon -->
+<H2><A NAME="rectangle_inside_polygon">rectangle_inside_polygon</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#rectangle_inside_polygon">rectangle_inside_polygon</A>
+    (r: <A HREF="IMEX0011.HTM#rectangle">rectangle</A>; p : <A HREF="IMEX0011.HTM#polygon">polygon</A>) : BOOLEAN;
+
+    -- A <A HREF="IMEX0011.HTM#rectangle">rectangle</A> is inside a <A HREF="IMEX0011.HTM#polygon">polygon</A> if all four vertices of the <A HREF="IMEX0011.HTM#rectangle">rectangle</A>
+    -- lie inside the <A HREF="IMEX0011.HTM#polygon">polygon</A> and none of the four sides of the <A HREF="IMEX0011.HTM#rectangle">rectangle</A>
+    -- intersects with any line segment of the <A HREF="IMEX0011.HTM#polygon">polygon</A>.
+
+    RETURN(<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(vertex &lt;* r.vertices |
+             NOT <A HREF="IMEX0011.HTM#point_inside_polygon">point_inside_polygon</A>(vertex, p)))
+           AND
+           NOT <A HREF="IMEX0011.HTM#polygon_intersect_rectangle">polygon_intersect_rectangle</A>(p,r));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#rectangle_inside_polygon">rectangle_inside_polygon</A> function returns true if a rectangle lies
+ inside a polygon.
+</P><HR>
+<!-- Start of FUNCTION: rectangle_inside_rectangle -->
+<H2><A NAME="rectangle_inside_rectangle">rectangle_inside_rectangle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#rectangle_inside_rectangle">rectangle_inside_rectangle</A>
+    (r1, r2 : <A HREF="IMEX0011.HTM#rectangle">rectangle</A>) : BOOLEAN;
+
+    RETURN({r2.x_min &lt;= r1.x_min &lt;= r2.x_max} AND
+           {r2.x_min &lt;= r1.x_max &lt;= r2.x_max} AND
+           {r2.y_min &lt;= r1.y_min &lt;= r2.y_max} AND
+           {r2.y_min &lt;= r1.y_max &lt;= r2.y_max});
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#rectangle_inside_rectangle">rectangle_inside_rectangle</A> function returns true if a rectangle lies
+ inside a rectangle.  That is, the four vertex of the first rectangle are
+ within the boundary formed by the four vertex of the second rectangle.
+</P><HR>
+<!-- Start of FUNCTION: rectangle_inside_shape -->
+<H2><A NAME="rectangle_inside_shape">rectangle_inside_shape</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#rectangle_inside_shape">rectangle_inside_shape</A>
+    (r: <A HREF="IMEX0011.HTM#rectangle">rectangle</A>; s : <A HREF="IMEX0011.HTM#shape">shape</A>) : BOOLEAN;
+
+    -- A <A HREF="IMEX0011.HTM#rectangle">rectangle</A> is inside a <A HREF="IMEX0011.HTM#shape">shape</A> if all four vertices of the <A HREF="IMEX0011.HTM#rectangle">rectangle</A>
+    -- lie inside the <A HREF="IMEX0011.HTM#shape">shape</A> and none of the four sides of the <A HREF="IMEX0011.HTM#rectangle">rectangle</A>
+    -- intersects with any segment of the <A HREF="IMEX0011.HTM#shape">shape</A>.
+
+    RETURN(<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(vertex &lt;* r.vertices |
+             NOT <A HREF="IMEX0011.HTM#point_inside_shape">point_inside_shape</A>(vertex, s)))
+           AND
+           NOT <A HREF="IMEX0011.HTM#rectangle_intersect_shape">rectangle_intersect_shape</A>(r,s));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#rectangle_inside_shape">rectangle_inside_shape</A> function returns true if a rectangle lies
+ inside a shape.
+</P><HR>
+<!-- Start of FUNCTION: shape_inside_circle -->
+<H2><A NAME="shape_inside_circle">shape_inside_circle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#shape_inside_circle">shape_inside_circle</A>
+    (s : <A HREF="IMEX0011.HTM#shape">shape</A>; c : <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>) : BOOLEAN;
+    -- This function is not fully defined in the current information model.
+    RETURN(?);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#shape_inside_circle">shape_inside_circle</A> function returns true if a shape lies inside a
+ circle.
+</P><HR>
+<!-- Start of FUNCTION: shape_inside_polygon -->
+<H2><A NAME="shape_inside_polygon">shape_inside_polygon</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#shape_inside_polygon">shape_inside_polygon</A>
+    (s: <A HREF="IMEX0011.HTM#shape">shape</A>; p : <A HREF="IMEX0011.HTM#polygon">polygon</A>) : BOOLEAN;
+    -- This function is not fully defined in the current information model.
+    RETURN(?);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#shape_inside_polygon">shape_inside_polygon</A> function returns true if a shape lies inside a
+ polygon.
+</P><HR>
+<!-- Start of FUNCTION: shape_inside_rectangle -->
+<H2><A NAME="shape_inside_rectangle">shape_inside_rectangle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#shape_inside_rectangle">shape_inside_rectangle</A>
+    (s : <A HREF="IMEX0011.HTM#shape">shape</A>; r : <A HREF="IMEX0011.HTM#rectangle">rectangle</A>) : BOOLEAN;
+    -- This function is not fully defined in the current information model.
+    RETURN(?);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#shape_inside_rectangle">shape_inside_rectangle</A> function returns true if a shape lies inside a
+ rectangle.
+</P><HR>
+<!-- Start of FUNCTION: shape_inside_shape -->
+<H2><A NAME="shape_inside_shape">shape_inside_shape</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#shape_inside_shape">shape_inside_shape</A>
+    (s1, s2 : <A HREF="IMEX0011.HTM#shape">shape</A>) : BOOLEAN;
+    -- This function is not fully defined in the current information model.
+    RETURN(?);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#shape_inside_shape">shape_inside_shape</A> function returns true if a shape lies inside a
+ shape.
+</P><HR>
+<!-- Start of FUNCTION: closed_area_element_intersect_closed_area_element -->
+<H2><A NAME="closed_area_element_intersect_closed_area_element">closed_area_element_intersect_closed_area_element</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#closed_area_element_intersect_closed_area_element">closed_area_element_intersect_closed_area_element</A>
+    (a1, a2 : <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>) : BOOLEAN;
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#closed_area_element_intersect_closed_area_element">closed_area_element_intersect_closed_area_element</A>
+               (a1\<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>.outline, a2));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#closed_area_element_intersect_closed_area_element">closed_area_element_intersect_closed_area_element</A>
+               (a1, a2\<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A>.outline));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_circle">circle_intersect_circle</A>(a1\<A HREF="IMEX0011.HTM#circle">circle</A>, a2\<A HREF="IMEX0011.HTM#circle">circle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_circle">circle_intersect_circle</A>(a1\<A HREF="IMEX0011.HTM#circle">circle</A>, a2\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_circle">circle_intersect_circle</A>(a1\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a2\<A HREF="IMEX0011.HTM#circle">circle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_circle">circle_intersect_circle</A>(a1\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, 
+                                      a2\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_polygon">circle_intersect_polygon</A>(a1\<A HREF="IMEX0011.HTM#circle">circle</A>, a2\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_polygon">circle_intersect_polygon</A>(a1\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a2\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_rectangle">circle_intersect_rectangle</A>(a1\<A HREF="IMEX0011.HTM#circle">circle</A>, a2\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_rectangle">circle_intersect_rectangle</A>(a1\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a2\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_shape">circle_intersect_shape</A>(a1\<A HREF="IMEX0011.HTM#circle">circle</A>, a2\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_shape">circle_intersect_shape</A>(a1\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a2\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_polygon">circle_intersect_polygon</A>(a2\<A HREF="IMEX0011.HTM#circle">circle</A>, a1\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_polygon">circle_intersect_polygon</A>(a2\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a1\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#polygon_intersect_polygon">polygon_intersect_polygon</A>(a1\<A HREF="IMEX0011.HTM#polygon">polygon</A>, a2\<A HREF="IMEX0011.HTM#polygon">polygon</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#polygon_intersect_rectangle">polygon_intersect_rectangle</A>(a1\<A HREF="IMEX0011.HTM#polygon">polygon</A>, a2\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#polygon_intersect_shape">polygon_intersect_shape</A>(a1\<A HREF="IMEX0011.HTM#polygon">polygon</A>, a2\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_rectangle">circle_intersect_rectangle</A>(a2\<A HREF="IMEX0011.HTM#circle">circle</A>, a1\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_rectangle">circle_intersect_rectangle</A>(a2\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a1\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#polygon_intersect_rectangle">polygon_intersect_rectangle</A>(a2\<A HREF="IMEX0011.HTM#polygon">polygon</A>, a1\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#rectangle_intersect_rectangle">rectangle_intersect_rectangle</A>(a1\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>, a2\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#rectangle_intersect_shape">rectangle_intersect_shape</A>(a1\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>, a2\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle">circle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_shape">circle_intersect_shape</A>(a2\<A HREF="IMEX0011.HTM#circle">circle</A>, a1\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#circle_intersect_shape">circle_intersect_shape</A>(a2\<A HREF="IMEX0011.HTM#circle_by_centre">circle_by_centre</A>, a1\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#polygon">polygon</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#polygon_intersect_shape">polygon_intersect_shape</A>(a2\<A HREF="IMEX0011.HTM#polygon">polygon</A>, a1\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#rectangle">rectangle</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#rectangle_intersect_shape">rectangle_intersect_shape</A>(a2\<A HREF="IMEX0011.HTM#rectangle">rectangle</A>, a1\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    ELSE
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') AND
+       <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(a2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#shape">shape</A>') THEN
+       RETURN(<A HREF="IMEX0011.HTM#shape_intersect_shape">shape_intersect_shape</A>(a1\<A HREF="IMEX0011.HTM#shape">shape</A>, a2\<A HREF="IMEX0011.HTM#shape">shape</A>));
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#closed_area_element_intersect_closed_area_element">closed_area_element_intersect_closed_area_element</A> returns true if a
+ <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A> intersects another <A HREF="IMEX0011.HTM#closed_area_element">closed_area_element</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#closed_area_element_with_cutout">closed_area_element_with_cutout</A> </P>
+<HR>
+<!-- Start of FUNCTION: circle_intersect_circle -->
+<H2><A NAME="circle_intersect_circle">circle_intersect_circle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#circle_intersect_circle">circle_intersect_circle</A>
+    (c1, c2 : <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>) : BOOLEAN;
+
+    RETURN(<A HREF="IMEX0011.HTM#point_distance">point_distance</A>(c1.centre_point, c2.centre_point)
+           &lt; (c1.radius + c2.radius));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#circle_intersect_circle">circle_intersect_circle</A> function returns true if a circle intersects
+ another circle.  That is, the distance between the two circle centres is
+ less than the sum of their radii.
+</P><HR>
+<!-- Start of FUNCTION: circle_intersect_polygon -->
+<H2><A NAME="circle_intersect_polygon">circle_intersect_polygon</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#circle_intersect_polygon">circle_intersect_polygon</A>
+    (c: <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>; p : <A HREF="IMEX0011.HTM#polygon">polygon</A>) : BOOLEAN;
+
+    -- The function returns true if the distance of the <A HREF="IMEX0011.HTM#circle">circle</A> centre to any
+    -- line segment of the <A HREF="IMEX0011.HTM#polygon">polygon</A> is less than the <A HREF="IMEX0011.HTM#circle">circle</A> radius.
+
+    RETURN(<A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(ln &lt;* p.segments |
+             <A HREF="IMEX0011.HTM#point_and_line_distance">point_and_line_distance</A>(c.centre_point, ln) &lt; c.radius)));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#circle_intersect_polygon">circle_intersect_polygon</A> function returns true if a circle intersects
+ a polygon.
+</P><HR>
+<!-- Start of FUNCTION: circle_intersect_rectangle -->
+<H2><A NAME="circle_intersect_rectangle">circle_intersect_rectangle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#circle_intersect_rectangle">circle_intersect_rectangle</A>
+    (c: <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>; r : <A HREF="IMEX0011.HTM#rectangle">rectangle</A>) : BOOLEAN;
+
+    RETURN((ABS(r.x_min - c.centre_point.x_coordinate) &lt; c.radius) OR
+           (ABS(c.centre_point.x_coordinate - r.x_max) &lt; c.radius) OR
+           (ABS(r.y_min - c.centre_point.y_coordinate) &lt; c.radius) OR
+           (ABS(c.centre_point.y_coordinate - r.y_max) &lt; c.radius));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#circle_intersect_rectangle">circle_intersect_rectangle</A> function returns true if a circle
+ intersects a rectangle.
+</P><HR>
+<!-- Start of FUNCTION: circle_intersect_shape -->
+<H2><A NAME="circle_intersect_shape">circle_intersect_shape</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#circle_intersect_shape">circle_intersect_shape</A>
+    (c: <A HREF="IMEX0011.HTM#generic_circle">generic_circle</A>; s : <A HREF="IMEX0011.HTM#shape">shape</A>) : BOOLEAN;
+    -- This function is not fully defined in the current information model.
+    RETURN(?);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#circle_intersect_shape">circle_intersect_shape</A> function returns true if a circle intersects a
+ shape.
+</P><HR>
+<!-- Start of FUNCTION: polygon_intersect_polygon -->
+<H2><A NAME="polygon_intersect_polygon">polygon_intersect_polygon</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#polygon_intersect_polygon">polygon_intersect_polygon</A>
+    (p1, p2 : <A HREF="IMEX0011.HTM#polygon">polygon</A>) : BOOLEAN;
+    RETURN(<A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(l1 &lt;* p1.segments |
+             <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(l2 &lt;* p2.segments |
+               <A HREF="IMEX0011.HTM#line_intersect_line">line_intersect_line</A>(l1, l2))))));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#polygon_intersect_polygon">polygon_intersect_polygon</A> function returns true if a polygon
+ intersects a polygon.
+</P><HR>
+<!-- Start of FUNCTION: polygon_intersect_rectangle -->
+<H2><A NAME="polygon_intersect_rectangle">polygon_intersect_rectangle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#polygon_intersect_rectangle">polygon_intersect_rectangle</A>
+    (p : <A HREF="IMEX0011.HTM#polygon">polygon</A>; r : <A HREF="IMEX0011.HTM#rectangle">rectangle</A>) : BOOLEAN;
+    RETURN(<A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(rline &lt;* r.segments |
+             <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(pline &lt;* p.segments |
+               <A HREF="IMEX0011.HTM#line_intersect_line">line_intersect_line</A>(rline, pline))))));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#polygon_intersect_rectangle">polygon_intersect_rectangle</A> function returns true if a polygon 
+ intersects a rectangle. 
+</P><HR>
+<!-- Start of FUNCTION: polygon_intersect_shape -->
+<H2><A NAME="polygon_intersect_shape">polygon_intersect_shape</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#polygon_intersect_shape">polygon_intersect_shape</A>
+    (p : <A HREF="IMEX0011.HTM#polygon">polygon</A>; s : <A HREF="IMEX0011.HTM#shape">shape</A>) : BOOLEAN;
+
+    -- The function returns true if any line segment of a <A HREF="IMEX0011.HTM#polygon">polygon</A> intersects
+    -- with any segment of a <A HREF="IMEX0011.HTM#shape">shape</A>.
+
+    RETURN(<A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(s1 &lt;* p.segments |
+             <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(s2 &lt;* s.segments |
+               (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>')
+                AND <A HREF="IMEX0011.HTM#line_intersect_line">line_intersect_line</A>(s1, s2))
+               OR
+               (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>')
+                AND <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>(s2, s1))
+               OR
+               (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>')
+                AND <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>(s2, s1)))))));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#polygon_intersect_shape">polygon_intersect_shape</A> function returns true if a polygon intersects
+ a shape.
+</P><HR>
+<!-- Start of FUNCTION: rectangle_intersect_rectangle -->
+<H2><A NAME="rectangle_intersect_rectangle">rectangle_intersect_rectangle</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#rectangle_intersect_rectangle">rectangle_intersect_rectangle</A>
+    (r1, r2 : <A HREF="IMEX0011.HTM#rectangle">rectangle</A>) : BOOLEAN;
+
+    LOCAL
+      -- c1 and c2 are the centre points of r1 and r2
+      -- x1 and x2 are the lengths of r1 and r2 parallel to the x axes
+      -- y1 and y2 are the lengths of r1 and r2 paralled to the y axes
+
+      c1 : <A HREF="IMEX0011.HTM#point">point</A> := <A HREF="IMEX0011.HTM#number_point">number_point</A>((r1.x_max-r1.x_min)/2, (r1.y_max-r1.y_min)/2);
+      c2 : <A HREF="IMEX0011.HTM#point">point</A> := <A HREF="IMEX0011.HTM#number_point">number_point</A>((r2.x_max-r2.x_min)/2, (r2.y_max-r2.y_min)/2);
+      x1 : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A> := r1.x_max - r1.x_min;
+      x2 : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A> := r2.x_max - r2.x_min;
+      y1 : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A> := r1.y_max - r1.y_min;
+      y2 : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A> := r2.y_max - r2.y_min;
+    END_LOCAL;
+
+    RETURN({ABS(x1-x2)/2 &lt; ABS(c1.x_coordinate-c2.x_coordinate) &lt; (x1+x2)/2}
+            AND
+           {ABS(y1-y2)/2 &lt; ABS(c1.y_coordinate-c2.y_coordinate) &lt; (y1+y2)/2});
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#rectangle_intersect_rectangle">rectangle_intersect_rectangle</A> function returns true if a rectangle 
+ intersects a rectangle.
+</P><HR>
+<!-- Start of FUNCTION: rectangle_intersect_shape -->
+<H2><A NAME="rectangle_intersect_shape">rectangle_intersect_shape</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#rectangle_intersect_shape">rectangle_intersect_shape</A>
+    (r: <A HREF="IMEX0011.HTM#rectangle">rectangle</A>; s : <A HREF="IMEX0011.HTM#shape">shape</A>) : BOOLEAN;
+
+    -- The function returns true if any segment of a <A HREF="IMEX0011.HTM#rectangle">rectangle</A> intersects with
+    -- any segment of a <A HREF="IMEX0011.HTM#shape">shape</A>.
+
+    RETURN(<A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(s1 &lt;* r.segments |
+             <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(s2 &lt;* s.segments |
+               (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>')
+                AND <A HREF="IMEX0011.HTM#line_intersect_line">line_intersect_line</A>(s2, s1))
+               OR
+               (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>')
+                AND <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>(s2, s1))
+               OR
+               (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>')
+                AND <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>(s2, s1)))))));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#rectangle_intersect_shape">rectangle_intersect_shape</A> function returns true if a rectangle 
+ intersects a shape.
+</P><HR>
+<!-- Start of FUNCTION: shape_intersect_shape -->
+<H2><A NAME="shape_intersect_shape">shape_intersect_shape</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#shape_intersect_shape">shape_intersect_shape</A>
+    (s1, s2 : <A HREF="IMEX0011.HTM#shape">shape</A>) : BOOLEAN;
+
+    -- The function returns true if any segment of a <A HREF="IMEX0011.HTM#shape">shape</A> intersects with
+    -- any segment of another <A HREF="IMEX0011.HTM#shape">shape</A>.
+
+    RETURN(<A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(seg1 &lt;* s1.segments |
+             <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(seg2 &lt;* s2.segments |
+               (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') AND
+                <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') AND
+                <A HREF="IMEX0011.HTM#line_intersect_line">line_intersect_line</A>(seg1, seg2))
+               OR
+               (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR 
+                <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') AND
+                <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') AND
+                <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>(seg1, seg2))
+               OR
+               (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#line_segment">line_segment</A>') AND
+                <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR 
+                <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') AND
+                <A HREF="IMEX0011.HTM#arc_intersect_line">arc_intersect_line</A>(seg2, seg1))
+               OR
+               (<A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR 
+                <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s1, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') AND
+                <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc">arc</A>') OR
+                <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(s2, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#arc_by_centre">arc_by_centre</A>') AND
+                <A HREF="IMEX0011.HTM#arc_intersect_arc">arc_intersect_arc</A>(seg1, seg2)))))));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#shape_intersect_shape">shape_intersect_shape</A> function returns true if a shape intersects a
+ shape.
+</P><HR>
+<!-- Start of FUNCTION: minimum_distance_value -->
+<H2><A NAME="minimum_distance_value">minimum_distance_value</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#minimum_distance_value">minimum_distance_value</A>
+    (v1, v2: <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>) : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>;
+    IF (v1 &lt;= v2) THEN
+       RETURN(v1);
+    ELSE
+       RETURN(v2);
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#minimum_distance_value">minimum_distance_value</A> function returns the minimum of two
+ <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_values</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#rectangle">rectangle</A> <A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A> </P>
+<HR>
+<!-- Start of FUNCTION: maximum_distance_value -->
+<H2><A NAME="maximum_distance_value">maximum_distance_value</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#maximum_distance_value">maximum_distance_value</A>
+    (v1, v2: <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>) : <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_value</A>;
+    IF (v1 &lt; v2) THEN
+       RETURN(v2);
+    ELSE
+       RETURN(v1);
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#maximum_distance_value">maximum_distance_value</A> function returns the maximum of two
+ <A HREF="IMEX0034.HTM#integer_distance_value">integer_distance_values</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#rectangle">rectangle</A> <A HREF="IMEX0011.HTM#unfilled_rectangle">unfilled_rectangle</A> </P>
+<HR>
+<!-- Start of FUNCTION: angle_of_line -->
+<H2><A NAME="angle_of_line">angle_of_line</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#angle_of_line">angle_of_line</A>
+    (p1, p2 : <A HREF="IMEX0011.HTM#point">point</A>) : NUMBER;
+    LOCAL
+      xdiff : NUMBER := p2.x_coordinate - p1.x_coordinate;
+      ydiff : NUMBER := p2.y_coordinate - p1.y_coordinate;
+      angle : NUMBER;
+    END_LOCAL;
+
+    IF (xdiff = 0) AND (ydiff = 0) THEN
+       RETURN(?);
+    END_IF;
+
+    IF (xdiff &gt; 0) AND (ydiff = 0) THEN
+       RETURN(0);
+    END_IF;
+
+    IF (xdiff = 0) AND (ydiff &gt; 0) THEN
+       RETURN(90);
+    END_IF;
+
+    IF (xdiff &lt; 0) AND (ydiff = 0) THEN
+       RETURN(180);
+    END_IF;
+
+    IF (xdiff = 0) AND (ydiff &lt; 0) THEN
+       RETURN(270);
+    END_IF;
+
+    angle := ATAN(ydiff, xdiff) * 180 / PI;
+    IF (xdiff &gt; 0) AND (ydiff &gt; 0) THEN
+       RETURN(angle);
+    END_IF;
+
+    IF (xdiff &lt; 0) AND (ydiff &gt; 0) THEN
+       RETURN(180 + angle);
+    END_IF;
+
+    IF (xdiff &lt; 0) AND (ydiff &lt; 0) THEN
+       RETURN(180 + angle);
+    END_IF;
+
+    IF (xdiff &gt; 0) AND (ydiff &lt; 0) THEN
+       RETURN(360 + angle);
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#angle_of_line">angle_of_line</A> function returns the angle of a line (drawn from point
+ p1 to point p2) measured from the positive x-axis.  The angle is measured in
+ degree in anti-clockwise direction.
+</P><HR>
+<!-- Start of FUNCTION: centre_point_of_arc -->
+<H2><A NAME="centre_point_of_arc">centre_point_of_arc</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#centre_point_of_arc">centre_point_of_arc</A>
+    (a : <A HREF="IMEX0011.HTM#arc">arc</A>) : <A HREF="IMEX0011.HTM#point">point</A>;
+
+    -- Two lines can be formed through 2 pairs of the three points, the first
+    -- passes through points p1 and p2 and the second passes through points p2
+    -- and p3. 
+    --
+    -- The equation of these two lines are:
+    -- L1: y = m1(x - P1.x) + P1.y where m1=(P2.y-P1.y)/(P2.x-P1.x)
+    -- L2: y = m2(x - P2.x) + P2.y where m1=(P3.y-P2.y)/(P2.x-P2.x)
+    --
+    -- The centre of the <A HREF="IMEX0011.HTM#circle">circle</A> is the intersection of the two lines
+    -- perpendicular to and passing through the midpoints of lines L1 and L2.
+    --
+    -- The perpendicular of a line with slope m has slope -1/m, thus equations
+    -- of lines perpendicular to lines L1 and L2 and passing through the
+    -- midpoints of P1P2 and P2P3 are:
+    -- LP1: y = -1/m1 *(x - (P1.x + P2.x)/2) + (P1.y + P2.y)/2
+    -- LP2: y = -1/m2 *(x - (P2.x + P3.x)/2) + (P2.y + P3.y)/2
+    --
+    -- These two lines intersect at the centre, solving for the two equations
+    -- LP1 and LP2 gives:
+    --      m1*m2*(P1.y-P3.y) + m2*(P1.x+P2.x) - m1*(P2.x+P3.x)
+    -- xc = ---------------------------------------------------
+    --                        2*(m2-m1)
+
+    LOCAL
+     P1 : <A HREF="IMEX0011.HTM#point">point</A>  := a.start_point;
+     P2 : <A HREF="IMEX0011.HTM#point">point</A>  := a.end_point;
+     P3 : <A HREF="IMEX0011.HTM#point">point</A>  := a.through_point;
+     m1 : NUMBER := (P2.y_coordinate - P1.y_coordinate)/
+                    (P2.x_coordinate - P1.x_coordinate);
+     m2 : NUMBER := (P3.y_coordinate - P2.y_coordinate)/
+                    (P3.x_coordinate - P2.x_coordinate);
+     xc, yc : NUMBER;
+    END_LOCAL;
+    
+    xc := (m1 * m2 * (P1.y_coordinate - P3.y_coordinate) + 
+           m2 * (P1.x_coordinate + P2.x_coordinate) -
+           m1 * (P2.x_coordinate + P3.x_coordinate)) / 2 * (m2 - m1);
+
+    yc := (xc - (P1.x_coordinate + P2.x_coordinate)/2)/(-m1) +
+          (P1.y_coordinate + P2.y_coordinate) / 2;
+
+    IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(xc, 'INTEGER') AND <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(yc, 'INTEGER') THEN
+       RETURN(<A HREF="IMEX0011.HTM#integer_point">integer_point</A>(xc DIV 1,yc DIV 1));
+    ELSE
+       RETURN(<A HREF="IMEX0011.HTM#number_point">number_point</A>(xc,yc));
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#centre_point_of_arc">centre_point_of_arc</A> returns the centre point of an <A HREF="IMEX0011.HTM#arc">arc</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#arc">arc</A> </P>
+<HR>
+<!-- Start of FUNCTION: circle_and_circle_intersection -->
+<H2><A NAME="circle_and_circle_intersection">circle_and_circle_intersection</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#circle_and_circle_intersection">circle_and_circle_intersection</A>
+    (c1 : <A HREF="IMEX0011.HTM#point">point</A>; r1 : <A HREF="IMEX0034.HTM#distance_value">distance_value</A>; 
+     c2 : <A HREF="IMEX0011.HTM#point">point</A>; r2 : <A HREF="IMEX0034.HTM#distance_value">distance_value</A>) : SET OF <A HREF="IMEX0011.HTM#point">point</A>;
+
+    -- Let p1 and p2 be the points of intersection between two circles.  A
+    -- triangle is formed between points c1, c2 and p1.
+    -- 
+    -- Given three sides of this triangle a, b and c where
+    --   a = r1
+    --   b = r2
+    --          -------------------------------
+    --         /             2                2
+    --   c = \/ (c2.x - c1.x)  + (c2.y - c1.y)
+    --
+    -- so that s is half the perimeter of the triangle
+    --       1
+    --   s = - * (a + b + c)
+    --       2
+    --
+    -- and the area of the triangle in terms of its sides is
+    --             ---------------------
+    --            /(s - a)(s - b)(s - c)
+    --   area =  / ---------------------
+    --         \/            s
+    --
+    -- Let the angle between side a and side c be M, then
+    --   (s - b) * tan (M/2) = area/s
+    --
+    -- Let the angle of the line formed between c1 and c2 be N, then
+    --            c2.y - c1.y
+    --   N = ATAN(-----------)
+    --            c2.x - x1.x
+    --
+    -- Finally, the coordinates of p1 are:
+    --   p1.x = c1.x + r1 * cos(M + N)
+    --   p1.y = c1.y + r1 * sin(M + N)
+    --
+    -- and the coordinates of p1 and p2 are:
+    --   p2.x = c1.x + r2 * cos(M - N)
+    --   p2.y = c1.y + r2 * sin(M - N)
+
+    LOCAL
+      a, b, c, s, area, x, y, M, N : NUMBER;
+      p : SET OF <A HREF="IMEX0011.HTM#point">point</A> := [];
+    END_LOCAL;
+
+    a := r1;
+    b := r2;
+    c := SQRT((c2.x_coordinate - c1.x_coordinate)**2 +
+              (c2.y_coordinate - c1.y_coordinate)**2);
+
+    N := ATAN((c2.y_coordinate - c1.y_coordinate),
+              (c2.x_coordinate - c1.x_coordinate));
+
+    IF c = (a + b) THEN
+       -- The two circles are touching, hence only one intersection <A HREF="IMEX0011.HTM#point">point</A>.
+       x := c1.x_coordinate + r1 * cos(N);
+       y := c1.y_coordinate + r1 * sin(N);
+       IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(x, 'INTEGER') AND <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(y, 'INTEGER') THEN
+          p[1] := <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x DIV 1,y DIV 1);
+       ELSE
+          p[1] := <A HREF="IMEX0011.HTM#number_point">number_point</A>(x,y);
+       END_IF;
+    ELSE
+    IF c &lt; (a + b) THEN
+       -- The two circles intersects at two points.
+       s := (a + b + c)/2;
+       area := SQRT((s - a) * (s - b) * (s - c)/s);
+       M := 2 * ATAN((area/s),(s - b));
+
+       x := c1.x_coordinate + r1 * cos(M + N);
+       y := c1.y_coordinate + r1 * sin(M + N);
+       IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(x, 'INTEGER') AND <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(y, 'INTEGER') THEN
+          p[1] := <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x DIV 1,y DIV 1);
+       ELSE
+          p[1] := <A HREF="IMEX0011.HTM#number_point">number_point</A>(x,y);
+       END_IF;
+
+       x := c1.x_coordinate + r2 * cos(M - N);
+       y := c1.y_coordinate + r2 * sin(M - N);
+       IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(x, 'INTEGER') AND <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(y, 'INTEGER') THEN
+          p[2] := <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x DIV 1,y DIV 1);
+       ELSE
+          p[2] := <A HREF="IMEX0011.HTM#number_point">number_point</A>(x,y);
+       END_IF;
+    END_IF;
+    END_IF;
+    RETURN(p);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#circle_and_circle_intersection">circle_and_circle_intersection</A> function returns the set of
+ intersection points of two circles.  A circle is specified by a centre point
+ and its radius.  The function returns an empty set if the two circles do not
+ intersect.
+</P><HR>
+<!-- Start of FUNCTION: circle_and_line_intersection -->
+<H2><A NAME="circle_and_line_intersection">circle_and_line_intersection</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0011.HTM#circle_and_line_intersection">circle_and_line_intersection</A>
+    (centre : <A HREF="IMEX0011.HTM#point">point</A>; radius : <A HREF="IMEX0034.HTM#distance_value">distance_value</A>; ln : <A HREF="IMEX0011.HTM#line_segment">line_segment</A>) : SET OF <A HREF="IMEX0011.HTM#point">point</A>;
+
+    -- The formula of a line through p1 and p2 is represented as below:
+    --   y = mx + q 
+    --       where m = (p2.y - p1.y)/(p2.x - p1.x) and q = p1.y - m*p1.x
+    --
+    -- The formula of a <A HREF="IMEX0011.HTM#circle">circle</A> with centre (u,v) and radius r is represented as
+    -- below:
+    --         2          2    2
+    --  (x - u)  + (y - v)  = r
+    --
+    -- Hence writing y = mx + q in the equation to the <A HREF="IMEX0011.HTM#circle">circle</A>, the abscissae of
+    -- the points of intersection will be given by:
+    --
+    --        2   2                      2          2    2
+    --  (1 + m  )x  + 2(mq - mv - u)x + u  + (q - v)  - r  = 0
+    --
+    -- This quadratic equation has real, equal or imaginary roots according as
+    --   2                                                   2
+    --  b - 4ac is positive, zero or negative where a = 1 + m
+    --                                              b = 2(mq - mv - u)
+    --                                                   2          2    2
+    --                                              c = u  + (q - v)  - r
+    --
+    --     2
+    -- If b - 4ac &lt; 0, then the line does not intersect the <A HREF="IMEX0011.HTM#circle">circle</A>.
+    --
+    --     2
+    -- If b - 4ac = 0, then the line meets the <A HREF="IMEX0011.HTM#circle">circle</A> in one <A HREF="IMEX0011.HTM#point">point</A>.  That is,
+    -- the line is the tangent to the <A HREF="IMEX0011.HTM#circle">circle</A>.  The x coordinate of this <A HREF="IMEX0011.HTM#point">point</A>
+    -- is: 
+    -- 
+    --  x1 = - b / 2a
+    --
+    --     2
+    -- If b - 4ac &gt; 0, then the line meets the <A HREF="IMEX0011.HTM#circle">circle</A> in two points.  The x
+    -- coordinates of these two points are:
+    --                -                    
+    --  x1 = (- b + \/d ) / 2a              
+    --                -                     2
+    --  x2 = (- b - \/d ) / 2a  where d =  b - 4ac
+
+    LOCAL
+      a, b, c, d, m, q, u, v, x, y : NUMBER;
+      p : SET OF <A HREF="IMEX0011.HTM#point">point</A> := [];
+    END_LOCAL;
+
+    u := centre.x_coordinate;
+    v := centre.y_coordinate;
+
+    m := (ln.end_point.y_coordinate - ln.start_point.y_coordinate) /
+         (ln.end_point.x_coordinate - ln.start_point.x_coordinate);
+
+    q := ln.start_point.y_coordinate - m * ln.start_point.x_coordinate;
+
+    a := 1 + m**2;
+    b := 2 * (m*q - m*v - u);
+    c := u**2 + (q - v)**2 - radius**2;
+
+    d := b**2 - 4 * a * c;
+
+    IF d = 0 THEN
+       x := -b / 2 * a;
+       y := m * x + q;
+       IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(x, 'INTEGER') AND <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(y, 'INTEGER') THEN
+          p[1] := <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x DIV 1,y DIV 1);
+       ELSE
+          p[1] := <A HREF="IMEX0011.HTM#number_point">number_point</A>(x,y);
+       END_IF;
+    ELSE
+    IF d &gt; 0 THEN
+       x := (-b + SQRT(d)) / 2 * a;
+       y := m * x + q;
+       IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(x, 'INTEGER') AND <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(y, 'INTEGER') THEN
+          p[1] := <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x DIV 1,y DIV 1);
+       ELSE
+          p[1] := <A HREF="IMEX0011.HTM#number_point">number_point</A>(x,y);
+       END_IF;
+
+       x := (-b - SQRT(d)) / 2 * a;
+       y := m * x + q;
+       IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(x, 'INTEGER') AND <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(y, 'INTEGER') THEN
+          p[2] := <A HREF="IMEX0011.HTM#integer_point">integer_point</A>(x DIV 1,y DIV 1);
+       ELSE
+          p[2] := <A HREF="IMEX0011.HTM#number_point">number_point</A>(x,y);
+       END_IF;
+    END_IF;
+    END_IF;
+    RETURN(p);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0011.HTM#circle_and_line_intersection">circle_and_line_intersection</A> function returns the set of intersection
+ points of a circle and a line.  A circle is specified by a centre point
+ and its radius.  The function returns an empty set if the circle and the
+ line do not intersect.
+</P>
+<HR>
+
+<!-- Start of schema: hierarchy_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

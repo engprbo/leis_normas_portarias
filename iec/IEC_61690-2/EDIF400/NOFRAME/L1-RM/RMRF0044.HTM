@@ -1,0 +1,1030 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">General Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcbNonSpecificLayoutShapeClass">pcbNonSpecificLayoutShapeClass</A></H1>
+<PRE>
+<I>pcbNonSpecificLayoutShapeClass ::= '(' 'pcbNonSpecificLayoutShapeClass'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0037.HTM#pcbKeepInItems">pcbKeepInItems</A>  &lt;<A HREF="RMRF0037.HTM#pcbKeepOutItems">pcbKeepOutItems</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0043.HTM#pcbNonSpecificLayoutShape">pcbNonSpecificLayoutShape</A> <A HREF="RMRF0061.HTM#shape">shape</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies all non-specific layout shapes.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardRegionTechnologyRule TTTL2TR</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbPhysicalLayerSet</B>
+<B>      (pcbPhysicalLayerRef LAYER2))</B>
+<B>   (rectangle (pt 100 200) (pt 500 500))</B>
+<B>   (pcbTechnologyRuleDetails ...)</B>
+<B>   (pcbKeepInItems (pcbNonSpecificLayoutShapeClass)))</B>
+</PRE>
+<P>In this example, all non-specific layout shapes are recommended to be kept in the specified region of LAYER2.
+<P><HR>
+<H1><A NAME="pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A></H1>
+<PRE>
+<I>pcbNonSpecificSubLayoutDefinition ::= '(' 'pcbNonSpecificSubLayoutDefinition'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0052.HTM#pcbSubLayoutDefinitionHeader">pcbSubLayoutDefinitionHeader</A></I>
+&#09;<I>( <A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutIntendedUse">pcbNonSpecificSubLayoutIntendedUse</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I>{ <A HREF="RMRF0038.HTM#pcbLayoutFeature">pcbLayoutFeature</A> | <A HREF="RMRF0038.HTM#pcbLayoutText">pcbLayoutText</A> | &lt;<A HREF="RMRF0043.HTM#pcbNameFabrication">pcbNameFabrication</A>&gt; | 
+&#09;<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutInstance">pcbNonSpecificSubLayoutInstance</A> | <A HREF="RMRF0049.HTM#pcbPhysicalNet">pcbPhysicalNet</A> | 
+&#09;<A HREF="RMRF0051.HTM#pcbPropertyFabrication">pcbPropertyFabrication</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinitionRef">pcbNonSpecificSubLayoutDefinitionRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>When a <I><A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A></I> or a sublayout definition instances a sublayout, that sublayout must have the same bare board technology as the instantiating object.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A></I>, <I><A HREF="RMRF0035.HTM#pcbFootprintDefinition">pcbFootprintDefinition</A></I>, <I><A HREF="RMRF0036.HTM#pcbFootprintInstance">pcbFootprintInstance</A></I>, <I><A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutInstance">pcbNonSpecificSubLayoutInstance</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadstackDefinition">pcbPadstackDefinition</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadstackInstance">pcbPadstackInstance</A></I>, <I><A HREF="RMRF0053.HTM#pcbTestCouponDefinition">pcbTestCouponDefinition</A></I>, <I><A HREF="RMRF0053.HTM#pcbTestCouponInstance">pcbTestCouponInstance</A></I>, <I><A HREF="RMRF0054.HTM#pcbToeprintDefinition">pcbToeprintDefinition</A></I>, <I><A HREF="RMRF0054.HTM#pcbToeprintInstance">pcbToeprintInstance</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Defines a collection of layout items that can later be instanced into another sublayout or onto a bare board. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbNonSpecificSubLayoutDefinition SMD_RES_FOOT</B>
+<B>   (pcbSubLayoutDefinitionHeader ...)</B>
+<B>   (pcbNonSpecificSubLayoutIntendedUse</B>
+<B>      (pcbIntendedUseMountingPlace))</B>
+<B>   (pcbNonSpecificSubLayoutInstance SMD_PAD1</B>
+<B>      (pcbNonSpecificSubLayoutDefinitionRef SMD_PAD)</B>
+<B>      (fixedScaleTransform ...))</B>
+<B>   (pcbNonSpecificSubLayoutInstance SMD_PAD2</B>
+<B>      (pcbNonSpecificSubLayoutDefinitionRef SMD_PAD)</B>
+<B>      (fixedScaleTransform ...)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbNonSpecificSubLayoutDefinitionRef">pcbNonSpecificSubLayoutDefinitionRef</A></H1>
+<PRE>
+<I>pcbNonSpecificSubLayoutDefinitionRef ::= '(' 'pcbNonSpecificSubLayoutDefinitionRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutInstance">pcbNonSpecificSubLayoutInstance</A>  !<A HREF="RMRF0052.HTM#pcbSubLayoutPreviousVersion">pcbSubLayoutPreviousVersion</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A> 
+</I>
+<H3>Description:</H3>
+<P>References the definition of a non-specific sublayout object. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbNonSpecificSubLayoutInstance SL1</B>
+<B>   (pcbNonSpecificSubLayoutDefinitionRef LOGO) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbNonSpecificSubLayoutInstance">pcbNonSpecificSubLayoutInstance</A></H1>
+<PRE>
+<I>pcbNonSpecificSubLayoutInstance ::= '(' 'pcbNonSpecificSubLayoutInstance'</I>
+&#09;<I><A HREF="RMRF0052.HTM#pcbSubLayoutInstanceNameDef">pcbSubLayoutInstanceNameDef</A></I>
+&#09;<I><A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinitionRef">pcbNonSpecificSubLayoutDefinitionRef</A></I>
+&#09;<I>( <A HREF="RMRF0008.HTM#fixedScaleTransform">fixedScaleTransform</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | &lt;<A HREF="RMRF0038.HTM#pcbLayoutFeatureFixed">pcbLayoutFeatureFixed</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A>  *<A HREF="RMRF0035.HTM#pcbFootprintDefinition">pcbFootprintDefinition</A>  *<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A>  *<A HREF="RMRF0053.HTM#pcbTestCouponDefinition">pcbTestCouponDefinition</A>  *<A HREF="RMRF0054.HTM#pcbToeprintDefinition">pcbToeprintDefinition</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0011.HTM#instance">instance</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>When a <I><A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A></I> or a sublayout definition instances a sublayout, that sublayout must have the same bare board technology as the instantiating object.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A></I>, <I><A HREF="RMRF0035.HTM#pcbFootprintDefinition">pcbFootprintDefinition</A></I>, <I><A HREF="RMRF0036.HTM#pcbFootprintInstance">pcbFootprintInstance</A></I>, <I><A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadstackDefinition">pcbPadstackDefinition</A></I>, <I><A HREF="RMRF0047.HTM#pcbPadstackInstance">pcbPadstackInstance</A></I>, <I><A HREF="RMRF0053.HTM#pcbTestCouponDefinition">pcbTestCouponDefinition</A></I>, <I><A HREF="RMRF0053.HTM#pcbTestCouponInstance">pcbTestCouponInstance</A></I>, <I><A HREF="RMRF0054.HTM#pcbToeprintDefinition">pcbToeprintDefinition</A></I>, <I><A HREF="RMRF0054.HTM#pcbToeprintInstance">pcbToeprintInstance</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Defines an instance of a non-specific sublayout definition.
+<P>The position of the instance is specified by <I><A HREF="RMRF0008.HTM#fixedScaleTransform">fixedScaleTransform</A></I> if the definition is in an internal library.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbNonSpecificSubLayoutInstance SL1</B>
+<B>   (pcbNonSpecificSubLayoutDefinitionRef LOGO)</B>
+<B>   (fixedScaleTransform (origin (pt 100 200))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbNonSpecificSubLayoutIntendedUse">pcbNonSpecificSubLayoutIntendedUse</A></H1>
+<PRE>
+<I>pcbNonSpecificSubLayoutIntendedUse ::= '(' 'pcbNonSpecificSubLayoutIntendedUse'</I>
+&#09;<I>( <A HREF="RMRF0036.HTM#pcbIntendedUseMountingPlace">pcbIntendedUseMountingPlace</A> | <A HREF="RMRF0036.HTM#pcbIntendedUseFiducial">pcbIntendedUseFiducial</A> | 
+&#09;<A HREF="RMRF0037.HTM#pcbIntendedUseTestPoint">pcbIntendedUseTestPoint</A> | <A HREF="RMRF0036.HTM#pcbIntendedUseLogo">pcbIntendedUseLogo</A> | <A HREF="RMRF0036.HTM#pcbIntendedUseBarcode">pcbIntendedUseBarcode</A> 
+&#09;| <A HREF="RMRF0037.HTM#pcbIntendedUseNothingSpecial">pcbIntendedUseNothingSpecial</A> | <A HREF="RMRF0018.HTM#other">other</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the intended use of the sublayout item 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbNonSpecificSubLayoutDefinition SMD_RES_FOOT</B>
+<B>   (pcbSubLayoutDefinitionHeader ...)</B>
+<B>   (pcbNonSpecificSubLayoutIntendedUse</B>
+<B>      (pcbIntendedUseMountingPlace)) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbNonStandardMaterial">pcbNonStandardMaterial</A></H1>
+<PRE>
+<I>pcbNonStandardMaterial ::= '(' 'pcbNonStandardMaterial'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0005.HTM#density">density</A>&gt; | &lt;<A HREF="RMRF0007.HTM#electricalConductivity">electricalConductivity</A>&gt; | &lt;<A HREF="RMRF0057.HTM#relativePermittivity">relativePermittivity</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0062.HTM#specificHeatCapacity">specificHeatCapacity</A>&gt; | &lt;<A HREF="RMRF0063.HTM#thermalConductivity">thermalConductivity</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0039.HTM#pcbMaterialType">pcbMaterialType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0038.HTM#pcbMaterial">pcbMaterial</A> <A HREF="RMRF0052.HTM#pcbStandardMaterial">pcbStandardMaterial</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the density, electrical conductivity and other properties of the material.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbMaterial Silicon</B>
+<B>   (pcbMaterialHeader)</B>
+<B>   (resistiveMaterial)</B>
+<B>   (pcbNonStandardMaterial</B>
+<B>      (density (e 233 4)) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbNotAvailableForAllocation">pcbNotAvailableForAllocation</A></H1>
+<PRE>
+<I>pcbNotAvailableForAllocation ::= '(' 'pcbNotAvailableForAllocation'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0054.HTM#pcbUnallocatedComponentFunction">pcbUnallocatedComponentFunction</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#not">not</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that function must not have an instance allocated to it.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbComponentFunctionAllocation</B>
+<B>   (pcbElectricalPartFunctionRef A)</B>
+<B>   (pcbUnallocatedComponentFunction</B>
+<B>      (pcbNotAvailableForAllocation)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbOptimumTraceToLayoutShape">pcbOptimumTraceToLayoutShape</A></H1>
+<PRE>
+<I>pcbOptimumTraceToLayoutShape ::= '(' 'pcbOptimumTraceToLayoutShape'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0053.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0040.HTM#pcbMinimumTraceToLayoutShape">pcbMinimumTraceToLayoutShape</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceToTrace">pcbOptimumTraceToTrace</A> <A HREF="RMRF0054.HTM#pcbTrace">pcbTrace</A> <A HREF="RMRF0061.HTM#shape">shape</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the optimum spacing between a trace and a layout shape for autorouting purposes. An optimum spacing is what the designer prefers, but can be violated provided that the <I><A HREF="RMRF0040.HTM#pcbMinimumTraceToLayoutShape">pcbMinimumTraceToLayoutShape</A></I> spacing is followed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbOptimumTraceToLayoutShape 12) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbOptimumTraceToSurfaceMountPad">pcbOptimumTraceToSurfaceMountPad</A></H1>
+<PRE>
+<I>pcbOptimumTraceToSurfaceMountPad ::= '(' 'pcbOptimumTraceToSurfaceMountPad'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0053.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0040.HTM#pcbMinimumTraceToSurfaceMountPad">pcbMinimumTraceToSurfaceMountPad</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceToTrace">pcbOptimumTraceToTrace</A> <A HREF="RMRF0047.HTM#pcbPad">pcbPad</A> <A HREF="RMRF0054.HTM#pcbTrace">pcbTrace</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the optimum spacing between a trace and a surface-mount pad for autorouting purposes. An optimum spacing is what the designer prefers, but can be violated provided that the <I><A HREF="RMRF0040.HTM#pcbMinimumTraceToSurfaceMountPad">pcbMinimumTraceToSurfaceMountPad</A></I> spacing is followed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbOptimumTraceToSurfaceMountPad 12) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbOptimumTraceToThroughHolePad">pcbOptimumTraceToThroughHolePad</A></H1>
+<PRE>
+<I>pcbOptimumTraceToThroughHolePad ::= '(' 'pcbOptimumTraceToThroughHolePad'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0053.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0040.HTM#pcbMinimumTraceToThroughHolePad">pcbMinimumTraceToThroughHolePad</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceToTrace">pcbOptimumTraceToTrace</A> <A HREF="RMRF0047.HTM#pcbPad">pcbPad</A> <A HREF="RMRF0054.HTM#pcbTrace">pcbTrace</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the optimum spacing between a trace and a through-hole for autorouting purposes. An optimum spacing is what the designer prefers, but can be violated provided that the <I><A HREF="RMRF0040.HTM#pcbMinimumTraceToThroughHolePad">pcbMinimumTraceToThroughHolePad</A></I> spacing is followed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbOptimumTraceToThroughHolePad 12) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbOptimumTraceToTrace">pcbOptimumTraceToTrace</A></H1>
+<PRE>
+<I>pcbOptimumTraceToTrace ::= '(' 'pcbOptimumTraceToTrace'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0053.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0040.HTM#pcbMinimumTraceToTrace">pcbMinimumTraceToTrace</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceToLayoutShape">pcbOptimumTraceToLayoutShape</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceToSurfaceMountPad">pcbOptimumTraceToSurfaceMountPad</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceToThroughHolePad">pcbOptimumTraceToThroughHolePad</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceToViaPad">pcbOptimumTraceToViaPad</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceWidth">pcbOptimumTraceWidth</A> <A HREF="RMRF0054.HTM#pcbTrace">pcbTrace</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the optimum spacing between two traces for autorouting purposes. An optimum spacing is what the designer prefers, but can be violated provided that the <I><A HREF="RMRF0040.HTM#pcbMinimumTraceToTrace">pcbMinimumTraceToTrace</A></I> spacing is followed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbOptimumTraceToTrace 12) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbOptimumTraceToViaPad">pcbOptimumTraceToViaPad</A></H1>
+<PRE>
+<I>pcbOptimumTraceToViaPad ::= '(' 'pcbOptimumTraceToViaPad'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0053.HTM#pcbTechnologyRuleDetails">pcbTechnologyRuleDetails</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0040.HTM#pcbMinimumTraceToViaPad">pcbMinimumTraceToViaPad</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceToTrace">pcbOptimumTraceToTrace</A> <A HREF="RMRF0047.HTM#pcbPad">pcbPad</A> <A HREF="RMRF0054.HTM#pcbTrace">pcbTrace</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the optimum spacing between a trace and a via's pad for autorouting purposes. An optimum spacing is what the designer prefers, but can be violated provided that the <I><A HREF="RMRF0040.HTM#pcbMinimumTraceToViaPad">pcbMinimumTraceToViaPad</A></I> spacing is followed.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardTechnologyRule BBT_RULES</B>
+<B>   (pcbTechnologyRuleHeader ...)</B>
+<B>   (pcbTechnologyRuleDetails</B>
+<B>      (pcbOptimumTraceToViaPad 12) ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbOptimumTraceWidth">pcbOptimumTraceWidth</A></H1>
+<PRE>
+<I>pcbOptimumTraceWidth ::= '(' 'pcbOptimumTraceWidth'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0024.HTM#pcbComponentSignalLayerRealizationRule">pcbComponentSignalLayerRealizationRule</A>  &lt;<A HREF="RMRF0024.HTM#pcbComponentSignalRealizationRule">pcbComponentSignalRealizationRule</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0040.HTM#pcbMinimumTraceWidth">pcbMinimumTraceWidth</A> <A HREF="RMRF0044.HTM#pcbOptimumTraceToTrace">pcbOptimumTraceToTrace</A> <A HREF="RMRF0054.HTM#pcbTrace">pcbTrace</A> <A HREF="RMRF0066.HTM#width">width</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the optimum trace width for signals.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbComponentSignalRealizationRule Power_Rules</B>
+<B>   (pcbComponentSignalSet</B>
+<B>      (pcbComponentSignalRef Sig1))</B>
+<B>   (pcbOptimumTraceWidth 6))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageBallPitch">pcbPackageBallPitch</A></H1>
+<PRE>
+<I>pcbPackageBallPitch ::= '(' 'pcbPackageBallPitch'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0020.HTM#pcbBallPackage">pcbBallPackage</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0020.HTM#pcbBallPackageRef">pcbBallPackageRef</A> <A HREF="RMRF0041.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A> <A HREF="RMRF0046.HTM#pcbPackagePinPitch">pcbPackagePinPitch</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies the distance between adjacent solder balls in the same row. The distance is center to center. <I><A HREF="RMRF0044.HTM#pcbPackageBallPitch">PcbPackageBallPitch</A></I> does not define the location of the solder balls; it merely indicates the pitch used. The actual locations of pins are defined within <I><A HREF="RMRF0047.HTM#pcbPackageTerminalSolderBall">pcbPackageTerminalSolderBall</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBallPackage BP1</B>
+<B>   (pcbPackageHeader ...)</B>
+<B>   (bodyVolume ...)</B>
+<B>   (occupiedSpace ...)</B>
+<B>   (pcbPackageBodyMaterial ...)</B>
+<B>   (pcbPackageShape ...)</B>
+<B>   (pcbPackageBallPitch 20)</B>
+<B>   (pcbPackageTerminalSolderBall ...) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageBodyMaterial">pcbPackageBodyMaterial</A></H1>
+<PRE>
+<I>pcbPackageBodyMaterial ::= '(' 'pcbPackageBodyMaterial'</I>
+&#09;<I><A HREF="RMRF0044.HTM#pcbPackageBodyMaterialType">pcbPackageBodyMaterialType</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0020.HTM#pcbBallPackage">pcbBallPackage</A>  &lt;<A HREF="RMRF0050.HTM#pcbPinPackage">pcbPinPackage</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0038.HTM#pcbMaterial">pcbMaterial</A> <A HREF="RMRF0044.HTM#pcbPackageBodyProfile">pcbPackageBodyProfile</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines the material used in the body of the package.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage PLCC20 ...</B>
+<B>   (pcbPackageBodyMaterial (plasticMaterial)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageBodyMaterialType">pcbPackageBodyMaterialType</A></H1>
+<PRE>
+<I>pcbPackageBodyMaterialType ::= ( <A HREF="RMRF0009.HTM#glassSealedCeramicMaterial">glassSealedCeramicMaterial</A> | <A HREF="RMRF0009.HTM#glassMaterial">glassMaterial</A> | 
+&#09;<A HREF="RMRF0015.HTM#metalMaterial">metalMaterial</A> | <A HREF="RMRF0015.HTM#metalSealedCofiredCeramicMaterial">metalSealedCofiredCeramicMaterial</A> | <A HREF="RMRF0054.HTM#plasticMaterial">plasticMaterial</A> | 
+&#09;<A HREF="RMRF0018.HTM#other">other</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0044.HTM#pcbPackageBodyMaterial">pcbPackageBodyMaterial</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0038.HTM#pcbMaterial">pcbMaterial</A> <A HREF="RMRF0039.HTM#pcbMaterialType">pcbMaterialType</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the predominant type of material used in the body of the package. This is a pointer to the appropriate JEDEC JESD30-A classification.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage PLCC20 ...</B>
+<B>   (pcbPackageBodyMaterial (plasticMaterial)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackageBodyProfile">pcbPackageBodyProfile</A></H1>
+<PRE>
+<I>pcbPackageBodyProfile ::= ( <A HREF="RMRF0035.HTM#pcbEllipticalBodyProfile">pcbEllipticalBodyProfile</A> | <A HREF="RMRF0051.HTM#pcbRoundBodyProfile">pcbRoundBodyProfile</A> | 
+&#09;<A HREF="RMRF0051.HTM#pcbRectangularBodyProfile">pcbRectangularBodyProfile</A> | <A HREF="RMRF0052.HTM#pcbSquareBodyProfile">pcbSquareBodyProfile</A> | <A HREF="RMRF0018.HTM#other">other</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0047.HTM#pcbPackageShape">pcbPackageShape</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0044.HTM#pcbPackageBodyMaterial">pcbPackageBodyMaterial</A> 
+</I>
+<H3>Description:</H3>
+<P>Summarises the shape of the body's profile. The exact profile could be derived from the <I><A HREF="RMRF0008.HTM#extrusionVolume">extrusionVolumes</A></I> specified in <I><A HREF="RMRF0001.HTM#bodyVolume">bodyVolume</A></I>.
+<P>This is a pointer to the appropriate JEDEC JESD30-A classification.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage DIL14 ...</B>
+<B>   (bodyVolume</B>
+<B>      (extrusionVolume</B>
+<B>         (rectangle (pt 0 50) (pt 800 300))</B>
+<B>         (offsetDistance 150)</B>
+<B>         (extrusionLength 175))) </B>
+<B>   (pcbPackageShape </B>
+<B>      (pcbRectangularBodyProfile)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackagedConnectorComponent">pcbPackagedConnectorComponent</A></H1>
+<PRE>
+<I>pcbPackagedConnectorComponent ::= '(' 'pcbPackagedConnectorComponent'</I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbComponentNameDef">pcbComponentNameDef</A></I>
+&#09;<I><A HREF="RMRF0044.HTM#pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A></I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbComponentHeader">pcbComponentHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0022.HTM#pcbBoardTerminal">pcbBoardTerminal</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0039.HTM#pcbMcmImplementation">pcbMcmImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0020.HTM#pcbAuxiliaryComponentConnector">pcbAuxiliaryComponentConnector</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentImplementation">pcbPackagedConnectorComponentImplementation</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentRef">pcbPackagedConnectorComponentRef</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentTerminalImplementation">pcbPackagedConnectorComponentTerminalImplementation</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A> <A HREF="RMRF0050.HTM#pcbPrintedConnectorComponent">pcbPrintedConnectorComponent</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a packaged connector component; that is, an instance of a packaged connector part. Packaged connector components are mounted onto the bare board naked, i.e. with no further package inserted (or onserted, etc.)
+<P>If a socket carries another package, the socket must be described as a <I><A HREF="RMRF0020.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A></I>. In this case, the package that is mounted on the socket (e.g. a DIP) is the first-specified package in the <I><A HREF="RMRF0042.HTM#pcbMountablePinPackage">pcbMountablePinPackage</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedConnectorComponent SOCKET1</B>
+<B>   (pcbPackagedConnectorPartRef RS_401-790)</B>
+<B>   (pcbComponentHeader))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackagedConnectorComponentImplementation">pcbPackagedConnectorComponentImplementation</A></H1>
+<PRE>
+<I>pcbPackagedConnectorComponentImplementation ::= '(' 
+&#09;'pcbPackagedConnectorComponentImplementation'</I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbComponentImplementationNameDef">pcbComponentImplementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentRef">pcbPackagedConnectorComponentRef</A></I>
+&#09;<I><A HREF="RMRF0042.HTM#pcbMountablePackageRef">pcbMountablePackageRef</A></I>
+&#09;<I><A HREF="RMRF0065.HTM#unscaledTransform">unscaledTransform</A></I>
+&#09;<I><A HREF="RMRF0036.HTM#pcbFootprintInstanceRef">pcbFootprintInstanceRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0024.HTM#pcbComponentPropertyFabrication">pcbComponentPropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0025.HTM#pcbDesignatorFabricationOverride">pcbDesignatorFabricationOverride</A>&gt; | &lt;<A HREF="RMRF0032.HTM#pcbDrawingInformation">pcbDrawingInformation</A>&gt; | 
+&#09;<A HREF="RMRF0041.HTM#pcbMountableMechanicalFixingImplementation">pcbMountableMechanicalFixingImplementation</A> | 
+&#09;&lt;<A HREF="RMRF0042.HTM#pcbMountablePackagePropertyFabrication">pcbMountablePackagePropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0042.HTM#pcbMountablePackagePropertyOverride">pcbMountablePackagePropertyOverride</A>&gt; | 
+&#09;<A HREF="RMRF0042.HTM#pcbMountablePackageTerminalImplementation">pcbMountablePackageTerminalImplementation</A> | 
+&#09;<A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentTerminalImplementation">pcbPackagedConnectorComponentTerminalImplementation</A> | 
+&#09;&lt;<A HREF="RMRF0046.HTM#pcbPackagePropertyFabrication">pcbPackagePropertyFabrication</A>&gt; | &lt;<A HREF="RMRF0048.HTM#pcbPartPropertyFabrication">pcbPartPropertyFabrication</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0019.HTM#pcbAssembledBoard">pcbAssembledBoard</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0044.HTM#pcbPackagedConnectorComponent">pcbPackagedConnectorComponent</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentImplementation">pcbPackagedElectricalComponentImplementation</A> <A HREF="RMRF0050.HTM#pcbPrintedConnectorComponentImplementation">pcbPrintedConnectorComponentImplementation</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A mountable package terminal may be referenced at most once within a component implementation, i.e. it can have at most one implementation.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0037.HTM#pcbJumperComponentImplementation">pcbJumperComponentImplementation</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentImplementation">pcbPackagedElectricalComponentImplementation</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Specifies how a particular packaged connector component is implemented on the assembled board. A mountable package is selected, by <I><A HREF="RMRF0042.HTM#pcbMountablePackageRef">pcbMountablePackageRef</A></I>, and positioned on the board by <I><A HREF="RMRF0065.HTM#unscaledTransform">unscaledTransform</A></I>. This is associated with a footprint instance and <I><A HREF="RMRF0042.HTM#pcbMountablePackageTerminalImplementation">pcbMountablePackageTerminalImplementation</A></I> gives details of how each terminal of the mounted package is associated with the toe prints.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedConnectorComponentImplementation P1</B>
+<B>   (pcbPackagedConnectorComponentRef U12)</B>
+<B>   (pcbMountablePackageRef DIP14)</B>
+<B>   (unscaledTransform ...)</B>
+<B>   (pcbFootprintInstanceRef F16)</B>
+<B>   ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackagedConnectorComponentRef">pcbPackagedConnectorComponentRef</A></H1>
+<PRE>
+<I>pcbPackagedConnectorComponentRef ::= '(' 'pcbPackagedConnectorComponentRef'</I>
+&#09;<I><A HREF="RMRF0024.HTM#pcbComponentNameRef">pcbComponentNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0024.HTM#pcbConnectorComponentTerminalRef">pcbConnectorComponentTerminalRef</A>  *<A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A>  !<A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentImplementation">pcbPackagedConnectorComponentImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0024.HTM#pcbComponentRef">pcbComponentRef</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorComponent">pcbPackagedConnectorComponent</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentRef">pcbPackagedElectricalComponentRef</A> <A HREF="RMRF0050.HTM#pcbPrintedConnectorComponentRef">pcbPrintedConnectorComponentRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a packaged connector component, <I><A HREF="RMRF0044.HTM#pcbPackagedConnectorComponent">pcbPackagedConnectorComponent</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedConnectorComponentImplementation P1</B>
+<B>   (pcbPackagedConnectorComponentRef U12)</B>
+<B>   (pcbMountablePackageRef DIP14)</B>
+<B>   (unscaledTransform ...)</B>
+<B>   (pcbFootprintInstanceRef F16)</B>
+<B>   ...)  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackagedConnectorComponentTerminalImplementation">pcbPackagedConnectorComponentTerminalImplementation</A></H1>
+<PRE>
+<I>pcbPackagedConnectorComponentTerminalImplementation ::= '(' 
+&#09;'pcbPackagedConnectorComponentTerminalImplementation'</I>
+&#09;<I><A HREF="RMRF0024.HTM#pcbComponentTerminalImplementationNameDef">pcbComponentTerminalImplementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalRef">pcbConnectorPartTerminalRef</A></I>
+&#09;<I><A HREF="RMRF0054.HTM#pcbToeprintPadstackInstanceRef">pcbToeprintPadstackInstanceRef</A></I>
+&#09;<I><A HREF="RMRF0042.HTM#pcbMountablePackageTerminalRef">pcbMountablePackageTerminalRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0032.HTM#pcbDrawingInformation">pcbDrawingInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0042.HTM#pcbMountablePackageTerminalPropertyFabrication">pcbMountablePackageTerminalPropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0047.HTM#pcbPackageTerminalPropertyFabrication">pcbPackageTerminalPropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0048.HTM#pcbPartTerminalPropertyFabrication">pcbPartTerminalPropertyFabrication</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentImplementation">pcbPackagedConnectorComponentImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0044.HTM#pcbPackagedConnectorComponent">pcbPackagedConnectorComponent</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentTerminalImplementation">pcbPackagedElectricalComponentTerminalImplementation</A> <A HREF="RMRF0050.HTM#pcbPrintedConnectorComponentTerminalImplementation">pcbPrintedConnectorComponentTerminalImplementation</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines how a connector part terminal is implemented on the board. It relates the part terminal (<I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalRef">pcbConnectorPartTerminalRef</A></I>) to a toeprint padstack (<I><A HREF="RMRF0054.HTM#pcbToeprintPadstackInstanceRef">pcbToeprintPadstackInstanceRef</A></I>) and a mountable package terminal (<I><A HREF="RMRF0042.HTM#pcbMountablePackageTerminalRef">pcbMountablePackageTerminalRef</A></I>) which is on the mountable package referenced by the enclosing component implementation. 
+<P><I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalRef">PcbConnectorPartTerminalRef</A></I> is a reference to the corresponding terminal in the packaged component's part. This could be derived, but is also stated here for convenience. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedConnectorComponentTerminalImplementation T1</B>
+<B>   (pcbConnectorPartTerminalRef TERM1)</B>
+<B>   (pcbToeprintPadstackInstanceRef TP4 </B>
+<B>      (pcbFootprintToeprintInstanceRef FP1))</B>
+<B>   (pcbMountablePackageTerminalRef MP_TERM1))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackagedConnectorPart">pcbPackagedConnectorPart</A></H1>
+<PRE>
+<I>pcbPackagedConnectorPart ::= '(' 'pcbPackagedConnectorPart'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0048.HTM#pcbPartHeader">pcbPartHeader</A></I>
+&#09;<I>( <A HREF="RMRF0050.HTM#pcbPinPackageRef">pcbPinPackageRef</A> | <A HREF="RMRF0020.HTM#pcbBallPackageRef">pcbBallPackageRef</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I>( <A HREF="RMRF0052.HTM#pcbSocket">pcbSocket</A> | <A HREF="RMRF0030.HTM#pcbDiscreteConnector">pcbDiscreteConnector</A> )</I>
+&#09;<I>{ <A HREF="RMRF0044.HTM#pcbPackagedConnectorPartTerminal">pcbPackagedConnectorPartTerminal</A> | &lt;<A HREF="RMRF0048.HTM#pcbPartCharacteristic">pcbPartCharacteristic</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0044.HTM#pcbPackagedConnectorComponent">pcbPackagedConnectorComponent</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A> <A HREF="RMRF0051.HTM#pcbPrintedConnectorPart">pcbPrintedConnectorPart</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>An electrical, connector or jumper part must have at least one terminal.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A></I>, <I><A HREF="RMRF0037.HTM#pcbJumperPart">pcbJumperPart</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedConnectorPart">pcbPrintedConnectorPart</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Defines a packaged connector part. A packaged connector part corresponds to a data-book description of a packaged socket or discrete connector.
+<P><I><A HREF="RMRF0050.HTM#pcbPinPackageRef">PcbPinPackageRef</A> </I>or<I> <A HREF="RMRF0020.HTM#pcbBallPackageRef">pcbBallPackageRef</A> </I> references the part's package.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedConnectorPart RS_401-790</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbPinPackageRef DIL14_SOK_LOWPROF)</B>
+<B>   (pcbSocket))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A></H1>
+<PRE>
+<I>pcbPackagedConnectorPartRef ::= '(' 'pcbPackagedConnectorPartRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0020.HTM#pcbAuxiliaryComponentConnector">pcbAuxiliaryComponentConnector</A>  !<A HREF="RMRF0044.HTM#pcbPackagedConnectorComponent">pcbPackagedConnectorComponent</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalRef">pcbConnectorPartTerminalRef</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentRef">pcbPackagedConnectorComponentRef</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorPartTerminal">pcbPackagedConnectorPartTerminal</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A> <A HREF="RMRF0048.HTM#pcbPartRef">pcbPartRef</A> <A HREF="RMRF0051.HTM#pcbPrintedConnectorPartRef">pcbPrintedConnectorPartRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a packaged connector part.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedConnectorComponent SOCKET1</B>
+<B>   (pcbPackagedConnectorPartRef RS_401-790)</B>
+<B>   (pcbComponentHeader))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackagedConnectorPartTerminal">pcbPackagedConnectorPartTerminal</A></H1>
+<PRE>
+<I>pcbPackagedConnectorPartTerminal ::= '(' 'pcbPackagedConnectorPartTerminal'</I>
+&#09;<I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalNameDef">pcbConnectorPartTerminalNameDef</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalHeader">pcbConnectorPartTerminalHeader</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0024.HTM#pcbConnectedPackageTerminal">pcbConnectedPackageTerminal</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0025.HTM#pcbConnectorPartTerminalRef">pcbConnectorPartTerminalRef</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A> <A HREF="RMRF0051.HTM#pcbPrintedConnectorPartTerminal">pcbPrintedConnectorPartTerminal</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a terminal on a packaged connector.
+<P>Terminals should be defined on packaged connectors only if the connector is to be mounted on its own on the board, i.e. with no package inserted.
+<P>The <I><A HREF="RMRF0024.HTM#pcbConnectedPackageTerminal">pcbConnectedPackageTerminal</A></I> maps the connector terminal to the package pin.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedConnectorPartTerminal TERM1</B>
+<B>   (pcbConnectorPartTerminalHeader)</B>
+<B>   (pcbConnectedPackageTerminal </B>
+<B>      (pcbPackageTerminalPinRef P1)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A></H1>
+<PRE>
+<I>pcbPackagedElectricalComponent ::= '(' 'pcbPackagedElectricalComponent'</I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbComponentNameDef">pcbComponentNameDef</A></I>
+&#09;<I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A></I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbComponentHeader">pcbComponentHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0039.HTM#pcbMcmImplementation">pcbMcmImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalComponent">pcbDieElectricalComponent</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorComponent">pcbPackagedConnectorComponent</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentImplementation">pcbPackagedElectricalComponentImplementation</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentRef">pcbPackagedElectricalComponentRef</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentTerminalImplementation">pcbPackagedElectricalComponentTerminalImplementation</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalComponent">pcbPrintedElectricalComponent</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The number of <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I> constructs within an electrical component which instantiates a fully-defined part, must be equal to the number of <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunctions</A></I> within that part.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I>, <I><A HREF="RMRF0026.HTM#pcbDieElectricalComponent">pcbDieElectricalComponent</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalComponent">pcbPrintedElectricalComponent</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>No <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I> may be referenced more than once by any <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I> constructs within a component.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">pcbComponentFunctionAllocation</A></I>, <I><A HREF="RMRF0026.HTM#pcbDieElectricalComponent">pcbDieElectricalComponent</A></I>, <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalComponent">pcbPrintedElectricalComponent</A></I>)
+<BR><BR><DT>3. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Defines a packaged electrical component; that is, an instance of a packaged electrical part. Packaged electrical components are mounted onto the bare board.
+<P><I><A HREF="RMRF0023.HTM#pcbComponentFunctionAllocation">PcbComponentFunctionAllocation</A></I> can specify how an instance in the logical connectivity is allocated (i.e. mapped) to a function within the component.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedElectricalComponent I1_SN74S140</B>
+<B>   (pcbPackagedElectricalPartRef SN74S140)</B>
+<B>   (pcbComponentHeader ...)</B>
+<B>   (pcbComponentFunctionAllocation ...) ...)</B>
+</PRE>
+<P>Here, the component I1_SN74S140 is defined. It is an instance of the part SN74S140.
+<P><HR>
+<H1><A NAME="pcbPackagedElectricalComponentImplementation">pcbPackagedElectricalComponentImplementation</A></H1>
+<PRE>
+<I>pcbPackagedElectricalComponentImplementation ::= '(' 
+&#09;'pcbPackagedElectricalComponentImplementation'</I>
+&#09;<I><A HREF="RMRF0023.HTM#pcbComponentImplementationNameDef">pcbComponentImplementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentRef">pcbPackagedElectricalComponentRef</A></I>
+&#09;<I><A HREF="RMRF0042.HTM#pcbMountablePackageRef">pcbMountablePackageRef</A></I>
+&#09;<I><A HREF="RMRF0065.HTM#unscaledTransform">unscaledTransform</A></I>
+&#09;<I><A HREF="RMRF0036.HTM#pcbFootprintInstanceRef">pcbFootprintInstanceRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0024.HTM#pcbComponentPropertyFabrication">pcbComponentPropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0025.HTM#pcbDesignatorFabricationOverride">pcbDesignatorFabricationOverride</A>&gt; | &lt;<A HREF="RMRF0032.HTM#pcbDrawingInformation">pcbDrawingInformation</A>&gt; | 
+&#09;<A HREF="RMRF0041.HTM#pcbMountableMechanicalFixingImplementation">pcbMountableMechanicalFixingImplementation</A> | 
+&#09;&lt;<A HREF="RMRF0042.HTM#pcbMountablePackagePropertyFabrication">pcbMountablePackagePropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0042.HTM#pcbMountablePackagePropertyOverride">pcbMountablePackagePropertyOverride</A>&gt; | 
+&#09;<A HREF="RMRF0042.HTM#pcbMountablePackageTerminalImplementation">pcbMountablePackageTerminalImplementation</A> | 
+&#09;<A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentTerminalImplementation">pcbPackagedElectricalComponentTerminalImplementation</A> | 
+&#09;&lt;<A HREF="RMRF0046.HTM#pcbPackagePropertyFabrication">pcbPackagePropertyFabrication</A>&gt; | &lt;<A HREF="RMRF0048.HTM#pcbPartPropertyFabrication">pcbPartPropertyFabrication</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0019.HTM#pcbAssembledBoard">pcbAssembledBoard</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentImplementation">pcbPackagedConnectorComponentImplementation</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalComponentImplementation">pcbPrintedElectricalComponentImplementation</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A mountable package terminal may be referenced at most once within a component implementation, i.e. it can have at most one implementation.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0037.HTM#pcbJumperComponentImplementation">pcbJumperComponentImplementation</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentImplementation">pcbPackagedConnectorComponentImplementation</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Defines how the component referenced by <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentRef">pcbPackagedElectricalComponentRef</A></I> is mounted onto the bare board.
+<P><I><A HREF="RMRF0065.HTM#unscaledTransform">UnscaledTransform</A></I> specifies the position of the component on the bare board.
+<P><I><A HREF="RMRF0042.HTM#pcbMountablePackageRef">PcbMountablePackageRef</A></I> specifies the mountable package that is used when mounting the component on the bare board.
+<P><I><A HREF="RMRF0036.HTM#pcbFootprintInstanceRef">PcbFootprintInstanceRef</A></I> specifies the footprint on which the component is placed.
+<P><I><A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentTerminalImplementation">PcbPackagedElectricalComponentTerminalImplementation</A></I> specifies the padstack in which each packaged component terminal is placed.
+<P><I><A HREF="RMRF0042.HTM#pcbMountablePackageTerminalImplementation">PcbMountablePackageTerminalImplementation</A></I> may be used, rather than <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentTerminalImplementation">pcbPackagedElectricalComponentTerminalImplementation</A></I>, in cases where the terminal is not associated with a part terminal, e.g. for a non-electrical pin.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedElectricalComponentImplementation CI2</B>
+<B>   (pcbPackagedElectricalComponentRef COMP2)</B>
+<B>   (pcbMountablePackageRef DIP14_Dip_Bottom</B>
+<B>      (libraryRef MOUNTABLE_PACKAGES))</B>
+<B>   (unscaledTransform ...)</B>
+<B>   (pcbFootprintInstanceRef FOOTP21)</B>
+<B>   (pcbPackagedElectricalComponentTerminalImplementation T1_IMP</B>
+<B>      (pcbElectricalPartTerminalRef P1)</B>
+<B>      (pcbToeprintPadstackInstanceRef PADSTACK1</B>
+<B>         (pcbFootprintToeprintInstanceRef TI1))</B>
+<B>      (pcbMountablePackageTerminalRef T1))</B>
+<B>   (pcbPackagedElectricalComponentTerminalImplementation T2_IMP</B>
+<B>      (pcbElectricalPartTerminalRef P2)</B>
+<B>      (pcbToeprintPadstackInstanceRef PADSTACK1</B>
+<B>         (pcbFootprintToeprintInstanceRef TI2))</B>
+<B>      (pcbMountablePackageTerminalRef T2)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackagedElectricalComponentRef">pcbPackagedElectricalComponentRef</A></H1>
+<PRE>
+<I>pcbPackagedElectricalComponentRef ::= '(' 'pcbPackagedElectricalComponentRef'</I>
+&#09;<I><A HREF="RMRF0024.HTM#pcbComponentNameRef">pcbComponentNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbElectricalComponentTerminalRef">pcbElectricalComponentTerminalRef</A>  *<A HREF="RMRF0043.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A>  !<A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentImplementation">pcbPackagedElectricalComponentImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0024.HTM#pcbComponentRef">pcbComponentRef</A> <A HREF="RMRF0026.HTM#pcbDieElectricalComponentRef">pcbDieElectricalComponentRef</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentRef">pcbPackagedConnectorComponentRef</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalComponentRef">pcbPrintedElectricalComponentRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a packaged electrical component, <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedElectricalComponentImplementation CI2</B>
+<B>   (pcbPackagedElectricalComponentRef COMP2)</B>
+<B>   (pcbMountablePackageRef DIP14_Dip_Bottom</B>
+<B>      (libraryRef MOUNTABLE_PACKAGES))</B>
+<B>   (unscaledTransform ...)</B>
+<B>   (pcbFootprintInstanceRef FOOTP21) ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbPackagedElectricalComponentTerminalImplementation">pcbPackagedElectricalComponentTerminalImplementation</A></H1>
+<PRE>
+<I>pcbPackagedElectricalComponentTerminalImplementation ::= '(' 
+&#09;'pcbPackagedElectricalComponentTerminalImplementation'</I>
+&#09;<I><A HREF="RMRF0024.HTM#pcbComponentTerminalImplementationNameDef">pcbComponentTerminalImplementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">pcbElectricalPartTerminalRef</A></I>
+&#09;<I><A HREF="RMRF0054.HTM#pcbToeprintPadstackInstanceRef">pcbToeprintPadstackInstanceRef</A></I>
+&#09;<I><A HREF="RMRF0042.HTM#pcbMountablePackageTerminalRef">pcbMountablePackageTerminalRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0032.HTM#pcbDrawingInformation">pcbDrawingInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0042.HTM#pcbMountablePackageTerminalPropertyFabrication">pcbMountablePackageTerminalPropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0047.HTM#pcbPackageTerminalPropertyFabrication">pcbPackageTerminalPropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0048.HTM#pcbPartTerminalPropertyFabrication">pcbPartTerminalPropertyFabrication</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0044.HTM#pcbPackagedElectricalComponentImplementation">pcbPackagedElectricalComponentImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0044.HTM#pcbPackagedConnectorComponentTerminalImplementation">pcbPackagedConnectorComponentTerminalImplementation</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalComponentTerminalImplementation">pcbPrintedElectricalComponentTerminalImplementation</A> 
+</I>
+<H3>Description:</H3>
+<P>Describes how a terminal of a mountable package used by a packaged electrical component implementation is mounted on the board.
+<P><I><A HREF="RMRF0034.HTM#pcbElectricalPartTerminalRef">PcbElectricalPartTerminalRef</A></I> is a reference to the corresponding terminal in the packaged component's part. This could be derived, but is also stated here for convenience.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedElectricalComponentTerminalImplementation T1_IMP</B>
+<B>   (pcbElectricalPartTerminalRef TERM_001)</B>
+<B>   (pcbToeprintPadstackInstanceRef PADSTACK1</B>
+<B>      (pcbFootprintToeprintInstanceRef TI1))</B>
+<B>   (pcbMountablePackageTerminalRef T1))</B>
+</PRE>
+<P>This example describes how the mountable package terminal T1 is being placed on the bare board. It corresponds to part terminal TERM_001. 
+<P><HR>
+<H1><A NAME="pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></H1>
+<PRE>
+<I>pcbPackagedElectricalPart ::= '(' 'pcbPackagedElectricalPart'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0048.HTM#pcbPartHeader">pcbPartHeader</A></I>
+&#09;<I>( <A HREF="RMRF0050.HTM#pcbPinPackageRef">pcbPinPackageRef</A> | <A HREF="RMRF0020.HTM#pcbBallPackageRef">pcbBallPackageRef</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartType">pcbPackagedElectricalPartType</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0048.HTM#pcbPartCharacteristic">pcbPartCharacteristic</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A> <A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A> <A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalComponent">pcbPackagedElectricalComponent</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPartFullyDefined">pcbPackagedElectricalPartFullyDefined</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPartMinimallyDefined">pcbPackagedElectricalPartMinimallyDefined</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A> <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>An electrical, connector or jumper part must have at least one terminal.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A></I>, <I><A HREF="RMRF0037.HTM#pcbJumperPart">pcbJumperPart</A></I>, <I><A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedConnectorPart">pcbPrintedConnectorPart</A></I>, <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>In the context of <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I>, each package terminal (of the package referenced) may be referenced by at most one of the <I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A></I> constructs contained within <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I>.
+</DL>
+<H3>Description:</H3>
+<P>A packaged electrical part corresponds to a data-book description of a packaged electrical object, such as an SN74LS00J (quadruple 2-input NAND gates packaged in a 14-pin ceramic DIL package).
+<P>The third required item references the part's package, e.g. <I><A HREF="RMRF0050.HTM#pcbPinPackageRef">pcbPinPackageRef</A></I>.
+<P>The count of <I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminals</A></I> defined within a <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I> may be less than the count of package terminals (e.g. <I><A HREF="RMRF0047.HTM#pcbPackageTerminalPin">pcbPackageTerminalPin</A></I> or <I><A HREF="RMRF0047.HTM#pcbPackageTerminalSolderBall">pcbPackageTerminalSolderBall</A></I>) defined within the package that is referenced by the <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I>. This means that it is possible for some of the package terminals of the package to be referenced by none of the <I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminals</A></I>. This does not mean that those package terminals are unconnected in the <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I>; it means only that the <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I>  is not completely defined.
+<P>An unconnected package terminal is indicated in a <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I>  by defining the corresponding fully defined electrical part terminal as having a reference to a package terminal, but no references to any part function terminals.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedElectricalPart QUAD_INV</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbPinPackageRef DIP10 (libraryRef PACKAGES))</B>
+<B>   (pcbPackagedElectricalPartFullyDefined</B>
+<B>      (pcbElectricalPartFunction A</B>
+<B>         (clusterRef BASIC (cellRef STINV)))</B>
+<B>      (pcbElectricalPartFunction B</B>
+<B>         (clusterRef BASIC (cellRef STINV)))</B>
+<B>      (pcbElectricalPartFunction C</B>
+<B>         (clusterRef BASIC (cellRef STINV)))</B>
+<B>      (pcbElectricalPartFunction D</B>
+<B>         (clusterRef BASIC (cellRef STINV)))</B>
+<B>      (pcbElectricalPartFunctionPermutable</B>
+<B>         (pcbElectricalPartFunctionRef A)</B>
+<B>         (pcbElectricalPartFunctionRef B)</B>
+<B>         (pcbElectricalPartFunctionRef C)</B>
+<B>         (pcbElectricalPartFunctionRef D))</B>
+<B>      (pcbPackagedElectricalPartTerminal T1</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal </B>
+<B>            (pcbPackageTerminalPinRef P1))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>            (pcbElectricalPartFunctionPortRef a</B>
+<B>               (pcbElectricalPartFunctionRef A))))</B>
+<B>      (pcbPackagedElectricalPartTerminal T2</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal </B>
+<B>            (pcbPackageTerminalPinRef P2))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>            (pcbElectricalPartFunctionPortRef y</B>
+<B>               (pcbElectricalPartFunctionRef A))))</B>
+<B>      (pcbPackagedElectricalPartTerminal T3</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal </B>
+<B>            (pcbPackageTerminalPinRef P3))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>            (pcbElectricalPartFunctionPortRef a </B>
+<B>               (pcbElectricalPartFunctionRef B))))</B>
+<B>      (pcbPackagedElectricalPartTerminal T4</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal </B>
+<B>            (pcbPackageTerminalPinRef P4))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>            (pcbElectricalPartFunctionPortRef y </B>
+<B>               (pcbElectricalPartFunctionRef B))))</B>
+<B>      (pcbPackagedElectricalPartTerminal T5</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal </B>
+<B>            (pcbPackageTerminalPinRef P5))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>            (pcbElectricalPartFunctionPortRef GND </B>
+<B>               (pcbElectricalPartFunctionRef A))</B>
+<B>            (pcbElectricalPartFunctionPortRef GND</B>
+<B>               (pcbElectricalPartFunctionRef B))</B>
+<B>            (pcbElectricalPartFunctionPortRef GND</B>
+<B>                (pcbElectricalPartFunctionRef C))</B>
+<B>            (pcbElectricalPartFunctionPortRef GND</B>
+<B>                (pcbElectricalPartFunctionRef D))))</B>
+<B>      (pcbPackagedElectricalPartTerminal T6</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal </B>
+<B>            (pcbPackageTerminalPinRef P6))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>            (pcbElectricalPartFunctionPortRef y </B>
+<B>               (pcbElectricalPartFunctionRef C))))</B>
+<B>      (pcbPackagedElectricalPartTerminal T7</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal </B>
+<B>            (pcbPackageTerminalPinRef P7))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>            (pcbElectricalPartFunctionPortRef a </B>
+<B>               (pcbElectricalPartFunctionRef C))))</B>
+<B>      (pcbPackagedElectricalPartTerminal T8</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal </B>
+<B>            (pcbPackageTerminalPinRef P8))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>            (pcbElectricalPartFunctionPortRef y </B>
+<B>               (pcbElectricalPartFunctionRef D))))</B>
+<B>      (pcbPackagedElectricalPartTerminal T9</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal </B>
+<B>            (pcbPackageTerminalPinRef P9))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>            (pcbElectricalPartFunctionPortRef a </B>
+<B>               (pcbElectricalPartFunctionRef D))))</B>
+<B>      (pcbPackagedElectricalPartTerminal T10</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal </B>
+<B>            (pcbPackageTerminalPinRef P10))</B>
+<B>         (pcbElectricalPartTerminalConnectedPortSet </B>
+<B>            (pcbElectricalPartFunctionPortRef VCC </B>
+<B>               (pcbElectricalPartFunctionRef A))</B>
+<B>            (pcbElectricalPartFunctionPortRef VCC</B>
+<B>               (pcbElectricalPartFunctionRef B))</B>
+<B>            (pcbElectricalPartFunctionPortRef VCC</B>
+<B>               (pcbElectricalPartFunctionRef C))</B>
+<B>            (pcbElectricalPartFunctionPortRef VCC</B>
+<B>               (pcbElectricalPartFunctionRef D))))))</B>
+</PRE>
+<P>This example describes the following:
+<P><CENTER><IMG SRC="FIG0019.GIF">
+</CENTER>
+<P><HR>
+<H1><A NAME="pcbPackagedElectricalPartFullyDefined">pcbPackagedElectricalPartFullyDefined</A></H1>
+<PRE>
+<I>pcbPackagedElectricalPartFullyDefined ::= '(' 'pcbPackagedElectricalPartFullyDefined'</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A> | <A HREF="RMRF0034.HTM#pcbElectricalPartFunctionPermutable">pcbElectricalPartFunctionPermutable</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartType">pcbPackagedElectricalPartType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPartFullyDefined">pcbDieElectricalPartFullyDefined</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPartMinimallyDefined">pcbPackagedElectricalPartMinimallyDefined</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartFullyDefined">pcbPrintedElectricalPartFullyDefined</A> 
+</I>
+<H3>Description:</H3>
+<P>A fully-defined packaged electrical part includes the connectivity of the individual functions within the part and the permutability (i.e. swappability) of those functions.
+<P>The permutability of the function ports is defined by the cluster referenced within <I><A HREF="RMRF0034.HTM#pcbElectricalPartFunction">pcbElectricalPartFunction</A></I>.
+<H3>Example:</H3>
+<P>See <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I> for a comprehensive example.
+<P><HR>
+<H1><A NAME="pcbPackagedElectricalPartMinimallyDefined">pcbPackagedElectricalPartMinimallyDefined</A></H1>
+<PRE>
+<I>pcbPackagedElectricalPartMinimallyDefined ::= '(' 
+&#09;'pcbPackagedElectricalPartMinimallyDefined'</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbElectricalTerminalPermutable">pcbElectricalTerminalPermutable</A> | <A HREF="RMRF0045.HTM#pcbPackagedElectricalPartTerminal">pcbPackagedElectricalPartTerminal</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartType">pcbPackagedElectricalPartType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0026.HTM#pcbDieElectricalPartMinimallyDefined">pcbDieElectricalPartMinimallyDefined</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A> <A HREF="RMRF0044.HTM#pcbPackagedElectricalPartFullyDefined">pcbPackagedElectricalPartFullyDefined</A> <A HREF="RMRF0051.HTM#pcbPrintedElectricalPartMinimallyDefined">pcbPrintedElectricalPartMinimallyDefined</A> 
+</I>
+<H3>Description:</H3>
+<P>A minimally-defined packaged electrical part does not include a definition of the functions and connectivity within the part, nor the permutability (i.e. swappability) of those functions. Instead, it defines the permutability of the part terminals.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPackagedElectricalPart QUAD_INV</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbPinPackageRef DIP10 (libraryRef PACKAGES))</B>
+<B>   (pcbPackagedElectricalPartMinimallyDefined</B>
+<B>      (pcbPackagedElectricalPartTerminal T1</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal</B>
+<B>            (pcbPackageTerminalPinRef P1)))</B>
+<B>      (pcbPackagedElectricalPartTerminal T2</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal</B>
+<B>            (pcbPackageTerminalPinRef P2)))</B>
+<B>      (pcbPackagedElectricalPartTerminal T3</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal</B>
+<B>            (pcbPackageTerminalPinRef P3)))</B>
+<B>      (pcbPackagedElectricalPartTerminal T4</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal</B>
+<B>            (pcbPackageTerminalPinRef P4)))</B>
+<B>      (pcbPackagedElectricalPartTerminal T5</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal</B>
+<B>            (pcbPackageTerminalPinRef P5)))</B>
+<B>      (pcbPackagedElectricalPartTerminal T6</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal</B>
+<B>            (pcbPackageTerminalPinRef P6)))</B>
+<B>      (pcbPackagedElectricalPartTerminal T7</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal</B>
+<B>            (pcbPackageTerminalPinRef P7)))</B>
+<B>      (pcbPackagedElectricalPartTerminal T8</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal</B>
+<B>            (pcbPackageTerminalPinRef P8)))</B>
+<B>      (pcbPackagedElectricalPartTerminal T9</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal</B>
+<B>            (pcbPackageTerminalPinRef P9)))</B>
+<B>      (pcbPackagedElectricalPartTerminal T10</B>
+<B>         (pcbElectricalPartTerminalHeader)</B>
+<B>         (pcbConnectedPackageTerminal</B>
+<B>            (pcbPackageTerminalPinRef P10)))</B>
+<B>      (pcbElectricalTerminalPermutable</B>
+<B>         (pcbElectricalTerminalNonPermutable</B>
+<B>            (pcbElectricalPartTerminalRef T1)</B>
+<B>            (pcbElectricalPartTerminalRef T2))</B>
+<B>         (pcbElectricalTerminalNonPermutable</B>
+<B>            (pcbElectricalPartTerminalRef T3)</B>
+<B>            (pcbElectricalPartTerminalRef T4))</B>
+<B>         (pcbElectricalTerminalNonPermutable</B>
+<B>            (pcbElectricalPartTerminalRef T7)</B>
+<B>            (pcbElectricalPartTerminalRef T6))</B>
+<B>         (pcbElectricalTerminalNonPermutable</B>
+<B>            (pcbElectricalPartTerminalRef T9)</B>
+<B>            (pcbElectricalPartTerminalRef T8)))))</B>
+</PRE>
+<P>This example describes the same part as used in the <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I> example (see the following diagram), except that the part is minimally defined, i.e. connections and functions inside the part are not described.
+<P><CENTER><IMG SRC="FIG0020.GIF">
+</CENTER>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

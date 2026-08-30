@@ -1,0 +1,52 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H2><A NAME="REF41851"> 23      PCB/MCM views</A></H2>
+<P>This chapter describes the concept of the PCB/MCM view which describes a printed circuit assembly. The model of the PCB/MCM view can be found in the <A HREF="IMEX0021.HTM#pcb_mcm_view_model">pcb_mcm_view_model</A> schema. A PCB/MCM view may convey three types of connectivity information. The logical connectivity information describes the electrical functionality that is to be realised by the assembled board. The component connectivity information specifies the components to be used on the assembled board and their interconnections. The physical connectivity describes the component placements on the board and the connections implemented by conductive material. 
+<P>Figure <A HREF="IMINT018.HTM#REF33493">23.1</A> shows the model of the <A HREF="IMEX0021.HTM#internal_pcb_mcm_view">internal_pcb_mcm_view</A>. The logical connectivity information (see section <A HREF="IMINT002.HTM#REF28718">4.1</A>) is described in terms of <A HREF="IMEX0009.HTM#instance">instances</A> and <A HREF="IMEX0012.HTM#signal">signals</A>. The component connectivity information (see sections <A HREF="IMINT018.HTM#REF31048">23.1</A> and <A HREF="IMINT018.HTM#REF16889">23.2</A>) is described in terms of <A HREF="IMEX0021.HTM#component">components</A> and <A HREF="IMEX0021.HTM#component_signal">component_signals</A>. The physical connectivity is described by defining an <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> (see chapter <A HREF="IMINT019.HTM#REF28608">24</A>) which specifies the placements of <A HREF="IMEX0021.HTM#component">components</A> and implementation of <A HREF="IMEX0021.HTM#component_signal">component_signals</A> on the board.
+<P><A NAME="REF33493"><CENTER><IMG SRC="FIG0091.GIF">
+</CENTER></A>
+<P><CENTER> Figure 23.1:  The model of internal_pcb_mcm_view</CENTER>
+<H3><A NAME="REF31048"> 23.1    Components</A></H3>
+<P>A <A HREF="IMEX0021.HTM#component">component</A> is the instantiation of a <A HREF="IMEX0024.HTM#part">part</A> (see chapter <A HREF="IMINT014.HTM#REF31045">19</A>). A <A HREF="IMEX0021.HTM#component">component</A> is divided into several categories, depending on the type of the instantiated <A HREF="IMEX0024.HTM#part">part</A>. It can be a <A HREF="IMEX0021.HTM#mechanical_component">mechanical_component</A>, a <A HREF="IMEX0021.HTM#connector_component">connector_component</A>, an <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A> or a <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A>. A <A HREF="IMEX0021.HTM#mechanical_component">mechanical_component</A> is the instantiation of a <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A>; a <A HREF="IMEX0021.HTM#connector_component">connector_component</A> is the instantiation of a <A HREF="IMEX0024.HTM#connector_part">connector_part</A>; an <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A> is the instantiation of an <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A> and a <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A> is the instantiation of a <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>. Figure <A HREF="IMINT018.HTM#REF30766">23.2</A> shows the model of <A HREF="IMEX0021.HTM#component">component</A>. 
+
+<P><A NAME="REF30766"><CENTER><IMG SRC="FIG0015.GIF">
+</CENTER></A>
+<P><CENTER> Figure 23.2:  The model of component</CENTER>
+<H3><A NAME="REF16889"> 23.2    Component signals</A></H3>
+<P>In a PCB/MCM view, the set of <A HREF="IMEX0021.HTM#component_signal">component_signals</A> defines the intended connectivity of an <A HREF="IMEX0015.HTM#assembled_board">assembled_board</A> (see chapter <A HREF="IMINT019.HTM#REF28608">24</A>). Each <A HREF="IMEX0021.HTM#component_signal">component_signal</A> joins a collection of <A HREF="IMEX0021.HTM#component_terminal">component_terminals</A> and describes the connection between the terminals of the <A HREF="IMEX0021.HTM#component">components</A> in the same PCB/MCM view. A <A HREF="IMEX0021.HTM#component_terminal">component_terminal</A> is divided into several categories, depending on the type of the referenced <A HREF="IMEX0021.HTM#component">component</A>. It can be a <A HREF="IMEX0021.HTM#connector_component_terminal">connector_component_terminal</A>, a <A HREF="IMEX0021.HTM#jumper_component_terminal">jumper_component_terminal</A> or an <A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A>. A terminal of an <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A> is referenced by an <A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A> which specifies the connected <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A> and the <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>. The referenced <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A> must be defined in the <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A> from which the <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A> is instantiated. Similarly, a terminal of a <A HREF="IMEX0021.HTM#connector_component">connector_component</A> is referenced by a <A HREF="IMEX0021.HTM#connector_component_terminal">connector_component_terminal</A> which specifies the connected <A HREF="IMEX0021.HTM#connector_component">connector_component</A> and the <A HREF="IMEX0024.HTM#connector_part_terminal">connector_part_terminal</A>. The model for component connectivity is shown in figure <A HREF="IMINT018.HTM#REF46967">23.3</A>. 
+<P><A NAME="REF46967"><CENTER><IMG SRC="FIG0092.GIF">
+</CENTER></A>
+<P><CENTER> Figure 23.3:  The model for component connectivity</CENTER>
+<H3><A NAME="HDR42"> 23.3    Component function allocations</A></H3>
+
+<P>The logical connectivity and the component connectivity information are related by allocating component functions to instances in the same PCB/MCM view. As shown in figure <A HREF="IMINT018.HTM#REF30766">23.2</A>, an <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A> can be either a <A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A> or a <A HREF="IMEX0021.HTM#minimally_defined_electrical_component">minimally_defined_electrical_component</A>. A <A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A> is the instantiation of a <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> which contains <A HREF="IMEX0024.HTM#part_function">part_functions</A>. Each <A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A> includes a collection of <A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocations</A>, each of which determines the functionality of the instantiated <A HREF="IMEX0024.HTM#part_function">part_function</A>. It is divided into several categories. An <A HREF="IMEX0021.HTM#allocated_component_function">allocated_component_function</A> specifies how an instantiated <A HREF="IMEX0024.HTM#part_function">part_function</A> is allocated to an <A HREF="IMEX0009.HTM#instance">instance</A> defined in the logical connectivity section of the PCB/MCM view. It may include a collection of <A HREF="IMEX0021.HTM#allocated_component_function_terminal">allocated_component_function_terminals</A>. Each <A HREF="IMEX0021.HTM#allocated_component_function_terminal">allocated_component_function_terminal</A> describes how terminals of an instantiated <A HREF="IMEX0024.HTM#part_function">part_function</A> are allocated to a port on the allocated <A HREF="IMEX0009.HTM#instance">instance</A>. An <A HREF="IMEX0021.HTM#unallocated_component_function">unallocated_component_function</A> specifies that a component function is unallocated. It has a boolean flag indicating whether or not this electrical function can be used for further allocation. An <A HREF="IMEX0021.HTM#unknown_component_function_allocation">unknown_component_function_allocation</A> specifies that the allocation of a component function is unknown to the sending system. Finally, a <A HREF="IMEX0021.HTM#post_function_layout">post_function_layout</A> specifies that the component function is for a specific purpose and should not be used in allocation. A <A HREF="IMEX0021.HTM#post_function_layout">post_function_layout</A> allocation is available for those electrical components that are added to the component netlist but which have no corresponding functions in the logical connectivity (e.g. pull-up resistors, decoupling capacitors). Figure <A HREF="IMINT018.HTM#REF84151">23.4</A> shows the model of <A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A>.
+
+<P><A NAME="REF84151"><CENTER><IMG SRC="FIG0095.GIF">
+</CENTER></A>
+<P><CENTER> Figure 23.4:  The model of component_function_allocation</CENTER>
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

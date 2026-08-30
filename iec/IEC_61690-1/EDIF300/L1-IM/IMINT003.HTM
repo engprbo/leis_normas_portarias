@@ -1,0 +1,129 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1>Chapter 3</H1>
+<H1><A NAME="SECTION04200000000000000000">Extensions to Level 0</A></H1>
+<P>
+<A NAME="chlevel0changes">&#160;</A>
+<P>
+The basic EDIF Level 0 description is used for sending static descriptions of
+electronic design data.  The bulk of normal design transfer is expected to be
+done in Level 0 EDIF.  However, EDIF Level 0 cannot support parameterization of
+cells.  In addition, it does not allow users to define replication of
+subcircuits or make the existence of subcircuits dependent on some conditions.
+In this chapter, the basic concepts are extended to include these new features.
+<P>
+<H1><A NAME="SECTION04210000000000000000">3.1 Clusters</A></H1>
+<P>
+A <A HREF="IMEX0012.HTM#cluster">cluster</A> defines a <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A> and groups together views or symbols
+which share this common interface.  A <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A> specifies objects
+which can be seen and relationships which must hold for all views and symbols
+within a <A HREF="IMEX0012.HTM#cluster">cluster</A>.  It includes definitions of <A HREF="IMEX0012.HTM#master_port">master_ports</A> and
+<A HREF="IMEX0012.HTM#master_port_bundle">master_port_bundles</A>.  In Level 1, <A HREF="IMEX0016.HTM#parameter">parameters</A> are added
+to the <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A> so that objects defined
+within a <A HREF="IMEX0012.HTM#cluster">cluster</A> can be parameterized.  Parameters may be declared to be of
+type boolean, integer, number or string.  They may be given default values of
+the appropriate type, in which case parameter assignment during instantiation
+is optional; parameters without default values must have a value assigned to
+them on instantiation.
+<P>
+<H1><A NAME="SECTION04220000000000000000">3.2 Ports</A></H1>
+<P>
+Ports are defined in the <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A>.  They represent the only places
+where a connection can be made to a <A HREF="IMEX0012.HTM#cell">cell</A>.  In Level 1, <A HREF="IMEX0016.HTM#parameter">parameters</A> are
+introduced in the <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A>.  Hence, it is possible to parameterize the
+<A HREF="IMEX0012.HTM#master_port">master_ports</A> defined within the <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A>.  The width of a
+<A HREF="IMEX0012.HTM#master_port">master_port</A> is no longer restricted to be one and can
+be varied by giving an associated width expression.  The width expression is
+an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> which may reference <A HREF="IMEX0016.HTM#parameter">parameters</A> defined in the
+containing <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A>.  A <A HREF="IMEX0012.HTM#master_port">master_port</A> has a port_name_generator
+expression which is used to generate the port_name of each port occurrence
+that will be generated during design expansion.
+<P>
+<H1><A NAME="SECTION04230000000000000000">3.3 Views</A></H1>
+<P>
+A view is defined within a <A HREF="IMEX0012.HTM#cluster">cluster</A> and may contain <A HREF="IMEX0012.HTM#instance">instances</A>, <A HREF="IMEX0015.HTM#signal">signals</A>,
+<A HREF="IMEX0015.HTM#signal_group">signal_groups</A>, nets or busses.  Each <A HREF="IMEX0012.HTM#instance">instance</A> may represent a multiplicity
+of expanded <A HREF="IMEX0012.HTM#instance">instance</A> elements, as determined by a width expression.  At
+present, the model has completely described connectivity views and schematic
+views.
+<P>
+In Level 1, the concept of <A HREF="IMEX0010.HTM#frame">frame</A> is introduced.  A
+<A HREF="IMEX0010.HTM#frame">frame</A> is defined within a connectivity view
+ or a schematic view.  It describes a circuit which may be
+repeated a number of times (i.e. <A HREF="IMEX0010.HTM#for_frame">for_frame</A>) or conditionally included (i.e.
+<A HREF="IMEX0010.HTM#if_frame">if_frame</A>) during expansion of the design.  The contents of a <A HREF="IMEX0010.HTM#frame">frame</A> may
+include <A HREF="IMEX0012.HTM#instance">instances</A>, <A HREF="IMEX0010.HTM#frame_signal">frame_signals</A> and <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_groups</A>.
+<P>
+<H1><A NAME="SECTION04240000000000000000">3.4 Instances</A></H1>
+<P>
+An <A HREF="IMEX0012.HTM#instance">instance</A> allows a <A HREF="IMEX0012.HTM#cluster">cluster</A> to be referenced from within a view to create
+the <A HREF="IMEX0012.HTM#instance">instance</A> hierarchy of a <A HREF="IMEX0004.HTM#design">design</A>.  In Level 1, <A HREF="IMEX0016.HTM#parameter">parameters</A> are defined
+in the <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A>.  Thus, when an <A HREF="IMEX0012.HTM#instance">instance</A> is
+used, it is necessary to be able to assign values to <A HREF="IMEX0016.HTM#parameter">parameters</A> defined in
+the interface of the instantiated <A HREF="IMEX0012.HTM#cluster">cluster</A>.  This is achieved by using
+<A HREF="IMEX0016.HTM#parameter_assign">parameter_assign</A>.  An integer width expression is used to declare the number
+of <A HREF="IMEX0012.HTM#instance">instance</A> elements that will be generated during design expansion.
+<P>
+In addition, <A HREF="IMEX0012.HTM#instance">instance</A> has been extended to include an
+instance_name_generator.  This is a <A HREF="IMEX0009.HTM#string_expression">string_expression</A> which may reference
+<A HREF="IMEX0016.HTM#parameter">parameters</A> defined in the <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A> of the containing view.
+Consider the following example of using an instance_name_generator.  Assume
+that an engineer has defined a technology parameter which has a string value of
+``cmos''.  The engineer can then tag the instance name with the result of the
+technology parameter.  Suppose the circuit has an instance of a gate and that
+instance has an instance_name_generator expression which is a concatenation
+of the technology parameter and the gate name ``NAND''.  The instance name of
+that gate will be ``cmosNAND'' after expansion.
+<P>
+Similarly, the instance_name_generator supports the introduction of
+<A HREF="IMEX0010.HTM#frame">frames</A> in Level 1.  An <A HREF="IMEX0012.HTM#instance">instance</A> is subject to repetition when it is
+defined inside a <A HREF="IMEX0010.HTM#for_frame">for_frame</A>.  The instance_name_generator provides a mechanism
+for controlling the name of each <A HREF="IMEX0012.HTM#instance">instance</A> element after the expansion of a
+<A HREF="IMEX0010.HTM#for_frame">for_frame</A>.
+<P>
+<H1><A NAME="SECTION04250000000000000000">3.5 Signals</A></H1>
+<P>
+A <A HREF="IMEX0015.HTM#signal">signal</A> is defined as an object which incorporates all the <A HREF="IMEX0012.HTM#master_port">master_ports</A>,
+<A HREF="IMEX0012.HTM#instance_port">instance_ports</A> and <A HREF="IMEX0008.HTM#global_port">global_ports</A> which are electrically common at a given
+level of hierarchy.  Since <A HREF="IMEX0016.HTM#parameter">parameters</A> are introduced in the
+<A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A> in Level 1, it is possible to parameterize <A HREF="IMEX0015.HTM#signal">signals</A>
+defined within a parameterized <A HREF="IMEX0012.HTM#cluster">cluster</A>.  The width of a <A HREF="IMEX0015.HTM#signal">signal</A>
+ is no longer restricted to be one and can be varied
+according to its associated width expression.  The width expression is an
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> which may reference <A HREF="IMEX0016.HTM#parameter">parameters</A> defined in the containing
+<A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A>.  Each joined <A HREF="IMEX0012.HTM#instance_port">instance_port</A> will specify a
+connected_signal_index_generator expression which, on evaluation, determines
+the manner in which the individual bits of an expanded <A HREF="IMEX0012.HTM#instance_port">instance_port</A> connect
+to the expanded <A HREF="IMEX0015.HTM#signal">signal</A>.
+<P>
+In addition, a <A HREF="IMEX0015.HTM#signal">signal</A> is classified as either a <A HREF="IMEX0015.HTM#mergeable_signal">mergeable_signal</A> or a
+<A HREF="IMEX0015.HTM#non_mergeable_signal">non_mergeable_signal</A> in Level 1 EDIF.  A <A HREF="IMEX0015.HTM#mergeable_signal">mergeable_signal</A> has an associated
+connectivity_tag_generator expression.  Connectivity_tag_generators are
+compared after evaluation to determine which <A HREF="IMEX0015.HTM#mergeable_signal">mergeable_signals</A> or
+<A HREF="IMEX0010.HTM#frame_mergeable_signal">frame_mergeable_signals</A> within an <A HREF="IMEX0012.HTM#internal_cell_representation">internal_cell_representation</A> are to be
+merged.
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

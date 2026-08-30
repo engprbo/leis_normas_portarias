@@ -1,0 +1,1528 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="instantiatable_object_model">instantiatable_object_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A> schema describes a class of reusable
+ templates which are defined once and may be used many times.  Some templates
+ can be used in many view types, for example, <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>.
+ Some other templates may only be used in certain view types.  For example,
+ <A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A>,
+ <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A> and
+ <A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A> may be used in schematic views only. 
+</P><HR>
+<!-- Start of ENTITY: schematic_template -->
+<H2><A NAME="schematic_template">schematic_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>
+      ABSTRACT SUPERTYPE OF 
+        (ONEOF(<A HREF="IMEX0010.HTM#page_border_template">page_border_template</A>,
+               <A HREF="IMEX0010.HTM#page_title_block_template">page_title_block_template</A>,
+               <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A>,
+               <A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A>,
+               <A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A>,
+               <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A>,
+               <A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A>,
+               <A HREF="IMEX0010.HTM#schematic_onpageconnector_template">schematic_onpageconnector_template</A>,
+               <A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A>,
+               <A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>,
+               <A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A>,
+               <A HREF="IMEX0010.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A>));
+    background_colour     : <A HREF="IMEX0005.HTM#colour">colour</A>;                 
+    document              : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name                  : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    original_bounding_box : OPTIONAL <A HREF="IMEX0008.HTM#rectangle">rectangle</A>;
+    properties            : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>; 
+    property_displays     : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property_display">property_display</A>;
+    status_of_copyright   : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#copyright">copyright</A>;
+    status_of_written     : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+    units                 : <A HREF="IMEX0028.HTM#schematic_units">schematic_units</A>;
+  WHERE
+    <A NAME="schematic_template.valid_property_displays">valid_property_displays</A> :
+      (* The displayed properties are defined in the template. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(templatePropertyDisplay &lt;* property_displays |
+        NOT (templatePropertyDisplay.displayed_property IN properties)));
+
+    <A NAME="schematic_template.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A template cannot have property_displays if it does not define any
+            properties. *)
+      EXISTS(properties) OR NOT EXISTS(property_displays);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_template">schematic_template</A> represents a template which can be used in schematic 
+ views only, for example, <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A>,
+ <A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A>.  A <A HREF="IMEX0010.HTM#schematic_template">schematic_template</A> has
+ abstraction information such as background colour and scales used in the
+ template definition.
+</P><HR>
+<!-- Start of ENTITY: schematic_offpageconnector_template -->
+<H2><A NAME="schematic_offpageconnector_template">schematic_offpageconnector_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A>
+      ABSTRACT SUPERTYPE OF 
+        (ONEOF(<A HREF="IMEX0010.HTM#external_schematic_offpageconnector_template">external_schematic_offpageconnector_template</A>,
+               <A HREF="IMEX0010.HTM#internal_schematic_offpageconnector_template">internal_schematic_offpageconnector_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+    hotspot : <A HREF="IMEX0010.HTM#hotspot">hotspot</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A> contains information which is used
+ in the definition of an offpageconnector on a schematic <A HREF="IMEX0027.HTM#page">page</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#schematic_offpageconnector">schematic_offpageconnector</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_offpageconnector_template -->
+<H2><A NAME="external_schematic_offpageconnector_template">external_schematic_offpageconnector_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_schematic_offpageconnector_template">external_schematic_offpageconnector_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_offpageconnector_template">external_schematic_offpageconnector_template</A> is an offpageconnector
+ template definition found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It may be used in
+ schematic views only.  It has abstraction information such as hotspot and
+ scales used in the template definition.  Since an external template is not
+ allowed to contain implementation information, it does not have any
+ associated graphics or display slot details.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_offpageconnector_template -->
+<H2><A NAME="internal_schematic_offpageconnector_template">internal_schematic_offpageconnector_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_schematic_offpageconnector_template">internal_schematic_offpageconnector_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A>);
+    associated_annotate                       : OPTIONAL SET [1:?] OF
+                                                <A HREF="IMEX0005.HTM#string_display">string_display</A>; 
+    associated_comment_graphics               : OPTIONAL SET [1:?] OF
+                                                <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>; 
+    associated_figures                        : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros                  : OPTIONAL SET [1:?] OF
+                                                <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>; 
+    associated_interconnect_name_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    implementation_name_display_slot          : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_schematic_offpageconnector_template">internal_schematic_offpageconnector_template</A> is an offpageconnector
+ template definition found in an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  It may be used in
+ schematic views only.  It has abstraction information such as hotspot and
+ scales used in the template definition.  An internal template is allowed to
+ contain implementation information.  It may have associated graphics and
+ display slot details for the associated interconnect name and the name
+ specified in its implementation (i.e. <A HREF="IMEX0027.HTM#schematic_offpageconnector">schematic_offpageconnector</A>).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_onpageconnector_template -->
+<H2><A NAME="schematic_onpageconnector_template">schematic_onpageconnector_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_onpageconnector_template">schematic_onpageconnector_template</A>
+      ABSTRACT SUPERTYPE OF 
+        (ONEOF(<A HREF="IMEX0010.HTM#external_schematic_onpageconnector_template">external_schematic_onpageconnector_template</A>,
+               <A HREF="IMEX0010.HTM#internal_schematic_onpageconnector_template">internal_schematic_onpageconnector_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+    hotspot : <A HREF="IMEX0010.HTM#hotspot">hotspot</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_onpageconnector_template">schematic_onpageconnector_template</A> contains information which is used in
+ the definition of an onpageconnector on a schematic <A HREF="IMEX0027.HTM#page">page</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#schematic_onpageconnector">schematic_onpageconnector</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_onpageconnector_template -->
+<H2><A NAME="external_schematic_onpageconnector_template">external_schematic_onpageconnector_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_schematic_onpageconnector_template">external_schematic_onpageconnector_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_onpageconnector_template">schematic_onpageconnector_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_onpageconnector_template">external_schematic_onpageconnector_template</A> is an onpageconnector
+ template definition found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It may be used in
+ schematic views only.  It has abstraction information such as hotspot and
+ scales used in the template definition.  Since an external template is not
+ allowed to contain implementation information, it does not have any
+ associated graphics or display slot details.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_onpageconnector_template -->
+<H2><A NAME="internal_schematic_onpageconnector_template">internal_schematic_onpageconnector_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_schematic_onpageconnector_template">internal_schematic_onpageconnector_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_onpageconnector_template">schematic_onpageconnector_template</A>);
+    associated_annotate                       : OPTIONAL SET [1:?] OF
+                                                <A HREF="IMEX0005.HTM#string_display">string_display</A>; 
+    associated_comment_graphics               : OPTIONAL SET [1:?] OF
+                                                <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>; 
+    associated_figures                        : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros                  : OPTIONAL SET [1:?] OF
+                                                <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>; 
+    associated_interconnect_name_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    implementation_name_display_slot          : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_schematic_onpageconnector_template">internal_schematic_onpageconnector_template</A> is an onpageconnector
+ template definition found in an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  It may be used in
+ schematic views only.  It has abstraction information such as hotspot and
+ scales used in the template definition.  An internal template is allowed to
+ contain implementation information.  It may have associated graphics and
+ display slot details for the associated interconnect name and the name
+ specified in its implementation (i.e. <A HREF="IMEX0027.HTM#schematic_onpageconnector">schematic_onpageconnector</A>).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_master_port_representation_template -->
+<H2><A NAME="schematic_master_port_representation_template">schematic_master_port_representation_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A>
+      ABSTRACT SUPERTYPE OF 
+        (ONEOF(<A HREF="IMEX0010.HTM#external_schematic_master_port_representation_template">external_schematic_master_port_representation_template</A>,
+               <A HREF="IMEX0010.HTM#internal_schematic_master_port_representation_template">internal_schematic_master_port_representation_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+    direction_indicator  : <A HREF="IMEX0010.HTM#port_direction_indicator">port_direction_indicator</A>;
+    hotspot              : <A HREF="IMEX0010.HTM#hotspot">hotspot</A>;
+    representation_style : OPTIONAL <A HREF="IMEX0010.HTM#schematic_port_representation_style">schematic_port_representation_style</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A> contains information which
+ is used in the definition of a representation of a <A HREF="IMEX0009.HTM#master_port">master_port</A> or a
+ <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> on a schematic <A HREF="IMEX0027.HTM#page">page</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#schematic_master_port_bundle_representation">schematic_master_port_bundle_representation</A> <A HREF="IMEX0027.HTM#schematic_master_port_representation">schematic_master_port_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_master_port_representation_template -->
+<H2><A NAME="external_schematic_master_port_representation_template">external_schematic_master_port_representation_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_schematic_master_port_representation_template">external_schematic_master_port_representation_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_master_port_representation_template">external_schematic_master_port_representation_template</A> is a
+ master_port_representation template definition found in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It may be used in schematic views only.  It has
+ abstraction information such as hotspot and scales used in the template
+ definition.  It has two indicators: the
+ <A HREF="IMEX0010.HTM#schematic_port_representation_style">schematic_port_representation_style</A> identifies whether the associated
+ master port is narrow or wide; the <A HREF="IMEX0010.HTM#port_direction_indicator">port_direction_indicator</A> defines the
+ suitability for association with an input, output or bidirectional
+ <A HREF="IMEX0009.HTM#master_port">master_port</A>. Since an external template is not allowed to contain
+ implementation information, it does not have any associated graphics or
+ display slot details. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_master_port_representation_template -->
+<H2><A NAME="internal_schematic_master_port_representation_template">internal_schematic_master_port_representation_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_schematic_master_port_representation_template">internal_schematic_master_port_representation_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A>);
+    associated_annotate         : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    associated_comment_graphics : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>;
+    associated_figures          : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros    : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>;
+    ac_load_display_slot        : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    dc_fanin_load_display_slot  : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    dc_fanout_load_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    dc_max_fanin_display_slot   : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    dc_max_fanout_display_slot  : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    designator_display_slot     : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    implementation_name_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    port_name_display_slot      : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;       
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_schematic_master_port_representation_template">internal_schematic_master_port_representation_template</A> is a
+ master_port_representation template definition found in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>. It may be used in schematic views only.  It has
+ abstraction information such as hotspot and scales used in the template
+ definition.  It has two indicators: the
+ <A HREF="IMEX0010.HTM#schematic_port_representation_style">schematic_port_representation_style</A> identifies whether the associated
+ master port is narrow or wide; the <A HREF="IMEX0010.HTM#port_direction_indicator">port_direction_indicator</A> defines the
+ suitability for association with an input, output or bidirectional
+ <A HREF="IMEX0009.HTM#master_port">master_port</A>.  An internal template is allowed to contain implementation
+ information.  It may have associated graphics and display slot details for
+ associated port name, associated port attributes and the name specified in
+ its implementation (i.e. <A HREF="IMEX0027.HTM#schematic_master_port_representation">schematic_master_port_representation</A>).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_symbol_port_representation_template -->
+<H2><A NAME="schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>
+      ABSTRACT SUPERTYPE OF 
+        (ONEOF(<A HREF="IMEX0010.HTM#external_schematic_symbol_port_representation_template">external_schematic_symbol_port_representation_template</A>,
+               <A HREF="IMEX0010.HTM#internal_schematic_symbol_port_representation_template">internal_schematic_symbol_port_representation_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+    direction_indicator       : <A HREF="IMEX0010.HTM#port_direction_indicator">port_direction_indicator</A>;
+    hotspot                   : <A HREF="IMEX0010.HTM#hotspot">hotspot</A>;
+    representation_style      : OPTIONAL <A HREF="IMEX0010.HTM#schematic_port_representation_style">schematic_port_representation_style</A>;
+    schematic_port_attributes : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#schematic_port_attribute">schematic_port_attribute</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A> contains information which
+ is used in the definition of a representation of a <A HREF="IMEX0009.HTM#master_port">master_port</A> or a
+ <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> in an <A HREF="IMEX0028.HTM#internal_schematic_symbol">internal_schematic_symbol</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0028.HTM#schematic_symbol_port_bundle_representation">schematic_symbol_port_bundle_representation</A> <A HREF="IMEX0028.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_symbol_port_representation_template -->
+<H2><A NAME="external_schematic_symbol_port_representation_template">external_schematic_symbol_port_representation_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_schematic_symbol_port_representation_template">external_schematic_symbol_port_representation_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_symbol_port_representation_template">external_schematic_symbol_port_representation_template</A> is a
+ symbol_port_representation template definition found in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It may be used in schematic views only. It has
+ abstraction information such as hotspot and scales used in the template
+ definition.  It has two indicators: the
+ <A HREF="IMEX0010.HTM#schematic_port_representation_style">schematic_port_representation_style</A> identifies whether the associated
+ master port is narrow or wide; the <A HREF="IMEX0010.HTM#port_direction_indicator">port_direction_indicator</A> defines the
+ suitability for association with an input, output or bidirectional
+ <A HREF="IMEX0009.HTM#master_port">master_port</A>. Since an external template is not allowed to contain
+ implementation information, it does not have any associated graphics or
+ display slot details. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_symbol_port_representation_template -->
+<H2><A NAME="internal_schematic_symbol_port_representation_template">internal_schematic_symbol_port_representation_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_schematic_symbol_port_representation_template">internal_schematic_symbol_port_representation_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>);
+    associated_annotate         : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    associated_comment_graphics : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>;
+    associated_figures          : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros    : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>;
+    ac_load_display_slot        : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    dc_fanin_load_display_slot  : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    dc_fanout_load_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    dc_max_fanin_display_slot   : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    dc_max_fanout_display_slot  : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    designator_display_slot     : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    implementation_name_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    port_name_display_slot      : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;       
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_schematic_symbol_port_representation_template">internal_schematic_symbol_port_representation_template</A> is a
+ symbol_port_representation template definition found in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>. This type of template is used to represent a master port
+ in a schematic symbol.  It has abstraction information such as hotspot and
+ scales used in the template definition.  It has two indicators: the
+ <A HREF="IMEX0010.HTM#schematic_port_representation_style">schematic_port_representation_style</A> identifies whether the associated
+ master port is narrow or wide; the <A HREF="IMEX0010.HTM#port_direction_indicator">port_direction_indicator</A> defines the
+ suitability for association with an input, output or bidirectional
+ <A HREF="IMEX0009.HTM#master_port">master_port</A>.  An internal template is allowed to contain implementation
+ information.  It may have associated graphics and display slot details for
+ associated port name, associated port attributes and the name specified in
+ its implementation (i.e. <A HREF="IMEX0028.HTM#schematic_symbol_port_representation">schematic_symbol_port_representation</A>).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_global_port_representation_template -->
+<H2><A NAME="schematic_global_port_representation_template">schematic_global_port_representation_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A>
+      ABSTRACT SUPERTYPE OF 
+        (ONEOF(<A HREF="IMEX0010.HTM#external_schematic_global_port_representation_template">external_schematic_global_port_representation_template</A>,
+               <A HREF="IMEX0010.HTM#internal_schematic_global_port_representation_template">internal_schematic_global_port_representation_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+    hotspot                          : <A HREF="IMEX0010.HTM#hotspot">hotspot</A>;
+    schematic_global_port_attributes : OPTIONAL SET [1:?] OF 
+                                       <A HREF="IMEX0028.HTM#schematic_global_port_attribute">schematic_global_port_attribute</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A> contains information which
+ is used in the definition of a representation of a <A HREF="IMEX0007.HTM#global_port">global_port</A> or a
+ <A HREF="IMEX0007.HTM#global_port_bundle">global_port_bundle</A> on a schematic <A HREF="IMEX0027.HTM#page">page</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#schematic_global_port_representation">schematic_global_port_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_global_port_representation_template -->
+<H2><A NAME="external_schematic_global_port_representation_template">external_schematic_global_port_representation_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_schematic_global_port_representation_template">external_schematic_global_port_representation_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_global_port_representation_template">external_schematic_global_port_representation_template</A> is a
+ global_port_representation template definition found in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>. 
+</P>
+<P>
+ It may be used in schematic views only. It has abstraction information such
+ as hotspot and scales used in the template definition.  Since an external
+ template is not allowed to contain implementation information, it does not
+ have any associated graphics or display slot details.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_global_port_representation_template -->
+<H2><A NAME="internal_schematic_global_port_representation_template">internal_schematic_global_port_representation_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_schematic_global_port_representation_template">internal_schematic_global_port_representation_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A>);
+    associated_annotate              : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    associated_comment_graphics      : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>;
+    associated_figures               : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros         : OPTIONAL SET [1:?] OF
+                                       <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>; 
+    global_port_name_display_slot    : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    implementation_name_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_schematic_global_port_representation_template">internal_schematic_global_port_representation_template</A> is a
+ global_port_representation template definition found in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>. It may be used in schematic views only.  It has
+ abstraction information such as hotspot and scales used in the template
+ definition.  An internal template is allowed to contain implementation
+ information. It may have associated graphics and display slot details for
+ the associated global_port name and the name specified in its implementation
+ (i.e. <A HREF="IMEX0027.HTM#schematic_global_port_representation">schematic_global_port_representation</A>).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_ripper_template -->
+<H2><A NAME="schematic_ripper_template">schematic_ripper_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0010.HTM#external_schematic_ripper_template">external_schematic_ripper_template</A>,
+                                   <A HREF="IMEX0010.HTM#internal_schematic_ripper_template">internal_schematic_ripper_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+    hotspots : SET [2:?] OF <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspot</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A> contains information which is used in the
+ definition of a ripper on a schematic <A HREF="IMEX0027.HTM#page">page</A>.  It must have at least two
+ hotspots. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspot</A> <A HREF="IMEX0027.HTM#schematic_ripper">schematic_ripper</A> </P>
+<HR>
+<!-- Start of ENTITY: ripper_hotspot -->
+<H2><A NAME="ripper_hotspot">ripper_hotspot</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspot</A>;
+    hotspot_name              : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    hotspot_name_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    position                  : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    wire_affinity             : <A HREF="IMEX0010.HTM#schematic_wire_affinity">schematic_wire_affinity</A>;
+  DERIVE
+    containing_template : <A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A>.hotspots');
+    containing_ripper   : <A HREF="IMEX0027.HTM#schematic_ripper">schematic_ripper</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0027.HTM#schematic_ripper">schematic_ripper</A>.hotspots');
+  WHERE
+    <A NAME="ripper_hotspot.containment_constraint">containment_constraint</A> :
+      (* A ripper_hotspot belongs to either one schematic_ripper_template or
+         one schematic_ripper. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      ['<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A>.hotspots',
+       '<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0027.HTM#schematic_ripper">schematic_ripper</A>.hotspots']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspot</A> is a named hotspot on a <A HREF="IMEX0027.HTM#schematic_ripper">schematic_ripper</A>.  The
+ <A HREF="IMEX0027.HTM#schematic_wire_style">schematic_wire_style</A> indicator defines whether the hotspot is suitable to
+ be joined to a narrow or a wide interconnect structure.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#schematic_generic_bus">schematic_generic_bus</A> <A HREF="IMEX0027.HTM#schematic_generic_net">schematic_generic_net</A> <A HREF="IMEX0027.HTM#schematic_ripper">schematic_ripper</A> <A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_ripper_template -->
+<H2><A NAME="external_schematic_ripper_template">external_schematic_ripper_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_schematic_ripper_template">external_schematic_ripper_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_ripper_template">external_schematic_ripper_template</A> is a ripper template definition
+ found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It may be used in schematic views only.  It
+ has abstraction information such as <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspots</A> and scales used in the
+ template definition.  Since an external template is not allowed to contain
+ implementation information, it does not have any associated graphics or
+ display slot details.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_ripper_template -->
+<H2><A NAME="internal_schematic_ripper_template">internal_schematic_ripper_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_schematic_ripper_template">internal_schematic_ripper_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A>);
+    associated_annotate              : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    associated_comment_graphics      : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>;
+    associated_figures               : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros         : OPTIONAL SET [1:?] OF
+                                       <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>; 
+    implementation_name_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_schematic_ripper_template">internal_schematic_ripper_template</A> is a ripper template definition
+ found in an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  It may be used in schematic views.  It has
+ abstraction information such as named hotspots (see <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspot</A>) and
+ scales used in the template definition.  An internal template is allowed to
+ contain implementation information.  It may have associated graphics and
+ display slot details for the name specified in its implementation (i.e.
+ <A HREF="IMEX0027.HTM#schematic_ripper">schematic_ripper</A>). 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_junction_template -->
+<H2><A NAME="schematic_junction_template">schematic_junction_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0010.HTM#external_schematic_junction_template">external_schematic_junction_template</A>,
+                                   <A HREF="IMEX0010.HTM#internal_schematic_junction_template">internal_schematic_junction_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+    hotspot : <A HREF="IMEX0010.HTM#hotspot">hotspot</A>;                         
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A> contains information which is used in the 
+ definition of a junction (i.e. <A HREF="IMEX0027.HTM#schematic_bus_junction">schematic_bus_junction</A> or a
+ <A HREF="IMEX0027.HTM#schematic_net_junction">schematic_net_junction</A>) on a schematic <A HREF="IMEX0027.HTM#page">page</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#schematic_bus_junction">schematic_bus_junction</A> <A HREF="IMEX0027.HTM#schematic_net_junction">schematic_net_junction</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_junction_template -->
+<H2><A NAME="external_schematic_junction_template">external_schematic_junction_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_schematic_junction_template">external_schematic_junction_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_junction_template">external_schematic_junction_template</A> is a junction template definition
+ found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It may be used in schematic views only.  It
+ has abstraction information such as hotspot and scales used in the template
+ definition.  Since an external template is not allowed to contain
+ implementation information, it does not have any associated graphics or
+ display slot details.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_junction_template -->
+<H2><A NAME="internal_schematic_junction_template">internal_schematic_junction_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_schematic_junction_template">internal_schematic_junction_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A>);
+    associated_annotate              : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    associated_comment_graphics      : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>;
+    associated_figures               : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros         : OPTIONAL SET [1:?] OF
+                                       <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>; 
+    implementation_name_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_schematic_junction_template">internal_schematic_junction_template</A> is a junction template definition
+ found in an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  It may be used in schematic views only.  It
+ has abstraction information such as hotspot and scales used in the template
+ definition.  An internal template is allowed to contain implementation
+ information.  It may have associated graphics and display slot details for
+ the name specified in its implementation (i.e. <A HREF="IMEX0027.HTM#schematic_bus_junction">schematic_bus_junction</A> or
+ <A HREF="IMEX0027.HTM#schematic_net_junction">schematic_net_junction</A>).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_interconnect_terminator_template -->
+<H2><A NAME="schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A>
+      ABSTRACT SUPERTYPE OF 
+        (ONEOF(<A HREF="IMEX0010.HTM#external_schematic_interconnect_terminator_template">external_schematic_interconnect_terminator_template</A>,
+               <A HREF="IMEX0010.HTM#internal_schematic_interconnect_terminator_template">internal_schematic_interconnect_terminator_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+    hotspot : <A HREF="IMEX0010.HTM#hotspot">hotspot</A>;                         
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A> contains information which is
+ used in the definition of a <A HREF="IMEX0027.HTM#schematic_interconnect_terminator">schematic_interconnect_terminator</A> on a
+ schematic <A HREF="IMEX0027.HTM#page">page</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#schematic_interconnect_terminator">schematic_interconnect_terminator</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_interconnect_terminator_template -->
+<H2><A NAME="external_schematic_interconnect_terminator_template">external_schematic_interconnect_terminator_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_schematic_interconnect_terminator_template">external_schematic_interconnect_terminator_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_interconnect_terminator_template">external_schematic_interconnect_terminator_template</A> is an interconnect 
+ terminator template definition found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It may be
+ used in schematic views only.  It has abstraction information such as
+ hotspot and scales used in the template definition.  Since an external
+ template is not allowed to contain implementation information, it does not
+ have any associated graphics or display slot details.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_interconnect_terminator_template -->
+<H2><A NAME="internal_schematic_interconnect_terminator_template">internal_schematic_interconnect_terminator_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_schematic_interconnect_terminator_template">internal_schematic_interconnect_terminator_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A>);
+    associated_annotate              : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    associated_comment_graphics      : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>;
+    associated_figures               : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros         : OPTIONAL SET [1:?] OF
+                                       <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>; 
+    implementation_name_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_interconnect_terminator_template">external_schematic_interconnect_terminator_template</A> is an interconnect
+ terminator template definition found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It may be
+ used in schematic views only.  It has abstraction information such as
+ hotspot and scales used in the template definition.  An internal template is
+ allowed to contain implementation information.  It may have associated
+ graphics. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: page_border_template -->
+<H2><A NAME="page_border_template">page_border_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#page_border_template">page_border_template</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0010.HTM#external_page_border_template">external_page_border_template</A>,
+                                   <A HREF="IMEX0010.HTM#internal_page_border_template">internal_page_border_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+    usable_area : SET OF <A HREF="IMEX0008.HTM#rectangle">rectangle</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#page_border_template">page_border_template</A> is an instantiatable object which can be used to
+ define a border on a schematic <A HREF="IMEX0027.HTM#page">page</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#page_border">page_border</A> </P>
+<HR>
+<!-- Start of ENTITY: external_page_border_template -->
+<H2><A NAME="external_page_border_template">external_page_border_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_page_border_template">external_page_border_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#page_border_template">page_border_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_page_border_template">external_page_border_template</A> is a <A HREF="IMEX0010.HTM#page_border_template">page_border_template</A> definition
+ found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It has abstraction information such as
+ usable area and scales used in the template definition.  A usable area may
+ consist of one or more rectangular areas. Since an external template is not
+ allowed to contain implementation information, it does not have any
+ associated graphics or display slot details.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_page_border_template -->
+<H2><A NAME="internal_page_border_template">internal_page_border_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_page_border_template">internal_page_border_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#page_border_template">page_border_template</A>);
+    associated_annotate         : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    associated_comment_graphics : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>;
+    associated_figures          : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros    : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_page_border_template">internal_page_border_template</A> is a <A HREF="IMEX0010.HTM#page_border_template">page_border_template</A> definition
+ found in an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  It has abstraction information such as
+ usable area and scales used in the template definition.  A usable area may
+ consist of one or more rectangular areas.  An internal template is allowed
+ to contain implementation information and it may have associated graphics.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_symbol_border_template -->
+<H2><A NAME="schematic_symbol_border_template">schematic_symbol_border_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0010.HTM#external_schematic_symbol_border_template">external_schematic_symbol_border_template</A>,
+                                   <A HREF="IMEX0010.HTM#internal_schematic_symbol_border_template">internal_schematic_symbol_border_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+    usable_area : SET OF <A HREF="IMEX0008.HTM#rectangle">rectangle</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A> is an instantiatable object which can
+ be used to define a border for an <A HREF="IMEX0028.HTM#internal_schematic_symbol">internal_schematic_symbol</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0028.HTM#schematic_symbol_border">schematic_symbol_border</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_symbol_border_template -->
+<H2><A NAME="external_schematic_symbol_border_template">external_schematic_symbol_border_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_schematic_symbol_border_template">external_schematic_symbol_border_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_symbol_border_template">external_schematic_symbol_border_template</A> is a
+ <A HREF="IMEX0010.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A> definition found in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It has abstraction information such as usable area and
+ scales used in the template definition.  A usable area may consist of one or
+ more rectangular areas. Since an external template is not allowed to contain
+ implementation information, it does not have any associated graphics or
+ display slot details. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_symbol_border_template -->
+<H2><A NAME="internal_schematic_symbol_border_template">internal_schematic_symbol_border_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_schematic_symbol_border_template">internal_schematic_symbol_border_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A>);
+    associated_annotate         : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    associated_comment_graphics : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>;
+    associated_figures          : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros    : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_schematic_symbol_border_template">internal_schematic_symbol_border_template</A> is a
+ <A HREF="IMEX0010.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A> definition found in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  It has abstraction information such as usable area and
+ scales used in the template definition.  A usable area may consist of one or
+ more rectangular areas. An internal template is allowed to contain
+ implementation information.  It may have associated graphics. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: page_title_block_template -->
+<H2><A NAME="page_title_block_template">page_title_block_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#page_title_block_template">page_title_block_template</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0010.HTM#external_page_title_block_template">external_page_title_block_template</A>,
+                                   <A HREF="IMEX0010.HTM#internal_page_title_block_template">internal_page_title_block_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#page_title_block_template">page_title_block_template</A> is an instantiatable object which can be used
+ to define a <A HREF="IMEX0027.HTM#page_title_block">page_title_block</A> on a schematic <A HREF="IMEX0027.HTM#page">page</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0027.HTM#page_title_block">page_title_block</A> </P>
+<HR>
+<!-- Start of ENTITY: external_page_title_block_template -->
+<H2><A NAME="external_page_title_block_template">external_page_title_block_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_page_title_block_template">external_page_title_block_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#page_title_block_template">page_title_block_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_page_title_block_template">external_page_title_block_template</A> is a <A HREF="IMEX0010.HTM#page_title_block_template">page_title_block_template</A>
+ definition found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It has abstraction information
+ such as scales used in the template definition.  Since an external template
+ is not allowed to contain implementation information, it does not have any
+ associated graphics or display slot details.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_page_title_block_template -->
+<H2><A NAME="internal_page_title_block_template">internal_page_title_block_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_page_title_block_template">internal_page_title_block_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#page_title_block_template">page_title_block_template</A>);
+    associated_annotate                 : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    associated_comment_graphics         : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>; 
+    associated_figures                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros            : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>; 
+    approved_date                       : OPTIONAL <A HREF="IMEX0004.HTM#date">date</A>;
+    approved_date_display_slot          : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    checked_date                        : OPTIONAL <A HREF="IMEX0004.HTM#date">date</A>;
+    checked_date_display_slot           : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    company_name                        : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    company_name_display_slot           : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    contract                            : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    contract_display_slot               : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    copyright_display_slot              : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    drawing_date                        : OPTIONAL <A HREF="IMEX0004.HTM#date">date</A>;
+    drawing_date_display_slot           : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    drawing_description                 : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    drawing_description_display_slot    : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    drawing_identification              : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    drawing_identification_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    drawing_size                        : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    drawing_size_display_slot           : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    engineering_date                    : OPTIONAL <A HREF="IMEX0004.HTM#date">date</A>;
+    engineering_date_display_slot       : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    page_identification                 : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    page_identification_display_slot    : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    revision                            : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    revision_display_slot               : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    title                               : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    title_display_slot                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    total_pages_display_slot            : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_page_title_block_template">internal_page_title_block_template</A> is a <A HREF="IMEX0010.HTM#page_title_block_template">page_title_block_template</A>
+ definition found in an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  It has abstraction information
+ such as scales used in the template definition.  An internal template is
+ allowed to contain implementation information.  It may have associated
+ graphics and display slot details for its attributes.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_figure_macro_template -->
+<H2><A NAME="schematic_figure_macro_template">schematic_figure_macro_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0010.HTM#external_schematic_figure_macro_template">external_schematic_figure_macro_template</A>,
+                                   <A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A>))
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_template">schematic_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A> is a grouping of dumb graphics and text.
+ It can be either an <A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A> defined in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>, or an <A HREF="IMEX0010.HTM#external_schematic_figure_macro_template">external_schematic_figure_macro_template</A> in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A> </P>
+<HR>
+<!-- Start of ENTITY: external_schematic_figure_macro_template -->
+<H2><A NAME="external_schematic_figure_macro_template">external_schematic_figure_macro_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_schematic_figure_macro_template">external_schematic_figure_macro_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_schematic_figure_macro_template">external_schematic_figure_macro_template</A> is a
+ <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A> definition found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.
+ It has abstraction information such as scales used in the template
+ definition.  Since an external template is not allowed to contain
+ implementation information, it does not have any associated graphics.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_schematic_figure_macro_template -->
+<H2><A NAME="internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A>);
+    associated_annotate         : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#string_display">string_display</A>;
+    associated_comment_graphics : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A>;
+    associated_figures          : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#figure">figure</A>;
+    associated_figure_macros    : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>;
+  WHERE
+    <A NAME="internal_schematic_figure_macro_template.non_recursive_constraint">non_recursive_constraint</A> :
+      (* An internal_schematic_figure_macro_template contains occurrences of
+         other schematic_figure_macro_templates only. *)
+      <A HREF="IMEX0010.HTM#non_recursive_schematic_figure_macro_template">non_recursive_schematic_figure_macro_template</A>(SELF,
+                                                    associated_figure_macros);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A> is a
+ <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A> definition found in an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.
+ It has abstraction information such as scales used in the template
+ definition.  An internal template is allowed to contain implementation
+ information.  Therefore it may have associated graphics and occurrences of
+ other <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_templates</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_figure_macro -->
+<H2><A NAME="schematic_figure_macro">schematic_figure_macro</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>;
+    instantiated_template : <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A>; -- reference
+    overriding_template_properties        : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0029.HTM#property_override">property_override</A>;  
+    overriding_template_property_displays : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0029.HTM#property_display_override">property_display_override</A>; 
+    template_position                     : <A HREF="IMEX0005.HTM#transform">transform</A>;
+  WHERE
+    <A NAME="schematic_figure_macro.containment_constraint">containment_constraint</A> :
+      (* Schematic_figure_macro is used in the context where figure can be
+         used. *) 
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        [<A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0010.HTM#internal_page_border_template">internal_page_border_template</A>', 
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0010.HTM#internal_page_title_block_template">internal_page_title_block_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                       '<A HREF="IMEX0010.HTM#internal_schematic_global_port_representation_template">internal_schematic_global_port_representation_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0010.HTM#internal_schematic_interconnect_terminator_template">internal_schematic_interconnect_terminator_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0010.HTM#internal_schematic_junction_template">internal_schematic_junction_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                       '<A HREF="IMEX0010.HTM#internal_schematic_master_port_representation_template">internal_schematic_master_port_representation_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0010.HTM#internal_schematic_offpageconnector_template">internal_schematic_offpageconnector_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0010.HTM#internal_schematic_onpageconnector_template">internal_schematic_onpageconnector_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0010.HTM#internal_schematic_ripper_template">internal_schematic_ripper_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0010.HTM#internal_schematic_symbol_border_template">internal_schematic_symbol_border_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                       '<A HREF="IMEX0010.HTM#internal_schematic_symbol_port_representation_template">internal_schematic_symbol_port_representation_template</A>',
+                        'associated_figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#page_comment_graphics">page_comment_graphics</A>',
+                        'figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0027.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0027.HTM#schematic_interconnect_implementation">schematic_interconnect_implementation</A>',
+                        'figure_macros'),
+         <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0028.HTM#schematic_view_model">schematic_view_model</A>',
+                        '<A HREF="IMEX0028.HTM#internal_schematic_symbol">internal_schematic_symbol</A>',
+                        'figure_macros')]);
+
+    <A NAME="schematic_figure_macro.valid_overriding_template_properties">valid_overriding_template_properties</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(valueOverride &lt;* overriding_template_properties |
+        NOT (valueOverride.overridden_property
+             IN instantiated_template.properties)));
+
+    <A NAME="schematic_figure_macro.valid_overriding_template_property_displays">valid_overriding_template_property_displays</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(displayOverride&lt;*overriding_template_property_displays |
+        NOT (displayOverride.overridden_property
+             IN instantiated_template.properties)));
+
+    <A NAME="schematic_figure_macro.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0005.HTM#figure">figure</A> macro cannot have overriding_template_properties or
+            overriding_template_property_displays if its instantiated template
+            does not define any properties. *)
+      EXISTS(instantiated_template.properties) OR
+        NOT EXISTS(overriding_template_properties) AND
+        NOT EXISTS(overriding_template_property_displays);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A> describes an occurrence of a
+ <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A> which may belong to an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>
+ or an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  Transformation details are required to specify
+ the position and orientation of the occurrence of referenced
+ <A HREF="IMEX0010.HTM#schematic_figure_macro_template">schematic_figure_macro_template</A>.  The <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macros</A> are used
+ in the same contexts as <A HREF="IMEX0005.HTM#figure">figures</A> are used; for example, they can be used to
+ implement nets or busses. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_page_border_template">internal_page_border_template</A> <A HREF="IMEX0010.HTM#internal_page_title_block_template">internal_page_title_block_template</A> <A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A> <A HREF="IMEX0010.HTM#internal_schematic_global_port_representation_template">internal_schematic_global_port_representation_template</A> <A HREF="IMEX0010.HTM#internal_schematic_interconnect_terminator_template">internal_schematic_interconnect_terminator_template</A> <A HREF="IMEX0010.HTM#internal_schematic_junction_template">internal_schematic_junction_template</A> <A HREF="IMEX0010.HTM#internal_schematic_master_port_representation_template">internal_schematic_master_port_representation_template</A> <A HREF="IMEX0010.HTM#internal_schematic_offpageconnector_template">internal_schematic_offpageconnector_template</A> <A HREF="IMEX0010.HTM#internal_schematic_onpageconnector_template">internal_schematic_onpageconnector_template</A> <A HREF="IMEX0010.HTM#internal_schematic_ripper_template">internal_schematic_ripper_template</A> <A HREF="IMEX0028.HTM#internal_schematic_symbol">internal_schematic_symbol</A> <A HREF="IMEX0010.HTM#internal_schematic_symbol_border_template">internal_schematic_symbol_border_template</A> <A HREF="IMEX0010.HTM#internal_schematic_symbol_port_representation_template">internal_schematic_symbol_port_representation_template</A> <A HREF="IMEX0027.HTM#page_comment_graphics">page_comment_graphics</A> <A HREF="IMEX0027.HTM#schematic_interconnect_implementation">schematic_interconnect_implementation</A> </P>
+<HR>
+<!-- Start of TYPE: port_direction_indicator -->
+<H2><A NAME="port_direction_indicator">port_direction_indicator</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0010.HTM#port_direction_indicator">port_direction_indicator</A> 
+    = ENUMERATION OF (input, output, bidirectional, unspecified, unrestricted,
+                      mixed_direction);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#port_direction_indicator">port_direction_indicator</A> is used to give the direction information of
+ a <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A> or a
+ <A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>.  It indicates whether the
+ template is suitable for association with an input port, output port,
+ bidirectional port or unspecified direction port.  If the direction
+ indicator of the template is unrestricted, the template may be associated
+ with a port of any direction.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A> <A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A> </P>
+<HR>
+<!-- Start of TYPE: schematic_port_representation_style -->
+<H2><A NAME="schematic_port_representation_style">schematic_port_representation_style</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0010.HTM#schematic_port_representation_style">schematic_port_representation_style</A>
+    = ENUMERATION OF (narrow_port, wide_port);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#schematic_port_representation_style">schematic_port_representation_style</A> is used within a
+ <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A> or a
+ <A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>.  It gives the suitability
+ for association with a narrow or wide port structure. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A> <A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A> </P>
+<HR>
+<!-- Start of TYPE: schematic_wire_affinity -->
+<H2><A NAME="schematic_wire_affinity">schematic_wire_affinity</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0010.HTM#schematic_wire_affinity">schematic_wire_affinity</A>
+    = ENUMERATION OF (narrow_wire, wide_wire, unrestricted);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#schematic_wire_affinity">schematic_wire_affinity</A> is used within a <A HREF="IMEX0010.HTM#hotspot">hotspot</A> or a
+ <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspot</A>. It gives the suitability for association with a narrow or
+ wide interconnect structure.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#hotspot">hotspot</A> <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspot</A> </P>
+<HR>
+<!-- Start of ENTITY: hotspot -->
+<H2><A NAME="hotspot">hotspot</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#hotspot">hotspot</A>;
+    connect_direction         : OPTIONAL SET [1:4] OF <A HREF="IMEX0010.HTM#hotspot_connect_direction">hotspot_connect_direction</A>;
+    hotspot_name              : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    hotspot_name_display_slot : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#display">display</A>;
+    position                  : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    wire_affinity             : <A HREF="IMEX0010.HTM#schematic_wire_affinity">schematic_wire_affinity</A>;
+  WHERE
+    <A NAME="hotspot.valid_existence">valid_existence</A> :
+    <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+    [<A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                    '<A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A>',
+                    '<A HREF="IMEX0010.HTM#hotspot">hotspot</A>'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                    '<A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A>',
+                    '<A HREF="IMEX0010.HTM#hotspot">hotspot</A>'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                    '<A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A>',
+                    '<A HREF="IMEX0010.HTM#hotspot">hotspot</A>'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                    '<A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A>',
+                    '<A HREF="IMEX0010.HTM#hotspot">hotspot</A>'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                    '<A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A>',
+                    '<A HREF="IMEX0010.HTM#hotspot">hotspot</A>'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                    '<A HREF="IMEX0010.HTM#schematic_onpageconnector_template">schematic_onpageconnector_template</A>',
+                    '<A HREF="IMEX0010.HTM#hotspot">hotspot</A>'),
+     <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                    '<A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A>',
+                    '<A HREF="IMEX0010.HTM#hotspot">hotspot</A>')]);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#hotspot">hotspot</A> is a connection point on various schematic templates.  It has a
+ <A HREF="IMEX0027.HTM#schematic_wire_style">schematic_wire_style</A> indicator which defines whether the <A HREF="IMEX0010.HTM#hotspot">hotspot</A> is
+ suitable to be joined to a narrow or a wide interconnect structure.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A> <A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A> <A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A> <A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A> <A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A> <A HREF="IMEX0010.HTM#schematic_onpageconnector_template">schematic_onpageconnector_template</A> <A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template">schematic_symbol_port_representation_template</A> </P>
+<HR>
+<!-- Start of TYPE: hotspot_connect_direction -->
+<H2><A NAME="hotspot_connect_direction">hotspot_connect_direction</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0010.HTM#hotspot_connect_direction">hotspot_connect_direction</A>
+    = ENUMERATION OF (from_left, from_right, from_top, from_bottom);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#hotspot_connect_direction">hotspot_connect_direction</A> defines the direction from which connections
+ may be made to the <A HREF="IMEX0010.HTM#hotspot">hotspot</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#hotspot">hotspot</A> </P>
+<HR>
+<!-- Start of ENTITY: geometry_macro_template -->
+<H2><A NAME="geometry_macro_template">geometry_macro_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0010.HTM#external_geometry_macro_template">external_geometry_macro_template</A>,
+                                   <A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>));
+    background_colour     : <A HREF="IMEX0005.HTM#colour">colour</A>;                 
+    document              : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name                  : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    original_bounding_box : OPTIONAL <A HREF="IMEX0008.HTM#rectangle">rectangle</A>;
+    properties            : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#private_property">private_property</A>; 
+    status_of_copyright   : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#copyright">copyright</A>;
+    status_of_written     : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+    units                 : <A HREF="IMEX0010.HTM#geometry_macro_units">geometry_macro_units</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A> describes a collection of geometry primitives.
+ It can be either an <A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A> defined in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>, or an <A HREF="IMEX0010.HTM#external_geometry_macro_template">external_geometry_macro_template</A> defined in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>.  An occurrence can be used in the definition of a
+ <A HREF="IMEX0005.HTM#figure">figure</A>. It may contain occurrences of other <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_templates</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#geometry_macro">geometry_macro</A> </P>
+<HR>
+<!-- Start of ENTITY: geometry_macro_units -->
+<H2><A NAME="geometry_macro_units">geometry_macro_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#geometry_macro_units">geometry_macro_units</A>;
+    set_angle : <A HREF="IMEX0029.HTM#angle_unit">angle_unit</A>;
+  WHERE
+    <A NAME="geometry_macro_units.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      ['<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>.units',
+       '<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A>.default_geometry_macro_units']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#geometry_macro_units">geometry_macro_units</A> is used to set the scaling in the definition of a
+ <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>.  It includes the specification of an angle scale.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A> <A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A> </P>
+<HR>
+<!-- Start of ENTITY: external_geometry_macro_template -->
+<H2><A NAME="external_geometry_macro_template">external_geometry_macro_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#external_geometry_macro_template">external_geometry_macro_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_geometry_macro_template">external_geometry_macro_template</A> is a <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>
+ definition found in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It has abstraction information
+ such as bounding box and scales used in the template definition.  Since an
+ external template is not allowed to contain implementation information, it
+ does not have any associated geometries, nor instances of other
+ <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_templates</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#external_template">external_template</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_geometry_macro_template -->
+<H2><A NAME="internal_geometry_macro_template">internal_geometry_macro_template</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>);
+    geometries      : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A>;
+    geometry_macros : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#geometry_macro">geometry_macro</A>;
+  WHERE
+    <A NAME="internal_geometry_macro_template.non_recursive_constraint">non_recursive_constraint</A> :
+      (* An internal_geometry_macro_template contains occurrences of other
+         geometry_macro_templates only. *)
+      <A HREF="IMEX0010.HTM#non_recursive_geometry_macro_template">non_recursive_geometry_macro_template</A>(SELF, geometry_macros);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A> is a <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>
+ definition found in an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  It has abstraction information
+ such as bounding box and scales used in the template definition.  An
+ internal template is allowed to contain implementation information.
+ Therefore, it may have associated geometries including occurrences of other
+ <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_templates</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_template">internal_template</A> </P>
+<HR>
+<!-- Start of ENTITY: geometry_macro -->
+<H2><A NAME="geometry_macro">geometry_macro</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#geometry_macro">geometry_macro</A>;
+    instantiated_template : <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>; -- reference
+    template_position     : <A HREF="IMEX0005.HTM#transform">transform</A>;
+  WHERE
+    <A NAME="geometry_macro.containment_constraint">containment_constraint</A> :
+      (* A geometry_macro is either used in an internal_geometry_macro_template
+         or a figure. *)
+    <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+      ['<A HREF="IMEX0005.HTM#display_model">display_model</A>.<A HREF="IMEX0005.HTM#figure">figure</A>.associated_geometry_macros',
+       <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                      '<A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>', 'geometry_macros'),
+       '<A HREF="IMEX0017.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0017.HTM#drawing_figure">drawing_figure</A>.associated_geometry_macros',
+       '<A HREF="IMEX0018.HTM#pcb_fabricate_model">pcb_fabricate_model</A>.<A HREF="IMEX0018.HTM#physical_figure">physical_figure</A>.associated_geometry_macros']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#geometry_macro">geometry_macro</A> describes an occurrence of a <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>
+ which may belong to an <A HREF="IMEX0011.HTM#internal_library">internal_library</A> or an <A HREF="IMEX0011.HTM#external_library">external_library</A>.
+ Transformation details are required to specify the position and orientation
+ of the occurrence of the referenced <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>.  It can be
+ used in the definition of another <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A>, or in the
+ definition of a <A HREF="IMEX0005.HTM#figure">figure</A>, <A HREF="IMEX0017.HTM#drawing_figure">drawing_figure</A> and <A HREF="IMEX0018.HTM#physical_figure">physical_figure</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0017.HTM#drawing_figure">drawing_figure</A> <A HREF="IMEX0005.HTM#figure">figure</A> <A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A> <A HREF="IMEX0018.HTM#physical_figure">physical_figure</A> </P>
+<HR>
+<!-- Start of TYPE: internal_template -->
+<H2><A NAME="internal_template">internal_template</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0010.HTM#internal_template">internal_template</A>
+    = SELECT 
+        (<A HREF="IMEX0020.HTM#internal_bond_pad_drawing_template">internal_bond_pad_drawing_template</A>,
+         <A HREF="IMEX0020.HTM#internal_bond_pad_template">internal_bond_pad_template</A>,
+         <A HREF="IMEX0020.HTM#internal_die_fiducial_template">internal_die_fiducial_template</A>,
+         <A HREF="IMEX0020.HTM#internal_drawing_border_template">internal_drawing_border_template</A>,
+         <A HREF="IMEX0020.HTM#internal_drawing_figure_macro_template">internal_drawing_figure_macro_template</A>,
+         <A HREF="IMEX0020.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>,
+         <A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>,
+         <A HREF="IMEX0020.HTM#internal_package_terminal_drawing_template">internal_package_terminal_drawing_template</A>,
+         <A HREF="IMEX0010.HTM#internal_page_border_template">internal_page_border_template</A>,
+         <A HREF="IMEX0010.HTM#internal_page_title_block_template">internal_page_title_block_template</A>, 
+         <A HREF="IMEX0020.HTM#internal_physical_figure_macro_template">internal_physical_figure_macro_template</A>,
+         <A HREF="IMEX0020.HTM#internal_pin_template">internal_pin_template</A>,
+         <A HREF="IMEX0020.HTM#internal_printed_part_terminal_drawing_template">internal_printed_part_terminal_drawing_template</A>,
+         <A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A>, 
+         <A HREF="IMEX0010.HTM#internal_schematic_global_port_representation_template">internal_schematic_global_port_representation_template</A>,
+         <A HREF="IMEX0010.HTM#internal_schematic_junction_template">internal_schematic_junction_template</A>,
+         <A HREF="IMEX0010.HTM#internal_schematic_master_port_representation_template">internal_schematic_master_port_representation_template</A>, 
+         <A HREF="IMEX0010.HTM#internal_schematic_offpageconnector_template">internal_schematic_offpageconnector_template</A>,
+         <A HREF="IMEX0010.HTM#internal_schematic_onpageconnector_template">internal_schematic_onpageconnector_template</A>, 
+         <A HREF="IMEX0010.HTM#internal_schematic_ripper_template">internal_schematic_ripper_template</A>,
+         <A HREF="IMEX0010.HTM#internal_schematic_symbol_port_representation_template">internal_schematic_symbol_port_representation_template</A>,
+         <A HREF="IMEX0010.HTM#internal_schematic_interconnect_terminator_template">internal_schematic_interconnect_terminator_template</A>,
+         <A HREF="IMEX0010.HTM#internal_schematic_symbol_border_template">internal_schematic_symbol_border_template</A>,
+         <A HREF="IMEX0020.HTM#internal_solder_bump_template">internal_solder_bump_template</A>,
+         <A HREF="IMEX0020.HTM#internal_tabbed_bond_pad_template">internal_tabbed_bond_pad_template</A>,
+         <A HREF="IMEX0020.HTM#internal_wirebond_template">internal_wirebond_template</A>);
+  WHERE
+    <A NAME="internal_template.containment_constraint">containment_constraint</A> :
+      (* An internal_template belongs to one internal_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#internal_library">internal_library</A>.templates');
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#internal_template">internal_template</A> is an instantiatable template found in an 
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  It is allowed to contain implementation information. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#internal_library">internal_library</A> </P>
+<HR>
+<!-- Start of TYPE: external_template -->
+<H2><A NAME="external_template">external_template</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0010.HTM#external_template">external_template</A>
+    = SELECT 
+        (<A HREF="IMEX0020.HTM#external_bond_pad_drawing_template">external_bond_pad_drawing_template</A>,
+         <A HREF="IMEX0020.HTM#external_bond_pad_template">external_bond_pad_template</A>,
+         <A HREF="IMEX0020.HTM#external_die_fiducial_template">external_die_fiducial_template</A>,
+         <A HREF="IMEX0020.HTM#external_drawing_border_template">external_drawing_border_template</A>,
+         <A HREF="IMEX0020.HTM#external_drawing_figure_macro_template">external_drawing_figure_macro_template</A>,
+         <A HREF="IMEX0020.HTM#external_drawing_title_block_template">external_drawing_title_block_template</A>,
+         <A HREF="IMEX0010.HTM#external_geometry_macro_template">external_geometry_macro_template</A>,
+         <A HREF="IMEX0020.HTM#external_package_terminal_drawing_template">external_package_terminal_drawing_template</A>,
+         <A HREF="IMEX0010.HTM#external_page_border_template">external_page_border_template</A>,
+         <A HREF="IMEX0010.HTM#external_page_title_block_template">external_page_title_block_template</A>, 
+         <A HREF="IMEX0020.HTM#external_physical_figure_macro_template">external_physical_figure_macro_template</A>,
+         <A HREF="IMEX0020.HTM#external_pin_template">external_pin_template</A>,
+         <A HREF="IMEX0020.HTM#external_printed_part_terminal_drawing_template">external_printed_part_terminal_drawing_template</A>,
+         <A HREF="IMEX0010.HTM#external_schematic_figure_macro_template">external_schematic_figure_macro_template</A>, 
+         <A HREF="IMEX0010.HTM#external_schematic_global_port_representation_template">external_schematic_global_port_representation_template</A>,
+         <A HREF="IMEX0010.HTM#external_schematic_junction_template">external_schematic_junction_template</A>,
+         <A HREF="IMEX0010.HTM#external_schematic_master_port_representation_template">external_schematic_master_port_representation_template</A>, 
+         <A HREF="IMEX0010.HTM#external_schematic_offpageconnector_template">external_schematic_offpageconnector_template</A>,
+         <A HREF="IMEX0010.HTM#external_schematic_onpageconnector_template">external_schematic_onpageconnector_template</A>, 
+         <A HREF="IMEX0010.HTM#external_schematic_ripper_template">external_schematic_ripper_template</A>,
+         <A HREF="IMEX0010.HTM#external_schematic_symbol_port_representation_template">external_schematic_symbol_port_representation_template</A>,
+         <A HREF="IMEX0010.HTM#external_schematic_interconnect_terminator_template">external_schematic_interconnect_terminator_template</A>,
+         <A HREF="IMEX0010.HTM#external_schematic_symbol_border_template">external_schematic_symbol_border_template</A>,
+         <A HREF="IMEX0020.HTM#external_solder_bump_template">external_solder_bump_template</A>,
+         <A HREF="IMEX0020.HTM#external_tabbed_bond_pad_template">external_tabbed_bond_pad_template</A>,
+         <A HREF="IMEX0020.HTM#external_wirebond_template">external_wirebond_template</A>);
+  WHERE
+    <A NAME="external_template.containment_constraint">containment_constraint</A> :
+      (* An external_template belongs to one external_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#external_library">external_library</A>.templates');
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0010.HTM#external_template">external_template</A> is an instantiatable template found in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>.  It is not allowed to contain implementation
+ information. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#external_library">external_library</A> </P>
+<HR>
+<!-- Start of FUNCTION: non_recursive_schematic_figure_macro_template -->
+<H2><A NAME="non_recursive_schematic_figure_macro_template">non_recursive_schematic_figure_macro_template</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0010.HTM#non_recursive_schematic_figure_macro_template">non_recursive_schematic_figure_macro_template</A>
+    (parent  : <A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A>;
+     members : SET OF <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macro</A>) : BOOLEAN;
+
+    REPEAT i := 1 TO SIZEOF(members);
+      IF '<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A>'
+         IN TYPEOF(members[i].instantiated_template) THEN
+         IF parent :=: members[i].instantiated_template THEN
+            RETURN(FALSE);
+         ELSE
+           IF NOT <A HREF="IMEX0010.HTM#non_recursive_schematic_figure_macro_template">non_recursive_schematic_figure_macro_template</A>
+                  (parent, members[i].instantiated_template
+                           \<A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A>
+                           .associated_figure_macros) THEN
+              RETURN(FALSE);
+           END_IF;
+         END_IF;
+      END_IF;
+    END_REPEAT;
+    RETURN(TRUE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#non_recursive_schematic_figure_macro_template">non_recursive_schematic_figure_macro_template</A> function returns true if
+ an <A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A> does not contain
+ <A HREF="IMEX0010.HTM#schematic_figure_macro">schematic_figure_macros</A> which reference itself.  It prevents cyclic
+ definition of an <A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_schematic_figure_macro_template">internal_schematic_figure_macro_template</A> </P>
+<HR>
+<!-- Start of FUNCTION: non_recursive_geometry_macro_template -->
+<H2><A NAME="non_recursive_geometry_macro_template">non_recursive_geometry_macro_template</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0010.HTM#non_recursive_geometry_macro_template">non_recursive_geometry_macro_template</A>
+    (parent  : <A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>;
+     members : SET OF <A HREF="IMEX0010.HTM#geometry_macro">geometry_macro</A>) : BOOLEAN;
+
+    REPEAT i := 1 TO SIZEOF(members);
+      IF '<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>'
+         IN TYPEOF(members[i].instantiated_template) THEN
+         IF parent :=: members[i].instantiated_template THEN
+            RETURN(FALSE);
+         ELSE
+           IF NOT <A HREF="IMEX0010.HTM#non_recursive_geometry_macro_template">non_recursive_geometry_macro_template</A>
+                  (parent, members[i].instantiated_template
+                           \<A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>
+                           .geometry_macros) THEN
+              RETURN(FALSE);
+           END_IF;
+         END_IF;
+      END_IF;
+    END_REPEAT;
+    RETURN(TRUE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#non_recursive_geometry_macro_template">non_recursive_geometry_macro_template</A> function returns true if an
+ <A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A> does not contain <A HREF="IMEX0010.HTM#geometry_macro">geometry_macros</A> which
+ reference itself.  It prevents cyclic definition of an
+ <A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A> </P>
+<HR>
+<!-- Start of FUNCTION: point_inside_geometry_macro -->
+<H2><A NAME="point_inside_geometry_macro">point_inside_geometry_macro</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0010.HTM#point_inside_geometry_macro">point_inside_geometry_macro</A>
+    (pt : <A HREF="IMEX0008.HTM#point">point</A>; element : <A HREF="IMEX0010.HTM#geometry_macro">geometry_macro</A>) : BOOLEAN;
+     IF '<A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>'
+        IN TYPEOF(element.instantiated_template) THEN
+        IF <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(geometry 
+                              &lt;* element.instantiated_template
+                                        \<A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>
+                                        .geometries |
+                        <A HREF="IMEX0008.HTM#point_inside_geometry_element">point_inside_geometry_element</A>(pt, geometry))) THEN
+           RETURN(TRUE);
+        END_IF;
+        IF <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(geometryMacro
+                              &lt;* element.instantiated_template
+                                        \<A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>
+                                        .geometry_macros |
+                        <A HREF="IMEX0010.HTM#point_inside_geometry_macro">point_inside_geometry_macro</A>(pt, geometryMacro))) THEN
+           RETURN(TRUE);
+        END_IF;
+     ELSE
+        RETURN(TRUE);
+     END_IF;
+     RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#point_inside_geometry_macro">point_inside_geometry_macro</A> returns true if a point lies inside a
+ <A HREF="IMEX0010.HTM#geometry_macro">geometry_macro</A>. 
+</P>
+<HR>
+
+<!-- Start of schema: library_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

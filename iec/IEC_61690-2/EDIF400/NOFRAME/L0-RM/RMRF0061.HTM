@@ -1,0 +1,695 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMSTART.HTM">General Introduction</A>
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="unit">unit</A></H1>
+<PRE>
+<I>unit ::= '(' 'unit'</I>
+&#09;<I><A HREF="RMRF0061.HTM#unitNameDef">unitNameDef</A></I>
+&#09;<I><A HREF="RMRF0014.HTM#numberOfNewUnits">numberOfNewUnits</A></I>
+&#09;<I><A HREF="RMRF0014.HTM#numberOfBasicUnits">numberOfBasicUnits</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#ampere">ampere</A>&gt; | &lt;<A HREF="RMRF0001.HTM#candela">candela</A>&gt; | &lt;<A HREF="RMRF0001.HTM#celsius">celsius</A>&gt; | &lt;<A HREF="RMRF0003.HTM#coulomb">coulomb</A>&gt; | &lt;<A HREF="RMRF0004.HTM#degree">degree</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0007.HTM#fahrenheit">fahrenheit</A>&gt; | &lt;<A HREF="RMRF0007.HTM#farad">farad</A>&gt; | &lt;<A HREF="RMRF0008.HTM#henry">henry</A>&gt; | &lt;<A HREF="RMRF0008.HTM#hertz">hertz</A>&gt; | &lt;<A HREF="RMRF0011.HTM#joule">joule</A>&gt; | &lt;<A HREF="RMRF0011.HTM#kelvin">kelvin</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0012.HTM#kilogram">kilogram</A>&gt; | &lt;<A HREF="RMRF0013.HTM#meter">meter</A>&gt; | &lt;<A HREF="RMRF0013.HTM#mole">mole</A>&gt; | &lt;<A HREF="RMRF0015.HTM#ohm">ohm</A>&gt; | &lt;<A HREF="RMRF0053.HTM#radian">radian</A>&gt; | &lt;<A HREF="RMRF0057.HTM#second">second</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0058.HTM#siemens">siemens</A>&gt; | &lt;<A HREF="RMRF0062.HTM#volt">volt</A>&gt; | &lt;<A HREF="RMRF0062.HTM#watt">watt</A>&gt; | &lt;<A HREF="RMRF0062.HTM#weber">weber</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0061.HTM#unitDefinitions">unitDefinitions</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#namedUnit">namedUnit</A> <A HREF="RMRF0014.HTM#namedUnitHeader">namedUnitHeader</A> <A HREF="RMRF0025.HTM#pcbDimensionDistanceUnit">pcbDimensionDistanceUnit</A> <A HREF="RMRF0025.HTM#pcbDimensionDistanceUnitDrawing">pcbDimensionDistanceUnitDrawing</A> <A HREF="RMRF0061.HTM#unitDimensions">unitDimensions</A> <A HREF="RMRF0061.HTM#unitExponent">unitExponent</A> <A HREF="RMRF0061.HTM#unitNameRef">unitNameRef</A> <A HREF="RMRF0061.HTM#unitRef">unitRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unit">Unit</A></I> is superseded by <I><A HREF="RMRF0014.HTM#namedUnit">namedUnit</A></I> and is kept only for compatibility with EDIF Version 3 0 0.
+<P><I><A HREF="RMRF0061.HTM#unit">Unit</A></I> allows units of measurement to be defined. These are used to define units of distance, angle, etc. in the EDIF data, and they may also be referenced from properties to indicate the unit of measurement for a property.
+<P>Most of the units that are used to define new units are SI units. However, other units have been introduced where they are in common usage and derivation in terms of SI units is difficult or inaccurate. Examples of these are <I><A HREF="RMRF0007.HTM#fahrenheit">fahrenheit</A></I> and <I><A HREF="RMRF0004.HTM#degree">degree</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(unit mm 1 (e 1 -3) (meter 1))</B>
+</PRE>
+<P>This example shows the definition of millimeter (mm). It indicates that the unit is meter, and that 1 mm is equivalent to 10<SUP>-3</SUP> meters.
+<PRE>
+<B>(unit pF 1 (e 1 -12) (farad 1))</B>
+</PRE>
+<P>This example shows the definition of pico farad (pF). It indicates that the unit is farad, and that 1 pF is equivalent to 10<SUP>-12</SUP> farads.
+<PRE>
+<B>(unit pound_foot 1 (e 1383 -4) (kilogram 1) (meter 1))</B>
+</PRE>
+<P>This example shows the definition of pound foot (pound_foot). It indicates that the unit is kg m, and that 1 pound_foot is equivalent to 0.1383 kg m.
+<PRE>
+<B>(unit knot 1 (e 5148 -4) (meter 1) (second -1))</B>
+</PRE>
+<P>This example shows the definition of knot. It indicates that the unit is m/s, and that 1 knot is equivalent to 0.5148 m/s.
+<PRE>
+<B>(unit rpm 60 1 (hertz 1))</B>
+<B>(unit rpm_approx 1 (e 1047 -4) (radian 1) (second -1))</B>
+</PRE>
+<P>This example shows the definition of revolutions per minute (rpm). It indicates that the unit is hertz, and that 60 rpm is equivalent to 1 Hz. The second example shows a less-accurate definition in terms of radians per second.
+<P><HR>
+<H1><A NAME="unitDefinitions">unitDefinitions</A></H1>
+<PRE>
+<I>unitDefinitions ::= '(' 'unitDefinitions'</I>
+&#09;<I>{ <A HREF="RMRF0014.HTM#namedUnit">namedUnit</A> | <A HREF="RMRF0061.HTM#unit">unit</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0006.HTM#edifHeader">edifHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unitDefinitions">UnitDefinitions</A></I> collects together all the definitions of units at a given point in the EDIF data. 
+<H3>Example:</H3>
+<PRE>
+<B>(unitDefinitions</B>
+<B>   (unit mm 1 (e 1 -3) (meter 1))</B>
+<B>   (unit rpm 60 1 (hertz 1)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="unitDimensions">unitDimensions</A></H1>
+<PRE>
+<I>unitDimensions ::= '(' 'unitDimensions'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#ampere">ampere</A>&gt; | &lt;<A HREF="RMRF0001.HTM#candela">candela</A>&gt; | &lt;<A HREF="RMRF0001.HTM#celsius">celsius</A>&gt; | &lt;<A HREF="RMRF0003.HTM#coulomb">coulomb</A>&gt; | &lt;<A HREF="RMRF0004.HTM#degree">degree</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0007.HTM#fahrenheit">fahrenheit</A>&gt; | &lt;<A HREF="RMRF0007.HTM#farad">farad</A>&gt; | &lt;<A HREF="RMRF0008.HTM#henry">henry</A>&gt; | &lt;<A HREF="RMRF0008.HTM#hertz">hertz</A>&gt; | &lt;<A HREF="RMRF0011.HTM#joule">joule</A>&gt; | &lt;<A HREF="RMRF0011.HTM#kelvin">kelvin</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0012.HTM#kilogram">kilogram</A>&gt; | &lt;<A HREF="RMRF0013.HTM#meter">meter</A>&gt; | &lt;<A HREF="RMRF0013.HTM#mole">mole</A>&gt; | &lt;<A HREF="RMRF0015.HTM#ohm">ohm</A>&gt; | &lt;<A HREF="RMRF0053.HTM#radian">radian</A>&gt; | &lt;<A HREF="RMRF0057.HTM#second">second</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0058.HTM#siemens">siemens</A>&gt; | &lt;<A HREF="RMRF0062.HTM#volt">volt</A>&gt; | &lt;<A HREF="RMRF0062.HTM#watt">watt</A>&gt; | &lt;<A HREF="RMRF0062.HTM#weber">weber</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#namedUnit">namedUnit</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#unit">unit</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the units of a dimension. 
+<H3>Example:</H3>
+<PRE>
+<B>(namedUnit knot </B>
+<B>   (namedUnitHeader (nameInformation (primaryName "knot")))</B>
+<B>   1 (e 5148 -4) </B>
+<B>   (unitDimensions (meter 1) (second -1))) </B>
+</PRE>
+<P>In this example, the dimensions of knot are defined as meters per second. 
+<P><HR>
+<H1><A NAME="unitExponent">unitExponent</A></H1>
+<PRE>
+<I>unitExponent ::= <A HREF="RMRF0054.HTM#scaledInteger">scaledInteger</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0000.HTM#ampere">ampere</A>  !<A HREF="RMRF0001.HTM#candela">candela</A>  !<A HREF="RMRF0001.HTM#celsius">celsius</A>  !<A HREF="RMRF0003.HTM#coulomb">coulomb</A>  !<A HREF="RMRF0004.HTM#degree">degree</A>  !<A HREF="RMRF0007.HTM#fahrenheit">fahrenheit</A>  !<A HREF="RMRF0007.HTM#farad">farad</A>  !<A HREF="RMRF0008.HTM#henry">henry</A>  !<A HREF="RMRF0008.HTM#hertz">hertz</A>  !<A HREF="RMRF0011.HTM#joule">joule</A>  !<A HREF="RMRF0011.HTM#kelvin">kelvin</A>  !<A HREF="RMRF0012.HTM#kilogram">kilogram</A>  !<A HREF="RMRF0013.HTM#meter">meter</A>  !<A HREF="RMRF0013.HTM#mole">mole</A>  !<A HREF="RMRF0015.HTM#ohm">ohm</A>  !<A HREF="RMRF0053.HTM#radian">radian</A>  !<A HREF="RMRF0057.HTM#second">second</A>  !<A HREF="RMRF0058.HTM#siemens">siemens</A>  !<A HREF="RMRF0062.HTM#volt">volt</A>  !<A HREF="RMRF0062.HTM#watt">watt</A>  !<A HREF="RMRF0062.HTM#weber">weber</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0006.HTM#exponent">exponent</A> <A HREF="RMRF0061.HTM#unit">unit</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unitExponent">UnitExponent</A></I> specifies the power to which a unit is raised in order to define another unit.
+<H3>Example:</H3>
+<PRE>
+<B>(unit knot 1 (e 5148 -4) (meter 1) (second -1))</B>
+</PRE>
+<P>This example shows the definition of knot. It indicates that the unit is meters per second, and that 1 knot is equivalent to 0.5148 meters per second. <I><A HREF="RMRF0061.HTM#unitExponent">UnitExponent</A></I> has the value of 1 for meter and -1 for second.
+<P><HR>
+<H1><A NAME="unitNameDef">unitNameDef</A></H1>
+<PRE>
+<I>unitNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#namedUnit">namedUnit</A>  !<A HREF="RMRF0061.HTM#unit">unit</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unitNameDef">UnitNameDef</A></I> is the definition of a unit name.
+<P><HR>
+<H1><A NAME="unitNameRef">unitNameRef</A></H1>
+<PRE>
+<I>unitNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#unitRef">unitRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#unit">unit</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unitNameRef">UnitNameRef</A></I> is a reference to a previously-defined <I><A HREF="RMRF0061.HTM#unitNameDef">unitNameDef</A></I>.
+<P><HR>
+<H1><A NAME="unitRef">unitRef</A></H1>
+<PRE>
+<I>unitRef ::= '(' 'unitRef'</I>
+&#09;<I><A HREF="RMRF0061.HTM#unitNameRef">unitNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0025.HTM#pcbDimensionDistanceUnit">pcbDimensionDistanceUnit</A>  &lt;<A HREF="RMRF0053.HTM#property">property</A>  !<A HREF="RMRF0057.HTM#setAngle">setAngle</A>  !<A HREF="RMRF0057.HTM#setCapacitance">setCapacitance</A>  !<A HREF="RMRF0057.HTM#setCurrent">setCurrent</A>  !<A HREF="RMRF0057.HTM#setDensity">setDensity</A>  !<A HREF="RMRF0058.HTM#setDistance">setDistance</A>  !<A HREF="RMRF0058.HTM#setElectricalConductivity">setElectricalConductivity</A>  !<A HREF="RMRF0058.HTM#setFrequency">setFrequency</A>  !<A HREF="RMRF0058.HTM#setInductance">setInductance</A>  !<A HREF="RMRF0058.HTM#setPower">setPower</A>  !<A HREF="RMRF0058.HTM#setPressure">setPressure</A>  !<A HREF="RMRF0058.HTM#setResistance">setResistance</A>  !<A HREF="RMRF0058.HTM#setSpecificHeatCapacity">setSpecificHeatCapacity</A>  !<A HREF="RMRF0058.HTM#setTemperature">setTemperature</A>  !<A HREF="RMRF0058.HTM#setThermalConductivity">setThermalConductivity</A>  !<A HREF="RMRF0058.HTM#setTime">setTime</A>  !<A HREF="RMRF0058.HTM#setVoltage">setVoltage</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#unit">unit</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unitRef">UnitRef</A></I> is used to reference a previously-defined unit.
+<H3>Example:</H3>
+<PRE>
+<B>(setVoltage (unitRef mv))</B>
+</PRE>
+<P>This example defines the voltage units to be the previously-defined unit of mv.
+<P><HR>
+<H1><A NAME="unknownMaterial">unknownMaterial</A></H1>
+<PRE>
+<I>unknownMaterial ::= '(' 'unknownMaterial'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0036.HTM#pcbMaterialValue">pcbMaterialValue</A>  
+</I>
+<H3>Description:</H3>
+<P>Indicates that the type of the material used is not known. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbMountableBondPad MBP1</B>
+<B>   (pcbBondPadAttachmentMaterial (unknownMaterial))</B>
+<B>   (pcbContactArea </B>
+<B>      (circle (pt 0 0) (pt 10 0)))</B>
+<B>   (pcbMountableBondPadBare</B>
+<B>      (pcbBondPadRef BP1)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="unrestricted">unrestricted</A></H1>
+<PRE>
+<I>unrestricted ::= '(' 'unrestricted'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0052.HTM#portDirectionIndicator">portDirectionIndicator</A>  !<A HREF="RMRF0057.HTM#schematicWireAffinity">schematicWireAffinity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0044.HTM#pcbPackageTerminalDrawingTemplateUnrestricted">pcbPackageTerminalDrawingTemplateUnrestricted</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unrestricted">Unrestricted</A></I> specifies that no restriction applies, e.g. a port template may be used for ports of any type, so no restriction is placed on the port being an input, output, etc.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortTemplate SYMBOL_PORT</B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (hotspot (pt 0 0))</B>
+<B>   (unrestricted)</B>
+<B>   (figure LINES</B>
+<B>      (path (pointList (pt -10 10) (pt 10 -10)))</B>
+<B>      (path (pointList (pt -10 -10) (pt 10 10)))))</B>
+</PRE>
+<P>In this example, the template may be used for any port type.
+<P><HR>
+<H1><A NAME="unscaledTransform">unscaledTransform</A></H1>
+<PRE>
+<I>unscaledTransform ::= '(' 'unscaledTransform'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0015.HTM#origin">origin</A>&gt; | &lt;<A HREF="RMRF0054.HTM#rotation">rotation</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0023.HTM#pcbDieComponentImplementation">pcbDieComponentImplementation</A>  !<A HREF="RMRF0028.HTM#pcbDrawingBorder">pcbDrawingBorder</A>  !<A HREF="RMRF0030.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A>  !<A HREF="RMRF0030.HTM#pcbDrawingTitleBlock">pcbDrawingTitleBlock</A>  !<A HREF="RMRF0032.HTM#pcbEmbeddedDieDetails">pcbEmbeddedDieDetails</A>  !<A HREF="RMRF0034.HTM#pcbJumperComponentImplementation">pcbJumperComponentImplementation</A>  !<A HREF="RMRF0036.HTM#pcbMechanicalComponentImplementation">pcbMechanicalComponentImplementation</A>  !<A HREF="RMRF0039.HTM#pcbMountablePackageTerminalExtraPin">pcbMountablePackageTerminalExtraPin</A>  !<A HREF="RMRF0041.HTM#pcbPackagedConnectorComponentImplementation">pcbPackagedConnectorComponentImplementation</A>  !<A HREF="RMRF0042.HTM#pcbPackagedElectricalComponentImplementation">pcbPackagedElectricalComponentImplementation</A>  !<A HREF="RMRF0044.HTM#pcbPackageTerminalPin">pcbPackageTerminalPin</A>  !<A HREF="RMRF0050.HTM#pcbTextAppearance">pcbTextAppearance</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0060.HTM#transform">transform</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unscaledTransform">UnscaledTransform</A></I> is used to locate an implementation of an object that cannot be scaled. 
+<P><I><A HREF="RMRF0054.HTM#rotation">Rotation</A></I> is used to describe the rotation of the object, and rotation angle is measured in units defined by <I><A HREF="RMRF0057.HTM#setAngle">setAngle</A></I>. The default rotation is zero radians. The rotation is applied about the origin of the object before translation to the position specified by <I><A HREF="RMRF0015.HTM#origin">origin</A></I>.
+<P><I><A HREF="RMRF0015.HTM#origin">Origin</A></I> is used to describe the translation point of an object.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperComponentImplementation J6_IMP</B>
+<B>   (pcbJumperComponentRef J6)</B>
+<B>   (pcbMountablePackageRef DIP_Dip_Top</B>
+<B>      (libraryRef MOUNTABLE_PACKAGES))</B>
+<B>   (unscaledTransform ...)</B>
+<B>   (pcbFootprintInstanceRef FOOTP21)) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="unspecified">unspecified</A></H1>
+<PRE>
+<I>unspecified ::= '(' 'unspecified'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0052.HTM#portDirectionIndicator">portDirectionIndicator</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#unspecifiedDirectionPort">unspecifiedDirectionPort</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unspecified">Unspecified</A></I> indicates that a port template may be used for ports with port direction unspecified.
+<P><HR>
+<H1><A NAME="unspecifiedDirectionPort">unspecifiedDirectionPort</A></H1>
+<PRE>
+<I>unspecifiedDirectionPort ::= '(' 'unspecifiedDirectionPort'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0052.HTM#portDirection">portDirection</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#port">port</A> <A HREF="RMRF0061.HTM#unspecified">unspecified</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unspecifiedDirectionPort">UnspecifiedDirectionPort</A></I> indicates that the port direction for a particular port is not specified.
+<H3>Example:</H3>
+<PRE>
+<B>(port P1 (unspecifiedDirectionPort))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="untyped">untyped</A></H1>
+<PRE>
+<I>untyped ::= '(' 'untyped'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A>  !<A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A>  !<A HREF="RMRF0010.HTM#instancePropertyOverride">instancePropertyOverride</A>  !<A HREF="RMRF0053.HTM#portPropertyOverride">portPropertyOverride</A>  !<A HREF="RMRF0053.HTM#property">property</A>  !<A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A>  !<A HREF="RMRF0062.HTM#viewPropertyOverride">viewPropertyOverride</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#untyped">Untyped</A></I> is used to specify that a type for a <I><A HREF="RMRF0060.HTM#typedValue">typedValue</A></I> is not defined.
+<H3>Example:</H3>
+<PRE>
+<B>(property complex (untyped)</B>
+<B>   (property real (number (e 1 -1)))</B>
+<B>   (property imaginary (number 0)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="unused">unused</A></H1>
+<PRE>
+<I>unused ::= '(' 'unused'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0009.HTM#instancePortAttributes">instancePortAttributes</A>  &lt;<A HREF="RMRF0052.HTM#port">port</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0058.HTM#signal">signal</A></I> should not refer (in <I><A HREF="RMRF0058.HTM#signalJoined">signalJoined</A></I>) to a master port or instance port which has the <I><A HREF="RMRF0061.HTM#unused">unused</A></I> attribute.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0058.HTM#signalJoined">signalJoined</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  When present within <I><A HREF="RMRF0052.HTM#port">port</A>
+</I>
+<DD>A <I><A HREF="RMRF0052.HTM#port">port</A></I> cannot contain both <I><A HREF="RMRF0061.HTM#unused">unused</A></I> and <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I> attributes.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I>, <I><A HREF="RMRF0052.HTM#port">port</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#unused">Unused</A> </I>is an attribute of ports and port instances. When <I><A HREF="RMRF0061.HTM#unused">unused</A></I> is embedded in a <I><A HREF="RMRF0052.HTM#port">port</A> </I>in the <I><A HREF="RMRF0010.HTM#interface">interface</A> </I>of a <I><A HREF="RMRF0002.HTM#cluster">cluster</A></I>, it indicates that this particular port is not being used internally by the views within the cluster, and hence a view in which it is instantiated may use it for any purpose without influencing the operation of the cell in any way. 
+<P>When used in the <I><A HREF="RMRF0009.HTM#instancePortAttributes">instancePortAttributes</A> </I>in an <I><A HREF="RMRF0009.HTM#instance">instance</A> </I>in a view, it indicates that the port of an instantiated view will not be used by the instantiating view. That is, it is not connected to any <I><A HREF="RMRF0058.HTM#signal">signal</A> </I>in that view. 
+<P><I><A HREF="RMRF0061.HTM#unused">Unused</A></I> is allowed to be an attribute of an instance port whose master port definition has a <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I> attribute. In this context, <I><A HREF="RMRF0061.HTM#unused">unused</A></I> means that there is not an explicit connection between a local signal and the instance port, but it does not override the meaning of a <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I> attribute, since <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I> applies to global connectivity and the <I><A HREF="RMRF0061.HTM#unused">unused</A></I> attribute applies to local connectivity. Thus, <I><A HREF="RMRF0061.HTM#unused">unused</A></I> on an instance port whose master port has a <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I> attribute means that the user purposely did not make an explicit connection to the instance port and that the default connection should apply. <I><A HREF="RMRF0061.HTM#unused">Unused</A></I> on an instance port whose master port does not have a <I><A HREF="RMRF0004.HTM#defaultConnection">defaultConnection</A></I> attribute means that the user purposely did not make an explicit connection to the instance port.
+<H3>Example:</H3>
+<PRE>
+<B>(interface (interfaceUnits)</B>
+<B>   (port A (unspecifiedDirectionPort) (unused)) ...)</B>
+</PRE>
+<P>In the first example, the port named A is not used for internal connections and so is available for use by the external environment.
+<PRE>
+<B>(logicalConnectivity</B>
+<B>   (instance AND2_3</B>
+<B>      (clusterRef ...)</B>
+<B>      (instancePortAttributes B </B>
+<B>         (unused))))</B>
+</PRE>
+<P>Within the <I><A HREF="RMRF0009.HTM#instance">instance</A> </I>this indicates that port B of the cluster referred to by <I><A HREF="RMRF0002.HTM#clusterRef">clusterRef</A> </I>in this instance is not used for connectivity of the local view.
+<P><HR>
+<H1><A NAME="usableArea">usableArea</A></H1>
+<PRE>
+<I>usableArea ::= '(' 'usableArea'</I>
+&#09;<I>{ <A HREF="RMRF0054.HTM#rectangle">rectangle</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A>  !<A HREF="RMRF0028.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>  !<A HREF="RMRF0057.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>Each <I><A HREF="RMRF0054.HTM#rectangle">rectangle</A></I> within a <I><A HREF="RMRF0061.HTM#usableArea">usableArea</A></I> should be unique.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#usableArea">UsableArea</A></I> provides a definition of the area in which graphics may be placed. It excludes the areas used for title blocks. The area that can be used is the union of all the rectangles. This may produce a number of disjoint areas. 
+<H3>Example:</H3>
+<PRE>
+<B>(usableArea (rectangle (pt 10 10) (pt 990 990)))</B>
+</PRE>
+<P>In this example, the usable area is defined as a single <I><A HREF="RMRF0054.HTM#rectangle">rectangle</A></I>.
+<PRE>
+<B>(usableArea </B>
+<B>   (rectangle (pt 10 100) (pt 990 990))</B>
+<B>   (rectangle (pt 100 10) (pt 990 100)))</B>
+</PRE>
+<P>In this example, the usable area is defined as two adjacent rectangles, leaving a small area in the bottom left corner that is not to be used. This is typically reserved for the title block.
+<P><HR>
+<H1><A NAME="userData">userData</A></H1>
+<PRE>
+<I>userData ::= '(' 'userData'</I>
+&#09;<I><A HREF="RMRF0061.HTM#userDataTag">userDataTag</A></I>
+&#09;<I>{ <A HREF="RMRF0009.HTM#identifier">identifier</A> | <A HREF="RMRF0010.HTM#integerToken">integerToken</A> | <A HREF="RMRF0059.HTM#stringToken">stringToken</A> | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0000.HTM#behaviorView">behaviorView</A>  *<A HREF="RMRF0001.HTM#cell">cell</A>  *<A HREF="RMRF0002.HTM#cluster">cluster</A>  *<A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>  *<A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A>  *<A HREF="RMRF0002.HTM#connectivityBus">connectivityBus</A>  *<A HREF="RMRF0003.HTM#connectivityBusSlice">connectivityBusSlice</A>  *<A HREF="RMRF0003.HTM#connectivityNet">connectivityNet</A>  *<A HREF="RMRF0003.HTM#connectivityStructure">connectivityStructure</A>  *<A HREF="RMRF0003.HTM#connectivitySubBus">connectivitySubBus</A>  *<A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A>  *<A HREF="RMRF0003.HTM#connectivityView">connectivityView</A>  *<A HREF="RMRF0004.HTM#design">design</A>  *<A HREF="RMRF0004.HTM#diagram">diagram</A>  *<A HREF="RMRF0006.HTM#edif">edif</A>  *<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0007.HTM#figure">figure</A>  *<A HREF="RMRF0007.HTM#figureGroup">figureGroup</A>  *<A HREF="RMRF0007.HTM#font">font</A>  *<A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A>  *<A HREF="RMRF0008.HTM#globalPort">globalPort</A>  *<A HREF="RMRF0008.HTM#globalPortBundle">globalPortBundle</A>  *<A HREF="RMRF0009.HTM#instance">instance</A>  *<A HREF="RMRF0012.HTM#library">library</A>  *<A HREF="RMRF0012.HTM#localPortGroup">localPortGroup</A>  *<A HREF="RMRF0012.HTM#logicalConnectivity">logicalConnectivity</A>  *<A HREF="RMRF0012.HTM#logicModelView">logicModelView</A>  *<A HREF="RMRF0013.HTM#maskLayoutView">maskLayoutView</A>  *<A HREF="RMRF0015.HTM#page">page</A>  *<A HREF="RMRF0015.HTM#pageCommentGraphics">pageCommentGraphics</A>  *<A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  *<A HREF="RMRF0033.HTM#pcbGeometricAttributeDefault">pcbGeometricAttributeDefault</A>  *<A HREF="RMRF0036.HTM#pcbMcmImplementation">pcbMcmImplementation</A>  *<A HREF="RMRF0036.HTM#pcbMcmView">pcbMcmView</A>  *<A HREF="RMRF0052.HTM#port">port</A>  *<A HREF="RMRF0052.HTM#portBundle">portBundle</A>  *<A HREF="RMRF0054.HTM#schematicBus">schematicBus</A>  *<A HREF="RMRF0054.HTM#schematicBusGraphics">schematicBusGraphics</A>  *<A HREF="RMRF0055.HTM#schematicBusSlice">schematicBusSlice</A>  *<A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacro</A>  *<A HREF="RMRF0055.HTM#schematicNet">schematicNet</A>  *<A HREF="RMRF0055.HTM#schematicNetGraphics">schematicNetGraphics</A>  *<A HREF="RMRF0056.HTM#schematicSubBus">schematicSubBus</A>  *<A HREF="RMRF0057.HTM#schematicSubNet">schematicSubNet</A>  *<A HREF="RMRF0057.HTM#schematicSymbol">schematicSymbol</A>  *<A HREF="RMRF0057.HTM#schematicView">schematicView</A>  *<A HREF="RMRF0059.HTM#status">status</A>  *<A HREF="RMRF0059.HTM#symbolicLayoutView">symbolicLayoutView</A>  *<A HREF="RMRF0059.HTM#technology">technology</A>  *<A HREF="RMRF0060.HTM#timing">timing</A>  *<A HREF="RMRF0061.HTM#userData">userData</A>  *<A HREF="RMRF0061.HTM#viewGroup">viewGroup</A>  *<A HREF="RMRF0062.HTM#written">written</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+<BR><BR></I>
+<DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0055.HTM#schematicFigureMacro">schematicFigureMacro</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#userData">UserData</A> </I>is provided as a means to add local user extensions. It is intended that this be used for experimenting with constructs that could potentially be included as official constructs in later releases of EDIF. The meaning contained in this construct is entirely controlled by prior agreement of both sender and receiver, and as such, is not to be considered as transportable in any general sense. 
+<P>The sender of unexpected <I><A HREF="RMRF0061.HTM#userData">userData</A> </I>should be warned that the reader may ignore important information or may object to such a file. The receiver of unexpected <I><A HREF="RMRF0061.HTM#userData">userData</A> </I>should beware of simply ignoring such information, since it may be considered important by the sender. However, it should be considered reasonable for the receiver to communicate with the sender further regarding this information. 
+<P><HR>
+<H1><A NAME="userDataTag">userDataTag</A></H1>
+<PRE>
+<I>userDataTag ::= <A HREF="RMRF0009.HTM#identifier">identifier</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#userData">userData</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#userDataTag">UserDataTag</A></I> is intended to help the creator of the userData to identify the type of <I><A HREF="RMRF0061.HTM#userData">userData</A></I> that is being sent.
+<P><HR>
+<H1><A NAME="version">version</A></H1>
+<PRE>
+<I>version ::= '(' 'version'</I>
+&#09;<I><A HREF="RMRF0059.HTM#stringValue">stringValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0003.HTM#dataOrigin">dataOrigin</A>  &lt;<A HREF="RMRF0053.HTM#program">program</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0006.HTM#edifVersion">edifVersion</A> <A HREF="RMRF0018.HTM#pcbBareBoardTechnologyPreviousVersion">pcbBareBoardTechnologyPreviousVersion</A> <A HREF="RMRF0024.HTM#pcbDiePhysicalTemplatePreviousVersion">pcbDiePhysicalTemplatePreviousVersion</A> <A HREF="RMRF0040.HTM#pcbMountingMethodPreviousVersion">pcbMountingMethodPreviousVersion</A> <A HREF="RMRF0044.HTM#pcbPackagePreviousVersion">pcbPackagePreviousVersion</A> <A HREF="RMRF0045.HTM#pcbPartPreviousVersion">pcbPartPreviousVersion</A> <A HREF="RMRF0050.HTM#pcbSubLayoutPreviousVersion">pcbSubLayoutPreviousVersion</A> <A HREF="RMRF0053.HTM#previousVersion">previousVersion</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#version">Version</A></I> is used to provide a revision code (defined by the EDIF writer) which can be used to keep track of the origin and creator of the written EDIF data. If problems occur in this transfer, the version information may be used to help analyze them. Any interpretation of the revision code must be external to the EDIF data.
+<H3>Example:</H3>
+<PRE>
+<B>(dataOrigin "EDIFCo, Atlantic Division"</B>
+<B>   (version "D10-37"))</B>
+<B>(program "NetLister"</B>
+<B>   (version "3.72"))</B>
+</PRE>
+<P>In the above example, version strings are specified for the data from which the EDIF information was created and for the program which created the EDIF data. The format for the version strings was determined by the writer. 
+<P><HR>
+<H1><A NAME="vertical">vertical</A></H1>
+<PRE>
+<I>vertical ::= '(' 'vertical'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0051.HTM#pcbTraceOrientation">pcbTraceOrientation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorderZonedGridSystemVertical">pcbDrawingBorderZonedGridSystemVertical</A> <A HREF="RMRF0036.HTM#pcbLinearDimensionVertical">pcbLinearDimensionVertical</A> <A HREF="RMRF0040.HTM#pcbMountingOrientationVerticalOnEdge">pcbMountingOrientationVerticalOnEdge</A> <A HREF="RMRF0040.HTM#pcbMountingOrientationVerticalOnEnd">pcbMountingOrientationVerticalOnEnd</A> <A HREF="RMRF0043.HTM#pcbPackageOutlineVerticalSurfaceMount">pcbPackageOutlineVerticalSurfaceMount</A> <A HREF="RMRF0050.HTM#pcbTextAlignmentVertical">pcbTextAlignmentVertical</A> <A HREF="RMRF0061.HTM#verticalJustification">verticalJustification</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a vertical direction. 
+<P><HR>
+<H1><A NAME="verticalJustification">verticalJustification</A></H1>
+<PRE>
+<I>verticalJustification ::= '(' 'verticalJustification'</I>
+&#09;<I>( <A HREF="RMRF0001.HTM#bottomJustify">bottomJustify</A> | <A HREF="RMRF0000.HTM#baselineJustify">baselineJustify</A> | <A HREF="RMRF0013.HTM#middleJustify">middleJustify</A> | <A HREF="RMRF0001.HTM#caplineJustify">caplineJustify</A> | <A HREF="RMRF0060.HTM#topJustify">topJustify</A> 
+&#09;)</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0005.HTM#displayAttributes">displayAttributes</A>  &lt;<A HREF="RMRF0025.HTM#pcbDimensionDrawingAttributeOverride">pcbDimensionDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0028.HTM#pcbDrawingAttributeDefault">pcbDrawingAttributeDefault</A>  &lt;<A HREF="RMRF0030.HTM#pcbDrawingTextDrawingAttributeOverride">pcbDrawingTextDrawingAttributeOverride</A>  &lt;<A HREF="RMRF0033.HTM#pcbGeometricAttributeDefault">pcbGeometricAttributeDefault</A>  &lt;<A HREF="RMRF0051.HTM#pcbTextAttributeOverride">pcbTextAttributeOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#vertical">vertical</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#verticalJustification">VerticalJustification</A></I> determines the vertical position of the text's bounding box relative to the origin of the text. For example, if the text origin is at (300, 100) and <I><A HREF="RMRF0001.HTM#caplineJustify">caplineJustify</A></I> is specified, the capline of the bounding box (see the following diagram) is placed at the y coordinate of 100.
+<P>The default value is <I><A HREF="RMRF0000.HTM#baselineJustify">baselineJustify</A></I>.
+<P>The values and their meaning are given in the following table.
+<CENTER>
+<TABLE BORDER>
+<TR><TD ALIGN=LEFT><I>VerticalJustification</I>  <BR> <TD ALIGN=LEFT>Position of origin<BR> 
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0001.HTM#bottomJustify">bottomJustify</A></I><BR> <TD ALIGN=LEFT>The bottom of the bounding box.<BR> 
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0000.HTM#baselineJustify">baselineJustify</A></I><BR> <TD ALIGN=LEFT>The baseline (bottom of capital letters) of the <BR> 
+ last line of text. For stroke fonts, this is the <BR> 
+ bottom of the font bounding box, equivalent <BR> 
+ to <I><A HREF="RMRF0001.HTM#bottomJustify">bottomJustify</A></I>.<BR> 
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0013.HTM#middleJustify">middleJustify</A></I><BR> <TD ALIGN=LEFT>Halfway between the top and bottom of the <BR> 
+ bounding box.<BR> 
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0001.HTM#caplineJustify">caplineJustify</A></I><BR> <TD ALIGN=LEFT>The capline (top of capital letters) of the first <BR> 
+ line of text. For stroke fonts, this is the top of <BR> 
+ the font bounding box, equivalent to <I><A HREF="RMRF0060.HTM#topJustify">topJus</A>-<BR> 
+ tify</I>.<BR> 
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0060.HTM#topJustify">topJustify</A></I><BR> <TD ALIGN=LEFT>The top of the bounding box.<BR> 
+</TABLE>
+</CENTER>
+<P><CENTER><IMG SRC="FIG0048.GIF">
+</CENTER>
+<P>The position of the origin is marked in the following fragments of text.
+<P><CENTER><IMG SRC="FIG0049.GIF">
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(figureGroup small_text</B>
+<B>   (displayAttributes </B>
+<B>      (color 0 0 50) </B>
+<B>      (fontRef courier)</B>
+<B>      (horizontalJustification (leftJustify))</B>
+<B>      (verticalJustification (middleJustify))</B>
+<B>      (textHeight 160)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="viewGroup">viewGroup</A></H1>
+<PRE>
+<I>viewGroup ::= '(' 'viewGroup'</I>
+&#09;<I><A HREF="RMRF0061.HTM#viewGroupNameDef">viewGroupNameDef</A></I>
+&#09;<I><A HREF="RMRF0061.HTM#viewGroupHeader">viewGroupHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0061.HTM#userData">userData</A> | <A HREF="RMRF0061.HTM#viewGroupRef">viewGroupRef</A> | <A HREF="RMRF0062.HTM#viewRef">viewRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0001.HTM#cell">cell</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewGroupNameCaseSensitive">viewGroupNameCaseSensitive</A> <A HREF="RMRF0061.HTM#viewGroupNameRef">viewGroupNameRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>Each <I><A HREF="RMRF0062.HTM#viewRef">viewRef</A></I> and <I><A HREF="RMRF0061.HTM#viewGroupRef">viewGroupRef</A></I> within a <I><A HREF="RMRF0061.HTM#viewGroup">viewGroup</A></I> should reference a unique view or view group.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewGroup">ViewGroup</A></I> is used to group together views in the same or different clusters of the same cell. <I><A HREF="RMRF0062.HTM#viewRef">ViewRef</A></I> in this context should therefore not contain a nested <I><A HREF="RMRF0001.HTM#cellRef">cellRef</A></I> for any purpose. The reason for the grouping may be given in <I><A HREF="RMRF0053.HTM#reason">reason</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(viewGroup VG1</B>
+<B>   (viewGroupHeader</B>
+<B>      (reason</B>
+<B>         "Alternate views with/without power and ground ports"))</B>
+<B>   (viewRef SCHEMATIC (clusterRef BASIC))</B>
+<B>   (viewRef SCHEMATIC </B>
+<B>      (clusterRef WITH_POWER_AND_GROUND)))</B>
+</PRE>
+<P><I><A HREF="RMRF0061.HTM#viewGroup">ViewGroup</A></I> is used in this example to group two views for a reason, indicating that one has power and ground ports but the other does not.
+<P><HR>
+<H1><A NAME="viewGroupHeader">viewGroupHeader</A></H1>
+<PRE>
+<I>viewGroupHeader ::= '(' 'viewGroupHeader'</I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0053.HTM#property">property</A> | &lt;<A HREF="RMRF0053.HTM#reason">reason</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#viewGroup">viewGroup</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewGroupHeader">ViewGroupHeader</A></I> gathers together data relating to the <I><A HREF="RMRF0061.HTM#viewGroup">viewGroup</A></I> as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(viewGroup VG1</B>
+<B>   (viewGroupHeader</B>
+<B>      (nameInformation ...)</B>
+<B>      (reason "Requiring modification"))</B>
+<B>   (viewRef ...)</B>
+<B>   (viewRef ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="viewGroupNameCaseSensitive">viewGroupNameCaseSensitive</A></H1>
+<PRE>
+<I>viewGroupNameCaseSensitive ::= '(' 'viewGroupNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#figureGroupNameCaseSensitive">figureGroupNameCaseSensitive</A> <A HREF="RMRF0058.HTM#signalGroupNameCaseSensitive">signalGroupNameCaseSensitive</A> <A HREF="RMRF0061.HTM#viewGroup">viewGroup</A> <A HREF="RMRF0061.HTM#viewNameCaseSensitive">viewNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewGroupNameCaseSensitive">ViewGroupNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for view groups are to be considered as case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0006.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<P><HR>
+<H1><A NAME="viewGroupNameDef">viewGroupNameDef</A></H1>
+<PRE>
+<I>viewGroupNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#viewGroup">viewGroup</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#figureGroupNameDef">figureGroupNameDef</A> <A HREF="RMRF0058.HTM#signalGroupNameDef">signalGroupNameDef</A> <A HREF="RMRF0061.HTM#viewGroupNameRef">viewGroupNameRef</A> <A HREF="RMRF0061.HTM#viewNameDef">viewNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewGroupNameDef">ViewGroupNameDef</A></I> is the name definition for a <I><A HREF="RMRF0061.HTM#viewGroup">viewGroup</A></I>. 
+<P><HR>
+<H1><A NAME="viewGroupNameRef">viewGroupNameRef</A></H1>
+<PRE>
+<I>viewGroupNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#viewGroupRef">viewGroupRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0007.HTM#figureGroupNameRef">figureGroupNameRef</A> <A HREF="RMRF0058.HTM#signalGroupNameRef">signalGroupNameRef</A> <A HREF="RMRF0061.HTM#viewGroup">viewGroup</A> <A HREF="RMRF0061.HTM#viewGroupNameDef">viewGroupNameDef</A> <A HREF="RMRF0061.HTM#viewNameRef">viewNameRef</A> <A HREF="RMRF0062.HTM#viewRef">viewRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewGroupNameRef">ViewGroupNameRef</A></I> is a reference to a <I><A HREF="RMRF0061.HTM#viewGroupNameDef">viewGroupNameDef</A></I>.
+<P><HR>
+<H1><A NAME="viewGroupRef">viewGroupRef</A></H1>
+<PRE>
+<I>viewGroupRef ::= '(' 'viewGroupRef'</I>
+&#09;<I><A HREF="RMRF0061.HTM#viewGroupNameRef">viewGroupNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0061.HTM#viewGroup">viewGroup</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#viewRef">viewRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewGroupRef">ViewGroupRef</A></I> is used to reference a <I><A HREF="RMRF0061.HTM#viewGroup">viewGroup</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(viewGroup VG1 ...)</B>
+<B>(viewGroup VG2 ...</B>
+<B>   (viewRef View1 ...)</B>
+<B>   (viewGroupRef VG1))</B>
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0061.HTM#viewGroup">viewGroup</A></I> VG2 is formed using the <I><A HREF="RMRF0061.HTM#viewGroup">viewGroup</A></I> VG1.
+<P><HR>
+<H1><A NAME="viewNameCaseSensitive">viewNameCaseSensitive</A></H1>
+<PRE>
+<I>viewNameCaseSensitive ::= '(' 'viewNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A> <A HREF="RMRF0004.HTM#designNameCaseSensitive">designNameCaseSensitive</A> <A HREF="RMRF0005.HTM#documentationNameCaseSensitive">documentationNameCaseSensitive</A> <A HREF="RMRF0009.HTM#hotspotNameCaseSensitive">hotspotNameCaseSensitive</A> <A HREF="RMRF0009.HTM#implementationNameCaseSensitive">implementationNameCaseSensitive</A> <A HREF="RMRF0009.HTM#instanceNameCaseSensitive">instanceNameCaseSensitive</A> <A HREF="RMRF0010.HTM#interconnectNameCaseSensitive">interconnectNameCaseSensitive</A> <A HREF="RMRF0012.HTM#libraryNameCaseSensitive">libraryNameCaseSensitive</A> <A HREF="RMRF0016.HTM#pageNameCaseSensitive">pageNameCaseSensitive</A> <A HREF="RMRF0052.HTM#portNameCaseSensitive">portNameCaseSensitive</A> <A HREF="RMRF0053.HTM#propertyNameCaseSensitive">propertyNameCaseSensitive</A> <A HREF="RMRF0058.HTM#signalNameCaseSensitive">signalNameCaseSensitive</A> <A HREF="RMRF0061.HTM#viewGroupNameCaseSensitive">viewGroupNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewNameCaseSensitive">ViewNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for views are to be considered as case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0006.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<P><HR>
+<H1><A NAME="viewNameDef">viewNameDef</A></H1>
+<PRE>
+<I>viewNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0000.HTM#behaviorView">behaviorView</A>  !<A HREF="RMRF0003.HTM#connectivityView">connectivityView</A>  !<A HREF="RMRF0012.HTM#logicModelView">logicModelView</A>  !<A HREF="RMRF0013.HTM#maskLayoutView">maskLayoutView</A>  !<A HREF="RMRF0036.HTM#pcbMcmView">pcbMcmView</A>  !<A HREF="RMRF0057.HTM#schematicSymbol">schematicSymbol</A>  !<A HREF="RMRF0057.HTM#schematicView">schematicView</A>  !<A HREF="RMRF0059.HTM#symbolicLayoutView">symbolicLayoutView</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewGroupNameDef">viewGroupNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0061.HTM#viewNameDef">viewNameDef</A> </I>is used to name each view or symbol of a cluster. This name will be referenced, for example, in the context of a <I><A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A> </I>statement. 
+<H3>Example:</H3>
+<PRE>
+<B> (cell C ...</B>
+<B>   (cluster CL1 (interface ...)</B>
+<B>      (clusterHeader ...)</B>
+<B>      (connectivityView V ...)))</B>
+</PRE>
+<P>In this example, V is the name of the view being defined.
+<P><HR>
+<H1><A NAME="viewNameDisplay">viewNameDisplay</A></H1>
+<PRE>
+<I>viewNameDisplay ::= '(' 'viewNameDisplay'</I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | <A HREF="RMRF0005.HTM#displayNameOverride">displayNameOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0055.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  &lt;<A HREF="RMRF0057.HTM#schematicSymbol">schematicSymbol</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0005.HTM#displayName">displayName</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewNameDisplay">ViewNameDisplay</A></I> specifies display locations for a view name.
+<P><HR>
+<H1><A NAME="viewNameRef">viewNameRef</A></H1>
+<PRE>
+<I>viewNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0057.HTM#schematicSymbolRef">schematicSymbolRef</A>  !<A HREF="RMRF0062.HTM#viewRef">viewRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewGroupNameRef">viewGroupNameRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0057.HTM#schematicSymbolRef">schematicSymbolRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0057.HTM#schematicSymbol">schematicSymbol</A>
+<BR><BR></I>
+<DT>2. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0062.HTM#viewRef">viewRef</A></I> &lt;<I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0012.HTM#logicModelView">logicModelView</A></I> OR within <I><A HREF="RMRF0003.HTM#connectivityView">connectivityView</A></I> OR within <I><A HREF="RMRF0013.HTM#maskLayoutView">maskLayoutView</A></I> OR within <I><A HREF="RMRF0036.HTM#pcbMcmView">pcbMcmView</A></I> OR within <I><A HREF="RMRF0057.HTM#schematicView">schematicView</A></I> OR within <I><A HREF="RMRF0059.HTM#symbolicLayoutView">symbolicLayoutView</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewNameRef">ViewNameRef</A></I> references a previously-defined <I><A HREF="RMRF0061.HTM#viewNameDef">viewNameDef</A></I>. 
+<P><HR>
+<H1><A NAME="viewPropertyDisplay">viewPropertyDisplay</A></H1>
+<PRE>
+<I>viewPropertyDisplay ::= '(' 'viewPropertyDisplay'</I>
+&#09;<I><A HREF="RMRF0053.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0005.HTM#display">display</A> | &lt;<A HREF="RMRF0053.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0015.HTM#page">page</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0053.HTM#property">property</A> <A HREF="RMRF0053.HTM#propertyDisplay">propertyDisplay</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>In a page there may be no more than one <I><A HREF="RMRF0061.HTM#viewPropertyDisplay">viewPropertyDisplay</A></I> for each view <I><A HREF="RMRF0053.HTM#property">property</A></I>.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0061.HTM#viewPropertyDisplay">ViewPropertyDisplay</A></I> is used to display properties which have been defined at the view level. There may be no more than one for each view property.
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

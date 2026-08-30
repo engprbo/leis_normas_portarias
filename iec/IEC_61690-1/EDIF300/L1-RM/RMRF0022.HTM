@@ -1,0 +1,826 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="schematicSubBusSet">schematicSubBusSet</A></H1>
+<PRE>
+<I>schematicSubBusSet ::= '(' 'schematicSubBusSet'</I>
+&#09;<I>{ <A HREF="RMRF0021.HTM#schematicSubBus">schematicSubBus</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicBusDetails">schematicBusDetails</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSubBusSet">SchematicSubBusSet</A></I> gathers together all subbusses of a <I><A HREF="RMRF0019.HTM#schematicBus">schematicBus</A></I>, <I><A HREF="RMRF0021.HTM#schematicSubBus">schematicSubBus</A></I> or <I><A HREF="RMRF0019.HTM#schematicBusSlice">schematicBusSlice</A></I>. When the details of a bus are described, this may be used as an alternative to a graphical implementation to provide further substructure.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicBus BUS1 ...</B>
+<B>   (schematicBusDetails</B>
+<B>      (schematicSubBusSet</B>
+<B>         (schematicSubBus SUB1 ...)</B>
+<B>         (schematicSubBus SUB2 ...) ...)))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSubNetSet">schematicSubNetSet</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSubInterconnectHeader">schematicSubInterconnectHeader</A></H1>
+<PRE>
+<I>schematicSubInterconnectHeader ::= '(' 'schematicSubInterconnectHeader'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0003.HTM#criticality">criticality</A>&gt; | <A HREF="RMRF0005.HTM#documentation">documentation</A> | <A HREF="RMRF0010.HTM#interconnectDelay">interconnectDelay</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; 
+&#09;| <A HREF="RMRF0018.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#schematicSubBus">schematicSubBus</A>  <A HREF="RMRF0022.HTM#schematicSubNet">schematicSubNet</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSubInterconnectHeader">SchematicSubInterconnectHeader</A></I> gathers together information relating to the schematic sub-interconnect (subbus, subnet) as a whole. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSubInterconnectHeader</B>
+<B>   (interconnectDelay ...)</B>
+<B>   (criticality ...)</B>
+<B>   (property ...)</B>
+<B>   ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0011.HTM#interconnectHeader">interconnectHeader</A>   <A HREF="RMRF0020.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSubNet">schematicSubNet</A></H1>
+<PRE>
+<I>schematicSubNet ::= '(' 'schematicSubNet'</I>
+&#09;<I><A HREF="RMRF0011.HTM#interconnectNameDef">interconnectNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicSubInterconnectHeader">schematicSubInterconnectHeader</A></I>
+&#09;<I><A HREF="RMRF0020.HTM#schematicNetJoined">schematicNetJoined</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0020.HTM#schematicInterconnectAttributeDisplay">schematicInterconnectAttributeDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0020.HTM#schematicNetDetails">schematicNetDetails</A>&gt; | <A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSubNetSet">schematicSubNetSet</A>  
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0022.HTM#schematicSubNet">schematicSubNet</A></I> provides further structural information about the connectivity of the <I><A HREF="RMRF0020.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0022.HTM#schematicSubNet">schematicSubNet</A></I> that contains it.
+<P>The <I><A HREF="RMRF0017.HTM#port">ports</A></I> referenced in a <I><A HREF="RMRF0022.HTM#schematicSubNet">schematicSubNet</A></I> must be referenced in the <I><A HREF="RMRF0020.HTM#schematicNetJoined">schematicNetJoined</A></I> of the immediately-containing <I><A HREF="RMRF0020.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0022.HTM#schematicSubNet">schematicSubNet</A></I>.
+<P><I><A HREF="RMRF0020.HTM#schematicNetDetails">SchematicNetDetails</A></I> provides details of the subnet, either as a graphical implementation, or as a further set of subnets.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicNet NET1 (signalRef SIG1)
+   (schematicInterconnectHeader ...)</B>
+<B>   (schematicNetJoined </B>
+<B>      (portJoined (portRef MP1) </B>
+<B>         (portInstanceRef P1 (instanceRef I1)))</B>
+<B>      ...)</B>
+<B>   (schematicNetDetails</B>
+<B>      (schematicSubNetSet</B>
+<B>         (schematicSubNet SUBNET1</B>
+<B>            (SchematicSubInterconnectHeader ...)</B>
+<B>            (schematicNetJoined </B>
+<B>               (portJoined (portRef MP1)))</B>
+<B>            (schematicNetDetails</B>
+<B>               (schematicNetGraphics ...)))</B>
+<B>         (schematicSubNet SUBNET2</B>
+<B>            (SchematicSubInterconnectHeader ...)</B>
+<B>            (schematicNetJoined </B>
+<B>               (portJoined </B>
+<B>                  (portInstanceRef P1 (instanceRef I1)))) ...)))</B>
+<B>   ...)</B>
+</PRE>
+<P>In this example, the connectivity of the <I><A HREF="RMRF0020.HTM#schematicNet">schematicNet</A></I> is described by two <I><A HREF="RMRF0022.HTM#schematicSubNet">schematicSubNets</A></I>, <B>SUBNET1</B> and <B>SUBNET2
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivitySubNet">connectivitySubNet</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSubNetSet">schematicSubNetSet</A></H1>
+<PRE>
+<I>schematicSubNetSet ::= '(' 'schematicSubNetSet'</I>
+&#09;<I>{ <A HREF="RMRF0022.HTM#schematicSubNet">schematicSubNet</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#schematicNetDetails">schematicNetDetails</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSubNetSet">SchematicSubNetSet</A></I> gathers together all subnets of a <I><A HREF="RMRF0020.HTM#schematicNet">schematicNet</A></I> or <I><A HREF="RMRF0022.HTM#schematicSubNet">schematicSubNet</A></I>. When the details of a net are described, this may be used as an alternative to a graphical implementation to provide further substructure.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicNet NET1 ...</B>
+<B>   (schematicNetDetails</B>
+<B>      (schematicSubNetSet</B>
+<B>         (schematicSubNet SUB1 ...)</B>
+<B>         (schematicSubNet SUB2 ...) ...)))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSubBusSet">schematicSubBusSet</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSymbol">schematicSymbol</A></H1>
+<PRE>
+<I>schematicSymbol ::= '(' 'schematicSymbol'</I>
+&#09;<I><A HREF="RMRF0026.HTM#viewNameDef">viewNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicSymbolHeader">schematicSymbolHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | &lt;<A HREF="RMRF0001.HTM#cellNameDisplay">cellNameDisplay</A>&gt; | <A HREF="RMRF0001.HTM#cellPropertyDisplay">cellPropertyDisplay</A> | 
+&#09;<A HREF="RMRF0002.HTM#clusterPropertyDisplay">clusterPropertyDisplay</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | &lt;<A HREF="RMRF0004.HTM#designatorDisplay">designatorDisplay</A>&gt; 
+&#09;| <A HREF="RMRF0006.HTM#figure">figure</A> | &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | &lt;<A HREF="RMRF0009.HTM#instanceNameDisplay">instanceNameDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0010.HTM#instanceNameGeneratorDisplay">instanceNameGeneratorDisplay</A>&gt; | &lt;<A HREF="RMRF0010.HTM#instanceWidthDisplay">instanceWidthDisplay</A>&gt; | 
+&#09;<A HREF="RMRF0016.HTM#parameterDisplay">parameterDisplay</A> | <A HREF="RMRF0018.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0019.HTM#schematicComplexFigure">schematicComplexFigure</A> | 
+&#09;<A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A> | <A HREF="RMRF0025.HTM#userData">userData</A> | &lt;<A HREF="RMRF0026.HTM#viewNameDisplay">viewNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbol">SchematicSymbol</A></I> is used to describe a symbol for use in a <I><A HREF="RMRF0022.HTM#schematicView">schematicView</A></I>.
+<P>A schematic symbol is meant to be used as a graphical representation for a cell, in another cell's drawing. Its graphics are described in its own coordinate space.
+<H3>Example:</H3>
+<P><CENTER><IMG SRC="FIG0027.GIF">
+</CENTER>
+<PRE>
+<B>(schematicSymbol SYMBOL    </B>
+<B>   (schematicSymbolHeader ...)</B>
+<B>   (cellNameDisplay </B>
+<B>      (display FG2 </B>
+<B>         (transform (origin (pt 30 0)))))</B>
+<B>   (designatorDisplay </B>
+<B>      (addDisplay</B>
+<B>         (display FG2 </B>
+<B>            (transform (origin (pt 30 45))))))</B>
+<B>   (figure FG1</B>
+<B>      (polygon (pointList (pt 20 10) (pt 60 30)</B>
+<B>                  (pt 20 50)))</B>
+<B>      (circle (pt 60 30) (pt 65 30))</B>
+<B>      (path (pointList (pt 10 30) (pt 20 30)))</B>
+<B>      (path (pointList (pt 65 30) (pt 70 30))))</B>
+<B>   (propertyDisplay ...)</B>
+<B>   (schematicSymbolPortImplementation A_HOTSPOT</B>
+<B>      (portRef A)</B>
+<B>      (schematicSymbolPortTemplateRef ...)</B>
+<B>      (transform (origin (pt 10 30)))</B>
+<B>      (portAttributeDisplay</B>
+<B>         (designatorDisplay</B>
+<B>            (addDisplay</B>
+<B>               (display FG2 </B>
+<B>                  (transform (origin (pt 0 40))))))))</B>
+<B>   (schematicSymbolPortImplementation Y_HOTSPOT</B>
+<B>      (portRef Y) ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>This example shows how a schematic symbol, representing an inverter, might be described.
+<P>The crosses marking the ports are specified in the <I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I> referenced for each port implementation. The input port (on the left) has identifier <B>A</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicView">schematicView</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSymbolBorder">schematicSymbolBorder</A></H1>
+<PRE>
+<I>schematicSymbolBorder ::= '(' 'schematicSymbolBorder'</I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicSymbolBorderTemplateRef">schematicSymbolBorderTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#transform">transform</A></I>
+&#09;<I>{ <A HREF="RMRF0018.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0018.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolHeader">schematicSymbolHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolBorder">SchematicSymbolBorder</A></I> is an instance of a <I><A HREF="RMRF0022.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A>,</I> and is used to provide a border for a symbol. It is not inherited by an instance of the symbol, in the same way that <I><A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A></I> is not inherited.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolBorder </B>
+<B>   (schematicSymbolBorderTemplateRef BORDER)</B>
+<B>   (transform (origin (pt 0 0))))</B>
+</PRE>
+<P>This <I><A HREF="RMRF0022.HTM#schematicSymbolBorder">schematicSymbolBorder</A></I> references a template named <B>BORDER</B>, and places it at <B>(pt 0 0)</B> in the symbol.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0015.HTM#pageBorder">pageBorder</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A></H1>
+<PRE>
+<I>schematicSymbolBorderTemplate ::= '(' 'schematicSymbolBorderTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#usableArea">usableArea</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0006.HTM#figure">figure</A> | <A HREF="RMRF0018.HTM#propertyDisplay">propertyDisplay</A> | 
+&#09;<A HREF="RMRF0019.HTM#schematicComplexFigure">schematicComplexFigure</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#external">external</A>  <A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolBorderTemplate">SchematicSymbolBorderTemplate</A></I> provides a template for the graphics associated with the border of a symbol. This typically includes graphics for the border itself, company logos, etc. 
+<P><I><A HREF="RMRF0025.HTM#usableArea">UsableArea</A></I> represents the area within the symbol border that is available for drawing the symbol itself.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolBorderTemplate SYMBOL_BORDER</B>
+<B>   (schematicTemplateHeader  ...)</B>
+<B>   (usableArea ...)</B>
+<B>   (figure ...)</B>
+<B>   (annotate ...)</B>
+<B>   ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSymbolBorderTemplateRef">schematicSymbolBorderTemplateRef</A></H1>
+<PRE>
+<I>schematicSymbolBorderTemplateRef ::= '(' 'schematicSymbolBorderTemplateRef'</I>
+&#09;<I><A HREF="RMRF0013.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0013.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolBorder">schematicSymbolBorder</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolBorderTemplateRef">SchematicSymbolBorderTemplateRef</A></I> is a reference to a <I><A HREF="RMRF0022.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolBorderTemplateRef SYMBOL_BORDER)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSymbolHeader">schematicSymbolHeader</A></H1>
+<PRE>
+<I>schematicSymbolHeader ::= '(' 'schematicSymbolHeader'</I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicUnits">schematicUnits</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#backgroundColor">backgroundColor</A>&gt; | &lt;<A HREF="RMRF0004.HTM#derivedFrom">derivedFrom</A>&gt; | <A HREF="RMRF0005.HTM#documentation">documentation</A> | 
+&#09;&lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | &lt;<A HREF="RMRF0015.HTM#originalBoundingBox">originalBoundingBox</A>&gt; | &lt;<A HREF="RMRF0016.HTM#pageSize">pageSize</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0018.HTM#previousVersion">previousVersion</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | &lt;<A HREF="RMRF0022.HTM#schematicSymbolBorder">schematicSymbolBorder</A>&gt; | &lt;<A HREF="RMRF0023.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbol">schematicSymbol</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolHeader">SchematicSymbolHeader</A></I> contains data that relates to the entire schematic symbol.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolHeader </B>
+<B>   (schematicUnits)</B>
+<B>   (status ...)</B>
+<B>   (documentation ...)</B>
+<B>   (pageSize ...)</B>
+<B>   ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#documentationHeader">documentationHeader</A> <A HREF="RMRF0005.HTM#edifHeader">edifHeader</A> <A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A> <A HREF="RMRF0015.HTM#pageHeader">pageHeader</A> <A HREF="RMRF0022.HTM#schematicSymbolHeader">schematicSymbolHeader</A> <A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A> <A HREF="RMRF0022.HTM#schematicViewHeader">schematicViewHeader</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></H1>
+<PRE>
+<I>schematicSymbolPortImplementation ::= '(' 'schematicSymbolPortImplementation'</I>
+&#09;<I><A HREF="RMRF0024.HTM#symbolPortImplementationNameDef">symbolPortImplementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0018.HTM#portRef">portRef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplateRef">schematicSymbolPortTemplateRef</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#transform">transform</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>&gt; | <A HREF="RMRF0018.HTM#propertyDisplayOverride">propertyDisplayOverride</A> | <A HREF="RMRF0018.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbol">schematicSymbol</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">SchematicSymbolPortImplementation</A></I> represents the graphical implementation of a port in a symbol. 
+<P>The port may be a single-bit <I><A HREF="RMRF0017.HTM#port">port</A></I>, a <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I>. There may be more than one <I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I> for each <I><A HREF="RMRF0017.HTM#port">port</A></I> or <I><A HREF="RMRF0017.HTM#portBundle">portBundle</A></I>. Each is named using <I><A HREF="RMRF0024.HTM#symbolPortImplementationNameDef">symbolPortImplementationNameDef</A></I> so that it can be identified, e.g. from within schematic interconnects.
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">SchematicSymbolPortImplementation</A></I> references a <I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>,</I> and provides a <I><A HREF="RMRF0025.HTM#transform">transform</A></I> to define its position within the symbol. All the graphics representing the symbol port must be in the <I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I>.
+<P>Within <I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I>, display positions may be given for the port attributes.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortImplementation IN</B>
+<B>   (portRef IN)</B>
+<B>   (schematicSymbolPortTemplateRef SYMBOL_PORT)</B>
+<B>   (transform (origin (pt 100 200))))</B>
+</PRE>
+<P>In this implementation of the port named <B>IN</B>, a template named <B>SYMBOL_PORT</B> is positioned at the point <B>(pt 100 200)</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0017.HTM#port">port</A>  <A HREF="RMRF0017.HTM#portBundle">portBundle</A>  <A HREF="RMRF0020.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A>  
+</I>
+<P><HR>
+<H1><A NAME="schematicSymbolPortImplementationRef">schematicSymbolPortImplementationRef</A></H1>
+<PRE>
+<I>schematicSymbolPortImplementationRef ::= '(' 'schematicSymbolPortImplementationRef'</I>
+&#09;<I><A HREF="RMRF0024.HTM#symbolPortImplementationNameRef">symbolPortImplementationNameRef</A></I>
+&#09;<I><A HREF="RMRF0020.HTM#schematicInstanceImplementationRef">schematicInstanceImplementationRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicBusJoined">schematicBusJoined</A>  <A HREF="RMRF0020.HTM#schematicNetJoined">schematicNetJoined</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementationRef">SchematicSymbolPortImplementationRef</A></I> references a <I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortImplementationRef IN</B>
+<B>   (schematicInstanceImplementationRef INST1))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></H1>
+<PRE>
+<I>schematicSymbolPortTemplate ::= '(' 'schematicSymbolPortTemplate'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I>
+&#09;<I><A HREF="RMRF0008.HTM#hotspot">hotspot</A></I>
+&#09;<I><A HREF="RMRF0017.HTM#portDirectionIndicator">portDirectionIndicator</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#annotate">annotate</A> | <A HREF="RMRF0002.HTM#commentGraphics">commentGraphics</A> | <A HREF="RMRF0006.HTM#figure">figure</A> | &lt;<A HREF="RMRF0009.HTM#implementationNameDisplay">implementationNameDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0017.HTM#portAttributeDisplay">portAttributeDisplay</A>&gt; | <A HREF="RMRF0018.HTM#propertyDisplay">propertyDisplay</A> | <A HREF="RMRF0019.HTM#schematicComplexFigure">schematicComplexFigure</A> | 
+&#09;&lt;<A HREF="RMRF0021.HTM#schematicPortAttributes">schematicPortAttributes</A>&gt; | &lt;<A HREF="RMRF0021.HTM#schematicPortStyle">schematicPortStyle</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#external">external</A>  <A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">SchematicSymbolPortTemplate</A></I> provides a graphical template for the implementation of a port within a symbol. It has a single hotspot. Display positions may be provided for the port attributes.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortTemplate SYMBOL_PORT</B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (hotspot (pt 0 0))</B>
+<B>   (unrestricted)</B>
+<B>   (figure LINES</B>
+<B>      (path (pointList (pt -10 10) (pt 10 -10)))</B>
+<B>      (path (pointList (pt -10 -10) (pt 10 10)))))</B>
+</PRE>
+<P>In this example, a simple cross is used to represent the graphics of a symbol port, as shown in the figure below.
+<P><CENTER><IMG SRC="FIG0028.GIF">
+</CENTER>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSymbolPortTemplateRef">schematicSymbolPortTemplateRef</A></H1>
+<PRE>
+<I>schematicSymbolPortTemplateRef ::= '(' 'schematicSymbolPortTemplateRef'</I>
+&#09;<I><A HREF="RMRF0013.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0013.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplateRef">SchematicSymbolPortTemplateRef</A></I> is a reference to a <I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortTemplateRef SYMBOL_PORT)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicSymbolRef">schematicSymbolRef</A></H1>
+<PRE>
+<I>schematicSymbolRef ::= '(' 'schematicSymbolRef'</I>
+&#09;<I><A HREF="RMRF0026.HTM#viewNameRef">viewNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbolRef">SchematicSymbolRef</A></I> references a schematic symbol. It is used in the context of <I><A HREF="RMRF0020.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A></I> to indicate which symbol should be used to represent the instance. The <I><A HREF="RMRF0026.HTM#viewNameRef">viewNameRef</A></I> refers to a <I><A HREF="RMRF0026.HTM#viewNameDef">viewNameDef</A></I> defined in the cluster referenced by the symbol.
+<H3>Example:</H3>
+<PRE>
+<B>(instance nand12 (clusterRef CL1 (cellRef NAND)) </B>
+<B>   ...)</B>
+<B>...</B>
+<B>(schematicInstanceImplementation &amp;123 </B>
+<B>   (instanceRef nand12)</B>
+<B>   (schematicSymbolRef symbol)</B>
+<B>   (transform (origin (pt 100 200)))</B>
+<B>   (designatorDisplay ...)</B>
+<B>   (instancePortAttributeDisplay SPI1 (portRef IN) ...)</B>
+<B>   ...)</B>
+</PRE>
+<P>In this example, there must be a view named <B>symbol</B> defined in the cluster <B>CL1</B> of cell <B>NAND</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicSymbol">schematicSymbol</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicTemplateHeader">schematicTemplateHeader</A></H1>
+<PRE>
+<I>schematicTemplateHeader ::= '(' 'schematicTemplateHeader'</I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicUnits">schematicUnits</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#backgroundColor">backgroundColor</A>&gt; | <A HREF="RMRF0005.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0015.HTM#originalBoundingBox">originalBoundingBox</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | &lt;<A HREF="RMRF0023.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A>  <A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>  <A HREF="RMRF0019.HTM#schematicFigureMacro">schematicFigureMacro</A>  <A HREF="RMRF0019.HTM#schematicForFrameBorderTemplate">schematicForFrameBorderTemplate</A>  <A HREF="RMRF0019.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A>  <A HREF="RMRF0020.HTM#schematicIfFrameBorderTemplate">schematicIfFrameBorderTemplate</A>  <A HREF="RMRF0020.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A>  <A HREF="RMRF0020.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A>  <A HREF="RMRF0020.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>  <A HREF="RMRF0020.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A>  <A HREF="RMRF0021.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A>  <A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorderTemplate">schematicOtherwiseFrameBorderTemplate</A>  <A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplate</A>  <A HREF="RMRF0022.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A>  <A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicTemplateHeader">SchematicTemplateHeader</A></I> provides header information for various templates. This may include the definition of the units that are used in the template. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicTemplateHeader </B>
+<B>   (schematicUnits </B>
+<B>      (schematicMetric </B>
+<B>         (setDistance (unitRef mm_10)) ...)))</B>
+</PRE>
+<P>This <I><A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A></I> defines the typical port spacing within the template to be in <B>200</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0008.HTM#geometryMacroHeader">geometryMacroHeader</A>  <A HREF="RMRF0015.HTM#pageHeader">pageHeader</A>  <A HREF="RMRF0022.HTM#schematicSymbolHeader">schematicSymbolHeader</A> <A HREF="RMRF0024.HTM#technology">technology</A>  
+</I>
+<P><HR>
+<H1><A NAME="schematicUnits">schematicUnits</A></H1>
+<PRE>
+<I>schematicUnits ::= '(' 'schematicUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0020.HTM#schematicMetric">schematicMetric</A>&gt; | &lt;<A HREF="RMRF0022.HTM#setAngle">setAngle</A>&gt; | &lt;<A HREF="RMRF0022.HTM#setCapacitance">setCapacitance</A>&gt; | &lt;<A HREF="RMRF0023.HTM#setFrequency">setFrequency</A>&gt; 
+&#09;| &lt;<A HREF="RMRF0023.HTM#setTime">setTime</A>&gt; | &lt;<A HREF="RMRF0023.HTM#setVoltage">setVoltage</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#physicalScaling">physicalScaling</A>  <A HREF="RMRF0022.HTM#schematicSymbolHeader">schematicSymbolHeader</A>  <A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A>  <A HREF="RMRF0022.HTM#schematicViewHeader">schematicViewHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicUnits">SchematicUnits</A></I> defines the units for <I><A HREF="RMRF0022.HTM#schematicView">schematicViews</A></I> and schematic templates. It may be specified as a default for the entire data in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, for a library in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I> or for a particular template or view in the view or template header. Refer to <I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A></I> for a full example. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A> <A HREF="RMRF0005.HTM#documentationUnits">documentationUnits</A> <A HREF="RMRF0011.HTM#interfaceUnits">interfaceUnits</A> <A HREF="RMRF0013.HTM#logicModelUnits">logicModelUnits</A>  <A HREF="RMRF0013.HTM#maskLayoutUnits">maskLayoutUnits</A> <A HREF="RMRF0016.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  <A HREF="RMRF0024.HTM#symbolicLayoutUnits">symbolicLayoutUnits</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicView">schematicView</A></H1>
+<PRE>
+<I>schematicView ::= '(' 'schematicView'</I>
+&#09;<I><A HREF="RMRF0026.HTM#viewNameDef">viewNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicViewHeader">schematicViewHeader</A></I>
+&#09;<I><A HREF="RMRF0013.HTM#logicalConnectivity">logicalConnectivity</A></I>
+&#09;<I><A HREF="RMRF0020.HTM#schematicImplementation">schematicImplementation</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicView">SchematicView</A></I> introduces a view of type schematic to describe the schematic representation and connectivity of a cell.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicView VIEW_1</B>
+<B>   (schematicViewHeader ...)</B>
+<B>   (logicalConnectivity </B>
+<B>      (instance ...)</B>
+<B>      (signal ...))</B>
+<B>   (schematicImplementation</B>
+<B>      (page ...)</B>
+<B>      ...))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0013.HTM#logicModelView">logicModelView</A>   <A HREF="RMRF0013.HTM#maskLayoutView">maskLayoutView</A>  <A HREF="RMRF0003.HTM#connectivityView">connectivityView</A> <A HREF="RMRF0016.HTM#pcbLayoutView">pcbLayoutView</A>  <A HREF="RMRF0022.HTM#schematicSymbol">schematicSymbol</A>  <A HREF="RMRF0024.HTM#symbolicLayoutView">symbolicLayoutView</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicViewHeader">schematicViewHeader</A></H1>
+<PRE>
+<I>schematicViewHeader ::= '(' 'schematicViewHeader'</I>
+&#09;<I><A HREF="RMRF0022.HTM#schematicUnits">schematicUnits</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0004.HTM#derivedFrom">derivedFrom</A>&gt; | <A HREF="RMRF0005.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0018.HTM#previousVersion">previousVersion</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | &lt;<A HREF="RMRF0023.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#schematicView">schematicView</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicViewHeader">SchematicViewHeader</A></I> contains data that relates to the view as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicViewHeader</B>
+<B>   (schematicUnits (setTime (unitRef ms)))</B>
+<B>   (status ...)</B>
+<B>   (documentation ...)</B>
+<B>   ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityViewHeader">connectivityViewHeader</A> <A HREF="RMRF0005.HTM#documentationHeader">documentationHeader</A> <A HREF="RMRF0005.HTM#edifHeader">edifHeader</A> <A HREF="RMRF0008.HTM#geometryMacroHeader">geometryMacroHeader</A> <A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A>  <A HREF="RMRF0015.HTM#pageHeader">pageHeader</A> <A HREF="RMRF0022.HTM#schematicSymbolHeader">schematicSymbolHeader</A> <A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A> 
+</I>
+<P><HR>
+<H1><A NAME="schematicWireAffinity">schematicWireAffinity</A></H1>
+<PRE>
+<I>schematicWireAffinity ::= '(' 'schematicWireAffinity'</I>
+&#09;<I>( <A HREF="RMRF0014.HTM#narrowWire">narrowWire</A> | <A HREF="RMRF0026.HTM#wideWire">wideWire</A> | <A HREF="RMRF0025.HTM#unrestricted">unrestricted</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0008.HTM#hotspot">hotspot</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicWireAffinity">SchematicWireAffinity</A></I> specifies the type of schematic wire that is appropriate for a hotspot. The hotspot is intended to be connected to a schematic interconnect with a corresponding <I><A HREF="RMRF0022.HTM#schematicWireStyle">schematicWireStyle</A></I>. This is not a semantic rule. The default is <I><A HREF="RMRF0025.HTM#unrestricted">unrestricted</A></I>.
+<P>See <I><A HREF="RMRF0022.HTM#schematicWireStyle">schematicWireStyle</A></I> for a full example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicWireStyle">schematicWireStyle</A>
+</I>
+<P><HR>
+<H1><A NAME="schematicWireStyle">schematicWireStyle</A></H1>
+<PRE>
+<I>schematicWireStyle ::= '(' 'schematicWireStyle'</I>
+&#09;<I>( <A HREF="RMRF0014.HTM#narrowWire">narrowWire</A> | <A HREF="RMRF0026.HTM#wideWire">wideWire</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0020.HTM#schematicInterconnectHeader">schematicInterconnectHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicWireStyle">SchematicWireStyle</A></I> indicates the style of schematic wire that is appropriate to represent a particular schematic interconnect. 
+<P>If <I><A HREF="RMRF0022.HTM#schematicWireStyle">schematicWireStyle</A></I> is specified for an interconnect, then the <I><A HREF="RMRF0022.HTM#schematicWireAffinity">schematicWireAffinity</A></I> of any hotspots connected to the schematic interconnect would usually correspond with this, according to the table below.
+<CENTER>
+<TABLE BORDER>
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0022.HTM#schematicWireStyle">SchematicWireStyle</A></I><BR> <TD ALIGN=LEFT>Corresponding <I><A HREF="RMRF0022.HTM#schematicWireAffinity">schematicWireAffinity</A></I> for <BR> 
+ hotspots<BR> 
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0014.HTM#narrowWire">narrowWire</A></I><BR> <TD ALIGN=LEFT><I><A HREF="RMRF0014.HTM#narrowWire">narrowWire</A></I> or <I><A HREF="RMRF0025.HTM#unrestricted">unrestricted</A></I><BR> 
+<TR><TD ALIGN=LEFT><I><A HREF="RMRF0026.HTM#wideWire">wideWire</A></I><BR> <TD ALIGN=LEFT><I><A HREF="RMRF0026.HTM#wideWire">wideWire</A></I> or <I><A HREF="RMRF0025.HTM#unrestricted">unrestricted</A></I><BR> 
+</TABLE>
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(schematicMasterPortTemplate A </B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (hotspot (pt 0 0) </B>
+<B>      (schematicWireAffinity (wideWire)))</B>
+<B>   (input)</B>
+<B>   (schematicPortStyle (widePort)))</B>
+<B>...</B>
+<B>(schematicBus B (signalGroupRef ...)</B>
+<B>   (schematicInterconnectHeader ...</B>
+<B>      (schematicWireStyle (wideWire)) ...)</B>
+<B>   (schematicBusJoined ...) ...)</B>
+</PRE>
+<P>In this example the master port template <B>A</B> could be connected only to schematic interconnects with <I><A HREF="RMRF0022.HTM#schematicWireStyle">schematicWireStyle</A> </I> of <I><A HREF="RMRF0026.HTM#wideWire">wideWire</A></I>, for example the bus <B>B</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#schematicWireAffinity">schematicWireAffinity</A>
+</I>
+<P><HR>
+<H1><A NAME="second">second</A></H1>
+<PRE>
+<I>second ::= '(' 'second'</I>
+&#09;<I><A HREF="RMRF0025.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0025.HTM#unit">unit</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#second">Second</A> </I>is used to specify a user-defined unit in terms of the SI time unit, second. See <I><A HREF="RMRF0025.HTM#unit">unit</A></I> for examples of the definition of units.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#ampere">ampere</A> <A HREF="RMRF0001.HTM#candela">candela</A>  <A HREF="RMRF0001.HTM#celsius">celsius</A>  <A HREF="RMRF0003.HTM#coulomb">coulomb</A>  <A HREF="RMRF0004.HTM#degree">degree</A>  <A HREF="RMRF0006.HTM#fahrenheit">fahrenheit</A>  <A HREF="RMRF0006.HTM#farad">farad</A>  <A HREF="RMRF0008.HTM#henry">henry</A>  <A HREF="RMRF0008.HTM#hertz">hertz</A>  <A HREF="RMRF0011.HTM#joule">joule</A>  <A HREF="RMRF0012.HTM#kelvin">kelvin</A>  <A HREF="RMRF0012.HTM#kilogram">kilogram</A>  <A HREF="RMRF0013.HTM#meter">meter</A>  <A HREF="RMRF0014.HTM#mole">mole</A>  <A HREF="RMRF0015.HTM#ohm">ohm</A>  <A HREF="RMRF0018.HTM#radian">radian</A>  <A HREF="RMRF0023.HTM#siemens">siemens</A>  <A HREF="RMRF0026.HTM#volt">volt</A>  <A HREF="RMRF0026.HTM#watt">watt</A>  <A HREF="RMRF0026.HTM#weber">weber</A>
+</I>
+<P><HR>
+<H1><A NAME="secondIntegerExpression">secondIntegerExpression</A></H1>
+<PRE>
+<I>secondIntegerExpression ::= <A HREF="RMRF0010.HTM#integerExpression">integerExpression</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#integerEqual">integerEqual</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the second integer expression in <I><A HREF="RMRF0010.HTM#integerEqual">integerEqual</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(integerEqual</B>
+<B>   (integerParameterRef x)</B>
+<B>   (integerParameterRef y))</B>
+</PRE>
+<P>Here, <B>(integerParameterRef y)</B> is the second integer expression.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0006.HTM#firstIntegerExpression">firstIntegerExpression</A>
+</I>
+<P><HR>
+<H1><A NAME="secondNumber">secondNumber</A></H1>
+<PRE>
+<I>secondNumber ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0024.HTM#time">time</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#secondNumber">SecondNumber</A></I> represents a number of seconds within <I><A HREF="RMRF0024.HTM#time">time</A></I>. Its value must be a minimum of 0 and maximum of 59.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#dayNumber">dayNumber</A> <A HREF="RMRF0008.HTM#hourNumber">hourNumber</A> <A HREF="RMRF0014.HTM#minuteNumber">minuteNumber</A> <A HREF="RMRF0014.HTM#monthNumber">monthNumber</A> <A HREF="RMRF0027.HTM#yearNumber">yearNumber</A> 
+</I>
+<P><HR>
+<H1><A NAME="secondStringExpression">secondStringExpression</A></H1>
+<PRE>
+<I>secondStringExpression ::= <A HREF="RMRF0024.HTM#stringExpression">stringExpression</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0024.HTM#stringEqual">stringEqual</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the second string expression in <I><A HREF="RMRF0024.HTM#stringEqual">stringEqual</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(condition</B>
+<B>   (stringEqual  </B>
+<B>      (stringParameterRef processType)</B>
+<B>      "cmos1u"))</B>
+</PRE>
+<P>In this example, <B>"cmos1u"</B> is the second string expression.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0006.HTM#firstStringExpression">firstStringExpression</A>
+</I>
+<P><HR>
+<H1><A NAME="section">section</A></H1>
+<PRE>
+<I>section ::= '(' 'section'</I>
+&#09;<I><A HREF="RMRF0022.HTM#sectionNameDef">sectionNameDef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#sectionTitle">sectionTitle</A></I>
+&#09;<I>{ <A HREF="RMRF0004.HTM#diagram">diagram</A> | <A HREF="RMRF0022.HTM#section">section</A> | <A HREF="RMRF0024.HTM#stringValue">stringValue</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#documentation">documentation</A>  <A HREF="RMRF0022.HTM#section">section</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#section">Section</A> </I>is used to divide a document into sections. 
+<P>Sections may be nested with other sections. This nesting can be used by a document processor to give hierarchical number schemes to sections.
+<P>The body of the section is implemented using any number of EDIF strings and diagrams.
+<P>The order of items within <I><A HREF="RMRF0022.HTM#section">section</A></I> is significant.
+<H3>Example:</H3>
+<PRE>
+<B>(section S1 (sectionTitle "Hierarchical Design")</B>
+<B>   (section S1_1 </B>
+<B>      (sectionTitle "Why it does not work") </B>
+<B>      "..." ...)</B>
+<B>   (section S1_2 </B>
+<B>      (sectionTitle "An alternative: Matrix Design")</B>
+<B>      ".  .  .  .  "</B>
+<B>      (section  S1_2_1</B>
+<B>          (sectionTitle </B>
+<B>            "Each circuit has two functions" ) </B>
+<B>         ".  .  .  .  ")</B>
+<B>      (section  S1_2_2 </B>
+<B>         (sectionTitle "Early results")</B>
+<B>         ".  .  .  .  " ...))</B>
+<B>   (section S1_3 (sectionTitle "Summary")</B>
+<B>        ".  .  .  .  "))</B>
+</PRE>
+
+<P><HR>
+<H1><A NAME="sectionNameDef">sectionNameDef</A></H1>
+<PRE>
+<I>sectionNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#section">section</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#sectionNameDef">SectionNameDef</A></I> represents the name of a section.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#sectionTitle">sectionTitle</A>
+</I>
+<P><HR>
+<H1><A NAME="sectionTitle">sectionTitle</A></H1>
+<PRE>
+<I>sectionTitle ::= '(' 'sectionTitle'</I>
+&#09;<I><A HREF="RMRF0024.HTM#stringToken">stringToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#section">section</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#sectionTitle">SectionTitle</A></I> is the title of a <I><A HREF="RMRF0022.HTM#section">section</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(section  S1_2_2 </B>
+<B>   (sectionTitle "Early results")</B>
+<B>   ".  .  .  .  " ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#sectionNameDef">sectionNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="sequence">sequence</A></H1>
+<PRE>
+<I>sequence ::= '(' 'sequence'</I>
+&#09;<I><A HREF="RMRF0007.HTM#fromInteger">fromInteger</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#toInteger">toInteger</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0023.HTM#step">step</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameDimensionStructure">nameDimensionStructure</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#sequence">Sequence</A></I> is used to specify a range of integer values that start at <I><A HREF="RMRF0007.HTM#fromInteger">fromInteger</A></I> and end at <I><A HREF="RMRF0025.HTM#toInteger">toInteger</A></I>, and are incremented up or down by the absolute value of the <I><A HREF="RMRF0010.HTM#integerValue">integerValue</A></I> given by <I><A HREF="RMRF0023.HTM#step">step</A></I>. There must be an integer "k" for which <I><A HREF="RMRF0025.HTM#toInteger">toInteger</A></I> equals <I><A HREF="RMRF0007.HTM#fromInteger">fromInteger</A></I> plus or minus "k" multiplied by the absolute value of <I><A HREF="RMRF0010.HTM#integerValue">integerValue</A></I> in <I><A HREF="RMRF0023.HTM#step">step</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(sequence 3 5)</B>
+</PRE>
+<P>This defines the series of integers 3, 4, 5.
+<PRE>
+<B>(sequence 3 18 (step 5))</B>
+</PRE>
+<P>This defines the series of integers 3, 8, 13, 18.
+<PRE>
+<B>(sequence 7 3 (step -2))</B>
+</PRE>
+<P>Here the ordered range of integers 7, 5 and 3 is specified.
+<PRE>
+<B>(sequence 7 3 (step 2))</B>
+</PRE>
+<P>Just as in the previous example, here the ordered range of integers 7, 5 and 3 is specified.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#bitOrder">bitOrder</A>  <A HREF="RMRF0002.HTM#complementedName">complementedName</A>  <A HREF="RMRF0002.HTM#complexName">complexName</A>  <A HREF="RMRF0010.HTM#integerValue">integerValue</A>  <A HREF="RMRF0023.HTM#simpleName">simpleName</A> 
+</I>
+<P><HR>
+<H1><A NAME="setAngle">setAngle</A></H1>
+<PRE>
+<I>setAngle ::= '(' 'setAngle'</I>
+&#09;<I><A HREF="RMRF0025.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#documentationUnits">documentationUnits</A>  <A HREF="RMRF0008.HTM#geometryMacroUnits">geometryMacroUnits</A>  <A HREF="RMRF0013.HTM#maskLayoutUnits">maskLayoutUnits</A>  <A HREF="RMRF0016.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  <A HREF="RMRF0022.HTM#schematicUnits">schematicUnits</A>  <A HREF="RMRF0024.HTM#symbolicLayoutUnits">symbolicLayoutUnits</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#setAngle">SetAngle</A></I> sets the units for angular values in a particular context.
+<P>The underlying unit of <I><A HREF="RMRF0022.HTM#setAngle">setAngle</A></I> must be radians or degrees. The default is that angles are measured in the SI unit of radians. 
+<H3>Example:</H3>
+<PRE>
+<B>(unit milli_degree 1000 1 (degree 1))</B>
+<B>...</B>
+<B>(pcbLayoutUnits (setAngle (unitRef milli_degree)) ...)</B>
+</PRE>
+<P>This example defines the angle units for <I><A HREF="RMRF0016.HTM#pcbLayoutView">pcbLayoutViews</A></I> to be <B>milli_degree</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#setCapacitance">setCapacitance</A> <A HREF="RMRF0022.HTM#setCurrent">setCurrent</A> <A HREF="RMRF0023.HTM#setDistance">setDistance</A> <A HREF="RMRF0023.HTM#setTime">setTime</A> <A HREF="RMRF0023.HTM#setVoltage">setVoltage</A> <A HREF="RMRF0019.HTM#rotation">rotation</A> <A HREF="RMRF0000.HTM#angleValue">angleValue</A>
+</I>
+<P><HR>
+<H1><A NAME="setCapacitance">setCapacitance</A></H1>
+<PRE>
+<I>setCapacitance ::= '(' 'setCapacitance'</I>
+&#09;<I><A HREF="RMRF0025.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A>  <A HREF="RMRF0004.HTM#designUnits">designUnits</A>  <A HREF="RMRF0011.HTM#interfaceUnits">interfaceUnits</A>  <A HREF="RMRF0013.HTM#logicModelUnits">logicModelUnits</A>  <A HREF="RMRF0013.HTM#maskLayoutUnits">maskLayoutUnits</A>  <A HREF="RMRF0016.HTM#pcbLayoutUnits">pcbLayoutUnits</A>  <A HREF="RMRF0022.HTM#schematicUnits">schematicUnits</A>  <A HREF="RMRF0024.HTM#symbolicLayoutUnits">symbolicLayoutUnits</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#setCapacitance">SetCapacitance</A> </I>sets the units for capacitance values in a particular context.
+<P>The default is that capacitance is measured in the SI unit of farads. The underlying unit of <I><A HREF="RMRF0022.HTM#setCapacitance">setCapacitance</A></I> must be farads.
+<H3>Example:</H3>
+<PRE>
+<B>(unit pF 1 (e 1 -12) (farad 1))</B>
+<B>...</B>
+<B>(schematicUnits (setCapacitance (unitRef pF)) ...)</B>
+</PRE>
+<P>This example defines the capacitance units for <I><A HREF="RMRF0022.HTM#schematicView">schematicViews</A></I> to be <B>pF</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#setAngle">setAngle</A> <A HREF="RMRF0022.HTM#setCurrent">setCurrent</A> <A HREF="RMRF0023.HTM#setDistance">setDistance</A> <A HREF="RMRF0023.HTM#setTime">setTime</A> <A HREF="RMRF0023.HTM#setVoltage">setVoltage</A>  <A HREF="RMRF0001.HTM#capacitanceValue">capacitanceValue</A>
+</I>
+<P><HR>
+<H1><A NAME="setCurrent">setCurrent</A></H1>
+<PRE>
+<I>setCurrent ::= '(' 'setCurrent'</I>
+&#09;<I><A HREF="RMRF0025.HTM#unitRef">unitRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0013.HTM#logicDefinitions">logicDefinitions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0022.HTM#setCurrent">SetCurrent</A> </I>sets the units for current values in a particular context.
+<P>The default is that current is measured in the SI unit of amperes. The underlying unit of <I><A HREF="RMRF0022.HTM#setCurrent">setCurrent</A></I> must be amperes.
+<H3>Example:</H3>
+<PRE>
+<B>(unit ma 1000 1 (ampere 1))</B>
+<B>...</B>
+<B>(logicDefinitions (setVoltage ...)</B>
+<B>   (setCurrent (unitRef ma)) ...)</B>
+</PRE>
+<P>This example defines the current units for <I><A HREF="RMRF0013.HTM#logicDefinitions">logicDefinitions</A></I> to be <B>ma</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#setAngle">setAngle</A> <A HREF="RMRF0022.HTM#setCapacitance">setCapacitance</A> <A HREF="RMRF0023.HTM#setDistance">setDistance</A> <A HREF="RMRF0023.HTM#setTime">setTime</A> <A HREF="RMRF0023.HTM#setVoltage">setVoltage</A> <A HREF="RMRF0003.HTM#currentValue">currentValue</A>
+</I>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

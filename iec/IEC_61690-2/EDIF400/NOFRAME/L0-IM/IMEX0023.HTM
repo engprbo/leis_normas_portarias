@@ -1,0 +1,818 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcb_package_model">pcb_package_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A> is used to define <A HREF="IMEX0023.HTM#package">packages</A>.  Usually the
+ information is acquired from other parties, e.g. data sheet information
+ about component packages.
+</P><HR>
+<!-- Start of ENTITY: package -->
+<H2><A NAME="package">package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#package">package</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#ball_package">ball_package</A>,
+                                   <A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A>,
+                                   <A HREF="IMEX0023.HTM#pin_package">pin_package</A>)
+                             AND
+                             ONEOF(<A HREF="IMEX0023.HTM#external_package">external_package</A>,
+                                   <A HREF="IMEX0023.HTM#internal_package">internal_package</A>));
+    document           : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    mechanical_fixings : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#mechanical_fixing">mechanical_fixing</A>;
+    name               : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    previous_version   : OPTIONAL <A HREF="IMEX0023.HTM#package">package</A>; -- reference
+    properties         : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    terminals          : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#package_terminal">package_terminal</A>;
+    units              : <A HREF="IMEX0021.HTM#pcb_layout_units">pcb_layout_units</A>;
+    written_status     : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+  DERIVE
+    terminal_count : INTEGER := SIZEOF(terminals);
+  WHERE
+    <A NAME="package.valid_existence">valid_existence</A> :
+      (* A package belongs to one library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.packages');
+
+    <A NAME="package.valid_previous_version">valid_previous_version</A> :
+      (* A package cannot be a new version of itself, either directly or
+         indirectly. *)
+      <A HREF="IMEX0029.HTM#non_recursive_previous_version">non_recursive_previous_version</A>(SELF, []);
+
+    <A NAME="package.valid_written_in_previous_version">valid_written_in_previous_version</A> :
+      (* The earliest timestamp of a package is later than the latest
+         timestamp of its previous version. *)  
+      <A HREF="IMEX0004.HTM#valid_timestamp_in_previous_version">valid_timestamp_in_previous_version</A>(written_status,
+                                          previous_version.written_status);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#package">package</A> is the collection of the mechanical data of a set of physically
+ similar components (e.g. dimensions, etc).  It can be either a
+ <A HREF="IMEX0023.HTM#ball_package">ball_package</A> or a <A HREF="IMEX0023.HTM#pin_package">pin_package</A>.  It specifies a collection of
+ <A HREF="IMEX0023.HTM#package_terminal">package_terminals</A> which are referenced by <A HREF="IMEX0022.HTM#mountable_package_terminal">mountable_package_terminals</A> in
+ a <A HREF="IMEX0022.HTM#mountable_package">mountable_package</A> which uses the <A HREF="IMEX0023.HTM#package">package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A> <A HREF="IMEX0022.HTM#internal_mountable_package">internal_mountable_package</A> <A HREF="IMEX0011.HTM#library">library</A> <A HREF="IMEX0023.HTM#package">package</A> <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A> <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A> </P>
+<HR>
+<!-- Start of ENTITY: external_package -->
+<H2><A NAME="external_package">external_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#external_package">external_package</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#external_ball_package">external_ball_package</A>,
+                                   <A HREF="IMEX0023.HTM#external_mechanical_package">external_mechanical_package</A>,
+                                   <A HREF="IMEX0023.HTM#external_pin_package">external_pin_package</A>))
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#package">package</A>);
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.mechanical_fixings : OPTIONAL SET [1:?] OF
+                                      <A HREF="IMEX0023.HTM#external_mechanical_fixing">external_mechanical_fixing</A>; 
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.previous_version   : OPTIONAL <A HREF="IMEX0023.HTM#external_package">external_package</A>;
+  WHERE
+    <A NAME="external_package.valid_existence">valid_existence</A> :
+      (* An external_package belongs to one external_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#external_library">external_library</A>.packages');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#external_package">external_package</A> is defined in an <A HREF="IMEX0011.HTM#external_library">external_library</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#external_library">external_library</A> <A HREF="IMEX0023.HTM#external_package">external_package</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_package -->
+<H2><A NAME="internal_package">internal_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#internal_package">internal_package</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#internal_ball_package">internal_ball_package</A>,
+                                   <A HREF="IMEX0023.HTM#internal_mechanical_package">internal_mechanical_package</A>, 
+                                   <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A>))
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#package">package</A>);
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.mechanical_fixings : OPTIONAL SET [1:?] OF
+                                      <A HREF="IMEX0023.HTM#internal_mechanical_fixing">internal_mechanical_fixing</A>; 
+    body_shape                      : OPTIONAL <A HREF="IMEX0023.HTM#package_shape">package_shape</A>;
+    body_material                   : OPTIONAL <A HREF="IMEX0023.HTM#package_body_material">package_body_material</A>;
+    body_volume                     : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#extrusion_volume">extrusion_volume</A>;
+    occupied_space                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0008.HTM#extrusion_volume">extrusion_volume</A>;
+    jedec_detailed_information      : OPTIONAL STRING (20);
+    terminal_pitch                  : OPTIONAL <A HREF="IMEX0029.HTM#length_value">length_value</A>;
+  WHERE
+    <A NAME="internal_package.valid_existence">valid_existence</A> :
+      (* An internal_package belongs to one internal_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#internal_library">internal_library</A>.packages');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#internal_package">internal_package</A> is defined in an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  An
+ <A HREF="IMEX0023.HTM#internal_package">internal_package</A> may contain implementation information which is common
+ to both <A HREF="IMEX0023.HTM#internal_ball_package">internal_ball_package</A> and <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#internal_library">internal_library</A> </P>
+<HR>
+<!-- Start of ENTITY: ball_package -->
+<H2><A NAME="ball_package">ball_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#ball_package">ball_package</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#external_ball_package">external_ball_package</A>,
+                                   <A HREF="IMEX0023.HTM#internal_ball_package">internal_ball_package</A>))
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#package">package</A>);
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.previous_version : OPTIONAL <A HREF="IMEX0023.HTM#ball_package">ball_package</A>;
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.terminals        : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#solder_ball">solder_ball</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#ball_package">ball_package</A> represents a Ball Grid Array (BGA) package which has
+ <A HREF="IMEX0023.HTM#solder_ball">solder_balls</A> for connection.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#ball_package">ball_package</A> <A HREF="IMEX0022.HTM#internal_mountable_ball_package">internal_mountable_ball_package</A> </P>
+<HR>
+<!-- Start of ENTITY: external_ball_package -->
+<H2><A NAME="external_ball_package">external_ball_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#external_ball_package">external_ball_package</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#external_package">external_package</A>, <A HREF="IMEX0023.HTM#ball_package">ball_package</A>);
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.terminals  : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#external_solder_ball">external_solder_ball</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#external_ball_package">external_ball_package</A> describes a <A HREF="IMEX0023.HTM#ball_package">ball_package</A> defined in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>.
+</P><HR>
+<!-- Start of ENTITY: internal_ball_package -->
+<H2><A NAME="internal_ball_package">internal_ball_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#internal_ball_package">internal_ball_package</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#internal_package">internal_package</A>, <A HREF="IMEX0023.HTM#ball_package">ball_package</A>);
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.terminals  : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#internal_solder_ball">internal_solder_ball</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#internal_ball_package">internal_ball_package</A> describes a <A HREF="IMEX0023.HTM#ball_package">ball_package</A> defined in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>. 
+</P><HR>
+<!-- Start of ENTITY: mechanical_package -->
+<H2><A NAME="mechanical_package">mechanical_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#external_mechanical_package">external_mechanical_package</A>,
+                                   <A HREF="IMEX0023.HTM#internal_mechanical_package">internal_mechanical_package</A>))
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#package">package</A>);
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.previous_version : OPTIONAL <A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A>;
+  WHERE
+    <A NAME="mechanical_package.valid_package">valid_package</A> :
+      (* A mechanical_package does not define any package_terminals. *)
+      NOT EXISTS(SELF\<A HREF="IMEX0023.HTM#package">package</A>.terminals);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A> represents a mechanical package which has
+ <A HREF="IMEX0023.HTM#mechanical_fixing">mechanical_fixings</A> for connection.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#internal_mechanical_part">internal_mechanical_part</A> <A HREF="IMEX0022.HTM#internal_mountable_mechanical_package">internal_mountable_mechanical_package</A> <A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A> </P>
+<HR>
+<!-- Start of ENTITY: external_mechanical_package -->
+<H2><A NAME="external_mechanical_package">external_mechanical_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#external_mechanical_package">external_mechanical_package</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#external_package">external_package</A>, <A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#external_mechanical_package">external_mechanical_package</A> describes a <A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A> defined in
+ an <A HREF="IMEX0011.HTM#external_library">external_library</A>. 
+</P><HR>
+<!-- Start of ENTITY: internal_mechanical_package -->
+<H2><A NAME="internal_mechanical_package">internal_mechanical_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#internal_mechanical_package">internal_mechanical_package</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#internal_package">internal_package</A>, <A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#internal_mechanical_package">internal_mechanical_package</A> describes a <A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A> defined in
+ an <A HREF="IMEX0011.HTM#internal_library">internal_library</A>. 
+</P><HR>
+<!-- Start of ENTITY: pin_package -->
+<H2><A NAME="pin_package">pin_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#pin_package">pin_package</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#external_pin_package">external_pin_package</A>,
+                                   <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A>))
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#package">package</A>);
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.previous_version : OPTIONAL <A HREF="IMEX0023.HTM#pin_package">pin_package</A>;
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.terminals        : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#pin">pin</A>;
+    pin_groups                    : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#pin_group">pin_group</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#pin_package">pin_package</A> represents a <A HREF="IMEX0023.HTM#package">package</A> which has <A HREF="IMEX0023.HTM#pin">pins</A> for connection.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A> <A HREF="IMEX0023.HTM#pin_package">pin_package</A> </P>
+<HR>
+<!-- Start of ENTITY: external_pin_package -->
+<H2><A NAME="external_pin_package">external_pin_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#external_pin_package">external_pin_package</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#external_package">external_package</A>, <A HREF="IMEX0023.HTM#pin_package">pin_package</A>);
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.terminals      : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#external_pin">external_pin</A>;
+    SELF\<A HREF="IMEX0023.HTM#pin_package">pin_package</A>.pin_groups : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#external_pin_group">external_pin_group</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#external_pin_package">external_pin_package</A> describes a <A HREF="IMEX0023.HTM#pin_package">pin_package</A> defined in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>. 
+</P><HR>
+<!-- Start of ENTITY: internal_pin_package -->
+<H2><A NAME="internal_pin_package">internal_pin_package</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#internal_package">internal_package</A>, <A HREF="IMEX0023.HTM#pin_package">pin_package</A>);
+    SELF\<A HREF="IMEX0023.HTM#package">package</A>.terminals      : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#internal_pin">internal_pin</A>;
+    SELF\<A HREF="IMEX0023.HTM#pin_package">pin_package</A>.pin_groups : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#internal_pin_group">internal_pin_group</A>;
+    outline_style               : <A HREF="IMEX0023.HTM#package_outline_style">package_outline_style</A>;
+    mounting_class              : <A HREF="IMEX0023.HTM#package_mounting_class">package_mounting_class</A>;
+    pin_arrangement_type        : OPTIONAL <A HREF="IMEX0023.HTM#pin_arrangement">pin_arrangement</A>;
+    pin_form_count              : OPTIONAL <A HREF="IMEX0029.HTM#positive_integer_token">positive_integer_token</A>;
+    pin_form_type               : OPTIONAL <A HREF="IMEX0023.HTM#pin_form">pin_form</A>;
+  WHERE
+    <A NAME="internal_pin_package.valid_pin_groups">valid_pin_groups</A> :
+      (* Any internal_pin referenced by an internal_pin_group cannot be also
+         referenced by another internal_pin_group. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(pinGroup1 &lt;* pin_groups |
+        <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(pinGroup2 &lt;* pin_groups - pinGroup1 |
+          <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(pinGroup1.referenced_pins
+                       * pinGroup2.referenced_pins)))));
+
+    <A NAME="internal_pin_package.valid_pin_form_count">valid_pin_form_count</A> :
+      (* The pin_form_count value should be less than or equal to the number of
+         terminals of the package. *)
+      pin_form_count &lt;= SELF\<A HREF="IMEX0023.HTM#package">package</A>.terminal_count;
+
+    <A NAME="internal_pin_package.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0023.HTM#pin">pin</A> <A HREF="IMEX0023.HTM#package">package</A> cannot have <A HREF="IMEX0023.HTM#pin">pin</A> groups if it does not define any
+            pins. *)
+      EXISTS(terminals) OR NOT EXISTS(pin_groups);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A> describes a <A HREF="IMEX0023.HTM#pin_package">pin_package</A> defined in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#internal_pin_group">internal_pin_group</A> </P>
+<HR>
+<!-- Start of ENTITY: package_terminal -->
+<H2><A NAME="package_terminal">package_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#package_terminal">package_terminal</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#solder_ball">solder_ball</A>,
+                                   <A HREF="IMEX0023.HTM#pin">pin</A>));
+    name       : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  WHERE
+    <A NAME="package_terminal.valid_existence">valid_existence</A> :
+      (* A package_terminal belongs to one package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#package">package</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#package_terminal">package_terminal</A> describes a physical connector within a <A HREF="IMEX0023.HTM#package">package</A>.
+ Depending on the type of the <A HREF="IMEX0023.HTM#package">package</A>, it can be either a <A HREF="IMEX0023.HTM#solder_ball">solder_ball</A> or
+ a <A HREF="IMEX0023.HTM#pin">pin</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#jumper_part_terminal">jumper_part_terminal</A> <A HREF="IMEX0023.HTM#package">package</A> <A HREF="IMEX0024.HTM#packaged_connector_part_terminal">packaged_connector_part_terminal</A> <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal">packaged_electrical_part_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: solder_ball -->
+<H2><A NAME="solder_ball">solder_ball</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#solder_ball">solder_ball</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#external_solder_ball">external_solder_ball</A>,
+                                   <A HREF="IMEX0023.HTM#internal_solder_ball">internal_solder_ball</A>))
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#package_terminal">package_terminal</A>);
+  WHERE
+    <A NAME="solder_ball.valid_existence">valid_existence</A> :
+      (* A solder_ball belongs to one ball_package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#ball_package">ball_package</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#solder_ball">solder_ball</A> is a physical connector within a <A HREF="IMEX0023.HTM#ball_package">ball_package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#ball_package">ball_package</A> <A HREF="IMEX0022.HTM#internal_mountable_solder_ball">internal_mountable_solder_ball</A> </P>
+<HR>
+<!-- Start of ENTITY: external_solder_ball -->
+<H2><A NAME="external_solder_ball">external_solder_ball</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#external_solder_ball">external_solder_ball</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#solder_ball">solder_ball</A>);
+  WHERE
+    <A NAME="external_solder_ball.valid_existence">valid_existence</A> :
+      (* An external_solder_ball belongs to one internal_ball_package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#external_ball_package">external_ball_package</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#external_solder_ball">external_solder_ball</A> is a physical connector within an
+ <A HREF="IMEX0023.HTM#external_ball_package">external_ball_package</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#external_ball_package">external_ball_package</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_solder_ball -->
+<H2><A NAME="internal_solder_ball">internal_solder_ball</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#internal_solder_ball">internal_solder_ball</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#solder_ball">solder_ball</A>);
+    instantiated_template : <A HREF="IMEX0020.HTM#solder_bump_template">solder_bump_template</A>; -- reference
+    position              : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+  WHERE
+    <A NAME="internal_solder_ball.valid_existence">valid_existence</A> :
+      (* An internal_solder_ball belongs to one internal_ball_package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#internal_ball_package">internal_ball_package</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#internal_solder_ball">internal_solder_ball</A> is a physical connector within an
+ <A HREF="IMEX0023.HTM#internal_ball_package">internal_ball_package</A>.  It is defined by instantiating a
+ <A HREF="IMEX0020.HTM#solder_bump_template">solder_bump_template</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#internal_ball_package">internal_ball_package</A> </P>
+<HR>
+<!-- Start of ENTITY: pin -->
+<H2><A NAME="pin">pin</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#pin">pin</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#external_pin">external_pin</A>,
+                                   <A HREF="IMEX0023.HTM#internal_pin">internal_pin</A>))
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#package_terminal">package_terminal</A>);
+  WHERE
+    <A NAME="pin.valid_existence">valid_existence</A> :
+      (* A pin belongs to one pin_package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#pin_package">pin_package</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#pin">pin</A> is a physical connector within a <A HREF="IMEX0023.HTM#pin_package">pin_package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#internal_prepared_mountable_pin">internal_prepared_mountable_pin</A> <A HREF="IMEX0023.HTM#pin_package">pin_package</A> </P>
+<HR>
+<!-- Start of ENTITY: external_pin -->
+<H2><A NAME="external_pin">external_pin</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#external_pin">external_pin</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#pin">pin</A>);
+  WHERE
+    <A NAME="external_pin.valid_existence">valid_existence</A> :
+      (* An external_pin belongs to one external_pin_package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#external_pin_package">external_pin_package</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#external_pin">external_pin</A> is a physical connector within an <A HREF="IMEX0023.HTM#external_pin_package">external_pin_package</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#external_pin_package">external_pin_package</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_pin -->
+<H2><A NAME="internal_pin">internal_pin</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#internal_pin">internal_pin</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#pin">pin</A>);
+    instantiated_template : <A HREF="IMEX0020.HTM#pin_template">pin_template</A>; -- reference
+    pin_position          : <A HREF="IMEX0008.HTM#unscaled_transform">unscaled_transform</A>;
+  WHERE
+    <A NAME="internal_pin.valid_existence">valid_existence</A> :
+      (* An internal_pin belongs to an internal_pin_package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#internal_pin">internal_pin</A> is a physical connector within an <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A>.
+ It is defined by instantiating a <A HREF="IMEX0020.HTM#pin_template">pin_template</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#internal_pin_group">internal_pin_group</A> <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A> </P>
+<HR>
+<!-- Start of ENTITY: mechanical_fixing -->
+<H2><A NAME="mechanical_fixing">mechanical_fixing</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#mechanical_fixing">mechanical_fixing</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#external_mechanical_fixing">external_mechanical_fixing</A>,
+                                   <A HREF="IMEX0023.HTM#internal_mechanical_fixing">internal_mechanical_fixing</A>));
+    name       : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  WHERE
+    <A NAME="mechanical_fixing.valid_existence">valid_existence</A> :
+      (* A mechanical_fixing belongs to one package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#package">package</A>.mechanical_fixings');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#mechanical_fixing">mechanical_fixing</A> describes a fixing place for a <A HREF="IMEX0023.HTM#package">package</A> and is
+ primarily intended for securing the <A HREF="IMEX0023.HTM#package">package</A> to a bare board or a socket.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#internal_mountable_mechanical_fixing">internal_mountable_mechanical_fixing</A> <A HREF="IMEX0023.HTM#package">package</A> </P>
+<HR>
+<!-- Start of ENTITY: external_mechanical_fixing -->
+<H2><A NAME="external_mechanical_fixing">external_mechanical_fixing</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#external_mechanical_fixing">external_mechanical_fixing</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#mechanical_fixing">mechanical_fixing</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#external_mechanical_fixing">external_mechanical_fixing</A> describes a fixing place for an
+ <A HREF="IMEX0023.HTM#external_package">external_package</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#external_package">external_package</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_mechanical_fixing -->
+<H2><A NAME="internal_mechanical_fixing">internal_mechanical_fixing</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#internal_mechanical_fixing">internal_mechanical_fixing</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#mechanical_fixing">mechanical_fixing</A>);
+    contact_area : OPTIONAL <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#internal_mechanical_fixing">internal_mechanical_fixing</A> describes a fixing place for an
+ <A HREF="IMEX0023.HTM#internal_package">internal_package</A>.
+</P>
+<P>
+ The contact_area attribute specifies the contact area which interacts the
+ mounting side of the board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#internal_package">internal_package</A> </P>
+<HR>
+<!-- Start of ENTITY: pin_group -->
+<H2><A NAME="pin_group">pin_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#pin_group">pin_group</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0023.HTM#external_pin_group">external_pin_group</A>,
+                                   <A HREF="IMEX0023.HTM#internal_pin_group">internal_pin_group</A>));
+    name       : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  WHERE
+    <A NAME="pin_group.valid_existence">valid_existence</A> :
+      (* A pin_group belongs to one pin_package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#pin_package">pin_package</A>.pin_groups');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#pin_group">pin_group</A> is a collection of package pins.  All of the package pins
+ referenced by a given <A HREF="IMEX0023.HTM#pin_group">pin_group</A> object are intended to be mounted onto a
+ bare board in a particular manner (e.g. on the same side of the bare board
+ as the package body).  This sort of information is useful during the
+ mounting process. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#pin_group_mounting">pin_group_mounting</A> <A HREF="IMEX0023.HTM#pin_package">pin_package</A> </P>
+<HR>
+<!-- Start of ENTITY: external_pin_group -->
+<H2><A NAME="external_pin_group">external_pin_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#external_pin_group">external_pin_group</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#pin_group">pin_group</A>);
+  WHERE
+    <A NAME="external_pin_group.valid_existence">valid_existence</A> :
+      (* An external_pin_group belongs to an external_pin_package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#external_pin_package">external_pin_package</A>.pin_groups');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#external_pin_group">external_pin_group</A> describes a <A HREF="IMEX0023.HTM#pin_group">pin_group</A> in an
+ <A HREF="IMEX0023.HTM#external_pin_package">external_pin_package</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#external_pin_package">external_pin_package</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_pin_group -->
+<H2><A NAME="internal_pin_group">internal_pin_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0023.HTM#internal_pin_group">internal_pin_group</A>
+      SUBTYPE OF (<A HREF="IMEX0023.HTM#pin_group">pin_group</A>);
+    referenced_pins : SET [1:?] OF <A HREF="IMEX0023.HTM#internal_pin">internal_pin</A>; -- reference
+  DERIVE
+    containing_package : <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A>.pin_groups');
+  WHERE
+    <A NAME="internal_pin_group.valid_existence">valid_existence</A> :
+      (* An internal_pin_group belongs to an internal_pin_package. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A>.pin_groups');
+
+    <A NAME="internal_pin_group.valid_referenced_pins">valid_referenced_pins</A> :
+      (* All referenced pins are defined in the containing package. *)
+      referenced_pins &lt;= containing_package.terminals;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0023.HTM#internal_pin_group">internal_pin_group</A> describes a <A HREF="IMEX0023.HTM#pin_group">pin_group</A> in an
+ <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A> </P>
+<HR>
+<!-- Start of TYPE: package_shape -->
+<H2><A NAME="package_shape">package_shape</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#package_shape">package_shape</A>
+    = SELECT (<A HREF="IMEX0023.HTM#standard_package_shape">standard_package_shape</A>,
+              <A HREF="IMEX0029.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#package_shape">package_shape</A> describes the shape of the <A HREF="IMEX0023.HTM#package">package</A> body.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#internal_package">internal_package</A> </P>
+<HR>
+<!-- Start of TYPE: standard_package_shape -->
+<H2><A NAME="standard_package_shape">standard_package_shape</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#standard_package_shape">standard_package_shape</A>
+    = ENUMERATION OF (elliptical_body_profile, 
+                      round_body_profile, 
+                      rectangular_body_profile, 
+                      square_body_profile);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#standard_package_shape">standard_package_shape</A> describes the standard shape of the <A HREF="IMEX0023.HTM#package">package</A>
+ body.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#package_shape">package_shape</A> </P>
+<HR>
+<!-- Start of TYPE: package_body_material -->
+<H2><A NAME="package_body_material">package_body_material</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#package_body_material">package_body_material</A>
+    = SELECT (<A HREF="IMEX0023.HTM#standard_package_body_material">standard_package_body_material</A>,
+              <A HREF="IMEX0029.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#package_body_material">package_body_material</A> describes the material of which the <A HREF="IMEX0023.HTM#package">package</A> body
+ is made.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#internal_package">internal_package</A> </P>
+<HR>
+<!-- Start of TYPE: standard_package_body_material -->
+<H2><A NAME="standard_package_body_material">standard_package_body_material</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#standard_package_body_material">standard_package_body_material</A>
+    = ENUMERATION OF (glass,
+                      glass_sealed_ceramic,
+                      metal, 
+                      metal_sealed_cofired_ceramic,
+                      plastic);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#standard_package_body_material">standard_package_body_material</A> describes the standard material of which
+ the <A HREF="IMEX0023.HTM#package">package</A> body is made.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#package_body_material">package_body_material</A> </P>
+<HR>
+<!-- Start of TYPE: pin_arrangement -->
+<H2><A NAME="pin_arrangement">pin_arrangement</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#pin_arrangement">pin_arrangement</A>
+    = SELECT (<A HREF="IMEX0023.HTM#standard_pin_arrangement">standard_pin_arrangement</A>,
+              <A HREF="IMEX0029.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#pin_arrangement">pin_arrangement</A> describes the arrangement of the <A HREF="IMEX0023.HTM#package">package</A> pins.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A> </P>
+<HR>
+<!-- Start of TYPE: standard_pin_arrangement -->
+<H2><A NAME="standard_pin_arrangement">standard_pin_arrangement</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#standard_pin_arrangement">standard_pin_arrangement</A>
+    = ENUMERATION OF (axial, 
+                      bottom, 
+                      dual, 
+                      end_position, 
+                      lateral, 
+                      perpendicular, 
+                      quad, 
+                      radial, 
+                      single, 
+                      triple, 
+                      upper, 
+                      zig_zag);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#standard_pin_arrangement">standard_pin_arrangement</A> describes the standard arrangement of the
+ <A HREF="IMEX0023.HTM#package">package</A> pins. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#pin_arrangement">pin_arrangement</A> </P>
+<HR>
+<!-- Start of TYPE: package_outline_style -->
+<H2><A NAME="package_outline_style">package_outline_style</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#package_outline_style">package_outline_style</A>
+    = SELECT (<A HREF="IMEX0023.HTM#standard_package_outline_style">standard_package_outline_style</A>,
+              <A HREF="IMEX0029.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#package_outline_style">package_outline_style</A> describes the style of the <A HREF="IMEX0023.HTM#package">package</A> outline. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A> </P>
+<HR>
+<!-- Start of TYPE: standard_package_outline_style -->
+<H2><A NAME="standard_package_outline_style">standard_package_outline_style</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#standard_package_outline_style">standard_package_outline_style</A>
+    = ENUMERATION OF (chip_carrier, 
+                      cylinder, 
+                      disc_button, 
+                      flange_mount, 
+                      fibre_optic_device, 
+                      flatpack, 
+                      grid_array, 
+                      in_line_package, 
+                      in_line_package_or_inserted_package,
+                      long_form,
+                      microelectronic_assembly, 
+                      microwave, 
+                      press_fit, 
+                      post_stud_mount, 
+                      small_outline, 
+                      special_shape, 
+                      uncased_chip,
+                      vertical_surface_mount);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#standard_package_outline_style">standard_package_outline_style</A> describes the standard style of the
+ <A HREF="IMEX0023.HTM#package">package</A> outline. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#package_outline_style">package_outline_style</A> </P>
+<HR>
+<!-- Start of TYPE: pin_form -->
+<H2><A NAME="pin_form">pin_form</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#pin_form">pin_form</A>
+    = SELECT (<A HREF="IMEX0023.HTM#standard_pin_form">standard_pin_form</A>,
+              <A HREF="IMEX0029.HTM#other_information">other_information</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#pin_form">pin_form</A> describes the form of the <A HREF="IMEX0023.HTM#package">package</A> pins.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A> <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A> </P>
+<HR>
+<!-- Start of TYPE: standard_pin_form -->
+<H2><A NAME="standard_pin_form">standard_pin_form</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#standard_pin_form">standard_pin_form</A>
+    = ENUMERATION OF (butt, 
+                      c_bend, 
+                      flat, 
+                      gull_wing, 
+                      high_current_cable,
+                      j_bend, 
+                      j_inverted, 
+                      l_bend,
+                      no_lead,
+                      pin_peg,
+                      s_bend, 
+                      solder_lug, 
+                      through_hole, 
+                      wire,
+                      wraparound);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#standard_pin_form">standard_pin_form</A> describes the standard form of the <A HREF="IMEX0023.HTM#package">package</A> pins.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0023.HTM#pin_form">pin_form</A> </P>
+<HR>
+<!-- Start of TYPE: package_mounting_class -->
+<H2><A NAME="package_mounting_class">package_mounting_class</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0023.HTM#package_mounting_class">package_mounting_class</A>
+    = ENUMERATION OF (through_board_mounting, 
+                      single_sided_mounting, 
+                      double_sided_mounting);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0023.HTM#package_mounting_class">package_mounting_class</A> describes the mounting of <A HREF="IMEX0023.HTM#package">package</A>, indicating
+ the way in which it would normally be mounted onto a bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#internal_mountable_pin_package">internal_mountable_pin_package</A> <A HREF="IMEX0023.HTM#internal_pin_package">internal_pin_package</A> </P>
+
+<HR>
+
+<!-- Start of schema: pcb_part_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,145 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMSTART.HTM">General Introduction</A>
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<!-- This file was created with the fm2html filter.
+The filter is copyright Norwegian Telecom Research and
+was programmed by Jon Stephenson von Tetzchner. -->
+
+<H1><A NAME="HDR0"> 2  Introduction to EDIF Syntax</A></H1>
+<H3><A NAME="HDR1">Preamble</A></H3>
+<P>This section provides an overview of basic EDIF language concepts.  This includes the levels of EDIF, the syntax and the meta-syntax used throughout the document.  All concepts described in this section apply to all levels of EDIF.
+<P>An interchange format for electronic design data must meet the needs of a wide range of users - from those wishing to transfer mask artwork data in its final form, to those desiring to transfer a behavioral description of a microcomputer.  A procedural format could be used to describe the mask artwork data, but the data can be expressed as effectively using simple geometric primitives.
+<P>A primary requirement of an interchange format is the unambiguous description of the data it is transmitting.  Consequently, it is important that all readers and writers of the format possess exactly the same understanding of how the EDIF data is to be interpreted.
+<P>To avoid complicating the simple tasks and still provide the power of procedural descriptions for those who need them, EDIF descriptions can be specified in two different levels of complexity.
+<P>These are:
+<P>Level 0 :  The basic level - only literal constants are permitted.
+<P>Level 1 :  Level 0 with the addition of parameters, expressions and frames.
+<P>A form of shorthand to reduce the size of EDIF data is provided in the form of four different levels of keyword mapping or abbreviations. These are syntactic shorthands that allow users to shorten commonly used keywords or keyword structures. Four levels are provided.
+<P>These are:
+<P>k0: no abbreviations
+<P>k1: simple keyword abbreviations,
+<P>k2: non-iterative keyword definitions
+<P>k3: iterative keyword definitions 
+<P>These are represented in the manual using prefixes for each level. 
+<H3><A NAME="HDR2">EDIF Meta-Syntax</A></H3>
+<P>The meta-syntax used in the Section 2 to describe EDIF constructs obeys the following rules:
+<DL>
+<DD>  i. Syntactic categories (non-terminals) are printed in <I>italics</I>;  literal words and characters (terminal strings) are <B>emboldened</B>. Single characters are represented as '+' and <B>(emboldened parentheses)</B> represent parentheses, while (plain text parentheses) represent the start and end of a number of choice items separated by a vertical bar |.
+<BR><BR>
+<DD> ii. If a construct is enclosed in [square brackets], it is optional.
+<BR><BR>
+<DD>iii. If a construct is enclosed in {curly braces}, it may be repeated zero or more times in any order.
+<BR><BR>
+<DD>iv. A choice is indicated with a vertical bar |. Only one of the options may be chosen. A list of items enclosed within {curly braces} and separated by vertical bars | indicates that any number of each item may be present and that the items may occur in any order. Inside such a list, if an item is permitted to occur at most once, it is enclosed within &lt;chevrons&gt;. One item only  is to be selected from a list of items separated by a vertical bar within parentheses, e.g. ( a | b | c ).
+<BR><BR>
+<DD>v. An ellipsis ... is used to indicate that further items have been omitted within an example.
+<BR><BR></DL>
+<H3><A NAME="HDR3">EDIF Syntax</A></H3>
+<P>EDIF uses a Lisp-like syntax.  The syntax was chosen for ease of parsing and provision of a uniform method of extension of the format.  A construct begins with an opening parenthesis and a keyword. This is followed by a list of items ending with a closing parenthesis. The enclosed items may be other constructs which build a nested structure, or they may be tokens consisting of data items, such as integer tokens or string tokens, or EDIF identifiers.  Delimiters may occur on either side of parentheses in EDIF constructs but are not required.
+<P>The list of legal identifiers that play the role of EDIF keywords is defined by this document.  Users of the format can define their own keywords in terms of existing EDIF keywords with the <I>k1KeywordAlias</I>, <I>k2KeywordDefine</I> and <I>k3KeywordDefine</I> constructs.  Case is not significant in keywords or identifiers.
+<H3><A NAME="HDR4">Names</A></H3>
+<H4><A NAME="HDR5">Denoting Names (Identifiers)</A></H4>
+<P>Identifiers are used in an EDIF description to identify objects uniquely. EDIF attaches no special meaning to the choice of identifier spelling. The basic semantics of an EDIF file are not changed if one or more of the identifiers is uniformly changed for a new (and valid) identifier, both in the original definition which names an object and in all uses of the identifier to refer to that object.  All structural semantics should be identical; the only change can be in the appearance of the name itself.  No meaning should be assumed or expected with respect to the actual choice of names.  This sharply contrasts with native EDIF keywords, whose semantic meaning is fully defined by this manual.
+<H4><A NAME="HDR6">The Role of Names in EDIF</A></H4>
+<P>There are two mechanisms in EDIF to express relationships between  objects: containment and name reference.
+<P>Containment is a purely lexical mechanism and relates to the textual enclosure of object descriptions within the matching parenthesis of another description (construct).
+<P>Many relationships are expressed using simple containment.  A cell definition being part of a library, and a view being within a particular cluster are examples of this type.  However, containment alone is only adequate to describe simple, one-dimensional structures.  There are many relationships between objects in a typical CAD database which require more flexibility, such as the instantiation of one cell within another and connectivity descriptions.
+<P>The details of naming structures within EDIF descriptions are derived partially from the need to represent such relationships and partly from common identification schemes used in typical systems.
+<P>As far as possible, minimum real restrictions are placed on originating naming schemes.  In particular, there are no reserved identifiers in EDIF.
+<P>An important aspect of the naming mechanism is that each name must be defined before it may be referenced. It is not possible to reference a named object until that object is completely defined, i.e. the named construct is complete. Thus a cell cannot be referenced within its own definition.
+<P>Very few design systems employ flat naming schemes: names are typically valid within a well-defined scope. For example, the name chosen for a port in one cell cannot be confused with a port of another cell that happens to have the same name spelling.  Such local names require some form of qualification before the local object can be referenced from another context.  For example, to reference an instance port requires both the instance name and the name given to the corresponding port within the definition of the cell.
+<H4><A NAME="HDR7">Name Class</A></H4>
+<P>The concept of <I>name class</I> is an essential aspect of object referencing in EDIF.  The type of object being named determines the class of its name, such as library name or instance name.  Any identifier used as a reference is associated with an object class by its immediate context.
+<P>To make the format as explicit as possible, there are no assumed relationships between the names of distinct classes of objects such as cells, ports and nets.  For example, a port may be declared with the same name as a net or bus without any implied significance or semantics; it is simply a coincidence of spelling.
+<P>The various name classes are all subject to the same scoping rules and are parallel, independent naming schemes.  There is no connection or interference between names of different class, even when such names happen to involve the same identifier spelling and have overlapping ranges. In addition, none of these classes has any conflict with identifiers used as keywords: a cell could be named <B>and</B> or even <B>cell</B> without implying any association with the corresponding keywords.
+<P>Some name classes are used for more than one keyword.  For example, <I>external</I> and <I>library</I> both define library names.
+<H4><A NAME="HDR8">Name Scope</A></H4>
+<P>The <I>scope</I> of a name is always defined by lexical containment within the smallest containing named construct, such as <I>library</I> or <I>cell</I>. The range of direct accessibility of a named object extends from immediately after the closing parenthesis of its description to immediately before the end of the smallest enclosing name scope.
+<P>It is illegal for two objects of the same class to be given the same name if they also have the same scope.  For example, no two library objects in the same library may be given the same name.
+<P>In some cases a reference is made to an object in a manner that extends the definition of the object by adding or changing data, e.g. for the purposes of back annotation. Such a reference is also creating a name scope and is denoted by the terms "extend" and "Def" in the keyword, e.g. <I>extendInstanceDef</I>. Where the definition of an object is extended, it is not legal to define and override an attribute or property value in the same context.
+<P>It is never legal to override an attribute or property value more than once in the same context.
+<P>The major name scopes created within EDIF are illustrated by the following example: 
+<PRE>
+<B>(edif example</B>
+<B>   (edifVersion 4 0 0)</B>
+<B>   (edifHeader (edifLevel 0)</B>
+<B>      (keywordMap (k0KeywordLevel ))</B>
+<B>      (unitDefinitions ...)</B>
+<B>      (fontDefinitions ...)</B>
+<B>      (physicalDefaults ...))</B>
+<B>   (library  LIB1</B>
+<B>      (libraryHeader (edifLevel 0)</B>
+<B>         (nameCaseSensitivity ...)</B>
+<B>         (technology</B>
+<B>            (physicalScaling ...)</B>
+<B>            (logicDefinitions ... </B>
+<B>               (logicValue LOW ...))</B>
+<B>            (figureGroup M2 ...)))</B>
+<B>      (cell C1 (cellHeader ...)</B>
+<B>         (cluster CL1 </B>
+<B>            (interface (interfaceUnits ...)</B>
+<B>               (port DATA ...))</B>
+<B>            (clusterHeader ...)</B>
+<B>            (connectivityView V1 </B>
+<B>               (connectivityViewHeader ...)</B>
+<B>               (logicalConnectivity</B>
+<B>                  (instance INV12 ...)</B>
+<B>                  (signal Q ...))</B>
+<B>               (connectivityStructure ...))))))</B>
+</PRE>
+<P>In this example the scopes of <B>LOW</B>, <B>M2</B>, and <B>C1</B> extend from immediately after the closing parenthesis of their definitions to the end of the library. The scope of <B>V1</B> extends from immediately after its definition to the end of the cluster.   The scope of <B>DATA</B> extends from immediately after its definition to the end of the cluster.  The scopes of <B>INV12</B> and <B>Q</B> extend from immediately after their definitions to the end of the connectivity view. 
+<H3><A NAME="HDR9">Values</A></H3>
+<P>A second important general category of object is the <I>value</I>. In the following sections, the primitive value types supported by EDIF are described.
+<H4><A NAME="HDR10">Numbers</A></H4>
+<P>A number is either an integer or a scaled integer quantity, and either one may be used in any EDIF description that expects a number. The integer portion of a number is restricted to lie in the range -2<SUP>31</SUP>+1 &lt;= <I>m</I> &lt;= +2<SUP>31</SUP>-1.  This restriction guarantees that a program processing the file can represent any integer, or mantissa, using a 32-bit one's or two's complement integer.  All of the following are legal integer tokens:
+<PRE>
+<B>100</B>
+<B>0</B>
+<B>-123454321</B>
+<B>+64</B>
+</PRE>
+<P>A scale factor can be applied to an integer to represent fractional numbers or numbers greater than can be expressed using the integer alone. These scaled integers are represented in the form: (e <I>mantissa</I> <I>exponent</I>). The mantissa and  exponent are integers, and the resulting number has a value of mantissa x 10<SUP>exponent</SUP>.
+<P>Real numbers are represented as <I>scaledIntegers</I>; real number notation is not allowed in EDIF. The following examples show numbers in real number notation and the scaled integer equivalent:
+<PRE>
+<B>100.0     --&gt;         (e 1000  -1)</B>
+<B>0.8       --&gt;         (e 8  -1) </B>
+<B>-2321.    --&gt;         (e -2321  0)</B>
+<B>+6E12     --&gt;         (e 6  12)</B>
+</PRE>
+<P>Numbers are used to represent a variety of types of data.  For example, numbers are used for the width of paths (a distance) and the delay of a logic gate (a time).
+<H4><A NAME="HDR11">Strings</A></H4>
+<P>String tokens are delimited by quotation marks (") and can contain legal EDIF characters. A string length is unlimited and there is no implication that adjacent strings are concatenated. Within strings, arbitrary ASCII characters can be included by using the <I>encodedCharacter</I> mechanism. Other character sets may also be used and <I>encodedCharacter</I> may represent characters from these sets.
+<H4><A NAME="HDR12">Booleans</A></H4>
+<P>Boolean constants can take only one of two values: <B>(true)</B> or <B>(false)</B>.
+<H4><A NAME="HDR13">Points</A></H4>
+<P>A point value is the data type used to describe all geometric figures, including both line drawings and filled areas.  It is defined by the keyword <I>pt</I> followed by two integer values.  The first integer is the x-location and the second integer is the y-location of the point.  For example: <B>(pt 100 200)</B>.
+<P>The x and y axes are oriented according to the following diagram:
+<P><CENTER><IMG SRC="FIG0000.GIF">
+</CENTER>
+<H4><A NAME="HDR14">Range of Numbers</A></H4>
+<P>Another possible value for some constructs is the <I>mnm</I> construct.  It is used to specify minimal, nominal and maximal values.  For example:  <B>(mnm 95 100 105)</B>. 
+<P><B>Defaults</B>
+<P>Where an attribute is a required attribute in the information model, but is optional in the syntax, a default value is specified in the Reference Manual to be used when no value is given in an EDIF file. 
+<P>In situations where overriding values may be specified, the absense of a value in an EDIF file indicates that the previously-defined value should be used (which may or may not have been the default).
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

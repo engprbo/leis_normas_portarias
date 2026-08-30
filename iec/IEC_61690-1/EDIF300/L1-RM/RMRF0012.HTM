@@ -1,0 +1,720 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="k2KeywordDefine">k2KeywordDefine</A></H1>
+<PRE>
+<I>k2KeywordDefine ::= '(' 'k2KeywordDefine'</I>
+&#09;<I><A HREF="RMRF0011.HTM#k1KeywordNameDef">k1KeywordNameDef</A></I>
+&#09;<I><A HREF="RMRF0012.HTM#k2KeywordParameters">k2KeywordParameters</A></I>
+&#09;<I><A HREF="RMRF0011.HTM#k2Generate">k2Generate</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#k2KeywordLevel">k2KeywordLevel</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0012.HTM#k2KeywordDefine">k2KeywordDefine</A> </I>construct provides the capability in EDIF of defining new keywords in terms of existing ones. It is intended to act as a reasonably powerful method of abbreviating EDIF descriptions using a general method which could be resolved in a pre-processing input step. Keywords have to be defined within <I><A HREF="RMRF0012.HTM#keywordMap">keywordMap</A> </I>at the top level of the EDIF data, i.e. they cannot be defined inside a design or library, or anywhere other than a <I><A HREF="RMRF0012.HTM#keywordMap">keywordMap</A>. 
+</I><P>In the above syntax, <I><A HREF="RMRF0011.HTM#k1KeywordNameDef">k1KeywordNameDef</A> </I>is an identifier which is being defined to be a keyword, <I><A HREF="RMRF0012.HTM#k2KeywordParameters">k2KeywordParameters</A> </I>is a construct that defines all arguments to be passed to the <I><A HREF="RMRF0012.HTM#k2KeywordDefine">k2KeywordDefine</A>, </I>and <I><A HREF="RMRF0011.HTM#k2Generate">k2Generate</A> </I>is a construct that specifies what the <I><A HREF="RMRF0012.HTM#k2KeywordDefine">k2KeywordDefine</A> </I>form will generate when processed. The defined keyword is not available for use until after the end of the <I><A HREF="RMRF0012.HTM#k2KeywordDefine">k2KeywordDefine</A> </I>statement. Existing keyword names may not be redefined with this construct.
+<H3>Example:</H3>
+<PRE>
+<B>(k2KeywordDefine rev</B>
+<B>   (k2KeywordParameters</B>
+<B>      (k2Formal a (k2Required)) </B>
+<B>      (k2Formal b (k2Required)))</B>
+<B>   (k2Generate</B>
+<B>      (k2Build pt</B>
+<B>         (k2Actual b) (k2Actual a))))</B>
+</PRE>
+<P>This example defines a new keyword <B>rev </B>in terms of the native keyword <B>pt. </B>A subsequent use such as <B>(rev 1 2) </B>should be interpreted in the same way as its expansion <B>(pt 2 1). 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3KeywordDefine">k3KeywordDefine</A>
+</I>
+<P><HR>
+<H1><A NAME="k2KeywordLevel">k2KeywordLevel</A></H1>
+<PRE>
+<I>k2KeywordLevel ::= '(' 'k2KeywordLevel'</I>
+&#09;<I>{ <A HREF="RMRF0011.HTM#k1KeywordAlias">k1KeywordAlias</A> | <A HREF="RMRF0012.HTM#k2KeywordDefine">k2KeywordDefine</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#keywordMap">keywordMap</A>  
+</I>
+<H3>Description:</H3>
+<P>This construct is used to specify that there are keyword mappings in the EDIF data which use keyword abbreviations and keyword mappings but no iterative parameter binding.
+<H3>Example:</H3>
+<PRE>
+<B>(k2KeywordLevel</B>
+<B>   (k1KeywordAlias an annotate)</B>
+<B>   (k1KeywordAlias in instance)</B>
+<B>   (k2KeywordDefine ...) ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#edifLevel">edifLevel</A>  <A HREF="RMRF0011.HTM#k0KeywordLevel">k0KeywordLevel</A>  <A HREF="RMRF0011.HTM#k1KeywordLevel">k1KeywordLevel</A>   <A HREF="RMRF0012.HTM#k3KeywordLevel">k3KeywordLevel</A>
+</I>
+<P><HR>
+<H1><A NAME="k2KeywordParameters">k2KeywordParameters</A></H1>
+<PRE>
+<I>k2KeywordParameters ::= '(' 'k2KeywordParameters'</I>
+&#09;<I>{ <A HREF="RMRF0011.HTM#k2Formal">k2Formal</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#k2KeywordDefine">k2KeywordDefine</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k2KeywordParameters">K2KeywordParameters</A> </I>contains a list of formal parameters which should correspond to individual forms or tokens at the time of expansion of a use of the new keyword. 
+<P>If any of the enclosed <I><A HREF="RMRF0011.HTM#k2Formal">k2Formal</A> </I>parameters are optional then any subsequent <I><A HREF="RMRF0011.HTM#k2Formal">k2Formal</A> </I>parameters must also be optional.
+<H3>Example:</H3>
+<PRE>
+<B>(k2KeywordDefine EG</B>
+<B>   (k2KeywordParameters</B>
+<B>      (k2Formal a (k2Required)) </B>
+<B>      (k2Formal b (k2Required)))</B>
+<B>   (k2Generate</B>
+<B>      (k2Build pt (k2Actual a) (k2Actual b))))</B>
+</PRE>
+<P>This keyword definition shown in this example will generate the EDIF construct <I><A HREF="RMRF0018.HTM#pt">pt</A> </I>with values supplied by <B>a </B>and <B>b. </B>This shows the explicit definition of a keyword <B>EG </B>which has the same effect as a <I><A HREF="RMRF0011.HTM#k1KeywordAlias">k1KeywordAlias</A> </I>for <B>pt. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3KeywordParameters">k3KeywordParameters</A>
+</I>
+<P><HR>
+<H1><A NAME="k2Literal">k2Literal</A></H1>
+<PRE>
+<I>k2Literal ::= '(' 'k2Literal'</I>
+&#09;<I>{ <A HREF="RMRF0008.HTM#identifier">identifier</A> | <A HREF="RMRF0010.HTM#integerToken">integerToken</A> | <A HREF="RMRF0024.HTM#stringToken">stringToken</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0011.HTM#k2Build">k2Build</A>  <A HREF="RMRF0011.HTM#k2Generate">k2Generate</A>  <A HREF="RMRF0012.HTM#k2Optional">k2Optional</A>  <A HREF="RMRF0012.HTM#k3Build">k3Build</A>  <A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A>  <A HREF="RMRF0012.HTM#k3Generate">k3Generate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k2Literal">K2Literal</A> </I>generates the tokens specified within it, in the order specified. This avoids conflict between formal names of a <I><A HREF="RMRF0012.HTM#k2KeywordDefine">k2KeywordDefine</A> </I>and identifiers desired in the keyword expansion. 
+<H3>Example:</H3>
+<PRE>
+<B>(k2KeywordDefine EG</B>
+<B>   (k2KeywordParameters ...)</B>
+<B>   (k2Generate</B>
+<B>      (k2Build figure</B>
+<B>         (k2Literal POLY) ...)))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0011.HTM#k2Actual">k2Actual</A>
+</I>
+<P><HR>
+<H1><A NAME="k2Optional">k2Optional</A></H1>
+<PRE>
+<I>k2Optional ::= '(' 'k2Optional'</I>
+&#09;<I>( <A HREF="RMRF0012.HTM#k2Literal">k2Literal</A> | <A HREF="RMRF0011.HTM#k2Actual">k2Actual</A> | <A HREF="RMRF0011.HTM#k2Build">k2Build</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0011.HTM#k2Formal">k2Formal</A>  <A HREF="RMRF0012.HTM#k3Formal">k3Formal</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k2Optional">K2Optional</A> </I>may appear within a <I><A HREF="RMRF0011.HTM#k2Formal">k2Formal</A> </I>or <I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A></I> keyword parameter definition. It allows the use of formal parameters which need not be included in every use of a defined keyword. It contains the default value for its parameter. The default can be a literal value, the actual value of a parameter specified previously in the construct, or the result of building a formThe default value should generate a single token or form. 
+<P>A <I><A HREF="RMRF0012.HTM#k2Optional">k2Optional</A> </I>parameter may only be followed by further <I><A HREF="RMRF0012.HTM#k2Optional">k2Optional</A> </I>parameters in the same list of <I><A HREF="RMRF0012.HTM#k2KeywordParameters">k2KeywordParameters</A> </I>or <I><A HREF="RMRF0012.HTM#k3KeywordParameters">k3KeywordParameters</A>. 
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(k2KeywordDefine wait</B>
+<B>   (k2KeywordParameters</B>
+<B>      (k2Formal load (k2Required))</B>
+<B>      (k2Formal load_capacitance</B>
+<B>         (k2Optional (k2Literal 1))))</B>
+<B>   (k2Generate</B>
+<B>      (k2Build loadDelay</B>
+<B>         (k2Actual load)</B>
+<B>         (k2Actual load_capacitance))))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#k2KeywordParameters">k2KeywordParameters</A>  <A HREF="RMRF0012.HTM#k3KeywordParameters">k3KeywordParameters</A>
+</I>
+<P><HR>
+<H1><A NAME="k2Required">k2Required</A></H1>
+<PRE>
+<I>k2Required ::= '(' 'k2Required'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0011.HTM#k2Formal">k2Formal</A>  <A HREF="RMRF0012.HTM#k3Formal">k3Formal</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k2Required">K2Required</A></I> specifies that a formal parameter is required. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#k2Optional">k2Optional</A>
+</I>
+<P><HR>
+<H1><A NAME="k3Build">k3Build</A></H1>
+<PRE>
+<I>k3Build ::= '(' 'k3Build'</I>
+&#09;<I><A HREF="RMRF0011.HTM#k1KeywordNameRef">k1KeywordNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0011.HTM#k2Actual">k2Actual</A> | <A HREF="RMRF0012.HTM#k2Literal">k2Literal</A> | <A HREF="RMRF0012.HTM#k3Build">k3Build</A> | <A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#k3Build">k3Build</A>  <A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3Build">K3Build</A> </I>is used within the context of a <I><A HREF="RMRF0012.HTM#k3KeywordDefine">k3KeywordDefine</A> </I>to generate non- primitive output. It contains a <I><A HREF="RMRF0011.HTM#k1KeywordNameRef">k1KeywordNameRef</A>, </I>which is the name of an existing (or previously-defined) keyword. <I><A HREF="RMRF0012.HTM#k3Build">K3Build</A> </I>expands into a form with <I><A HREF="RMRF0011.HTM#k1KeywordNameRef">k1KeywordNameRef</A> </I>as its keyword, and with each component of the <I><A HREF="RMRF0012.HTM#k3Build">k3Build</A> </I>replaced by the result of generating the enclosed constructs in the order specified. The <I><A HREF="RMRF0002.HTM#comment">comments</A> </I>generate nothing, but provide documentation about the purpose or use of the keyword definition<I>.</I>The <I><A HREF="RMRF0012.HTM#k3Build">k3Build</A> </I>construct can use embedded <I><A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A> </I>constructs to process lists of arbitrary length.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordDefine inport</B>
+<B>   (k3KeywordParameters</B>
+<B>      (k3Formal name (k3Collector))</B>
+<B>      (k3Formal load (k3Collector)))</B>
+<B>   (k3Generate</B>
+<B>      (k3ForEach (k3FormalList name load)</B>
+<B>         (k3Build port (k2Actual name)</B>
+<B>            (k3Build inputPort)</B>
+<B>            (k3Build acLoad (k2Actual load))))))</B>
+</PRE>
+<P>This example defines a keyword which accepts any number of pairs consisting of a port name and a corresponding load value, such as 
+<P><B>(inport p1 15 p2 20 p3 45) 
+</B><P>which generates the following:
+<PRE>
+<B>(port p1 (inputPort) (acLoad 15))</B>
+<B>(port p2 (inputPort) (acLoad 20))</B>
+<B>(port p3 (inputPort) (acLoad 45))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0011.HTM#k2Build">k2Build</A>
+</I>
+<P><HR>
+<H1><A NAME="k3Collector">k3Collector</A></H1>
+<PRE>
+<I>k3Collector ::= '(' 'k3Collector'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3Collector">K3Collector</A> </I>allows a <I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A> </I>parameter to be bound to a list of values, as opposed to a single value. 
+<P>If a <I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A> </I>parameter contains a nested <I><A HREF="RMRF0012.HTM#k3Collector">k3Collector</A>, </I>then it will be bound to all input arguments that are in excess of the number of <I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A> </I>parameters defined for the keyword. Any <I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A> </I>parameter following a <I><A HREF="RMRF0012.HTM#k3Collector">k3Collector</A> </I>parameter must also be a <I><A HREF="RMRF0012.HTM#k3Collector">k3Collector</A> </I>parameter. If there is more than one <I><A HREF="RMRF0012.HTM#k3Collector">k3Collector</A> </I>parameter, then the extra values will be evenly distributed among them in turn. The number of actual forms and tokens bound as a list to each <I><A HREF="RMRF0012.HTM#k3Collector">k3Collector</A> </I>parameter must be the same.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordDefine EG</B>
+<B>   (k3KeywordParameters</B>
+<B>      (k3Formal a (k2Required))</B>
+<B>      (k3Formal b (k2Required))</B>
+<B>      (k3Formal c (k3Collector)) ...)</B>
+<B>   ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3Build">k3Build</A>  <A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A>  <A HREF="RMRF0012.HTM#k2Optional">k2Optional</A>
+</I>
+<P><HR>
+<H1><A NAME="k3ForEach">k3ForEach</A></H1>
+<PRE>
+<I>k3ForEach ::= '(' 'k3ForEach'</I>
+&#09;<I>( <A HREF="RMRF0011.HTM#k2FormalNameRef">k2FormalNameRef</A> | <A HREF="RMRF0012.HTM#k3FormalList">k3FormalList</A> )</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0011.HTM#k2Actual">k2Actual</A> | <A HREF="RMRF0012.HTM#k2Literal">k2Literal</A> | <A HREF="RMRF0012.HTM#k3Build">k3Build</A> | <A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#k3Build">k3Build</A>  <A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A>  <A HREF="RMRF0012.HTM#k3Generate">k3Generate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3ForEach">K3ForEach</A> </I>is a looping construct that is used to build forms iteratively. It is used in conjunction with the keyword builder constructs <I><A HREF="RMRF0012.HTM#k3Build">k3Build</A> </I>and <I><A HREF="RMRF0012.HTM#k3Generate">k3Generate</A>. </I>The builders specified within the <I><A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A> </I>will be expanded as long as the list of values bound to the <I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A> </I>parameter (or parameters) specified in the <I><A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A> </I>is not exhausted. In other words, the builders contained within <I><A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A> </I>will be expanded for each value that is bound to the specified <I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A> </I>parameters. <I><A HREF="RMRF0012.HTM#k3ForEach">K3ForEach</A> </I>is used to generate forms that use <I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A> </I>parameters which are defined as <I><A HREF="RMRF0012.HTM#k3Collector">k3Collector</A> </I>parameters.
+<P>Any <I><A HREF="RMRF0011.HTM#k2Actual">k2Actual</A> </I>statements within <I><A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A> </I>which reference the same formal parameter should expand to a single value on each iteration.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordDefine inport</B>
+<B>   (k3KeywordParameters</B>
+<B>      (k3Formal name (k3Collector))</B>
+<B>      (k3Formal load (k3Collector)))</B>
+<B>   (k3Generate</B>
+<B>      (k3ForEach (k3FormalList name load)</B>
+<B>         (k3Build port (k2Actual name)</B>
+<B>            (k3Build inputPort)</B>
+<B>            (k3Build acLoad (k2Actual load))))))</B>
+</PRE>
+<P>This example defines a keyword that will create several input <I><A HREF="RMRF0017.HTM#port">port</A> </I>declarations and specify an <I><A HREF="RMRF0000.HTM#acLoad">acLoad</A> </I>value for each. This could later be used in a statement such as: 
+<P><B>(inport portA 12 portB 15 portC 6)
+</B><P>The name <B>inport </B>is not a native EDIF keyword and would not be legal without the appropriate definition.
+<P>This would generate: 
+<PRE>
+<B>(port portA (inputPort) (acLoad 12))</B>
+<B>(port portB (inputPort) (acLoad 15))</B>
+<B>(port portC (inputPort) (acLoad  6))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3Collector">k3Collector</A>
+</I>
+<P><HR>
+<H1><A NAME="k3Formal">k3Formal</A></H1>
+<PRE>
+<I>k3Formal ::= '(' 'k3Formal'</I>
+&#09;<I><A HREF="RMRF0011.HTM#k2FormalNameDef">k2FormalNameDef</A></I>
+&#09;<I>( <A HREF="RMRF0012.HTM#k2Optional">k2Optional</A> | <A HREF="RMRF0012.HTM#k2Required">k2Required</A> | <A HREF="RMRF0012.HTM#k3Collector">k3Collector</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#k3KeywordParameters">k3KeywordParameters</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3Formal">K3Formal</A></I> is similar to <I><A HREF="RMRF0011.HTM#k2Formal">k2Formal</A></I> but is used in the context of keyword level k3, and may include the <I><A HREF="RMRF0012.HTM#k3Collector">k3Collector</A></I> construct for iteration over an unknown number of parameters. See <I><A HREF="RMRF0011.HTM#k2Formal">k2Formal</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0011.HTM#k2Formal">k2Formal</A>
+</I>
+<P><HR>
+<H1><A NAME="k3FormalList">k3FormalList</A></H1>
+<PRE>
+<I>k3FormalList ::= '(' 'k3FormalList'</I>
+&#09;<I>{ <A HREF="RMRF0011.HTM#k2FormalNameRef">k2FormalNameRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3FormalList">K3FormalList</A> </I>contains a set of formal parameter references which are used to control the iterations of the <I><A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A> </I>form. Such iteration should step through the collected values of each referenced formal parameter in parallel, each of which should be bound to the same number of actual values.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordParameters</B>
+<B>   (k3Formal name (k3Collector))</B>
+<B>   (k3Formal load (k3Collector)))</B>
+<B>(k3Generate</B>
+<B>   (k3ForEach (k3FormalList name load)</B>
+<B>      (k3Build port (k2Actual name)</B>
+<B>         (k3Build inputPort)</B>
+<B>         (k3Build acLoad (k2Actual load)))))</B>
+</PRE>
+<P>This example illustrates the collection and use of a series of <I><A HREF="RMRF0017.HTM#port">port</A> </I>name and <I><A HREF="RMRF0000.HTM#acLoad">acLoad</A>  </I>value pairs.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3Build">k3Build</A>  <A HREF="RMRF0012.HTM#k3Generate">k3Generate</A>
+</I>
+<P><HR>
+<H1><A NAME="k3Generate">k3Generate</A></H1>
+<PRE>
+<I>k3Generate ::= '(' 'k3Generate'</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0011.HTM#k2Actual">k2Actual</A> | <A HREF="RMRF0011.HTM#k2Build">k2Build</A> | <A HREF="RMRF0012.HTM#k2Literal">k2Literal</A> | <A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#k3KeywordDefine">k3KeywordDefine</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3Generate">K3Generate</A> </I>is used to specify the expansion of a form which references a defined keyword. Since this construct contains an arbitrary number of builders, the use of a <I><A HREF="RMRF0012.HTM#k3KeywordDefine">k3KeywordDefine</A> </I>can generate more than one form. In such cases it should not be used as a positional item within the enclosing construct.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordDefine inport</B>
+<B>   (k3KeywordParameters</B>
+<B>      (k3Formal name (k3Collector))</B>
+<B>      (k3Formal load (k3Collector)))</B>
+<B>   (k3Generate</B>
+<B>      (k3ForEach (k3FormalList name load)</B>
+<B>         (k3Build port (k2Actual name)</B>
+<B>            (k3Build inputPort)</B>
+<B>            (k3Build acLoad (k2Actual load))))))</B>
+</PRE>
+<P>This example shows the use of <I><A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A> </I>within a <I><A HREF="RMRF0012.HTM#k3Generate">k3Generate</A> </I>keyword definition. A typical use could be: <B>(inport IN1 10 IN2 20), </B>which would generate: 
+<PRE>
+<B>(port IN1 (inputPort) (acLoad 10))</B>
+<B>(port IN2 (inputPort) (acLoad 20))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0011.HTM#k2Actual">k2Actual</A>  <A HREF="RMRF0012.HTM#k3Build">k3Build</A>  <A HREF="RMRF0012.HTM#k3ForEach">k3ForEach</A>
+</I>
+<P><HR>
+<H1><A NAME="k3KeywordDefine">k3KeywordDefine</A></H1>
+<PRE>
+<I>k3KeywordDefine ::= '(' 'k3KeywordDefine'</I>
+&#09;<I><A HREF="RMRF0011.HTM#k1KeywordNameDef">k1KeywordNameDef</A></I>
+&#09;<I><A HREF="RMRF0012.HTM#k3KeywordParameters">k3KeywordParameters</A></I>
+&#09;<I><A HREF="RMRF0012.HTM#k3Generate">k3Generate</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#k3KeywordLevel">k3KeywordLevel</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3KeywordDefine">K3KeywordDefine</A></I> is used to define new keywords at keyword level k3 in a manner similar to the use of <I><A HREF="RMRF0012.HTM#k2KeywordDefine">k2KeywordDefine</A></I> at keyword level k2. It allows an iteration mechanism for parameter passing that is more powerful. The other features and semantics are as defined for <I><A HREF="RMRF0012.HTM#k2KeywordDefine">k2KeywordDefine</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#k2KeywordDefine">k2KeywordDefine</A>
+</I>
+<P><HR>
+<H1><A NAME="k3KeywordLevel">k3KeywordLevel</A></H1>
+<PRE>
+<I>k3KeywordLevel ::= '(' 'k3KeywordLevel'</I>
+&#09;<I>{ <A HREF="RMRF0011.HTM#k1KeywordAlias">k1KeywordAlias</A> | <A HREF="RMRF0012.HTM#k3KeywordDefine">k3KeywordDefine</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#keywordMap">keywordMap</A>  
+</I>
+<H3>Description:</H3>
+<P>This construct is used to specify that there are keyword mappings in the EDIF data which use keyword abbreviations and keyword mappings with iterative parameter binding.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordLevel</B>
+<B>   (k1KeywordAlias an annotate)</B>
+<B>   (k1KeywordAlias in instance)</B>
+<B>   (k3KeywordDefine ...) ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#edifLevel">edifLevel</A>  <A HREF="RMRF0011.HTM#k0KeywordLevel">k0KeywordLevel</A>  <A HREF="RMRF0011.HTM#k1KeywordLevel">k1KeywordLevel</A>   <A HREF="RMRF0012.HTM#k2KeywordLevel">k2KeywordLevel</A>
+</I>
+<P><HR>
+<H1><A NAME="k3KeywordParameters">k3KeywordParameters</A></H1>
+<PRE>
+<I>k3KeywordParameters ::= '(' 'k3KeywordParameters'</I>
+&#09;<I>{ <A HREF="RMRF0012.HTM#k3Formal">k3Formal</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#k3KeywordDefine">k3KeywordDefine</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#k3KeywordParameters">K3KeywordParameters</A> </I>contains a list of formal parameters which should correspond to individual forms or tokens at the time of expansion of a use of the new keyword. 
+<P>If any of the enclosed <I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A> </I>parameters are optionalor collectors, then any subsequent <I><A HREF="RMRF0012.HTM#k3Formal">k3Formal</A> </I>parameters must be of the same type.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordDefine inport</B>
+<B>   (k3KeywordParameters</B>
+<B>      (k3Formal name (k3Collector))</B>
+<B>      (k3Formal load (k3Collector)))</B>
+<B>   (k3Generate ...))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#k2KeywordParameters">k2KeywordParameters</A>
+</I>
+<P><HR>
+<H1><A NAME="kelvin">kelvin</A></H1>
+<PRE>
+<I>kelvin ::= '(' 'kelvin'</I>
+&#09;<I><A HREF="RMRF0025.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0025.HTM#unit">unit</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#kelvin">Kelvin</A> </I>is used to specify a user-defined unit in terms of the SI temperature unit, kelvin. See <I><A HREF="RMRF0025.HTM#unit">unit</A></I> for examples of the definition of units.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#celsius">celsius</A>  <A HREF="RMRF0006.HTM#fahrenheit">fahrenheit</A> 
+</I>
+<P><HR>
+<H1><A NAME="keywordMap">keywordMap</A></H1>
+<PRE>
+<I>keywordMap ::= '(' 'keywordMap'</I>
+&#09;<I>( <A HREF="RMRF0011.HTM#k0KeywordLevel">k0KeywordLevel</A> | <A HREF="RMRF0011.HTM#k1KeywordLevel">k1KeywordLevel</A> | <A HREF="RMRF0012.HTM#k2KeywordLevel">k2KeywordLevel</A> | <A HREF="RMRF0012.HTM#k3KeywordLevel">k3KeywordLevel</A> )</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#keywordMap">KeywordMap</A> </I>gathers together all keyword mappings in one area of the EDIF data.
+<H3>Example:</H3>
+<PRE>
+<B>    (keywordMap (k0KeywordLevel))</B>
+</PRE>
+<P>The keyword level associated with this <I><A HREF="RMRF0012.HTM#keywordMap">keywordMap</A> </I>specifies that no keyword definition or abbreviation will be used in this EDIF file. 
+
+<P><HR>
+<H1><A NAME="kilogram">kilogram</A></H1>
+<PRE>
+<I>kilogram ::= '(' 'kilogram'</I>
+&#09;<I><A HREF="RMRF0025.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0025.HTM#unit">unit</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#kilogram">Kilogram</A> </I>is used to specify a user-defined unit in terms of the SI mass unit, kilogram. See <I><A HREF="RMRF0025.HTM#unit">unit</A></I> for examples of the definition of units.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#ampere">ampere</A> <A HREF="RMRF0001.HTM#candela">candela</A>  <A HREF="RMRF0001.HTM#celsius">celsius</A>  <A HREF="RMRF0003.HTM#coulomb">coulomb</A>  <A HREF="RMRF0004.HTM#degree">degree</A>  <A HREF="RMRF0006.HTM#fahrenheit">fahrenheit</A>  <A HREF="RMRF0006.HTM#farad">farad</A>  <A HREF="RMRF0008.HTM#henry">henry</A>  <A HREF="RMRF0008.HTM#hertz">hertz</A>  <A HREF="RMRF0011.HTM#joule">joule</A>  <A HREF="RMRF0012.HTM#kelvin">kelvin</A>  <A HREF="RMRF0013.HTM#meter">meter</A>  <A HREF="RMRF0014.HTM#mole">mole</A>  <A HREF="RMRF0015.HTM#ohm">ohm</A>  <A HREF="RMRF0018.HTM#radian">radian</A>  <A HREF="RMRF0022.HTM#second">second</A>  <A HREF="RMRF0023.HTM#siemens">siemens</A>  <A HREF="RMRF0026.HTM#volt">volt</A>  <A HREF="RMRF0026.HTM#watt">watt</A>  <A HREF="RMRF0026.HTM#weber">weber</A>
+</I>
+<P><HR>
+<H1><A NAME="leaf">leaf</A></H1>
+<PRE>
+<I>leaf ::= '(' 'leaf'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#leaf">Leaf</A></I> specifies that the cluster is to be treated as a leaf, i.e. the hierarchy expansion goes no further. This is an explicit decision to terminate the hierarchy at the cluster.
+<H3>Example:</H3>
+<PRE>
+<B>(cell A ...</B>
+<B>   (cluster B ...</B>
+<B>      (clusterConfiguration C (leaf))))</B>
+      
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A></I> <B>C</B> specifies that the hierarchy expansion of cluster <B>B</B> goes no further.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0025.HTM#unconfigured">unconfigured</A>
+</I>
+<P><HR>
+<H1><A NAME="leafOccurrenceAnnotate">leafOccurrenceAnnotate</A></H1>
+<PRE>
+<I>leafOccurrenceAnnotate ::= '(' 'leafOccurrenceAnnotate'</I>
+&#09;<I>( <A HREF="RMRF0006.HTM#extendInstanceDef">extendInstanceDef</A> | <A HREF="RMRF0006.HTM#extendInstanceMemberDef">extendInstanceMemberDef</A> )</I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A> | <A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0004.HTM#designator">designator</A>&gt; 
+&#09;| <A HREF="RMRF0010.HTM#instancePropertyOverride">instancePropertyOverride</A> | <A HREF="RMRF0017.HTM#portAnnotate">portAnnotate</A> | <A HREF="RMRF0018.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#forFrameAnnotate">forFrameAnnotate</A>  <A HREF="RMRF0009.HTM#ifFrameAnnotate">ifFrameAnnotate</A>  <A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  <A HREF="RMRF0015.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  <A HREF="RMRF0015.HTM#otherwiseFrameAnnotate">otherwiseFrameAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#leafOccurrenceAnnotate">LeafOccurrenceAnnotate</A></I> provides annotation data for a leaf item.
+<H3>Example:</H3>
+<PRE>
+<B>(occurrenceAnnotate I1</B>
+<B>   (leafOccurrenceAnnotate elem1</B>
+<B>      (designator "U1")</B>
+<B>      (portAnnotate &amp;3</B>
+<B>         (designator "13")))</B>
+<B>   (occurrenceAnnotate hier1</B>
+<B>      (leafOccurrenceAnnotate ...)</B>
+<B>   ...))</B>
+</PRE>
+<P>In this example, the view <B>I1</B> has two <I><A HREF="RMRF0009.HTM#instance">instances</A></I>. The first, <B>elem1</B>, represents a gate in a PCB component and so has a <I><A HREF="RMRF0004.HTM#designator">designator</A></I> assigned, and has <I><A HREF="RMRF0004.HTM#designator">designators</A></I> (pin numbers) for its <I><A HREF="RMRF0017.HTM#port">ports</A></I>. The second instance, <B>hier1</B>, is a hierarchical <I><A HREF="RMRF0001.HTM#cell">cell</A></I> which will have further annotate forms within it.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0004.HTM#design">design</A>
+</I>
+<P><HR>
+<H1><A NAME="leftJustify">leftJustify</A></H1>
+<PRE>
+<I>leftJustify ::= '(' 'leftJustify'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0008.HTM#horizontalJustification">horizontalJustification</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#leftJustify">LeftJustify</A></I> indicates that the X origin point of the text is at the left edge of the text bounding box. See <I><A HREF="RMRF0026.HTM#verticalJustification">verticalJustification</A></I> for more details.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0026.HTM#verticalJustification">verticalJustification</A>
+</I>
+<P><HR>
+<H1><A NAME="lengthValue">lengthValue</A></H1>
+<PRE>
+<I>lengthValue ::= <A HREF="RMRF0005.HTM#distanceValue">distanceValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#borderWidth">borderWidth</A>  <A HREF="RMRF0007.HTM#fontCapitalHeight">fontCapitalHeight</A>  <A HREF="RMRF0007.HTM#fontDescent">fontDescent</A>  <A HREF="RMRF0007.HTM#fontHeight">fontHeight</A>  <A HREF="RMRF0007.HTM#fontWidth">fontWidth</A>  <A HREF="RMRF0008.HTM#hotspotGrid">hotspotGrid</A>  <A HREF="RMRF0014.HTM#nominalHotspotGrid">nominalHotspotGrid</A>  <A HREF="RMRF0016.HTM#pathWidth">pathWidth</A>  <A HREF="RMRF0024.HTM#textHeight">textHeight</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#lengthValue">LengthValue</A></I> specifies a value for the length or width of an item. It must be greater than zero.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#distanceValue">distanceValue</A>  <A HREF="RMRF0023.HTM#setDistance">setDistance</A>
+</I>
+<P><HR>
+<H1><A NAME="lessThan">lessThan</A></H1>
+<PRE>
+<I>lessThan ::= '(' 'lessThan'</I>
+&#09;<I>{ <A HREF="RMRF0010.HTM#integerExpression">integerExpression</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A>  
+</I>
+<H3>Description:</H3>
+<P>This <I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A></I> evaluates to <I><A HREF="RMRF0025.HTM#true">true</A></I> if each nested <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I> evaluates to an integer which is less than the next <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I>. If no <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I> is specified, the construct returns <I><A HREF="RMRF0025.HTM#true">true</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(lessThan 0 (integerParameterRef n) 8)</B>
+</PRE>
+<P>This returns <I><A HREF="RMRF0025.HTM#true">true</A></I> when <B>0</B> &lt; <B>n</B> &lt; <B>8</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0010.HTM#integerEqual">integerEqual</A>  <A HREF="RMRF0012.HTM#lessThanOrEqual">lessThanOrEqual</A>  <A HREF="RMRF0024.HTM#stringEqual">stringEqual</A>  
+</I>
+<P><HR>
+<H1><A NAME="lessThanOrEqual">lessThanOrEqual</A></H1>
+<PRE>
+<I>lessThanOrEqual ::= '(' 'lessThanOrEqual'</I>
+&#09;<I>{ <A HREF="RMRF0010.HTM#integerExpression">integerExpression</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A>  
+</I>
+<H3>Description:</H3>
+<P>This <I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A></I> evaluates to <I><A HREF="RMRF0025.HTM#true">true</A></I> if each nested <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I> evaluates to an integer which is less than or equal to the next <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I>. If no <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I> is specified, the construct returns <I><A HREF="RMRF0025.HTM#true">true</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(lessThanOrEqual 0 (integerParameterRef n) 8)</B>
+</PRE>
+<P>This returns <I><A HREF="RMRF0025.HTM#true">true</A></I> when <B>0</B> &lt;= <B>n</B> &lt;= <B>8</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0010.HTM#integerEqual">integerEqual</A>  <A HREF="RMRF0012.HTM#lessThan">lessThan</A>  <A HREF="RMRF0024.HTM#stringEqual">stringEqual</A>  
+</I>
+<P><HR>
+<H1><A NAME="library">library</A></H1>
+<PRE>
+<I>library ::= '(' 'library'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryNameDef">libraryNameDef</A></I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#cell">cell</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A> | <A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A> | 
+&#09;<A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A> | <A HREF="RMRF0019.HTM#schematicFigureMacro">schematicFigureMacro</A> | 
+&#09;<A HREF="RMRF0019.HTM#schematicForFrameBorderTemplate">schematicForFrameBorderTemplate</A> | <A HREF="RMRF0019.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A> | 
+&#09;<A HREF="RMRF0020.HTM#schematicIfFrameBorderTemplate">schematicIfFrameBorderTemplate</A> | 
+&#09;<A HREF="RMRF0020.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A> | <A HREF="RMRF0020.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A> | 
+&#09;<A HREF="RMRF0020.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A> | <A HREF="RMRF0020.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A> | 
+&#09;<A HREF="RMRF0021.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A> | 
+&#09;<A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorderTemplate">schematicOtherwiseFrameBorderTemplate</A> | <A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplate</A> | 
+&#09;<A HREF="RMRF0022.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A> | <A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A> | 
+&#09;<A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#edif">edif</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#library">Library</A></I> is a collection of EDIF design information, grouped according to some set of common characteristics. This grouping is arbitrary except for the <I><A HREF="RMRF0024.HTM#technology">technology</A></I> information within <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>, which is shared by all objects in the <I><A HREF="RMRF0012.HTM#library">library</A></I>. Libraries are often grouped by technology definition (such as CMOS), but the same technology could be defined in more than one library by repeating the information in <I><A HREF="RMRF0024.HTM#technology">technology</A></I>. 
+<P>A <I><A HREF="RMRF0012.HTM#library">library</A></I> that is external to the EDIF data is described using the <I><A HREF="RMRF0006.HTM#external">external</A></I> form in the <I><A HREF="RMRF0005.HTM#edif">edif</A></I> form.
+<P>The objects to be found in a <I><A HREF="RMRF0012.HTM#library">library</A></I> consist of cells, which may be hierarchical, and definitions of templates. These objects all share the same name space. It is not possible, for example, to have a <I><A HREF="RMRF0020.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A></I> and a <I><A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I> with the same name in the same <I><A HREF="RMRF0012.HTM#library">library</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(edif HYBRID_DESIGNS</B>
+<B>   (edifVersion 3 0 0)</B>
+<B>   (edifHeader ...)</B>
+<B>   (library CMOS2M</B>
+<B>      (libraryHeader (edifLevel 0)</B>
+<B>         (nameCaseSensitivity)</B>
+<B>         (technology ...))</B>
+<B>      (cell MUX ...)</B>
+<B>      (cell FFT ...)))</B>
+</PRE>
+<P>This example shows the definition of a <I><A HREF="RMRF0012.HTM#library">library</A></I> named <B>CMOS2M</B> which contains <I><A HREF="RMRF0024.HTM#technology">technology</A></I> and the definitions of cells <B>MUX</B> and <B>FFT</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0006.HTM#external">external</A>
+</I>
+<P><HR>
+<H1><A NAME="libraryHeader">libraryHeader</A></H1>
+<PRE>
+<I>libraryHeader ::= '(' 'libraryHeader'</I>
+&#09;<I><A HREF="RMRF0005.HTM#edifLevel">edifLevel</A></I>
+&#09;<I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A></I>
+&#09;<I><A HREF="RMRF0024.HTM#technology">technology</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#backgroundColor">backgroundColor</A>&gt; | <A HREF="RMRF0005.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | 
+&#09;&lt;<A HREF="RMRF0023.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#external">external</A>  <A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#libraryHeader">LibraryHeader</A></I> contains data that relates to the whole library, including scale settings within <I><A HREF="RMRF0016.HTM#physicalScaling">physicalScaling</A></I> in <I><A HREF="RMRF0024.HTM#technology">technology</A></I> and definitions of case sensitivity for names. 
+<H3>Example:</H3>
+<PRE>
+<B>(library NMOS</B>
+<B>   (libraryHeader</B>
+<B>      (edifLevel 0)</B>
+<B>      (nameCaseSensitivity ...)</B>
+<B>      (technology</B>
+<B>         (physicalScaling</B>
+<B>            (documentationUnits</B>
+<B>               (setDistance (unitRef mm)))</B>
+<B>         ...) ...) ...) ...)      </B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0003.HTM#connectivityViewHeader">connectivityViewHeader</A> <A HREF="RMRF0005.HTM#documentationHeader">documentationHeader</A> <A HREF="RMRF0005.HTM#edifHeader">edifHeader</A> <A HREF="RMRF0008.HTM#geometryMacroHeader">geometryMacroHeader</A>  <A HREF="RMRF0015.HTM#pageHeader">pageHeader</A> <A HREF="RMRF0022.HTM#schematicSymbolHeader">schematicSymbolHeader</A> <A HREF="RMRF0022.HTM#schematicTemplateHeader">schematicTemplateHeader</A> <A HREF="RMRF0022.HTM#schematicViewHeader">schematicViewHeader</A>
+</I>
+<P><HR>
+<H1><A NAME="libraryNameCaseSensitive">libraryNameCaseSensitive</A></H1>
+<PRE>
+<I>libraryNameCaseSensitive ::= '(' 'libraryNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#libraryNameCaseSensitive">LibraryNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for libraries are to be considered as case sensitive. <I><A HREF="RMRF0012.HTM#libraryNameCaseSensitive">LibraryNameCaseSensitive</A></I> is not allowed in the context of a library. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A> <A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>
+</I>
+<P><HR>
+<H1><A NAME="libraryNameDef">libraryNameDef</A></H1>
+<PRE>
+<I>libraryNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#external">external</A>  <A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#libraryNameDef">LibraryNameDef</A></I> is used to name internal or external libraries. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#libraryNameRef">libraryNameRef</A>  <A HREF="RMRF0013.HTM#libraryRef">libraryRef</A> <A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  
+</I>
+<P><HR>
+<H1><A NAME="libraryNameRef">libraryNameRef</A></H1>
+<PRE>
+<I>libraryNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0013.HTM#libraryRef">libraryRef</A>  
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0012.HTM#libraryNameRef">libraryNameRef</A> </I>is used to reference a previously-defined <I><A HREF="RMRF0012.HTM#library">library</A> </I>or <I><A HREF="RMRF0006.HTM#external">external</A> </I>library.
+<H3>Example:</H3>
+<PRE>
+<B>(cellRef  nand3  (libraryRef lib2))</B>
+</PRE>
+<P>Here, the library named <B>lib2 </B>is referenced to provide the context for the cell name <B>nand3. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#libraryNameDef">libraryNameDef</A> 
+</I>
+<P><HR>
+<H1><A NAME="libraryObjectNameCaseSensitive">libraryObjectNameCaseSensitive</A></H1>
+<PRE>
+<I>libraryObjectNameCaseSensitive ::= '(' 'libraryObjectNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#libraryObjectNameCaseSensitive">LibraryObjectNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for library objects are to be considered as case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A> <A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>
+</I>
+<P><HR>
+<H1><A NAME="libraryObjectNameDef">libraryObjectNameDef</A></H1>
+<PRE>
+<I>libraryObjectNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cell">cell</A>  <A HREF="RMRF0008.HTM#geometryMacro">geometryMacro</A>  <A HREF="RMRF0015.HTM#pageBorderTemplate">pageBorderTemplate</A>  <A HREF="RMRF0016.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>  <A HREF="RMRF0019.HTM#schematicFigureMacro">schematicFigureMacro</A>  <A HREF="RMRF0019.HTM#schematicForFrameBorderTemplate">schematicForFrameBorderTemplate</A>  <A HREF="RMRF0019.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A>  <A HREF="RMRF0020.HTM#schematicIfFrameBorderTemplate">schematicIfFrameBorderTemplate</A>  <A HREF="RMRF0020.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A>  <A HREF="RMRF0020.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A>  <A HREF="RMRF0020.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>  <A HREF="RMRF0020.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A>  <A HREF="RMRF0021.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A>  <A HREF="RMRF0021.HTM#schematicOtherwiseFrameBorderTemplate">schematicOtherwiseFrameBorderTemplate</A>  <A HREF="RMRF0021.HTM#schematicRipperTemplate">schematicRipperTemplate</A>  <A HREF="RMRF0022.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A>  <A HREF="RMRF0022.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0012.HTM#libraryObjectNameDef">LibraryObjectNameDef</A></I> is the name definition of a library object. This includes the name definition of <I><A HREF="RMRF0001.HTM#cell">cells</A></I> as well as all templates.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0013.HTM#libraryObjectNameRef">libraryObjectNameRef</A> <A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  
+</I>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

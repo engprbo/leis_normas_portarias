@@ -1,0 +1,381 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="geometry_model">geometry_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0008.HTM#geometry_model">geometry_model</A> schema describes all geometrical definitions in EDIF.
+ This includes <A HREF="IMEX0008.HTM#dot">dot</A>, <A HREF="IMEX0008.HTM#circle">circle</A>, <A HREF="IMEX0008.HTM#polygon">polygon</A>, <A HREF="IMEX0008.HTM#rectangle">rectangle</A>, <A HREF="IMEX0008.HTM#shape">shape</A>, <A HREF="IMEX0008.HTM#open_shape">open_shape</A>
+ and <A HREF="IMEX0008.HTM#path">path</A>.  In addition, property is removed from all geometry definitions;
+ this differs from EDIF Version 2 0 0.
+</P><HR>
+<!-- Start of ENTITY: geometry_element -->
+<H2><A NAME="geometry_element">geometry_element</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0008.HTM#dot">dot</A>, 
+                                   <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>, 
+                                   <A HREF="IMEX0008.HTM#open_element">open_element</A>));       
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A> describes geometry definition in EDIF.  This includes
+ <A HREF="IMEX0008.HTM#dot">dot</A>, <A HREF="IMEX0008.HTM#circle">circle</A>, <A HREF="IMEX0008.HTM#polygon">polygon</A>, <A HREF="IMEX0008.HTM#rectangle">rectangle</A>, <A HREF="IMEX0008.HTM#shape">shape</A>, <A HREF="IMEX0008.HTM#open_shape">open_shape</A> and <A HREF="IMEX0008.HTM#path">path</A>.
+ In addition, property is removed from geometry definition; this differs from
+ EDIF Version 2 0 0.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0005.HTM#figure">figure</A> <A HREF="IMEX0010.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A> </P>
+<HR>
+<!-- Start of ENTITY: dot -->
+<H2><A NAME="dot">dot</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#dot">dot</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#geometry_element">geometry_element</A>);
+    position                    : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#dot">dot</A> is a <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A> which is defined by a single point and is
+ intended for use in schematic diagrams and other places where a marker is
+ required.  A <A HREF="IMEX0008.HTM#dot">dot</A> is intended to be used for display purposes only and is
+ not permitted to be used for fabrication.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0005.HTM#dot_display">dot_display</A> </P>
+<HR>
+<!-- Start of ENTITY: closed_area_element -->
+<H2><A NAME="closed_area_element">closed_area_element</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0008.HTM#circle">circle</A>, <A HREF="IMEX0008.HTM#polygon">polygon</A>, <A HREF="IMEX0008.HTM#rectangle">rectangle</A>, <A HREF="IMEX0008.HTM#shape">shape</A>))
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#geometry_element">geometry_element</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A> describes a <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A> which encloses an
+ area.  It can be either a <A HREF="IMEX0008.HTM#circle">circle</A>, a <A HREF="IMEX0008.HTM#polygon">polygon</A>, a <A HREF="IMEX0008.HTM#rectangle">rectangle</A> or a <A HREF="IMEX0008.HTM#shape">shape</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0005.HTM#closed_area_display">closed_area_display</A> </P>
+<HR>
+<!-- Start of ENTITY: open_element -->
+<H2><A NAME="open_element">open_element</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#open_element">open_element</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0008.HTM#path">path</A>, <A HREF="IMEX0008.HTM#open_shape">open_shape</A>))
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#geometry_element">geometry_element</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0008.HTM#open_element">open_element</A> describes a <A HREF="IMEX0008.HTM#geometry_element">geometry_element</A> which does not enclose an
+ area. It can be either a <A HREF="IMEX0008.HTM#path">path</A> or an <A HREF="IMEX0008.HTM#open_shape">open_shape</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0005.HTM#path_display">path_display</A> </P>
+<HR>
+<!-- Start of ENTITY: circle -->
+<H2><A NAME="circle">circle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#circle">circle</A> 
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>); 
+    diameter                    : <A HREF="IMEX0008.HTM#line_segment">line_segment</A>;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#circle">circle</A> is used to describe a circle which has the specified points at
+ either end of a diameter of the circle.  The two points need not be
+ distinct. 
+</P><HR>
+<!-- Start of ENTITY: polygon -->
+<H2><A NAME="polygon">polygon</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#polygon">polygon</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>);
+    segments                    : LIST [3:?] OF <A HREF="IMEX0008.HTM#line_segment">line_segment</A>; 
+  WHERE                                                                       
+    <A NAME="polygon.joined_segments">joined_segments</A> :
+      (* All adjacent segments are joined. *)
+      <A HREF="IMEX0008.HTM#connected">connected</A>(segments);
+
+    <A NAME="polygon.closed_element">closed_element</A> : 
+      (* The first segment is joined with the last segment. *)
+      segments[1].start_point = segments[HIINDEX(segments)].end_point; 
+
+    <A NAME="polygon.not_self_intersecting">not_self_intersecting</A> :
+      (* A polygon may not intersect or touch itself, nor have coincidence
+         segments. *) 
+      <A HREF="IMEX0015.HTM#not_defined">not_defined</A>; 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#polygon">polygon</A> represents a figure bounded by <A HREF="IMEX0008.HTM#line_segment">line_segments</A>. The number of
+ <A HREF="IMEX0008.HTM#line_segment">line_segments</A> must be at least three.  A <A HREF="IMEX0008.HTM#polygon">polygon</A> must not intersect or
+ touch itself, nor may it have coincident segments.
+</P><HR>
+<!-- Start of ENTITY: rectangle -->
+<H2><A NAME="rectangle">rectangle</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#rectangle">rectangle</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>);
+    diagonal                    : <A HREF="IMEX0008.HTM#line_segment">line_segment</A>;
+  DERIVE
+    segments : LIST [4:4] OF <A HREF="IMEX0008.HTM#line_segment">line_segment</A> 
+               := <A HREF="IMEX0008.HTM#find_segments">find_segments</A>(diagonal.start_point, diagonal.end_point);
+  END_ENTITY; 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#rectangle">rectangle</A> is a four-sided polygon with sides parallel to the axes. It is
+ specified by the end-points of either diagonal.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0005.HTM#comment_graphics">comment_graphics</A> <A HREF="IMEX0014.HTM#external_schematic_symbol">external_schematic_symbol</A> <A HREF="IMEX0010.HTM#geometry_macro_template">geometry_macro_template</A> <A HREF="IMEX0014.HTM#internal_schematic_symbol">internal_schematic_symbol</A> <A HREF="IMEX0013.HTM#page">page</A> <A HREF="IMEX0010.HTM#page_border_template">page_border_template</A> <A HREF="IMEX0010.HTM#schematic_symbol_border_template">schematic_symbol_border_template</A> <A HREF="IMEX0010.HTM#schematic_template">schematic_template</A> </P>
+<HR>
+<!-- Start of ENTITY: shape -->
+<H2><A NAME="shape">shape</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#shape">shape</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#closed_area_element">closed_area_element</A>);
+    segments                    : LIST [2:?] OF <A HREF="IMEX0008.HTM#arc_or_line_segment">arc_or_line_segment</A>; 
+  WHERE
+    <A NAME="shape.joined_segments">joined_segments</A> :
+      (* All adjacent segments are joined. *)
+      <A HREF="IMEX0008.HTM#connected">connected</A>(segments);     
+
+    <A NAME="shape.closed_element">closed_element</A> : 
+      (* the first segment is joined with the last segment. *)
+      segments[1].start_point = segments[HIINDEX(segments)].end_point; 
+
+    <A NAME="shape.not_self_intersecting">not_self_intersecting</A> :
+      (* A shape must not intersect or touch itself, nor have coincidence
+         segments. *) 
+      <A HREF="IMEX0015.HTM#not_defined">not_defined</A>; 
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#shape">shape</A> is a sequence of connected <A HREF="IMEX0008.HTM#arc">arcs</A> and <A HREF="IMEX0008.HTM#line_segment">line_segments</A>. It is used
+ to describe shapes which are closed by definition.  A <A HREF="IMEX0008.HTM#shape">shape</A> must not
+ intersect or touch itself, nor may its edges be coincident.
+</P><HR>
+<!-- Start of ENTITY: path -->
+<H2><A NAME="path">path</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#path">path</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#open_element">open_element</A>);
+    segments                    : LIST [1:?] OF <A HREF="IMEX0008.HTM#line_segment">line_segment</A>;
+  WHERE
+    <A NAME="path.joined_segments">joined_segments</A> :
+      (* All adjacent segments are joined. *)
+      <A HREF="IMEX0008.HTM#connected">connected</A>(segments);
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#path">path</A> is an <A HREF="IMEX0008.HTM#open_element">open_element</A> which is described by a sequence of connected
+ <A HREF="IMEX0008.HTM#line_segment">line_segments</A>.  It is open by definition.
+</P><HR>
+<!-- Start of ENTITY: open_shape -->
+<H2><A NAME="open_shape">open_shape</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#open_shape">open_shape</A>
+      SUBTYPE OF (<A HREF="IMEX0008.HTM#open_element">open_element</A>);
+    segments                    : LIST [1:?] OF <A HREF="IMEX0008.HTM#arc_or_line_segment">arc_or_line_segment</A>;
+  WHERE
+    <A NAME="open_shape.joined_segments">joined_segments</A> :
+      (* All adjacent segments are joined. *)
+      <A HREF="IMEX0008.HTM#connected">connected</A>(segments);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0008.HTM#open_shape">open_shape</A> is an <A HREF="IMEX0008.HTM#open_element">open_element</A> which is described by a sequence of 
+ connected <A HREF="IMEX0008.HTM#arc">arcs</A> and <A HREF="IMEX0008.HTM#line_segment">line_segments</A>.  It is open by definition.
+</P><HR>
+<!-- Start of TYPE: arc_or_line_segment -->
+<H2><A NAME="arc_or_line_segment">arc_or_line_segment</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0008.HTM#arc_or_line_segment">arc_or_line_segment</A>
+      = SELECT (<A HREF="IMEX0008.HTM#arc">arc</A>, <A HREF="IMEX0008.HTM#line_segment">line_segment</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0008.HTM#arc_or_line_segment">arc_or_line_segment</A> is used to describe the concept of curve in EDIF.
+ Curve is described by a list of <A HREF="IMEX0008.HTM#arc_or_line_segment">arc_or_line_segment</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#open_shape">open_shape</A> <A HREF="IMEX0008.HTM#shape">shape</A> </P>
+<HR>
+<!-- Start of ENTITY: arc -->
+<H2><A NAME="arc">arc</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#arc">arc</A> ;
+    start_point                 : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    through_point               : <A HREF="IMEX0008.HTM#number_point">number_point</A>;
+    end_point                   : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+  WHERE
+    <A NAME="arc.distinct_points">distinct_points</A> :
+      (* The three points of the arc specification must be distinct. *)
+          (start_point.x_coordinate &lt;&gt; through_point.x_coordinate) 
+      AND (start_point.y_coordinate &lt;&gt; through_point.y_coordinate) 
+      AND (through_point.x_coordinate &lt;&gt; end_point.x_coordinate) 
+      AND (through_point.y_coordinate &lt;&gt; end_point.y_coordinate) 
+      AND (start_point.x_coordinate &lt;&gt; end_point.x_coordinate)
+      AND (start_point.y_coordinate &lt;&gt; end_point.y_coordinate);
+
+    <A NAME="arc.the_three_points_should_not_lie_on_a_straight_line">the_three_points_should_not_lie_on_a_straight_line</A> :
+      <A HREF="IMEX0015.HTM#not_defined">not_defined</A>; 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0008.HTM#arc">arc</A> is used in describing shapes with curved edges. It is defined by
+ three points.  Each point coordinate is specified in distance value.  The
+ point coordinate values of the starting point and the end point of the <A HREF="IMEX0008.HTM#arc">arc</A>
+ must be integers.  The point coordinate values of the middle point of the
+ <A HREF="IMEX0008.HTM#arc">arc</A> can be given as numbers.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#arc_or_line_segment">arc_or_line_segment</A> </P>
+<HR>
+<!-- Start of ENTITY: line_segment -->
+<H2><A NAME="line_segment">line_segment</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#line_segment">line_segment</A>;
+    start_point                    : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    end_point                      : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#line_segment">line_segment</A> is defined by two points which specify the starting point
+ and the end point of a line segment.  The starting and the end points need
+ not be distinct. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#arc_or_line_segment">arc_or_line_segment</A> <A HREF="IMEX0008.HTM#circle">circle</A> <A HREF="IMEX0008.HTM#path">path</A> <A HREF="IMEX0008.HTM#polygon">polygon</A> <A HREF="IMEX0008.HTM#rectangle">rectangle</A> </P>
+<HR>
+<!-- Start of ENTITY: integer_point -->
+<H2><A NAME="integer_point">integer_point</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    x_coordinate, y_coordinate  : <A HREF="IMEX0015.HTM#integer_distance_value">integer_distance_value</A>;
+  END_ENTITY;                                                                 
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0008.HTM#integer_point">integer_point</A> is a point for which the x and y coordinates are
+ specified by <A HREF="IMEX0015.HTM#integer_distance_value">integer_distance_values</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#arc">arc</A> <A HREF="IMEX0005.HTM#display">display</A> <A HREF="IMEX0008.HTM#dot">dot</A> <A HREF="IMEX0010.HTM#hotspot">hotspot</A> <A HREF="IMEX0008.HTM#line_segment">line_segment</A> <A HREF="IMEX0015.HTM#point_property">point_property</A> <A HREF="IMEX0015.HTM#point_property_override">point_property_override</A> <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspot</A> <A HREF="IMEX0013.HTM#schematic_interconnect_attached_text">schematic_interconnect_attached_text</A> <A HREF="IMEX0005.HTM#transform">transform</A> </P>
+<HR>
+<!-- Start of ENTITY: number_point -->
+<H2><A NAME="number_point">number_point</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0008.HTM#number_point">number_point</A>;
+    x_coordinate, y_coordinate  : <A HREF="IMEX0015.HTM#number_distance_value">number_distance_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0008.HTM#number_point">number_point</A> is a point for which the x and y coordinates are defined by
+ <A HREF="IMEX0015.HTM#number_distance_value">number_distance_values</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#arc">arc</A> </P>
+<HR>
+<!-- Start of FUNCTION: connected -->
+<H2><A NAME="connected">connected</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0008.HTM#connected">connected</A> 
+    (segments : LIST OF <A HREF="IMEX0008.HTM#arc_or_line_segment">arc_or_line_segment</A>) : BOOLEAN;
+    LOCAL
+      i       : INTEGER;
+    END_LOCAL;
+
+    REPEAT i := 1 TO HIINDEX(segments)-1;
+      IF segments[i].end_point &lt;&gt; segments[i+1].start_point THEN
+         RETURN(FALSE);
+      END_IF;
+    END_REPEAT;
+    RETURN(TRUE);  
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0008.HTM#connected">connected</A> function accepts a list of <A HREF="IMEX0008.HTM#arc">arc</A> or <A HREF="IMEX0008.HTM#line_segment">line_segment</A> elements
+ as its argument. It checks that the last point of each <A HREF="IMEX0008.HTM#arc">arc</A> or
+ <A HREF="IMEX0008.HTM#line_segment">line_segment</A> element is the same as the first point of the next <A HREF="IMEX0008.HTM#arc">arc</A> or
+ <A HREF="IMEX0008.HTM#line_segment">line_segment</A> element on the list.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#open_shape">open_shape</A> <A HREF="IMEX0008.HTM#path">path</A> <A HREF="IMEX0008.HTM#polygon">polygon</A> <A HREF="IMEX0008.HTM#shape">shape</A> </P>
+<HR>
+<!-- Start of FUNCTION: find_segments -->
+<H2><A NAME="find_segments">find_segments</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0008.HTM#find_segments">find_segments</A>
+    (p1, p2 : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>) : AGGREGATE OF <A HREF="IMEX0008.HTM#line_segment">line_segment</A>;
+    -- points p1, p2 and points p3, p4 are end-points of two diagonals
+    LOCAL
+      lines  : LIST OF <A HREF="IMEX0008.HTM#line_segment">line_segment</A> := [ ];
+      p3, p4 : <A HREF="IMEX0008.HTM#integer_point">integer_point</A>;
+    END_LOCAL;
+    p3.x_coordinate := p2.x_coordinate; p3.y_coordinate := p1.y_coordinate;
+    p4.x_coordinate := p1.x_coordinate; p4.y_coordinate := p2.y_coordinate;
+    lines[1].start_point := p1; lines[1].end_point := p3;
+    lines[2].start_point := p3; lines[2].end_point := p2;
+    lines[3].start_point := p2; lines[3].end_point := p4;
+    lines[4].start_point := p4; lines[4].end_point := p1;
+    RETURN(lines);  
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0008.HTM#find_segments">find_segments</A> function accepts two points which are the end-points of
+ a diagonal of a <A HREF="IMEX0008.HTM#rectangle">rectangle</A>. It will return the four ordered <A HREF="IMEX0008.HTM#line_segment">line_segments</A>
+ which constitute the <A HREF="IMEX0008.HTM#rectangle">rectangle</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0008.HTM#rectangle">rectangle</A> </P>
+
+<HR>
+
+<!-- Start of schema: hierarchy_model -->
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

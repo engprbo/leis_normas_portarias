@@ -1,0 +1,183 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H2><A NAME="REF24977"> 26      Drawings</A></H2>
+<P>The scope of the drawing model is to describe the drawings used to explain or aid the manufacture, repair or testing of a PCB/MCM. These drawings include:
+
+<UL>
+<LI><P>Drill drawings showing the positions and sizes of drilled holes
+<BR><BR>
+<LI><P>Assembly drawings showing the positions of components assembled onto the bare board
+<BR><BR>
+<LI><P>Dimensioned drawings which document the position and size of the assembled board
+<BR><BR></UL>
+
+<H3><A NAME="HDR54"> 26.1    Drawing borders</A></H3>
+<P>A <A HREF="IMEX0017.HTM#pcb_drawing" TARGET=ModelArea>pcb_drawing</A> may contain a <A HREF="IMEX0017.HTM#drawing_border" TARGET=ModelArea>drawing_border</A> which describes the border of a drawing. It is defined by instantiating a <A HREF="IMEX0020.HTM#drawing_border_template" TARGET=ModelArea>drawing_border_template</A>. Figure <A HREF="IMINT021.HTM#REF71028">26.1</A> shows an example of a <A HREF="IMEX0017.HTM#drawing_border" TARGET=ModelArea>drawing_border</A>. 
+<P><A NAME="REF71028"><CENTER><IMG SRC="FIG0023.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.1:  An example of a drawing_border</CENTER>
+<H3><A NAME="HDR55"> 26.2    Drawing title blocks</A></H3>
+<P>A <A HREF="IMEX0017.HTM#pcb_drawing" TARGET=ModelArea>pcb_drawing</A> may contain a <A HREF="IMEX0017.HTM#drawing_title_block" TARGET=ModelArea>drawing_title_block</A> which holds the title block information of a drawing. It is defined by instantiating a <A HREF="IMEX0020.HTM#drawing_title_block_template" TARGET=ModelArea>drawing_title_block_template</A>. A title block is an area on a drawing sheet which contains the information required for the identification of the drawing. It may include information such as company name, sheet size, date of drawing. Figure <A HREF="IMINT021.HTM#REF37935">26.2</A> shows an example of a <A HREF="IMEX0017.HTM#drawing_title_block" TARGET=ModelArea>drawing_title_block</A> which is placed in the lower right-hand corner of the drawing. 
+
+<P><A NAME="REF37935"><CENTER><IMG SRC="FIG0024.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.2:  An example of a drawing_title_block</CENTER>
+<H3><A NAME="HDR56"> 26.3    Annotation</A></H3>
+<P>Annotation is the placement of textual notes, with or without associated leaders. An <A HREF="IMEX0017.HTM#annotation_note" TARGET=ModelArea>annotation_note</A> describes an annotation that may contain text, graphics and symbols. An <A HREF="IMEX0017.HTM#annotation_group" TARGET=ModelArea>annotation_group</A> provides a grouping of <A HREF="IMEX0017.HTM#annotation_note" TARGET=ModelArea>annotation_notes</A> that are semantically related. Purpose of the grouping is stated in the <A HREF="IMEX0017.HTM#annotation_group_purpose" TARGET=ModelArea>annotation_group_purpose</A>. Figure <A HREF="IMINT021.HTM#REF39731">26.3</A> shows examples of <A HREF="IMEX0017.HTM#annotation_group" TARGET=ModelArea>annotation_group</A>. 
+<P><A NAME="REF39731"><CENTER><IMG SRC="FIG0025.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.3:  Examples of annotation_group</CENTER>
+<H3><A NAME="HDR57"> 26.4    Board subset placements</A></H3>
+
+<P>A <A HREF="IMEX0016.HTM#board_subset_definition" TARGET=ModelArea>board_subset_definition</A> specifies a subset of the PCB/MCM which is to be placed on a drawing. Its main purpose is to allow the visualisation of chosen aspects of the board, e.g. tracks or component outlines. The subsetting is done by the inclusion of the geometries collected in figure collectors (see <A HREF="IMEX0016.HTM#fabricate_figure_collector_inclusion" TARGET=ModelArea>fabricate_figure_collector_inclusion</A> and <A HREF="IMEX0016.HTM#drawing_figure_collector_inclusion" TARGET=ModelArea>drawing_figure_collector_inclusion</A>). When a <A HREF="IMEX0016.HTM#board_subset_definition" TARGET=ModelArea>board_subset_definition</A> is used to describe a drill drawing, it specifies a collection of <A HREF="IMEX0016.HTM#drill_symbol_selection" TARGET=ModelArea>drill_symbol_selections</A>. Each selection chooses a <A HREF="IMEX0026.HTM#drill_symbol" TARGET=ModelArea>drill_symbol</A> to represent a <A HREF="IMEX0026.HTM#drill_rule" TARGET=ModelArea>drill_rule</A> used on the board. Similarly, when a <A HREF="IMEX0016.HTM#board_subset_definition" TARGET=ModelArea>board_subset_definition</A> is used to describe an assembly drawing, it specifies a collection of <A HREF="IMEX0016.HTM#component_symbol_selection" TARGET=ModelArea>component_symbol_selections</A>. Each selection chooses a <A HREF="IMEX0016.HTM#component_symbol" TARGET=ModelArea>component_symbol</A> to represent all those packaged or die components on the board that are mounted by a particular <A HREF="IMEX0022.HTM#mountable_package" TARGET=ModelArea>mountable_package</A> or <A HREF="IMEX0014.HTM#mountable_die_physical_template" TARGET=ModelArea>mountable_die_physical_template</A>. In addition, a <A HREF="IMEX0016.HTM#board_subset_definition" TARGET=ModelArea>board_subset_definition</A> may specify a clipping outline (via <A HREF="IMEX0016.HTM#board_subset" TARGET=ModelArea>board_subset</A>) in order to display a certain region of the board. 
+<P>A <A HREF="IMEX0016.HTM#board_subset_definition" TARGET=ModelArea>board_subset_definition</A> is placed on a drawing by specifying a <A HREF="IMEX0017.HTM#board_subset_placement" TARGET=ModelArea>board_subset_placement</A> which allows the board subset to be scaled, rotated and positioned anywhere on the drawing. 
+<H3><A NAME="HDR58"> 26.5    Dimensioning</A></H3>
+<P>This section describes the concept of dimensioning used on pcb drawings. The model of <A HREF="IMEX0017.HTM#dimension" TARGET=ModelArea>dimension</A> can be found in the <A HREF="IMEX0017.HTM#pcb_drawing_model" TARGET=ModelArea>pcb_drawing_model</A> schema. A <A HREF="IMEX0017.HTM#dimension" TARGET=ModelArea>dimension</A> is used to indicate measurements of distances or angles on a <A HREF="IMEX0017.HTM#pcb_drawing" TARGET=ModelArea>pcb_drawing</A>. The model does not describe the detailed annotation required for dimensions; instead it models specifications which a target system could use to generate the annotation for dimensions. Some elements of dimensioning are shown in figure <A HREF="IMINT021.HTM#REF26571">26.4</A>.
+<P><A NAME="REF26571"><CENTER><IMG SRC="FIG0027.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.4:  Some elements of dimension</CENTER>
+<P>A <A HREF="IMEX0017.HTM#dimension" TARGET=ModelArea>dimension</A> is divided into several categories. Figure <A HREF="IMINT021.HTM#REF40780">26.5</A> shows the model of <A HREF="IMEX0017.HTM#dimension" TARGET=ModelArea>dimension</A>.
+
+<P><A NAME="REF40780"><CENTER><IMG SRC="FIG0028.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.5:  The model of dimension</CENTER>
+<H4><A NAME="HDR59"> 26.5.1     Linear dimensioning</A></H4>
+<P>A <A HREF="IMEX0017.HTM#linear_dimension" TARGET=ModelArea>linear_dimension</A> is used to specify distance dimensions between drawing features. The simplest case of <A HREF="IMEX0017.HTM#linear_dimension" TARGET=ModelArea>linear_dimension</A> is that of a <A HREF="IMEX0017.HTM#single_linear_dimension" TARGET=ModelArea>single_linear_dimension</A> which is used to measure the distance between two points. This is illustrated in figure <A HREF="IMINT021.HTM#REF26571">26.4</A>(a). However, <A HREF="IMEX0017.HTM#single_linear_dimension" TARGET=ModelArea>single_linear_dimension</A> can also be used to measure a radius or diameter. Its purpose is specified by the <A HREF="IMEX0017.HTM#linear_type" TARGET=ModelArea>linear_type</A> flag. The dimensioned object is of circular cross section (where the plane of cross section is orthogonal to the plane of the drawing) and either a radius or diameter is to be dimensioned. This requires the generated dimension value to be qualified by an appropriate radius symbol or diameter symbol prefix (or suffix) (e.g R30 for a radius of 30 units or &Oslash;60 for a diameter of 60 units). 
+<P>A <A HREF="IMEX0017.HTM#linear_dimension" TARGET=ModelArea>linear_dimension</A> can also be a <A HREF="IMEX0017.HTM#multiple_linear_dimension" TARGET=ModelArea>multiple_linear_dimension</A> which groups related sets of linear dimensions. There are two types of <A HREF="IMEX0017.HTM#multiple_linear_dimension" TARGET=ModelArea>multiple_linear_dimension</A>, namely, <A HREF="IMEX0017.HTM#datum_linear_dimension" TARGET=ModelArea>datum_linear_dimension</A> and <A HREF="IMEX0017.HTM#chained_linear_dimension" TARGET=ModelArea>chained_linear_dimension</A>. 
+<H5>Datum linear dimension</H5>
+<P>A <A HREF="IMEX0017.HTM#datum_linear_dimension" TARGET=ModelArea>datum_linear_dimension</A> is a grouping of dimensioning information for features of the drawing which are to be dimensioned from a common datum origin (ISO 129-1985 (E) calls this form of dimensioning `parallel dimensioning'). An example of this type of dimensioning is shown in figure <A HREF="IMINT021.HTM#REF11202">26.6</A>(a) below and in figure <A HREF="IMINT021.HTM#REF11202">26.6</A>(b) a special variation called, in ISO 129, a "superimposed running dimensioning" is illustrated. For parallel dimensioning, the offset of each dimension line is different. On the other hand, for superimposed running dimensioning, all dimension line offsets are the same.
+<P><A NAME="REF11202"><CENTER><IMG SRC="FIG0033.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.6:  Examples of datum_linear_dimension</CENTER>
+
+<H5>Chained linear dimension</H5>
+<P>A <A HREF="IMEX0017.HTM#chained_linear_dimension" TARGET=ModelArea>chained_linear_dimension</A> is another form of <A HREF="IMEX0017.HTM#multiple_linear_dimension" TARGET=ModelArea>multiple_linear_dimension</A>. In this form of dimensioning, dimension spans are linked in a chain so that the end limit of one span is the start limit for the next span. Frequently all dimension line offsets for a <A HREF="IMEX0017.HTM#chained_linear_dimension" TARGET=ModelArea>chained_linear_dimension</A> are equal and the dimension lines of the spans are thus co-linear; this is illustrated in figure <A HREF="IMINT021.HTM#REF13573">26.7</A> (a). It is, however, possible for <A HREF="IMEX0017.HTM#chained_linear_dimension" TARGET=ModelArea>chained_linear_dimension</A> to have differing dimension line offsets for the spans; this is illustrated in figure <A HREF="IMINT021.HTM#REF13573">26.7</A> (b).
+<P><A NAME="REF13573"><CENTER><IMG SRC="FIG0035.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.7:  Examples of chained_linear_dimension</CENTER>
+<H5>Horizontal dimensioning, vertical dimensioning &amp; direct dimensioning</H5>
+<P>Most of the examples illustrated so far show the dimension lines drawn horizontally. This form of dimensioning is called <A HREF="IMEX0017.HTM#horizontal_dimension" TARGET=ModelArea>horizontal_dimension</A>. To draw vertical dimension lines, a <A HREF="IMEX0017.HTM#vertical_dimension" TARGET=ModelArea>vertical_dimension</A> is used. Finally, another variant of dimensioning is <A HREF="IMEX0017.HTM#direct_dimension" TARGET=ModelArea>direct_dimension</A> in which dimension lines are drawn parallel to the line connecting the dimension points. The three categories are illustrated in figure <A HREF="IMINT021.HTM#REF15747">26.8</A>.
+<P><A NAME="REF15747"><CENTER><IMG SRC="FIG0038.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.8:  Examples of horizontal, vertical and direct dimensioning</CENTER>
+<P>For <A HREF="IMEX0017.HTM#horizontal_dimension" TARGET=ModelArea>horizontal_dimension</A>, the dimension value of each dimension span corresponds to the horizontal distance between dimension points. Dimension lines are drawn parallel to the x-axis of the drawing. All projection lines are required to project vertically (parallel with the drawing y-axis) from the dimension points.
+<P>For <A HREF="IMEX0017.HTM#vertical_dimension" TARGET=ModelArea>vertical_dimension</A>, the dimension value of each dimension span corresponds to the vertical distance between dimension points. Dimension lines are drawn vertically and thus parallel to the y-axis of the drawing. All projection lines are required to project horizontally (parallel with the drawing x-axis) from the dimension points;
+
+<P>For <A HREF="IMEX0017.HTM#direct_dimension" TARGET=ModelArea>direct_dimension</A>, the distance of each span is measured directly between corresponding dimension points. Dimension lines are parallel to the line joining the dimension points. All projection lines are either perpendicular to the line joining the dimension points, or if a <I>projection_line_angle</I> is specified, are projected at the specified angle to the positive-going x-axis of the drawing. Examples of this form of dimensioning are given in figure <A HREF="IMINT021.HTM#REF11730">26.9</A> below. Figure <A HREF="IMINT021.HTM#REF33291">26.10</A> shows the model of linear_dimension.
+<P><A NAME="REF11730"><CENTER><IMG SRC="FIG0029.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.9:  Effect of projection_line_angle on direct_dimension</CENTER>
+<P><A NAME="REF33291"><CENTER><IMG SRC="FIG0032.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.10:  The model of linear_dimension</CENTER>
+
+<H4><A NAME="HDR60"> 26.5.2     Circular dimensioning</A></H4>
+<P>The <A HREF="IMEX0017.HTM#circular_dimension" TARGET=ModelArea>circular_dimension</A> is categorised into <A HREF="IMEX0017.HTM#radial_dimension" TARGET=ModelArea>radial_dimension</A> and <A HREF="IMEX0017.HTM#diametric_dimension" TARGET=ModelArea>diametric_dimension</A>. A <A HREF="IMEX0017.HTM#radial_dimension" TARGET=ModelArea>radial_dimension</A> is used to specify the dimensioning for the radius of an arc or a circle. A <A HREF="IMEX0017.HTM#diametric_dimension" TARGET=ModelArea>diametric_dimension</A> is used to specify the dimensioning for the diameter of a circle. The <A HREF="IMEX0017.HTM#circular_dimension" TARGET=ModelArea>circular_dimensions</A> are illustrated in figure <A HREF="IMINT021.HTM#REF36820">26.11</A>. Figure <A HREF="IMINT021.HTM#REF19001">26.12</A> shows the model of circular_dimension. 
+<P><A NAME="REF36820"><CENTER><IMG SRC="FIG0041.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.11:  Examples of circular_dimension</CENTER>
+<P><A NAME="REF19001"><CENTER><IMG SRC="FIG0084.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.12:  The model of circular_dimension</CENTER>
+<H4><A NAME="HDR61"> 26.5.3     Angular dimensioning</A></H4>
+
+<P>The <A HREF="IMEX0017.HTM#angular_dimension" TARGET=ModelArea>angular_dimension</A> has some characteristics similar to <A HREF="IMEX0017.HTM#linear_dimension" TARGET=ModelArea>linear_dimension</A>. It is either a <A HREF="IMEX0017.HTM#single_angular_dimension" TARGET=ModelArea>single_angular_dimension</A> or a <A HREF="IMEX0017.HTM#multiple_angular_dimension" TARGET=ModelArea>multiple_angular_dimension</A>. An example of <A HREF="IMEX0017.HTM#single_angular_dimension" TARGET=ModelArea>single_angular_dimension</A> is illustrated in figure <A HREF="IMINT021.HTM#REF26571">26.4</A>(b) and examples of <A HREF="IMEX0017.HTM#multiple_angular_dimension" TARGET=ModelArea>multiple_angular_dimension</A> are illustrated in figure <A HREF="IMINT021.HTM#REF13140">26.13</A>. The limits for the dimensioning of angles are specified by the dimensioned line segments. A pair of line segments is used to define each angle. The projected intersection of the identified line segments should be used as the centre for generating each dimension arc at a radius specified by the dimension_arc_offset. Projection lines should extend (with a gap specified by the projection_line_gap) from the ends of the line segments further from the point of intersection to a distance beyond the dimension arc specified by the projection_line_overshoot. Figure <A HREF="IMINT021.HTM#REF20248">26.14</A> shows the model of <A HREF="IMEX0017.HTM#angular_dimension" TARGET=ModelArea>angular_dimension</A>.
+<P><A NAME="REF13140"><CENTER><IMG SRC="FIG0042.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.13:  Examples of multiple_angular_dimension</CENTER>
+<P><A NAME="REF20248"><CENTER><IMG SRC="FIG0026.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.14:  The model of angular_dimension</CENTER>
+<H4><A NAME="HDR62"> 26.5.4     Positioning of dimensioning</A></H4>
+
+<P>There are dimensioning items which define reference points and lines relative to which dimensioning elements should be positioned. Some of the information required for the positioning of dimensioning is illustrated in figure <A HREF="IMINT021.HTM#REF24457">26.15</A>.
+<P><A NAME="REF24457"><CENTER><IMG SRC="FIG0050.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.15:  Elements controlling the positioning of dimensioning</CENTER>
+<H5>Linear dimensioning start and end points</H5>
+<P>A <A HREF="IMEX0017.HTM#linear_dimension" TARGET=ModelArea>linear_dimension</A> requires a <I>start point</I> and an <I>end point </I>which are used as limit markers for the extents of dimensioning and points of origin for offsets. The <I>start point</I> is specified in <A HREF="IMEX0017.HTM#linear_dimension" TARGET=ModelArea>linear_dimension</A>. For a <A HREF="IMEX0017.HTM#single_linear_dimension" TARGET=ModelArea>single_linear_dimension</A>, the <I>end point</I> is specified in a single <A HREF="IMEX0017.HTM#linear_dimension_item" TARGET=ModelArea>linear_dimension_item</A>. For a <A HREF="IMEX0017.HTM#multiple_linear_dimension" TARGET=ModelArea>multiple_linear_dimension</A>, multiple spans of dimensioning are required and therefore multiple <I>end points</I> are needed to mark the end of each span. The details for each span, including the <I>end poin</I>t, are held in a corresponding <A HREF="IMEX0017.HTM#linear_dimension_item" TARGET=ModelArea>linear_dimension_item</A>. This is illustrated in figure <A HREF="IMINT021.HTM#REF26160">26.16</A>.
+<P><A NAME="REF26160"><CENTER><IMG SRC="FIG0051.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.16:  Linear dimensioning start and end points</CENTER>
+
+<H5>Angular dimensioning start and end lines</H5>
+<P>For angular dimensioning, the <I>start line</I> segment and the <I>end line</I> segment and the defining <I>start point</I> and <I>end point</I> for each segment are used to define the angle to be measured and as reference features for the positioning of dimensioning elements. In figure <A HREF="IMINT021.HTM#REF38271">26.17</A>, the way in which these features are used to define the angle to be dimensioned is explained. In many cases, dimension arcs are drawn with arrows at both ends and so it is the magnitude and not the sign of the angle which is dimensioned. In cases where sign is signified, only one end of the dimension arc has an arrow
+<P><A NAME="REF38271"><CENTER><IMG SRC="FIG0053.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.17:  Specification of angle to be dimensioned in angular_dimension.</CENTER>
+<P>The <I>start line</I> information is specified in <A HREF="IMEX0017.HTM#angular_dimension" TARGET=ModelArea>angular_dimension</A>. For <A HREF="IMEX0017.HTM#single_angular_dimension" TARGET=ModelArea>single_angular_dimension</A> and <A HREF="IMEX0017.HTM#multiple_angular_dimension" TARGET=ModelArea>multiple_angular_dimension</A>, the <I>end line</I> information is specified in <A HREF="IMEX0017.HTM#angular_dimension_item" TARGET=ModelArea>angular_dimension_item</A>. It is illustrated in figure <A HREF="IMINT021.HTM#REF17988">26.18</A>
+
+<P><A NAME="REF17988"><CENTER><IMG SRC="FIG0046.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.18:  Angular dimensioning start and end lines</CENTER>
+<H5>Circular dimension start and end points</H5>
+<P>The positioning of the dimension line and associated dimensioning elements follows rules similar to those for <A HREF="IMEX0017.HTM#linear_dimension" TARGET=ModelArea>linear_dimension</A>. The derivation of the start and end points is illustrated in figure <A HREF="IMINT021.HTM#REF18514">26.19</A>. For <A HREF="IMEX0017.HTM#radial_dimension" TARGET=ModelArea>radial_dimension</A>, the start point is the centre of the dimensioned circle or arc and the end point is the point of intersection between the circle or arc and a line projected from the start point in the direction given by <I>dimension_line_angle</I>. For <A HREF="IMEX0017.HTM#diametric_dimension" TARGET=ModelArea>diametric_dimension</A>, the end point is the intersection of the dimensioned circle and a line projected through the circle centre in the direction of the <I>dimension_line_angle</I> and the start point is the intersection produced by projecting the line in the opposite direction.
+<P><A NAME="REF18514"><CENTER><IMG SRC="FIG0052.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.19:  Circular dimensioning derived start and end points</CENTER>
+
+<H5>dimension_line_offset &amp; dimension_arc_offset</H5>
+<P>The <I>dimension_line_offset</I> controls the distance by which dimension lines are offset from the features within the dimensioned objects. It is specified in <A HREF="IMEX0017.HTM#linear_dimension_item" TARGET=ModelArea>linear_dimension_item</A> and <A HREF="IMEX0017.HTM#circular_dimension" TARGET=ModelArea>circular_dimension</A>. Similarly, the <I>dimension_arc_offset</I> controls the distance by which dimension arcs are offset from the features within the dimensioned objects. It is specified in <A HREF="IMEX0017.HTM#angular_dimension_item" TARGET=ModelArea>angular_dimension_item</A>. 
+<P>For <A HREF="IMEX0017.HTM#linear_dimension_item" TARGET=ModelArea>linear_dimension_item</A>, the <I>start_point</I> attribute identifies the sole point of reference for <I>dimension_line_offset</I>. When <A HREF="IMEX0017.HTM#multiple_linear_dimension" TARGET=ModelArea>multiple_linear_dimension</A> is used, the <I>dimension_line_offset</I> of each span of dimensioning (specified in the corresponding <A HREF="IMEX0017.HTM#linear_dimension_item" TARGET=ModelArea>linear_dimension_item</A>) is measured relative to the common <I>start_point</I>.
+<P>For a <A HREF="IMEX0017.HTM#circular_dimension" TARGET=ModelArea>circular_dimension</A>, the method of deriving a start point and an end point is described in figure <A HREF="IMINT021.HTM#REF18514">26.19</A>. The effect of the <I>dimension_line_offset</I> on a <A HREF="IMEX0017.HTM#circular_dimension" TARGET=ModelArea>circular_dimension</A> is illustrated in figure <A HREF="IMINT021.HTM#REF27318">26.20</A>.
+<P><A NAME="REF27318"><CENTER><IMG SRC="FIG0044.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.20:  Effect of <I>dimension_line_offset</I> on circular_dimension</CENTER>
+<P>For an <A HREF="IMEX0017.HTM#angular_dimension" TARGET=ModelArea>angular_dimension</A>, the <I>start_line</I> identifies a line segment which acts as the base for the angle(s) to be measured. The end point of the <I>start_line </I>is the sole point of reference for the attribute <I>dimension_arc_offset</I>. This includes the <A HREF="IMEX0017.HTM#multiple_angular_dimension" TARGET=ModelArea>multiple_angular_dimension</A> where the <I>dimension_arc_offset</I> of each span of dimensioning (specified in the corresponding <A HREF="IMEX0017.HTM#angular_dimension_item" TARGET=ModelArea>angular_dimension_item</A>) is relative to this common reference point.
+
+<H5>dimension line and arc extension</H5>
+<P>Sometimes it is not convenient, because of space limitations, to place dimension text close to its associated dimension line or arc. For such cases provision has been made for the nearest end of the dimension line or arc to be extended with a path of leader lines linking the dimension line or arc with the dimension text. The choice of extension line path styles is limited to those enumerated by <A HREF="IMEX0017.HTM#dimension_line_extension_type" TARGET=ModelArea>dimension_line_extension_type</A>. Figure <A HREF="IMINT021.HTM#REF41979">26.21</A> shows the effect of <A HREF="IMEX0017.HTM#dimension_line_extension_type" TARGET=ModelArea>dimension_line_extension_type</A> on a horizontal_dimension. 
+<P>For <I>no_extension</I>, there is no leader extension line. For <I>single_line_extension</I>, the dimension line is extended to either be level with the extreme end of the text, or if the line passes through the text, it is drawn to stop just short of the text. For both <I>double_line_extension_to_text_centre</I> and <I>double_line_extension_to_underline_text</I>, the dimension line is extended on the side closest to the dimension text and then the path is continued by a vertical line (in the case of horizontal_dimension) which ends in close proximity to the dimension text. In the case of <I>double_line_extension_to_text_centre</I>, the path ends just short of the start of the text and is aligned centrally with respect to character height. In the case of <I>double_line_extension_to_underline_text</I>, provided the text is oriented parallel to the extension end, the path extends to underline the text; otherwise, it extends to come close to the far side of the text and finishes to align with bottom of the text.
+<P><A NAME="REF41979"><CENTER><IMG SRC="FIG0067.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.21:  Effect of dimension_line_extension_type on horizontal_dimension</CENTER>
+<P>The application to other forms of <A HREF="IMEX0017.HTM#linear_dimension" TARGET=ModelArea>linear_dimension</A> is similar. The example in figure <A HREF="IMINT021.HTM#REF38871">26.22</A> is of <I>double_line_extension_to_underline_text</I> applied to a <A HREF="IMEX0017.HTM#direct_dimension" TARGET=ModelArea>direct_dimension</A>:
+
+<P><A NAME="REF38871"><CENTER><IMG SRC="FIG0071.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.22:  Effect of dimension_line_extension_type on direct_dimension</CENTER>
+<P>Some cases of <A HREF="IMEX0017.HTM#circular_dimension" TARGET=ModelArea>circular_dimension</A> are now illustrated in figure <A HREF="IMINT021.HTM#REF28934">26.23</A>. 
+<P><A NAME="REF28934"><CENTER><IMG SRC="FIG0073.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.23:  Effect of dimension_line_extension_type on circular_dimension</CENTER>
+<P>For <A HREF="IMEX0017.HTM#angular_dimension" TARGET=ModelArea>angular_dimension</A> the first extension is of the arc. Otherwise extensions are made in the same fashion as for the other forms of dimension. The following illustration in figure <A HREF="IMINT021.HTM#REF11967">26.24</A> is of the case <I>double_line_extension_to_text_centre</I>:
+<P><A NAME="REF11967"><CENTER><IMG SRC="FIG0074.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.24:  Effect of dimension_line_extension_type on angular_dimension</CENTER>
+
+<H5>dimension_text_offset</H5>
+<P>The <I>dimension_text_offset</I> specifies the displacement of the bottom of the dimension text relative to the centre of the dimension line or arc. This occurs as an attribute of <A HREF="IMEX0017.HTM#linear_dimension_item" TARGET=ModelArea>linear_dimension_item</A>, <A HREF="IMEX0017.HTM#angular_dimension_item" TARGET=ModelArea>angular_dimension_item</A> and <A HREF="IMEX0017.HTM#circular_dimension" TARGET=ModelArea>circular_dimension</A>.
+<H5>projection_line_gap</H5>
+<P>The <I>projection_line_gap</I> is the gap left between each dimensioned object and the corresponding dimensioning projection lines. This attribute acts globally on all dimensioning and is defined at the level of the <A HREF="IMEX0017.HTM#pcb_drawing" TARGET=ModelArea>pcb_drawing</A>. 
+<H5>projection_line_overshoot </H5>
+<P>The <I>projection_line_overshoot</I> is the extent to which each projection line extends beyond any corresponding dimension line or arc. This attribute acts globally on all dimensioning and is defined at the level of the <A HREF="IMEX0017.HTM#pcb_drawing" TARGET=ModelArea>pcb_drawing</A>.
+<H4><A NAME="HDR63"> 26.5.5     Dimensioning attributes</A></H4>
+<P>Some of the finer points which determine the style of dimensioning will now be illustrated.
+<H5>Tolerancing of dimensions</H5>
+<P>If toleranced dimensions are to be generated, <A HREF="IMEX0017.HTM#tolerance_data" TARGET=ModelArea>tolerance_data</A> specifies the positive tolerance value and the negative tolerance value which apply to the measured value. The <A HREF="IMEX0017.HTM#tolerance_type" TARGET=ModelArea>tolerance_type</A> determines how the tolerance text is generated. Figure <A HREF="IMINT021.HTM#REF17477">26.25</A> shows the effect of <A HREF="IMEX0017.HTM#tolerance_type" TARGET=ModelArea>tolerance_type</A> on tolerance text. For <I>nominal_with_deltas</I> tolerancing, the tolerance text is potentially a different height to the main text; whereas in <I>minimum_and_maximum</I> tolerancing, the two text strings are drawn at the same height as each other (and equal to the height of the main dimension text).
+<P><A NAME="REF17477"><CENTER><IMG SRC="FIG0037.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.25:  Effect of tolerance_type on drawing tolerance text</CENTER>
+<H5>dimension_end_geometry</H5>
+
+<P>The start and end shapes, such as arrows, used at the ends of dimension lines are specified by <A HREF="IMEX0017.HTM#dimension_end_geometry" TARGET=ModelArea>dimension_end_geometry</A>. Various styles are illustrated in figure <A HREF="IMINT021.HTM#REF33378">26.26</A>. In addition, there is the category <A HREF="IMEX0017.HTM#non_standard_end_geometry" TARGET=ModelArea>non_standard_end_geometry</A> to enable the specification of other styles, such as may be required for marking the datum in <A HREF="IMEX0017.HTM#datum_linear_dimension" TARGET=ModelArea>datum_linear_dimension</A>. 
+<P><A NAME="REF33378"><CENTER><IMG SRC="FIG0043.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.26:  dimension_end_geometry</CENTER>
+<H5>dimension_line_type</H5>
+<P>In figure <A HREF="IMINT021.HTM#REF25696">26.27</A>, different ways in which dimension lines can be drawn are illustrated. The possibilities are enumerated by the <A HREF="IMEX0017.HTM#dimension_line_type" TARGET=ModelArea>dimension_line_type</A>
+<P><A NAME="REF25696"><CENTER><IMG SRC="FIG0049.GIF">
+</CENTER></A>
+<P><CENTER> Figure 26.27:  Effect of dimension_line_type on horizontal_dimension. </CENTER>
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

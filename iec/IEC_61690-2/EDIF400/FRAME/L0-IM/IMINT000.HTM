@@ -1,0 +1,345 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<!-- This file was created with the fm2html filter.
+The filter is copyright Norwegian Telecom Research and
+was programmed by Jon Stephenson von Tetzchner. -->
+
+<H1><A NAME="HDR0"> Part I:   General introduction</A></H1>
+
+<H2><A NAME="HDR1"> 1      Introduction</A></H2>
+<P>This document describes the information model of EDIF Version 4 0 0, a new version beyond EDIF Version 3 0 0 [<A HREF="IMINT023.HTM#REF85651">1</A>]. The goals of EDIF Version 4 0 0 include:
+
+<UL>
+<LI><P>Accurate design transfer
+<BR><BR>
+<LI><P>Correction of known minor problem areas and anomalies in EDIF Version 3 0 0
+<BR><BR>
+<LI><P>Focus on the requirements of PCB/MCM
+<BR><BR>
+<LI><P>Provision of a sound basis for future planned extensions
+<BR><BR></UL>
+
+<P>EDIF Version 4 0 0 descriptions can be specified at two different levels of complexity: Level 0 and Level 1. The Level 0 description is useful for sending static descriptions of electronic design data and the bulk of normal design transfer is expected to be done in Level 0. The Level 1 description supports parameterization of cells and frames.
+<P>The model presented in this document covers the concepts of Level 0 descriptions of EDIF Version 4 0 0. Appendix A gives the permuted index of entities defined in the model. Appendix B provides an index for each EXPRESS object (including all schemas, entities, types and functions) in this document.
+<H3><A NAME="HDR2"> 1.1    Purposes of an information model for EDIF Version 4 0 0</A></H3>
+<P>The aim of the information modelling activity has been to create a formal description of the design information carried by the new version of EDIF. This model represents formally the semantics of EDIF Version 4 0 0. It is intended to be used to improve the understanding of EDIF Version 4 0 0 and to ensure that the fundamental objects in EDIF Version 4 0 0 map as accurately as possible to the objects commonly found in CAE/CAD systems (e.g. nets, busses, ports and signals). In addition, the modelling process itself is valuable in helping to identify ambiguities in proposals for EDIF Version 4 0 0. This information model of EDIF Version 4 0 0 is the basis from which the EDIF Version 4 0 0 syntax has been derived. 
+<P>The language which has been chosen for the modelling of EDIF Version 4 0 0 is <I>EXPRESS </I>[<A HREF="IMINT023.HTM#REF19224">2</A>] - an information modelling language. It is neither a programming language nor a database design language. It is designed to be the formal language used to describe a new proposed International Standard (ISO 10303) for the exchange of product definition data between computer application systems. 
+<H3><A NAME="HDR3"> 1.2    Scope of EDIF Version 4 0 0 (Level 0)</A></H3>
+<H4><A NAME="HDR4"> 1.2.1     Categories of design information</A></H4>
+<P>The first phase of the modelling activity was to identify the set of information which is relevant to its scope. At present, several categories of design information have been identified.
+
+<UL>
+<LI><P><B>Hierarchy information</B>. This describes how a circuit is broken down into a number of cells. It also gives details about the aspects of a cell representation which are provided to an instance. This information includes the port definitions and relationships between them.
+<BR><BR>
+<LI><P><B>Connectivity information</B>. This defines how circuits are connected. In EDIF Version 4 0 0, the connectivity information is subdivided into:
+<BR><BR>
+</UL>
+
+<DL>
+<DD><B>Logical connectivity information</B>. This describes the entire connectivity for a given level of hierarchy. It is specified in terms of signals and signal groups.
+<BR><BR>
+<DD><B>Structural connectivity information</B>. This describes the structural implementation of the logical connectivity for a given level of hierarchy. It is specified in terms of nets, busses, rippers and junctions.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P><B>Library information</B>. This provides technology information which includes scaling information and definitions of figure groups.
+<BR><BR>
+<LI><P><B>Display information</B>. This provides graphical primitives which can be used to describe "dumb graphics", symbols, interconnects or layout.
+<BR><BR>
+<LI><P><B>Instantiatable object information</B>. This provides template definitions whose occurrences can be used to support the implementation part of cell views.
+<BR><BR>
+<LI><P><B>Design management information</B>. This provides the information needed to trace back to the source or the owner of the data.
+<BR><BR>
+<LI><P><B>Model behaviour information</B>. This explains the event-driven behaviour of a cell which includes defining groups of actions which should take place whenever a specified trigger is activated. It is not defined in the model.
+<BR><BR>
+<LI><P><B>Simulation information</B>. This is used to check the operation of the circuit by giving a collection of simulation stimuli and expected responses. It is not defined in the model.
+<BR><BR>
+<LI><P><B>Annotation information</B>. This is used to hold the annotation data relating to an occurrence hierarchy.
+<BR><BR></UL>
+
+<P>To support implementation on PCBs and MCMs, EDIF provides:
+
+<UL>
+<LI><P><B>Bare board technology information</B>. This provides information on the construction of a bare board. It describes the ordering of the layers in the bare board and the materials of which the layers are made. In addition, it specifies rules for determining which layers can be drilled through at various stages of the bare board manufacturing process. 
+<BR><BR>
+<LI><P><B>Package information</B>. This provides information of packages, such as body volume, pin location. 
+<BR><BR>
+<LI><P><B>Package mounting information</B>. This provides information of packages which are prepared for mounting in a particular way. For example, a package may be prepared for mounting by having some of its pins cut off.
+<BR><BR>
+<LI><P><B>Part information</B>. This provides definitions of mechanical parts, electrical parts, connector parts and jumper parts.
+<BR><BR>
+<LI><P><B>Sublayout information</B>. This provides definitions of bare board, test coupons, padstacks, footprints and toeprints.
+<BR><BR>
+
+<LI><P><B>Assembled board information</B>. This provides definitions of components and information on how components are mounted or printed on a bare board. 
+<BR><BR>
+<LI><P><B>Multi-chip modules information</B>. This provides definitions of bare dies. Various mounting styles are supported, including tabbing, flip-chip and wirebond.
+<BR><BR>
+<LI><P><B>Technology rule information</B>. This describes various types of manufacturing and assembly rules.
+<BR><BR>
+<LI><P><B>Manufacturing drawing information</B>. This describes various types of drawing, including assembly drawings and drill drawings. A drawing is associated with a bare board or an assembled board. It can show all or part of any area of the bare board or assembled board, together with annotation and dimensioning.
+<BR><BR></UL>
+
+<H4><A NAME="HDR5"> 1.2.2     Categories of cell representation</A></H4>
+<P>In EDIF Version 4 0 0, different representation techniques are available to describe various aspects of a cell. Each representation (i.e. view or symbol) conveys a different set of design information as identified above. At present, EDIF Version 4 0 0 supports the following types of view: connectivity, schematic, PCB/MCM, symboliclayout, masklayout, logicmodel and behavior. In addition, EDIF Version 4 0 0 allows a schematic symbol to be a form of cell representation in its own right. 
+<H4><A NAME="HDR6"> 1.2.3     Organisation of the information model</A></H4>
+<P>Each category of design information is modelled as an <I>EXPRESS</I> <I>SCHEMA</I>. A schema provides a context for the definition of things of similar interest. Each schema has been made independent of other schemas whenever possible so that the schema definition is more robust. Each EDIF Version 4 0 0 viewtype is also modelled separately in a different schema. 
+<P>At present, the information model for EDIF Version 4 0 0 Level 0 consists of a total of 30 schemas. Figure <A HREF="IMINT000.HTM#REF23389">1.1</A> shows the structuring of schemas in the information model. Some schemas contain general information which is useful in the definition of other schemas. On the other hand, some schemas are viewtype specific. At present, the information model completely describes the connectivity, schematic and PCB/MCM viewtypes. 
+
+<P><A NAME="REF23389"><CENTER><IMG SRC="FIG0100.GIF">
+</CENTER></A>
+<P><CENTER> Figure 1.1:  The structuring of schemas in the information model for EDIF Version 4 0 0 (Level 0)</CENTER>
+
+<H5>Viewtype independent schemas</H5>
+
+<UL>
+<LI><P><A HREF="IMEX0007.HTM#edif_information_model" TARGET=ModelArea>edif_information_model</A> - provides the information held by an EDIF file.
+<BR><BR>
+<LI><P><A HREF="IMEX0011.HTM#library_model" TARGET=ModelArea>library_model</A> - contains the technology information of a library (see section <A HREF="IMINT000.HTM#REF40713">2.1</A>).
+<BR><BR>
+<LI><P><A HREF="IMEX0009.HTM#hierarchy_model" TARGET=ModelArea>hierarchy_model</A> - describes the hierarchical information of a cell (see section <A HREF="IMINT000.HTM#REF31557">2.2</A>).
+<BR><BR>
+<LI><P><A HREF="IMEX0003.HTM#design_hierarchy_model" TARGET=ModelArea>design_hierarchy_model</A> - holds annotation data relating to a design hierarchy (see chapter <A HREF="IMINT003.HTM#REF30103">5</A>). 
+<BR><BR>
+<LI><P><A HREF="IMEX0010.HTM#instantiatable_object_model" TARGET=ModelArea>instantiatable_object_model</A> - defines various types of reusable template (see chapter <A HREF="IMINT001.HTM#REF29140">3</A>). 
+<BR><BR>
+<LI><P><A HREF="IMEX0012.HTM#logical_connectivity_model" TARGET=ModelArea>logical_connectivity_model</A> - specifies view-wide connectivity (see section <A HREF="IMINT002.HTM#REF28718">4.1</A>).
+<BR><BR>
+<LI><P><A HREF="IMEX0004.HTM#design_management_model" TARGET=ModelArea>design_management_model</A> - provides design management information.
+<BR><BR>
+<LI><P><A HREF="IMEX0006.HTM#documentation_model" TARGET=ModelArea>documentation_model</A> - describes the documentation provided for an object.
+<BR><BR>
+<LI><P><A HREF="IMEX0008.HTM#geometry_model" TARGET=ModelArea>geometry_model</A> - describes geometrical concepts.
+<BR><BR>
+<LI><P><A HREF="IMEX0005.HTM#display_model" TARGET=ModelArea>display_model</A> - describes graphical primitives.
+<BR><BR>
+<LI><P><A HREF="IMEX0029.HTM#support_definition_model" TARGET=ModelArea>support_definition_model</A> - provides general entity, type and function definitions which are used by other schemas.
+<BR><BR>
+<LI><P><A HREF="IMEX0030.HTM#unfinished_view_model" TARGET=ModelArea>unfinished_view_model</A> - provides "stubs" for masklayout, symboliclayout, logicmodel and behavior viewtypes.
+<BR><BR></UL>
+
+<H5>Connectivity view schemas</H5>
+
+<UL>
+<LI><P><A HREF="IMEX0002.HTM#connectivity_view_model" TARGET=ModelArea>connectivity_view_model</A> - describes the connectivity viewtype.
+<BR><BR>
+<LI><P><A HREF="IMEX0001.HTM#connectivity_structure_model" TARGET=ModelArea>connectivity_structure_model</A> - describes the structural connectivity of the connectivity view (see chapter <A HREF="IMINT008.HTM#REF20821">11</A>).
+<BR><BR></UL>
+
+<H5>Schematic view schemas</H5>
+
+<UL>
+<LI><P><A HREF="IMEX0028.HTM#schematic_view_model" TARGET=ModelArea>schematic_view_model</A> - describes the schematic viewtype.
+<BR><BR>
+<LI><P><A HREF="IMEX0027.HTM#schematic_implementation_model" TARGET=ModelArea>schematic_implementation_model</A> - describes the structural implementation of a schematic view (see chapter <A HREF="IMINT009.HTM#REF26502">13</A>). 
+<BR><BR></UL>
+
+<H5>PCB/MCM view schemas</H5>
+
+<UL>
+<LI><P><A HREF="IMEX0021.HTM#pcb_mcm_view_model" TARGET=ModelArea>pcb_mcm_view_model</A> - describes the PCB/MCM viewtype (see chapter <A HREF="IMINT018.HTM#REF41851">23</A>).
+<BR><BR>
+<LI><P><A HREF="IMEX0015.HTM#pcb_assembled_board_model" TARGET=ModelArea>pcb_assembled_board_model</A> - describes the implementation of a PCB/MCM view (see chapter <A HREF="IMINT019.HTM#REF28608">24</A>).
+<BR><BR>
+<LI><P><A HREF="IMEX0023.HTM#pcb_package_model" TARGET=ModelArea>pcb_package_model</A> - describes a package which is a mechanical holder for a circuit (see chapter <A HREF="IMINT011.HTM#REF12746">16</A>).
+<BR><BR>
+
+<LI><P><A HREF="IMEX0022.HTM#pcb_mountable_package_model" TARGET=ModelArea>pcb_mountable_package_model</A> - describes the mounting information of a package (see chapter <A HREF="IMINT012.HTM#REF36315">17</A>).
+<BR><BR>
+<LI><P><A HREF="IMEX0024.HTM#pcb_part_model" TARGET=ModelArea>pcb_part_model</A> - describes parts (analogous to a component data book, see chapter <A HREF="IMINT014.HTM#REF31045">19</A>).
+<BR><BR>
+<LI><P><A HREF="IMEX0025.HTM#pcb_sub_layout_model" TARGET=ModelArea>pcb_sub_layout_model</A> - describes footprints, toeprints and other sublayouts on a bare board (see chapter <A HREF="IMINT015.HTM#REF37443">20</A>).
+<BR><BR>
+<LI><P><A HREF="IMEX0026.HTM#pcb_technology_model" TARGET=ModelArea>pcb_technology_model</A> - describes the physical structure of a bare board (see chapter <A HREF="IMINT010.HTM#REF15712">15</A>) and various technology rules (see chapter <A HREF="IMINT020.HTM#REF16438">25</A>) which guides a designer (or CAD system) to create a layout which is manufacturable.
+<BR><BR>
+<LI><P><A HREF="IMEX0019.HTM#pcb_material_model" TARGET=ModelArea>pcb_material_model</A> - describes the materials which may be used during the construction of a bare board (see chapter <A HREF="IMINT009.HTM#REF13247">14</A>).
+<BR><BR>
+<LI><P><A HREF="IMEX0018.HTM#pcb_fabricate_model" TARGET=ModelArea>pcb_fabricate_model</A> - describes the fabrication primitives.
+<BR><BR>
+<LI><P><A HREF="IMEX0016.HTM#pcb_board_subset_model" TARGET=ModelArea>pcb_board_subset_model</A> - describes the primitives to be used in a drawing.
+<BR><BR>
+<LI><P><A HREF="IMEX0017.HTM#pcb_drawing_model" TARGET=ModelArea>pcb_drawing_model</A> - describes various types of drawing which are used as documentation of a PCB/MCM view (see chapter <A HREF="IMINT021.HTM#REF24977">26</A>). 
+<BR><BR>
+<LI><P><A HREF="IMEX0020.HTM#pcb_mcm_instantiatable_object_model" TARGET=ModelArea>pcb_mcm_instantiatable_object_model</A> - describes various types of reusable template for PCB/MCM view.
+<BR><BR>
+<LI><P><A HREF="IMEX0013.HTM#mcm_die_physical_model" TARGET=ModelArea>mcm_die_physical_model</A> - describes the interface of a die which is mounted onto an MCM (see section <A HREF="IMINT013.HTM#REF81286">18.2</A>).
+<BR><BR>
+<LI><P><A HREF="IMEX0014.HTM#mcm_mountable_die_physical_model" TARGET=ModelArea>mcm_mountable_die_physical_model</A> - describes the mounting information of a die (see section <A HREF="IMINT013.HTM#REF30630">18.4</A>).
+<BR><BR></UL>
+
+<H3><A NAME="HDR7"> 1.3    Modelling general concepts</A></H3>
+<P>The techniques used for modelling the concepts of containment, object referencing and instantiation are described in this section.
+<H4><A NAME="HDR8"> 1.3.1     Containment</A></H4>
+<P>In EDIF, containment is a purely lexical mechanism and relates to the textual enclosure of object descriptions within the matching parentheses of another description. 
+<P>Many relationships are expressed using simple containment. A design definition being part of an edif file and a cell being within a particular library are examples of this type of relationship. 
+<P>To model the containment technique in <I>EXPRESS</I>, a specific technique has been used. This is illustrated in the example given in figure <A HREF="IMINT000.HTM#REF14518">1.2</A>.
+
+<P><A NAME="REF14518"><CENTER>
+<TABLE>
+<TR>
+<TD>
+<PRE>
+  entity edif;
+    designs           : set of design;
+    ...
+  end_entity;
+
+  entity design;
+    ...
+  WHERE
+    containment_constraint : 
+      (* A design belongs to one edif file. *)
+        belongs_to_one(SELF, 
+        'edif_information_model.edif.designs');
+  end_entity;
+
+  function belongs_to_one
+    (entity_instance : generic; role : string) : boolean;
+    return(sizeof(usedin(entity_instance, role)) = 1);
+  end_function;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+</CENTER></A>
+<P><CENTER> Figure 1.2:  Modelling containment in EXPRESS</CENTER>
+<P>The <A HREF="IMEX0029.HTM#belongs_to_one" TARGET=ModelArea>belongs_to_one</A> function is defined in terms of the <I>EXPRESS</I> <I>USEDIN </I>function. This function accepts an entity instance and the role it plays in the definition of other entities. It returns true if there is only one entity instance which uses that <CODE>entity_instance</CODE> in the specified <CODE>role</CODE>. In this example, the constraint in the definition of entity <CODE>design</CODE> requires every <CODE>design</CODE> instance to be used by only one <CODE>edif</CODE> instance. Therefore, the effect of containment is achieved.
+<H4><A NAME="HDR9"> 1.3.2     Referencing mechanism</A></H4>
+<P>Many relationships are expressed using simple containment. However, this method alone is only adequate to describe simple structures. There are many relationships between objects in a typical CAD database which require more flexibility to be expressed, such as the instantiation of one cell within another, or connectivity. 
+<P>In EDIF, names (or identifiers) are used to identify objects uniquely. They are valid within a well-defined scope. For example, the identifier chosen for a port in one cell cannot be confused with that of a port of another cell that happens to have the same spelling. However, such local identifiers require some form of qualification before the local object can be referenced from another context. For example, to reference a cell may require both the cell identifier and the library identifier to be specified. 
+<P>Consider the following excerpt from an EDIF description; a design <CODE>I1 </CODE>contains a reference to cell <CODE>V1</CODE> in a library, called <CODE>lib</CODE>. This kind of nested reference is required whenever an EDIF object is accessed outside its own context.
+
+<DL>
+<DD><CODE>(design I1 (cellRef V1 (libraryRef lib)) (designHeader ...))</CODE>
+<BR><BR></DL>
+
+<P>A possible model for this referencing mechanism is given in figure <A HREF="IMINT000.HTM#REF12152">1.3</A>.
+
+<P><A NAME="REF12152"><CENTER>
+<TABLE>
+<TR>
+<TD>
+<PRE>
+  entity library;
+    name               : library_identifier;
+    cells              : set of cell;
+    ...
+  end_entity;
+
+  entity cell;
+    name               : cell_identifier;
+    clusters           : set of cluster;
+    ...
+  end_entity;
+
+  entity design;
+    top_cell           : cell_identifier;
+    referenced_library : library_identifier;
+    ...
+  where
+    -- checks that the top_cell belongs to the referenced_library
+  end_entity;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+</CENTER></A>
+<P><CENTER> Figure 1.3:  A possible way of modelling the referencing mechanism in EXPRESS</CENTER>
+<P>However, in <I>EXPRESS</I>, nested reference is not necessary because every object has a unique identity. The use of an identifier becomes obsolete. An occurrence of a cell can be referenced <I>directly</I> without giving information about the containing library. Hence, there is no need for <I>EXPRESS </I>to copy the nested referencing mechanism which EDIF uses for coping with syntactic constraints. The correct model is given in figure <A HREF="IMINT000.HTM#REF31494">1.4</A>.
+<P><A NAME="REF31494"><CENTER>
+<TABLE>
+<TR>
+<TD>
+<PRE>
+
+ entity library; 
+   cells         : set of cell;    (* no need for library_identifier *)
+   ...
+ end_entity;
+
+ entity cell; 
+   clusters      : set of cluster; (* no need for cell_identifier *)
+   ...
+ end_entity;
+
+ entity design;
+   top_cell      : cell;  -- direct reference to the cell definition
+   ...
+ end_entity;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+</CENTER></A>
+<P><CENTER> Figure 1.4:  Modelling the referencing mechanism in EXPRESS</CENTER>
+
+<H4><A NAME="HDR10"> 1.3.3     Instantiation</A></H4>
+<P>The general mechanism for modelling instantiation is given in figure <A HREF="IMINT000.HTM#REF20907">1.5</A>.   In the example, entity <CODE>XYZ_object</CODE>  contains attributes <CODE>a</CODE>, <CODE>b</CODE>, <CODE>c</CODE> and <CODE>d</CODE>. Attributes <CODE>a </CODE>and <CODE>b</CODE> are preserved on instantiation of <CODE>XYZ_object</CODE>, whereas attributes <CODE>c</CODE> and <CODE>d</CODE> are not. Entity <CODE>XYZ_instance</CODE> is an instance of <CODE>XYZ_object</CODE> and contains a reference to its master and some instance specific attributes (i.e. <CODE>e</CODE> and <CODE>f</CODE>). 
+<P><A NAME="REF20907"><CENTER>
+<TABLE>
+<TR>
+<TD>
+<PRE>
+
+ entity XYZ_object;  
+   a, b                : instantiatable_attr; 
+   c, d                : noninstantiatable_attr;
+ end_entity; 
+
+ entity XYZ_instance;                      
+   instantiated_object : XYZ_object; -- reference to the object definition
+   e, f                : instance_specific_attr;
+ end_entity;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+</CENTER></A>
+<P><CENTER> Figure 1.5:  Modelling instantiation in EXPRESS</CENTER>
+<H1><A NAME="HDR11"> Part II:   EDIF concepts (Level 0)</A></H1>
+
+<H2><A NAME="REF18048"> 2      The structure of an EDIF description</A></H2>
+<P>An EDIF description is expressed in the form of a hierarchy, abstract at its higher levels, and becoming progressively more detailed as it descends the hierarchy. At the highest level of this structure, an <A HREF="IMEX0007.HTM#edif" TARGET=ModelArea>edif</A> description may contain several <A HREF="IMEX0003.HTM#design" TARGET=ModelArea>designs</A> and several libraries of <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A> definitions. Each <A HREF="IMEX0011.HTM#library" TARGET=ModelArea>library</A> is a collection of <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cells</A> and reusable templates which are grouped according to a set of common characteristics. A <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A> is the main design object which may be instantiated later in another <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A> to build a design hierarchy. These concepts are elaborated in the following sections.
+<H3><A NAME="REF40713"> 2.1    Libraries</A></H3>
+<P>An EDIF <A HREF="IMEX0011.HTM#library" TARGET=ModelArea>library</A> is a grouping of <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cells</A> and reusable templates according to some set of common characteristics. This grouping is arbitrary except for the technology information which is shared by all <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cells</A> and templates within the <A HREF="IMEX0011.HTM#library" TARGET=ModelArea>library</A>. The technology information includes definitions of <A HREF="IMEX0011.HTM#figure_group" TARGET=ModelArea>figure_groups</A>. 
+<P>EDIF libraries may be locally defined; that is the descriptions of constituent <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cells</A> and templates are included in the current EDIF file. Libraries may also be external which implies that the details of the constituent <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cells</A> and templates are not available at all in the current EDIF file. 
+<P>The model for <A HREF="IMEX0011.HTM#library" TARGET=ModelArea>library</A> can be found in the <A HREF="IMEX0011.HTM#library_model" TARGET=ModelArea>library_model</A> schema. A <A HREF="IMEX0011.HTM#library" TARGET=ModelArea>library</A> is classified into <A HREF="IMEX0011.HTM#internal_library" TARGET=ModelArea>internal_library</A> and <A HREF="IMEX0011.HTM#external_library" TARGET=ModelArea>external_library</A>. An <A HREF="IMEX0011.HTM#internal_library" TARGET=ModelArea>internal_library</A> may contain implementation information, whereas an <A HREF="IMEX0011.HTM#external_library" TARGET=ModelArea>external_library</A> does not include implementation details.
+<H3><A NAME="REF31557"> 2.2    Cells</A></H3>
+<P>The model for <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A> can be found in the <A HREF="IMEX0009.HTM#hierarchy_model" TARGET=ModelArea>hierarchy_model</A> schema. A <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A> is classified into <A HREF="IMEX0009.HTM#internal_cell" TARGET=ModelArea>internal_cell</A> and <A HREF="IMEX0009.HTM#external_cell" TARGET=ModelArea>external_cell</A>. An <A HREF="IMEX0009.HTM#internal_cell" TARGET=ModelArea>internal_cell</A> may contain implementation information, whereas an <A HREF="IMEX0009.HTM#external_cell" TARGET=ModelArea>external_cell</A> does not include implementation details.
+<H3><A NAME="REF25381"> 2.3    Clusters and view groups</A></H3>
+<P>The model for <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A> can be found in the <A HREF="IMEX0009.HTM#hierarchy_model" TARGET=ModelArea>hierarchy_model</A> schema. A <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A> defines an interface and groups together the <A HREF="IMEX0009.HTM#cell_representation" TARGET=ModelArea>cell_representations</A> (i.e. views and symbols) which share this common interface. A <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A> may contain many <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>clusters</A>. Since views and symbols are defined directly inside <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A>, symbols may be shared between views in the same <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A>. A <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A> is the object which may be instantiated in another cell view to build a design hierarchy. As mentioned above, a <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A> is classified into <A HREF="IMEX0009.HTM#internal_cell" TARGET=ModelArea>internal_cell</A> and <A HREF="IMEX0009.HTM#external_cell" TARGET=ModelArea>external_cell</A>. An <A HREF="IMEX0009.HTM#internal_cell" TARGET=ModelArea>internal_cell</A> defines a set of <A HREF="IMEX0009.HTM#internal_cluster" TARGET=ModelArea>internal_clusters</A>, whereas an <A HREF="IMEX0009.HTM#external_cell" TARGET=ModelArea>external_cell</A> defines a set of <A HREF="IMEX0009.HTM#external_cluster" TARGET=ModelArea>external_clusters</A>. Only <A HREF="IMEX0009.HTM#internal_cell_representation" TARGET=ModelArea>internal_cell_representations</A> (i.e. internal views or internal symbols) are allowed in an <A HREF="IMEX0009.HTM#internal_cluster" TARGET=ModelArea>internal_cluster</A>, and only <A HREF="IMEX0009.HTM#external_cell_representation" TARGET=ModelArea>external_cell_representations</A> (i.e. external views or external symbols) are allowed in an <A HREF="IMEX0009.HTM#external_cluster" TARGET=ModelArea>external_cluster</A>. 
+<P>At present, the following types of view are supported: connectivity, schematic, PCB/MCM, symboliclayout, masklayout, logicmodel and behavior. Only connectivity, schematic and PCB/MCM viewtypes are fully described in the current model. In addition, schematic symbol is also supported. 
+
+<P>In addition, views or symbols may have a particularly close relationship based on factors other than sharing a common interface. There are various reasons for this close relationship; for example, a netlist may be related to a hierarchical schematic, or a flattened netlist may be related to a derived layout implementation. This relationship can be captured by the concept of <A HREF="IMEX0009.HTM#view_group" TARGET=ModelArea>view_group</A>. The model for <A HREF="IMEX0009.HTM#view_group" TARGET=ModelArea>view_group</A> can be found in the <A HREF="IMEX0009.HTM#hierarchy_model" TARGET=ModelArea>hierarchy_model</A> schema. A <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A> may contain many <A HREF="IMEX0009.HTM#view_group" TARGET=ModelArea>view_groups</A>. A <A HREF="IMEX0009.HTM#view_group" TARGET=ModelArea>view_group</A> groups together the relevant <A HREF="IMEX0009.HTM#cell_representation" TARGET=ModelArea>cell_representations</A> within the same <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A>. Simple annotation is provided within a <A HREF="IMEX0009.HTM#view_group" TARGET=ModelArea>view_group</A> to indicate the reason for the grouping. As for <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A>, a <A HREF="IMEX0009.HTM#view_group" TARGET=ModelArea>view_group</A> can be either an <A HREF="IMEX0009.HTM#internal_view_group" TARGET=ModelArea>internal_view_group</A> or an <A HREF="IMEX0009.HTM#external_view_group" TARGET=ModelArea>external_view_group</A>. An <A HREF="IMEX0009.HTM#internal_view_group" TARGET=ModelArea>internal_view_group</A> indicates a relationship between <A HREF="IMEX0009.HTM#internal_cell_representation" TARGET=ModelArea>internal_cell_representations</A> belonging to the same <A HREF="IMEX0009.HTM#internal_cell" TARGET=ModelArea>internal_cell</A>. An <A HREF="IMEX0009.HTM#external_view_group" TARGET=ModelArea>external_view_group</A> indicates a relationship between <A HREF="IMEX0009.HTM#external_cell_representation" TARGET=ModelArea>external_cell_representations</A> belonging to the same <A HREF="IMEX0009.HTM#external_cell" TARGET=ModelArea>external_cell</A>. 
+<P>The relationship between <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A>, <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A> and <A HREF="IMEX0009.HTM#view_group" TARGET=ModelArea>view_group</A> is shown in figure <A HREF="IMINT000.HTM#REF18500">2.1</A>.
+<P><A NAME="REF18500"><CENTER><IMG SRC="FIG0006.GIF">
+</CENTER></A>
+<P><CENTER> Figure 2.1:  The relationship between cell, cluster and view_group</CENTER>
+<H3><A NAME="HDR12"> 2.4    Views and symbols</A></H3>
+<P>A <A HREF="IMEX0009.HTM#cell_representation" TARGET=ModelArea>cell_representation</A> specifies a representation or perspective of a <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A>. It can be either a view or a symbol. A <A HREF="IMEX0009.HTM#cell_representation" TARGET=ModelArea>cell_representation</A> obtains its interface definition from its containing <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A>. A direct relationship may be established between two <A HREF="IMEX0009.HTM#cell_representation" TARGET=ModelArea>cell_representations</A>. This relationship may be used to support basic versioning and data management control. Any <A HREF="IMEX0009.HTM#cell_representation" TARGET=ModelArea>cell_representation</A> may be a new version of another <A HREF="IMEX0009.HTM#cell_representation" TARGET=ModelArea>cell_representation</A>, or may be derived from another <A HREF="IMEX0009.HTM#cell_representation" TARGET=ModelArea>cell_representation</A>. When one view or symbol is defined to be a new version of another view or symbol, the types of the two views or symbols must be the same. On the other hand, when one view or symbol is defined to be derived from another view or symbol, the views or symbols may be of the same or of different types.
+<H3><A NAME="HDR13"> 2.5    Ports and port_bundles</A></H3>
+<P>Ports and port_bundles are defined in the interface of a <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A> of a <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A>. These objects represent the only places where a connection can be made to a cell. The models for <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_port</A> and <A HREF="IMEX0009.HTM#master_port_bundle" TARGET=ModelArea>master_port_bundle</A> can be found in the <A HREF="IMEX0009.HTM#hierarchy_model" TARGET=ModelArea>hierarchy_model</A> schema. 
+
+<P>A <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_port</A> describes a port in the interface of a <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A>. The size of a <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_port</A> is always one. It may have a direction characteristic, which can be either input, output or bidirectional. In addition, it has information about its external load capacitance, delays for the given set of transitions and its designator name. 
+<P>Similarly, a <A HREF="IMEX0009.HTM#master_port_bundle" TARGET=ModelArea>master_port_bundle</A> describes a port_bundle in the interface of a <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A>. The purpose of <A HREF="IMEX0009.HTM#master_port_bundle" TARGET=ModelArea>master_port_bundle</A> is to build structured ports. A <A HREF="IMEX0009.HTM#master_port_bundle" TARGET=ModelArea>master_port_bundle</A> explicitly groups <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_ports</A> or other <A HREF="IMEX0009.HTM#master_port_bundle" TARGET=ModelArea>master_port_bundles</A> defined in the same interface. The same <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_port</A> may be referenced by more than one <A HREF="IMEX0009.HTM#master_port_bundle" TARGET=ModelArea>master_port_bundle</A>. However, the same <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_port</A> is not allowed to be referenced more than once by the same <A HREF="IMEX0009.HTM#master_port_bundle" TARGET=ModelArea>master_port_bundle</A>.
+<P>Figure <A HREF="IMINT000.HTM#REF10875">2.2</A> shows the model of <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_port</A>.
+<P><A NAME="REF10875"><CENTER><IMG SRC="FIG0102.GIF">
+</CENTER></A>
+<P><CENTER> Figure 2.2:  The model of master_port</CENTER>
+<H3><A NAME="REF74291"> 2.6    Instances</A></H3>
+<P>A <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A> is the object which is instanced in another cell view to build a design hierarchy. An <A HREF="IMEX0009.HTM#instance" TARGET=ModelArea>instance</A> is defined by referencing a <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A> in a <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A>. Since the <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>cluster</A> defines the interface of the instantiated <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cell</A>, it is possible to establish connectivity between the <A HREF="IMEX0009.HTM#instance" TARGET=ModelArea>instance</A> and its instantiating view. 
+<P>The benefit of this instantiation mechanism is that there is no need to decide which specific representation of a cell is being used in the instantiating view. The decision to select a particular representation (which may be a view or a symbol) is delayed until the instantiating view is implemented. For example, a schematic view may contain <A HREF="IMEX0009.HTM#instance" TARGET=ModelArea>instances</A> of <A HREF="IMEX0009.HTM#cluster" TARGET=ModelArea>clusters</A> of other <A HREF="IMEX0009.HTM#cell" TARGET=ModelArea>cells</A>. When that schematic view is implemented, <A HREF="IMEX0009.HTM#instance" TARGET=ModelArea>instances</A> are configured by selecting suitable symbol representations and placing them on <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>pages</A>. 
+<P>The model for <A HREF="IMEX0009.HTM#instance" TARGET=ModelArea>instance</A> can be found in the <A HREF="IMEX0009.HTM#hierarchy_model" TARGET=ModelArea>hierarchy_model</A> schema. Every <A HREF="IMEX0009.HTM#instance" TARGET=ModelArea>instance</A> has a width attribute. If the width is greater than 1, it represents an arrayed <A HREF="IMEX0009.HTM#instance" TARGET=ModelArea>instance</A>. 
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

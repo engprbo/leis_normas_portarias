@@ -1,0 +1,1585 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcb_part_model">pcb_part_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A> schema is used to describe <A HREF="IMEX0024.HTM#part">parts</A>.  This information
+ changes infrequently and is used for the design of many boards.  A
+ <A HREF="IMEX0021.HTM#component">component</A> is an instance of a <A HREF="IMEX0024.HTM#part">part</A>.  For example, there may be three
+ 74LS00 <A HREF="IMEX0021.HTM#component">components</A> in an assembly.  However, they share the same
+ characteristics which are defined by a 74LS00 <A HREF="IMEX0024.HTM#part">part</A>.  
+</P><HR>
+<!-- Start of ENTITY: part -->
+<H2><A NAME="part">part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#part">part</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>,
+                                    <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A>,
+                                    <A HREF="IMEX0024.HTM#connector_part">connector_part</A>,
+                                    <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>));
+    document         : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#documentation">documentation</A>;
+    name             : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    previous_version : OPTIONAL <A HREF="IMEX0024.HTM#part">part</A>; -- reference
+    properties       : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    units            : <A HREF="IMEX0024.HTM#part_units">part_units</A>;
+    written_status   : OPTIONAL SET [1:?] OF <A HREF="IMEX0004.HTM#written">written</A>;
+  WHERE
+    <A NAME="part.valid_previous_version">valid_previous_version</A> :
+      (* A part cannot be a new version of itself, either directly or
+         indirectly. *)
+      <A HREF="IMEX0029.HTM#non_recursive_previous_version">non_recursive_previous_version</A>(SELF, []);
+
+    <A NAME="part.valid_written_in_previous_version">valid_written_in_previous_version</A> :
+      (* The earliest timestamp of a part is later than the latest
+         timestamp of its previous version. *)  
+      <A HREF="IMEX0004.HTM#valid_timestamp_in_previous_version">valid_timestamp_in_previous_version</A>(written_status,
+                                          previous_version.written_status);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#part">part</A> is the set of information which describes a particular <A HREF="IMEX0021.HTM#component">component</A>.
+ It corresponds to a data book description of a <A HREF="IMEX0021.HTM#component">component</A>.  A <A HREF="IMEX0024.HTM#part">part</A> may be
+ either <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>, <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A>, <A HREF="IMEX0024.HTM#connector_part">connector_part</A> or
+ <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#component">component</A> <A HREF="IMEX0024.HTM#part">part</A> </P>
+<HR>
+<!-- Start of ENTITY: electrical_part -->
+<H2><A NAME="electrical_part">electrical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0024.HTM#external_electrical_part">external_electrical_part</A>, 
+                                    <A HREF="IMEX0024.HTM#internal_electrical_part">internal_electrical_part</A>)
+                             AND
+                             ONEOF (<A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>,
+                                    <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A>,
+                                    <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A>)
+                             AND
+                             ONEOF (<A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>,
+                                    <A HREF="IMEX0024.HTM#minimally_defined_electrical_part">minimally_defined_electrical_part</A>))
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#part">part</A>);
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version : OPTIONAL <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>; -- retype
+    terminals                  : SET [1:?] OF <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>; 
+  WHERE
+    <A NAME="electrical_part.valid_existence">valid_existence</A> :
+      (* An electrical_part belongs to one library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.electrical_parts');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A> is the set of information which describes a particular
+ <A HREF="IMEX0021.HTM#electrical_component">electrical_component</A>.  Electrical components appears in the schematic for
+ a circuit.  An <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A> can be either pre-fabricated (packaged) or
+ printed.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#electrical_component">electrical_component</A> <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A> <A HREF="IMEX0011.HTM#library">library</A> </P>
+<HR>
+<!-- Start of ENTITY: die_electrical_part -->
+<H2><A NAME="die_electrical_part">die_electrical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>);
+    SELF\<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>.terminals   : SET [1:?] OF
+                                       <A HREF="IMEX0024.HTM#die_electrical_part_terminal">die_electrical_part_terminal</A>; 
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version       : OPTIONAL <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>; -- retype
+    referenced_die_physical_template : -- reference
+                                       OPTIONAL <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A>;
+  WHERE
+    <A NAME="die_electrical_part.valid_referenced_template">valid_referenced_template</A> : 
+      (* If it is an external_electrical_part, it is not allowed to have any
+         template information. *)
+    NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#external_electrical_part">external_electrical_part</A>')
+         AND
+         EXISTS(referenced_die_physical_template));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A> is the set of information which describes a
+ die electrical component.  A die electrical component is unpackaged,
+ pre-fabricated and contains some electrical functionality.
+</P>
+<P>
+ The count of <A HREF="IMEX0024.HTM#die_electrical_part_terminal">die_electrical_part_terminals</A> defined within a
+ <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A> may be less than the count of <A HREF="IMEX0013.HTM#bond_pad">bond_pads</A> defined
+ within the <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A> that is referenced by the
+ <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>. This means that it is possible for some of the
+ <A HREF="IMEX0013.HTM#bond_pad">bond_pads</A> of the <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A> to be referenced by none of the
+ <A HREF="IMEX0024.HTM#die_electrical_part_terminal">die_electrical_part_terminals</A>. This does not mean that those <A HREF="IMEX0013.HTM#bond_pad">bond_pads</A>
+ are unconnected in the <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>; it means only that the
+ <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A> is not completely defined.
+</P>
+<P>
+ An unconnected <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A> is indicated in a <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A> by
+ defining the corresponding <A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal">fully_defined_electrical_part_terminal</A> as
+ having a reference to a <A HREF="IMEX0013.HTM#bond_pad">bond_pad</A>, but no references to any
+ <A HREF="IMEX0024.HTM#part_function_terminal">part_function_terminals</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#die_electrical_component">die_electrical_component</A> <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A> <A HREF="IMEX0024.HTM#die_electrical_part_terminal">die_electrical_part_terminal</A> <A HREF="IMEX0025.HTM#embedded_die">embedded_die</A> </P>
+<HR>
+<!-- Start of ENTITY: packaged_electrical_part -->
+<H2><A NAME="packaged_electrical_part">packaged_electrical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>);
+    SELF\<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>.terminals : SET [1:?] OF
+                                     <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal">packaged_electrical_part_terminal</A>; 
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version : OPTIONAL <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A>; -- retype
+    referenced_package         : OPTIONAL <A HREF="IMEX0023.HTM#package">package</A>; -- reference
+  WHERE
+    <A NAME="packaged_electrical_part.valid_referenced_package">valid_referenced_package</A> : 
+      (* If it is an external_electrical_part, it is not allowed to have any
+         package information. *)
+    NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#external_electrical_part">external_electrical_part</A>')
+         AND
+         EXISTS(referenced_package));
+
+    <A NAME="packaged_electrical_part.valid_referenced_package_type">valid_referenced_package_type</A> :
+      (* The referenced package cannot be a mechanical_package. *)
+      NOT <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(referenced_package, '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A>');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A> is the set of information which describes a
+ packaged electrical component.  A packaged electrical component is
+ pre-fabricated and contains some electrical functionality.
+</P>
+<P>
+ The count of <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal">packaged_electrical_part_terminals</A> defined within a
+ <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A> may be less than the count of <A HREF="IMEX0023.HTM#package_terminal">package_terminals</A>
+ defined within the <A HREF="IMEX0023.HTM#package">package</A> that is referenced by the
+ <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A>. This means that it is possible for some of the
+ <A HREF="IMEX0023.HTM#package_terminal">package_terminals</A> of the package to be referenced by none of the
+ <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal">packaged_electrical_part_terminals</A>. This does not mean that those
+ <A HREF="IMEX0023.HTM#package_terminal">package_terminals</A> are unconnected in the <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A>; it
+ means only that the <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A> is not completely defined.
+</P>
+<P>
+ An unconnected <A HREF="IMEX0023.HTM#package_terminal">package_terminal</A> is indicated in a
+ <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A> by defining the corresponding
+ <A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal">fully_defined_electrical_part_terminal</A> as having a reference to a
+ <A HREF="IMEX0023.HTM#package_terminal">package_terminal</A>, but no references to any <A HREF="IMEX0024.HTM#part_function_terminal">part_function_terminals</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#packaged_electrical_component">packaged_electrical_component</A> <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A> <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal">packaged_electrical_part_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: printed_electrical_part -->
+<H2><A NAME="printed_electrical_part">printed_electrical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>);
+    SELF\<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>.terminals 
+        : SET [1:?] OF <A HREF="IMEX0024.HTM#printed_electrical_part_terminal">printed_electrical_part_terminal</A>;
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version : OPTIONAL <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A>; -- retype
+    symbols                    : OPTIONAL SET [1:?] OF <A HREF="IMEX0024.HTM#printed_part_symbol">printed_part_symbol</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A> is the set of information which describes a
+ printed electrical component.  A printed electrical component is fabricated
+ as part of the bard board and contains some electrical functionality.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#printed_electrical_component">printed_electrical_component</A> <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A> <A HREF="IMEX0024.HTM#printed_part">printed_part</A> </P>
+<HR>
+<!-- Start of ENTITY: fully_defined_electrical_part -->
+<H2><A NAME="fully_defined_electrical_part">fully_defined_electrical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>);
+    SELF\<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>.terminals 
+        : SET [1:?] OF <A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal">fully_defined_electrical_part_terminal</A>;
+    functions            : SET [1:?] OF <A HREF="IMEX0024.HTM#part_function">part_function</A>;
+    permutable_functions : OPTIONAL SET [1:?] OF
+                           <A HREF="IMEX0024.HTM#permutable_part_function_relationship">permutable_part_function_relationship</A>; 
+  DERIVE
+    terminal_permutability : SET OF <A HREF="IMEX0024.HTM#permutable_part_terminal_relationship">permutable_part_terminal_relationship</A>
+      := <A HREF="IMEX0024.HTM#derive_part_terminal_permutability">derive_part_terminal_permutability</A>(functions, 
+                                            permutable_functions);
+  WHERE
+    <A NAME="fully_defined_electrical_part.valid_functions">valid_functions</A> :
+      (* If it is an external_electrical_part, its part_functions can refer
+         to external_clusters only. *)
+      NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#external_electrical_part">external_electrical_part</A>')
+           AND
+           <A HREF="IMEX0029.HTM#there_exists">there_exists</A>(QUERY(fn &lt;* functions |
+             <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(fn.instantiated_cluster, 
+                       '<A HREF="IMEX0009.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0009.HTM#internal_cluster">internal_cluster</A>'))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> describes an <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A> which
+ its electrical functionality is fully defined.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#fully_defined_electrical_component">fully_defined_electrical_component</A> <A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal">fully_defined_electrical_part_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: minimally_defined_electrical_part -->
+<H2><A NAME="minimally_defined_electrical_part">minimally_defined_electrical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#minimally_defined_electrical_part">minimally_defined_electrical_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>);
+    SELF\<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>.terminals 
+        : SET [1:?] OF <A HREF="IMEX0024.HTM#minimally_defined_electrical_part_terminal">minimally_defined_electrical_part_terminal</A>;
+    permutable_terminals : SET [1:?] OF <A HREF="IMEX0024.HTM#permutable_part_terminal_relationship">permutable_part_terminal_relationship</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#minimally_defined_electrical_part">minimally_defined_electrical_part</A> describes an <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A> which
+ its electrical functionality is not defined.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#minimally_defined_electrical_component">minimally_defined_electrical_component</A> </P>
+<HR>
+<!-- Start of ENTITY: external_electrical_part -->
+<H2><A NAME="external_electrical_part">external_electrical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#external_electrical_part">external_electrical_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>);
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version : OPTIONAL <A HREF="IMEX0024.HTM#external_electrical_part">external_electrical_part</A>; -- retype
+  WHERE
+    <A NAME="external_electrical_part.valid_existence">valid_existence</A> :
+      (* An external_electrical_part belongs to one external_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#external_library">external_library</A>.electrical_parts');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#external_electrical_part">external_electrical_part</A> describes an <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A> in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>.   
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#external_electrical_part">external_electrical_part</A> <A HREF="IMEX0011.HTM#external_library">external_library</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_electrical_part -->
+<H2><A NAME="internal_electrical_part">internal_electrical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#internal_electrical_part">internal_electrical_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>);
+    part_information : OPTIONAL <A HREF="IMEX0024.HTM#part_characteristic">part_characteristic</A>;
+  WHERE
+    <A NAME="internal_electrical_part.valid_existence">valid_existence</A> :
+      (* An internal_electrical_part belongs to one internal_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#internal_library">internal_library</A>.electrical_parts');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#internal_electrical_part">internal_electrical_part</A> describes an <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A> in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A> <A HREF="IMEX0011.HTM#internal_library">internal_library</A> </P>
+<HR>
+<!-- Start of ENTITY: mechanical_part -->
+<H2><A NAME="mechanical_part">mechanical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0024.HTM#external_mechanical_part">external_mechanical_part</A>, 
+                                    <A HREF="IMEX0024.HTM#internal_mechanical_part">internal_mechanical_part</A>))
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#part">part</A>);
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version : OPTIONAL <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A>; -- retype
+  WHERE
+    <A NAME="mechanical_part.valid_existence">valid_existence</A> :
+      (* A mechanical_part belongs to one library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.mechanical_parts');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A> is the set of information which describes a
+ particular <A HREF="IMEX0021.HTM#mechanical_component">mechanical_component</A>.  It contains no intended electrical
+ or electronic functionality.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#auxiliary_mechanical_component">auxiliary_mechanical_component</A> <A HREF="IMEX0011.HTM#library">library</A> <A HREF="IMEX0021.HTM#mechanical_component">mechanical_component</A> <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A> </P>
+<HR>
+<!-- Start of ENTITY: external_mechanical_part -->
+<H2><A NAME="external_mechanical_part">external_mechanical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#external_mechanical_part">external_mechanical_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A>);
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version : OPTIONAL <A HREF="IMEX0024.HTM#external_mechanical_part">external_mechanical_part</A>; -- retype
+  WHERE
+    <A NAME="external_mechanical_part.valid_existence">valid_existence</A> :
+      (* An external_mechanical_part belongs to one external_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#external_library">external_library</A>.mechanical_parts');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#external_mechanical_part">external_mechanical_part</A> describes a <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A> in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>.   
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#external_library">external_library</A> <A HREF="IMEX0024.HTM#external_mechanical_part">external_mechanical_part</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_mechanical_part -->
+<H2><A NAME="internal_mechanical_part">internal_mechanical_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#internal_mechanical_part">internal_mechanical_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A>);
+    referenced_package : <A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A>; -- reference
+  WHERE
+    <A NAME="internal_mechanical_part.valid_existence">valid_existence</A> :
+      (* An internal_mechanical_part belongs to one internal_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#internal_library">internal_library</A>.mechanical_parts');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#internal_mechanical_part">internal_mechanical_part</A> describes a <A HREF="IMEX0024.HTM#mechanical_part">mechanical_part</A> in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.   
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#internal_library">internal_library</A> </P>
+<HR>
+<!-- Start of ENTITY: connector_part -->
+<H2><A NAME="connector_part">connector_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#connector_part">connector_part</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A>,
+                                    <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>)
+                             AND
+                             ONEOF (<A HREF="IMEX0024.HTM#internal_connector_part">internal_connector_part</A>,
+                                    <A HREF="IMEX0024.HTM#external_connector_part">external_connector_part</A>))
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#part">part</A>);
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version : OPTIONAL <A HREF="IMEX0024.HTM#connector_part">connector_part</A>; -- retype
+    terminals                  : SET [1:?] OF <A HREF="IMEX0024.HTM#connector_part_terminal">connector_part_terminal</A>; 
+  WHERE
+    <A NAME="connector_part.valid_existence">valid_existence</A> :
+      (* A connector_part belongs to one library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.connector_parts');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#connector_part">connector_part</A> is the set of information which describes a particular
+ <A HREF="IMEX0021.HTM#connector_component">connector_component</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#connector_component">connector_component</A> <A HREF="IMEX0024.HTM#connector_part">connector_part</A> <A HREF="IMEX0011.HTM#library">library</A> </P>
+<HR>
+<!-- Start of ENTITY: packaged_connector_part -->
+<H2><A NAME="packaged_connector_part">packaged_connector_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#connector_part">connector_part</A>);
+    SELF\<A HREF="IMEX0024.HTM#connector_part">connector_part</A>.terminals : SET [1:?] OF
+                                    <A HREF="IMEX0024.HTM#packaged_connector_part_terminal">packaged_connector_part_terminal</A>; 
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version    : OPTIONAL <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A>;
+    connector_type                : <A HREF="IMEX0024.HTM#packaged_connector_type">packaged_connector_type</A>;
+    referenced_package            : OPTIONAL <A HREF="IMEX0023.HTM#package">package</A>; -- reference
+  WHERE
+    <A NAME="packaged_connector_part.valid_referenced_package">valid_referenced_package</A> : 
+      (* If it is an external_connector_part, it is not allowed to have any
+         package information. *)
+    NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#external_connector_part">external_connector_part</A>')
+         AND
+         EXISTS(referenced_package));
+
+    <A NAME="packaged_connector_part.valid_referenced_package_type">valid_referenced_package_type</A> :
+      (* The referenced package cannot be a mechanical_package. *)
+      NOT <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(referenced_package, '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A>');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A> is the set of information which describes a
+ packaged connector component.  It can be either a socket or a discrete
+ connector depending on the <A HREF="IMEX0024.HTM#packaged_connector_type">packaged_connector_type</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#auxiliary_connector_component">auxiliary_connector_component</A> <A HREF="IMEX0021.HTM#packaged_connector_component">packaged_connector_component</A> <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A> <A HREF="IMEX0024.HTM#packaged_connector_part_terminal">packaged_connector_part_terminal</A> </P>
+<HR>
+<!-- Start of TYPE: packaged_connector_type -->
+<H2><A NAME="packaged_connector_type">packaged_connector_type</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0024.HTM#packaged_connector_type">packaged_connector_type</A>
+    = ENUMERATION OF (socket, discrete_connector);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0024.HTM#packaged_connector_type">packaged_connector_type</A> classifies a <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A> into a
+ socket or a discrete_connector.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A> </P>
+<HR>
+<!-- Start of ENTITY: printed_connector_part -->
+<H2><A NAME="printed_connector_part">printed_connector_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#connector_part">connector_part</A>);
+    SELF\<A HREF="IMEX0024.HTM#connector_part">connector_part</A>.terminals : SET [1:?] OF
+                                    <A HREF="IMEX0024.HTM#printed_connector_part_terminal">printed_connector_part_terminal</A>; 
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version    : OPTIONAL <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>;
+    symbols                       : OPTIONAL SET [1:?] OF <A HREF="IMEX0024.HTM#printed_part_symbol">printed_part_symbol</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A> is the set of information which describes a
+ printed connector component.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#printed_connector_component">printed_connector_component</A> <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A> <A HREF="IMEX0024.HTM#printed_part">printed_part</A> </P>
+<HR>
+<!-- Start of ENTITY: external_connector_part -->
+<H2><A NAME="external_connector_part">external_connector_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#external_connector_part">external_connector_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#connector_part">connector_part</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#external_connector_part">external_connector_part</A> describes a <A HREF="IMEX0024.HTM#connector_part">connector_part</A> in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0011.HTM#external_library">external_library</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_connector_part -->
+<H2><A NAME="internal_connector_part">internal_connector_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#internal_connector_part">internal_connector_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#connector_part">connector_part</A>);
+    part_information : OPTIONAL <A HREF="IMEX0024.HTM#part_characteristic">part_characteristic</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#internal_connector_part">internal_connector_part</A> describes a <A HREF="IMEX0024.HTM#connector_part">connector_part</A> in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A> <A HREF="IMEX0011.HTM#internal_library">internal_library</A> </P>
+<HR>
+<!-- Start of ENTITY: jumper_part -->
+<H2><A NAME="jumper_part">jumper_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0024.HTM#external_jumper_part">external_jumper_part</A>,
+                                   <A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A>))
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#part">part</A>);
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version : OPTIONAL <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>; -- retype
+    terminals                  : SET [1:?] OF <A HREF="IMEX0024.HTM#jumper_part_terminal">jumper_part_terminal</A>;
+  WHERE
+    <A NAME="jumper_part.valid_existence">valid_existence</A> :
+      (* A jumper_part belongs to one library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#library">library</A>.jumper_parts');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A> is the set of information which describes a
+ particular <A HREF="IMEX0021.HTM#jumper_component">jumper_component</A>.  It contains no intended electrical
+ or electronic functionality.  All terminals are implicitly joined.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#jumper_component">jumper_component</A> <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A> <A HREF="IMEX0024.HTM#jumper_part_terminal">jumper_part_terminal</A> <A HREF="IMEX0011.HTM#library">library</A> </P>
+<HR>
+<!-- Start of ENTITY: external_jumper_part -->
+<H2><A NAME="external_jumper_part">external_jumper_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#external_jumper_part">external_jumper_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>);
+    SELF\<A HREF="IMEX0024.HTM#part">part</A>.previous_version : OPTIONAL <A HREF="IMEX0024.HTM#external_jumper_part">external_jumper_part</A>; -- retype
+  WHERE
+    <A NAME="external_jumper_part.valid_existence">valid_existence</A> :
+      (* An external_jumper_part belongs to one external_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#external_library">external_library</A>.jumper_parts');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#external_jumper_part">external_jumper_part</A> describes a <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A> in an
+ <A HREF="IMEX0011.HTM#external_library">external_library</A>.   
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#external_jumper_part">external_jumper_part</A> <A HREF="IMEX0011.HTM#external_library">external_library</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_jumper_part -->
+<H2><A NAME="internal_jumper_part">internal_jumper_part</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>);
+    part_information   : OPTIONAL <A HREF="IMEX0024.HTM#part_characteristic">part_characteristic</A>;
+    referenced_package : <A HREF="IMEX0023.HTM#package">package</A>; -- reference
+  WHERE
+    <A NAME="internal_jumper_part.valid_existence">valid_existence</A> :
+      (* An internal_jumper_part belongs to one internal_library. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0011.HTM#library_model">library_model</A>.<A HREF="IMEX0011.HTM#internal_library">internal_library</A>.jumper_parts');
+
+    <A NAME="internal_jumper_part.valid_referenced_package_type">valid_referenced_package_type</A> :
+      (* The referenced package cannot be a mechanical_package. *)
+      NOT <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(referenced_package, '<A HREF="IMEX0023.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0023.HTM#mechanical_package">mechanical_package</A>');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A> describes a <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A> in an
+ <A HREF="IMEX0011.HTM#internal_library">internal_library</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A> <A HREF="IMEX0011.HTM#internal_library">internal_library</A> </P>
+<HR>
+<!-- Start of ENTITY: part_function -->
+<H2><A NAME="part_function">part_function</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#part_function">part_function</A>;
+    instantiated_cluster : <A HREF="IMEX0009.HTM#cluster">cluster</A>; -- reference
+    designator           : OPTIONAL <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    name                 : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties           : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  WHERE
+    <A NAME="part_function.valid_existence">valid_existence</A> :
+      (* A part_function belongs to one fully_defined_electrical_part. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>.functions');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#part_function">part_function</A> describes a unit of electrical functionality within the
+ definition of a <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#component_function_allocation">component_function_allocation</A> <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> <A HREF="IMEX0024.HTM#non_permutable_part_function">non_permutable_part_function</A> <A HREF="IMEX0024.HTM#part_function_terminal">part_function_terminal</A> <A HREF="IMEX0024.HTM#permutable_part_function">permutable_part_function</A> </P>
+<HR>
+<!-- Start of ENTITY: part_function_terminal -->
+<H2><A NAME="part_function_terminal">part_function_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#part_function_terminal">part_function_terminal</A>;
+    properties               : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+    referenced_part_function : <A HREF="IMEX0024.HTM#part_function">part_function</A>; -- reference
+    referenced_terminal      : <A HREF="IMEX0009.HTM#master_port">master_port</A>;   -- reference
+  UNIQUE
+    uniqueness_constraint :
+      (* There is only one part_function_terminal for a particular master_port
+         on a part_function. *)
+      referenced_part_function, referenced_terminal;
+  WHERE
+    <A NAME="part_function_terminal.valid_referenced_terminal">valid_referenced_terminal</A> :
+      (* The referenced master_port must be defined in the interface of the
+         instantiated cluster of the referenced part_function. *)
+      EXISTS(referenced_part_function.instantiated_cluster.interface.ports)
+      AND
+      (referenced_terminal 
+         IN referenced_part_function.instantiated_cluster.interface.ports);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#part_function_terminal">part_function_terminal</A> describes a logical connector into or out of a
+ <A HREF="IMEX0024.HTM#part_function">part_function</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#allocated_component_function_terminal">allocated_component_function_terminal</A> <A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal">fully_defined_electrical_part_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: part_terminal -->
+<H2><A NAME="part_terminal">part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>,
+                                   <A HREF="IMEX0024.HTM#connector_part_terminal">connector_part_terminal</A>,
+                                   <A HREF="IMEX0024.HTM#jumper_part_terminal">jumper_part_terminal</A>));
+    name       : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#part_terminal">part_terminal</A> is the definition of a logical connector of an
+ <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>, a <A HREF="IMEX0024.HTM#connector_part">connector_part</A> or a <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#component_terminal">component_terminal</A> <A HREF="IMEX0015.HTM#component_terminal_implementation">component_terminal_implementation</A> <A HREF="IMEX0024.HTM#ibis_pin_binding">ibis_pin_binding</A> </P>
+<HR>
+<!-- Start of ENTITY: electrical_part_terminal -->
+<H2><A NAME="electrical_part_terminal">electrical_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0024.HTM#die_electrical_part_terminal">die_electrical_part_terminal</A>,
+                                   <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal">packaged_electrical_part_terminal</A>,
+                                   <A HREF="IMEX0024.HTM#printed_electrical_part_terminal">printed_electrical_part_terminal</A>)
+                             AND
+                             ONEOF(<A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal">fully_defined_electrical_part_terminal</A>,
+                                   <A HREF="IMEX0024.HTM#minimally_defined_electrical_part_terminal">minimally_defined_electrical_part_terminal</A>))
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>);
+  WHERE
+    <A NAME="electrical_part_terminal.valid_existence">valid_existence</A> :
+      (* An electrical_part_terminal belongs to one electrical_part. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A> is the definition of a logical connector into
+ or out of an <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#electrical_component_terminal">electrical_component_terminal</A> <A HREF="IMEX0024.HTM#electrical_part">electrical_part</A> <A HREF="IMEX0024.HTM#non_permutable_part_terminal">non_permutable_part_terminal</A> <A HREF="IMEX0024.HTM#permutable_part_terminal">permutable_part_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: die_electrical_part_terminal -->
+<H2><A NAME="die_electrical_part_terminal">die_electrical_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#die_electrical_part_terminal">die_electrical_part_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>);
+    connected_bond_pad : OPTIONAL <A HREF="IMEX0013.HTM#electrical_bond_pad">electrical_bond_pad</A>; -- reference
+  DERIVE
+    containing_part : <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>.terminals');
+  UNIQUE
+    uniqueness_constraint :
+      (* There is only one die_electrical_part_terminal for a particular
+         electrical_bond_pad on a die_electrical_part. *)
+      containing_part, connected_bond_pad;
+  WHERE
+    <A NAME="die_electrical_part_terminal.valid_existence">valid_existence</A> :
+      (* A die_electrical_part_terminal belongs to one
+         die_electrical_part. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>.terminals');
+
+    <A NAME="die_electrical_part_terminal.valid_connected_bond_pad">valid_connected_bond_pad</A> :
+      (* The connected electrical_bond_pad must be a bond_pad of the
+         die_physical_template which specifies the physical interface
+         of the containing die_electrical_part. *)
+      connected_bond_pad 
+        IN containing_part.referenced_die_physical_template.pads;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#die_electrical_part_terminal">die_electrical_part_terminal</A> is a logical connector into or out of
+ a <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>.  It maps a terminal of a
+ <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A> onto an <A HREF="IMEX0013.HTM#electrical_bond_pad">electrical_bond_pad</A> of the
+ <A HREF="IMEX0013.HTM#die_physical_template">die_physical_template</A> which specifies the physical interface of 
+ the <A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#die_electrical_part">die_electrical_part</A> </P>
+<HR>
+<!-- Start of ENTITY: packaged_electrical_part_terminal -->
+<H2><A NAME="packaged_electrical_part_terminal">packaged_electrical_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal">packaged_electrical_part_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>);
+    connected_terminal : OPTIONAL <A HREF="IMEX0023.HTM#package_terminal">package_terminal</A>; -- reference
+  DERIVE
+    containing_part : <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A>.terminals');
+  UNIQUE
+    uniqueness_constraint :
+      (* There is only one packaged_electrical_part_terminal for a particular
+         package_electrical_terminal on a packaged_electrical_part. *)
+      containing_part, connected_terminal;
+  WHERE
+    <A NAME="packaged_electrical_part_terminal.valid_existence">valid_existence</A> :
+      (* A packaged_electrical_part_terminal belongs to one
+         packaged_electrical_part. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A>.terminals');
+
+    <A NAME="packaged_electrical_part_terminal.valid_connected_terminal">valid_connected_terminal</A> :
+      (* The connected package_terminal must be defined in the package which
+         the containing packaged_electrical_part is packaged by. *) 
+      connected_terminal
+        IN containing_part.referenced_package.terminals;
+
+    <A NAME="packaged_electrical_part_terminal.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. The connected_terminal attribute cannot exist if the containing
+            <A HREF="IMEX0024.HTM#part">part</A> does not reference a <A HREF="IMEX0023.HTM#package">package</A> with terminals. *)
+      EXISTS(containing_part.referenced_package.terminals) OR
+        NOT EXISTS(connected_terminal);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#packaged_electrical_part_terminal">packaged_electrical_part_terminal</A> is a logical connector into or out of
+ a <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A>.  It maps a terminal of a
+ <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A> onto an electrical terminal of the <A HREF="IMEX0023.HTM#package">package</A>
+ which the <A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A> is packaged by.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#packaged_electrical_part">packaged_electrical_part</A> </P>
+<HR>
+<!-- Start of ENTITY: printed_electrical_part_terminal -->
+<H2><A NAME="printed_electrical_part_terminal">printed_electrical_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#printed_electrical_part_terminal">printed_electrical_part_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>);
+  WHERE
+    <A NAME="printed_electrical_part_terminal.valid_existence">valid_existence</A> :
+      (* A printed_electrical_part_terminal belongs to one
+         printed_electrical_part. *) 
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#printed_electrical_part_terminal">printed_electrical_part_terminal</A> is a logical connector into or out of a
+ <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A> <A HREF="IMEX0024.HTM#printed_part_terminal">printed_part_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: fully_defined_electrical_part_terminal -->
+<H2><A NAME="fully_defined_electrical_part_terminal">fully_defined_electrical_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal">fully_defined_electrical_part_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>);
+    connected_terminals : OPTIONAL SET [1:?] OF <A HREF="IMEX0024.HTM#part_function_terminal">part_function_terminal</A>; 
+  DERIVE
+    containing_part : <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>.terminals');
+  WHERE
+    <A NAME="fully_defined_electrical_part_terminal.valid_existence">valid_existence</A> :
+      (* A fully_defined_electrical_part_terminal belongs to one
+         fully_defined_electrical_part. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>.terminals');
+
+    <A NAME="fully_defined_electrical_part_terminal.valid_connected_terminals">valid_connected_terminals</A> :
+      (* The connected part_function_terminals must reference part_functions
+         defined in the containing fully_defined_electrical_part. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(connectedTerminal &lt;* connected_terminals |
+        NOT (connectedTerminal.referenced_part_function
+             IN containing_part.functions)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#fully_defined_electrical_part_terminal">fully_defined_electrical_part_terminal</A> is a logical connector into or
+ out of a <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>.  Its prime function is to map a
+ terminal of a <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> onto one or more terminals of
+ <A HREF="IMEX0024.HTM#part_function">part_functions</A> within a <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> </P>
+<HR>
+<!-- Start of ENTITY: minimally_defined_electrical_part_terminal -->
+<H2><A NAME="minimally_defined_electrical_part_terminal">minimally_defined_electrical_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#minimally_defined_electrical_part_terminal">minimally_defined_electrical_part_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>);
+  WHERE
+    <A NAME="minimally_defined_electrical_part_terminal.valid_existence">valid_existence</A> :
+      (* A minimally_defined_electrical_part_terminal belongs to one
+         minimally_defined_electrical_part. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#minimally_defined_electrical_part">minimally_defined_electrical_part</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#minimally_defined_electrical_part_terminal">minimally_defined_electrical_part_terminal</A> is a logical connector into
+ or out of a <A HREF="IMEX0024.HTM#minimally_defined_electrical_part">minimally_defined_electrical_part</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#minimally_defined_electrical_part">minimally_defined_electrical_part</A> </P>
+<HR>
+<!-- Start of ENTITY: connector_part_terminal -->
+<H2><A NAME="connector_part_terminal">connector_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#connector_part_terminal">connector_part_terminal</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0024.HTM#packaged_connector_part_terminal">packaged_connector_part_terminal</A>,
+                                   <A HREF="IMEX0024.HTM#printed_connector_part_terminal">printed_connector_part_terminal</A>))
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>);
+  WHERE
+    <A NAME="connector_part_terminal.valid_existence">valid_existence</A> :
+      (* A connector_part_terminal belongs to one connector_part. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#connector_part">connector_part</A>.terminals');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#connector_part_terminal">connector_part_terminal</A> is the definition of a logical connector into or
+ out of a <A HREF="IMEX0024.HTM#connector_part">connector_part</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#board_terminal">board_terminal</A> <A HREF="IMEX0021.HTM#connector_component_terminal">connector_component_terminal</A> <A HREF="IMEX0024.HTM#connector_part">connector_part</A> </P>
+<HR>
+<!-- Start of ENTITY: packaged_connector_part_terminal -->
+<H2><A NAME="packaged_connector_part_terminal">packaged_connector_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#packaged_connector_part_terminal">packaged_connector_part_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#connector_part_terminal">connector_part_terminal</A>);
+    connected_terminal : OPTIONAL <A HREF="IMEX0023.HTM#package_terminal">package_terminal</A>; -- reference
+  DERIVE
+    containing_part : <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A>.terminals');
+  UNIQUE
+    uniqueness_constraint :
+      (* There is only one packaged_connector_part_terminal for a particular
+         package_electrical_terminal on a packaged_connector_part. *)
+      containing_part, connected_terminal;
+  WHERE
+    <A NAME="packaged_connector_part_terminal.valid_existence">valid_existence</A> :
+      (* A packaged_connector_part_terminal belongs to one
+         packaged_connector_part. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A>.terminals');
+
+    <A NAME="packaged_connector_part_terminal.valid_connected_terminal">valid_connected_terminal</A> :
+      (* The connected package_terminal must be defined in the package which
+         the containing packaged_connector_part is packaged by. *) 
+      connected_terminal
+        IN containing_part.referenced_package.terminals;
+
+    <A NAME="packaged_connector_part_terminal.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. The connected_terminal attribute cannot exist if the containing
+            <A HREF="IMEX0024.HTM#part">part</A> does not reference a <A HREF="IMEX0023.HTM#package">package</A> with terminals. *)
+      EXISTS(containing_part.referenced_package.terminals) OR
+        NOT EXISTS(connected_terminal);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#packaged_connector_part_terminal">packaged_connector_part_terminal</A> is a logical connector into or out of a
+ <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A>.  It maps a terminal of a
+ <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A> onto an electrical terminal of the <A HREF="IMEX0023.HTM#package">package</A> which
+ the <A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A> is packaged by.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#packaged_connector_part">packaged_connector_part</A> </P>
+<HR>
+<!-- Start of ENTITY: printed_connector_part_terminal -->
+<H2><A NAME="printed_connector_part_terminal">printed_connector_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#printed_connector_part_terminal">printed_connector_part_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#connector_part_terminal">connector_part_terminal</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#printed_connector_part_terminal">printed_connector_part_terminal</A> is a logical connector into or out of a
+ <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A> <A HREF="IMEX0024.HTM#printed_part_terminal">printed_part_terminal</A> </P>
+<HR>
+<!-- Start of ENTITY: jumper_part_terminal -->
+<H2><A NAME="jumper_part_terminal">jumper_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#jumper_part_terminal">jumper_part_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>);
+    connected_terminal : OPTIONAL <A HREF="IMEX0023.HTM#package_terminal">package_terminal</A>; -- reference
+  DERIVE
+    containing_part : <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>.terminals');
+  UNIQUE
+    uniqueness_constraint :
+      (* There is only one jumper_part_terminal for a particular
+         package_electrical_terminal on a jumper_part. *)
+      containing_part, connected_terminal;
+  WHERE
+    <A NAME="jumper_part_terminal.valid_existence">valid_existence</A> :
+      (* A jumper_part_terminal belongs to one jumper_part. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,'<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>.terminals');
+
+    <A NAME="jumper_part_terminal.valid_connected_terminal">valid_connected_terminal</A> :
+      (* The connected package_terminal must be defined in the package which
+         the containing jumper_part is packaged by. *)  
+      NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(containing_part, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A>')
+           AND
+           NOT (connected_terminal IN containing_part\<A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A>
+                                      .referenced_package.terminals));
+ 
+    <A NAME="jumper_part_terminal.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. The connected_terminal cannot exist if the containing <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>
+            is an <A HREF="IMEX0024.HTM#external_jumper_part">external_jumper_part</A>. *)
+      NOT (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(SELF, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#external_jumper_part">external_jumper_part</A>')
+           AND EXISTS(connected_terminal));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#jumper_part_terminal">jumper_part_terminal</A> is the definition of a logical connector into or
+ out of a <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#jumper_component_terminal">jumper_component_terminal</A> <A HREF="IMEX0024.HTM#jumper_part">jumper_part</A> </P>
+<HR>
+<!-- Start of ENTITY: permutable_part_function_relationship -->
+<H2><A NAME="permutable_part_function_relationship">permutable_part_function_relationship</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#permutable_part_function_relationship">permutable_part_function_relationship</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0024.HTM#permutable_part_function">permutable_part_function</A>,
+                                   <A HREF="IMEX0024.HTM#permutable_part_function_group">permutable_part_function_group</A>));
+  WHERE
+    <A NAME="permutable_part_function_relationship.valid_existence">valid_existence</A> :
+      (* A permutable_part_function_relationship belongs to either one
+         fully_defined_electrical_part, one permutable_part_function_group
+         or one non_permutable_part_function_group. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A>.permutable_functions',
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#non_permutable_part_function_group">non_permutable_part_function_group</A>.permutable_groups',
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#permutable_part_function_group">permutable_part_function_group</A>.permutable_groups']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#permutable_part_function_relationship">permutable_part_function_relationship</A> is used to describe
+ <A HREF="IMEX0024.HTM#part_function">part_functions</A> or groups of <A HREF="IMEX0024.HTM#part_function">part_functions</A> which can be interchanged.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> <A HREF="IMEX0024.HTM#non_permutable_part_function_group">non_permutable_part_function_group</A> <A HREF="IMEX0024.HTM#permutable_part_function_group">permutable_part_function_group</A> </P>
+<HR>
+<!-- Start of ENTITY: permutable_part_function -->
+<H2><A NAME="permutable_part_function">permutable_part_function</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#permutable_part_function">permutable_part_function</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#permutable_part_function_relationship">permutable_part_function_relationship</A>);
+    functions : SET [2:?] OF <A HREF="IMEX0024.HTM#part_function">part_function</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#permutable_part_function">permutable_part_function</A> is used to describe a relationship between a
+ set of <A HREF="IMEX0024.HTM#part_function">part_functions</A> in which each member of the set is interchangeable.
+</P><HR>
+<!-- Start of ENTITY: permutable_part_function_group -->
+<H2><A NAME="permutable_part_function_group">permutable_part_function_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#permutable_part_function_group">permutable_part_function_group</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#permutable_part_function_relationship">permutable_part_function_relationship</A>);
+    non_permutable_groups : OPTIONAL SET [1:?] OF 
+                            <A HREF="IMEX0024.HTM#non_permutable_part_function_relationship">non_permutable_part_function_relationship</A>;
+    permutable_groups     : OPTIONAL SET [1:?] OF 
+                            <A HREF="IMEX0024.HTM#permutable_part_function_relationship">permutable_part_function_relationship</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#permutable_part_function_group">permutable_part_function_group</A> is used to indicate that groups of
+ <A HREF="IMEX0024.HTM#part_function">part_functions</A> may be exchanged as a whole but not partially.
+</P><HR>
+<!-- Start of ENTITY: non_permutable_part_function_relationship -->
+<H2><A NAME="non_permutable_part_function_relationship">non_permutable_part_function_relationship</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#non_permutable_part_function_relationship">non_permutable_part_function_relationship</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0024.HTM#non_permutable_part_function">non_permutable_part_function</A>,
+                                   <A HREF="IMEX0024.HTM#non_permutable_part_function_group">non_permutable_part_function_group</A>));
+  WHERE
+    <A NAME="non_permutable_part_function_relationship.valid_existence">valid_existence</A> :
+      (* A non_permutable_part_function_relationship belongs to one
+         permutable_part_function_group. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#permutable_part_function_group">permutable_part_function_group</A>.non_permutable_groups');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#non_permutable_part_function_relationship">non_permutable_part_function_relationship</A> is used to describe
+ <A HREF="IMEX0024.HTM#part_function">part_functions</A> or groups of <A HREF="IMEX0024.HTM#part_function">part_functions</A> which cannot be interchanged.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#permutable_part_function_group">permutable_part_function_group</A> </P>
+<HR>
+<!-- Start of ENTITY: non_permutable_part_function -->
+<H2><A NAME="non_permutable_part_function">non_permutable_part_function</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#non_permutable_part_function">non_permutable_part_function</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#non_permutable_part_function_relationship">non_permutable_part_function_relationship</A>);
+    functions : SET [2:?] OF <A HREF="IMEX0024.HTM#part_function">part_function</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#non_permutable_part_function">non_permutable_part_function</A> is used to describe a relationship in which
+ a set of <A HREF="IMEX0024.HTM#part_function">part_functions</A> cannot be interchanged.
+</P><HR>
+<!-- Start of ENTITY: non_permutable_part_function_group -->
+<H2><A NAME="non_permutable_part_function_group">non_permutable_part_function_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#non_permutable_part_function_group">non_permutable_part_function_group</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#non_permutable_part_function_relationship">non_permutable_part_function_relationship</A>);
+    permutable_groups : SET [2:?] OF 
+                        <A HREF="IMEX0024.HTM#permutable_part_function_relationship">permutable_part_function_relationship</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#non_permutable_part_function_group">non_permutable_part_function_group</A> is used to indicate that groups of
+ <A HREF="IMEX0024.HTM#part_function">part_functions</A> cannot be exchanged.
+</P><HR>
+<!-- Start of ENTITY: permutable_part_terminal_relationship -->
+<H2><A NAME="permutable_part_terminal_relationship">permutable_part_terminal_relationship</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#permutable_part_terminal_relationship">permutable_part_terminal_relationship</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0024.HTM#permutable_part_terminal">permutable_part_terminal</A>,
+                                   <A HREF="IMEX0024.HTM#permutable_part_terminal_group">permutable_part_terminal_group</A>));
+  WHERE
+    <A NAME="permutable_part_terminal_relationship.valid_existence">valid_existence</A> :
+      (* A permutable_part_terminal_relationship belongs to either one
+         minimally_defined_electrical_part, one permutable_part_terminal_group
+         or one non_permutable_part_terminal_group. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+      ['<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#minimally_defined_electrical_part">minimally_defined_electrical_part</A>.permutable_terminals',
+       '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#non_permutable_part_terminal_group">non_permutable_part_terminal_group</A>.permutable_groups',
+       '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#permutable_part_terminal_group">permutable_part_terminal_group</A>.permutable_groups']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#permutable_part_terminal_relationship">permutable_part_terminal_relationship</A> is used to describe
+ <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminals</A> or groups of <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminals</A> which
+ can be interchanged. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> <A HREF="IMEX0024.HTM#minimally_defined_electrical_part">minimally_defined_electrical_part</A> <A HREF="IMEX0024.HTM#non_permutable_part_terminal_group">non_permutable_part_terminal_group</A> <A HREF="IMEX0024.HTM#permutable_part_terminal_group">permutable_part_terminal_group</A> </P>
+<HR>
+<!-- Start of ENTITY: permutable_part_terminal -->
+<H2><A NAME="permutable_part_terminal">permutable_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#permutable_part_terminal">permutable_part_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#permutable_part_terminal_relationship">permutable_part_terminal_relationship</A>);
+    terminals : SET [2:?] OF <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#permutable_part_terminal">permutable_part_terminal</A> is used to describe a relationship between a
+ set of <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminals</A> in which each member of the set is
+ interchangeable. 
+</P><HR>
+<!-- Start of ENTITY: permutable_part_terminal_group -->
+<H2><A NAME="permutable_part_terminal_group">permutable_part_terminal_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#permutable_part_terminal_group">permutable_part_terminal_group</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#permutable_part_terminal_relationship">permutable_part_terminal_relationship</A>);
+    non_permutable_groups : OPTIONAL SET [1:?] OF 
+                            <A HREF="IMEX0024.HTM#non_permutable_part_terminal_relationship">non_permutable_part_terminal_relationship</A>;
+    permutable_groups     : OPTIONAL SET [1:?] OF 
+                            <A HREF="IMEX0024.HTM#permutable_part_terminal_relationship">permutable_part_terminal_relationship</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#permutable_part_terminal_group">permutable_part_terminal_group</A> is used to indicate that groups of
+ <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminals</A> may be exchanged as a whole but not partially.
+</P><HR>
+<!-- Start of ENTITY: non_permutable_part_terminal_relationship -->
+<H2><A NAME="non_permutable_part_terminal_relationship">non_permutable_part_terminal_relationship</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#non_permutable_part_terminal_relationship">non_permutable_part_terminal_relationship</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0024.HTM#non_permutable_part_terminal">non_permutable_part_terminal</A>,
+                                   <A HREF="IMEX0024.HTM#non_permutable_part_terminal_group">non_permutable_part_terminal_group</A>));
+  WHERE
+    <A NAME="non_permutable_part_terminal_relationship.valid_existence">valid_existence</A> :
+      (* A non_permutable_part_terminal_relationship belongs to one
+         permutable_part_terminal_group. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#permutable_part_terminal_group">permutable_part_terminal_group</A>.non_permutable_groups');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#non_permutable_part_terminal_relationship">non_permutable_part_terminal_relationship</A> is used to describe
+ <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminals</A> or groups of <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminals</A> which
+ cannot be interchanged. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#permutable_part_terminal_group">permutable_part_terminal_group</A> </P>
+<HR>
+<!-- Start of ENTITY: non_permutable_part_terminal -->
+<H2><A NAME="non_permutable_part_terminal">non_permutable_part_terminal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#non_permutable_part_terminal">non_permutable_part_terminal</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#non_permutable_part_terminal_relationship">non_permutable_part_terminal_relationship</A>);
+    terminals : SET [2:?] OF <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#non_permutable_part_terminal">non_permutable_part_terminal</A> is used to describe a relationship in which
+ a set of <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminals</A> cannot be interchanged.
+</P><HR>
+<!-- Start of ENTITY: non_permutable_part_terminal_group -->
+<H2><A NAME="non_permutable_part_terminal_group">non_permutable_part_terminal_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#non_permutable_part_terminal_group">non_permutable_part_terminal_group</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#non_permutable_part_terminal_relationship">non_permutable_part_terminal_relationship</A>);
+    permutable_groups : SET [2:?] OF 
+                        <A HREF="IMEX0024.HTM#permutable_part_terminal_relationship">permutable_part_terminal_relationship</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#non_permutable_part_terminal_group">non_permutable_part_terminal_group</A> is used to indicate that groups of
+ <A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminals</A> cannot be exchanged.
+</P><HR>
+<!-- Start of FUNCTION: derive_part_terminal_permutability -->
+<H2><A NAME="derive_part_terminal_permutability">derive_part_terminal_permutability</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0024.HTM#derive_part_terminal_permutability">derive_part_terminal_permutability</A>
+    (functions            : SET OF <A HREF="IMEX0024.HTM#part_function">part_function</A>;
+     permutable_functions : SET OF <A HREF="IMEX0024.HTM#permutable_part_function_relationship">permutable_part_function_relationship</A>)
+    : SET OF <A HREF="IMEX0024.HTM#permutable_part_terminal_relationship">permutable_part_terminal_relationship</A>;
+    RETURN(?); -- not yet defined
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0024.HTM#derive_part_terminal_permutability">derive_part_terminal_permutability</A> function is used in the
+ <A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> to determine the permutability between part
+ terminals. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#fully_defined_electrical_part">fully_defined_electrical_part</A> </P>
+<HR>
+<!-- Start of ENTITY: printed_part_symbol -->
+<H2><A NAME="printed_part_symbol">printed_part_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#printed_part_symbol">printed_part_symbol</A>
+    ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A>,
+                                  <A HREF="IMEX0024.HTM#external_printed_part_symbol">external_printed_part_symbol</A>));
+  DERIVE
+    drawn_part : <A HREF="IMEX0024.HTM#printed_part">printed_part</A>
+      := <A HREF="IMEX0029.HTM#usedin_any_one_role">usedin_any_one_role</A> (SELF,
+           ['<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A>.symbols',
+            '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>.symbols']);
+  WHERE
+    <A NAME="printed_part_symbol.valid_existence">valid_existence</A>:
+      (* A printed_part_symbol belongs to either one printed_electrical_part or
+         one printed_connector_part. *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A>.symbols',
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>.symbols']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#printed_part_symbol">printed_part_symbol</A> describes the graphical symbol that represents
+ a printed part. It is used in the context of a pcb drawing.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0016.HTM#component_symbol">component_symbol</A> <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A> <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A> </P>
+<HR>
+<!-- Start of ENTITY: external_printed_part_symbol -->
+<H2><A NAME="external_printed_part_symbol">external_printed_part_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#external_printed_part_symbol">external_printed_part_symbol</A>
+    SUBTYPE OF (<A HREF="IMEX0024.HTM#printed_part_symbol">printed_part_symbol</A>);
+  WHERE
+    <A NAME="external_printed_part_symbol.external_part">external_part</A> :
+      ('<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#external_electrical_part">external_electrical_part</A>' IN
+         TYPEOF(SELF\<A HREF="IMEX0024.HTM#printed_part_symbol">printed_part_symbol</A>.drawn_part))
+      OR
+      ('<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#external_connector_part">external_connector_part</A>' IN
+         TYPEOF(SELF\<A HREF="IMEX0024.HTM#printed_part_symbol">printed_part_symbol</A>.drawn_part));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#external_printed_part_symbol">external_printed_part_symbol</A> describes the graphical symbol
+ that represents an extenal printed part.
+</P><HR>
+<!-- Start of ENTITY: internal_printed_part_symbol -->
+<H2><A NAME="internal_printed_part_symbol">internal_printed_part_symbol</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A>
+    SUBTYPE OF (<A HREF="IMEX0024.HTM#printed_part_symbol">printed_part_symbol</A>);
+    associated_figures                : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_figure">drawing_figure</A>;
+    associated_figure_macros          : OPTIONAL SET [1:?] OF
+                                        <A HREF="IMEX0020.HTM#drawing_figure_macro">drawing_figure_macro</A>; 
+    associated_text                   : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#drawing_text">drawing_text</A>;
+    component_designator_drawing_slot : OPTIONAL SET [1:?] OF
+                                        <A HREF="IMEX0017.HTM#drawing_text_display">drawing_text_display</A>; 
+    component_name_drawing_slot       : OPTIONAL SET [1:?] OF
+                                        <A HREF="IMEX0017.HTM#drawing_text_display">drawing_text_display</A>; 
+    part_name_drawing                 : OPTIONAL SET [1:?] OF
+                                        <A HREF="IMEX0017.HTM#drawing_text_display">drawing_text_display</A>; 
+    part_property_drawings            : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#property_drawing">property_drawing</A>;
+    terminal_representations          : OPTIONAL SET [1:?] OF
+                                        <A HREF="IMEX0024.HTM#printed_part_terminal_representation">printed_part_terminal_representation</A>;
+  WHERE
+    <A NAME="internal_printed_part_symbol.internal_part">internal_part</A> :
+      (* An internal_printed_part_symbol belongs to either an
+         internal_electrical_part or an internal_connector_part. *)
+      <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(drawn_part, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_electrical_part">internal_electrical_part</A>')
+      OR
+      <A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(drawn_part, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_connector_part">internal_connector_part</A>');
+
+    <A NAME="internal_printed_part_symbol.valid_part_property_drawings">valid_part_property_drawings</A> :
+      (* The referenced properties must belong to the drawn part *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyDrawing &lt;* part_property_drawings |
+        NOT (propertyDrawing.drawn_property IN drawn_part\<A HREF="IMEX0024.HTM#part">part</A>.properties)));
+
+    <A NAME="internal_printed_part_symbol.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A symbol cannot have part_property_drawings if the containing <A HREF="IMEX0024.HTM#part">part</A>
+            does not define any properties. *)
+      EXISTS(drawn_part\<A HREF="IMEX0024.HTM#part">part</A>.properties) OR NOT EXISTS(part_property_drawings);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A> describes the graphical symbol that
+ represents an internal printed part.  The part terminals are drawn by
+ instantiating <A HREF="IMEX0020.HTM#printed_part_terminal_drawing_template">printed_part_terminal_drawing_templates</A> defined in a
+ library.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#printed_part_terminal_representation">printed_part_terminal_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: printed_part_terminal_representation -->
+<H2><A NAME="printed_part_terminal_representation">printed_part_terminal_representation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#printed_part_terminal_representation">printed_part_terminal_representation</A>;
+    drawn_part_terminal   : <A HREF="IMEX0024.HTM#printed_part_terminal">printed_part_terminal</A>; -- reference
+    instantiated_template : <A HREF="IMEX0020.HTM#printed_part_terminal_drawing_template">printed_part_terminal_drawing_template</A>; -- reference
+    part_terminal_property_drawings : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#property_drawing">property_drawing</A>;
+    template_position     : <A HREF="IMEX0008.HTM#fixed_scale_transform">fixed_scale_transform</A>;
+  DERIVE
+    containing_symbol : <A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A> -- reference
+       := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A> (SELF,
+            <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>',
+                           '<A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A>',
+                           'terminal_representations'));
+  UNIQUE
+    unique_representation :
+      (* In a given symbol, every terminal has a unique representation *)
+      drawn_part_terminal, containing_symbol;
+  WHERE
+    <A NAME="printed_part_terminal_representation.valid_existence">valid_existence</A>:
+      (* A printed_electrical_part_terminal_representation belongs to one
+         internal_printed_part_symbol. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        <A HREF="IMEX0029.HTM#specified_role">specified_role</A>('<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>',
+                       '<A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A>',
+                       'terminal_representations'));
+
+    <A NAME="printed_part_terminal_representation.valid_drawn_part_terminal">valid_drawn_part_terminal</A> :
+      (* The drawn terminal must be defined in the part containing the
+         symbol. *) 
+      drawn_part_terminal
+        IN containing_symbol\<A HREF="IMEX0024.HTM#printed_part_symbol">printed_part_symbol</A>.drawn_part.terminals;
+
+    <A NAME="printed_part_terminal_representation.valid_part_terminal_property_drawings">valid_part_terminal_property_drawings</A> :
+      (* The drawn properties must be defined in the referenced
+         printed_part_terminal. *)
+      <A HREF="IMEX0029.HTM#not_exists">not_exists</A>(QUERY(propertyDrawing &lt;* part_terminal_property_drawings |
+        NOT(propertyDrawing.drawn_property 
+            IN drawn_part_terminal\<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>.properties)));
+
+    <A NAME="printed_part_terminal_representation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. The part_terminal_property_drawings attribute cannot exist if the
+            drawn <A HREF="IMEX0024.HTM#part">part</A> terminal does not define any properties. *)
+      EXISTS(drawn_part_terminal\<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>.properties) OR
+        NOT EXISTS(part_terminal_property_drawings);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#printed_part_terminal_representation">printed_part_terminal_representation</A> describes an instance of a
+ <A HREF="IMEX0020.HTM#printed_part_terminal_drawing_template">printed_part_terminal_drawing_template</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#internal_printed_part_symbol">internal_printed_part_symbol</A> </P>
+<HR>
+<!-- Start of TYPE: printed_part -->
+<H2><A NAME="printed_part">printed_part</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0024.HTM#printed_part">printed_part</A>
+    = SELECT (<A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A>,
+              <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#printed_part">printed_part</A> is either a <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A> or a
+ <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#printed_part_symbol">printed_part_symbol</A> </P>
+<HR>
+<!-- Start of TYPE: printed_part_terminal -->
+<H2><A NAME="printed_part_terminal">printed_part_terminal</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0024.HTM#printed_part_terminal">printed_part_terminal</A>
+    = SELECT(<A HREF="IMEX0024.HTM#printed_electrical_part_terminal">printed_electrical_part_terminal</A>,
+             <A HREF="IMEX0024.HTM#printed_connector_part_terminal">printed_connector_part_terminal</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#printed_part_terminal">printed_part_terminal</A> is a terminal of a <A HREF="IMEX0024.HTM#printed_electrical_part">printed_electrical_part</A> or a
+ terminal of a <A HREF="IMEX0024.HTM#printed_connector_part">printed_connector_part</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#printed_part_terminal_representation">printed_part_terminal_representation</A> </P>
+<HR>
+<!-- Start of ENTITY: part_characteristic -->
+<H2><A NAME="part_characteristic">part_characteristic</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#part_characteristic">part_characteristic</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A>,
+                                    <A HREF="IMEX0024.HTM#passive_part_characteristic">passive_part_characteristic</A>));
+  WHERE
+    <A NAME="part_characteristic.valid_existence">valid_existence</A> :
+      (* A part_characteristic belongs to one internal_electrical_part,
+         internal_jumper_part or internal_connector_part *)
+      <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A> (SELF,
+        ['<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_electrical_part">internal_electrical_part</A>.part_information',
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_connector_part">internal_connector_part</A>.part_information',
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A>.part_information']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0024.HTM#part_characteristic">part_characteristic</A> is the information necessary to relate an EDIF
+ part to its characteristics, possibly in IBIS.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#internal_connector_part">internal_connector_part</A> <A HREF="IMEX0024.HTM#internal_electrical_part">internal_electrical_part</A> <A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A> </P>
+<HR>
+<!-- Start of ENTITY: ibis_part_characteristic -->
+<H2><A NAME="ibis_part_characteristic">ibis_part_characteristic</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#part_characteristic">part_characteristic</A>);
+    ibis_file                     : <A HREF="IMEX0024.HTM#ibis_file_information">ibis_file_information</A>;
+    ibis_component_identification : <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    ibis_pin_bindings             : SET [1:?] OF <A HREF="IMEX0024.HTM#ibis_pin_binding">ibis_pin_binding</A>;
+  DERIVE
+    containing_electrical_part : <A HREF="IMEX0024.HTM#internal_electrical_part">internal_electrical_part</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A> (SELF,
+           '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_electrical_part">internal_electrical_part</A>.part_information');
+    containing_connector_part : <A HREF="IMEX0024.HTM#internal_connector_part">internal_connector_part</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A> (SELF,
+           '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_connector_part">internal_connector_part</A>.part_information');
+    containing_jumper_part : <A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A> (SELF,
+           '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#internal_jumper_part">internal_jumper_part</A>.part_information');
+  WHERE
+    <A NAME="ibis_part_characteristic.valid_component_identification">valid_component_identification</A> :
+      (* The ibis_component_identification is a maximum of 40 characters. *)
+      LENGTH (ibis_component_identification) &lt;= 40;
+
+    <A NAME="ibis_part_characteristic.valid_pin_bindings">valid_pin_bindings</A> :
+      (* Each terminal of the part has a corresponding ibis_pin_binding. *)
+      (EXISTS(containing_electrical_part) AND
+        (SIZEOF(ibis_pin_bindings) 
+         = SIZEOF(containing_electrical_part.terminals)))
+      OR
+      (EXISTS(containing_connector_part) AND
+        (SIZEOF(ibis_pin_bindings) 
+         = SIZEOF(containing_connector_part.terminals)))
+      OR
+      (EXISTS(containing_jumper_part) AND
+        (SIZEOF(ibis_pin_bindings) 
+         = SIZEOF(containing_jumper_part.terminals)));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A> relates an EDIF part to its description within
+ IBIS.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#ibis_pin_binding">ibis_pin_binding</A> </P>
+<HR>
+<!-- Start of ENTITY: ibis_file_information -->
+<H2><A NAME="ibis_file_information">ibis_file_information</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#ibis_file_information">ibis_file_information</A>;
+    file_identification : <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    name                : OPTIONAL <A HREF="IMEX0029.HTM#name_information">name_information</A>;
+    properties          : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  WHERE
+    <A NAME="ibis_file_information.valid_existence">valid_existence</A> :
+      (* An ibis_file_information belongs to one ibis_part_characteristic. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+        '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A>.ibis_file');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#ibis_file_information">ibis_file_information</A> describes the file in which the IBIS component
+ description is found.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A> </P>
+<HR>
+<!-- Start of ENTITY: ibis_pin_binding -->
+<H2><A NAME="ibis_pin_binding">ibis_pin_binding</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#ibis_pin_binding">ibis_pin_binding</A>;
+    part_terminal           : <A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>; -- reference
+    ibis_pin_identification : <A HREF="IMEX0029.HTM#string_token">string_token</A>;
+    properties              : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#property">property</A>;
+  DERIVE
+    containing_ibis_information : <A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A> -- reference
+      := <A HREF="IMEX0029.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A>.ibis_pin_bindings');
+  UNIQUE
+    unique_part_terminal :
+      (* There is only one IBIS correspondent for a given part_terminal. *)
+      <A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>;
+
+    unique_ibis_pin :
+      (* Within an IBIS component, an IBIS pin can only correspond to
+         one part_terminal. *)
+      ibis_pin_identification, containing_ibis_information;
+  WHERE
+    <A NAME="ibis_pin_binding.valid_existence">valid_existence</A> :
+      (* An ibis_pin_binding belongs to one ibis_part_characteristic. *)
+      <A HREF="IMEX0029.HTM#belongs_to_one">belongs_to_one</A> (SELF,
+         '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A>.ibis_pin_bindings');
+
+    <A NAME="ibis_pin_binding.valid_part_terminal">valid_part_terminal</A> :
+      (* The part_terminal is a terminal of the part being mapped. *)
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#electrical_part_terminal">electrical_part_terminal</A>')
+       AND
+       EXISTS(containing_ibis_information.containing_electrical_part)
+       AND
+       (<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A> IN 
+        containing_ibis_information.containing_electrical_part.terminals))
+      OR
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#connector_part_terminal">connector_part_terminal</A>')
+       AND
+       EXISTS(containing_ibis_information.containing_connector_part)
+       AND
+       (<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A> IN 
+        containing_ibis_information.containing_connector_part.terminals))
+      OR
+      (<A HREF="IMEX0029.HTM#is_typeof">is_typeof</A>(<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A>, '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#jumper_part_terminal">jumper_part_terminal</A>')
+       AND
+       EXISTS(containing_ibis_information.containing_jumper_part)
+       AND
+       (<A HREF="IMEX0024.HTM#part_terminal">part_terminal</A> IN 
+        containing_ibis_information.containing_jumper_part.terminals));
+
+    <A NAME="ibis_pin_binding.valid_pin_identification">valid_pin_identification</A> :
+     (* The ibis_pin_identification is a maximum of 5 characters. *)
+     LENGTH (ibis_pin_identification) &lt;= 5;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0024.HTM#ibis_pin_binding">ibis_pin_binding</A> relates a <A HREF="IMEX0024.HTM#part_terminal">part_terminal</A> to its corresponding pin
+ within an IBIS component.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#ibis_part_characteristic">ibis_part_characteristic</A> </P>
+<HR>
+<!-- Start of ENTITY: passive_part_characteristic -->
+<H2><A NAME="passive_part_characteristic">passive_part_characteristic</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#passive_part_characteristic">passive_part_characteristic</A>
+      SUBTYPE OF (<A HREF="IMEX0024.HTM#part_characteristic">part_characteristic</A>);
+    capacitance : OPTIONAL <A HREF="IMEX0029.HTM#capacitance_value">capacitance_value</A>;
+    inductance  : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_inductance">toleranced_inductance</A>;
+    resistance  : OPTIONAL <A HREF="IMEX0029.HTM#toleranced_resistance">toleranced_resistance</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#passive_part_characteristic">passive_part_characteristic</A> specifies information for passive parts.
+</P><HR>
+<!-- Start of ENTITY: part_units -->
+<H2><A NAME="part_units">part_units</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0024.HTM#part_units">part_units</A>;
+    set_capacitance : <A HREF="IMEX0029.HTM#capacitance_unit">capacitance_unit</A>;
+    set_inductance  : <A HREF="IMEX0029.HTM#inductance_unit">inductance_unit</A>;
+    set_resistance  : <A HREF="IMEX0029.HTM#resistance_unit">resistance_unit</A>;
+  WHERE
+    <A NAME="part_units.valid_existence">valid_existence</A> :
+      (* A part_units belongs to one physical_scaling or one part. *)
+    <A HREF="IMEX0029.HTM#either_belongs_to_one">either_belongs_to_one</A> (SELF,
+     ['<A HREF="IMEX0007.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A>.default_part_units',
+      '<A HREF="IMEX0024.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0024.HTM#part">part</A>.units']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0024.HTM#part_units">part_units</A> specifies the units in which part information is specified.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0024.HTM#part">part</A> <A HREF="IMEX0007.HTM#physical_scaling">physical_scaling</A> </P>
+
+<HR>
+
+<!-- Start of schema: pcb_sub_layout_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

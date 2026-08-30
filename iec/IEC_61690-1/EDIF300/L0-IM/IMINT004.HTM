@@ -1,0 +1,602 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1>Chapter 4</H1>
+<H1><A NAME="SECTION04300000000000000000">Connectivity</A></H1>
+<P>
+This chapter describes the concept of connectivity in EDIF.  In EDIF Version
+3&nbsp;0&nbsp;0, the concepts of logical connectivity and structural
+connectivity are explicitly introduced.
+<P>
+<H1><A NAME="SECTION04310000000000000000">4.1 Problem statement</A></H1>
+<P>
+In EDIF Version 2&nbsp;0&nbsp;0, connectivity information[<A HREF="IMBIBLIO.HTM#EDIFConnectivity">4</A>] is well
+specified for simple netlists only.  Where complex connectivity information is
+defined - for example, when handling what are often called ``busses'' - it is
+unclear if the arrayed form of a net should be used or if the net bundle should
+be used.
+<P>
+Furthermore, although it is true that for simple netlists all the connectivity
+at a given level of hierarchy is defined in one place, this is not true for
+more complicated cases.  For example, if electrically common information
+happens to be described on multiple pages in a schematic then EDIF Version
+2&nbsp;0&nbsp;0 has no way of allowing the EDIF writer to indicate the total connectivity
+in one place.  In addition, where information from a wide bus is <EM>ripped</EM>
+into other less wide nets/busses, a cell of type ripper is required.  This
+means that a CAD system accepting a design in EDIF Version 2&nbsp;0&nbsp;0 must unravel
+the inserted ripper cells to deduce the underlying connectivity.
+<P>
+<H1><A NAME="SECTION04320000000000000000">4.2 Solution</A></H1>
+<P>
+In EDIF Version 3&nbsp;0&nbsp;0, the connectivity information is described
+in two stages as indicated below.  The view types that support connectivity
+definitions are connectivity, schematic, masklayout, pcblayout and
+symboliclayout.
+<DL>
+<DT>a) <EM>Logical connectivity information</EM>
+<DD>The logical connectivity describes the connectivity for a given level of hierarchy. It is
+defined in terms of <A HREF="IMEX0009.HTM#instance">instances</A>, <A HREF="IMEX0012.HTM#signal">signals</A> and <A HREF="IMEX0012.HTM#signal_group">signal_groups</A>. The
+information carried in the logical connectivity section is similar in the
+connectivity-carrying types of view.
+<P>
+<DT>b) <EM>Structural connectivity information</EM>
+<DD>The structural connectivity describes the structural implementation of the logical connectivity
+for a given level of hierarchy. It is defined in terms of nets, busses,
+rippers and junctions. The structural connectivity section is viewtype
+specific. Table 4.1 shows which structural connectivity items are allowed in different
+viewtypes. In this model, the structural connectivity of the connectivity view and the
+structural connectivity of the schematic view are discussed.
+</DL>
+<P><A NAME="11988">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER>
+<TR><TH><BR></TH><TH>connectivity</TH><TH>schematic</TH><TH>symbolic</TH><TH>masklayout</TH><TH>pcblayout</TH></TR>
+<TR><TD>net, subnet</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD></TR>
+<TR><TD>bus, sub-bus, bus-slice</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD></TR>
+<TR><TD>ripper</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD></TR>
+<TR><TD>junction</TD><TD ALIGN=CENTER><BR></TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER>yes</TD></TR>
+<TR><TD>interconnect_terminator</TD><TD ALIGN=CENTER><BR></TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER><BR></TD><TD ALIGN=CENTER><BR></TD><TD ALIGN=CENTER><BR></TD></TR>
+<TR><TD>offpageconnector</TD><TD ALIGN=CENTER><BR></TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER><BR></TD><TD ALIGN=CENTER><BR></TD><TD ALIGN=CENTER><BR></TD></TR>
+<TR><TD>onpageconnector</TD><TD ALIGN=CENTER><BR></TD><TD ALIGN=CENTER>yes</TD><TD ALIGN=CENTER><BR></TD><TD ALIGN=CENTER><BR></TD><TD ALIGN=CENTER><BR></TD></TR>
+</TABLE>
+<STRONG>Table 4.1:</STRONG> <A NAME="tbstructuralitemsvsviewtypes">&#160;</A>Structural connectivity
+items allowed in different types of view<BR>
+</CENTER>
+<P><H2><A NAME="SECTION04321000000000000000">4.2.1 Logical connectivity</A></H2>
+<P>
+Instances are defined in the logical connectivity section.  The instantiation
+process indicates that a given cell with an interface defined by the referenced
+cluster is to be included in the design at this point.
+<P>
+The <A HREF="IMEX0012.HTM#signal">signals</A> and <A HREF="IMEX0012.HTM#signal_group">signal_groups</A> are used to describe the overall
+connectivity for the entire view.  The model for the logical connectivity
+section can be found in the <A HREF="IMEX0012.HTM#logical_connectivity_model">logical_connectivity_model</A> schema
+.
+<P>
+<H3><A NAME="SECTION04321100000000000000">Signal</A></H3>
+<P>
+A <A HREF="IMEX0012.HTM#signal">signal</A>  is defined as an object which lists all the
+<A HREF="IMEX0007.HTM#global_port">global_ports</A> (defined in <A HREF="IMEX0007.HTM#edif">edif</A>), <A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A> (ports on members of
+<A HREF="IMEX0009.HTM#instance">instances</A>) and <A HREF="IMEX0009.HTM#master_port">master_ports</A> (ports defined in the <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>) which
+are electrically common at a given level of hierarchy.  A <A HREF="IMEX0012.HTM#signal">signal</A> is always
+one-bit wide and is defined within a view, i.e. <A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A> and
+<A HREF="IMEX0014.HTM#internal_schematic_view">internal_schematic_view</A>.  All <A HREF="IMEX0007.HTM#global_port">global_ports</A> joined by a <A HREF="IMEX0012.HTM#signal">signal</A> are defined in
+the containing <A HREF="IMEX0007.HTM#edif">edif</A>.  All <A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A> joined by a <A HREF="IMEX0012.HTM#signal">signal</A> must
+refer to <A HREF="IMEX0009.HTM#instance">instances</A> in the containing view.  Finally, all <A HREF="IMEX0009.HTM#master_port">master_ports</A>
+joined by a <A HREF="IMEX0012.HTM#signal">signal</A> must be defined in the interface of the containing
+<A HREF="IMEX0009.HTM#cluster">cluster</A>.  Figure&nbsp;<A HREF="#figsignal">4.1</A> shows the model of <A HREF="IMEX0012.HTM#signal">signal</A>.
+<P>
+<P><A NAME="12029">&#160;</A><A NAME="figsignal">&#160;</A><BR>
+<CENTER>
+<IMG ALIGN=CENTER ALT="gif" SRC="FIG_4_1.GIF">
+<BR>
+<STRONG>Figure 4.1:</STRONG> The model of <A HREF="IMEX0012.HTM#signal">signal</A><BR>
+</CENTER>
+<P><H3><A NAME="SECTION04321200000000000000">Signal_group</A></H3>
+<P>
+A <A HREF="IMEX0012.HTM#signal_group">signal_group</A>  provides a grouping mechanism for
+<A HREF="IMEX0012.HTM#signal">signals</A>.  A <A HREF="IMEX0012.HTM#signal_group">signal_group</A> does not establish connectivity.  It is defined
+within a view and is used to support structural connectivity.  A <A HREF="IMEX0012.HTM#signal_group">signal_group</A>
+is specified in terms of an ordered list of one or more <A HREF="IMEX0012.HTM#signal">signals</A> or
+<A HREF="IMEX0012.HTM#signal_group">signal_groups</A> in the same containing view.  The structure of a <A HREF="IMEX0012.HTM#signal_group">signal_group</A>
+is independent of port ordering or port structure.  No two <A HREF="IMEX0012.HTM#signal_group">signal_groups</A> may
+have the same structure of members.  The same <A HREF="IMEX0012.HTM#signal">signal</A> may be referenced in the
+ordered signal list of more than one <A HREF="IMEX0012.HTM#signal_group">signal_group</A>.  The same signal may be
+referenced more than once in a single <A HREF="IMEX0012.HTM#signal_group">signal_group</A>.
+<P>
+Figure&nbsp;<A HREF="#figsignalgroupexample">4.2</A> shows an example of <A HREF="IMEX0012.HTM#signal_group">signal_groups</A> and
+<A HREF="IMEX0012.HTM#signal">signals</A>.  Boxes with thick borders represent <A HREF="IMEX0012.HTM#signal_group">signal_groups</A> and those with
+narrow borders represent <A HREF="IMEX0012.HTM#signal">signals</A>.  The figure shows how <A HREF="IMEX0012.HTM#signal">signals</A> can be
+built up into <A HREF="IMEX0012.HTM#signal_group">signal_groups</A>, and these in turn included in further
+<A HREF="IMEX0012.HTM#signal_group">signal_groups</A>.  This hierarchical structure can then be used to support the
+structural connectivity expressed by busses.
+<P>
+<P><A NAME="12071">&#160;</A><A NAME="figsignalgroupexample">&#160;</A><BR>
+<CENTER>
+<IMG ALIGN=CENTER ALT="gif" SRC="FIG_4_2.GIF"><BR>
+<STRONG>Figure 4.2:</STRONG> An example of the structure of a <A HREF="IMEX0012.HTM#signal_group">signal_group</A><BR>
+</CENTER>
+<P><H2><A NAME="SECTION04322000000000000000">4.2.2 Structural connectivity with wide instances</A></H2>
+<P>
+<A NAME="sewideinstanceconnectivity">&#160;</A>
+<P>
+When an interconnect (net or bus) joins a port or a port_bundle on a wide
+<A HREF="IMEX0009.HTM#instance">instance</A>, the pattern of connectivity will be either in the commoned style or
+in the fanned out style.  For the commoned style, the joined <A HREF="IMEX0009.HTM#instance_port">instance_ports</A>
+or <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundles</A> reference <A HREF="IMEX0009.HTM#master_port">master_ports</A> or <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundles</A>
+whose port size is the same as that of the interconnect.  For the fanned out
+style, the joined <A HREF="IMEX0009.HTM#instance_port">instance_ports</A> or <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundles</A> are flattened to
+lists of <A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A>.  The length of these lists must be equal to the
+size of the interconnect.  The size of an interconnect is the same as the size
+of its associated <A HREF="IMEX0012.HTM#signal">signal</A> or <A HREF="IMEX0012.HTM#signal_group">signal_group</A>.  A net is associated with a
+<A HREF="IMEX0012.HTM#signal">signal</A>; its size is therefore always one.  A bus is associated with a
+<A HREF="IMEX0012.HTM#signal_group">signal_group</A>, the size of which is equal to the length of the list of
+<A HREF="IMEX0012.HTM#signal">signals</A> created by flattening the <A HREF="IMEX0012.HTM#signal_group">signal_group</A>.
+<P>
+The following sections give various examples of using an interconnect to join a
+port or a port_bundle on a wide <A HREF="IMEX0009.HTM#instance">instance</A>.
+<P>
+<H3><A NAME="SECTION04322100000000000000">Joining ports on <A HREF="IMEX0009.HTM#instance">instances</A> in the commoned style</A></H3>
+<P>
+Figure&nbsp;<A HREF="#figcommonedinstanceport">4.3</A> illustrates an example of a net joining
+a port on a wide <A HREF="IMEX0009.HTM#instance">instance</A> using the commoned style.  The wide <A HREF="IMEX0009.HTM#instance">instance</A> I
+has a width of three.  It instantiates a <A HREF="IMEX0009.HTM#cluster">cluster</A> which defines a <A HREF="IMEX0009.HTM#master_port">master_port</A>
+P in the <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.
+<P>
+<P><A NAME="12116">&#160;</A><A NAME="figcommonedinstanceport">&#160;</A><BR>
+<CENTER>
+<IMG ALIGN=CENTER ALT="gif" SRC="FIG_4_3.GIF"><BR>
+<STRONG>Figure 4.3:</STRONG> A net joins a port on an <A HREF="IMEX0009.HTM#instance">instance</A> in the commoned style<BR>
+</CENTER>
+<P>
+<P>
+If a net NET_A is defined which joins to port P on <A HREF="IMEX0009.HTM#instance">instance</A> I, the
+underlying connectivity of NET_A will be equivalent to joining port P on the
+0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I, port P on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I and port P
+on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I together.
+<P>
+<H3><A NAME="SECTION04322200000000000000">Joining port_bundles on <A HREF="IMEX0009.HTM#instance">instances</A> in the commoned style</A></H3>
+<P>
+Figure&nbsp;<A HREF="#figcommonedinstanceportbundle">4.4</A> illustrates an example of a bus
+joining a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A> using the commoned style.  The wide
+<A HREF="IMEX0009.HTM#instance">instance</A> I has a width of three.  It instantiates a <A HREF="IMEX0009.HTM#cluster">cluster</A> in which two
+<A HREF="IMEX0009.HTM#master_port">master_ports</A> P1, P2 and a <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> PB are defined.  PB groups P1
+and P2 together.
+<P>
+<P><A NAME="12148">&#160;</A><A NAME="figcommonedinstanceportbundle">&#160;</A><BR>
+<CENTER>
+<IMG ALIGN=CENTER ALT="gif" SRC="FIG_4_4.GIF"><BR>
+<STRONG>Figure 4.4:</STRONG> A bus joins a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A> in the commoned style<BR>
+</CENTER>
+<P>
+<P>
+When a bus joins to a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A> using the commoned style,
+the joined <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A> must reference a <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> whose port
+size is the same as that of the bus.  The size of a bus is determined by
+flattening its associated <A HREF="IMEX0012.HTM#signal_group">signal_group</A>.  If a bus BUS_A is defined which joins
+to port_bundle PB on <A HREF="IMEX0009.HTM#instance">instance</A> I, the size of the port_bundle PB must be the
+same as the size of the bus BUS_A.  In this case, the size of PB is 2 and the
+size of BUS_A is also 2.  The connectivity underlying BUS_A will be
+equivalent to joining the port_bundle PB on the 0th member <A HREF="IMEX0009.HTM#instance">instance</A> I, the
+port_bundle PB on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I and the port_bundle PB on
+the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I together.  That is, the 0th bit of BUS_A joins
+port P1 on the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I, port P1 on the 1st member of
+<A HREF="IMEX0009.HTM#instance">instance</A> I and port P1 on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I together; the 1st
+bit of BUS_A joins port P2 on the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I, port P2 on the
+1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I and port P2 on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I
+together.
+<P>
+<H3><A NAME="SECTION04322300000000000000">Joining ports on <A HREF="IMEX0009.HTM#instance">instances</A> in the fanned out style</A></H3>
+<P>
+Figure&nbsp;<A HREF="#figfannedoutinstanceport">4.5</A> illustrates an example of a bus
+joining a port on an <A HREF="IMEX0009.HTM#instance">instance</A> using the fanned out style.  The wide
+<A HREF="IMEX0009.HTM#instance">instance</A> I has a width of three.  It instantiates a <A HREF="IMEX0009.HTM#cluster">cluster</A> which defines a
+<A HREF="IMEX0009.HTM#master_port">master_port</A> P in the <A HREF="IMEX0009.HTM#cluster_interface">cluster_interface</A>.
+<P>
+<P><A NAME="12190">&#160;</A><A NAME="figfannedoutinstanceport">&#160;</A><BR>
+<CENTER>
+<IMG ALIGN=CENTER ALT="gif" SRC="FIG_4_5.GIF"><BR>
+<STRONG>Figure 4.5:</STRONG> A bus joins a port on an <A HREF="IMEX0009.HTM#instance">instance</A> in the fanned out style<BR>
+</CENTER>
+<P>
+<P>
+When a bus joins to a port on an <A HREF="IMEX0009.HTM#instance">instance</A> using the fanned out style, the
+size of the port list resulting from expanding the joined <A HREF="IMEX0009.HTM#instance_port">instance_port</A> must
+be the same as that of the bus.  The size of the port list is determined by the
+width of the <A HREF="IMEX0009.HTM#instance">instance</A>.  Suppose a bus BUS_B is defined which joins to port P
+on <A HREF="IMEX0009.HTM#instance">instance</A> I.  The size of the bus BUS_B is 3 and the underlying
+connectivity is : the 0th bit joins port P on the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I;
+the 1st bit joins port P on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 2nd bit joins
+port P on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I.
+<P>
+<H3><A NAME="SECTION04322400000000000000">Joining port_bundles on <A HREF="IMEX0009.HTM#instance">instances</A> in the fanned out style</A></H3>
+<P>
+Figure&nbsp;<A HREF="#figfannedoutinstanceportbundle">4.6</A> illustrates an example of a
+bus joining a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A> using the fanned out style.  The
+wide <A HREF="IMEX0009.HTM#instance">instance</A> I has a width of three.  It instantiates a <A HREF="IMEX0009.HTM#cluster">cluster</A> in which
+two <A HREF="IMEX0009.HTM#master_port">master_ports</A> P1, P2 and a <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> PB are defined.  PB groups
+P1 and P2 together.
+<P>
+<P><A NAME="12225">&#160;</A><A NAME="figfannedoutinstanceportbundle">&#160;</A><BR>
+<CENTER>
+<IMG ALIGN=CENTER ALT="gif" SRC="FIG_4_6.GIF"><BR>
+<STRONG>Figure 4.6:</STRONG> A bus joins a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A> in the fanned out style<BR>
+</CENTER>
+<P>
+<P>
+When a bus joins to a port_bundle on an <A HREF="IMEX0009.HTM#instance">instance</A> using the fanned out style,
+the size of port list resulting from expanding the joined <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A>
+must be the same size as that of the bus.  The size of the port list is the
+product of the <A HREF="IMEX0009.HTM#instance">instance</A> width and the referenced <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> size.
+Suppose a bus BUS_C is defined which joins to the port_bundle PB on the
+<A HREF="IMEX0009.HTM#instance">instance</A> I.  PB implicitly represents a list of 6 ports (i.e. <A HREF="IMEX0009.HTM#instance">instance</A>
+width  <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundle</A> size = 3  2).  Note that the elements
+of the port_bundle PB correspond to consecutive members of the list of ports.
+The size of bus BUS_C is 6 and the underlying connectivity is : the 0th bit
+joins port P1 on the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 1st bit joins port P2 on
+the 0th member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 2nd bit joins port P1 on the 1st member of
+<A HREF="IMEX0009.HTM#instance">instance</A> I; the 3rd bit joins port P2 on the 1st member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the
+4th bit joins port P1 on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I; the 5th bit joins port
+P2 on the 2nd member of <A HREF="IMEX0009.HTM#instance">instance</A> I.
+<P>
+<H2><A NAME="SECTION04323000000000000000">4.2.3 Structural connectivity of views of type connectivity</A></H2>
+<P>
+<A NAME="seconnectivitynetbusconcept">&#160;</A>
+<P>
+The model of the structural connectivity of <A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_views</A> is
+found in the <A HREF="IMEX0001.HTM#connectivity_structure_model">connectivity_structure_model</A> schema
+.  Structural connectivity information
+is described by <A HREF="IMEX0001.HTM#connectivity_net">connectivity_nets</A>, <A HREF="IMEX0001.HTM#connectivity_bus">connectivity_busses</A> and
+<A HREF="IMEX0001.HTM#connectivity_ripper">connectivity_rippers</A>, which are explained in the following sections.  No
+implementation information is associated with the structural connectivity of an
+<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>.
+<P>
+<H3><A NAME="SECTION04323100000000000000">Connectivity_net and connectivity_sub_net</A></H3>
+<P>
+<A NAME="seconnectivitynetconcept">&#160;</A>
+<P>
+A net is defined as a structured representation of a <A HREF="IMEX0012.HTM#signal">signal</A>.  Each net is
+associated with a <A HREF="IMEX0012.HTM#signal">signal</A> and it may join single ports.
+<P>
+On occasion it is necessary to divide a net into various parts so that
+properties may be added to one part but not to any of the others.  For example,
+a net takes an input to several sub-blocks, only one path of which is critical
+for routing purposes.  Therefore, it is desirable to assign a high routing
+priority to that part of the net but not to other parts, so that the circuit
+will be correctly routed.
+<P>
+Hence, a net may be subdivided into sub-nets, which may themselves be further
+subdivided into sub-nets.  However, sub-nets do not give new connectivity
+information and the ports associated with a sub-net must be referenced in the
+immediately containing net or sub-net.  No two sub-nets at a given level may
+refer to the same set of ports.
+<P>
+In the information model, the concepts of net and sub-net are generalised into
+the concept of generic-net.  An occurrence of a <A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A>
+ can be either an occurrence of a
+<A HREF="IMEX0001.HTM#connectivity_net">connectivity_net</A> or an occurrence of a <A HREF="IMEX0001.HTM#connectivity_sub_net">connectivity_sub_net</A>.  Each
+<A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A> is associated with a <A HREF="IMEX0012.HTM#signal">signal</A>.  It may join
+<A HREF="IMEX0007.HTM#global_port">global_ports</A>, <A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A>, <A HREF="IMEX0009.HTM#instance_port">instance_ports</A>, <A HREF="IMEX0009.HTM#master_port">master_ports</A> and
+<A HREF="IMEX0001.HTM#connectivity_ripper">connectivity_rippers</A> (rippers defined in connectivity views).  It has
+attributes such as criticality and delay information.  Moreover, it may have
+<A HREF="IMEX0001.HTM#connectivity_sub_net">connectivity_sub_nets</A> which may be further divided into more
+<A HREF="IMEX0001.HTM#connectivity_sub_net">connectivity_sub_nets</A>.  Figure&nbsp;<A HREF="#figconnectivitynet">4.7</A> shows the model of
+<A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A>.
+<P>
+<P><A NAME="12288">&#160;</A><A NAME="figconnectivitynet">&#160;</A><BR>
+<CENTER>
+<IMG ALIGN=CENTER ALT="gif" SRC="FIG_4_7.GIF"><BR>
+<STRONG>Figure 4.7:</STRONG> The model of net in connectivity views<BR>
+</CENTER>
+<P>
+<P>
+A <A HREF="IMEX0001.HTM#connectivity_net">connectivity_net</A> must be defined within the contents of an
+<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>.  Its associated <A HREF="IMEX0012.HTM#signal">signal</A> and its joined rippers must
+be defined in the containing view.  Furthermore, the joined <A HREF="IMEX0007.HTM#global_port">global_ports</A>,
+<A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A> and <A HREF="IMEX0009.HTM#master_port">master_ports</A> must be mentioned in its associated
+<A HREF="IMEX0012.HTM#signal">signal</A>.  If a <A HREF="IMEX0001.HTM#connectivity_net">connectivity_net</A> joins an <A HREF="IMEX0009.HTM#instance_port">instance_port</A>, then the list of
+<A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A> joined implicitly must be a subset of the
+<A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A> joined by its associated <A HREF="IMEX0012.HTM#signal">signal</A>.
+<P>
+A <A HREF="IMEX0001.HTM#connectivity_sub_net">connectivity_sub_net</A> must be defined within another <A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A>.
+The associated signal of a <A HREF="IMEX0001.HTM#connectivity_sub_net">connectivity_sub_net</A> must be the same as the one in
+its enclosing structure. Its joined ports or rippers must be a subset of the
+ports or rippers referenced by its enclosing structure.
+<P>
+<H3><A NAME="SECTION04323200000000000000">Connectivity_bus, connectivity_bus_slice and connectivity_sub_bus</A></H3>
+<P>
+<A NAME="seconnectivitybusconcept">&#160;</A>
+<P>
+A bus is defined as a structured representation of a collection of <A HREF="IMEX0012.HTM#signal">signals</A>.
+Each bus is associated with a <A HREF="IMEX0012.HTM#signal_group">signal_group</A> and it may join wide ports.
+<P>
+A bus may be subdivided in two orthogonal ways.  It may be divided into
+bus-slices or into sub-busses.  A bus-slice is used to define part of a bus.
+Its associated <A HREF="IMEX0012.HTM#signal_group">signal_group</A> is a member of the <A HREF="IMEX0012.HTM#signal_group">signal_group</A> associated with
+its immediately containing structure.  No two bus-slices at a given level may
+refer to the same <A HREF="IMEX0012.HTM#signal_group">signal_group</A>.  A sub-bus is similar in nature to a sub-net in
+that it allows additional structural information to be given about a part of
+the bus.  A sub-bus is associated with the same <A HREF="IMEX0012.HTM#signal_group">signal_group</A> as that in the
+immediately containing structure.  No two sub-busses at a given level may
+reference the same set of ports or rippers.
+<P>
+In the information model, the concepts of bus, bus-slice and sub-bus are
+generalised into the concept of generic-bus.  An occurrence of a
+<A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A>  can be either an
+occurrence of a <A HREF="IMEX0001.HTM#connectivity_bus">connectivity_bus</A>, an occurrence of a <A HREF="IMEX0001.HTM#connectivity_bus_slice">connectivity_bus_slice</A> or
+an occurrence of a <A HREF="IMEX0001.HTM#connectivity_sub_bus">connectivity_sub_bus</A>.  Each <A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A> is
+associated with a <A HREF="IMEX0012.HTM#signal_group">signal_group</A>.  As is the case for <A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A>, it
+may join <A HREF="IMEX0007.HTM#global_port">global_ports</A>, <A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A>, <A HREF="IMEX0009.HTM#instance_port">instance_ports</A>, <A HREF="IMEX0009.HTM#master_port">master_ports</A>
+and <A HREF="IMEX0001.HTM#connectivity_ripper">connectivity_rippers</A>.  In addition, it may join wide ports such as
+<A HREF="IMEX0007.HTM#global_port_bundle">global_port_bundles</A>, <A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_groups</A>, <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundles</A> and
+<A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundles</A>.  It has attributes such as criticality and delay
+information.  Moreover, it may have <A HREF="IMEX0001.HTM#connectivity_bus_slice">connectivity_bus_slices</A> or
+<A HREF="IMEX0001.HTM#connectivity_sub_bus">connectivity_sub_busses</A> which may be further divided into more
+<A HREF="IMEX0001.HTM#connectivity_bus_slice">connectivity_bus_slices</A> or <A HREF="IMEX0001.HTM#connectivity_sub_bus">connectivity_sub_busses</A>.
+<P>
+All joined <A HREF="IMEX0007.HTM#global_port">global_ports</A>, <A HREF="IMEX0007.HTM#global_port_bundle">global_port_bundles</A>, <A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A>,
+<A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_groups</A>, <A HREF="IMEX0009.HTM#master_port">master_ports</A> and <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundles</A> must have the
+same port size.  This must be the same as the size of the associated
+<A HREF="IMEX0012.HTM#signal_group">signal_group</A>.  Moreover, each single port of the joined port structures must be
+referenced in the corresponding <A HREF="IMEX0012.HTM#signal">signal</A> in the flattened <A HREF="IMEX0012.HTM#signal_group">signal_group</A>.  In the
+case where a generic bus joins an <A HREF="IMEX0009.HTM#instance_port">instance_port</A> or an <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundle</A>, the
+pattern of connectivity will be either in the commoned style or in the fanned
+out style (see section&nbsp;<A HREF="#sewideinstanceconnectivity">4.2.2</A>).  For the commoned
+style, the joined <A HREF="IMEX0009.HTM#instance_port">instance_ports</A> or <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundles</A> reference
+<A HREF="IMEX0009.HTM#master_port">master_ports</A> or <A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundles</A> whose port size is the same as the size
+of the flattened <A HREF="IMEX0012.HTM#signal_group">signal_group</A>.  For the fanned out style, the joined
+<A HREF="IMEX0009.HTM#instance_port">instance_ports</A> or <A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundles</A> are flattened to lists of
+<A HREF="IMEX0009.HTM#instance_member_port">instance_member_ports</A>.  The length of these lists must be equal to the size of
+the flattened <A HREF="IMEX0012.HTM#signal_group">signal_group</A>.
+<P>
+A <A HREF="IMEX0001.HTM#connectivity_bus">connectivity_bus</A> must be defined within the contents of an
+<A HREF="IMEX0002.HTM#internal_connectivity_view">internal_connectivity_view</A>.  Its associated <A HREF="IMEX0012.HTM#signal_group">signal_group</A> and its joined rippers
+must be defined in the containing view.
+<P>
+A <A HREF="IMEX0001.HTM#connectivity_bus_slice">connectivity_bus_slice</A> must be defined within another
+<A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A> and its associated <A HREF="IMEX0012.HTM#signal_group">signal_group</A> must be a member of
+the <A HREF="IMEX0012.HTM#signal_group">signal_group</A> associated with its enclosing structure.
+<P>
+A <A HREF="IMEX0001.HTM#connectivity_sub_bus">connectivity_sub_bus</A> must be defined within another <A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A>
+and its associated <A HREF="IMEX0012.HTM#signal_group">signal_group</A> must be the same as that of its enclosing
+structure.  Its joined ports or rippers must be a subset of the ports or
+rippers referenced by its enclosing structure.
+<P>
+<H3><A NAME="SECTION04323300000000000000">Connectivity_ripper</A></H3>
+<P>
+<A NAME="seconnectivityripperconcept">&#160;</A>
+<P>
+A ripper is used to associate a bus/bus-slice/sub-bus structure with other
+bus/bus-slice/sub-bus structures or with net/sub-net structures.  It replaces
+the RIPPER cell in EDIF Version 2&nbsp;0&nbsp;0.  Rippers can be explicitly joined by any
+number of net structures and bus structures in the same view.
+<P>
+In the information model, the model of the <A HREF="IMEX0001.HTM#connectivity_ripper">connectivity_ripper</A> has two
+<I>DERIVE</I> d attributes which identify the associated net structures (i.e.
+<A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A>) and bus structures (i.e. <A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A>).  A
+constraint is stated which requires that the related bus or net structures
+belong to the same view.  Each structure is related to other structures by
+sharing at least one common <A HREF="IMEX0012.HTM#signal">signal</A>.
+<P>
+<H2><A NAME="SECTION04324000000000000000">4.2.4 Structural connectivity of views of type schematic</A></H2>
+<P>
+The model of the structural connectivity of <A HREF="IMEX0014.HTM#internal_schematic_view">internal_schematic_views</A> is found
+in the <A HREF="IMEX0013.HTM#schematic_implementation_model">schematic_implementation_model</A> schema
+.  The structural connectivity
+information for an <A HREF="IMEX0014.HTM#internal_schematic_view">internal_schematic_view</A> is defined in <A HREF="IMEX0013.HTM#page">pages</A>.  Each <A HREF="IMEX0013.HTM#page">page</A>
+describes the structures (e.g. <A HREF="IMEX0013.HTM#schematic_master_port_representation">schematic_master_port_representation</A>,
+<A HREF="IMEX0013.HTM#schematic_offpageconnector">schematic_offpageconnector</A>, <A HREF="IMEX0013.HTM#schematic_ripper">schematic_ripper</A>) which are used for pictorial
+implementation, as well as nets and busses, which are explained in
+section&nbsp;<A HREF="#seconnectivitynetbusconcept">4.2.3</A>.  These special schematic
+structures are defined by instantiating various types of template designed for
+schematic views in the <A HREF="IMEX0010.HTM#instantiatable_object_model">instantiatable_object_model</A> schema.
+<P>
+<H3><A NAME="SECTION04324100000000000000">Schematic_master_port_representation</A></H3>
+<P>
+<A NAME="seschematicmasterportrepresentation">&#160;</A>
+<P>
+In an <A HREF="IMEX0014.HTM#internal_schematic_view">internal_schematic_view</A>, a master port may be associated with a number of
+representations.  Each representation is defined by specifying the position and
+orientation of the occurrence of the referenced
+<A HREF="IMEX0010.HTM#schematic_master_port_representation_template">schematic_master_port_representation_template</A> on a schematic <A HREF="IMEX0013.HTM#page">page</A>.  It obtains
+information such as associated graphics and <A HREF="IMEX0010.HTM#hotspot">hotspot</A> from the template
+definition.  A <A HREF="IMEX0013.HTM#schematic_master_port_representation">schematic_master_port_representation</A>
+ can be explicitly joined by
+interconnect structures on the same <A HREF="IMEX0013.HTM#page">page</A>.
+<P>
+<H3><A NAME="SECTION04324200000000000000">Schematic_global_port_representation</A></H3>
+<P>
+<A NAME="seschematicglobalportrepresentation">&#160;</A>
+<P>
+In an <A HREF="IMEX0014.HTM#internal_schematic_view">internal_schematic_view</A>, a global port may be associated with a number of
+representations.  Each representation is defined by specifying the position and
+orientation of the occurrence of the referenced
+<A HREF="IMEX0010.HTM#schematic_global_port_representation_template">schematic_global_port_representation_template</A> on a schematic <A HREF="IMEX0013.HTM#page">page</A>.  It obtains
+information such as associated graphics and <A HREF="IMEX0010.HTM#hotspot">hotspot</A> from the template
+definition.  A <A HREF="IMEX0013.HTM#schematic_global_port_representation">schematic_global_port_representation</A>
+ can be explicitly joined by
+interconnect structures on the same <A HREF="IMEX0013.HTM#page">page</A>.
+<P>
+<H3><A NAME="SECTION04324300000000000000">Schematic_offpageconnector</A></H3>
+<P>
+<A NAME="seschematicoffpageconnector">&#160;</A>
+<P>
+A <A HREF="IMEX0013.HTM#schematic_offpageconnector">schematic_offpageconnector</A>  is only
+used in schematic views.  It is defined by specifying the position and
+orientation of the occurrence of the referenced
+<A HREF="IMEX0010.HTM#schematic_offpageconnector_template">schematic_offpageconnector_template</A> on a schematic <A HREF="IMEX0013.HTM#page">page</A>.  It obtains
+information such as associated graphics and <A HREF="IMEX0010.HTM#hotspot">hotspot</A> from the template
+definition.  A <A HREF="IMEX0013.HTM#schematic_offpageconnector">schematic_offpageconnector</A> can be explicitly joined by
+interconnect structures on the same <A HREF="IMEX0013.HTM#page">page</A>.
+<P>
+<H3><A NAME="SECTION04324400000000000000">Schematic_onpageconnector</A></H3>
+<P>
+<A NAME="seschematiconpageconnector">&#160;</A>
+<P>
+A <A HREF="IMEX0013.HTM#schematic_onpageconnector">schematic_onpageconnector</A>  is only used
+in schematic views.  It is defined by specifying the position and orientation
+of the occurrence of the referenced <A HREF="IMEX0010.HTM#schematic_onpageconnector_template">schematic_onpageconnector_template</A> on a
+schematic <A HREF="IMEX0013.HTM#page">page</A>.  It obtains information such as associated graphics and
+<A HREF="IMEX0010.HTM#hotspot">hotspot</A> from the template definition.  A <A HREF="IMEX0013.HTM#schematic_onpageconnector">schematic_onpageconnector</A> can be
+explicitly joined by interconnect structures on the same <A HREF="IMEX0013.HTM#page">page</A>.
+<P>
+<H3><A NAME="SECTION04324500000000000000">Schematic_net_junction and schematic_bus_junction</A></H3>
+<P>
+<A NAME="seschematicjunction">&#160;</A>
+<P>
+A junction is used to establish an association between sub-nets or sub-busses.
+It replaces the TIE cell in EDIF Version 2&nbsp;0&nbsp;0.  Junctions are defined directly
+within <A HREF="IMEX0013.HTM#schematic_net">schematic_nets</A>, <A HREF="IMEX0013.HTM#schematic_bus">schematic_busses</A> and <A HREF="IMEX0013.HTM#schematic_bus_slice">schematic_bus_slices</A> on
+schematic <A HREF="IMEX0013.HTM#page">pages</A>.  Sub-nets or sub-busses are associated explicitly by joining
+to a junction defined in their common enclosing structure.
+<P>
+In the information model, junctions are classified into <A HREF="IMEX0013.HTM#schematic_net_junction">schematic_net_junction</A>
+ and <A HREF="IMEX0013.HTM#schematic_bus_junction">schematic_bus_junction</A>
+.  They are both defined by specifying the
+position and orientation of the occurrence of the referenced
+<A HREF="IMEX0010.HTM#schematic_junction_template">schematic_junction_template</A>.  It obtains information such as associated graphics
+and <A HREF="IMEX0010.HTM#hotspot">hotspot</A> from the template definition.  A <A HREF="IMEX0013.HTM#schematic_net_junction">schematic_net_junction</A> can be
+explicitly joined by <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_nets</A>. The related
+<A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_nets</A> must have the same associated <A HREF="IMEX0012.HTM#signal">signal</A>.  A
+<A HREF="IMEX0013.HTM#schematic_bus_junction">schematic_bus_junction</A> can be explicitly joined by <A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_busses</A>.
+The related <A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_busses</A> must have the same associated
+<A HREF="IMEX0012.HTM#signal_group">signal_group</A>.
+<P>
+<H3><A NAME="SECTION04324600000000000000">Schematic_ripper</A></H3>
+<P>
+<A NAME="seschematicripper">&#160;</A>
+<P>
+A <A HREF="IMEX0013.HTM#schematic_ripper">schematic_ripper</A>  serves the same purpose as a
+<A HREF="IMEX0001.HTM#connectivity_ripper">connectivity_ripper</A> in connectivity views
+(section&nbsp;<A HREF="#seconnectivityripperconcept">4.2.3</A>).  It is defined by specifying
+the position and orientation of the occurrence of the referenced
+<A HREF="IMEX0010.HTM#schematic_ripper_template">schematic_ripper_template</A> on a schematic <A HREF="IMEX0013.HTM#page">page</A>.  The template definition should
+contain two or more <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspots</A> to which connections can be made.  Each
+<A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspot</A> has a <A HREF="IMEX0010.HTM#schematic_wire_affinity">schematic_wire_affinity</A> indicator which gives its
+suitability for association with a narrow or wide interconnect structure.  The
+related bus or net structures must be contained within the same <A HREF="IMEX0013.HTM#page">page</A>.  Each
+structure is related to other structures by sharing at least one common
+<A HREF="IMEX0012.HTM#signal">signal</A>.
+<P>
+<H3><A NAME="SECTION04324700000000000000">Schematic_interconnect_terminator</A></H3>
+<P>
+<A NAME="seschematicinterconnectterminator">&#160;</A>
+<P>
+A <A HREF="IMEX0013.HTM#schematic_interconnect_terminator">schematic_interconnect_terminator</A>
+ is used to indicate the end of an
+interconnect.  It is sometimes referred to as a dangling end.  It is defined
+directly within a <A HREF="IMEX0013.HTM#schematic_net">schematic_net</A> or a <A HREF="IMEX0013.HTM#schematic_bus">schematic_bus</A> by specifying the position
+and orientation of the occurrence of the referenced
+<A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template">schematic_interconnect_terminator_template</A>.  It obtains information such as
+associated graphics and <A HREF="IMEX0010.HTM#hotspot">hotspot</A> from the template definition.  A
+<A HREF="IMEX0013.HTM#schematic_interconnect_terminator">schematic_interconnect_terminator</A> can only be joined by one interconnect
+structure.
+<P>
+<H3><A NAME="SECTION04324800000000000000">Schematic_net and schematic_sub_net</A></H3>
+<P>
+The characteristics of net/sub-net in schematic views are similar to the
+characteristics of net/sub-net in connectivity views
+.  The concept of generic-net on
+schematic <A HREF="IMEX0013.HTM#page">pages</A> is described by the <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A>
+.  An occurrence of a <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A>
+can be either an occurrence of a <A HREF="IMEX0013.HTM#schematic_net">schematic_net</A> or an occurrence of a
+<A HREF="IMEX0013.HTM#schematic_sub_net">schematic_sub_net</A>.  As is the case for <A HREF="IMEX0001.HTM#connectivity_generic_net">connectivity_generic_net</A>, a
+<A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A> is associated with a <A HREF="IMEX0012.HTM#signal">signal</A> and may join <A HREF="IMEX0007.HTM#global_port">global_ports</A>,
+<A HREF="IMEX0009.HTM#instance_port">instance_ports</A> and <A HREF="IMEX0009.HTM#master_port">master_ports</A>.  In addition, it may join various
+instantiatable schematic objects including
+<A HREF="IMEX0013.HTM#schematic_global_port_representation">schematic_global_port_representations</A>, <A HREF="IMEX0013.HTM#schematic_master_port_representation">schematic_master_port_representations</A>,
+<A HREF="IMEX0013.HTM#schematic_offpageconnector">schematic_offpageconnectors</A>, <A HREF="IMEX0013.HTM#schematic_onpageconnector">schematic_onpageconnectors</A>,
+<A HREF="IMEX0013.HTM#schematic_net_junction">schematic_net_junctions</A>, <A HREF="IMEX0013.HTM#schematic_interconnect_terminator">schematic_interconnect_terminators</A> and
+<A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspots</A> belonging to <A HREF="IMEX0013.HTM#schematic_ripper">schematic_rippers</A>.  It has attributes such as
+criticality and delay information.  Moreover, it may have <A HREF="IMEX0013.HTM#schematic_sub_net">schematic_sub_nets</A>
+which may be further divided into more <A HREF="IMEX0013.HTM#schematic_sub_net">schematic_sub_nets</A>.
+<P>
+A <A HREF="IMEX0013.HTM#schematic_net">schematic_net</A> must be defined within a <A HREF="IMEX0013.HTM#page">page</A>.  Its associated <A HREF="IMEX0012.HTM#signal">signal</A> and
+its joined schematic objects (including <A HREF="IMEX0013.HTM#schematic_global_port_representation">schematic_global_port_representations</A>,
+<A HREF="IMEX0013.HTM#schematic_master_port_representation">schematic_master_port_representations</A>, <A HREF="IMEX0013.HTM#schematic_offpageconnector">schematic_offpageconnectors</A>,
+<A HREF="IMEX0013.HTM#schematic_onpageconnector">schematic_onpageconnectors</A> and <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspots</A> on <A HREF="IMEX0013.HTM#schematic_ripper">schematic_rippers</A>) must
+be defined in the containing <A HREF="IMEX0013.HTM#page">page</A>.  Furthermore, the joined
+<A HREF="IMEX0013.HTM#schematic_net_junction">schematic_net_junctions</A> and <A HREF="IMEX0013.HTM#schematic_interconnect_terminator">schematic_interconnect_terminators</A> must be
+defined within the schematicNet.  As is the case for <A HREF="IMEX0001.HTM#connectivity_net">connectivity_net</A>, the
+joined ports must be referenced in the associated <A HREF="IMEX0012.HTM#signal">signal</A> of the
+<A HREF="IMEX0013.HTM#schematic_net">schematic_net</A>.
+<P>
+A <A HREF="IMEX0013.HTM#schematic_sub_net">schematic_sub_net</A> must be defined within another <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A> and
+its associated <A HREF="IMEX0012.HTM#signal">signal</A> must be the same as the one in its enclosing structure.
+Its joined ports and schematic objects must be a subset of the ones referenced
+by the join in its enclosing structure.
+<P>
+In addition, nets/sub-nets in schematic views convey implementation information
+by giving associated graphics and the display control information needed to
+allow the display of the associated structure name and other attributes such as
+delay and criticality information.
+<P>
+<H3><A NAME="SECTION04324900000000000000">Schematic bus, bus_slice and sub_bus</A></H3>
+<P>
+The characteristics of busses/bus-slices/sub-busses in schematic views are
+similar to the characteristics of busses/bus-slices/sub-busses in connectivity
+views . The concept of generic-bus
+on schematic <A HREF="IMEX0013.HTM#page">pages</A> is described by the <A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A>
+.  An occurrence of a <A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A>
+can be either an occurrence of a <A HREF="IMEX0013.HTM#schematic_bus">schematic_bus</A>, an occurrence of a
+<A HREF="IMEX0013.HTM#schematic_bus_slice">schematic_bus_slice</A> or an occurrence of a <A HREF="IMEX0013.HTM#schematic_sub_bus">schematic_sub_bus</A>.  As is the case for
+<A HREF="IMEX0001.HTM#connectivity_generic_bus">connectivity_generic_bus</A>, a <A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A> is associated with a
+<A HREF="IMEX0012.HTM#signal_group">signal_group</A> and may join <A HREF="IMEX0007.HTM#global_port">global_ports</A>, <A HREF="IMEX0007.HTM#global_port_bundle">global_port_bundles</A>, <A HREF="IMEX0009.HTM#instance_port">instance_ports</A>,
+<A HREF="IMEX0009.HTM#instance_port_bundle">instance_port_bundles</A>, <A HREF="IMEX0009.HTM#local_master_port_group">local_master_port_groups</A>, <A HREF="IMEX0009.HTM#master_port">master_ports</A> and
+<A HREF="IMEX0009.HTM#master_port_bundle">master_port_bundles</A>.  In a similar way to <A HREF="IMEX0013.HTM#schematic_generic_net">schematic_generic_net</A>, it may also
+join various instantiatable schematic objects including
+<A HREF="IMEX0013.HTM#schematic_global_port_representation">schematic_global_port_representations</A>, <A HREF="IMEX0013.HTM#schematic_master_port_representation">schematic_master_port_representations</A>,
+<A HREF="IMEX0013.HTM#schematic_master_port_bundle_representation">schematic_master_port_bundle_representations</A>, <A HREF="IMEX0013.HTM#schematic_offpageconnector">schematic_offpageconnectors</A>,
+<A HREF="IMEX0013.HTM#schematic_onpageconnector">schematic_onpageconnectors</A>, <A HREF="IMEX0013.HTM#schematic_bus_junction">schematic_bus_junctions</A>,
+<A HREF="IMEX0013.HTM#schematic_interconnect_terminator">schematic_interconnect_terminators</A> and <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspots</A> belonging to
+<A HREF="IMEX0013.HTM#schematic_ripper">schematic_rippers</A>. It has attributes such as criticality and delay
+information.  It may also have <A HREF="IMEX0013.HTM#schematic_bus_slice">schematic_bus_slices</A> or <A HREF="IMEX0013.HTM#schematic_sub_bus">schematic_sub_busses</A>
+which may be further divided into more <A HREF="IMEX0013.HTM#schematic_bus_slice">schematic_bus_slices</A> or
+<A HREF="IMEX0013.HTM#schematic_sub_bus">schematic_sub_busses</A>.
+<P>
+A <A HREF="IMEX0013.HTM#schematic_bus">schematic_bus</A> must be defined within a schematic <A HREF="IMEX0013.HTM#page">page</A>.  Its associated
+<A HREF="IMEX0012.HTM#signal_group">signal_group</A> and its joined schematic objects (including
+<A HREF="IMEX0013.HTM#schematic_global_port_representation">schematic_global_port_representations</A>, <A HREF="IMEX0013.HTM#schematic_master_port_representation">schematic_master_port_representations</A>,
+<A HREF="IMEX0013.HTM#schematic_master_port_bundle_representation">schematic_master_port_bundle_representations</A>, <A HREF="IMEX0013.HTM#schematic_offpageconnector">schematic_offpageconnectors</A>,
+<A HREF="IMEX0013.HTM#schematic_onpageconnector">schematic_onpageconnectors</A> and <A HREF="IMEX0010.HTM#ripper_hotspot">ripper_hotspots</A> on <A HREF="IMEX0013.HTM#schematic_ripper">schematic_rippers</A>) must
+be defined in the containing <A HREF="IMEX0013.HTM#page">page</A>.  Furthermore, the joined
+<A HREF="IMEX0013.HTM#schematic_bus_junction">schematic_bus_junctions</A> and <A HREF="IMEX0013.HTM#schematic_interconnect_terminator">schematic_interconnect_terminators</A> must be
+defined within the <A HREF="IMEX0013.HTM#schematic_bus">schematic_bus</A>.
+<P>
+A <A HREF="IMEX0013.HTM#schematic_bus_slice">schematic_bus_slice</A> must be defined within another <A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A> and
+its associated <A HREF="IMEX0012.HTM#signal_group">signal_group</A> must be a member of the <A HREF="IMEX0012.HTM#signal_group">signal_group</A> associated
+with its enclosing structure.
+<P>
+A <A HREF="IMEX0013.HTM#schematic_sub_bus">schematic_sub_bus</A> must be defined within another <A HREF="IMEX0013.HTM#schematic_generic_bus">schematic_generic_bus</A> and
+its associated <A HREF="IMEX0012.HTM#signal_group">signal_group</A> must be the same as that of its enclosing
+structure.  Its joined ports and schematic objects must be a subset of the ones
+referenced by the join in its enclosing structure.
+<P>
+Schematic bus structures also convey implementation information by giving
+associated graphics and the display control information needed to allow the
+display of the associated structure name and other attributes such as delay and
+criticality information.
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,1566 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMCHG.HTM">Changes from Level 0</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="schematic_frame_model">schematic_frame_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A> schema describes the structural connectivity and
+ the implementation information of a <A HREF="IMEX0010.HTM#frame">frame</A> in a schematic view.  Different
+ types of frame implementations are defined, including
+ <A HREF="IMEX0031.HTM#schematic_for_frame_implementation">schematic_for_frame_implementation</A>, <A HREF="IMEX0031.HTM#schematic_if_frame_implementation">schematic_if_frame_implementation</A>
+ and <A HREF="IMEX0031.HTM#schematic_otherwise_frame_implementation">schematic_otherwise_frame_implementation</A>.  The structural connectivity 
+ information includes <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A> and <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A>.
+</P><HR>
+<!-- Start of ENTITY: schematic_frame_implementation -->
+<H2><A NAME="schematic_frame_implementation">schematic_frame_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0031.HTM#schematic_for_frame_implementation">schematic_for_frame_implementation</A>,
+                                   <A HREF="IMEX0031.HTM#schematic_if_frame_implementation">schematic_if_frame_implementation</A>,
+                                   <A HREF="IMEX0031.HTM#schematic_otherwise_frame_implementation">schematic_otherwise_frame_implementation</A>));
+    busses                        : OPTIONAL SET [1:?] OF <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A>;
+    cell_property_displays        : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property_display">property_display</A>;
+    cluster_property_displays     : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property_display">property_display</A>;
+    comment_graphics_info         : OPTIONAL SET [1:?] OF <A HREF="IMEX0006.HTM#comment_graphics">comment_graphics</A>;
+    global_port_representations   : OPTIONAL SET [1:?] OF
+                                    <A HREF="IMEX0032.HTM#schematic_global_port_representation">schematic_global_port_representation</A>; 
+    implemented_frame             : <A HREF="IMEX0010.HTM#frame">frame</A>; -- reference
+    instance_implementations      : OPTIONAL SET [1:?] OF 
+                                    <A HREF="IMEX0032.HTM#schematic_instance_implementation">schematic_instance_implementation</A>; 
+    master_port_representations   : OPTIONAL SET [1:?] OF
+                                    <A HREF="IMEX0032.HTM#schematic_master_port_representation">schematic_master_port_representation</A>; 
+    master_port_bundle_representations 
+                                  : OPTIONAL SET [1:?] OF
+                                    <A HREF="IMEX0032.HTM#schematic_master_port_bundle_representation">schematic_master_port_bundle_representation</A>;
+    nested_frame_implementations  : OPTIONAL SET [1:?] OF 
+                                    <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>;
+    nets                          : OPTIONAL SET [1:?] OF <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A>;
+    offpageconnectors             : OPTIONAL SET [1:?] OF
+                                    <A HREF="IMEX0032.HTM#schematic_offpageconnector">schematic_offpageconnector</A>; 
+    onpageconnectors              : OPTIONAL SET [1:?] OF
+                                    <A HREF="IMEX0032.HTM#schematic_onpageconnector">schematic_onpageconnector</A>;  
+    rippers                       : OPTIONAL SET [1:?] OF <A HREF="IMEX0032.HTM#schematic_ripper">schematic_ripper</A>;
+    transform_position            : <A HREF="IMEX0006.HTM#transform">transform</A>;
+    view_property_displays        : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property_display">property_display</A>;
+  DERIVE
+    containing_page : <A HREF="IMEX0032.HTM#page">page</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+         '<A HREF="IMEX0032.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0032.HTM#page">page</A>.frame_implementations');
+  UNIQUE
+    valid_implemented_frame :
+      (* A frame can only be implemented on a page once per schematic. *)
+      implemented_frame;
+  WHERE
+    <A NAME="schematic_frame_implementation.containment_constraint">containment_constraint</A> :
+      (* A schematic_frame_implementation belongs to one page. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0032.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0032.HTM#page">page</A>.frame_implementations'); 
+
+    <A NAME="schematic_frame_implementation.valid_global_port_representations">valid_global_port_representations</A> :
+      (* The global_port_representations must only reference the global_ports
+         or global_port_bundles which are defined in the containing edif. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(globalPortRepresentation &lt;* global_port_representations |
+        NOT ((globalPortRepresentation.implemented_global_port IN 
+              containing_page.containing_view.containing_cluster
+              .containing_cell.containing_library.containing_edif.global_ports)
+             OR
+             (globalPortRepresentation.implemented_global_port IN 
+              containing_page.containing_view.containing_cluster.containing_cell
+              .containing_library.containing_edif.global_port_bundles))));
+
+    <A NAME="schematic_frame_implementation.valid_master_port_representations">valid_master_port_representations</A> :
+      (* The master_port_representations must only reference the master_ports
+         which are defined in the interface of the containing cluster. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(portRepresentation &lt;* master_port_representations |
+        NOT (portRepresentation.implemented_master_port
+             IN containing_page.containing_view.interface.ports)));
+
+    <A NAME="schematic_frame_implementation.valid_master_port_bundle_representations">valid_master_port_bundle_representations</A> :
+      (* The master_port_bundle_representations must only reference the
+         master_port_bundles which are defined in the interface of the
+         containing cluster. *)  
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(portBundleRepresentation 
+        &lt;* master_port_bundle_representations |
+        NOT (portBundleRepresentation.implemented_master_port_bundle
+             IN containing_page.containing_view.interface.port_bundles)));
+
+    <A NAME="schematic_frame_implementation.valid_instance_implementations">valid_instance_implementations</A> :
+      (* The implemented instances are defined in the implemented_frame. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(implementation &lt;* instance_implementations |
+       NOT (implementation.implemented_instance 
+            IN implemented_frame.instances)));
+
+    <A NAME="schematic_frame_implementation.valid_nested_frame_implementations">valid_nested_frame_implementations</A> :
+      (* Frames implemented in the nested_frame_implementations must be defined
+         in the implemented_frame. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(nestedImplementation &lt;* nested_frame_implementations |
+        NOT (nestedImplementation.implemented_frame 
+            IN implemented_frame.nested_frames)));  
+
+    <A NAME="schematic_frame_implementation.valid_cell_property_displays">valid_cell_property_displays</A> :
+      (* The displayed properties are defined in the containing cell. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(cellPropertyDisplay &lt;* cell_property_displays |
+        NOT (cellPropertyDisplay.displayed_property
+             IN containing_page.containing_view.containing_cluster
+                .containing_cell.properties)));
+
+    <A NAME="schematic_frame_implementation.valid_cluster_property_displays">valid_cluster_property_displays</A> :
+      (* The displayed properties are defined in the containing
+         internal_cluster. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(clusterPropertyDisplay &lt;* cluster_property_displays |
+        NOT (clusterPropertyDisplay.displayed_property IN 
+             containing_page.containing_view.containing_cluster.properties)));
+
+    <A NAME="schematic_frame_implementation.valid_view_property_displays">valid_view_property_displays</A> :
+      (* The displayed properties are defined in the containing
+         internal_schematic_view. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(viewPropertyDisplay &lt;* view_property_displays |
+        NOT (viewPropertyDisplay.displayed_property
+             IN containing_page.containing_view.properties)));
+
+    <A NAME="schematic_frame_implementation.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A <A HREF="IMEX0010.HTM#frame">frame</A> implementation cannot have cell_property_displays if its
+            containing <A HREF="IMEX0012.HTM#cell">cell</A> does not define any properties.
+         2. A <A HREF="IMEX0010.HTM#frame">frame</A> implementation cannot have cluster_property_displays if its
+            containing <A HREF="IMEX0012.HTM#cluster">cluster</A> does not define any properties.
+         3. A <A HREF="IMEX0010.HTM#frame">frame</A> implementation cannot have global_port_representations if
+            its containing <A HREF="IMEX0008.HTM#edif">edif</A> does not define any global ports.
+         4. A <A HREF="IMEX0010.HTM#frame">frame</A> implementation cannot have instance_implementations if its
+            implemented <A HREF="IMEX0010.HTM#frame">frame</A> does not define any instances.
+         5. A <A HREF="IMEX0010.HTM#frame">frame</A> implementation cannot have master_port_representations if
+            its containing <A HREF="IMEX0012.HTM#cluster">cluster</A> does not define any master_ports.
+         6. A <A HREF="IMEX0010.HTM#frame">frame</A> implementation cannot have
+            master_port_bundle_representations if its containing <A HREF="IMEX0012.HTM#cluster">cluster</A> does
+            not define any master_port_bundles. 
+         7. A <A HREF="IMEX0010.HTM#frame">frame</A> implementation cannot have nested_frame_implementations if
+            its implemented <A HREF="IMEX0010.HTM#frame">frame</A> does not define any nested frames. *)
+      (EXISTS(containing_page.containing_view.containing_cluster
+              .containing_cell.properties) OR
+         NOT EXISTS(cell_property_displays)) 
+       AND
+      (EXISTS(containing_page.containing_view.containing_cluster.properties) OR
+         NOT EXISTS(cluster_property_displays))
+       AND
+      (EXISTS(containing_page.containing_view.containing_cluster
+              .containing_cell.containing_library.containing_edif.global_ports)
+         OR EXISTS(containing_page.containing_view.containing_cluster
+                   .containing_cell.containing_library.containing_edif
+                   .global_port_bundles) OR
+         NOT EXISTS(global_port_representations))
+       AND
+      (EXISTS(implemented_frame.instances) OR
+         NOT EXISTS(instance_implementations))
+       AND
+      (EXISTS(containing_page.containing_view.interface.ports) OR
+         NOT EXISTS(master_port_representations))
+       AND
+      (EXISTS(containing_page.containing_view.interface.port_bundles) OR
+         NOT EXISTS(master_port_bundle_representations))
+       AND
+      (EXISTS(implemented_frame.nested_frames) OR
+         NOT EXISTS(nested_frame_implementations));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A> describes an implementation of a <A HREF="IMEX0010.HTM#frame">frame</A>
+ on a <A HREF="IMEX0032.HTM#page">page</A>.  Each <A HREF="IMEX0010.HTM#frame">frame</A> defined in an <A HREF="IMEX0033.HTM#internal_schematic_view">internal_schematic_view</A> is
+ implemented at most once per schematic.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0032.HTM#page">page</A> <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A> <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A> <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A> <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A> <A HREF="IMEX0032.HTM#schematic_ripper">schematic_ripper</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_for_frame_implementation -->
+<H2><A NAME="schematic_for_frame_implementation">schematic_for_frame_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_for_frame_implementation">schematic_for_frame_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>);
+    SELF\<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.implemented_frame 
+           : <A HREF="IMEX0010.HTM#for_frame">for_frame</A>; -- reference
+    border : OPTIONAL <A HREF="IMEX0031.HTM#schematic_for_frame_border">schematic_for_frame_border</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_for_frame_implementation">schematic_for_frame_implementation</A> describes an implementation of a
+ <A HREF="IMEX0010.HTM#for_frame">for_frame</A> in a schematic view.
+</P><HR>
+<!-- Start of ENTITY: schematic_if_frame_implementation -->
+<H2><A NAME="schematic_if_frame_implementation">schematic_if_frame_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_if_frame_implementation">schematic_if_frame_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>);
+    SELF\<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.implemented_frame 
+           : <A HREF="IMEX0010.HTM#if_frame">if_frame</A>; -- reference
+    border : OPTIONAL <A HREF="IMEX0031.HTM#schematic_if_frame_border">schematic_if_frame_border</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_if_frame_implementation">schematic_if_frame_implementation</A> describes an implementation of an
+ <A HREF="IMEX0010.HTM#if_frame">if_frame</A> in a schematic view.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_otherwise_frame_implementation">schematic_otherwise_frame_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_otherwise_frame_implementation -->
+<H2><A NAME="schematic_otherwise_frame_implementation">schematic_otherwise_frame_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_otherwise_frame_implementation">schematic_otherwise_frame_implementation</A>
+      SUBTYPE OF (<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>);
+    SELF\<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.implemented_frame 
+                                  : <A HREF="IMEX0010.HTM#otherwise_frame">otherwise_frame</A>; -- reference
+    border                        : OPTIONAL <A HREF="IMEX0031.HTM#schematic_otherwise_frame_border">schematic_otherwise_frame_border</A>;
+    related_frame_implementations : SET [1:?] OF 
+                                    <A HREF="IMEX0031.HTM#schematic_if_frame_implementation">schematic_if_frame_implementation</A>;
+  WHERE
+    <A NAME="schematic_otherwise_frame_implementation.valid_related_frame_implementations">valid_related_frame_implementations</A> :
+      (* All related if_frames of an otherwise_frame are implemented at most
+         once. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(relatedIfFrame &lt;* implemented_frame.related_frames |
+        SIZEOF(QUERY(frameImplementation &lt;* related_frame_implementations |
+          frameImplementation.implemented_frame :=: relatedIfFrame)) &gt; 1));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_otherwise_frame_implementation">schematic_otherwise_frame_implementation</A> describes an implementation of
+ an <A HREF="IMEX0010.HTM#otherwise_frame">otherwise_frame</A> in a schematic view.
+</P><HR>
+<!-- Start of ENTITY: schematic_if_frame_border -->
+<H2><A NAME="schematic_if_frame_border">schematic_if_frame_border</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_if_frame_border">schematic_if_frame_border</A>;
+    instantiated_template : <A HREF="IMEX0013.HTM#schematic_if_frame_border_template">schematic_if_frame_border_template</A>; -- reference
+    overriding_condition_display          : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_template_properties        : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0034.HTM#property_override">property_override</A>;  
+    overriding_template_property_displays : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0034.HTM#property_display_override">property_display_override</A>;   
+    template_position                     : <A HREF="IMEX0006.HTM#transform">transform</A>;
+  WHERE
+    <A NAME="schematic_if_frame_border.containment_constraint">containment_constraint</A> :
+      (* A schematic_if_frame_border belongs to one
+         schematic_if_frame_implementation. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_if_frame_implementation">schematic_if_frame_implementation</A>.border');
+
+    <A NAME="schematic_if_frame_border.valid_overriding_template_properties">valid_overriding_template_properties</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(value_override &lt;* overriding_template_properties |
+        NOT (value_override.overridden_property IN
+          instantiated_template.properties)));
+
+    <A NAME="schematic_if_frame_border.valid_overriding_template_property_displays">valid_overriding_template_property_displays</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(display_override&lt;*overriding_template_property_displays |
+        NOT (<A HREF="IMEX0006.HTM#display_override">display_override</A>.overridden_property IN
+          instantiated_template.properties)));
+
+    <A NAME="schematic_if_frame_border.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A border cannot have overriding_template_properties or
+            overriding_template_property_displays if its instantiated template
+            does not define any properties. *)
+      EXISTS(instantiated_template.properties) OR
+        NOT EXISTS(overriding_template_properties) AND
+        NOT EXISTS(overriding_template_property_displays);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_if_frame_border">schematic_if_frame_border</A> describes the border on an
+ <A HREF="IMEX0031.HTM#schematic_if_frame_implementation">schematic_if_frame_implementation</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_if_frame_implementation">schematic_if_frame_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_for_frame_border -->
+<H2><A NAME="schematic_for_frame_border">schematic_for_frame_border</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_for_frame_border">schematic_for_frame_border</A>;
+    instantiated_template : <A HREF="IMEX0013.HTM#schematic_for_frame_border_template">schematic_for_frame_border_template</A>; -- reference
+    overriding_index_display              : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0013.HTM#for_frame_index_display">for_frame_index_display</A>; 
+    overriding_repetition_count_display   : OPTIONAL <A HREF="IMEX0006.HTM#display_override">display_override</A>;
+    overriding_template_properties        : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0034.HTM#property_override">property_override</A>;  
+    overriding_template_property_displays : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0034.HTM#property_display_override">property_display_override</A>;  
+    template_position                     : <A HREF="IMEX0006.HTM#transform">transform</A>;
+  WHERE
+    <A NAME="schematic_for_frame_border.containment_constraint">containment_constraint</A> :
+      (* A schematic_for_frame_border belongs to one
+         schematic_for_frame_implementation. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_for_frame_implementation">schematic_for_frame_implementation</A>.border');
+
+    <A NAME="schematic_for_frame_border.valid_overriding_template_properties">valid_overriding_template_properties</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(value_override &lt;* overriding_template_properties |
+        NOT (value_override.overridden_property IN
+          instantiated_template.properties)));
+
+    <A NAME="schematic_for_frame_border.valid_overriding_template_property_displays">valid_overriding_template_property_displays</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(display_override&lt;*overriding_template_property_displays |
+        NOT (<A HREF="IMEX0006.HTM#display_override">display_override</A>.overridden_property IN
+          instantiated_template.properties)));
+
+    <A NAME="schematic_for_frame_border.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A border cannot have overriding_template_properties or
+            overriding_template_property_displays if its instantiated template
+            does not define any properties. *)
+      EXISTS(instantiated_template.properties) OR
+        NOT EXISTS(overriding_template_properties) AND
+        NOT EXISTS(overriding_template_property_displays);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_for_frame_border">schematic_for_frame_border</A> describes the border on a
+ <A HREF="IMEX0031.HTM#schematic_for_frame_implementation">schematic_for_frame_implementation</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_for_frame_implementation">schematic_for_frame_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_otherwise_frame_border -->
+<H2><A NAME="schematic_otherwise_frame_border">schematic_otherwise_frame_border</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_otherwise_frame_border">schematic_otherwise_frame_border</A>;
+    instantiated_template : --reference
+                            <A HREF="IMEX0013.HTM#schematic_otherwise_frame_border_template">schematic_otherwise_frame_border_template</A>;
+    overriding_template_properties        : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0034.HTM#property_override">property_override</A>;  
+    overriding_template_property_displays : OPTIONAL SET [1:?] OF
+                                            <A HREF="IMEX0034.HTM#property_display_override">property_display_override</A>;  
+    template_position                     : <A HREF="IMEX0006.HTM#transform">transform</A>;
+  WHERE
+    <A NAME="schematic_otherwise_frame_border.containment_constraint">containment_constraint</A> :
+      (* A schematic_otherwise_frame_border belongs to one
+         schematic_otherwise_frame_implementation. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+      '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_otherwise_frame_implementation">schematic_otherwise_frame_implementation</A>.border');
+
+    <A NAME="schematic_otherwise_frame_border.valid_overriding_template_properties">valid_overriding_template_properties</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(value_override &lt;* overriding_template_properties |
+        NOT (value_override.overridden_property IN
+          instantiated_template.properties)));
+
+    <A NAME="schematic_otherwise_frame_border.valid_overriding_template_property_displays">valid_overriding_template_property_displays</A> :
+      (* The overridden properties are defined in the instantiated_template. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(display_override&lt;*overriding_template_property_displays |
+        NOT (<A HREF="IMEX0006.HTM#display_override">display_override</A>.overridden_property IN
+          instantiated_template.properties)));
+
+    <A NAME="schematic_otherwise_frame_border.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A border cannot have overriding_template_properties or
+            overriding_template_property_displays if its instantiated template
+            does not define any properties. *)
+      EXISTS(instantiated_template.properties) OR
+        NOT EXISTS(overriding_template_properties) AND
+        NOT EXISTS(overriding_template_property_displays);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_otherwise_frame_border">schematic_otherwise_frame_border</A> describes the border on an
+ <A HREF="IMEX0031.HTM#schematic_otherwise_frame_implementation">schematic_otherwise_frame_implementation</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_otherwise_frame_implementation">schematic_otherwise_frame_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_frame_generic_net -->
+<H2><A NAME="schematic_frame_generic_net">schematic_frame_generic_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A>, 
+                                   <A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A>));
+    associated_signal                  : <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>;         -- reference
+    criticality                        : <A HREF="IMEX0034.HTM#integer_token">integer_token</A>;                 
+    delays                             : OPTIONAL SET [1:?] OF
+                                         <A HREF="IMEX0012.HTM#interconnect_delay">interconnect_delay</A>;  
+    document                           : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>; 
+    implementation                     : OPTIONAL
+                                         <A HREF="IMEX0032.HTM#schematic_interconnect_implementation">schematic_interconnect_implementation</A>; 
+    joined_global_ports                : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0008.HTM#global_port">global_port</A>;
+    joined_global_port_representations  
+                                       : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0032.HTM#schematic_global_port_representation">schematic_global_port_representation</A>;
+    joined_instance_ports              : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0012.HTM#instance_port">instance_port</A>;
+    joined_instance_port_representations
+                                       : OPTIONAL SET [1:?] OF
+                                         <A HREF="IMEX0032.HTM#schematic_instance_port_representation">schematic_instance_port_representation</A>;
+    joined_master_ports                : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0012.HTM#master_port">master_port</A>; 
+    joined_master_port_representations  
+                                       : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0032.HTM#schematic_master_port_representation">schematic_master_port_representation</A>; 
+    joined_junctions                   : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0032.HTM#schematic_net_junction">schematic_net_junction</A>;
+    joined_offpageconnectors           : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0032.HTM#schematic_offpageconnector">schematic_offpageconnector</A>;
+    joined_onpageconnectors            : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0032.HTM#schematic_onpageconnector">schematic_onpageconnector</A>;
+    joined_ripper_hotspots             : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0013.HTM#ripper_hotspot">ripper_hotspot</A>;
+    joined_terminators                 : OPTIONAL SET [1:?] OF -- reference
+                                         <A HREF="IMEX0032.HTM#schematic_interconnect_terminator">schematic_interconnect_terminator</A>;
+    name                               : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties                         : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+    sub_nets                           : OPTIONAL SET [1:?] OF
+                                         <A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A>; 
+  WHERE
+    <A NAME="schematic_frame_generic_net.valid_sub_nets">valid_sub_nets</A> :
+      (* No two schematic_frame_sub_nets may refer to the same set of ports and
+         instantiatable schematic objects. *)
+
+    <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(net1 &lt;* sub_nets |
+      <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(net2 &lt;* sub_nets - net1 |
+        (net1.joined_global_ports = net2.joined_global_ports) 
+    AND (net1.joined_global_port_representations =
+         net2.joined_global_port_representations)
+    AND (net1.joined_instance_ports = net2.joined_instance_ports) 
+    AND (net1.joined_instance_port_representations =
+         net2.joined_instance_port_representations)
+    AND (net1.joined_master_ports = net2.joined_master_ports) 
+    AND (net1.joined_master_port_representations = 
+         net2.joined_master_port_representations)
+    AND (net1.joined_junctions = net2.joined_junctions)
+    AND (net1.joined_offpageconnectors = net2.joined_offpageconnectors)
+    AND (net1.joined_onpageconnectors = net2.joined_onpageconnectors)
+    AND (net1.joined_ripper_hotspots = net2.joined_ripper_hotspots)
+    AND (net1.joined_terminators = net2.joined_terminators)))));
+
+    <A NAME="schematic_frame_generic_net.valid_global_port_representations">valid_global_port_representations</A> :
+      (* The joined global_port_representations reference global_ports which
+         are joined by the interconnect. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(globalPortRepresentation
+         &lt;* joined_global_port_representations |
+         NOT (globalPortRepresentation.implemented_global_port
+              IN joined_global_ports)));
+
+    <A NAME="schematic_frame_generic_net.valid_instance_port_representations">valid_instance_port_representations</A> :
+      (* The joined instance_port_representations reference instance_ports
+         which are joined by the interconnect. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(instancePortRepresentation
+         &lt;* joined_instance_port_representations |
+         NOT (instancePortRepresentation.referenced_instance_port
+              IN joined_instance_ports)));
+
+    <A NAME="schematic_frame_generic_net.valid_master_port_representations">valid_master_port_representations</A> :
+      (* The joined master_port_representations reference master_ports which
+         are joined by the interconnect. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(masterPortRepresentation
+         &lt;* joined_master_port_representations |
+         NOT (masterPortRepresentation.implemented_master_port
+              IN joined_master_ports)));
+
+    <A NAME="schematic_frame_generic_net.valid_implementation">valid_implementation</A> :
+      (* Implementation information may only be associated with a
+         schematic_frame_generic_net when its sub_nets have no implementation
+         information. *)
+      NOT (EXISTS(implementation)
+           AND
+           <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(subNet &lt;* sub_nets |
+             EXISTS(subNet\<A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A>.implementation))));
+
+    <A NAME="schematic_frame_generic_net.valid_optional">valid_optional</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A net cannot have joined_global_port_representations if it does not
+            join any global ports. 
+         2. A net cannot have joined_instance_port_representations if it does
+            not join any <A HREF="IMEX0012.HTM#instance">instance</A> ports.
+         3. A net cannot have joined_master_port_representations if it does not
+            join any master_ports. *)
+
+      (EXISTS(joined_global_ports) OR 
+         NOT EXISTS(joined_global_port_representations))
+      AND
+      (EXISTS(joined_instance_ports) OR
+         NOT EXISTS(joined_instance_port_representations))
+      AND
+      (EXISTS(joined_master_ports) OR
+         NOT EXISTS(joined_master_port_representations));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A> can be either a <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A> or a
+ <A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A>.  A <A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A> is used in the
+ model because of the similarity between a <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A> and a
+ <A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A>.  A <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A> may be divided into
+ <A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_nets</A> and a <A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A> itself may also
+ be divided into <A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_nets</A>.  No two
+ <A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_nets</A> at a given level may join to the same set of
+ ports and instantiatable schematic objects. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A> <A HREF="IMEX0032.HTM#schematic_interconnect_implementation">schematic_interconnect_implementation</A> <A HREF="IMEX0032.HTM#schematic_net_junction">schematic_net_junction</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_frame_net -->
+<H2><A NAME="schematic_frame_net">schematic_frame_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A>
+      SUBTYPE OF (<A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A>);
+    junctions            : OPTIONAL SET [1:?] OF <A HREF="IMEX0032.HTM#schematic_net_junction">schematic_net_junction</A>;
+    schematic_wire_style : OPTIONAL <A HREF="IMEX0032.HTM#schematic_wire_style">schematic_wire_style</A>;
+    terminators          : OPTIONAL SET [1:?] OF
+                           <A HREF="IMEX0032.HTM#schematic_interconnect_terminator">schematic_interconnect_terminator</A>; 
+  DERIVE
+   containing_frame_implementation : <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A> -- reference
+     := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+        '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.nets'); 
+  WHERE
+    <A NAME="schematic_frame_net.containment_constraint">containment_constraint</A> :
+      (* A schematic_frame_net belongs to one schematic_frame_implementation. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.nets');
+
+    <A NAME="schematic_frame_net.valid_associated_signal">valid_associated_signal</A> :
+      (* The frame_signal associated with a schematic_frame_net is defined in
+         the implemented frame of the containing
+         schematic_frame_implementation.*) 
+      associated_signal IN
+        containing_frame_implementation.implemented_frame.frame_signals; 
+
+    <A NAME="schematic_frame_net.valid_joined_ports">valid_joined_ports</A> : 
+      (* The ports joined by a schematic_frame_net must be a subset of the
+         connectivity of the associated signal of the schematic_frame_net. *)
+
+        (joined_global_ports &lt;= associated_signal.joined_global_ports)
+    AND (joined_instance_ports &lt;= associated_signal.joined_instance_ports)
+    AND (joined_master_ports &lt;= associated_signal.joined_master_ports);
+
+    <A NAME="schematic_frame_net.valid_joined_instance_ports">valid_joined_instance_ports</A> :
+      (* The joined instance_ports are defined in instances which are
+         implemented in the containing schematic_frame_implementation. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(instancePort &lt;* joined_instance_ports |
+        NOT (<A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(instancePort.referenced_instance,
+                             <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0032.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                                            '<A HREF="IMEX0032.HTM#schematic_instance_implementation">schematic_instance_implementation</A>',
+                                            'implemented_instance'))
+             IN containing_frame_implementation.instance_implementations)));
+
+    <A NAME="schematic_frame_net.valid_joined_instantiatable_objects">valid_joined_instantiatable_objects</A> :
+      (* All joined schematic_global_port_representations,
+         schematic_master_port_representations, schematic_offpageconnectors,
+         schematic_onpageconnectors and ripper_hotspots are defined in
+         the containing schematic_frame_implementation. *)
+
+        (joined_global_port_representations
+         &lt;= containing_frame_implementation.global_port_representations)
+    AND (joined_master_port_representations
+         &lt;= containing_frame_implementation.master_port_representations)
+    AND (joined_offpageconnectors
+         &lt;= containing_frame_implementation.offpageconnectors)
+    AND (joined_onpageconnectors
+         &lt;= containing_frame_implementation.onpageconnectors)
+    AND (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(hotspot &lt;* joined_ripper_hotspots |
+        NOT (<A HREF="IMEX0013.HTM#hotspot">hotspot</A>.containing_ripper 
+             IN containing_frame_implementation.rippers))));
+
+    <A NAME="schematic_frame_net.valid_joined_junctions">valid_joined_junctions</A> :
+      (* The joined junctions must be defined in the schematic_frame_net. *)
+      joined_junctions &lt;= junctions;
+
+    <A NAME="schematic_frame_net.valid_joined_terminators">valid_joined_terminators</A> :
+      (* The joined terminators must be defined in the schematic_frame_net. *)
+      joined_terminators &lt;= terminators;
+
+    <A NAME="schematic_frame_net.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A net cannot have joined_instance_ports if its containing <A HREF="IMEX0010.HTM#frame">frame</A>
+            implementation does not define any <A HREF="IMEX0012.HTM#instance">instance</A> implementations and its
+            associated <A HREF="IMEX0015.HTM#signal">signal</A> does not join any instance_ports or
+            instance_member_port_members. 
+         2. A net cannot have joined_global_ports if its associated <A HREF="IMEX0015.HTM#signal">signal</A> does
+            not join any global ports.
+         3. A net cannot have joined_master_ports if its associated <A HREF="IMEX0015.HTM#signal">signal</A> does
+            not join any master_ports or master_port_members. 
+         4. A net cannot have joined_global_port_representations if its
+            containing <A HREF="IMEX0010.HTM#frame">frame</A> implementation does not define any global port
+            representations. 
+         5. A net cannot have joined_master_port_representations if its
+            containing <A HREF="IMEX0010.HTM#frame">frame</A> implementation does not define any master port
+            representations. 
+         6. A net cannot have joined_offpageconnectors if its containing <A HREF="IMEX0010.HTM#frame">frame</A>
+            implementation does not define any offpageconnectors.
+         7. A net cannot have joined_onpageconnectors if its containing <A HREF="IMEX0010.HTM#frame">frame</A>
+            implementation does not define any onpageconnectors.
+         8. A net cannot have joined_ripper_hotspots if its containing <A HREF="IMEX0010.HTM#frame">frame</A>
+            implementation does not define any rippers.
+         9. A net cannot have joined_junctions if it does not define any
+            junctions. 
+         10.A net cannot have joined_terminators if it does not define any
+            terminators. *)
+
+      (EXISTS(containing_frame_implementation.instance_implementations) AND
+         EXISTS(associated_signal.joined_instance_ports) OR
+         EXISTS(associated_signal.joined_instance_member_port_members) OR
+         NOT EXISTS(joined_instance_ports))
+      AND
+      (EXISTS(associated_signal.joined_global_ports) OR
+         NOT EXISTS(joined_global_ports))
+      AND
+      (EXISTS(associated_signal.joined_master_ports) OR
+         EXISTS(associated_signal.joined_master_port_members) OR
+         NOT EXISTS(joined_master_ports))
+      AND
+      (EXISTS(containing_frame_implementation.global_port_representations) OR
+         NOT EXISTS(joined_global_port_representations))
+      AND
+      (EXISTS(containing_frame_implementation.master_port_representations) OR
+         NOT EXISTS(joined_master_port_representations))
+      AND
+      (EXISTS(containing_frame_implementation.offpageconnectors) OR
+         NOT EXISTS(joined_offpageconnectors))
+      AND
+      (EXISTS(containing_frame_implementation.onpageconnectors) OR
+         NOT EXISTS(joined_onpageconnectors))
+      AND
+      (EXISTS(containing_frame_implementation.rippers) OR
+         NOT EXISTS(joined_ripper_hotspots))
+      AND
+      (EXISTS(junctions) OR NOT EXISTS(joined_junctions))
+      AND
+      (EXISTS(terminators) OR NOT EXISTS(joined_terminators));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A> is defined within a <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>
+ which describes the structural connectivity information of a <A HREF="IMEX0010.HTM#frame">frame</A> in a
+ schematic view.  Its associated <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> must be defined in the
+ implemented frame of the containing <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.  The
+ ports joined by a <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A> must be a subset of the ones joined
+ by its associated <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>.  Also, all joined instantiatable schematic
+ objects must be defined in the containing <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_frame_sub_net -->
+<H2><A NAME="schematic_frame_sub_net">schematic_frame_sub_net</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A>
+      SUBTYPE OF (<A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A>);
+  DERIVE
+    containing_generic_net : <A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A>.sub_nets'); 
+  WHERE
+    <A NAME="schematic_frame_sub_net.containment_constraint">containment_constraint</A> :
+      (* A schematic_frame_sub_net belongs to one
+         schematic_frame_generic_net. *)  
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A>.sub_nets');
+
+    <A NAME="schematic_frame_sub_net.valid_associated_signal">valid_associated_signal</A> :
+      (* The frame_signal associated with a schematic_frame_sub_net is the same
+         as that of its containing schematic_frame_generic_net. *)
+      associated_signal :=: containing_generic_net.associated_signal;
+
+    <A NAME="schematic_frame_sub_net.valid_joined_ports">valid_joined_ports</A> :
+      (* The ports joined by a schematic_frame_sub_net must be a subset of the
+         ports joined by its immediately containing
+         schematic_frame_generic_net. *)  
+
+        (joined_global_ports &lt;= containing_generic_net.joined_global_ports)
+    AND (joined_instance_ports &lt;= containing_generic_net.joined_instance_ports)
+    AND (joined_master_ports &lt;= containing_generic_net.joined_master_ports);
+
+    <A NAME="schematic_frame_sub_net.valid_joined_instantiatable_objects">valid_joined_instantiatable_objects</A> :
+      (* The schematic_global_port_representations,
+         schematic_instance_port_representations,
+         schematic_master_port_representations, schematic_net_junctions,
+         schematic_offpageconnectors, schematic_onpageconnectors and
+         ripper_hotspots joined by a schematic_frame_sub_net must be a subset
+         of the ones joined by its immediately containing
+         schematic_frame_generic_net. *)
+
+        (joined_global_port_representations 
+         &lt;= containing_generic_net.joined_global_port_representations)
+    AND (joined_junctions &lt;= containing_generic_net.joined_junctions)
+    AND (joined_instance_port_representations 
+         &lt;= containing_generic_net.joined_instance_port_representations)
+    AND (joined_master_port_representations 
+         &lt;= containing_generic_net.joined_master_port_representations)
+    AND (joined_offpageconnectors 
+         &lt;= containing_generic_net.joined_offpageconnectors)
+    AND (joined_onpageconnectors 
+         &lt;= containing_generic_net.joined_onpageconnectors)
+    AND (joined_ripper_hotspots 
+         &lt;= containing_generic_net.joined_ripper_hotspots);
+
+    <A NAME="schematic_frame_sub_net.valid_joined_terminators">valid_joined_terminators</A> :
+      (* The joined terminators must be defined in the containing
+         schematic_frame_net. *) 
+      joined_terminators &lt;= <A HREF="IMEX0031.HTM#containing_net_of_schematic_frame_generic_net">containing_net_of_schematic_frame_generic_net</A>(SELF)
+                            .terminators;
+
+    <A NAME="schematic_frame_sub_net.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A sub-net cannot have joined_global_ports if its containing
+            net/sub-net does not join any global ports.
+         2. A sub-net cannot have joined_instance_ports if its containing
+            net/sub-net does not join any instance_ports.
+         3. A sub-net cannot have joined_master_ports if its containing
+            net/sub-net does not join any master_ports. 
+         4. A sub-net cannot have joined_global_port_representations if its
+            containing net/sub-net does not join any global port
+            representations. 
+         5. A sub-net cannot have joined_instance_port_representations if its
+            containing net/sub-net does not join any <A HREF="IMEX0012.HTM#instance">instance</A> port
+            representations. 
+         6. A sub-net cannot have joined_master_port_representations if its
+            containing net/sub-net does not join any master port
+            representations. 
+         7. A sub-net cannot have joined_junctions if its containing
+            net/sub-net does not join any junctions. 
+         8. A sub-net cannot have joined_offpageconnectors if its containing
+            net/sub-net does not join any offpageconnectors.
+         9. A sub-net cannot have joined_onpageconnectors if its containing
+            net/sub-net does not join any onpageconnectors.
+         10.A sub-net cannot have joined_ripper_hotspots if its containing
+            net/sub-net does not join any ripper hotspots.
+         11.A sub-net cannot have joined_terminators if its containing net does
+            not defined any terminators. *)
+
+      (EXISTS(containing_generic_net.joined_global_ports) OR
+         NOT EXISTS(joined_global_ports))
+      AND
+      (EXISTS(containing_generic_net.joined_instance_ports) OR
+         NOT EXISTS(joined_instance_ports))
+      AND
+      (EXISTS(containing_generic_net.joined_master_ports) OR
+         NOT EXISTS(joined_master_ports))
+      AND
+      (EXISTS(containing_generic_net.joined_global_port_representations) OR
+         NOT EXISTS(joined_global_port_representations))
+      AND
+      (EXISTS(containing_generic_net.joined_instance_port_representations) OR
+         NOT EXISTS(joined_instance_port_representations))
+      AND
+      (EXISTS(containing_generic_net.joined_master_port_representations) OR
+         NOT EXISTS(joined_master_port_representations))
+      AND
+      (EXISTS(containing_generic_net.joined_junctions) OR
+         NOT EXISTS(joined_junctions))
+      AND
+      (EXISTS(containing_generic_net.joined_offpageconnectors) OR
+         NOT EXISTS(joined_offpageconnectors))
+      AND
+      (EXISTS(containing_generic_net.joined_onpageconnectors) OR
+         NOT EXISTS(joined_onpageconnectors))
+      AND
+      (EXISTS(containing_generic_net.joined_ripper_hotspots) OR
+         NOT EXISTS(joined_ripper_hotspots))
+      AND
+      (EXISTS(<A HREF="IMEX0031.HTM#containing_net_of_schematic_frame_generic_net">containing_net_of_schematic_frame_generic_net</A>(SELF).terminators)
+         OR NOT EXISTS(joined_terminators));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A> must only join to ports and instantiatable
+ schematic objects which are already joined by its immediately containing
+ <A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A>.  In addition, its associated <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>
+ must be the same as that of its immediately containing
+ <A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_frame_generic_bus -->
+<H2><A NAME="schematic_frame_generic_bus">schematic_frame_generic_bus</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A>, 
+                                   <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A>, 
+                                   <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_bus</A>));
+    associated_signal_group     : <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>;   -- reference
+    bus_slices                  : OPTIONAL SET [1:?] OF
+                                  <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A>; 
+    criticality                 : <A HREF="IMEX0034.HTM#integer_token">integer_token</A>;                  
+    delays                      : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#interconnect_delay">interconnect_delay</A>; 
+    document                    : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>;
+    implementation              : OPTIONAL
+                                  <A HREF="IMEX0032.HTM#schematic_interconnect_implementation">schematic_interconnect_implementation</A>; 
+    joined_global_ports         : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0008.HTM#global_port">global_port</A>;
+    joined_global_port_bundles  : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0008.HTM#global_port_bundle">global_port_bundle</A>;
+    joined_global_port_representations  
+                                : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0032.HTM#schematic_global_port_representation">schematic_global_port_representation</A>;
+    joined_instance_ports       : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0012.HTM#instance_port">instance_port</A>;
+    joined_instance_port_bundles: OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0012.HTM#instance_port_bundle">instance_port_bundle</A>;
+    joined_instance_port_representations
+                                : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0032.HTM#schematic_instance_port_representation">schematic_instance_port_representation</A>;
+    joined_instance_port_bundle_representations
+                                : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0032.HTM#schematic_instance_port_bundle_representation">schematic_instance_port_bundle_representation</A>;
+    joined_local_master_port_groups     
+                                : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0012.HTM#local_master_port_group">local_master_port_group</A>;
+    joined_master_ports         : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0012.HTM#master_port">master_port</A>; 
+    joined_master_port_bundles  : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0012.HTM#master_port_bundle">master_port_bundle</A>;           
+    joined_master_port_representations  
+                                : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0032.HTM#schematic_master_port_representation">schematic_master_port_representation</A>; 
+    joined_master_port_bundle_representations 
+                                : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0032.HTM#schematic_master_port_bundle_representation">schematic_master_port_bundle_representation</A>;
+    joined_junctions            : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0032.HTM#schematic_bus_junction">schematic_bus_junction</A>;
+    joined_offpageconnectors    : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0032.HTM#schematic_offpageconnector">schematic_offpageconnector</A>;
+    joined_onpageconnectors     : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0032.HTM#schematic_onpageconnector">schematic_onpageconnector</A>;
+    joined_ripper_hotspots      : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0013.HTM#ripper_hotspot">ripper_hotspot</A>;
+    joined_terminators          : OPTIONAL SET [1:?] OF -- reference
+                                  <A HREF="IMEX0032.HTM#schematic_interconnect_terminator">schematic_interconnect_terminator</A>;
+    name                        : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties                  : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+    sub_busses                  : OPTIONAL SET [1:?] OF
+                                  <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_bus</A>; 
+  DERIVE
+    signal_group_size : INTEGER 
+      := SIZEOF(associated_signal_group.flattened_signal_list);
+  WHERE
+    <A NAME="schematic_frame_generic_bus.valid_joined_port_size">valid_joined_port_size</A> :
+      (* All joined global_ports, global_port_bundles,
+         local_master_port_groups, master_ports and master_port_bundles must 
+         have the same port size as the size of the flattened signal_group. *)
+
+        (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(joinedGlobalPort &lt;* joined_global_ports |
+           joinedGlobalPort.size &lt;&gt; signal_group_size)))
+    AND (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(joinedGlobalPortBundle &lt;* joined_global_port_bundles |
+           joinedGlobalPortBundle.size &lt;&gt; signal_group_size)))
+    AND (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(joinedLocalMasterPortGroup 
+           &lt;* joined_local_master_port_groups |
+           joinedLocalMasterPortGroup.size &lt;&gt; signal_group_size)))
+    AND (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(joinedMasterPort &lt;* joined_master_ports |
+           joinedMasterPort.size &lt;&gt; signal_group_size)))
+    AND (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(joinedMasterPortBundle &lt;* joined_master_port_bundles |
+           joinedMasterPortBundle.size &lt;&gt; signal_group_size)));
+
+    <A NAME="schematic_frame_generic_bus.valid_bus_slices">valid_bus_slices</A> :
+      (* No two bus_slices within a schematic_frame_generic_bus may reference
+         the same frame_signal_group. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(busSlice1 &lt;* bus_slices |
+        <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(busSlice2 &lt;* bus_slices - busSlice1 |
+          busSlice1.associated_signal_group :=: 
+            busSlice2.associated_signal_group))));
+
+    <A NAME="schematic_frame_generic_bus.valid_sub_busses">valid_sub_busses</A> :
+      (* No two sub_busses within a schematic_generic_bus may refer to the same
+         set of ports and instantiatable schematic objects. *)
+
+    <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(bus1 &lt;* sub_busses |
+      <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(bus2 &lt;* sub_busses - bus1 |
+        (bus1.joined_global_ports = bus2.joined_global_ports) 
+    AND (bus1.joined_global_port_bundles = bus2.joined_global_port_bundles) 
+    AND (bus1.joined_global_port_representations
+         = bus2.joined_global_port_representations)
+    AND (bus1.joined_instance_ports = bus2.joined_instance_ports) 
+    AND (bus1.joined_instance_port_bundles = bus2.joined_instance_port_bundles) 
+    AND (bus1.joined_instance_port_representations
+         = bus2.joined_instance_port_representations)
+    AND (bus1.joined_instance_port_bundle_representations
+         = bus2.joined_instance_port_bundle_representations)
+    AND (bus1.joined_local_master_port_groups 
+         = bus2.joined_local_master_port_groups) 
+    AND (bus1.joined_master_ports = bus2.joined_master_ports) 
+    AND (bus1.joined_master_port_bundles = bus2.joined_master_port_bundles) 
+    AND (bus1.joined_master_port_representations 
+         = bus2.joined_master_port_representations)
+    AND (bus1.joined_master_port_bundle_representations 
+         = bus2.joined_master_port_bundle_representations)
+    AND (bus1.joined_junctions = bus2.joined_junctions)
+    AND (bus1.joined_offpageconnectors = bus2.joined_offpageconnectors)
+    AND (bus1.joined_onpageconnectors = bus2.joined_onpageconnectors)
+    AND (bus1.joined_ripper_hotspots = bus2.joined_ripper_hotspots)
+    AND (bus1.joined_terminators = bus2.joined_terminators)))));
+
+    <A NAME="schematic_frame_generic_bus.valid_global_port_representations">valid_global_port_representations</A> :
+      (* The joined global_port_representations reference global_ports or
+         global_port_bundles which are joined by the interconnect. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(globalPortRepresentation
+         &lt;* joined_global_port_representations |
+         NOT ((globalPortRepresentation.implemented_global_port
+               IN joined_global_ports)
+           OR (globalPortRepresentation.implemented_global_port
+               IN joined_global_port_bundles))));
+
+    <A NAME="schematic_frame_generic_bus.valid_instance_port_representations">valid_instance_port_representations</A> :
+      (* The joined instance_port_representations reference instance_ports
+         which are joined by the interconnect. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(instancePortRepresentation
+         &lt;* joined_instance_port_representations |
+         NOT (instancePortRepresentation.referenced_instance_port
+              IN joined_instance_ports)));
+
+    <A NAME="schematic_frame_generic_bus.valid_instance_port_bundle_representations">valid_instance_port_bundle_representations</A> :
+      (* The joined instance_port_bundle_representations reference
+         instance_port_bundles which are joined by the interconnect. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(instancePortBundleRepresentation
+         &lt;* joined_instance_port_bundle_representations |
+         NOT (instancePortBundleRepresentation.referenced_instance_port_bundle
+              IN joined_instance_port_bundles)));
+
+    <A NAME="schematic_frame_generic_bus.valid_master_port_representations">valid_master_port_representations</A> :
+      (* The joined master_port_representations reference master_ports which
+         are joined by the interconnect. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(masterPortRepresentation
+         &lt;* joined_master_port_representations |
+         NOT (masterPortRepresentation.implemented_master_port
+              IN joined_master_ports)));
+
+    <A NAME="schematic_frame_generic_bus.valid_master_port_bundle_representations">valid_master_port_bundle_representations</A> :
+      (* The joined master_port_bundle_representations reference
+         master_port_bundles which are joined by the interconnect. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(masterPortBundleRepresentation
+         &lt;* joined_master_port_bundle_representations |
+         NOT (masterPortBundleRepresentation.implemented_master_port_bundle
+              IN joined_master_port_bundles)));
+
+    <A NAME="schematic_frame_generic_bus.valid_implementation">valid_implementation</A> :
+      (* Implementation information may only be associated with a
+         schematic_frame_generic_bus when its sub_busses have no implementation
+         information. *)
+      NOT (EXISTS(implementation)
+           AND
+           <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(subBus &lt;* sub_busses |
+             EXISTS(subBus\<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>.implementation))));
+
+    <A NAME="schematic_frame_generic_bus.valid_optional">valid_optional</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A bus cannot have joined_global_port_representations if it does not
+            join any global_ports or global_port_bundles. 
+         2. A bus cannot have joined_instance_port_representations if it does
+            not join any instance_ports.
+         3. A bus cannot have joined_instance_port_bundle_representations if it
+            does not join any instance_port_bundles.
+         4. A bus cannot have joined_master_port_representations if it does not
+            join any master_ports.
+         5. A bus cannot have joined_master_port_bundle_representations if it
+            does not join any master_port_bundles or
+            local_master_port_groups. *) 
+
+      (EXISTS(joined_global_ports) OR EXISTS(joined_global_port_bundles) OR 
+         NOT EXISTS(joined_global_port_representations))
+      AND
+      (EXISTS(joined_instance_ports) OR
+         NOT EXISTS(joined_instance_port_representations))
+      AND
+      (EXISTS(joined_instance_port_bundles) OR
+         NOT EXISTS(joined_instance_port_bundle_representations))
+      AND
+      (EXISTS(joined_master_ports) OR
+         NOT EXISTS(joined_master_port_representations))
+      AND
+      (EXISTS(joined_master_port_bundles) OR 
+         EXISTS(joined_local_master_port_groups) OR
+         NOT EXISTS(joined_master_port_representations));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A> can be either a <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A>, a
+ <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A> or a <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_bus</A>.  A
+ <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A> is used in the model because of the similarity 
+ between a <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A>, a <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A> and a
+ <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_bus</A>.  They may all contain
+ <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slices</A> and <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_busses</A>.  No two
+ <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slices</A> at a given level may be associated with the
+ same <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>.  No two <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_busses</A> at a given
+ level may join to the same set of ports and instantiatable schematic
+ objects. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0032.HTM#schematic_bus_junction">schematic_bus_junction</A> <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A> <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_bus</A> <A HREF="IMEX0032.HTM#schematic_interconnect_implementation">schematic_interconnect_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_frame_bus -->
+<H2><A NAME="schematic_frame_bus">schematic_frame_bus</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A>
+      SUBTYPE OF (<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>);
+    junctions            : OPTIONAL SET [1:?] OF <A HREF="IMEX0032.HTM#schematic_bus_junction">schematic_bus_junction</A>;
+    schematic_wire_style : OPTIONAL <A HREF="IMEX0032.HTM#schematic_wire_style">schematic_wire_style</A>;
+    terminators          : OPTIONAL SET [1:?] OF
+                           <A HREF="IMEX0032.HTM#schematic_interconnect_terminator">schematic_interconnect_terminator</A>; 
+  DERIVE
+    containing_frame_implementation : <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>-- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+         '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.busses');
+  WHERE
+    <A NAME="schematic_frame_bus.containment_constraint">containment_constraint</A> :
+      (* A schematic_frame_bus belongs to one
+         schematic_frame_implementation. *)  
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.busses');
+
+    <A NAME="schematic_frame_bus.valid_associated_signal_group">valid_associated_signal_group</A> :
+      (* The frame_signal_group associated with a schematic_frame_bus is
+         defined in the frame which is implemented. *)
+      associated_signal_group IN
+        containing_frame_implementation.implemented_frame.frame_signal_groups; 
+
+    <A NAME="schematic_frame_bus.valid_joined_instance_ports">valid_joined_instance_ports</A> :
+      (* The joined instance_ports are defined in instances which are
+         implemented in the containing schematic_frame_implementation. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(instancePort &lt;* joined_instance_ports |
+        <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(instanceImplementation
+                   &lt;* containing_frame_implementation.instance_implementations |
+        instancePort.referenced_instance
+        :=: instanceImplementation.implemented_instance))));
+
+    <A NAME="schematic_frame_bus.valid_joined_instance_port_bundles">valid_joined_instance_port_bundles</A> :
+      (* The joined instance_port_bundles are defined in instances which are
+         implemented in the containing schematic_frame_implementation. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(instancePortBundle &lt;* joined_instance_ports |
+        <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(instanceImplementation
+                   &lt;* containing_frame_implementation.instance_implementations |
+        instancePortBundle.referenced_instance
+        :=: instanceImplementation.implemented_instance))));
+
+    <A NAME="schematic_frame_bus.valid_joined_instantiatable_objects">valid_joined_instantiatable_objects</A> :
+      (* All joined schematic_global_port_representations,
+         schematic_master_port_representations,
+         schematic_master_port_bundle_representations,
+         schematic_offpageconnectors, schematic_onpageconnectors and
+         ripper_hotspots are defined in the containing
+         schematic_frame_implementation. *) 
+
+        (joined_global_port_representations
+         &lt;= containing_frame_implementation.global_port_representations)
+    AND (joined_master_port_representations 
+         &lt;= containing_frame_implementation.master_port_representations)
+    AND (joined_master_port_bundle_representations 
+         &lt;= containing_frame_implementation.master_port_bundle_representations)
+    AND (joined_offpageconnectors 
+         &lt;= containing_frame_implementation.offpageconnectors)
+    AND (joined_onpageconnectors 
+         &lt;= containing_frame_implementation.onpageconnectors)
+    AND (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(hotspot &lt;* joined_ripper_hotspots |
+        NOT (<A HREF="IMEX0013.HTM#hotspot">hotspot</A>.containing_ripper 
+             IN containing_frame_implementation.rippers))));
+
+    <A NAME="schematic_frame_bus.valid_joined_junctions">valid_joined_junctions</A> :
+      (* The joined junctions must be defined in the schematic_frame_bus. *)
+      joined_junctions &lt;= junctions;
+
+    <A NAME="schematic_frame_bus.valid_joined_terminators">valid_joined_terminators</A> :
+      (* The joined terminators must be defined in the schematic_frame_bus. *)
+      joined_terminators &lt;= terminators;
+
+    <A NAME="schematic_frame_bus.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A bus cannot have joined_instance_ports or
+            joined_instance_port_bundles if its containing <A HREF="IMEX0010.HTM#frame">frame</A> implementation
+            does not define any <A HREF="IMEX0012.HTM#instance">instance</A> implementations. 
+         2. A bus cannot have joined_global_port_representations if its
+            containing <A HREF="IMEX0010.HTM#frame">frame</A> implementation does not define any global port
+            representations. 
+         3. A bus cannot have joined_master_port_representations if its
+            containing <A HREF="IMEX0010.HTM#frame">frame</A> implementation does not define any master port
+            representations. 
+         4. A bus cannot have joined_master_port_bundle_representations if its
+            containing <A HREF="IMEX0010.HTM#frame">frame</A> implementation does not define any master port
+            bundle representations. 
+         5. A bus cannot have joined_offpageconnectors if its containing <A HREF="IMEX0010.HTM#frame">frame</A>
+            implementation does not define any offpageconnectors.
+         6. A bus cannot have joined_onpageconnectors if its containing <A HREF="IMEX0010.HTM#frame">frame</A>
+            implementation does not define any onpageconnectors.
+         7. A bus cannot have joined_ripper_hotspots if its containing <A HREF="IMEX0010.HTM#frame">frame</A>
+            implementation does not define any rippers.
+         8. A bus cannot have joined_junctions if it does not define any
+            junctions. 
+         9. A bus cannot have joined_local_master_port_groups if its containing
+            <A HREF="IMEX0032.HTM#page">page</A> does not define any local port group.
+         10.A bus cannot have joined_terminators if it does not define any
+            terminators. *)
+
+      (EXISTS(containing_frame_implementation.instance_implementations) OR 
+         NOT EXISTS(joined_instance_ports) AND
+         NOT EXISTS(joined_instance_port_bundles))
+      AND
+      (EXISTS(containing_frame_implementation.global_port_representations) OR
+         NOT EXISTS(joined_global_port_representations))
+      AND
+      (EXISTS(containing_frame_implementation.master_port_representations) OR
+         NOT EXISTS(joined_master_port_representations))
+      AND
+      (EXISTS(containing_frame_implementation
+              .master_port_bundle_representations)
+         OR NOT EXISTS(joined_master_port_bundle_representations))
+      AND
+      (EXISTS(containing_frame_implementation.offpageconnectors) OR
+         NOT EXISTS(joined_offpageconnectors))
+      AND
+      (EXISTS(containing_frame_implementation.onpageconnectors) OR
+         NOT EXISTS(joined_onpageconnectors))
+      AND
+      (EXISTS(containing_frame_implementation.rippers) OR
+         NOT EXISTS(joined_ripper_hotspots))
+      AND
+      (EXISTS(junctions) OR NOT EXISTS(joined_junctions))
+      AND
+      (EXISTS(containing_frame_implementation.containing_page.local_port_groups)
+         OR NOT EXISTS(joined_local_master_port_groups))
+      AND
+      (EXISTS(terminators) OR NOT EXISTS(joined_terminators));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A> is defined within a <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A> 
+ which describes the structural connectivity information of a <A HREF="IMEX0010.HTM#frame">frame</A> in a
+ schematic view.  Its associated <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> must be defined in the
+ associated <A HREF="IMEX0010.HTM#frame">frame</A> of the containing <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.  A
+ <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A> may be subdivided in two orthogonal ways. It may be
+ divided into <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slices</A> or into
+ <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_busses</A>. Also, all joined instantiatable schematic
+ objects must be defined in the containing <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_frame_bus_slice -->
+<H2><A NAME="schematic_frame_bus_slice">schematic_frame_bus_slice</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A>
+      SUBTYPE OF (<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>);
+    junctions            : OPTIONAL SET [1:?] OF <A HREF="IMEX0032.HTM#schematic_bus_junction">schematic_bus_junction</A>;
+    schematic_wire_style : OPTIONAL <A HREF="IMEX0032.HTM#schematic_wire_style">schematic_wire_style</A>;
+  DERIVE
+   containing_generic_bus  : <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A> -- reference
+     := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,
+        '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>.bus_slices');
+   containing_frame_implementation : <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A> -- reference
+     := <A HREF="IMEX0031.HTM#containing_bus_of_schematic_frame_generic_bus">containing_bus_of_schematic_frame_generic_bus</A>(SELF)
+        .containing_frame_implementation;
+  WHERE
+    <A NAME="schematic_frame_bus_slice.containment_constraint">containment_constraint</A> :
+      (* A schematic_frame_bus_slice belongs to one
+         schematic_frame_generic_bus. *)  
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>.bus_slices');
+
+    <A NAME="schematic_frame_bus_slice.valid_associated_signal_group">valid_associated_signal_group</A> :
+      (* The signal_group associated with a schematic_bus_slice is a member
+         of the signal_group associated with its immediately containing
+         schematic_frame_generic_bus.*) 
+      <A HREF="IMEX0010.HTM#frame_signal_group_member">frame_signal_group_member</A>(associated_signal_group,
+                                containing_generic_bus.associated_signal_group);
+
+    <A NAME="schematic_frame_bus_slice.valid_joined_junctions">valid_joined_junctions</A> :
+      (* The joined junctions must be defined in the
+         schematic_frame_bus_slice.*)  
+      joined_junctions &lt;= junctions;
+
+    <A NAME="schematic_frame_bus_slice.valid_joined_local_master_port_groups">valid_joined_local_master_port_groups</A> :
+      (* The joined local_master_port_groups must be defined in the containing
+         page. *)
+      joined_local_master_port_groups 
+        &lt;= containing_frame_implementation.containing_page.local_port_groups;
+
+    <A NAME="schematic_frame_bus_slice.valid_joined_ripper_hotspots">valid_joined_ripper_hotspots</A> :
+      (* The joined hotspots belong to the schematic_rippers defined in the
+         containing schematic_frame_implementation. *) 
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(hotspot &lt;* joined_ripper_hotspots |
+        NOT (<A HREF="IMEX0013.HTM#hotspot">hotspot</A>.containing_ripper 
+             IN containing_frame_implementation.rippers))); 
+
+    <A NAME="schematic_frame_bus_slice.valid_joined_terminators">valid_joined_terminators</A> :
+      (* The joined terminators must be defined in the containing
+         schematic_frame_bus. *) 
+      joined_terminators &lt;= <A HREF="IMEX0031.HTM#containing_bus_of_schematic_frame_generic_bus">containing_bus_of_schematic_frame_generic_bus</A>(SELF)
+                            .terminators;
+
+    <A NAME="schematic_frame_bus_slice.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A bus-slice cannot have joined_junctions if it does not define any
+            junctions. 
+         2. A bus-slice cannot have joined_local_master_port_groups if its
+            containing <A HREF="IMEX0032.HTM#page">page</A> does not define any local port groups. 
+         3. A bus-slice cannot have joined_ripper_hotspots if its containing
+            <A HREF="IMEX0010.HTM#frame">frame</A> implementation does not define any rippers.
+         4. A bus-slice cannot have joined_terminators if its containing bus
+            does not define any terminators. *)
+
+      (EXISTS(junctions) OR NOT EXISTS(joined_junctions))
+      AND
+      (EXISTS(containing_frame_implementation.containing_page.local_port_groups)
+         OR NOT EXISTS(joined_local_master_port_groups))
+      AND
+      (EXISTS(containing_frame_implementation.rippers) OR 
+         NOT EXISTS(joined_ripper_hotspots))
+      AND
+      (EXISTS(<A HREF="IMEX0031.HTM#containing_bus_of_schematic_frame_generic_bus">containing_bus_of_schematic_frame_generic_bus</A>(SELF).terminators)
+         OR NOT EXISTS(joined_terminators));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A> is used to define part of a
+ <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A> that has a size less than the size of the immediately
+ enclosing <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>.  Its associated
+ <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> must be a member of the <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> associated
+ with its immediately containing <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>.  All joined
+ <A HREF="IMEX0032.HTM#schematic_ripper">schematic_rippers</A> must be defined in the containing
+ <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A> </P>
+<HR>
+<!-- Start of ENTITY: schematic_frame_sub_bus -->
+<H2><A NAME="schematic_frame_sub_bus">schematic_frame_sub_bus</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_bus</A>
+      SUBTYPE OF (<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>);
+  DERIVE
+   containing_generic_bus : <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A> -- reference
+     := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+        '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>.sub_busses');
+  WHERE
+    <A NAME="schematic_frame_sub_bus.containment_constraint">containment_constraint</A> :
+      (* A schematic_frame_sub_bus belongs to one
+         schematic_frame_generic_bus. *)  
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF,
+        '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>.sub_busses');
+
+    <A NAME="schematic_frame_sub_bus.valid_associated_signal_group">valid_associated_signal_group</A> :
+      (* The frame_signal_group associated with a schematic_frame_sub_bus is
+         the same as its containing schematic_frame_generic_bus. *)
+      associated_signal_group 
+        :=: containing_generic_bus.associated_signal_group;
+
+    <A NAME="schematic_frame_sub_bus.valid_joined_ports">valid_joined_ports</A> :
+      (* The ports joined by a schematic_frame_sub_bus must be a subset of the
+         ports joined by its immediately containing
+         schematic_frame_generic_bus. *) 
+
+        (joined_global_ports &lt;= containing_generic_bus.joined_global_ports)
+    AND (joined_global_port_bundles 
+         &lt;= containing_generic_bus.joined_global_port_bundles)
+    AND (joined_instance_ports &lt;= containing_generic_bus.joined_instance_ports)
+    AND (joined_instance_port_bundles 
+         &lt;= containing_generic_bus.joined_instance_port_bundles)
+    AND (joined_local_master_port_groups 
+         &lt;= containing_generic_bus.joined_local_master_port_groups)
+    AND (joined_master_ports &lt;= containing_generic_bus.joined_master_ports)
+    AND (joined_master_port_bundles 
+         &lt;= containing_generic_bus.joined_master_port_bundles);
+
+    <A NAME="schematic_frame_sub_bus.valid_joined_instantiatable_objects">valid_joined_instantiatable_objects</A> :
+      (* The schematic_global_port_representations,
+         schematic_master_port_representations,
+         schematic_master_port_bundle_representations,
+         schematic_offpageconnectors, schematic_onpageconnectors and
+         ripper_hotspots joined by a schematic_frame_sub_bus must be a subset
+         of the ones joined by its immediately containing
+         schematic_frame_generic_bus. *)   
+
+        (joined_global_port_representations 
+         &lt;= containing_generic_bus.joined_global_port_representations)
+    AND (joined_instance_port_representations 
+         &lt;= containing_generic_bus.joined_instance_port_representations)
+    AND (joined_instance_port_bundle_representations 
+         &lt;= containing_generic_bus.joined_instance_port_bundle_representations)
+    AND (joined_master_port_representations 
+         &lt;= containing_generic_bus.joined_master_port_representations)
+    AND (joined_master_port_bundle_representations 
+         &lt;= containing_generic_bus.joined_master_port_bundle_representations)
+    AND (joined_offpageconnectors 
+         &lt;= containing_generic_bus.joined_offpageconnectors) 
+    AND (joined_onpageconnectors 
+         &lt;= containing_generic_bus.joined_onpageconnectors)
+    AND (joined_junctions &lt;= containing_generic_bus.joined_junctions);
+
+    <A NAME="schematic_frame_sub_bus.valid_joined_terminators">valid_joined_terminators</A> :
+      (* The joined terminators must be defined in the containing
+         schematic_frame_bus. *) 
+      joined_terminators &lt;= <A HREF="IMEX0031.HTM#containing_bus_of_schematic_frame_generic_bus">containing_bus_of_schematic_frame_generic_bus</A>(SELF)
+                            .terminators;
+
+    <A NAME="schematic_frame_sub_bus.valid_optional_attributes">valid_optional_attributes</A> :
+      (* The dependencies of these optional attributes are stated as follows:
+         1. A sub-bus cannot have joined_global_ports if its containing
+            bus/bus-slice/sub-bus does not join any global_ports.
+         2. A sub-bus cannot have joined_global_port_bundles if its containing
+            bus/bus-slice/sub-bus does not join any global_port_bundles.
+         3. A sub-bus cannot have joined_instance_ports if its containing
+            bus/bus-slice/sub-bus does not join any instance_ports.
+         4. A sub-bus cannot have joined_instance_port_bundles if its
+            containing bus/bus-slice/sub-bus does not join any
+            instance_port_bundles. 
+         5. A sub-bus cannot have joined_local_master_port_groups if its
+            containing bus/bus-slice/sub-bus does not join any
+            local_master_port_groups.
+         6. A sub-bus cannot have joined_master_ports if its containing
+            bus/bus-slice/sub-bus does not join any master_ports. 
+         7. A sub-bus cannot have joined_master_port_bundles if its containing
+            bus/bus-slice/sub-bus does not join any master_port_bundles. 
+         8. A sub-bus cannot have joined_global_port_representations if its
+            containing bus/bus-slice/sub-bus does not join any global port
+            representations. 
+         9. A sub-bus cannot have joined_instance_port_representations if its
+            containing bus/bus-slice/sub-bus does not join any <A HREF="IMEX0012.HTM#instance">instance</A> port
+            representations. 
+         10.A sub-bus cannot have joined_instance_port_bundle_representations
+            if its containing bus/bus-slice/sub-bus does not join any <A HREF="IMEX0012.HTM#instance">instance</A>
+            port bundle representations. 
+         11.A sub-bus cannot have joined_master_port_representations if its
+            containing bus/bus-slice/sub-bus does not join any master port
+            representations. 
+         12.A sub-bus cannot have joined_master_port_bundle_representations if
+            its containing bus/bus-slice/sub-bus does not join any master port
+            bundle representations. 
+         13.A sub-bus cannot have joined_junctions if its containing
+            bus/bus-slice/sub-bus does not join any junctions. 
+         14.A sub-bus cannot have joined_offpageconnectors if its containing
+            bus/bus-slice/sub-bus does not join any offpageconnectors.
+         15.A sub-bus cannot have joined_onpageconnectors if its containing
+            bus/bus-slice/sub-bus does not join any onpageconnectors.
+         16.A sub-bus cannot have joined_ripper_hotspots if its containing
+            bus/bus-slice/sub-bus does not join any ripper hotspots.
+         17.A sub-bus cannot have joined_terminators if its containing bus does
+            not defined any terminators. *)
+
+      (EXISTS(containing_generic_bus.joined_global_ports) OR
+         NOT EXISTS(joined_global_ports))
+      AND
+      (EXISTS(containing_generic_bus.joined_global_port_bundles) OR
+         NOT EXISTS(joined_global_port_bundles))
+      AND
+      (EXISTS(containing_generic_bus.joined_instance_ports) OR
+         NOT EXISTS(joined_instance_ports))
+      AND
+      (EXISTS(containing_generic_bus.joined_instance_port_bundles) OR
+         NOT EXISTS(joined_instance_port_bundles))
+      AND
+      (EXISTS(containing_generic_bus.joined_local_master_port_groups) OR
+         NOT EXISTS(joined_local_master_port_groups))
+      AND
+      (EXISTS(containing_generic_bus.joined_master_ports) OR
+         NOT EXISTS(joined_master_ports))
+      AND
+      (EXISTS(containing_generic_bus.joined_master_port_bundles) OR
+         NOT EXISTS(joined_master_port_bundles))
+      AND
+      (EXISTS(containing_generic_bus.joined_global_port_representations) OR
+         NOT EXISTS(joined_global_port_representations))
+      AND
+      (EXISTS(containing_generic_bus.joined_instance_port_representations) OR
+         NOT EXISTS(joined_instance_port_representations))
+      AND
+      (EXISTS(containing_generic_bus
+              .joined_instance_port_bundle_representations)
+         OR NOT EXISTS(joined_instance_port_bundle_representations))
+      AND
+      (EXISTS(containing_generic_bus.joined_master_port_representations) OR
+         NOT EXISTS(joined_master_port_representations))
+      AND
+      (EXISTS(containing_generic_bus.joined_master_port_bundle_representations)
+         OR NOT EXISTS(joined_master_port_bundle_representations))
+      AND
+      (EXISTS(containing_generic_bus.joined_junctions) OR
+         NOT EXISTS(joined_junctions))
+      AND
+      (EXISTS(containing_generic_bus.joined_offpageconnectors) OR
+         NOT EXISTS(joined_offpageconnectors))
+      AND
+      (EXISTS(containing_generic_bus.joined_onpageconnectors) OR
+         NOT EXISTS(joined_onpageconnectors))
+      AND
+      (EXISTS(containing_generic_bus.joined_ripper_hotspots) OR
+         NOT EXISTS(joined_ripper_hotspots))
+      AND
+      (EXISTS(<A HREF="IMEX0031.HTM#containing_bus_of_schematic_frame_generic_bus">containing_bus_of_schematic_frame_generic_bus</A>(SELF).terminators)
+         OR NOT EXISTS(joined_terminators));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_bus</A> has the same size as the
+ <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A> immediately containing it.  Its associated
+ <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> is the same as that of its immediately containing
+ <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>.  A <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_bus</A> must only join
+ to ports and instantiatable schematic objects which are already joined by
+ its immediately containing <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A> </P>
+<HR>
+<!-- Start of FUNCTION: containing_bus_of_schematic_frame_generic_bus -->
+<H2><A NAME="containing_bus_of_schematic_frame_generic_bus">containing_bus_of_schematic_frame_generic_bus</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0031.HTM#containing_bus_of_schematic_frame_generic_bus">containing_bus_of_schematic_frame_generic_bus</A>
+     (busStructure : <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>) : <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A>;
+    LOCAL
+      busType : SET OF STRING := [ ];
+    END_LOCAL;
+
+    REPEAT UNTIL ('<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A>' 
+                  IN busType);
+      busType := TYPEOF(busStructure);
+      IF '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A>' IN busType THEN
+         busStructure := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(busStructure,
+         '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>.bus_slices');
+      ELSE
+      IF '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_bus</A>' IN busType THEN
+         busStructure := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(busStructure,
+         '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>.sub_busses');
+      END_IF;
+      END_IF;
+    END_REPEAT;
+
+    RETURN(busStructure);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0031.HTM#containing_bus_of_schematic_frame_generic_bus">containing_bus_of_schematic_frame_generic_bus</A> returns the top level
+ <A HREF="IMEX0031.HTM#schematic_frame_bus">schematic_frame_bus</A> containing the <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A>, either
+ directly or indirectly.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A> <A HREF="IMEX0031.HTM#schematic_frame_sub_bus">schematic_frame_sub_bus</A> <A HREF="IMEX0032.HTM#schematic_ripper">schematic_ripper</A> </P>
+<HR>
+<!-- Start of FUNCTION: containing_net_of_schematic_frame_generic_net -->
+<H2><A NAME="containing_net_of_schematic_frame_generic_net">containing_net_of_schematic_frame_generic_net</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0031.HTM#containing_net_of_schematic_frame_generic_net">containing_net_of_schematic_frame_generic_net</A>
+    (netStructure : <A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A>) : <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A>;
+    LOCAL
+      netType : SET OF STRING := [ ];
+    END_LOCAL;
+
+    REPEAT UNTIL ('<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A>' 
+                  IN netType);
+      netType := TYPEOF(netStructure);
+      IF '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A>' IN netType THEN
+         netStructure := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(netStructure,
+         '<A HREF="IMEX0031.HTM#schematic_frame_model">schematic_frame_model</A>.<A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A>.sub_nets');
+      END_IF;
+    END_REPEAT;
+
+    RETURN(netStructure);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0031.HTM#containing_net_of_schematic_frame_generic_net">containing_net_of_schematic_frame_generic_net</A> returns the top level
+ <A HREF="IMEX0031.HTM#schematic_frame_net">schematic_frame_net</A> containing the <A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A>, either
+ directly or indirectly.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_frame_sub_net">schematic_frame_sub_net</A> <A HREF="IMEX0032.HTM#schematic_ripper">schematic_ripper</A> </P>
+
+<HR>
+
+<!-- Start of schema: schematic_implementation_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

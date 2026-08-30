@@ -1,0 +1,952 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">General Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="k3FormalList">k3FormalList</A></H1>
+<PRE>
+<I>k3FormalList ::= '(' 'k3FormalList'</I>
+&#09;<I>{ <A HREF="RMRF0013.HTM#k2FormalNameRef">k2FormalNameRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0013.HTM#k3ForEach">k3ForEach</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#k3Formal">k3Formal</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#k3FormalList">K3FormalList</A></I> contains a set of formal parameter references which are used to control the iterations of the <I><A HREF="RMRF0013.HTM#k3ForEach">k3ForEach</A></I> form. Such iteration should step through the collected values of each referenced formal parameter in parallel, each of which should be bound to the same number of actual values.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordParameters</B>
+<B>   (k3Formal name (k3Collector))</B>
+<B>   (k3Formal load (k3Collector)))</B>
+<B>(k3Generate</B>
+<B>   (k3ForEach (k3FormalList name load)</B>
+<B>      (k3Build port (k2Actual name)</B>
+<B>         (k3Build inputPort)</B>
+<B>         (k3Build acLoad (k2Actual load)))))</B>
+</PRE>
+<P>This example illustrates the collection and use of a series of <I><A HREF="RMRF0055.HTM#port">port</A></I> name and <I><A HREF="RMRF0000.HTM#acLoad">acLoad</A></I> value pairs.
+<P><HR>
+<H1><A NAME="k3Generate">k3Generate</A></H1>
+<PRE>
+<I>k3Generate ::= '(' 'k3Generate'</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0013.HTM#k2Actual">k2Actual</A> | <A HREF="RMRF0013.HTM#k2Build">k2Build</A> | <A HREF="RMRF0013.HTM#k2Literal">k2Literal</A> | <A HREF="RMRF0013.HTM#k3ForEach">k3ForEach</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#k3KeywordDefine">k3KeywordDefine</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#k3Generate">K3Generate</A></I> is used to specify the expansion of a form which references a defined keyword. Since this construct contains an arbitrary number of builders, the use of a <I><A HREF="RMRF0014.HTM#k3KeywordDefine">k3KeywordDefine</A></I> can generate more than one form. In such cases it should not be used as a positional item within the enclosing construct.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordDefine inport</B>
+<B>   (k3KeywordParameters</B>
+<B>      (k3Formal name (k3Collector))</B>
+<B>      (k3Formal load (k3Collector)))</B>
+<B>   (k3Generate</B>
+<B>      (k3ForEach (k3FormalList name load)</B>
+<B>         (k3Build port (k2Actual name)</B>
+<B>            (k3Build inputPort)</B>
+<B>            (k3Build acLoad (k2Actual load))))))</B>
+</PRE>
+<P>This example shows the use of <I><A HREF="RMRF0013.HTM#k3ForEach">k3ForEach</A></I> within a <I><A HREF="RMRF0014.HTM#k3Generate">k3Generate</A></I> keyword definition. A typical use could be: (inport IN1 10 IN2 20), which would generate: 
+<PRE>
+<B>(port IN1 (inputPort) (acLoad 10))</B>
+<B>(port IN2 (inputPort) (acLoad 20))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="k3KeywordDefine">k3KeywordDefine</A></H1>
+<PRE>
+<I>k3KeywordDefine ::= '(' 'k3KeywordDefine'</I>
+&#09;<I><A HREF="RMRF0013.HTM#k1KeywordNameDef">k1KeywordNameDef</A></I>
+&#09;<I><A HREF="RMRF0014.HTM#k3KeywordParameters">k3KeywordParameters</A></I>
+&#09;<I><A HREF="RMRF0014.HTM#k3Generate">k3Generate</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0014.HTM#k3KeywordLevel">k3KeywordLevel</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#k3KeywordDefine">K3KeywordDefine</A></I> is used to define new keywords at keyword level k3 in a manner similar to the use of <I><A HREF="RMRF0013.HTM#k2KeywordDefine">k2KeywordDefine</A></I> at keyword level k2. It allows an iteration mechanism for parameter passing that is more powerful. The other features and semantics are as defined for <I><A HREF="RMRF0013.HTM#k2KeywordDefine">k2KeywordDefine</A></I>.
+<P><HR>
+<H1><A NAME="k3KeywordLevel">k3KeywordLevel</A></H1>
+<PRE>
+<I>k3KeywordLevel ::= '(' 'k3KeywordLevel'</I>
+&#09;<I>{ <A HREF="RMRF0013.HTM#k1KeywordAlias">k1KeywordAlias</A> | <A HREF="RMRF0014.HTM#k3KeywordDefine">k3KeywordDefine</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#keywordMap">keywordMap</A>  
+</I>
+<H3>Description:</H3>
+<P>This construct is used to specify that there are keyword mappings in the EDIF data which use keyword abbreviations and keyword mappings with iterative parameter binding.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordLevel</B>
+<B>   (k1KeywordAlias an annotate)</B>
+<B>   (k1KeywordAlias in instance)</B>
+<B>   (k3KeywordDefine ...) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="k3KeywordParameters">k3KeywordParameters</A></H1>
+<PRE>
+<I>k3KeywordParameters ::= '(' 'k3KeywordParameters'</I>
+&#09;<I>{ <A HREF="RMRF0013.HTM#k3Formal">k3Formal</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#k3KeywordDefine">k3KeywordDefine</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#k3KeywordParameters">K3KeywordParameters</A></I> contains a list of formal parameters which should correspond to individual forms or tokens at the time of expansion of a use of the new keyword. 
+<P>If any of the enclosed <I><A HREF="RMRF0013.HTM#k3Formal">k3Formal</A></I> parameters are optional or collectors, then any subsequent <I><A HREF="RMRF0013.HTM#k3Formal">k3Formal</A></I> parameters must be of the same type.
+<H3>Example:</H3>
+<PRE>
+<B>(k3KeywordDefine inport</B>
+<B>   (k3KeywordParameters</B>
+<B>      (k3Formal name (k3Collector))</B>
+<B>      (k3Formal load (k3Collector)))</B>
+<B>   (k3Generate ...))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="kelvin">kelvin</A></H1>
+<PRE>
+<I>kelvin ::= '(' 'kelvin'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0065.HTM#unit">unit</A>  &lt;<A HREF="RMRF0065.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#kelvin">Kelvin</A></I> is used to specify a user-defined unit in terms of the SI temperature unit, kelvin. See <I><A HREF="RMRF0065.HTM#unit">unit</A></I> for examples of the definition of units.
+<P><HR>
+<H1><A NAME="keywordMap">keywordMap</A></H1>
+<PRE>
+<I>keywordMap ::= '(' 'keywordMap'</I>
+&#09;<I>( <A HREF="RMRF0013.HTM#k0KeywordLevel">k0KeywordLevel</A> | <A HREF="RMRF0013.HTM#k1KeywordLevel">k1KeywordLevel</A> | <A HREF="RMRF0013.HTM#k2KeywordLevel">k2KeywordLevel</A> | <A HREF="RMRF0014.HTM#k3KeywordLevel">k3KeywordLevel</A> )</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#edifHeader">edifHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#keywordMap">KeywordMap</A></I> gathers together all keyword mappings in one area of the EDIF data.
+<H3>Example:</H3>
+<PRE>
+<B> (keywordMap (k0KeywordLevel))</B>
+</PRE>
+<P>The keyword level associated with this <I><A HREF="RMRF0014.HTM#keywordMap">keywordMap</A></I> specifies that no keyword definition or abbreviation will be used in this EDIF file. 
+<P><HR>
+<H1><A NAME="kilogram">kilogram</A></H1>
+<PRE>
+<I>kilogram ::= '(' 'kilogram'</I>
+&#09;<I><A HREF="RMRF0065.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0065.HTM#unit">unit</A>  &lt;<A HREF="RMRF0065.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#kilogram">Kilogram</A></I> is used to specify a user-defined unit in terms of the SI mass unit, kilogram. See <I><A HREF="RMRF0065.HTM#unit">unit</A></I> for examples of the definition of units.
+<P><HR>
+<H1><A NAME="leaf">leaf</A></H1>
+<PRE>
+<I>leaf ::= '(' 'leaf'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#leaf">Leaf</A></I> specifies that the cluster is to be treated as a leaf, i.e. the hierarchy expansion goes no further. This is an explicit decision to terminate the hierarchy at the cluster.
+<H3>Example:</H3>
+<PRE>
+<B>(cell A ...</B>
+<B>   (cluster B ...</B>
+<B>      (clusterConfiguration C (leaf))))</B>
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A></I> C specifies that the hierarchy expansion of cluster B goes no further.
+<P><HR>
+<H1><A NAME="leafOccurrenceAnnotate">leafOccurrenceAnnotate</A></H1>
+<PRE>
+<I>leafOccurrenceAnnotate ::= '(' 'leafOccurrenceAnnotate'</I>
+&#09;<I>( <A HREF="RMRF0007.HTM#extendInstanceDef">extendInstanceDef</A> | <A HREF="RMRF0007.HTM#extendInstanceMemberDef">extendInstanceMemberDef</A> )</I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A> | <A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0005.HTM#designator">designator</A>&gt; 
+&#09;| <A HREF="RMRF0011.HTM#instancePropertyOverride">instancePropertyOverride</A> | <A HREF="RMRF0055.HTM#portAnnotate">portAnnotate</A> | <A HREF="RMRF0056.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0009.HTM#forFrameAnnotate">forFrameAnnotate</A>  *<A HREF="RMRF0010.HTM#ifFrameAnnotate">ifFrameAnnotate</A>  *<A HREF="RMRF0017.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  *<A HREF="RMRF0017.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  *<A HREF="RMRF0018.HTM#otherwiseFrameAnnotate">otherwiseFrameAnnotate</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0000.HTM#annotate">annotate</A> <A HREF="RMRF0014.HTM#leaf">leaf</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A></I> associated in an <I><A HREF="RMRF0014.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A></I> should be a leaf configuration. 
+<BR>(See also similar constraint in: <I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A></I>)
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#leafOccurrenceAnnotate">LeafOccurrenceAnnotate</A></I> provides annotation data for a leaf item.
+<H3>Example:</H3>
+<PRE>
+<B>(occurrenceAnnotate I1</B>
+<B>   (leafOccurrenceAnnotate elem1</B>
+<B>      (designator "U1")</B>
+<B>      (portAnnotate &amp;3</B>
+<B>         (designator "13")))</B>
+<B>   (occurrenceAnnotate hier1</B>
+<B>      (leafOccurrenceAnnotate ...)</B>
+<B>      ...))</B>
+</PRE>
+<P>In this example, the view I1 has two <I><A HREF="RMRF0011.HTM#instance">instances</A></I>. The first, elem1, represents a gate in a PCB component and so has a <I><A HREF="RMRF0005.HTM#designator">designator</A></I> assigned, and has <I><A HREF="RMRF0005.HTM#designator">designators</A></I> (pin numbers) for its <I><A HREF="RMRF0055.HTM#port">ports</A></I>. The second instance, hier1, is a hierarchical <I><A HREF="RMRF0001.HTM#cell">cell</A></I> which will have further annotate forms within it.
+<P><HR>
+<H1><A NAME="leftJustify">leftJustify</A></H1>
+<PRE>
+<I>leftJustify ::= '(' 'leftJustify'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0010.HTM#horizontalJustification">horizontalJustification</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#leftJustify">LeftJustify</A></I> indicates that the X origin point of the text is at the left edge of the text bounding box. See <I><A HREF="RMRF0065.HTM#verticalJustification">verticalJustification</A></I> for more details.
+<P><HR>
+<H1><A NAME="length">length</A></H1>
+<PRE>
+<I>length ::= '(' 'length'</I>
+&#09;<I><A HREF="RMRF0014.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0029.HTM#pcbDimensionEndGeometryTriangular">pcbDimensionEndGeometryTriangular</A>  !<A HREF="RMRF0031.HTM#pcbDrawingBorderTrimmingMarkStroke">pcbDrawingBorderTrimmingMarkStroke</A>  !<A HREF="RMRF0031.HTM#pcbDrawingBorderTrimmingMarkTriangular">pcbDrawingBorderTrimmingMarkTriangular</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0008.HTM#extrusionLength">extrusionLength</A> <A HREF="RMRF0015.HTM#maximumLength">maximumLength</A> <A HREF="RMRF0015.HTM#minimumStringLength">minimumStringLength</A> <A HREF="RMRF0025.HTM#pcbDatumDimensionArcFullLength">pcbDatumDimensionArcFullLength</A> <A HREF="RMRF0025.HTM#pcbDatumDimensionArcLengthList">pcbDatumDimensionArcLengthList</A> <A HREF="RMRF0025.HTM#pcbDatumDimensionLineFullLength">pcbDatumDimensionLineFullLength</A> <A HREF="RMRF0025.HTM#pcbDatumDimensionLineLengthList">pcbDatumDimensionLineLengthList</A> <A HREF="RMRF0031.HTM#pcbDrawingDatumDimensionLineLength">pcbDrawingDatumDimensionLineLength</A> <A HREF="RMRF0032.HTM#pcbDrawingExternalDimensionLineLength">pcbDrawingExternalDimensionLineLength</A> <A HREF="RMRF0032.HTM#pcbDrawingLineStyleDashLength">pcbDrawingLineStyleDashLength</A> <A HREF="RMRF0032.HTM#pcbDrawingLineStyleGapLength">pcbDrawingLineStyleGapLength</A> <A HREF="RMRF0032.HTM#pcbDrawingLineStyleShortDashLength">pcbDrawingLineStyleShortDashLength</A> <A HREF="RMRF0040.HTM#pcbMinimumSpurLength">pcbMinimumSpurLength</A> <A HREF="RMRF0046.HTM#pcbPackagePinLength">pcbPackagePinLength</A> <A HREF="RMRF0049.HTM#pcbPinLength">pcbPinLength</A> <A HREF="RMRF0054.HTM#pcbWirebondLength">pcbWirebondLength</A> <A HREF="RMRF0063.HTM#stringLength">stringLength</A> <A HREF="RMRF0063.HTM#substringLength">substringLength</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a length value.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDimensionEndGeometryTriangular (width 10) (length 10))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="lengthValue">lengthValue</A></H1>
+<PRE>
+<I>lengthValue ::= <A HREF="RMRF0005.HTM#distanceValue">distanceValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#borderWidth">borderWidth</A>  <A HREF="RMRF0005.HTM#diameter">diameter</A>  !<A HREF="RMRF0008.HTM#extrusionLength">extrusionLength</A>  !<A HREF="RMRF0008.HTM#fontCapitalHeight">fontCapitalHeight</A>  !<A HREF="RMRF0008.HTM#fontDescent">fontDescent</A>  !<A HREF="RMRF0008.HTM#fontHeight">fontHeight</A>  !<A HREF="RMRF0008.HTM#fontWidth">fontWidth</A>  !<A HREF="RMRF0010.HTM#hotspotGrid">hotspotGrid</A>  !<A HREF="RMRF0014.HTM#length">length</A>  <A HREF="RMRF0015.HTM#maximumHeight">maximumHeight</A>  <A HREF="RMRF0015.HTM#maximumLength">maximumLength</A>  !<A HREF="RMRF0016.HTM#nominalHotspotGrid">nominalHotspotGrid</A>  !<A HREF="RMRF0019.HTM#pathWidth">pathWidth</A>  !<A HREF="RMRF0023.HTM#pcbBottomSideComponentHeight">pcbBottomSideComponentHeight</A>  !<A HREF="RMRF0023.HTM#pcbComponentMaximumHeight">pcbComponentMaximumHeight</A>  !<A HREF="RMRF0023.HTM#pcbComponentMinimumHeight">pcbComponentMinimumHeight</A>  *<A HREF="RMRF0025.HTM#pcbDatumDimensionArcLengthList">pcbDatumDimensionArcLengthList</A>  *<A HREF="RMRF0025.HTM#pcbDatumDimensionLineLengthList">pcbDatumDimensionLineLengthList</A>  !<A HREF="RMRF0026.HTM#pcbDieFlatness">pcbDieFlatness</A>  !<A HREF="RMRF0026.HTM#pcbDiePadPitch">pcbDiePadPitch</A>  !<A HREF="RMRF0027.HTM#pcbDieThicknessTolerance">pcbDieThicknessTolerance</A>  !<A HREF="RMRF0031.HTM#pcbDrawingDatumDimensionLineLength">pcbDrawingDatumDimensionLineLength</A>  !<A HREF="RMRF0032.HTM#pcbDrawingExternalDimensionLineLength">pcbDrawingExternalDimensionLineLength</A>  !<A HREF="RMRF0032.HTM#pcbDrawingLineStyleDashLength">pcbDrawingLineStyleDashLength</A>  !<A HREF="RMRF0032.HTM#pcbDrawingLineStyleGapLength">pcbDrawingLineStyleGapLength</A>  !<A HREF="RMRF0032.HTM#pcbDrawingLineStyleShortDashLength">pcbDrawingLineStyleShortDashLength</A>  !<A HREF="RMRF0036.HTM#pcbGapWidth">pcbGapWidth</A>  !<A HREF="RMRF0038.HTM#pcbLineSpacing">pcbLineSpacing</A>  !<A HREF="RMRF0039.HTM#pcbMaximumDrillingTolerance">pcbMaximumDrillingTolerance</A>  !<A HREF="RMRF0039.HTM#pcbMaximumPinPlaceHoleSize">pcbMaximumPinPlaceHoleSize</A>  !<A HREF="RMRF0039.HTM#pcbMaximumPlatedHoleSize">pcbMaximumPlatedHoleSize</A>  !<A HREF="RMRF0039.HTM#pcbMaximumUnplatedHoleSize">pcbMaximumUnplatedHoleSize</A>  !<A HREF="RMRF0039.HTM#pcbMaximumViaHoleSize">pcbMaximumViaHoleSize</A>  !<A HREF="RMRF0040.HTM#pcbMinimumHoleClearance">pcbMinimumHoleClearance</A>  !<A HREF="RMRF0040.HTM#pcbMinimumHoleToBoardEdge">pcbMinimumHoleToBoardEdge</A>  !<A HREF="RMRF0040.HTM#pcbMinimumLayoutShapeToBoardEdge">pcbMinimumLayoutShapeToBoardEdge</A>  !<A HREF="RMRF0040.HTM#pcbMinimumLayoutShapeToLayoutShape">pcbMinimumLayoutShapeToLayoutShape</A>  !<A HREF="RMRF0040.HTM#pcbMinimumPinPlaceHoleSize">pcbMinimumPinPlaceHoleSize</A>  !<A HREF="RMRF0040.HTM#pcbMinimumPlatedHoleSize">pcbMinimumPlatedHoleSize</A>  !<A HREF="RMRF0040.HTM#pcbMinimumSliverWidth">pcbMinimumSliverWidth</A>  !<A HREF="RMRF0040.HTM#pcbMinimumSpurLength">pcbMinimumSpurLength</A>  !<A HREF="RMRF0040.HTM#pcbMinimumSurfaceMountPadToBoardEdge">pcbMinimumSurfaceMountPadToBoardEdge</A>  !<A HREF="RMRF0040.HTM#pcbMinimumSurfaceMountPadToLayoutShape">pcbMinimumSurfaceMountPadToLayoutShape</A>  !<A HREF="RMRF0040.HTM#pcbMinimumSurfaceMountPadToSurfaceMountPad">pcbMinimumSurfaceMountPadToSurfaceMountPad</A>  !<A HREF="RMRF0040.HTM#pcbMinimumSurfaceMountPadToThroughHolePad">pcbMinimumSurfaceMountPadToThroughHolePad</A>  !<A HREF="RMRF0040.HTM#pcbMinimumSurfaceMountPadToViaPad">pcbMinimumSurfaceMountPadToViaPad</A>  !<A HREF="RMRF0040.HTM#pcbMinimumThroughHolePadToBoardEdge">pcbMinimumThroughHolePadToBoardEdge</A>  !<A HREF="RMRF0040.HTM#pcbMinimumThroughHolePadToLayoutShape">pcbMinimumThroughHolePadToLayoutShape</A>  !<A HREF="RMRF0040.HTM#pcbMinimumThroughHolePadToThroughHolePad">pcbMinimumThroughHolePadToThroughHolePad</A>  !<A HREF="RMRF0040.HTM#pcbMinimumThroughHolePadToViaPad">pcbMinimumThroughHolePadToViaPad</A>  !<A HREF="RMRF0040.HTM#pcbMinimumTraceToBoardEdge">pcbMinimumTr
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Numeric constraints: 
+<DD>Greater than: 0   
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#lengthValue">LengthValue</A></I> specifies a distance value; for example, for the length or width of an item.
+<P><HR>
+<H1><A NAME="lessThan">lessThan</A></H1>
+<PRE>
+<I>lessThan ::= '(' 'lessThan'</I>
+&#09;<I>{ <A HREF="RMRF0012.HTM#integerExpression">integerExpression</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#lessThanOrEqual">lessThanOrEqual</A> 
+</I>
+<H3>Description:</H3>
+<P>This <I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A></I> evaluates to <I><A HREF="RMRF0064.HTM#true">true</A></I> if each nested <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> evaluates to an integer which is less than the next <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I>. If no <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> is specified, the construct returns <I><A HREF="RMRF0064.HTM#true">true</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(lessThan 0 (integerParameterRef n) 8)</B>
+</PRE>
+<P>This returns <I><A HREF="RMRF0064.HTM#true">true</A></I> when 0 &lt; n &lt; 8. 
+<P><HR>
+<H1><A NAME="lessThanOrEqual">lessThanOrEqual</A></H1>
+<PRE>
+<I>lessThanOrEqual ::= '(' 'lessThanOrEqual'</I>
+&#09;<I>{ <A HREF="RMRF0012.HTM#integerExpression">integerExpression</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#lessThan">lessThan</A> <A HREF="RMRF0017.HTM#or">or</A> 
+</I>
+<H3>Description:</H3>
+<P>This <I><A HREF="RMRF0001.HTM#booleanExpression">booleanExpression</A></I> evaluates to <I><A HREF="RMRF0064.HTM#true">true</A></I> if each nested <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> evaluates to an integer which is less than or equal to the next <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I>. If no <I><A HREF="RMRF0012.HTM#integerExpression">integerExpression</A></I> is specified, the construct returns <I><A HREF="RMRF0064.HTM#true">true</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(lessThanOrEqual 0 (integerParameterRef n) 8)</B>
+</PRE>
+<P>This returns <I><A HREF="RMRF0064.HTM#true">true</A></I> when 0 &lt;= n &lt;= 8. 
+<P><HR>
+<H1><A NAME="library">library</A></H1>
+<PRE>
+<I>library ::= '(' 'library'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryNameDef">libraryNameDef</A></I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#cell">cell</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A> | <A HREF="RMRF0018.HTM#pageBorderTemplate">pageBorderTemplate</A> | 
+&#09;<A HREF="RMRF0019.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A> | <A HREF="RMRF0020.HTM#pcbBallPackage">pcbBallPackage</A> | <A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A> | 
+&#09;<A HREF="RMRF0021.HTM#pcbBareBoardTechnology">pcbBareBoardTechnology</A> | <A HREF="RMRF0022.HTM#pcbBondPadDrawingTemplate">pcbBondPadDrawingTemplate</A> | 
+&#09;<A HREF="RMRF0023.HTM#pcbBondPadTemplate">pcbBondPadTemplate</A> | <A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A> | <A HREF="RMRF0026.HTM#pcbDieFiducialTemplate">pcbDieFiducialTemplate</A> | 
+&#09;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A> | <A HREF="RMRF0031.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A> | 
+&#09;<A HREF="RMRF0032.HTM#pcbDrawingFigureMacro">pcbDrawingFigureMacro</A> | <A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A> | 
+&#09;<A HREF="RMRF0035.HTM#pcbFootprintDefinition">pcbFootprintDefinition</A> | <A HREF="RMRF0037.HTM#pcbJumperPart">pcbJumperPart</A> | <A HREF="RMRF0038.HTM#pcbMaterial">pcbMaterial</A> | 
+&#09;<A HREF="RMRF0039.HTM#pcbMechanicalPackage">pcbMechanicalPackage</A> | <A HREF="RMRF0039.HTM#pcbMechanicalPart">pcbMechanicalPart</A> | <A HREF="RMRF0041.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A> | 
+&#09;<A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplate">pcbMountableDiePhysicalTemplate</A> | <A HREF="RMRF0042.HTM#pcbMountableMechanicalPackage">pcbMountableMechanicalPackage</A> | 
+&#09;<A HREF="RMRF0042.HTM#pcbMountablePinPackage">pcbMountablePinPackage</A> | <A HREF="RMRF0043.HTM#pcbMountingMethod">pcbMountingMethod</A> | 
+&#09;<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A> | <A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A> | 
+&#09;<A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A> | <A HREF="RMRF0047.HTM#pcbPackageTerminalDrawingTemplate">pcbPackageTerminalDrawingTemplate</A> | 
+&#09;<A HREF="RMRF0047.HTM#pcbPadstackDefinition">pcbPadstackDefinition</A> | <A HREF="RMRF0049.HTM#pcbPhysicalFigureMacro">pcbPhysicalFigureMacro</A> | <A HREF="RMRF0050.HTM#pcbPinPackage">pcbPinPackage</A> | 
+&#09;<A HREF="RMRF0050.HTM#pcbPinTemplate">pcbPinTemplate</A> | <A HREF="RMRF0051.HTM#pcbPrintedConnectorPart">pcbPrintedConnectorPart</A> | <A HREF="RMRF0051.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A> | 
+&#09;<A HREF="RMRF0051.HTM#pcbPrintedPartTerminalDrawingTemplate">pcbPrintedPartTerminalDrawingTemplate</A> | <A HREF="RMRF0052.HTM#pcbSolderBumpTemplate">pcbSolderBumpTemplate</A> | 
+&#09;<A HREF="RMRF0052.HTM#pcbTabbedBondPadTemplate">pcbTabbedBondPadTemplate</A> | <A HREF="RMRF0053.HTM#pcbTestCouponDefinition">pcbTestCouponDefinition</A> | 
+&#09;<A HREF="RMRF0054.HTM#pcbToeprintDefinition">pcbToeprintDefinition</A> | <A HREF="RMRF0054.HTM#pcbWirebondTemplate">pcbWirebondTemplate</A> | <A HREF="RMRF0058.HTM#schematicFigureMacro">schematicFigureMacro</A> | 
+&#09;<A HREF="RMRF0058.HTM#schematicForFrameBorderTemplate">schematicForFrameBorderTemplate</A> | <A HREF="RMRF0058.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A> | 
+&#09;<A HREF="RMRF0058.HTM#schematicIfFrameBorderTemplate">schematicIfFrameBorderTemplate</A> | 
+&#09;<A HREF="RMRF0058.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A> | <A HREF="RMRF0059.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A> | 
+&#09;<A HREF="RMRF0059.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A> | <A HREF="RMRF0059.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A> | 
+&#09;<A HREF="RMRF0059.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A> | 
+&#09;<A HREF="RMRF0059.HTM#schematicOtherwiseFrameBorderTemplate">schematicOtherwiseFrameBorderTemplate</A> | <A HREF="RMRF0060.HTM#schematicRipperTemplate">schematicRipperTemplate</A> | 
+&#09;<A HREF="RMRF0060.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A> | <A HREF="RMRF0060.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A> | <A HREF="RMRF0065.HTM#userData">userData</A> 
+&#09;} </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#edif">edif</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#libraryNameCaseSensitive">libraryNameCaseSensitive</A> <A HREF="RMRF0014.HTM#libraryNameRef">libraryNameRef</A> <A HREF="RMRF0014.HTM#libraryObjectNameCaseSensitive">libraryObjectNameCaseSensitive</A> <A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A> <A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A> <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#library">Library</A></I> is a collection of EDIF design information, grouped according to some set of common characteristics. This grouping is arbitrary except for the <I><A HREF="RMRF0063.HTM#technology">technology</A></I> information within <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>, which is shared by all objects in the <I><A HREF="RMRF0014.HTM#library">library</A></I>. Libraries are often grouped by technology definition (such as CMOS), but the same technology could be defined in more than one library by repeating the information in <I><A HREF="RMRF0063.HTM#technology">technology</A></I>. 
+<P>A <I><A HREF="RMRF0014.HTM#library">library</A></I> that is external to the EDIF data is described using the <I><A HREF="RMRF0007.HTM#external">external</A></I> form in the <I><A HREF="RMRF0007.HTM#edif">edif</A></I> form.
+<H3>Example:</H3>
+<PRE>
+<B>(edif HYBRID_DESIGNS</B>
+<B>   (edifVersion 4 0 0)</B>
+<B>   (edifHeader ...)</B>
+<B>   (library CMOS2M</B>
+<B>      (libraryHeader (edifLevel 0)</B>
+<B>         (nameCaseSensitivity)</B>
+<B>         (technology ...))</B>
+<B>      (cell MUX ...)</B>
+<B>      (cell FFT ...)))</B>
+</PRE>
+<P>This example shows the definition of a <I><A HREF="RMRF0014.HTM#library">library</A></I> named CMOS2M which contains <I><A HREF="RMRF0063.HTM#technology">technology</A></I> and the definitions of cells MUX and FFT.
+<P><HR>
+<H1><A NAME="libraryHeader">libraryHeader</A></H1>
+<PRE>
+<I>libraryHeader ::= '(' 'libraryHeader'</I>
+&#09;<I><A HREF="RMRF0007.HTM#edifLevel">edifLevel</A></I>
+&#09;<I><A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A></I>
+&#09;<I><A HREF="RMRF0063.HTM#technology">technology</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#backgroundColor">backgroundColor</A>&gt; | <A HREF="RMRF0006.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> | 
+&#09;&lt;<A HREF="RMRF0062.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#external">external</A>  !<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#libraryHeader">LibraryHeader</A></I> contains data that relates to the whole library, including scale settings within <I><A HREF="RMRF0054.HTM#physicalScaling">physicalScaling</A></I> in <I><A HREF="RMRF0063.HTM#technology">technology</A></I> and definitions of case sensitivity for names. 
+<H3>Example:</H3>
+<PRE>
+<B>(library NMOS</B>
+<B>   (libraryHeader</B>
+<B>      (edifLevel 0)</B>
+<B>      (nameCaseSensitivity ...)</B>
+<B>      (technology</B>
+<B>         (physicalScaling</B>
+<B>            (documentationUnits</B>
+<B>               (setDistance (unitRef mm)))</B>
+<B>      ...) ...) ...) ...)      </B>
+</PRE>
+<P><HR>
+<H1><A NAME="libraryNameCaseSensitive">libraryNameCaseSensitive</A></H1>
+<PRE>
+<I>libraryNameCaseSensitive ::= '(' 'libraryNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A> <A HREF="RMRF0005.HTM#designNameCaseSensitive">designNameCaseSensitive</A> <A HREF="RMRF0006.HTM#documentationNameCaseSensitive">documentationNameCaseSensitive</A> <A HREF="RMRF0009.HTM#frameNameCaseSensitive">frameNameCaseSensitive</A> <A HREF="RMRF0010.HTM#hotspotNameCaseSensitive">hotspotNameCaseSensitive</A> <A HREF="RMRF0010.HTM#implementationNameCaseSensitive">implementationNameCaseSensitive</A> <A HREF="RMRF0011.HTM#instanceNameCaseSensitive">instanceNameCaseSensitive</A> <A HREF="RMRF0012.HTM#interconnectNameCaseSensitive">interconnectNameCaseSensitive</A> <A HREF="RMRF0014.HTM#library">library</A> <A HREF="RMRF0014.HTM#libraryObjectNameCaseSensitive">libraryObjectNameCaseSensitive</A> <A HREF="RMRF0018.HTM#pageNameCaseSensitive">pageNameCaseSensitive</A> <A HREF="RMRF0019.HTM#parameterNameCaseSensitive">parameterNameCaseSensitive</A> <A HREF="RMRF0055.HTM#portNameCaseSensitive">portNameCaseSensitive</A> <A HREF="RMRF0056.HTM#propertyNameCaseSensitive">propertyNameCaseSensitive</A> <A HREF="RMRF0062.HTM#signalNameCaseSensitive">signalNameCaseSensitive</A> <A HREF="RMRF0066.HTM#viewNameCaseSensitive">viewNameCaseSensitive</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#libraryNameCaseSensitive">LibraryNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for libraries are to be considered as case sensitive. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<P><HR>
+<H1><A NAME="libraryNameDef">libraryNameDef</A></H1>
+<PRE>
+<I>libraryNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0007.HTM#external">external</A>  !<A HREF="RMRF0014.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#libraryNameDef">LibraryNameDef</A></I> is used to name internal or external libraries. 
+<P><HR>
+<H1><A NAME="libraryNameRef">libraryNameRef</A></H1>
+<PRE>
+<I>libraryNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#libraryRef">libraryRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#library">library</A> <A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0014.HTM#libraryNameRef">libraryNameRef</A></I> is used to reference a previously-defined <I><A HREF="RMRF0014.HTM#library">library</A></I> or <I><A HREF="RMRF0007.HTM#external">external</A></I> library.
+<H3>Example:</H3>
+<PRE>
+<B>(cellRef nand3 (libraryRef lib2))</B>
+</PRE>
+<P>Here, the library named lib2 is referenced to provide the context for the cell name nand3. 
+<P><HR>
+<H1><A NAME="libraryObjectNameCaseSensitive">libraryObjectNameCaseSensitive</A></H1>
+<PRE>
+<I>libraryObjectNameCaseSensitive ::= '(' 'libraryObjectNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#library">library</A> <A HREF="RMRF0014.HTM#libraryNameCaseSensitive">libraryNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#libraryObjectNameCaseSensitive">LibraryObjectNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for library objects are to be considered as case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. The default is that names are case sensitive. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<P><HR>
+<H1><A NAME="libraryObjectNameDef">libraryObjectNameDef</A></H1>
+<PRE>
+<I>libraryObjectNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#cell">cell</A>  !<A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A>  !<A HREF="RMRF0018.HTM#pageBorderTemplate">pageBorderTemplate</A>  !<A HREF="RMRF0019.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>  !<A HREF="RMRF0020.HTM#pcbBallPackage">pcbBallPackage</A>  !<A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A>  !<A HREF="RMRF0021.HTM#pcbBareBoardTechnology">pcbBareBoardTechnology</A>  !<A HREF="RMRF0022.HTM#pcbBondPadDrawingTemplate">pcbBondPadDrawingTemplate</A>  !<A HREF="RMRF0023.HTM#pcbBondPadTemplate">pcbBondPadTemplate</A>  !<A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A>  !<A HREF="RMRF0026.HTM#pcbDieFiducialTemplate">pcbDieFiducialTemplate</A>  !<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>  !<A HREF="RMRF0031.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>  !<A HREF="RMRF0032.HTM#pcbDrawingFigureMacro">pcbDrawingFigureMacro</A>  !<A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A>  !<A HREF="RMRF0035.HTM#pcbFootprintDefinition">pcbFootprintDefinition</A>  !<A HREF="RMRF0037.HTM#pcbJumperPart">pcbJumperPart</A>  !<A HREF="RMRF0038.HTM#pcbMaterial">pcbMaterial</A>  !<A HREF="RMRF0039.HTM#pcbMechanicalPackage">pcbMechanicalPackage</A>  !<A HREF="RMRF0039.HTM#pcbMechanicalPart">pcbMechanicalPart</A>  !<A HREF="RMRF0041.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A>  !<A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplate">pcbMountableDiePhysicalTemplate</A>  !<A HREF="RMRF0042.HTM#pcbMountableMechanicalPackage">pcbMountableMechanicalPackage</A>  !<A HREF="RMRF0042.HTM#pcbMountablePinPackage">pcbMountablePinPackage</A>  !<A HREF="RMRF0043.HTM#pcbMountingMethod">pcbMountingMethod</A>  !<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A>  !<A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A>  !<A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A>  !<A HREF="RMRF0047.HTM#pcbPackageTerminalDrawingTemplate">pcbPackageTerminalDrawingTemplate</A>  !<A HREF="RMRF0047.HTM#pcbPadstackDefinition">pcbPadstackDefinition</A>  !<A HREF="RMRF0049.HTM#pcbPhysicalFigureMacro">pcbPhysicalFigureMacro</A>  !<A HREF="RMRF0050.HTM#pcbPinPackage">pcbPinPackage</A>  !<A HREF="RMRF0050.HTM#pcbPinTemplate">pcbPinTemplate</A>  !<A HREF="RMRF0051.HTM#pcbPrintedConnectorPart">pcbPrintedConnectorPart</A>  !<A HREF="RMRF0051.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A>  !<A HREF="RMRF0051.HTM#pcbPrintedPartTerminalDrawingTemplate">pcbPrintedPartTerminalDrawingTemplate</A>  !<A HREF="RMRF0052.HTM#pcbSolderBumpTemplate">pcbSolderBumpTemplate</A>  !<A HREF="RMRF0052.HTM#pcbTabbedBondPadTemplate">pcbTabbedBondPadTemplate</A>  !<A HREF="RMRF0053.HTM#pcbTestCouponDefinition">pcbTestCouponDefinition</A>  !<A HREF="RMRF0054.HTM#pcbToeprintDefinition">pcbToeprintDefinition</A>  !<A HREF="RMRF0054.HTM#pcbWirebondTemplate">pcbWirebondTemplate</A>  !<A HREF="RMRF0058.HTM#schematicFigureMacro">schematicFigureMacro</A>  !<A HREF="RMRF0058.HTM#schematicForFrameBorderTemplate">schematicForFrameBorderTemplate</A>  !<A HREF="RMRF0058.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A>  !<A HREF="RMRF0058.HTM#schematicIfFrameBorderTemplate">schematicIfFrameBorderTemplate</A>  !<A HREF="RMRF0058.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A>  !<A HREF="RMRF0059.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A>  !<A HREF="RMRF0059.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>  !<A HREF="RMRF0059.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A>  !<A HREF="RMRF0059.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A>  !<A HREF="RMRF0059.HTM#schematicOtherwiseFrameBorderTemplate">schematicOtherwiseFrameBorderTemplate</A>  !<A HREF="RMRF0060.HTM#schematicRipperTemplate">schematic
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#library">library</A> <A HREF="RMRF0014.HTM#libraryNameDef">libraryNameDef</A> <A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#libraryObjectNameDef">LibraryObjectNameDef</A></I> is the name definition of a library object.
+<P><HR>
+<H1><A NAME="libraryObjectNameRef">libraryObjectNameRef</A></H1>
+<PRE>
+<I>libraryObjectNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#cellRef">cellRef</A>  !<A HREF="RMRF0009.HTM#geometryMacroRef">geometryMacroRef</A>  !<A HREF="RMRF0018.HTM#pageBorderTemplateRef">pageBorderTemplateRef</A>  !<A HREF="RMRF0019.HTM#pageTitleBlockTemplateRef">pageTitleBlockTemplateRef</A>  !<A HREF="RMRF0020.HTM#pcbBallPackageRef">pcbBallPackageRef</A>  !<A HREF="RMRF0021.HTM#pcbBareBoardDefinitionRef">pcbBareBoardDefinitionRef</A>  !<A HREF="RMRF0021.HTM#pcbBareBoardTechnologyRef">pcbBareBoardTechnologyRef</A>  !<A HREF="RMRF0022.HTM#pcbBondPadDrawingTemplateRef">pcbBondPadDrawingTemplateRef</A>  !<A HREF="RMRF0023.HTM#pcbBondPadTemplateRef">pcbBondPadTemplateRef</A>  !<A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A>  !<A HREF="RMRF0026.HTM#pcbDieFiducialTemplateRef">pcbDieFiducialTemplateRef</A>  !<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateRef">pcbDiePhysicalTemplateRef</A>  !<A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateRef">pcbDrawingBorderTemplateRef</A>  !<A HREF="RMRF0032.HTM#pcbDrawingFigureMacroRef">pcbDrawingFigureMacroRef</A>  !<A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplateRef">pcbDrawingTitleBlockTemplateRef</A>  !<A HREF="RMRF0035.HTM#pcbFootprintDefinitionRef">pcbFootprintDefinitionRef</A>  !<A HREF="RMRF0037.HTM#pcbJumperPartRef">pcbJumperPartRef</A>  !<A HREF="RMRF0038.HTM#pcbMaterialRef">pcbMaterialRef</A>  !<A HREF="RMRF0039.HTM#pcbMechanicalPackageRef">pcbMechanicalPackageRef</A>  !<A HREF="RMRF0039.HTM#pcbMechanicalPartRef">pcbMechanicalPartRef</A>  !<A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateRef">pcbMountableDiePhysicalTemplateRef</A>  !<A HREF="RMRF0042.HTM#pcbMountablePackageRef">pcbMountablePackageRef</A>  !<A HREF="RMRF0043.HTM#pcbMountingMethodRef">pcbMountingMethodRef</A>  !<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinitionRef">pcbNonSpecificSubLayoutDefinitionRef</A>  !<A HREF="RMRF0044.HTM#pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A>  !<A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A>  !<A HREF="RMRF0047.HTM#pcbPackageTerminalDrawingTemplateRef">pcbPackageTerminalDrawingTemplateRef</A>  !<A HREF="RMRF0047.HTM#pcbPadstackDefinitionRef">pcbPadstackDefinitionRef</A>  !<A HREF="RMRF0048.HTM#pcbPartRef">pcbPartRef</A>  !<A HREF="RMRF0049.HTM#pcbPhysicalFigureMacroRef">pcbPhysicalFigureMacroRef</A>  !<A HREF="RMRF0050.HTM#pcbPinPackageRef">pcbPinPackageRef</A>  !<A HREF="RMRF0050.HTM#pcbPinTemplateRef">pcbPinTemplateRef</A>  !<A HREF="RMRF0051.HTM#pcbPrintedConnectorPartRef">pcbPrintedConnectorPartRef</A>  !<A HREF="RMRF0051.HTM#pcbPrintedElectricalPartRef">pcbPrintedElectricalPartRef</A>  !<A HREF="RMRF0051.HTM#pcbPrintedPartTerminalDrawingTemplateRef">pcbPrintedPartTerminalDrawingTemplateRef</A>  !<A HREF="RMRF0052.HTM#pcbSolderBumpTemplateRef">pcbSolderBumpTemplateRef</A>  !<A HREF="RMRF0053.HTM#pcbTabbedBondPadTemplateRef">pcbTabbedBondPadTemplateRef</A>  !<A HREF="RMRF0053.HTM#pcbTestCouponDefinitionRef">pcbTestCouponDefinitionRef</A>  !<A HREF="RMRF0054.HTM#pcbToeprintDefinitionRef">pcbToeprintDefinitionRef</A>  !<A HREF="RMRF0054.HTM#pcbWirebondTemplateRef">pcbWirebondTemplateRef</A>  !<A HREF="RMRF0058.HTM#schematicFigureMacroRef">schematicFigureMacroRef</A>  !<A HREF="RMRF0058.HTM#schematicForFrameBorderTemplateRef">schematicForFrameBorderTemplateRef</A>  !<A HREF="RMRF0058.HTM#schematicGlobalPortTemplateRef">schematicGlobalPortTemplateRef</A>  !<A HREF="RMRF0058.HTM#schematicIfFrameBorderTemplateRef">schematicIfFrameBorderTemplateRef</A>  !<A HREF="RMRF0058.HTM#schematicInterconnectTerminatorTemplateRef">schematicInterconnectTerminatorTemplateRef</A>  !<A HREF="RMRF0059.HTM#schematicJunctionTemplateRef">schematicJunctionTemplateRef</A>  !<A HREF="RMRF0059.HTM#schematicMasterPortTemplateRef">schematicMasterPortTemplateRef</A>  !<A HREF="RMRF0059.HTM#schematicOffPageConnectorTemplateRef">schematicOffPageConnectorTemplateRef</A>  !<A HREF="RMRF0059.HTM#schematicOnPageConnectorTemplateRef">schematicOnPageConnectorTemplateRef<
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#library">library</A> <A HREF="RMRF0014.HTM#libraryNameRef">libraryNameRef</A> <A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A> <A HREF="RMRF0014.HTM#libraryRef">libraryRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0060.HTM#schematicSymbolPortTemplateRef">schematicSymbolPortTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0060.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>
+<BR><BR></I>
+<DT>2. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0060.HTM#schematicSymbolBorderTemplateRef">schematicSymbolBorderTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0060.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A>
+<BR><BR></I>
+<DT>3. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0060.HTM#schematicRipperTemplateRef">schematicRipperTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0060.HTM#schematicRipperTemplate">schematicRipperTemplate</A>
+<BR><BR></I>
+<DT>4. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0059.HTM#schematicOnPageConnectorTemplateRef">schematicOnPageConnectorTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0059.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A>
+<BR><BR></I>
+<DT>5. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0059.HTM#schematicOffPageConnectorTemplateRef">schematicOffPageConnectorTemplateRef</A>
+
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0059.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A>
+<BR><BR></I>
+<DT>6. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0059.HTM#schematicMasterPortTemplateRef">schematicMasterPortTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0059.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>
+<BR><BR></I>
+<DT>7. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0059.HTM#schematicJunctionTemplateRef">schematicJunctionTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0059.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A>
+<BR><BR></I>
+<DT>8. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0058.HTM#schematicInterconnectTerminatorTemplateRef">schematicInterconnectTerminatorTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0058.HTM#schematicInterconnectTerminatorTemplate">schematicInterconnectTerminatorTemplate</A>
+<BR><BR></I>
+<DT>9. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0058.HTM#schematicGlobalPortTemplateRef">schematicGlobalPortTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0058.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A>
+<BR><BR></I>
+<DT>10. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0058.HTM#schematicFigureMacroRef">schematicFigureMacroRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0058.HTM#schematicFigureMacro">schematicFigureMacro</A>
+<BR><BR></I>
+<DT>11. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0054.HTM#pcbWirebondTemplateRef">pcbWirebondTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0054.HTM#pcbWirebondTemplate">pcbWirebondTemplate</A>
+<BR><BR></I>
+<DT>12. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0054.HTM#pcbToeprintDefinitionRef">pcbToeprintDefinitionRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0054.HTM#pcbToeprintDefinition">pcbToeprintDefinition</A>
+<BR><BR></I>
+<DT>13. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0053.HTM#pcbTestCouponDefinitionRef">pcbTestCouponDefinitionRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0053.HTM#pcbTestCouponDefinition">pcbTestCouponDefinition</A>
+<BR><BR></I>
+<DT>14. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0053.HTM#pcbTabbedBondPadTemplateRef">pcbTabbedBondPadTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0052.HTM#pcbTabbedBondPadTemplate">pcbTabbedBondPadTemplate</A>
+<BR><BR></I>
+<DT>15. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0052.HTM#pcbSolderBumpTemplateRef">pcbSolderBumpTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0052.HTM#pcbSolderBumpTemplate">pcbSolderBumpTemplate</A>
+<BR><BR></I>
+<DT>16. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0051.HTM#pcbPrintedPartTerminalDrawingTemplateRef">pcbPrintedPartTerminalDrawingTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0051.HTM#pcbPrintedPartTerminalDrawingTemplate">pcbPrintedPartTerminalDrawingTemplate</A>
+<BR><BR></I>
+<DT>17. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalPartRef">pcbPrintedElectricalPartRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0051.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A>
+<BR><BR></I>
+<DT>18. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0051.HTM#pcbPrintedConnectorPartRef">pcbPrintedConnectorPartRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0051.HTM#pcbPrintedConnectorPart">pcbPrintedConnectorPart</A>
+<BR><BR></I>
+<DT>19. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0050.HTM#pcbPinTemplateRef">pcbPinTemplateRef</A>
+
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0050.HTM#pcbPinTemplate">pcbPinTemplate</A>
+<BR><BR></I>
+<DT>20. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0050.HTM#pcbPinPackageRef">pcbPinPackageRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0050.HTM#pcbPinPackage">pcbPinPackage</A>
+<BR><BR></I>
+<DT>21. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0049.HTM#pcbPhysicalFigureMacroRef">pcbPhysicalFigureMacroRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0049.HTM#pcbPhysicalFigureMacro">pcbPhysicalFigureMacro</A>
+<BR><BR></I>
+<DT>22. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0047.HTM#pcbPadstackDefinitionRef">pcbPadstackDefinitionRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0047.HTM#pcbPadstackDefinition">pcbPadstackDefinition</A>
+<BR><BR></I>
+<DT>23. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0047.HTM#pcbPackageTerminalDrawingTemplateRef">pcbPackageTerminalDrawingTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0047.HTM#pcbPackageTerminalDrawingTemplate">pcbPackageTerminalDrawingTemplate</A>
+<BR><BR></I>
+<DT>24. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0044.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A>
+<BR><BR></I>
+<DT>25. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0044.HTM#pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0044.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A>
+<BR><BR></I>
+<DT>26. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinitionRef">pcbNonSpecificSubLayoutDefinitionRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinition">pcbNonSpecificSubLayoutDefinition</A>
+<BR><BR></I>
+<DT>27. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0043.HTM#pcbMountingMethodRef">pcbMountingMethodRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0043.HTM#pcbMountingMethod">pcbMountingMethod</A>
+<BR><BR></I>
+<DT>28. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateRef">pcbMountableDiePhysicalTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplate">pcbMountableDiePhysicalTemplate</A>
+<BR><BR></I>
+<DT>29. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0039.HTM#pcbMechanicalPartRef">pcbMechanicalPartRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0039.HTM#pcbMechanicalPart">pcbMechanicalPart</A>
+<BR><BR></I>
+<DT>30. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0038.HTM#pcbMaterialRef">pcbMaterialRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0038.HTM#pcbMaterial">pcbMaterial</A>
+<BR><BR></I>
+<DT>31. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0037.HTM#pcbJumperPartRef">pcbJumperPartRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0037.HTM#pcbJumperPart">pcbJumperPart</A>
+<BR><BR></I>
+<DT>32. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0035.HTM#pcbFootprintDefinitionRef">pcbFootprintDefinitionRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0035.HTM#pcbFootprintDefinition">pcbFootprintDefinition</A>
+<BR><BR></I>
+<DT>33. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplateRef">pcbDrawingTitleBlockTemplateRef</A>
+
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplate">pcbDrawingTitleBlockTemplate</A>
+<BR><BR></I>
+<DT>34. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0032.HTM#pcbDrawingFigureMacroRef">pcbDrawingFigureMacroRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0032.HTM#pcbDrawingFigureMacro">pcbDrawingFigureMacro</A>
+<BR><BR></I>
+<DT>35. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateRef">pcbDrawingBorderTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0031.HTM#pcbDrawingBorderTemplate">pcbDrawingBorderTemplate</A>
+<BR><BR></I>
+<DT>36. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateRef">pcbDiePhysicalTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0026.HTM#pcbDiePhysicalTemplate">pcbDiePhysicalTemplate</A>
+<BR><BR></I>
+<DT>37. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0026.HTM#pcbDieFiducialTemplateRef">pcbDieFiducialTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0026.HTM#pcbDieFiducialTemplate">pcbDieFiducialTemplate</A>
+<BR><BR></I>
+<DT>38. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0026.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A>
+<BR><BR></I>
+<DT>39. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0023.HTM#pcbBondPadTemplateRef">pcbBondPadTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0023.HTM#pcbBondPadTemplate">pcbBondPadTemplate</A>
+<BR><BR></I>
+<DT>40. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0022.HTM#pcbBondPadDrawingTemplateRef">pcbBondPadDrawingTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0022.HTM#pcbBondPadDrawingTemplate">pcbBondPadDrawingTemplate</A>
+<BR><BR></I>
+<DT>41. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0021.HTM#pcbBareBoardTechnologyRef">pcbBareBoardTechnologyRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0021.HTM#pcbBareBoardTechnology">pcbBareBoardTechnology</A>
+<BR><BR></I>
+<DT>42. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0021.HTM#pcbBareBoardDefinitionRef">pcbBareBoardDefinitionRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0020.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A>
+<BR><BR></I>
+<DT>43. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0020.HTM#pcbBallPackageRef">pcbBallPackageRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0020.HTM#pcbBallPackage">pcbBallPackage</A>
+<BR><BR></I>
+<DT>44. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0019.HTM#pageTitleBlockTemplateRef">pageTitleBlockTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0019.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>
+<BR><BR></I>
+<DT>45. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0018.HTM#pageBorderTemplateRef">pageBorderTemplateRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0018.HTM#pageBorderTemplate">pageBorderTemplate</A>
+<BR><BR></I>
+<DT>46. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0009.HTM#geometryMacroRef">geometryMacroRef</A>
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0009.HTM#geometryMacro">geometryMacro</A>
+<BR><BR></I>
+<DT>47. Referencing Constraint:
+<DD>When reference is within <I><A HREF="RMRF0001.HTM#cellRef">cellRef</A>
+
+</I>
+<DD> the definition must be within <I><A HREF="RMRF0001.HTM#cell">cell</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#libraryObjectNameRef">LibraryObjectNameRef</A></I> is a reference to a previously-defined <I><A HREF="RMRF0014.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>. Note that references to library objects are always specific to the type of object, so there is no general keyword for referencing a library object.
+<P><HR>
+<H1><A NAME="libraryRef">libraryRef</A></H1>
+<PRE>
+<I>libraryRef ::= '(' 'libraryRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#libraryNameRef">libraryNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0001.HTM#cellRef">cellRef</A>  &lt;<A HREF="RMRF0009.HTM#geometryMacroRef">geometryMacroRef</A>  &lt;<A HREF="RMRF0015.HTM#logicRef">logicRef</A>  &lt;<A HREF="RMRF0018.HTM#pageBorderTemplateRef">pageBorderTemplateRef</A>  &lt;<A HREF="RMRF0019.HTM#pageTitleBlockTemplateRef">pageTitleBlockTemplateRef</A>  &lt;<A HREF="RMRF0020.HTM#pcbBallPackageRef">pcbBallPackageRef</A>  &lt;<A HREF="RMRF0021.HTM#pcbBareBoardDefinitionRef">pcbBareBoardDefinitionRef</A>  &lt;<A HREF="RMRF0021.HTM#pcbBareBoardTechnologyRef">pcbBareBoardTechnologyRef</A>  &lt;<A HREF="RMRF0022.HTM#pcbBondPadDrawingTemplateRef">pcbBondPadDrawingTemplateRef</A>  &lt;<A HREF="RMRF0023.HTM#pcbBondPadTemplateRef">pcbBondPadTemplateRef</A>  &lt;<A HREF="RMRF0026.HTM#pcbDieElectricalPartRef">pcbDieElectricalPartRef</A>  &lt;<A HREF="RMRF0026.HTM#pcbDieFiducialTemplateRef">pcbDieFiducialTemplateRef</A>  &lt;<A HREF="RMRF0026.HTM#pcbDiePhysicalTemplateRef">pcbDiePhysicalTemplateRef</A>  &lt;<A HREF="RMRF0031.HTM#pcbDrawingBorderTemplateRef">pcbDrawingBorderTemplateRef</A>  &lt;<A HREF="RMRF0032.HTM#pcbDrawingFigureMacroRef">pcbDrawingFigureMacroRef</A>  &lt;<A HREF="RMRF0033.HTM#pcbDrawingTitleBlockTemplateRef">pcbDrawingTitleBlockTemplateRef</A>  &lt;<A HREF="RMRF0035.HTM#pcbFootprintDefinitionRef">pcbFootprintDefinitionRef</A>  &lt;<A HREF="RMRF0037.HTM#pcbJumperPartRef">pcbJumperPartRef</A>  &lt;<A HREF="RMRF0038.HTM#pcbMaterialRef">pcbMaterialRef</A>  &lt;<A HREF="RMRF0039.HTM#pcbMechanicalPackageRef">pcbMechanicalPackageRef</A>  &lt;<A HREF="RMRF0039.HTM#pcbMechanicalPartRef">pcbMechanicalPartRef</A>  &lt;<A HREF="RMRF0041.HTM#pcbMountableDiePhysicalTemplateRef">pcbMountableDiePhysicalTemplateRef</A>  &lt;<A HREF="RMRF0042.HTM#pcbMountablePackageOrientationRuleRef">pcbMountablePackageOrientationRuleRef</A>  &lt;<A HREF="RMRF0042.HTM#pcbMountablePackageRef">pcbMountablePackageRef</A>  &lt;<A HREF="RMRF0043.HTM#pcbMountingMethodRef">pcbMountingMethodRef</A>  &lt;<A HREF="RMRF0044.HTM#pcbNonSpecificSubLayoutDefinitionRef">pcbNonSpecificSubLayoutDefinitionRef</A>  &lt;<A HREF="RMRF0044.HTM#pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A>  &lt;<A HREF="RMRF0045.HTM#pcbPackagedElectricalPartRef">pcbPackagedElectricalPartRef</A>  &lt;<A HREF="RMRF0047.HTM#pcbPackageTerminalDrawingTemplateRef">pcbPackageTerminalDrawingTemplateRef</A>  &lt;<A HREF="RMRF0047.HTM#pcbPadstackDefinitionRef">pcbPadstackDefinitionRef</A>  &lt;<A HREF="RMRF0048.HTM#pcbPartRef">pcbPartRef</A>  &lt;<A HREF="RMRF0049.HTM#pcbPhysicalFigureMacroRef">pcbPhysicalFigureMacroRef</A>  &lt;<A HREF="RMRF0050.HTM#pcbPinPackageRef">pcbPinPackageRef</A>  &lt;<A HREF="RMRF0050.HTM#pcbPinTemplateRef">pcbPinTemplateRef</A>  &lt;<A HREF="RMRF0051.HTM#pcbPrintedConnectorPartRef">pcbPrintedConnectorPartRef</A>  &lt;<A HREF="RMRF0051.HTM#pcbPrintedElectricalPartRef">pcbPrintedElectricalPartRef</A>  &lt;<A HREF="RMRF0051.HTM#pcbPrintedPartTerminalDrawingTemplateRef">pcbPrintedPartTerminalDrawingTemplateRef</A>  &lt;<A HREF="RMRF0052.HTM#pcbSolderBumpTemplateRef">pcbSolderBumpTemplateRef</A>  &lt;<A HREF="RMRF0053.HTM#pcbTabbedBondPadTemplateRef">pcbTabbedBondPadTemplateRef</A>  &lt;<A HREF="RMRF0053.HTM#pcbTestCouponDefinitionRef">pcbTestCouponDefinitionRef</A>  &lt;<A HREF="RMRF0054.HTM#pcbToeprintDefinitionRef">pcbToeprintDefinitionRef</A>  &lt;<A HREF="RMRF0054.HTM#pcbWirebondTemplateRef">pcbWirebondTemplateRef</A>  &lt;<A HREF="RMRF0058.HTM#schematicFigureMacroRef">schematicFigureMacroRef</A>  &lt;<A HREF="RMRF0058.HTM#schematicForFrameBorderTemplateRef">schematicForFrameBorderTemplateRef</A>  &lt;<A HREF="RMRF0058.HTM#schematicGlobalPortTemplateRef">schematicGlobalPortTemplateRef</A>  &lt;<A HREF="RMRF0058.HTM#schematicIfFrameBorderTemplateRef">schematicIfFrameBorderTemplateRef</A>  &lt;<A HREF="RMRF0058.HTM#schematicInterconnectTerminatorTemplateRef">schematicInterconnectTerminatorTemplateRef</A>  &lt;<A HREF="RMRF0059.HTM#schematicJunctionTemplateRef">schematicJunctionTemplateRef
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#library">library</A> <A HREF="RMRF0014.HTM#libraryObjectNameRef">libraryObjectNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#libraryRef">LibraryRef</A></I> contains a reference to the name of a library that is defined in the EDIF data using either <I><A HREF="RMRF0007.HTM#external">external</A></I> or <I><A HREF="RMRF0014.HTM#library">library</A></I>. This is used, for example, in <I><A HREF="RMRF0001.HTM#cellRef">cellRef</A></I> to qualify a cell as belonging to a particular library. It is also used in <I><A HREF="RMRF0015.HTM#logicRef">logicRef</A></I> to reference defined logic values. 
+<H3>Example:</H3>
+<PRE>
+<B>(design ALU_32</B>
+<B>   (cellRef ALU_CMOS_32</B>
+<B>      (libraryRef CMOS2M)) ...)</B>
+</PRE>
+<P>This example refers to a cell named ALU_CMOS_32 in the library named CMOS2M. This library should have been defined earlier in the EDIF file using either the <I><A HREF="RMRF0014.HTM#library">library</A></I> or <I><A HREF="RMRF0007.HTM#external">external</A></I> constructs. The <I><A HREF="RMRF0014.HTM#libraryRef">libraryRef</A></I> is required in this context since the <I><A HREF="RMRF0005.HTM#design">design</A></I> form is not in the context of a <I><A HREF="RMRF0014.HTM#library">library</A></I>. 
+<P><HR>
+<H1><A NAME="lineSegment">lineSegment</A></H1>
+<PRE>
+<I>lineSegment ::= '(' 'lineSegment'</I>
+&#09;<I><A HREF="RMRF0062.HTM#startPoint">startPoint</A></I>
+&#09;<I><A HREF="RMRF0007.HTM#endPoint">endPoint</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0028.HTM#pcbDimensionedLine">pcbDimensionedLine</A>  
+</I>
+<H3>Description:</H3>
+<P>Defines a straight line. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDimensionedLine DimLine1</B>
+<B>   (lineSegment (pt 5 15) (pt 10 15))</B>
+<B>   (pcbDimensionedObjectSet</B>
+<B>      (pcbLayoutFeatureOccurrenceRef PowerTap</B>
+<B>         (pcbSublayoutOccurrenceRef SLI1))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="loadDelay">loadDelay</A></H1>
+<PRE>
+<I>loadDelay ::= '(' 'loadDelay'</I>
+&#09;<I><A HREF="RMRF0000.HTM#acLoadFactorTime">acLoadFactorTime</A></I>
+&#09;<I><A HREF="RMRF0000.HTM#acLoadFactorCapacitance">acLoadFactorCapacitance</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0055.HTM#portLoadDelay">portLoadDelay</A>  !<A HREF="RMRF0055.HTM#portLoadDelayOverride">portLoadDelayOverride</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0004.HTM#delay">delay</A> <A HREF="RMRF0055.HTM#portLoadDelayDisplay">portLoadDelayDisplay</A> <A HREF="RMRF0055.HTM#portLoadDelayNameDef">portLoadDelayNameDef</A> <A HREF="RMRF0055.HTM#portLoadDelayNameRef">portLoadDelayNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#loadDelay">LoadDelay</A></I> is used to specify a delay in propagating a signal. <I><A HREF="RMRF0000.HTM#acLoadFactorTime">AcLoadFactorTime</A></I> and <I><A HREF="RMRF0000.HTM#acLoadFactorCapacitance">acLoadFactorCapacitance</A></I> specify the amount of delay per load capacitance as specified by the <I><A HREF="RMRF0000.HTM#acLoad">acLoad</A></I> on each of the ports connected to the driving port. None of these values may be negative. <I><A HREF="RMRF0000.HTM#acLoadFactorCapacitance">AcLoadFactorCapacitance</A></I> will typically be 1.
+<H3>Example:</H3>
+<PRE>
+<B>(loadDelay (e 2 -1) 1)</B>
+</PRE>
+<P>The first example describes a load-dependent delay of 0.2 time units per unit load capacitance.
+<PRE>
+<B>(port P1 (bidirectionalPort)</B>
+<B>   (portDelay PD1 (measured) (delay 25))</B>
+<B>   (portLoadDelay PLD1 (measured)</B>
+<B>      (loadDelay 2 1)</B>
+<B>      (transition D U)))</B>
+</PRE>
+<P>The second example specifies a measured delay of 25 time units plus 2 time units per unit <I><A HREF="RMRF0000.HTM#acLoad">acLoad</A></I> of load-dependent delay. This occurs on a transition from D to U of the port named P1. 
+<P><HR>
+<H1><A NAME="localPortGroup">localPortGroup</A></H1>
+<PRE>
+<I>localPortGroup ::= '(' 'localPortGroup'</I>
+&#09;<I><A HREF="RMRF0014.HTM#localPortGroupNameDef">localPortGroupNameDef</A></I>
+&#09;<I><A HREF="RMRF0055.HTM#portList">portList</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0016.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0056.HTM#property">property</A> | <A HREF="RMRF0065.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0003.HTM#connectivityStructure">connectivityStructure</A>  *<A HREF="RMRF0018.HTM#page">page</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#localPortGroupNameCaseSensitive">localPortGroupNameCaseSensitive</A> <A HREF="RMRF0014.HTM#localPortGroupNameRef">localPortGroupNameRef</A> <A HREF="RMRF0014.HTM#localPortGroupRef">localPortGroupRef</A> <A HREF="RMRF0055.HTM#port">port</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A></I> must reference at least two ports or port bundles.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0055.HTM#portList">portList</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The <I><A HREF="RMRF0055.HTM#portList">portList</A></I> of a <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A></I> cannot be the same as the <I><A HREF="RMRF0055.HTM#portList">portList</A></I> of a <I><A HREF="RMRF0055.HTM#portBundle">portBundle</A></I>, of the same <I><A HREF="RMRF0002.HTM#cluster">cluster</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0055.HTM#portList">portList</A></I>)
+<BR><BR><DT>3. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A></I> may not reference a <I><A HREF="RMRF0055.HTM#port">port</A></I> or a <I><A HREF="RMRF0055.HTM#portBundle">portBundle</A></I> more than once either directly or indirectly.
+<BR><BR><DT>4. This construct is illegal in this context:  <I><A HREF="RMRF0003.HTM#connectivityStructure">connectivityStructure</A></I> &lt;<I><A HREF="RMRF0003.HTM#connectivityView">connectivityView</A></I> &lt;<I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#localPortGroup">LocalPortGroup</A></I> provides a mechanism to describe structured ports which have not been defined in the interface, but which are required to support structural connectivity. <I><A HREF="RMRF0014.HTM#localPortGroup">LocalPortGroup</A></I> is a structuring mechanism only and does not itself define the ports or modify the interface in any way. A <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A></I> may be referenced, for example, from <I><A HREF="RMRF0059.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I>.
+<P>A <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A></I> is defined as an ordered list of master ports and master port bundles, described in <I><A HREF="RMRF0055.HTM#portList">portList</A></I>. <I><A HREF="RMRF0055.HTM#portList">PortList</A></I> may only reference master ports and master port bundles and not other <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroups</A></I>.
+<P>A <I><A HREF="RMRF0055.HTM#port">port</A></I> or <I><A HREF="RMRF0055.HTM#portBundle">portBundle</A></I> may be directly referenced by zero or more <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroups</A></I> in the same <I><A HREF="RMRF0018.HTM#page">page</A></I> or <I><A HREF="RMRF0003.HTM#connectivityStructure">connectivityStructure</A></I>. 
+<P>It is permitted to form two <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroups</A></I> that have identical <I><A HREF="RMRF0055.HTM#portList">portLists</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>...</B>
+<B>(interface</B>
+<B>   (interfaceUnits)</B>
+<B>   (port a ...)</B>
+<B>   (port b0 ...)</B>
+<B>   (port b1 ...)</B>
+<B>   (port b2 ...)</B>
+<B>   (port b3 ...)</B>
+<B>   (port b4 ...)</B>
+<B>   ...</B>
+<B>   (port b31 ...)</B>
+<B>   (portBundle B_BUN</B>
+<B>      (portList</B>
+<B>         (portRef b0)</B>
+<B>         (portRef b1)</B>
+<B>         (portRef b2)</B>
+<B>         ...</B>
+<B>         (portRef b30)</B>
+<B>         (portRef b31)))...)</B>
+<B>...</B>
+<B>(schematicImplementation</B>
+<B>   (page P1</B>
+<B>      (pageHeader ...)</B>
+<B>      ...</B>
+<B>      (localPortGroup tempGroup</B>
+<B>         (portList</B>
+<B>            (portRef a)</B>
+<B>            (portRef b2)</B>
+<B>            (portRef b3)))</B>
+<B>      ...</B>
+<B>      (schematicMasterPortImplementation PIN3</B>
+<B>         (schematicMasterPortTemplateRef INPORT</B>
+<B>            (libraryRef SCHEMLIB))</B>
+<B>         (localPortGroupRef tempGroup)</B>
+<B>         (transform ...)...)...)...)</B>
+</PRE>
+<P>In this example the interface contains the port a, ports b0 through b31 and a portBundle B_BUN grouping b0 through b31. The <I><A HREF="RMRF0059.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> references ports a, b2 and b3. This local grouping is represented by a <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A></I>.
+<P><HR>
+<H1><A NAME="localPortGroupNameCaseSensitive">localPortGroupNameCaseSensitive</A></H1>
+<PRE>
+<I>localPortGroupNameCaseSensitive ::= '(' 'localPortGroupNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0016.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0055.HTM#portNameCaseSensitive">portNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#localPortGroupNameCaseSensitive">LocalPortGroupNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0016.HTM#nameInformation">nameInformation</A></I> for <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroups</A></I> are to be considered as case sensitive. Following normal precedence rules, this either applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0007.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0014.HTM#libraryHeader">libraryHeader</A></I>. The default is that names are case sensitive.
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<P><HR>
+<H1><A NAME="localPortGroupNameDef">localPortGroupNameDef</A></H1>
+<PRE>
+<I>localPortGroupNameDef ::= <A HREF="RMRF0016.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#localPortGroupNameRef">localPortGroupNameRef</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0055.HTM#portNameDef">portNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#localPortGroupNameDef">LocalPortGroupNameDef</A></I> is used to define a <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A></I> name.
+<P><HR>
+<H1><A NAME="localPortGroupNameRef">localPortGroupNameRef</A></H1>
+<PRE>
+<I>localPortGroupNameRef ::= <A HREF="RMRF0016.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0014.HTM#localPortGroupRef">localPortGroupRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A> <A HREF="RMRF0014.HTM#localPortGroupNameDef">localPortGroupNameDef</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0055.HTM#portNameRef">portNameRef</A> <A HREF="RMRF0056.HTM#portRef">portRef</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#localPortGroupNameRef">LocalPortGroupNameRef</A></I> is used to reference a previously-defined <I><A HREF="RMRF0014.HTM#localPortGroupNameDef">localPortGroupNameDef</A></I>.
+<P><HR>
+<H1><A NAME="localPortGroupRef">localPortGroupRef</A></H1>
+<PRE>
+<I>localPortGroupRef ::= '(' 'localPortGroupRef'</I>
+&#09;<I><A HREF="RMRF0014.HTM#localPortGroupNameRef">localPortGroupNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0055.HTM#portJoined">portJoined</A>  !<A HREF="RMRF0059.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A> <A HREF="RMRF0055.HTM#port">port</A> <A HREF="RMRF0056.HTM#portRef">portRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0055.HTM#portJoined">portJoined</A></I> &lt;<I><A HREF="RMRF0059.HTM#schematicNetJoined">schematicNetJoined</A>
+<BR><BR></I>
+<DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0055.HTM#portJoined">portJoined</A></I> &lt;<I><A HREF="RMRF0003.HTM#connectivityNetJoined">connectivityNetJoined</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0014.HTM#localPortGroupRef">LocalPortGroupRef</A></I> is used to reference a <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A></I> defined in the <I><A HREF="RMRF0015.HTM#logicalConnectivity">logicalConnectivity</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicMasterPortImplementation PIN3</B>
+<B>   (schematicMasterPortTemplateRef INPORT</B>
+<B>      (libraryRef SCHEMLIB))</B>
+<B>   (localPortGroupRef tempGroup)</B>
+<B>   (transform ...)...)</B>
+</PRE>
+<P>The <I><A HREF="RMRF0059.HTM#schematicMasterPortImplementation">schematicMasterPortImplementation</A></I> named PIN3 references a <I><A HREF="RMRF0014.HTM#localPortGroup">localPortGroup</A></I> called tempGroup. 
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,415 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="pcb_fabricate_model">pcb_fabricate_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0022.HTM#pcb_fabricate_model">pcb_fabricate_model</A> describes a <A HREF="IMEX0022.HTM#fabricate_element">fabricate_element</A> which specifies
+ the fabrication of geometrical shapes or text strings.
+</P><HR>
+<!-- Start of ENTITY: fabricate_element -->
+<H2><A NAME="fabricate_element">fabricate_element</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#fabricate_element">fabricate_element</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>,
+                                   <A HREF="IMEX0022.HTM#fabricate_text">fabricate_text</A>));
+    contributes_to_drawing     : OPTIONAL SET [1:?] OF 
+                                 <A HREF="IMEX0008.HTM#drawing_figure_collector">drawing_figure_collector</A>; -- reference
+    contributes_to_fabrication : SET [1:?] OF 
+                                 <A HREF="IMEX0008.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>; -- reference
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#fabricate_element">fabricate_element</A> specifies the fabrication or drawing of geometrical
+ shapes or text strings.
+</P><HR>
+<!-- Start of ENTITY: fabricate_figure -->
+<H2><A NAME="fabricate_figure">fabricate_figure</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>
+      SUBTYPE OF (<A HREF="IMEX0022.HTM#fabricate_element">fabricate_element</A>);
+    associated_figures       : OPTIONAL SET [1:?] OF <A HREF="IMEX0022.HTM#physical_figure">physical_figure</A>;
+    associated_figure_macros : OPTIONAL SET [1:?] OF <A HREF="IMEX0024.HTM#physical_figure_macro">physical_figure_macro</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A> specifies the fabrication or drawing of
+ geometrical shapes.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#board_outline">board_outline</A> <A HREF="IMEX0029.HTM#layout_shape">layout_shape</A> <A HREF="IMEX0029.HTM#layout_text">layout_text</A> <A HREF="IMEX0029.HTM#plane">plane</A> <A HREF="IMEX0029.HTM#teardrop">teardrop</A> <A HREF="IMEX0029.HTM#trace">trace</A> </P>
+<HR>
+<!-- Start of ENTITY: fabricate_text -->
+<H2><A NAME="fabricate_text">fabricate_text</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#fabricate_text">fabricate_text</A>
+      SUBTYPE OF (<A HREF="IMEX0022.HTM#fabricate_element">fabricate_element</A>);
+    associated_text : SET [1:?] OF <A HREF="IMEX0022.HTM#physical_text">physical_text</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#fabricate_text">fabricate_text</A> specifies the fabrication or drawing of text strings.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#layout_text">layout_text</A> </P>
+<HR>
+<!-- Start of ENTITY: physical_figure -->
+<H2><A NAME="physical_figure">physical_figure</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#physical_figure">physical_figure</A>;
+    associated_geometries      : OPTIONAL SET [1:?] OF <A HREF="IMEX0011.HTM#geometry_element">geometry_element</A>;
+    associated_geometry_macros : OPTIONAL SET [1:?] OF <A HREF="IMEX0013.HTM#geometry_macro">geometry_macro</A>;
+    default_attributes         : <A HREF="IMEX0014.HTM#pcb_attribute_default">pcb_attribute_default</A>; -- reference
+    overriding_colour          : OPTIONAL <A HREF="IMEX0006.HTM#colour">colour</A>;
+    overriding_corner_type     : OPTIONAL <A HREF="IMEX0006.HTM#path_corner_type">path_corner_type</A>;
+    overriding_end_type        : OPTIONAL <A HREF="IMEX0006.HTM#path_end_type">path_end_type</A>;
+    overriding_path_width      : OPTIONAL <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    overriding_properties      : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property_override">property_override</A>;
+  WHERE
+    <A NAME="physical_figure.valid_overriding_properties">valid_overriding_properties</A> :
+      (* The overridden properties are defined in the pcb_attribute_default.*)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(propertyOverride &lt;* overriding_properties |
+        NOT (propertyOverride.overridden_property
+             IN default_attributes\<A HREF="IMEX0014.HTM#geometric_attribute_default">geometric_attribute_default</A>.properties)));
+
+    <A NAME="physical_figure.valid_associated_geometries">valid_associated_geometries</A> :
+      (* The associated geometry_elements must not contain schematic specific
+         geometry objects.  That is, they are not allowed to have elements
+         containing dot. *)   
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(geometryElement &lt;* associated_geometries |
+        <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(geometryElement, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#dot">dot</A>')));
+
+    <A NAME="physical_figure.valid_associated_geometry_macros">valid_associated_geometry_macros</A> :
+      (* The associated geometry_macros must not reference
+         geometry_macro_templates which contain PCB specific geometry objects.
+         That is, the referenced geometry_macro_templates must not include
+         elements containing dot. *)
+      <A HREF="IMEX0022.HTM#valid_geometry_macro_in_physical_figure">valid_geometry_macro_in_physical_figure</A>(associated_geometry_macros);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#physical_figure">physical_figure</A> describes a collection of geometrical shapes.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A> <A HREF="IMEX0024.HTM#internal_physical_figure_macro_template">internal_physical_figure_macro_template</A> <A HREF="IMEX0022.HTM#physical_text_implementation">physical_text_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: physical_text -->
+<H2><A NAME="physical_text">physical_text</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#physical_text">physical_text</A>;
+    has_value      : <A HREF="IMEX0034.HTM#string_token">string_token</A>;
+    implementation : <A HREF="IMEX0022.HTM#physical_text_implementation">physical_text_implementation</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#physical_text">physical_text</A> specifies the implementation of a text string.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#fabricate_text">fabricate_text</A> </P>
+<HR>
+<!-- Start of ENTITY: physical_text_implementation -->
+<H2><A NAME="physical_text_implementation">physical_text_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#physical_text_implementation">physical_text_implementation</A>;
+    appearance       : OPTIONAL <A HREF="IMEX0022.HTM#text_appearance">text_appearance</A>;
+    physical_figures : OPTIONAL SET [1:?] OF <A HREF="IMEX0022.HTM#physical_figure">physical_figure</A>;
+  WHERE
+    <A NAME="physical_text_implementation.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0022.HTM#pcb_fabricate_model">pcb_fabricate_model</A>.<A HREF="IMEX0022.HTM#fabricate_text_implementation">fabricate_text_implementation</A>.appearances',
+         '<A HREF="IMEX0022.HTM#pcb_fabricate_model">pcb_fabricate_model</A>.<A HREF="IMEX0022.HTM#physical_text">physical_text</A>.implementation']);
+
+    <A NAME="physical_text_implementation.valid_implementation">valid_implementation</A> :
+      EXISTS(appearance) OR EXISTS(physical_figures);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#physical_text_implementation">physical_text_implementation</A> describes how text is displayed or is
+ realised on a bare board.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#fabricate_text_implementation">fabricate_text_implementation</A> <A HREF="IMEX0022.HTM#physical_text">physical_text</A> </P>
+<HR>
+<!-- Start of ENTITY: text_appearance -->
+<H2><A NAME="text_appearance">text_appearance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#text_appearance">text_appearance</A>;
+    default_attributes                  : <A HREF="IMEX0014.HTM#pcb_attribute_default">pcb_attribute_default</A>; -- reference
+    maximum_string_length               : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    maximum_string_height               : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    mirror_y                            : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    origin                              : <A HREF="IMEX0011.HTM#integer_point">integer_point</A>;
+    overriding_colour                   : OPTIONAL <A HREF="IMEX0006.HTM#colour">colour</A>;
+    overriding_font                     : OPTIONAL <A HREF="IMEX0008.HTM#text_font">text_font</A>; -- reference
+    overriding_gap_width                : OPTIONAL <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    overriding_horizontal_justification : OPTIONAL <A HREF="IMEX0006.HTM#horizontal_justification">horizontal_justification</A>;
+    overriding_line_spacing             : OPTIONAL <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    overriding_right_readable           : OPTIONAL <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    overriding_space_width              : OPTIONAL <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    overriding_stroke_width             : OPTIONAL <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    overriding_text_height              : OPTIONAL <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    overriding_vertical_justification   : OPTIONAL <A HREF="IMEX0006.HTM#vertical_justification">vertical_justification</A>;
+    rotation                            : <A HREF="IMEX0034.HTM#angle_value">angle_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#text_appearance">text_appearance</A> specifies the position and attributes which are used to
+ fabricate a text string.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A> <A HREF="IMEX0022.HTM#physical_text_implementation">physical_text_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: fabricate_text_appearance -->
+<H2><A NAME="fabricate_text_appearance">fabricate_text_appearance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>;
+    contributes_to_drawing     : OPTIONAL SET [1:?] OF 
+                                 <A HREF="IMEX0008.HTM#drawing_figure_collector">drawing_figure_collector</A>; -- reference
+    contributes_to_fabrication : SET [1:?] OF 
+                                 <A HREF="IMEX0008.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>; -- reference
+    appearances                : SET [1:?] OF <A HREF="IMEX0022.HTM#text_appearance">text_appearance</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A> specifies the position and attributes which
+ are used to fabricate a meaningful text string.  In addition, it specifies
+ the <A HREF="IMEX0008.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collectors</A> that the fabricated text string is
+ assigned to.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0029.HTM#internal_bare_board_definition">internal_bare_board_definition</A> <A HREF="IMEX0029.HTM#internal_footprint_definition">internal_footprint_definition</A> <A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A> <A HREF="IMEX0029.HTM#internal_toeprint_definition">internal_toeprint_definition</A> <A HREF="IMEX0022.HTM#property_fabrication">property_fabrication</A> </P>
+<HR>
+<!-- Start of ENTITY: fabricate_text_appearance_override -->
+<H2><A NAME="fabricate_text_appearance_override">fabricate_text_appearance_override</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#fabricate_text_appearance_override">fabricate_text_appearance_override</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0022.HTM#fabricate_text_add_appearance">fabricate_text_add_appearance</A>,
+                                   <A HREF="IMEX0022.HTM#fabricate_text_remove_appearance">fabricate_text_remove_appearance</A>,
+                                   <A HREF="IMEX0022.HTM#fabricate_text_replace_appearance">fabricate_text_replace_appearance</A>));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#fabricate_text_appearance_override">fabricate_text_appearance_override</A> is used to change the default
+ fabrication position of a meaningful text string.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#component_implementation">component_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: fabricate_text_add_appearance -->
+<H2><A NAME="fabricate_text_add_appearance">fabricate_text_add_appearance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#fabricate_text_add_appearance">fabricate_text_add_appearance</A>
+      SUBTYPE OF (<A HREF="IMEX0022.HTM#fabricate_text_appearance_override">fabricate_text_appearance_override</A>);
+    appearances : SET [1:?] OF <A HREF="IMEX0022.HTM#fabricate_text_implementation">fabricate_text_implementation</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#fabricate_text_add_appearance">fabricate_text_add_appearance</A> is used to add new fabrication position of
+ a meaningful text string, in addition to the default fabrication position. 
+</P><HR>
+<!-- Start of ENTITY: fabricate_text_remove_appearance -->
+<H2><A NAME="fabricate_text_remove_appearance">fabricate_text_remove_appearance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#fabricate_text_remove_appearance">fabricate_text_remove_appearance</A>
+      SUBTYPE OF (<A HREF="IMEX0022.HTM#fabricate_text_appearance_override">fabricate_text_appearance_override</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#fabricate_text_remove_appearance">fabricate_text_remove_appearance</A> is used to remove the fabrication
+ position of a meaningful text string.
+</P><HR>
+<!-- Start of ENTITY: fabricate_text_replace_appearance -->
+<H2><A NAME="fabricate_text_replace_appearance">fabricate_text_replace_appearance</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#fabricate_text_replace_appearance">fabricate_text_replace_appearance</A>
+      SUBTYPE OF (<A HREF="IMEX0022.HTM#fabricate_text_appearance_override">fabricate_text_appearance_override</A>);
+    appearances : SET [1:?] OF <A HREF="IMEX0022.HTM#fabricate_text_implementation">fabricate_text_implementation</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#fabricate_text_replace_appearance">fabricate_text_replace_appearance</A> is used to replace the default
+ fabrication position of a meaningful text string.
+</P><HR>
+<!-- Start of ENTITY: fabricate_text_implementation -->
+<H2><A NAME="fabricate_text_implementation">fabricate_text_implementation</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#fabricate_text_implementation">fabricate_text_implementation</A>;
+    contributes_to_drawing     : OPTIONAL SET [1:?] OF 
+                                 <A HREF="IMEX0008.HTM#drawing_figure_collector">drawing_figure_collector</A>; -- reference
+    contributes_to_fabrication : SET [1:?] OF 
+                                 <A HREF="IMEX0008.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collector</A>; -- reference
+    appearances                : SET [1:?] OF <A HREF="IMEX0022.HTM#physical_text_implementation">physical_text_implementation</A>;
+  WHERE
+    <A NAME="fabricate_text_implementation.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0022.HTM#pcb_fabricate_model">pcb_fabricate_model</A>.<A HREF="IMEX0022.HTM#fabricate_text_add_appearance">fabricate_text_add_appearance</A>.appearances',
+         '<A HREF="IMEX0022.HTM#pcb_fabricate_model">pcb_fabricate_model</A>.<A HREF="IMEX0022.HTM#fabricate_text_replace_appearance">fabricate_text_replace_appearance</A>.appearances']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#fabricate_text_implementation">fabricate_text_implementation</A> specifies the fabrication of a meaningful
+ text string.  It specifies the <A HREF="IMEX0008.HTM#simple_fabricate_figure_collector">simple_fabricate_figure_collectors</A> that the
+ fabricated text string is assigned to.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#fabricate_text_add_appearance">fabricate_text_add_appearance</A> <A HREF="IMEX0022.HTM#fabricate_text_replace_appearance">fabricate_text_replace_appearance</A> </P>
+<HR>
+<!-- Start of ENTITY: property_fabrication -->
+<H2><A NAME="property_fabrication">property_fabrication</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0022.HTM#property_fabrication">property_fabrication</A>;
+    fabricated_property : <A HREF="IMEX0034.HTM#property">property</A>; -- reference
+    name_fabrication    : OPTIONAL SET [1:?] OF <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>;
+    value_fabrication   : OPTIONAL SET [1:?] OF <A HREF="IMEX0022.HTM#fabricate_text_appearance">fabricate_text_appearance</A>; 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0022.HTM#property_fabrication">property_fabrication</A> is used to specify fabrication locations and
+ attributes for the fabrication of <A HREF="IMEX0034.HTM#property">property</A> value and name.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0019.HTM#component_implementation">component_implementation</A> <A HREF="IMEX0019.HTM#component_terminal_implementation">component_terminal_implementation</A> <A HREF="IMEX0019.HTM#die_component_implementation">die_component_implementation</A> <A HREF="IMEX0019.HTM#die_component_terminal_implementation">die_component_terminal_implementation</A> <A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A> <A HREF="IMEX0019.HTM#mountable_mechanical_fixing_implementation">mountable_mechanical_fixing_implementation</A> <A HREF="IMEX0019.HTM#mountable_package_terminal_implementation">mountable_package_terminal_implementation</A> <A HREF="IMEX0019.HTM#packaged_component_implementation">packaged_component_implementation</A> <A HREF="IMEX0019.HTM#packaged_component_terminal_implementation">packaged_component_terminal_implementation</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_geometry_macro_in_physical_figure -->
+<H2><A NAME="valid_geometry_macro_in_physical_figure">valid_geometry_macro_in_physical_figure</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0022.HTM#valid_geometry_macro_in_physical_figure">valid_geometry_macro_in_physical_figure</A>
+    (elements : SET OF <A HREF="IMEX0013.HTM#geometry_macro">geometry_macro</A>) : BOOLEAN;
+
+    REPEAT i := 1 TO SIZEOF(elements);
+      IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(elements[i].instantiated_template,
+         '<A HREF="IMEX0013.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0013.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>') THEN
+         IF <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(element 
+                         &lt;* elements[i].instantiated_template
+                            \<A HREF="IMEX0013.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>.geometries |
+                         <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(element, '<A HREF="IMEX0011.HTM#geometry_model">geometry_model</A>.<A HREF="IMEX0011.HTM#dot">dot</A>')))
+            OR
+            NOT <A HREF="IMEX0022.HTM#valid_geometry_macro_in_physical_figure">valid_geometry_macro_in_physical_figure</A>(
+                   elements[i].instantiated_template
+                   \<A HREF="IMEX0013.HTM#internal_geometry_macro_template">internal_geometry_macro_template</A>.geometry_macros) THEN
+            RETURN(FALSE);
+      END_IF;
+    END_IF;
+    END_REPEAT;    
+    RETURN(TRUE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0022.HTM#valid_geometry_macro_in_physical_figure">valid_geometry_macro_in_physical_figure</A> function is used to check that
+ all <A HREF="IMEX0013.HTM#geometry_macro">geometry_macros</A> within a <A HREF="IMEX0022.HTM#physical_figure">physical_figure</A> must not include elements
+ containing <A HREF="IMEX0011.HTM#dot">dot</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#physical_figure">physical_figure</A> </P>
+<HR>
+<!-- Start of FUNCTION: point_inside_fabricate_figure -->
+<H2><A NAME="point_inside_fabricate_figure">point_inside_fabricate_figure</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0022.HTM#point_inside_fabricate_figure">point_inside_fabricate_figure</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; fig : <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>) : BOOLEAN;
+     REPEAT i := 1 TO SIZEOF(fig.associated_figures);
+       IF <A HREF="IMEX0022.HTM#point_inside_physical_figure">point_inside_physical_figure</A>(pt, fig.associated_figures[i]) THEN
+          RETURN(TRUE);
+       END_IF;
+     END_REPEAT;
+     REPEAT i := 1 TO SIZEOF(fig.associated_figure_macros);
+       IF <A HREF="IMEX0022.HTM#point_inside_physical_figure_macro">point_inside_physical_figure_macro</A>(pt, 
+                                         fig.associated_figure_macros[i]) THEN
+          RETURN(TRUE);
+       END_IF;
+     END_REPEAT;
+     RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0022.HTM#point_inside_fabricate_figure">point_inside_fabricate_figure</A> returns true if a point lies inside a
+ <A HREF="IMEX0022.HTM#fabricate_figure">fabricate_figure</A>.
+</P><HR>
+<!-- Start of FUNCTION: point_inside_physical_figure -->
+<H2><A NAME="point_inside_physical_figure">point_inside_physical_figure</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0022.HTM#point_inside_physical_figure">point_inside_physical_figure</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; element : <A HREF="IMEX0022.HTM#physical_figure">physical_figure</A>) : BOOLEAN;
+     REPEAT i := 1 TO SIZEOF(element.associated_geometries);
+       IF <A HREF="IMEX0011.HTM#point_inside_geometry_element">point_inside_geometry_element</A>(pt, 
+          element.associated_geometries[i]) THEN
+          RETURN(TRUE);
+       END_IF;
+     END_REPEAT;
+     REPEAT i := 1 TO SIZEOF(element.associated_geometry_macros);
+       IF <A HREF="IMEX0013.HTM#point_inside_geometry_macro">point_inside_geometry_macro</A>(pt, 
+          element.associated_geometry_macros[i]) THEN
+          RETURN(TRUE);
+       END_IF;
+     END_REPEAT;
+     RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0022.HTM#point_inside_physical_figure">point_inside_physical_figure</A> returns true if a point lies inside a
+ <A HREF="IMEX0022.HTM#physical_figure">physical_figure</A>.
+</P><HR>
+<!-- Start of FUNCTION: point_inside_physical_figure_macro -->
+<H2><A NAME="point_inside_physical_figure_macro">point_inside_physical_figure_macro</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0022.HTM#point_inside_physical_figure_macro">point_inside_physical_figure_macro</A>
+    (pt : <A HREF="IMEX0011.HTM#point">point</A>; element : <A HREF="IMEX0024.HTM#physical_figure_macro">physical_figure_macro</A>) : BOOLEAN;
+  IF <A HREF="IMEX0034.HTM#is_typeof">is_typeof</A>(element.instantiated_template,
+  '<A HREF="IMEX0024.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>.<A HREF="IMEX0024.HTM#internal_physical_figure_macro_template">internal_physical_figure_macro_template</A>')
+     THEN
+        IF <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(geometry 
+                              &lt;* element.instantiated_template
+                                        \<A HREF="IMEX0024.HTM#internal_physical_figure_macro_template">internal_physical_figure_macro_template</A>
+                                        .associated_figures |
+                        <A HREF="IMEX0022.HTM#point_inside_physical_figure">point_inside_physical_figure</A>(pt, geometry))) THEN
+           RETURN(TRUE);
+        END_IF;
+        IF <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(macro
+                              &lt;* element.instantiated_template
+                                        \<A HREF="IMEX0024.HTM#internal_physical_figure_macro_template">internal_physical_figure_macro_template</A>
+                                        .associated_figure_macros |
+                        <A HREF="IMEX0022.HTM#point_inside_physical_figure_macro">point_inside_physical_figure_macro</A>(pt, macro))) THEN
+           RETURN(TRUE);
+        END_IF;
+  ELSE
+        RETURN(TRUE);
+  END_IF;
+  RETURN(FALSE);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0022.HTM#point_inside_physical_figure_macro">point_inside_physical_figure_macro</A> returns true if a point lies inside
+ a <A HREF="IMEX0024.HTM#physical_figure_macro">physical_figure_macro</A>.
+</P>
+<HR>
+
+<!-- Start of schema: pcb_material_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,133 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H2><A NAME="REF20821"> 11      Structural connectivity for connectivity views</A></H2>
+<P>The model of the structural connectivity of <A HREF="IMEX0002.HTM#internal_connectivity_view" TARGET=ModelArea>internal_connectivity_views</A> is found in the <A HREF="IMEX0001.HTM#connectivity_structure_model" TARGET=ModelArea>connectivity_structure_model</A> schema. Structural connectivity information is described by <A HREF="IMEX0001.HTM#connectivity_net" TARGET=ModelArea>connectivity_nets</A>, <A HREF="IMEX0001.HTM#connectivity_bus" TARGET=ModelArea>connectivity_busses</A> and <A HREF="IMEX0001.HTM#connectivity_ripper" TARGET=ModelArea>connectivity_rippers</A>, which are explained in the following sections. No implementation information is associated with the structural connectivity of an <A HREF="IMEX0002.HTM#internal_connectivity_view" TARGET=ModelArea>internal_connectivity_view</A>.
+<H3><A NAME="HDR22"> 11.1    Connectivity nets and sub-nets</A></H3>
+<P>A net is defined as a structured representation of a <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A>. Each net is associated with a <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A> and it may join single ports. On occasion it is necessary to divide a net into various parts so that properties may be added to one part but not to any of the others. For example, a net takes an input to several sub-blocks, only one path of which is critical for routing purposes. Therefore, it is desirable to assign a high routing priority to that part of the net but not to other parts, so that the circuit will be correctly routed. Hence, a net may be subdivided into sub-nets, which may themselves be further subdivided into sub-nets. However, sub-nets do not give new connectivity information and the ports associated with a sub-net must be referenced in the immediately containing net or sub-net. No two sub-nets at a given level may refer to the same set of ports. 
+<P>In the information model, the concepts of net and sub-net are generalised into the concept of generic-net. An occurrence of a <A HREF="IMEX0001.HTM#connectivity_generic_net" TARGET=ModelArea>connectivity_generic_net</A> can be either an occurrence of a <A HREF="IMEX0001.HTM#connectivity_net" TARGET=ModelArea>connectivity_net</A> or an occurrence of a <A HREF="IMEX0001.HTM#connectivity_sub_net" TARGET=ModelArea>connectivity_sub_net</A>. Each <A HREF="IMEX0001.HTM#connectivity_generic_net" TARGET=ModelArea>connectivity_generic_net</A> is associated with a <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A>. It may join <A HREF="IMEX0007.HTM#global_port" TARGET=ModelArea>global_ports</A>, <A HREF="IMEX0009.HTM#instance_member_port" TARGET=ModelArea>instance_member_ports</A>, <A HREF="IMEX0009.HTM#instance_port" TARGET=ModelArea>instance_ports</A>, <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_ports</A> and <A HREF="IMEX0001.HTM#connectivity_ripper" TARGET=ModelArea>connectivity_rippers</A> (rippers defined in connectivity views). It has attributes such as criticality and delay information. Moreover, it may have <A HREF="IMEX0001.HTM#connectivity_sub_net" TARGET=ModelArea>connectivity_sub_nets</A> which may be further divided into more <A HREF="IMEX0001.HTM#connectivity_sub_net" TARGET=ModelArea>connectivity_sub_nets</A>. Figure <A HREF="IMINT008.HTM#REF39590">11.1</A> shows the model of <A HREF="IMEX0001.HTM#connectivity_generic_net" TARGET=ModelArea>connectivity_generic_net</A>.
+<P><A NAME="REF39590"><CENTER><IMG SRC="FIG0013.GIF">
+</CENTER></A>
+<P><CENTER> Figure 11.1:  The model of net in connectivity views</CENTER>
+
+<P>A <A HREF="IMEX0001.HTM#connectivity_net" TARGET=ModelArea>connectivity_net</A> must be defined within the contents of an <A HREF="IMEX0002.HTM#internal_connectivity_view" TARGET=ModelArea>internal_connectivity_view</A>. Its associated <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A> and its joined rippers must be defined in the containing view. Furthermore, the joined <A HREF="IMEX0007.HTM#global_port" TARGET=ModelArea>global_ports</A>, <A HREF="IMEX0009.HTM#instance_member_port" TARGET=ModelArea>instance_member_ports</A> and <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_ports</A> must be mentioned in its associated <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A>. If a <A HREF="IMEX0001.HTM#connectivity_net" TARGET=ModelArea>connectivity_net</A> joins an <A HREF="IMEX0009.HTM#instance_port" TARGET=ModelArea>instance_port</A>, then the list of <A HREF="IMEX0009.HTM#instance_member_port" TARGET=ModelArea>instance_member_ports</A> joined implicitly must be a subset of the <A HREF="IMEX0009.HTM#instance_member_port" TARGET=ModelArea>instance_member_ports</A> joined by its associated <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A>. 
+<P>A <A HREF="IMEX0001.HTM#connectivity_sub_net" TARGET=ModelArea>connectivity_sub_net</A> must be defined within another <A HREF="IMEX0001.HTM#connectivity_generic_net" TARGET=ModelArea>connectivity_generic_net</A>. The associated signal of a <A HREF="IMEX0001.HTM#connectivity_sub_net" TARGET=ModelArea>connectivity_sub_net</A> must be the same as the one in its enclosing structure. Its joined ports or rippers must be a subset of the ports or rippers referenced by its enclosing structure.
+<H3><A NAME="HDR23"> 11.2    Connectivity busses, bus-slices and sub-busses</A></H3>
+<P>A bus is defined as a structured representation of a collection of <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signals</A>. Each bus is associated with a <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> and it may join wide ports. 
+<P>A bus may be subdivided in two orthogonal ways. It may be divided into bus-slices or into sub-busses. A bus-slice is used to define part of a bus. Its associated <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> is a member of the <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> associated with its immediately containing structure. No two bus-slices at a given level may refer to the same <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A>. A sub-bus is similar in nature to a sub-net in that it allows additional structural information to be given about a part of the bus. A sub-bus is associated with the same <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> as that in the immediately containing structure. No two sub-busses at a given level may reference the same set of ports or rippers. 
+<P>In the information model, the concepts of bus, bus-slice and sub-bus are generalised into the concept of generic-bus. An occurrence of a <A HREF="IMEX0001.HTM#connectivity_generic_bus" TARGET=ModelArea>connectivity_generic_bus</A> can be either an occurrence of a <A HREF="IMEX0001.HTM#connectivity_bus" TARGET=ModelArea>connectivity_bus</A>, an occurrence of a <A HREF="IMEX0001.HTM#connectivity_bus_slice" TARGET=ModelArea>connectivity_bus_slice</A> or an occurrence of a <A HREF="IMEX0001.HTM#connectivity_sub_bus" TARGET=ModelArea>connectivity_sub_bus</A>. Each <A HREF="IMEX0001.HTM#connectivity_generic_bus" TARGET=ModelArea>connectivity_generic_bus</A> is associated with a <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A>. As is the case for <A HREF="IMEX0001.HTM#connectivity_generic_net" TARGET=ModelArea>connectivity_generic_net</A>, it may join <A HREF="IMEX0007.HTM#global_port" TARGET=ModelArea>global_ports</A>, <A HREF="IMEX0009.HTM#instance_member_port" TARGET=ModelArea>instance_member_ports</A>, <A HREF="IMEX0009.HTM#instance_port" TARGET=ModelArea>instance_ports</A>, <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_ports</A> and <A HREF="IMEX0001.HTM#connectivity_ripper" TARGET=ModelArea>connectivity_rippers</A>. In addition, it may join wide ports such as <A HREF="IMEX0007.HTM#global_port_bundle" TARGET=ModelArea>global_port_bundles</A>, <A HREF="IMEX0009.HTM#local_master_port_group" TARGET=ModelArea>local_master_port_groups</A>, <A HREF="IMEX0009.HTM#instance_port_bundle" TARGET=ModelArea>instance_port_bundles</A> and <A HREF="IMEX0009.HTM#master_port_bundle" TARGET=ModelArea>master_port_bundles</A>. It has attributes such as criticality and delay information. Moreover, it may have <A HREF="IMEX0001.HTM#connectivity_bus_slice" TARGET=ModelArea>connectivity_bus_slices</A> or <A HREF="IMEX0001.HTM#connectivity_sub_bus" TARGET=ModelArea>connectivity_sub_busses</A> which may be further divided into more <A HREF="IMEX0001.HTM#connectivity_bus_slice" TARGET=ModelArea>connectivity_bus_slices</A> or <A HREF="IMEX0001.HTM#connectivity_sub_bus" TARGET=ModelArea>connectivity_sub_busses</A>. 
+<P>All joined <A HREF="IMEX0007.HTM#global_port" TARGET=ModelArea>global_ports</A>, <A HREF="IMEX0007.HTM#global_port_bundle" TARGET=ModelArea>global_port_bundles</A>, <A HREF="IMEX0009.HTM#instance_member_port" TARGET=ModelArea>instance_member_ports</A>, <A HREF="IMEX0009.HTM#local_master_port_group" TARGET=ModelArea>local_master_port_groups</A>, <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_ports</A> and <A HREF="IMEX0009.HTM#master_port_bundle" TARGET=ModelArea>master_port_bundles</A> must have the same port size. This must be the same as the size of the associated <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A>. Moreover, each single port of the joined port structures must be referenced in the corresponding <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A> in the flattened <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A>. In the case where a generic bus joins an <A HREF="IMEX0009.HTM#instance_port" TARGET=ModelArea>instance_port</A> or an <A HREF="IMEX0009.HTM#instance_port_bundle" TARGET=ModelArea>instance_port_bundle</A>, the pattern of connectivity will be either in the commoned style or in the fanned out style (see section <A HREF="IMINT007.HTM#REF34413">10</A>). For the commoned style, the joined <A HREF="IMEX0009.HTM#instance_port" TARGET=ModelArea>instance_ports</A> or <A HREF="IMEX0009.HTM#instance_port_bundle" TARGET=ModelArea>instance_port_bundles</A> reference <A HREF="IMEX0009.HTM#master_port" TARGET=ModelArea>master_ports</A> or <A HREF="IMEX0009.HTM#master_port_bundle" TARGET=ModelArea>master_port_bundles</A> whose port size is the same as the size of the flattened <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A>. For the fanned out style, the joined <A HREF="IMEX0009.HTM#instance_port" TARGET=ModelArea>instance_ports</A> or <A HREF="IMEX0009.HTM#instance_port_bundle" TARGET=ModelArea>instance_port_bundles</A> are flattened to lists of <A HREF="IMEX0009.HTM#instance_member_port" TARGET=ModelArea>instance_member_ports</A>. The length of these lists must be equal to the size of the flattened <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A>. 
+<P>A <A HREF="IMEX0001.HTM#connectivity_bus" TARGET=ModelArea>connectivity_bus</A> must be defined within the contents of an <A HREF="IMEX0002.HTM#internal_connectivity_view" TARGET=ModelArea>internal_connectivity_view</A>. Its associated <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> and its joined rippers must be defined in the containing view. 
+<P>A <A HREF="IMEX0001.HTM#connectivity_bus_slice" TARGET=ModelArea>connectivity_bus_slice</A> must be defined within another <A HREF="IMEX0001.HTM#connectivity_generic_bus" TARGET=ModelArea>connectivity_generic_bus</A> and its associated <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> must be a member of the <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> associated with its enclosing structure. 
+
+<P>A <A HREF="IMEX0001.HTM#connectivity_sub_bus" TARGET=ModelArea>connectivity_sub_bus</A> must be defined within another <A HREF="IMEX0001.HTM#connectivity_generic_bus" TARGET=ModelArea>connectivity_generic_bus</A> and its associated <A HREF="IMEX0012.HTM#signal_group" TARGET=ModelArea>signal_group</A> must be the same as that of its enclosing structure. Its joined ports or rippers must be a subset of the ports or rippers referenced by its enclosing structure.
+<H3><A NAME="HDR24"> 11.3    Connectivity rippers</A></H3>
+<P>A ripper is used to associate a bus/bus-slice/sub-bus structure with other bus/bus-slice/sub-bus structures or with net/sub-net structures. It replaces the RIPPER cell in EDIF Version 2 0 0. Rippers can be explicitly joined by any number of net structures and bus structures in the same view. 
+<P>In the information model, the model of the <A HREF="IMEX0001.HTM#connectivity_ripper" TARGET=ModelArea>connectivity_ripper</A> has two <I>DERIVEd</I> attributes which identify the associated net structures (i.e. <A HREF="IMEX0001.HTM#connectivity_generic_net" TARGET=ModelArea>connectivity_generic_net</A>) and bus structures (i.e. <A HREF="IMEX0001.HTM#connectivity_generic_bus" TARGET=ModelArea>connectivity_generic_bus</A>). A constraint is stated which requires that the related bus or net structures belong to the same view. Each structure is related to other structures by sharing at least one common <A HREF="IMEX0012.HTM#signal" TARGET=ModelArea>signal</A>.
+
+<H1><A NAME="HDR25"> Part IV:   Schematic domain</A></H1>
+
+<H2><A NAME="REF42918"> 12      Instantiatable templates for schematic domain</A></H2>
+<P>All schematic instantiatable templates share some common attributes, e.g. background colour, documentation. They may have properties which are displayed on the schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A>. The descriptions of the different types of instantiatable template are given below:
+
+<UL>
+<LI><P>schematic_offpageconnector_template and schematic_onpageconnector_template
+<BR><BR>
+</UL>
+
+<DL>
+<DD>A <A HREF="IMEX0010.HTM#schematic_offpageconnector_template" TARGET=ModelArea>schematic_offpageconnector_template</A> contains information which is used in the display definition of a <A HREF="IMEX0027.HTM#schematic_offpageconnector" TARGET=ModelArea>schematic_offpageconnector</A> on a schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A>. A <A HREF="IMEX0010.HTM#schematic_onpageconnector_template" TARGET=ModelArea>schematic_onpageconnector_template</A> contains information which is used in the display definition of a <A HREF="IMEX0027.HTM#schematic_onpageconnector" TARGET=ModelArea>schematic_onpageconnector</A> on a schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A>. The <A HREF="IMEX0027.HTM#schematic_offpageconnector" TARGET=ModelArea>schematic_offpageconnectors</A> and <A HREF="IMEX0027.HTM#schematic_onpageconnector" TARGET=ModelArea>schematic_onpageconnectors</A> describe aspects of the structural implementation of the logical connectivity for a given level of hierarchy. Both types of template have a <A HREF="IMEX0010.HTM#hotspot" TARGET=ModelArea>hotspot</A> to which connection is to be made graphically. The <A HREF="IMEX0010.HTM#hotspot" TARGET=ModelArea>hotspot</A> has a <A HREF="IMEX0027.HTM#schematic_wire_style" TARGET=ModelArea>schematic_wire_style</A> indicator which gives its suitability for association with a narrow or wide interconnect structure (i.e. <A HREF="IMEX0027.HTM#schematic_generic_net" TARGET=ModelArea>schematic_generic_net</A> or <A HREF="IMEX0027.HTM#schematic_generic_bus" TARGET=ModelArea>schematic_generic_bus</A>). Display slot information may be given to allow the display of the implementation name and the associated interconnect name.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>schematic_master_port_representation_template and schematic_symbol_port_representation_template
+<BR><BR>
+</UL>
+
+<DL>
+<DD>A <A HREF="IMEX0010.HTM#schematic_master_port_representation_template" TARGET=ModelArea>schematic_master_port_representation_template</A> contains information which is used in the display definition of a <A HREF="IMEX0027.HTM#schematic_master_port_representation" TARGET=ModelArea>schematic_master_port_representation</A> or a <A HREF="IMEX0027.HTM#schematic_master_port_bundle_representation" TARGET=ModelArea>schematic_master_port_bundle_representation</A> on a schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A>. A <A HREF="IMEX0010.HTM#schematic_symbol_port_representation_template" TARGET=ModelArea>schematic_symbol_port_representation_template</A> contains information which is used in the display definition of a <A HREF="IMEX0028.HTM#schematic_symbol_port_representation" TARGET=ModelArea>schematic_symbol_port_representation</A> or a <A HREF="IMEX0028.HTM#schematic_symbol_port_bundle_representation" TARGET=ModelArea>schematic_symbol_port_bundle_representation</A> in an <A HREF="IMEX0028.HTM#internal_schematic_symbol" TARGET=ModelArea>internal_schematic_symbol</A>. Both types of template have a <A HREF="IMEX0010.HTM#hotspot" TARGET=ModelArea>hotspot</A> to which connection is to be made graphically. The <A HREF="IMEX0010.HTM#hotspot" TARGET=ModelArea>hotspot</A> has a <A HREF="IMEX0010.HTM#schematic_wire_affinity" TARGET=ModelArea>schematic_wire_affinity</A> indicator which gives its suitability for association with a narrow or wide interconnect structure (i.e. <A HREF="IMEX0027.HTM#schematic_generic_net" TARGET=ModelArea>schematic_generic_net</A> or <A HREF="IMEX0027.HTM#schematic_generic_bus" TARGET=ModelArea>schematic_generic_bus</A>). In addition, these templates have two indicators: the <A HREF="IMEX0010.HTM#schematic_port_representation_style" TARGET=ModelArea>schematic_port_representation_style</A> identifies whether the associated master port is narrow or wide, the <A HREF="IMEX0010.HTM#port_direction_indicator" TARGET=ModelArea>port_direction_indicator</A> gives its suitability for association with an input, output, bidirectional or unspecified direction master port. Display slot information may be specified for the display of the implementation name, the associated port name and various port attributes, such as acload, delay, dcFaninLoad, dcMaxFanin.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>schematic_global_port_representation_template
+<BR><BR>
+</UL>
+
+<DL>
+<DD>A <A HREF="IMEX0010.HTM#schematic_global_port_representation_template" TARGET=ModelArea>schematic_global_port_representation_template</A> contains information which is used in the display definition of a <A HREF="IMEX0027.HTM#schematic_global_port_representation" TARGET=ModelArea>schematic_global_port_representation</A> on a schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A>. A <A HREF="IMEX0010.HTM#schematic_global_port_representation_template" TARGET=ModelArea>schematic_global_port_representation_template</A> has a <A HREF="IMEX0010.HTM#hotspot" TARGET=ModelArea>hotspot</A> to which connection is to be made graphically. The <A HREF="IMEX0010.HTM#hotspot" TARGET=ModelArea>hotspot</A> has a <A HREF="IMEX0027.HTM#schematic_wire_style" TARGET=ModelArea>schematic_wire_style</A> indicator which gives its suitability for association with a narrow or wide interconnect structure (i.e. <A HREF="IMEX0027.HTM#schematic_generic_net" TARGET=ModelArea>schematic_generic_net</A> or <A HREF="IMEX0027.HTM#schematic_generic_bus" TARGET=ModelArea>schematic_generic_bus</A>). Display slot information may be given to allow the display of the implementation name and the associated global port name.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>schematic_ripper_template
+<BR><BR>
+
+</UL>
+
+<DL>
+<DD>A <A HREF="IMEX0010.HTM#schematic_ripper_template" TARGET=ModelArea>schematic_ripper_template</A> contains information which is used in the display definition of a <A HREF="IMEX0027.HTM#schematic_ripper" TARGET=ModelArea>schematic_ripper</A> on a schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A>. A <A HREF="IMEX0027.HTM#schematic_ripper" TARGET=ModelArea>schematic_ripper</A> shows that two or more structures (i.e. <A HREF="IMEX0027.HTM#schematic_generic_net" TARGET=ModelArea>schematic_generic_nets</A> or <A HREF="IMEX0027.HTM#schematic_generic_bus" TARGET=ModelArea>schematic_generic_busses</A>) on a schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A> are linked. A <A HREF="IMEX0010.HTM#schematic_ripper_template" TARGET=ModelArea>schematic_ripper_template</A> has two or more <A HREF="IMEX0010.HTM#ripper_hotspot" TARGET=ModelArea>ripper_hotspots</A> to which connections are to be made graphically. A <A HREF="IMEX0010.HTM#ripper_hotspot" TARGET=ModelArea>ripper_hotspot</A> has a <A HREF="IMEX0027.HTM#schematic_wire_style" TARGET=ModelArea>schematic_wire_style</A> indicator which gives its suitability for association with a narrow or wide interconnect structure. Display slot information may be given to allow the display of the implementation name.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>schematic_junction_template
+<BR><BR>
+</UL>
+
+<DL>
+<DD>A <A HREF="IMEX0010.HTM#schematic_junction_template" TARGET=ModelArea>schematic_junction_template</A> contains information which is used in the display definition of a <A HREF="IMEX0027.HTM#schematic_net_junction" TARGET=ModelArea>schematic_net_junction</A> or a <A HREF="IMEX0027.HTM#schematic_bus_junction" TARGET=ModelArea>schematic_bus_junction</A> on a schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A>. A <A HREF="IMEX0027.HTM#schematic_net_junction" TARGET=ModelArea>schematic_net_junction</A> shows that at least two <A HREF="IMEX0027.HTM#schematic_sub_net" TARGET=ModelArea>schematic_sub_nets</A> are linked. The related sub_nets belong to the same <A HREF="IMEX0027.HTM#schematic_generic_net" TARGET=ModelArea>schematic_generic_net</A>. A <A HREF="IMEX0027.HTM#schematic_bus_junction" TARGET=ModelArea>schematic_bus_junction</A> shows that at least two <A HREF="IMEX0027.HTM#schematic_sub_bus" TARGET=ModelArea>schematic_sub_busses</A> are linked. As for <A HREF="IMEX0027.HTM#schematic_net_junction" TARGET=ModelArea>schematic_net_junction</A>, the related sub_busses belong to the same <A HREF="IMEX0027.HTM#schematic_generic_bus" TARGET=ModelArea>schematic_generic_bus</A>. A <A HREF="IMEX0010.HTM#schematic_junction_template" TARGET=ModelArea>schematic_junction_template</A> has a <A HREF="IMEX0010.HTM#hotspot" TARGET=ModelArea>hotspot</A> to which connection is to be made graphically. The <A HREF="IMEX0010.HTM#hotspot" TARGET=ModelArea>hotspot</A> has a <A HREF="IMEX0010.HTM#schematic_wire_affinity" TARGET=ModelArea>schematic_wire_affinity</A> indicator which gives its suitability for association with a narrow or wide interconnect structure (i.e. <A HREF="IMEX0027.HTM#schematic_generic_net" TARGET=ModelArea>schematic_generic_net</A> or <A HREF="IMEX0027.HTM#schematic_generic_bus" TARGET=ModelArea>schematic_generic_bus</A>). Display slot information may be given to allow the display of the implementation name.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>schematic_interconnect_terminator_template
+<BR><BR>
+</UL>
+
+<DL>
+<DD>A <A HREF="IMEX0010.HTM#schematic_interconnect_terminator_template" TARGET=ModelArea>schematic_interconnect_terminator_template</A> contains information which is used in the display definition of a <A HREF="IMEX0027.HTM#schematic_interconnect_terminator" TARGET=ModelArea>schematic_interconnect_terminator</A> on a schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A>. A <A HREF="IMEX0027.HTM#schematic_interconnect_terminator" TARGET=ModelArea>schematic_interconnect_terminator</A> is used to indicate the end of an interconnect. It is sometimes referred to as a dangling end. It has a <A HREF="IMEX0010.HTM#hotspot" TARGET=ModelArea>hotspot</A> to which connection is to be made graphically. The <A HREF="IMEX0010.HTM#hotspot" TARGET=ModelArea>hotspot</A> has a <A HREF="IMEX0010.HTM#schematic_wire_affinity" TARGET=ModelArea>schematic_wire_affinity</A> indicator which gives its suitability for association with a narrow or wide interconnect structure (i.e. <A HREF="IMEX0027.HTM#schematic_generic_net" TARGET=ModelArea>schematic_generic_net</A> or <A HREF="IMEX0027.HTM#schematic_generic_bus" TARGET=ModelArea>schematic_generic_bus</A>). Display slot information may be given to allow the display of the implementation name.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>page_title_block_template
+<BR><BR>
+</UL>
+
+<DL>
+<DD>A <A HREF="IMEX0010.HTM#page_title_block_template" TARGET=ModelArea>page_title_block_template</A> contains information which is used in the display definition of a <A HREF="IMEX0027.HTM#page_title_block" TARGET=ModelArea>page_title_block</A> on a schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A>. A <A HREF="IMEX0010.HTM#page_title_block_template" TARGET=ModelArea>page_title_block_template</A> allows details about the design to be placed in a special area, e.g. approved date, page number.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>page_border_template and schematic_symbol_border_template
+<BR><BR>
+</UL>
+
+<DL>
+<DD>A <A HREF="IMEX0010.HTM#page_border_template" TARGET=ModelArea>page_border_template</A> contains information which is used in the display definition of a <A HREF="IMEX0027.HTM#page_border" TARGET=ModelArea>page_border</A> on a schematic <A HREF="IMEX0027.HTM#page" TARGET=ModelArea>page</A>. A <A HREF="IMEX0010.HTM#schematic_symbol_border_template" TARGET=ModelArea>schematic_symbol_border_template</A> contains information which is used in the display definition of a <A HREF="IMEX0028.HTM#schematic_symbol_border" TARGET=ModelArea>schematic_symbol_border</A> for an <A HREF="IMEX0028.HTM#internal_schematic_symbol" TARGET=ModelArea>internal_schematic_symbol</A>.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>schematic_figure_macro_template
+<BR><BR>
+</UL>
+
+<DL>
+<DD>A <A HREF="IMEX0010.HTM#schematic_figure_macro_template" TARGET=ModelArea>schematic_figure_macro_template</A> is a collection of figures and annotation text which are themselves associated with <A HREF="IMEX0011.HTM#figure_group" TARGET=ModelArea>figure_groups</A>. It may contain occurrences of other <A HREF="IMEX0010.HTM#schematic_figure_macro_template" TARGET=ModelArea>schematic_figure_macro_templates</A>. Occurrences of <A HREF="IMEX0010.HTM#schematic_figure_macro_template" TARGET=ModelArea>schematic_figure_macro_templates</A> are used in the same contexts that graphical primitives (i.e. <A HREF="IMEX0005.HTM#figure" TARGET=ModelArea>figure</A>) are used; for example, they can be used to implement nets or busses.
+<BR><BR>
+</DL>
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

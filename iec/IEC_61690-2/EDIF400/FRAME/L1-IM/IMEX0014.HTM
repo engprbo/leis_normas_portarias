@@ -1,0 +1,278 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="library_model">library_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0014.HTM#library_model">library_model</A> schema describes what information can be found in an
+ EDIF library.  An EDIF library is a grouping of reusable objects.  A
+ <A HREF="IMEX0014.HTM#library">library</A> contains <A HREF="IMEX0012.HTM#cell">cell</A> definitions, <A HREF="IMEX0013.HTM#geometry_macro_template">geometry_macro_templates</A> and
+ various types of instantiatable templates for schematic views.  It also
+ includes definitions of <A HREF="IMEX0014.HTM#figure_group">figure_groups</A> which are common to all reusable
+ objects in a <A HREF="IMEX0014.HTM#library">library</A>. 
+</P><HR>
+<!-- Start of ENTITY: library -->
+<H2><A NAME="library">library</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0014.HTM#library">library</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0014.HTM#internal_library">internal_library</A>, <A HREF="IMEX0014.HTM#external_library">external_library</A>));
+    background_colour            : <A HREF="IMEX0006.HTM#colour">colour</A>;                 
+    cells                        : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#cell">cell</A>;
+    document                     : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>;
+    geometric_attribute_defaults : OPTIONAL SET [1:?] OF 
+                                   <A HREF="IMEX0014.HTM#geometric_attribute_default">geometric_attribute_default</A>;
+    logic_definitions            : OPTIONAL <A HREF="IMEX0034.HTM#undefined_type">undefined_type</A>;
+    name                         : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>; 
+    properties                   : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#private_property">private_property</A>;
+    scaling_information          : <A HREF="IMEX0008.HTM#physical_scaling">physical_scaling</A>;
+    status_of_copyright          : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#copyright">copyright</A>;
+    status_of_written            : OPTIONAL SET [1:?] OF <A HREF="IMEX0005.HTM#written">written</A>;
+
+  (* The following attributes are added for the PCB domain. *)
+    bare_board_technologies      : OPTIONAL SET [1:?] OF <A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A>;
+    connector_parts              : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#connector_part">connector_part</A>;
+    electrical_parts             : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#electrical_part">electrical_part</A>;
+    jumper_parts                 : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#jumper_part">jumper_part</A>;
+    materials                    : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#material">material</A>;
+    mechanical_parts             : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#mechanical_part">mechanical_part</A>;
+    mounting_methods             : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#mounting_method">mounting_method</A>;
+    mountable_packages           : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>;
+    packages                     : OPTIONAL SET [1:?] OF <A HREF="IMEX0027.HTM#package">package</A>;
+    sub_layout_definitions       : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>;
+
+  (* The following attributes are added for the MCM domain. *)
+    die_templates                : OPTIONAL SET [1:?] OF <A HREF="IMEX0016.HTM#die_physical_template">die_physical_template</A>;
+    mountable_die_templates      : OPTIONAL SET [1:?] OF
+                                   <A HREF="IMEX0017.HTM#mountable_die_physical_template">mountable_die_physical_template</A>;
+
+  (* The following attributes are added for the technology rule domain. *)
+    mountable_package_orientation_rules : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0026.HTM#mountable_package_orientation_rule">mountable_package_orientation_rule</A>;
+  DERIVE
+    containing_edif : <A HREF="IMEX0008.HTM#edif">edif</A> -- reference
+                      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF, 
+                         '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.libraries');
+  WHERE
+    <A NAME="library.containment_constraint">containment_constraint</A> :
+      (* A library belongs to one edif file. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.libraries');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0014.HTM#library">library</A> is a collection of EDIF design information grouped according to 
+ some set of common characteristics.  It might be internal or external to the 
+ EDIF file.  A <A HREF="IMEX0014.HTM#library">library</A> contains <A HREF="IMEX0012.HTM#cell">cell</A> definitions,
+ <A HREF="IMEX0013.HTM#geometry_macro_template">geometry_macro_templates</A>, and various types of instantiatable templates
+ for schematic views.  It also contains the technology information which is
+ shared by all <A HREF="IMEX0012.HTM#cell">cells</A> within a <A HREF="IMEX0014.HTM#library">library</A>.  That includes definitions of
+ <A HREF="IMEX0014.HTM#figure_group">figure_groups</A>. 
+</P>
+<P>
+ NOT YET MODELLED : logic_definitions
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A> <A HREF="IMEX0012.HTM#cell">cell</A> <A HREF="IMEX0008.HTM#edif">edif</A> </P>
+<HR>
+<!-- Start of ENTITY: internal_library -->
+<H2><A NAME="internal_library">internal_library</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0014.HTM#internal_library">internal_library</A> 
+      SUBTYPE OF (<A HREF="IMEX0014.HTM#library">library</A>);
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.cells
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#internal_cell">internal_cell</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.bare_board_technologies 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0030.HTM#internal_bare_board_technology">internal_bare_board_technology</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.connector_parts
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#internal_connector_part">internal_connector_part</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.electrical_parts
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#internal_electrical_part">internal_electrical_part</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.jumper_parts
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#internal_jumper_part">internal_jumper_part</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.materials 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#internal_material">internal_material</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.mechanical_parts
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#internal_mechanical_part">internal_mechanical_part</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.mountable_packages 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#internal_mountable_package">internal_mountable_package</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.packages 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0027.HTM#internal_package">internal_package</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.sub_layout_definitions
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#internal_sub_layout_definition">internal_sub_layout_definition</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.die_templates
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0016.HTM#internal_die_physical_template">internal_die_physical_template</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.mountable_die_templates
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#internal_mountable_die_physical_template">internal_mountable_die_physical_template</A>;
+    templates : OPTIONAL SET [1:?] OF <A HREF="IMEX0013.HTM#internal_template">internal_template</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0014.HTM#internal_library">internal_library</A> contains a set of <A HREF="IMEX0012.HTM#internal_cell">internal_cells</A> and
+ <A HREF="IMEX0013.HTM#internal_template">internal_templates</A>.
+</P><HR>
+<!-- Start of ENTITY: external_library -->
+<H2><A NAME="external_library">external_library</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0014.HTM#external_library">external_library</A>
+      SUBTYPE OF (<A HREF="IMEX0014.HTM#library">library</A>);
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.cells
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#external_cell">external_cell</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.bare_board_technologies 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0030.HTM#external_bare_board_technology">external_bare_board_technology</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.connector_parts
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#external_connector_part">external_connector_part</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.electrical_parts
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#external_electrical_part">external_electrical_part</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.jumper_parts
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#external_jumper_part">external_jumper_part</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.materials 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0023.HTM#external_material">external_material</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.mechanical_parts
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0028.HTM#external_mechanical_part">external_mechanical_part</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.mountable_packages 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0026.HTM#external_mountable_package">external_mountable_package</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.packages 
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0027.HTM#external_package">external_package</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.sub_layout_definitions
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0029.HTM#external_sub_layout_definition">external_sub_layout_definition</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.die_templates
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0016.HTM#external_die_physical_template">external_die_physical_template</A>;
+    SELF\<A HREF="IMEX0014.HTM#library">library</A>.mountable_die_templates
+        : OPTIONAL SET [1:?] OF <A HREF="IMEX0017.HTM#external_mountable_die_physical_template">external_mountable_die_physical_template</A>;
+    templates : OPTIONAL SET [1:?] OF <A HREF="IMEX0013.HTM#external_template">external_template</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> An <A HREF="IMEX0014.HTM#external_library">external_library</A> contains a set of <A HREF="IMEX0012.HTM#external_cell">external_cells</A> and
+ <A HREF="IMEX0013.HTM#external_template">external_templates</A> which do not contain any implementation information.
+ The ``stubs'' contained in an <A HREF="IMEX0014.HTM#external_library">external_library</A> indicate that the detailed
+ information is specified externally. Such external information may, for
+ example, make an association with detailed information provided at an earlier
+ time; such information is expected to be known to the receiving system.
+</P><HR>
+<!-- Start of ENTITY: geometric_attribute_default -->
+<H2><A NAME="geometric_attribute_default">geometric_attribute_default</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0014.HTM#geometric_attribute_default">geometric_attribute_default</A>
+      ABSTRACT SUPERTYPE OF (ONEOF (<A HREF="IMEX0014.HTM#figure_group">figure_group</A>,
+                                    <A HREF="IMEX0014.HTM#pcb_attribute_default">pcb_attribute_default</A>,
+                                    <A HREF="IMEX0014.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A>));
+    default_corner_type              : <A HREF="IMEX0006.HTM#path_corner_type">path_corner_type</A>;      
+    default_end_type                 : <A HREF="IMEX0006.HTM#path_end_type">path_end_type</A>;         
+    default_font                     : OPTIONAL <A HREF="IMEX0008.HTM#text_font">text_font</A>; -- reference
+    default_horizontal_justification : <A HREF="IMEX0006.HTM#horizontal_justification">horizontal_justification</A>;         
+    default_text_height              : OPTIONAL <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    default_vertical_justification   : <A HREF="IMEX0006.HTM#vertical_justification">vertical_justification</A>;         
+    name                             : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;
+    properties                       : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  WHERE
+    <A NAME="geometric_attribute_default.valid_existence">valid_existence</A>:
+      (* A geometric_attribute_default belongs to one library. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, 
+        '<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#library">library</A>.geometric_attribute_defaults');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0014.HTM#geometric_attribute_default">geometric_attribute_default</A> defines default attributes to be used when
+ geometries or text are displayed or fabricated. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0014.HTM#library">library</A> </P>
+<HR>
+<!-- Start of ENTITY: figure_group -->
+<H2><A NAME="figure_group">figure_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0014.HTM#figure_group">figure_group</A>
+      SUBTYPE OF (<A HREF="IMEX0014.HTM#geometric_attribute_default">geometric_attribute_default</A>);
+    SELF\<A HREF="IMEX0014.HTM#geometric_attribute_default">geometric_attribute_default</A>.default_font : OPTIONAL <A HREF="IMEX0008.HTM#font">font</A>;
+    default_border_pattern                        : <A HREF="IMEX0006.HTM#pixel_pattern">pixel_pattern</A>;
+    default_border_width                          : <A HREF="IMEX0034.HTM#width_value">width_value</A>;
+    default_border_visible                        : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    default_colour                                : <A HREF="IMEX0006.HTM#colour">colour</A>;
+    default_fill_pattern                          : <A HREF="IMEX0006.HTM#pixel_pattern">pixel_pattern</A>;
+    default_fill_pattern_visible                  : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    default_path_width                            : <A HREF="IMEX0034.HTM#width_value">width_value</A>;
+    default_visible                               : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0014.HTM#figure_group">figure_group</A> defines default figuregroup attributes to be used when
+ geometries or text are displayed.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0006.HTM#display">display</A> <A HREF="IMEX0006.HTM#figure">figure</A> <A HREF="IMEX0006.HTM#geometry_display">geometry_display</A> </P>
+<HR>
+<!-- Start of ENTITY: pcb_attribute_default -->
+<H2><A NAME="pcb_attribute_default">pcb_attribute_default</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0014.HTM#pcb_attribute_default">pcb_attribute_default</A>
+      SUBTYPE OF (<A HREF="IMEX0014.HTM#geometric_attribute_default">geometric_attribute_default</A>);
+    default_colour         : <A HREF="IMEX0006.HTM#colour">colour</A>;                
+    default_gap_width      : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    default_line_spacing   : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    default_path_width     : <A HREF="IMEX0034.HTM#length_value">length_value</A>;           
+    default_right_readable : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    default_stroke_width   : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    default_space_width    : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0014.HTM#pcb_attribute_default">pcb_attribute_default</A> defines default manufacturing attributes to
+ be used when geometries or text are fabricated.  It is used by the PCB
+ domain.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0022.HTM#physical_figure">physical_figure</A> <A HREF="IMEX0022.HTM#text_appearance">text_appearance</A> </P>
+<HR>
+<!-- Start of ENTITY: pcb_drawing_attribute_default -->
+<H2><A NAME="pcb_drawing_attribute_default">pcb_drawing_attribute_default</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0014.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A>
+      SUBTYPE OF (<A HREF="IMEX0014.HTM#geometric_attribute_default">geometric_attribute_default</A>);
+    drawing_units                : <A HREF="IMEX0021.HTM#pcb_drawing_units">pcb_drawing_units</A>;
+    default_border_pattern       : OPTIONAL <A HREF="IMEX0008.HTM#drawing_fill_pattern">drawing_fill_pattern</A>; -- reference
+    default_border_visible       : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    default_border_width         : <A HREF="IMEX0034.HTM#width_value">width_value</A>;
+    default_colour               : <A HREF="IMEX0006.HTM#colour">colour</A>;
+    default_fill_pattern         : OPTIONAL <A HREF="IMEX0008.HTM#drawing_fill_pattern">drawing_fill_pattern</A>; -- reference
+    default_fill_pattern_visible : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    default_gap_width            : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    default_line_spacing         : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    default_line_style           : <A HREF="IMEX0008.HTM#drawing_line_style">drawing_line_style</A>;            -- reference
+    default_path_width           : <A HREF="IMEX0034.HTM#width_value">width_value</A>;           
+    default_right_readable       : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+    default_stroke_width         : <A HREF="IMEX0034.HTM#width_value">width_value</A>;
+    default_space_width          : <A HREF="IMEX0034.HTM#length_value">length_value</A>;
+    default_visible              : <A HREF="IMEX0034.HTM#boolean_token">boolean_token</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0014.HTM#pcb_drawing_attribute_default">pcb_drawing_attribute_default</A> provides the display defaults for the pcb
+ drawing.
+</P>
+<P>
+ The default <A HREF="IMEX0008.HTM#drawing_line_style">drawing_line_style</A> specifies the style used in drawing lines,
+ arcs or circles within the context of a <A HREF="IMEX0021.HTM#drawing_figure">drawing_figure</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#board_subset_placement">board_subset_placement</A> <A HREF="IMEX0021.HTM#dimension">dimension</A> <A HREF="IMEX0021.HTM#drawing_figure">drawing_figure</A> <A HREF="IMEX0021.HTM#drawing_symbol_placement">drawing_symbol_placement</A> <A HREF="IMEX0021.HTM#drawing_text_display">drawing_text_display</A> <A HREF="IMEX0020.HTM#fabricate_figure_collector_inclusion">fabricate_figure_collector_inclusion</A> <A HREF="IMEX0021.HTM#leader_line">leader_line</A> </P>
+
+<HR>
+
+<!-- Start of schema: logical_connectivity_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

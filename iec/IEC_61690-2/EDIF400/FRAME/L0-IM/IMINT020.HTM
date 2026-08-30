@@ -1,0 +1,227 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H2><A NAME="REF16438"> 25      Technology rules</A></H2>
+<P>The following categories of technology rules are candidates for inclusion in EDIF: 
+
+<UL>
+<LI><P>Design for Manufacturing (DFM) Rules
+<BR><BR>
+</UL>
+
+<DL>
+<DD>Rules which, if properly followed, ensure that a design is manufacturable; e.g. ensure that all traces are wider than a certain minimum width. 
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>Design for Assembly (DFA) Rules
+<BR><BR>
+</UL>
+
+<DL>
+<DD>Rules which, if properly followed, ensure that a design can be assembled; e.g. ensure that each component is separated from every other component by at least a certain distance, to avoid fouling between the jaws of a component insertion machine and already assembled components.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>Design for Testability (DFT) Rules
+<BR><BR>
+</UL>
+
+<DL>
+<DD>Rules which, if properly followed, ensure that a design is testable; e.g. do not cover test points on the top side of the board (with components, for example).
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>Design for Function (DFF) Rules
+<BR><BR>
+</UL>
+
+<DL>
+<DD>Rules which, if properly followed, ensure that a design fulfills its required functionality according to a set of definable criteria; e.g. rules which define the maximum allowed crosstalk, or the minimum delay in signal propagation.
+<BR><BR>
+</DL>
+
+<UL>
+<LI><P>Algorithm Control Parameters
+<BR><BR>
+</UL>
+
+<DL>
+<DD>These are parameters that control the function and performance of automated processes performed by a particular CAD system; e.g. an instruction to an auto-router to do a 3-pass initial routing phase, followed by a corner-mitring phase, a track fattening phase and finally a smoothing phase.
+<BR><BR></DL>
+
+<P>The Algorithm Control Parameters are specific to each CAD system, and thus should not be representable within a standard data exchange mechanism which may potentially apply to any CAD system. The DFM, DFT, DFA and DFF rules <I>should</I> be representable in EDIF.  Currently, the EDIF PCB/MCM technology rule model covers a subset of manufacture and assembly rules only.
+
+<P>The model of technology rules can be found in the <A HREF="IMEX0026.HTM#pcb_technology_model" TARGET=ModelArea>pcb_technology_model</A> schema. A <A HREF="IMEX0026.HTM#bare_board_technology" TARGET=ModelArea>bare_board_technology</A> (see chapter <A HREF="IMINT010.HTM#REF15712">15</A>) may define a collection of <A HREF="IMEX0026.HTM#technology_rule" TARGET=ModelArea>technology_rules</A> which specify the physical constraints and the clearance constraints for that technology. A <A HREF="IMEX0026.HTM#technology_rule" TARGET=ModelArea>technology_rule</A> may apply to the whole board, or to a number of layers on a board, or to a particular region on a layer. Figure <A HREF="IMINT020.HTM#REF30638">25.1</A> shows an example of a technology rule. For the whole board, it has defined a default minimum hole size of 5 mils, a default minimum trace to trace spacing of 6 mils and a default minimum trace to board edge spacing of 8 mils. On layer TOP, the default trace to trace spacing is overridden and its value becomes 4 mils. Similarly, on a particular region of layer TOP, the trace to trace spacing is overridden again and its value becomes 3 mils. 
+<P><A NAME="REF30638"><CENTER><IMG SRC="FIG0047.GIF">
+</CENTER></A>
+<P><CENTER> Figure 25.1:  An example of technology rules</CENTER>
+<P>Figure <A HREF="IMINT020.HTM#REF22958">25.2</A> shows the model of a <A HREF="IMEX0026.HTM#technology_rule" TARGET=ModelArea>technology_rule</A>. It is either an <A HREF="IMEX0026.HTM#external_technology_rule" TARGET=ModelArea>external_technology_rule</A> or an <A HREF="IMEX0026.HTM#internal_technology_rule" TARGET=ModelArea>internal_technology_rule</A>. An <A HREF="IMEX0026.HTM#internal_technology_rule" TARGET=ModelArea>internal_technology_rule</A> is further classified into an <A HREF="IMEX0026.HTM#internal_bare_board_technology_rule" TARGET=ModelArea>internal_bare_board_technology_rule</A> which defines manufacture or clearance constraints for the whole board, or an <A HREF="IMEX0026.HTM#internal_physical_layer_technology_rule" TARGET=ModelArea>internal_physical_layer_technology_rule</A> which defines manufacture or clearance constraints for a number of layers on a board. A layer-specific technology rule applies to the whole layer (i.e. <A HREF="IMEX0026.HTM#internal_bare_board_layer_technology_rule" TARGET=ModelArea>internal_bare_board_layer_technology_rule</A>) or to a chosen region on a layer (i.e. <A HREF="IMEX0026.HTM#internal_bare_board_region_technology_rule" TARGET=ModelArea>internal_bare_board_region_technology_rule</A>). 
+<P><A NAME="REF22958"><CENTER><IMG SRC="FIG0001.GIF">
+</CENTER></A>
+<P><CENTER> Figure 25.2:  The model of technology_rule</CENTER>
+
+<H3><A NAME="HDR48"> 25.1    Manufacturing rules</A></H3>
+<H4><A NAME="HDR49"> 25.1.1     Physical constraints</A></H4>
+<H5>Minimum acid trap angle (<A HREF="IMEX0026.HTM#internal_technology_rule" TARGET=ModelArea>internal_technology_rule</A>)</H5>
+<P>The minimum angle that must be formed by a trace when it enters a pad in order to avoid the formation of an acid trap (a place where acid can be trapped during the bare board manufacturing process). Potential acid traps are considered to occur only on the inside of trace corners, and where a trace meets a pad.  If a trace has two adjacent segments which join at a common vertex, the smaller of the two angles formed by the segments is measured. If this angle is smaller than the acid trap angle, then a potential acid trap is formed at the common vertex.  When a trace segment enters a pad, there will be two angles formed between the trace segment and the outline of the pad. If either of these angles is smaller than the acid trap angle, then acid may be trapped. Figure <A HREF="IMINT020.HTM#REF10034">25.3</A> shows how entry angles are measured between different types of artifacts. A minimum acid trap angle may be specified for the whole board, for various layers of a board, or for a region on several layers. 
+<P><A NAME="REF10034"><CENTER><IMG SRC="FIG0031.GIF">
+</CENTER></A>
+<P><CENTER> Figure 25.3:  Measuring entry angle between artifacts</CENTER>
+<H5>Minimum sliver width (<A HREF="IMEX0026.HTM#internal_technology_rule" TARGET=ModelArea>internal_technology_rule</A>)</H5>
+<P>The minimum width of sliver that can be successfully manufactured on a bare board.  A sliver is a thin shard of material which is too thin to be self-sustaining. The rule may be specified for the whole board, for various layers of a board, or for a region on several layers. 
+<H5>Trace grid (<A HREF="IMEX0026.HTM#internal_technology_rule" TARGET=ModelArea>internal_technology_rule</A>)</H5>
+<P>The trace grid is a recommendation to put traces on the grid. It may be specified for the whole board, for various layers of a board, or for a region on several layers. 
+<H5>Minimum/maximum hole size (<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule" TARGET=ModelArea>internal_bare_board_technology_rule</A>)</H5>
+<P>Constraints on hole size are checked against the diameter of the measured hole and they apply to the whole board. Different hole size rules may be specified for different kind of holes as listed below. 
+
+<UL>
+<LI><P><A HREF="IMEX0025.HTM#plated_through_hole" TARGET=ModelArea>plated_through_holes</A>
+<BR><BR>
+
+<LI><P><A HREF="IMEX0025.HTM#unplated_hole" TARGET=ModelArea>unplated_holes</A>
+<BR><BR>
+<LI><P>holes inside vias
+<BR><BR>
+<LI><P>holes inside pin places
+<BR><BR></UL>
+
+<H5>Hole clearance (<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule" TARGET=ModelArea>internal_bare_board_technology_rule</A>)</H5>
+<P>The <A HREF="IMEX0026.HTM#hole_clearance_rule" TARGET=ModelArea>hole_clearance_rule</A> is used to ensure that two holes are not so close together that they will compromise the structural strength of the board. Hole clearance rules apply to the whole board. The distance is measured between the closest points of two holes. Holes may be manufactured by drilling or other processes.  Clearances between drilled holes are defined by specifying the minimum spacing between different drill rules.  Hence, different clearance values can be stated between:
+
+<UL>
+<LI><P>holes which conform to a <A HREF="IMEX0026.HTM#drill_rule" TARGET=ModelArea>drill_rule</A> and holes which conform to another <A HREF="IMEX0026.HTM#drill_rule" TARGET=ModelArea>drill_rule</A>
+<BR><BR>
+<LI><P>holes which conform to a <A HREF="IMEX0026.HTM#drill_rule" TARGET=ModelArea>drill_rule</A> and any other holes
+<BR><BR>
+<LI><P>any holes
+<BR><BR></UL>
+
+<H5>Maximum drilling tolerance (<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule" TARGET=ModelArea>internal_bare_board_technology_rule</A>)</H5>
+<P>The maximum expected inaccuracy between the required position of a drilled hole and the actual position.  It is often used as the source of the check that the drilled hole lies wholly within a surrounding pad. Drilling tolerance is specified for the whole board.
+<H5>Via allowed flag (<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule" TARGET=ModelArea>internal_bare_board_technology_rule</A>)</H5>
+<P>The via allowed flag indicates whether or not vias can be used in the design and it applies to the whole board. This flag is necessary as a particular manufacturing technique may not allow the production of vias for cross-layer connection. 
+<H5>Via grid (<A HREF="IMEX0026.HTM#internal_bare_board_technology_rule" TARGET=ModelArea>internal_bare_board_technology_rule</A>)</H5>
+<P>The <A HREF="IMEX0026.HTM#via_grid" TARGET=ModelArea>via_grid</A> is a recommendation to put vias on the grid and it applies to the whole board. It checks vias with holes which are manufactured by the same <A HREF="IMEX0026.HTM#drill_rule" TARGET=ModelArea>drill_rule</A> only. 
+<H5>Routing strategy (<A HREF="IMEX0026.HTM#internal_physical_layer_technology_rule" TARGET=ModelArea>internal_physical_layer_technology_rule</A>)</H5>
+<P>A routing strategy specifies the preferred routing direction on various layers of the bare board. It may apply to several layers on a board, or to a specific region on a number of layers. 
+<H5>Keep-in area (<A HREF="IMEX0026.HTM#internal_bare_board_region_technology_rule" TARGET=ModelArea>internal_bare_board_region_technology_rule</A>)</H5>
+<P>The keep-in area is a recommendation that certain types of layout features (e.g. <A HREF="IMEX0025.HTM#trace" TARGET=ModelArea>trace</A>, via, <A HREF="IMEX0025.HTM#hole" TARGET=ModelArea>hole</A>, <A HREF="IMEX0025.HTM#non_specific_layout_shape" TARGET=ModelArea>non_specific_layout_shape</A>) should be located within a given region of the board.
+<H5>Keep-out area (<A HREF="IMEX0026.HTM#internal_bare_board_region_technology_rule" TARGET=ModelArea>internal_bare_board_region_technology_rule</A>)</H5>
+<P>The keep-out area is a recommendation that certain types of layout features (e.g. <A HREF="IMEX0025.HTM#trace" TARGET=ModelArea>trace</A>, via, <A HREF="IMEX0025.HTM#hole" TARGET=ModelArea>hole</A>, <A HREF="IMEX0025.HTM#non_specific_layout_shape" TARGET=ModelArea>non_specific_layout_shape</A>) should NOT be located within a given region of the board, for example, a trace keep-out area.
+
+<H4><A NAME="HDR50"> 25.1.2     Clearance constraints</A></H4>
+<P>Clearance rules are defined in <A HREF="IMEX0026.HTM#internal_technology_rule" TARGET=ModelArea>internal_technology_rule</A> and they may be specified for the whole board, for various layers of a board, or for a region on several layers. There are a number of clearance rules which specify the minimum and the optimum spacings between artifacts of particular types.   For clearance rules, a board edge means an edge of a bare board, a surface_mount_pad means a pad on a surface-mounted pin place, a through_hole_pad means a pad on a through-hole-mounted pin place, a via_pad means a pad on a via and a trace means a <A HREF="IMEX0025.HTM#trace" TARGET=ModelArea>trace</A> segment.  The optimum spacing is what the designer or manufacturer prefers but it can be violated provided the minimum spacing is followed.  Optimum spacings are specific to the auto-routing process therefore only trace to layout shape, trace to surface_mount_pad, trace to through_hole_pad, trace to trace or trace to via_pad can have optimum spacings. Table <A HREF="IMINT020.HTM#REF18246">25.1</A> defines what clearance rules are defined between pairs of artifacts. M represents minimum spacing and O represents optimum spacing.
+<P><A NAME="REF18246"> Table 25.1: Spacing rules between pairs of artifacts</A> 
+<CENTER>
+<TABLE BORDER>
+<TR><TD ALIGN=LEFT><BR> <TD ALIGN=CENTER>trace<BR> <TD ALIGN=CENTER>surface_mount_pad<BR> <TD ALIGN=CENTER>through_hole_pad<BR> <TD ALIGN=CENTER>via_pad<BR> <TD ALIGN=CENTER>layout shape<BR> <TD ALIGN=CENTER>board edge<BR> 
+<TR><TD ALIGN=LEFT>trace<BR> <TD ALIGN=CENTER>M, O<BR> <TD ALIGN=CENTER>M, O<BR> <TD ALIGN=CENTER>M, O<BR> <TD ALIGN=CENTER>M, O<BR> <TD ALIGN=CENTER>M, O<BR> <TD ALIGN=CENTER>M<BR> 
+<TR><TD ALIGN=LEFT>surface_mount_pad<BR> <TD ALIGN=LEFT><BR> <TD ALIGN=CENTER>M<BR> <TD ALIGN=CENTER>M<BR> <TD ALIGN=CENTER>M<BR> <TD ALIGN=CENTER>M<BR> <TD ALIGN=CENTER>M<BR> 
+<TR><TD ALIGN=LEFT>through_hole_pad<BR> <TD ALIGN=LEFT><BR> <TD ALIGN=CENTER><BR> <TD ALIGN=CENTER>M<BR> <TD ALIGN=CENTER>M<BR> <TD ALIGN=CENTER>M<BR> <TD ALIGN=CENTER>M<BR> 
+<TR><TD ALIGN=LEFT>via_pad<BR> <TD ALIGN=LEFT><BR> <TD ALIGN=LEFT><BR> <TD ALIGN=LEFT><BR> <TD ALIGN=CENTER>M<BR> <TD ALIGN=CENTER>M<BR> <TD ALIGN=CENTER>M<BR> 
+<TR><TD ALIGN=LEFT>layout shape<BR> <TD ALIGN=LEFT><BR> <TD ALIGN=LEFT><BR> <TD ALIGN=LEFT><BR> <TD ALIGN=LEFT><BR> <TD ALIGN=CENTER>M<BR> <TD ALIGN=CENTER>M<BR> 
+<TR><TD ALIGN=LEFT>hole<BR> <TD ALIGN=LEFT><BR> <TD ALIGN=LEFT><BR> <TD ALIGN=LEFT><BR> <TD ALIGN=LEFT><BR> <TD ALIGN=LEFT><BR> <TD ALIGN=CENTER>M<BR> 
+</TABLE>
+</CENTER>
+<P>Clearance rules are usually applied to objects from different physical nets on a bare board.  The check_on_same_net flag indicates whether or not clearance rules should be applied to objects from the same component signal.  An example might be a zig-zag trace in which the minimum trace-to-trace spacing is preserved between adjacent edges of different segments of the same trace.
+<P>For trace to via_pad clearance, the rule is applied by determining the distance between an edge of a pad on a via and an edge of a trace segment nearest to that via on the same layer. For minimum distance, the clearance must be measured perpendicular to the trace segment, as shown in figure <A HREF="IMINT020.HTM#REF10382">25.4</A>. 
+<P><A NAME="REF10382"><CENTER><IMG SRC="FIG0036.GIF">
+</CENTER></A>
+<P><CENTER> Figure 25.4:  An example of trace to via_pad clearance</CENTER>
+<P>For via_pad to via_pad clearance, the rule is applied by determining the distance between an edge of a pad on a via and an edge of a pad on another via on the same layer, as shown in figure <A HREF="IMINT020.HTM#REF22545">25.5</A>.
+
+<P><A NAME="REF22545"><CENTER><IMG SRC="FIG0040.GIF">
+</CENTER></A>
+<P><CENTER> Figure 25.5:  An example of via_pad to via_pad clearance</CENTER>
+<P>For hole to board edge, trace to board edge, surface_mount_pad to board edge, through_hole_pad to board edge, via_pad to board edge and layout shape to board edge, the clearance rules specify how far inside the inner edge of the board objects must be located.  The purpose is to assure that the profiling tool (which cuts out a board from a sheet) does not damage the electrical artifacts within the board.
+<H3><A NAME="HDR51"> 25.2    Assembly rules</A></H3>
+<P>A packaged or die <A HREF="IMEX0021.HTM#component" TARGET=ModelArea>component</A> is mounted onto a bare board by specifying a <A HREF="IMEX0022.HTM#mountable_package" TARGET=ModelArea>mountable_package</A> (see chapter <A HREF="IMINT012.HTM#REF36315">17</A>) or a <A HREF="IMEX0014.HTM#mountable_die_physical_template" TARGET=ModelArea>mountable_die_physical_template</A> (see section <A HREF="IMINT013.HTM#REF30630">18.4</A>) for the component. Assembly rules are specified in an <A HREF="IMEX0015.HTM#assembled_board" TARGET=ModelArea>assembled_board</A> and check against how components are mounted on the board.
+<H5>Component assembly rule (<A HREF="IMEX0015.HTM#component_assembly_rule" TARGET=ModelArea>component_assembly_rule</A>)</H5>
+<P>The rule is used to specify areas on an assembled board that components are intended to be kept in or out of.
+<H5>Component realisation rule (<A HREF="IMEX0015.HTM#component_realisation_rule" TARGET=ModelArea>component_realisation_rule</A>)</H5>
+<P>The rule is used to specify the exclusion of certain types of layout items, e.g. vias, from parts of the bare board. The exclusion areas are typically due to the presence of one or more components. 
+<H5>Component orientation (<A HREF="IMEX0022.HTM#mountable_package_orientation_rule" TARGET=ModelArea>mountable_package_orientation_rule</A>)</H5>
+<P>PCB assembly processes and tools need to know how to place components onto the bare board.  Most of that information can be found in the <A HREF="IMEX0022.HTM#mountable_package" TARGET=ModelArea>mountable_package</A> or <A HREF="IMEX0014.HTM#mountable_die_physical_template" TARGET=ModelArea>mountable_die_physical_template</A>.  A <A HREF="IMEX0022.HTM#mountable_package_orientation_rule" TARGET=ModelArea>mountable_package_orientation_rule</A> further defines assembly information by specifying the allowable angles of rotation for a <A HREF="IMEX0022.HTM#mountable_package" TARGET=ModelArea>mountable_package</A>.  The rotation angle is measured counter-clockwise as seen from the top side of an <A HREF="IMEX0015.HTM#assembled_board" TARGET=ModelArea>assembled_board</A>.
+
+<DL>
+<DD>EXAMPLE: 14-Pin Surface Mount Technology (SMT) Dual In Line Packages (DIPs) on the top side (non-solder) may be rotated at 45 degrees increments. 
+<BR><BR></DL>
+
+<H5>Component height (<A HREF="IMEX0015.HTM#assembled_board" TARGET=ModelArea>assembled_board</A>)</H5>
+<P>A default maximum component height may be specified for the top side or the bottom side of an <A HREF="IMEX0015.HTM#assembled_board" TARGET=ModelArea>assembled_board</A>.  For example, this rule can be used to ensure that components on the bottom side do not obstruct the operation of a bed-of-nails testing fixture.  Another usage is to ensure that the finished assembled board can be put into a card cage. 
+
+<H5>Signal implementation rule (<A HREF="IMEX0015.HTM#component_signal_realisation_rule" TARGET=ModelArea>component_signal_realisation_rule</A>)</H5>
+<P>The rule is used to state the physical or clearance constraints for the physical nets on an assembled board which realize signals of the design.  It includes:
+
+<UL>
+<LI><P>&#09;&#09;The default minimum and optimum trace width for signals.  It is possible to override the default trace width on individual layer(s). 
+<BR><BR>
+<LI><P>The minimum spur length is the smallest length of the trace that must be laid when routing from the main track of a signal to a load pin.
+<BR><BR>
+<LI><P>The clearance constraints for signals, e.g. minimum trace to trace spacing. 
+<BR><BR></UL>
+
+<H3><A NAME="HDR52"> 25.3    MCM chips-first technology rules</A></H3>
+<P>For chips-first technology (see section <A HREF="IMINT013.HTM#REF48098">18.1</A>), a bare board has cavities on one or more substrate layers. Each cavity consists of wells which may have different depths. Dies can be placed inside wells. Dies with different heights are placed inside adjacent wells of different depth. Various technology rules are listed below and are shown in figure <A HREF="IMINT020.HTM#REF18232">25.6</A>.
+
+<OL>
+<LI><P>Cavity to board edge - minimum and recommended spacing between edges of a cavity and of the substrate.
+<BR><BR>
+<LI><P>Cavity to cavity - minimum and recommended spacing between edges of adjacent cavities in the substrate. 
+<BR><BR>
+<LI><P>Hole to cavity - minimum and recommended spacing between a hole drilled in the substrate and a cavity edge.
+<BR><BR>
+<LI><P>Metal artifact to cavity - minimum and recommended spacing between a metal artifact on the substrate and a cavity edge. This constraint applies only to metal artifacts on the substrate surface.  These artifacts do not enter into cavities.
+<BR><BR>
+<LI><P>Dimension of a cavity - minimum size of a cavity.
+<BR><BR>
+<LI><P>Angle of well wall - maximum, minimum and recommended angle of the well wall.
+<BR><BR>
+<LI><P>Width of trace into cavity - minimum and recommended width of the metal artifact entering into cavity.
+<BR><BR>
+<LI><P>Embedded die to well edge - maximum, minimum and recommended spacing between an embedded die and an edge of the well that it is &#09;mounted into.
+<BR><BR>
+<LI><P>Embedded die to well wall - maximum, minimum and recommended spacing between an embedded die and the wall of an adjacent well.
+<BR><BR>
+<LI><P>Height difference between an embedded die and the substrate surface - maximum and recommended height difference between the surface of a die and the surface of the substrate.
+<BR><BR>
+<LI><P>Height difference between adjacent embedded dies placed in the same cavity. - maximum and minimum height difference between adjacent dies which are embedded in the same cavity.
+<BR><BR>
+
+<LI><P>Embedded die to embedded die (of dies with same height) - maximum, minimum and recommended spacing between dies of same height embedded in the same well.
+<BR><BR>
+<LI><P>Embedded die to embedded die (of dies with different height) - maximum, minimum and recommended spacing between dies with different height embedded in adjacent wells of different depth. 
+<BR><BR>
+<LI><P>Width of position tolerance around each embedded die - minimum width of the <A HREF="IMEX0014.HTM#die_position_tolerance" TARGET=ModelArea>die_position_tolerance</A> of a die. The chips-first interconnect is laid directly over the top of the dies after the dies are attached. If the dies are attached slightly off in X or Y directions or rotationally, the position tolerance allows the first layer of interconnect to be tweaked so that the slightly out of place die can be connected to the above interconnect as defined by the artwork masks.
+<BR><BR>
+<LI><P>Die bond pad to die edge - minimum and recommended spacing between edges of a bond pad and of the die containing the bond pad. 
+<BR><BR><P><CENTER><IMG SRC="FIG0034.GIF">
+</CENTER>
+<P><CENTER><IMG SRC="FIG0045.GIF">
+</CENTER>
+</OL>
+
+<P><CENTER><A NAME="REF18232"> Figure 25.6:  Technology rules for MCM chips-first technology</A></CENTER>
+
+<H3><A NAME="HDR53"> 25.4    MCM chips-last technology rules</A></H3>
+<P>For chips-last technology (see section <A HREF="IMINT013.HTM#REF48098">18.1</A>), wirebonds can be used to effect a connection between a pre-determined location on a bare die to a nominated location on the board (i.e. wirebond pad).  They are usually made of gold or aluminum.
+
+<UL>
+<LI><P>Wirebond length - minimum and maximum length of a wirebond.
+<BR><BR>
+</UL>
+
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

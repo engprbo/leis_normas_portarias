@@ -1,0 +1,697 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="fixed">fixed</A></H1>
+<PRE>
+<I>fixed ::= '(' 'fixed'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cellPropertyOverride">cellPropertyOverride</A>  <A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A>  <A HREF="RMRF0010.HTM#instancePropertyOverride">instancePropertyOverride</A>  <A HREF="RMRF0017.HTM#portPropertyOverride">portPropertyOverride</A>  <A HREF="RMRF0018.HTM#propertyInheritanceControl">propertyInheritanceControl</A>  <A HREF="RMRF0018.HTM#propertyOverride">propertyOverride</A>  <A HREF="RMRF0026.HTM#viewPropertyOverride">viewPropertyOverride</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fixed">Fixed</A></I> is used to specify that a particular property value is fixed and may not be overridden. It is a semantic error to specify a property override for a property that is fixed.
+<P>It is a semantic error to use <I><A HREF="RMRF0007.HTM#fixed">fixed</A></I> in a context where a <I><A HREF="RMRF0018.HTM#property">property</A></I> may not be overridden, e.g. if it is <I><A HREF="RMRF0014.HTM#notInherited">notInherited</A></I> or is already fixed.
+<H3>Example:</H3>
+<PRE>
+<B>(property BIN_NUMBER (string "A234") </B>
+<B>   (propertyInheritanceControl (fixed)))</B>
+</PRE>
+<P>This specifies a property <B>BIN_NUMBER</B> which may not be overridden.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#notInherited">notInherited</A>
+</I>
+<P><HR>
+<H1><A NAME="font">font</A></H1>
+<PRE>
+<I>font ::= '(' 'font'</I>
+&#09;<I><A HREF="RMRF0007.HTM#fontNameDef">fontNameDef</A></I>
+&#09;<I><A HREF="RMRF0025.HTM#typeface">typeface</A></I>
+&#09;<I><A HREF="RMRF0007.HTM#fontProportions">fontProportions</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0000.HTM#boldStyle">boldStyle</A>&gt; | &lt;<A HREF="RMRF0011.HTM#italicStyle">italicStyle</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | &lt;<A HREF="RMRF0018.HTM#proportionalFont">proportionalFont</A>&gt; | 
+&#09;<A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#fonts">fonts</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#font">Font</A></I> specifies information about the appearance of a text font used by the sending system. If the font defined in <I><A HREF="RMRF0025.HTM#typeface">typeface</A></I> is not installed on the receiving system, the information in <I><A HREF="RMRF0007.HTM#font">font</A></I> enables the EDIF reader to choose the most similar font from those available. 
+<P>EDIF does not attempt to specify the method used by the reader to choose the most similar font. 
+<P><I><A HREF="RMRF0005.HTM#displayAttributes">DisplayAttributes</A></I> and <I><A HREF="RMRF0021.HTM#schematicRequiredDefaults">schematicRequiredDefaults</A></I> specify not only which <I><A HREF="RMRF0007.HTM#font">font</A></I> to use for text, but also the height of the text (using <I><A HREF="RMRF0024.HTM#textHeight">textHeight</A></I>). The font on the receiving system which is used to draw the text may need to be scaled to match the required <I><A HREF="RMRF0024.HTM#textHeight">textHeight</A></I>. For example, if the required <I><A HREF="RMRF0024.HTM#textHeight">textHeight</A></I> is 24 point and the installed font definition is at 12 point,  scaling by a factor of two will have to be performed.
+<P>The information in <I><A HREF="RMRF0007.HTM#font">font</A></I> is also used for other purposes by <I><A HREF="RMRF0026.HTM#verticalJustification">verticalJustification</A></I>.
+<P>The name of the font given by <I><A HREF="RMRF0007.HTM#fontNameDef">fontNameDef</A></I> is used to reference the font within the EDIF data only.
+<P><I><A HREF="RMRF0007.HTM#fontProportions">FontProportions</A></I> defines the <I><A HREF="RMRF0007.HTM#fontHeight">fontHeight</A>, <A HREF="RMRF0007.HTM#fontDescent">fontDescent</A></I> and <I><A HREF="RMRF0007.HTM#fontCapitalHeight">fontCapitalHeight</A> </I>which together describe the height of the font as shown in the illustration below. The <I><A HREF="RMRF0007.HTM#fontHeight">fontHeight</A></I> and <I><A HREF="RMRF0007.HTM#fontDescent">fontDescent</A></I> values are measured from the font bounding box rather than from the top or bottom of a particular character. The ascent and <I><A HREF="RMRF0007.HTM#fontDescent">fontDescent</A></I> may include some space above the tops and/or below the bottoms of the characters as defined by the font designer so that the <I><A HREF="RMRF0007.HTM#fontHeight">fontHeight</A></I> defines the normal line spacing.
+<P><CENTER><IMG SRC="FIG0008.GIF">
+</CENTER>
+<P>The font ascent, the distance between the baseline and the top of the font bounding box, is derived by subtracting <I><A HREF="RMRF0007.HTM#fontDescent">fontDescent</A></I> from the <I><A HREF="RMRF0007.HTM#fontHeight">fontHeight</A></I> value.
+<P>The leading is derived by subtracting <I><A HREF="RMRF0007.HTM#fontCapitalHeight">fontCapitalHeight</A></I> and <I><A HREF="RMRF0007.HTM#fontDescent">fontDescent</A></I> from <I><A HREF="RMRF0007.HTM#fontHeight">fontHeight</A></I>.
+<P>Not all these values may be readily available in a database being translated into EDIF. However, the EDIF writer must supply appropriate values for these measurements based on the appearance of the text on the source system.
+<P>The optional attributes <I><A HREF="RMRF0000.HTM#boldStyle">boldStyle</A></I> and <I><A HREF="RMRF0011.HTM#italicStyle">italicStyle</A> </I>may be used to locate a particular typeface within a font family. See the description in <I><A HREF="RMRF0025.HTM#typeface">typeface</A></I> for more information.
+<P><I><A HREF="RMRF0018.HTM#proportionalFont">ProportionalFont</A></I> indicates that <I><A HREF="RMRF0007.HTM#fontWidth">fontWidth</A></I> is an average value and the actual character widths vary. Typically, the widths of capital letters are wider than the average and lower-case letters are narrower than the average.
+<H3>Example:</H3>
+<PRE>
+<B>(fontDefinitions</B>
+<B>   (fonts</B>
+<B>      (setDistance (unitRef decipoint))</B>
+<B>      (font f1</B>
+<B>         (typeface "Times" </B>
+<B>            (typefaceSuffix "-Bold-R-Normal"))</B>
+<B>         (fontProportions</B>
+<B>            (fontHeight 100)</B>
+<B>            (fontDescent 20)</B>
+<B>            (fontCapitalHeight 70)</B>
+<B>            (fontWidth 76))</B>
+<B>         (boldStyle)</B>
+<B>         (proportionalFont) ...)))</B>
+</PRE>
+<P>This example might have been created to represent a Times Bold 10 point font named <B>f1</B>. The unit <B>decipoint</B> in this example references a unit of one tenth of a point.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontRef">fontRef</A>  <A HREF="RMRF0024.HTM#textHeight">textHeight</A>  <A HREF="RMRF0025.HTM#typeface">typeface</A>  
+</I>
+<P><HR>
+<H1><A NAME="fontCapitalHeight">fontCapitalHeight</A></H1>
+<PRE>
+<I>fontCapitalHeight ::= '(' 'fontCapitalHeight'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#fontProportions">fontProportions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontCapitalHeight">FontCapitalHeight</A></I> is the height of capital letters, as shown in the illustration under <I><A HREF="RMRF0007.HTM#font">font</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(fontProportions</B>
+<B>   (fontHeight 10)</B>
+<B>   (fontDescent 2)</B>
+<B>   (fontCapitalHeight 6)</B>
+<B>   (fontWidth 1)) </B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#font">font</A> <A HREF="RMRF0024.HTM#textHeight">textHeight</A> <A HREF="RMRF0007.HTM#fontHeight">fontHeight</A> <A HREF="RMRF0007.HTM#fontDescent">fontDescent</A>
+</I>
+<P><HR>
+<H1><A NAME="fontDefinitions">fontDefinitions</A></H1>
+<PRE>
+<I>fontDefinitions ::= '(' 'fontDefinitions'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0007.HTM#fonts">fonts</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontDefinitions">FontDefinitions</A></I> collects together all the definitions of fonts at a given point in the EDIF data.
+<P>See <I><A HREF="RMRF0007.HTM#font">font</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#displayAttributes">displayAttributes</A>  <A HREF="RMRF0007.HTM#font">font</A>  <A HREF="RMRF0024.HTM#textHeight">textHeight</A>  <A HREF="RMRF0021.HTM#schematicRequiredDefaults">schematicRequiredDefaults</A>
+</I>
+<P><HR>
+<H1><A NAME="fontDescent">fontDescent</A></H1>
+<PRE>
+<I>fontDescent ::= '(' 'fontDescent'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#fontProportions">fontProportions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontDescent">FontDescent</A></I> is a characteristic of the font. It is the distance between the baseline (refer to the diagram under <I><A HREF="RMRF0007.HTM#font">font</A></I>) and the bottom of the font bounding box. The font descent is the area in which the bottom parts of letters with descenders, e.g. "gjpqy", are drawn. 
+<H3>Example:</H3>
+<PRE>
+<B>(fontProportions</B>
+<B>   (fontHeight 10)</B>
+<B>   (fontDescent 2)</B>
+<B>   (fontCapitalHeight 6)</B>
+<B>   (fontWidth 1)) </B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontCapitalHeight">fontCapitalHeight</A>  <A HREF="RMRF0007.HTM#fontHeight">fontHeight</A>  <A HREF="RMRF0007.HTM#fontWidth">fontWidth</A>  <A HREF="RMRF0024.HTM#textHeight">textHeight</A>
+</I>
+<P><HR>
+<H1><A NAME="fontFamily">fontFamily</A></H1>
+<PRE>
+<I>fontFamily ::= <A HREF="RMRF0024.HTM#stringToken">stringToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0025.HTM#typeface">typeface</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontFamily">FontFamily</A> </I>defines a string name used to identify a family of typefaces. <I><A HREF="RMRF0007.HTM#fontFamily">FontFamily</A></I> is the name of the typeface without a suffix identifying bold, italic or other attributes. If no suffix is applicable, then the <I><A HREF="RMRF0007.HTM#fontFamily">fontFamily</A></I> is the same as the typeface name, and no suffix is provided.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#boldStyle">boldStyle</A>  <A HREF="RMRF0007.HTM#font">font</A>  <A HREF="RMRF0011.HTM#italicStyle">italicStyle</A>  <A HREF="RMRF0025.HTM#typefaceSuffix">typefaceSuffix</A> 
+</I>
+<P><HR>
+<H1><A NAME="fontHeight">fontHeight</A></H1>
+<PRE>
+<I>fontHeight ::= '(' 'fontHeight'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#fontProportions">fontProportions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontHeight">FontHeight</A></I> is part of the information associated with a font definition specifying the height of the font bounding box. The height of text is defined as the distance between the top and bottom of the font bounding box, and is used as the line-to-line spacing. The font bounding box, defined by a font designer, includes whitespace above and possibly below the characters used in normal line spacing.
+<H3>Example:</H3>
+<PRE>
+<B>(fontProportions</B>
+<B>   (fontHeight 10)</B>
+<B>   (fontDescent 2)</B>
+<B>   (fontCapitalHeight 6)</B>
+<B>   (fontWidth 1)) </B>
+</PRE>
+<P>This example shows a <B>10</B> point font,  assuming that the applicable distance unit is one point.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontCapitalHeight">fontCapitalHeight</A>  <A HREF="RMRF0007.HTM#fontDescent">fontDescent</A>  <A HREF="RMRF0007.HTM#fontWidth">fontWidth</A>  <A HREF="RMRF0023.HTM#setDistance">setDistance</A>
+</I>
+<P><HR>
+<H1><A NAME="fontNameDef">fontNameDef</A></H1>
+<PRE>
+<I>fontNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#font">font</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontNameDef">FontNameDef</A></I> is the definition of a font name. It is scoped to the EDIF file. The font name is used to reference the font within the EDIF file. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontNameRef">fontNameRef</A>  <A HREF="RMRF0025.HTM#typeface">typeface</A>
+</I>
+<P><HR>
+<H1><A NAME="fontNameRef">fontNameRef</A></H1>
+<PRE>
+<I>fontNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#fontRef">fontRef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontNameRef">FontNameRef</A></I> is a reference to a previously-defined <I><A HREF="RMRF0007.HTM#fontNameDef">fontNameDef</A>.
+</I>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#font">font</A>  <A HREF="RMRF0007.HTM#fontNameDef">fontNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="fontProportions">fontProportions</A></H1>
+<PRE>
+<I>fontProportions ::= '(' 'fontProportions'</I>
+&#09;<I><A HREF="RMRF0007.HTM#fontHeight">fontHeight</A></I>
+&#09;<I><A HREF="RMRF0007.HTM#fontDescent">fontDescent</A></I>
+&#09;<I><A HREF="RMRF0007.HTM#fontCapitalHeight">fontCapitalHeight</A></I>
+&#09;<I><A HREF="RMRF0007.HTM#fontWidth">fontWidth</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#font">font</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontProportions">FontProportions</A></I> specifies details of the space occupied by a particular font. See the description of <I><A HREF="RMRF0007.HTM#font">font</A></I> for an overview of the relationship between the various constructs.
+<H3>Example:</H3>
+<PRE>
+<B>(fontProportions</B>
+<B>   (fontHeight 10)</B>
+<B>   (fontDescent 2)</B>
+<B>   (fontCapitalHeight 6)</B>
+<B>   (fontWidth 1)) </B>
+</PRE>
+
+<P><HR>
+<H1><A NAME="fontRef">fontRef</A></H1>
+<PRE>
+<I>fontRef ::= '(' 'fontRef'</I>
+&#09;<I><A HREF="RMRF0007.HTM#fontNameRef">fontNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#displayAttributes">displayAttributes</A>  <A HREF="RMRF0021.HTM#schematicRequiredDefaults">schematicRequiredDefaults</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontRef">FontRef</A></I> is used to reference a previously-defined font. The font reference is used to specify how text is to be rendered and positioned within the <I><A HREF="RMRF0005.HTM#displayAttributes">displayAttributes</A></I> of a <I><A HREF="RMRF0006.HTM#figureGroup">figureGroup</A></I> or <I><A HREF="RMRF0006.HTM#figureGroupOverride">figureGroupOverride</A></I>. If a <I><A HREF="RMRF0007.HTM#fontRef">fontRef</A></I> is not defined in a <I><A HREF="RMRF0006.HTM#figureGroup">figureGroup</A></I> or <I><A HREF="RMRF0006.HTM#figureGroupOverride">figureGroupOverride</A></I>, then the <I><A HREF="RMRF0007.HTM#fontRef">fontRef</A></I> specified in <I><A HREF="RMRF0021.HTM#schematicRequiredDefaults">schematicRequiredDefaults</A></I> is assumed.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#font">font</A>
+</I>
+<P><HR>
+<H1><A NAME="fonts">fonts</A></H1>
+<PRE>
+<I>fonts ::= '(' 'fonts'</I>
+&#09;<I><A HREF="RMRF0023.HTM#setDistance">setDistance</A></I>
+&#09;<I>{ <A HREF="RMRF0007.HTM#font">font</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#fontDefinitions">fontDefinitions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fonts">Fonts</A></I> specifies the unit of distance used in the definition of all fonts in the file and defines each font. The unit referenced by <I><A HREF="RMRF0023.HTM#setDistance">setDistance</A></I> applies to all distance values for all font definitions.
+<P>See <I><A HREF="RMRF0007.HTM#font">font</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A>  <A HREF="RMRF0005.HTM#distanceValue">distanceValue</A>
+</I>
+<P><HR>
+<H1><A NAME="fontWidth">fontWidth</A></H1>
+<PRE>
+<I>fontWidth ::= '(' 'fontWidth'</I>
+&#09;<I><A HREF="RMRF0012.HTM#lengthValue">lengthValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#fontProportions">fontProportions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontWidth">FontWidth</A></I> specifies the average width of the characters in a font. In a fixed-pitch font, this value forms a constant value for the character spacing, which is the change in the origin when rendering the characters in a text string. This value may be used to compute the width of the bounding box for text. For a proportional font, the widths of individual characters will vary, and the <I><A HREF="RMRF0007.HTM#fontWidth">fontWidth</A></I> will be the average spacing for all characters in the font. If a matching font cannot be located and the <I><A HREF="RMRF0007.HTM#fontProportions">fontProportions</A></I> attribute is specified in <I><A HREF="RMRF0007.HTM#font">font</A></I>, then the scaled widths from a known proportional font should be used to approximate the widths of text strings.
+<H3>Example:</H3>
+<PRE>
+<B>(fontProportions</B>
+<B>   (fontHeight 10)</B>
+<B>   (fontDescent 2)</B>
+<B>   (fontCapitalHeight 6)</B>
+<B>   (fontWidth 1)) </B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#fontHeight">fontHeight</A> <A HREF="RMRF0018.HTM#proportionalFont">proportionalFont</A>
+</I>
+<P><HR>
+<H1><A NAME="forbiddenEvent">forbiddenEvent</A></H1>
+<PRE>
+<I>forbiddenEvent ::= '(' 'forbiddenEvent'</I>
+&#09;<I><A HREF="RMRF0024.HTM#timeInterval">timeInterval</A></I>
+&#09;<I>{ <A HREF="RMRF0006.HTM#event">event</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0024.HTM#timing">timing</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#forbiddenEvent">ForbiddenEvent</A> </I>lists <I><A HREF="RMRF0006.HTM#event">events</A> </I>which are forbidden during a period of time which is specified by <I><A HREF="RMRF0024.HTM#timeInterval">timeInterval</A>. <A HREF="RMRF0007.HTM#forbiddenEvent">ForbiddenEvent</A> </I>may be used to describe minimum required setup and hold times, minimum pulse widths, and other timing constraints.
+<H3>Example:</H3>
+<PRE>
+<B>(forbiddenEvent</B>
+<B>   (timeInterval</B>
+<B>      (event (portRef CLK) (becomes H))</B>
+<B>      (event (portRef CLK) (becomes L)))</B>
+<B>   (event (portRef D)))</B>
+</PRE>
+<P>In this example, no transitions can occur on port <B>D </B>during the time that port <B>CLK </B>becomes <B>H </B>to the time that port <B>CLK </B>becomes <B>L. 
+</B><PRE>
+<B>(forbiddenEvent</B>
+<B>   (timeInterval</B>
+<B>      (event (portRef CK) (transition L H))</B>
+<B>      (duration (e 78 -1)))</B>
+<B>   (event (portRef CK) (becomes L)))</B>
+</PRE>
+<P>In the second example, for <B>7.8 </B>time units after a <B>L </B>to <B>H </B>transition on port <B>CK </B>there must not be a transition back to <B>L </B>on the same port. This is equivalent to port <B>CK </B>having a minimum <B>LHL </B>pulse width of <B>7.8 </B>time units.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0006.HTM#event">event</A>  <A HREF="RMRF0024.HTM#timeInterval">timeInterval</A>
+</I>
+<P><HR>
+<H1><A NAME="forFrame">forFrame</A></H1>
+<PRE>
+<I>forFrame ::= '(' 'forFrame'</I>
+&#09;<I><A HREF="RMRF0007.HTM#frameNameDef">frameNameDef</A></I>
+&#09;<I><A HREF="RMRF0018.HTM#repetitionCount">repetitionCount</A></I>
+&#09;<I><A HREF="RMRF0007.HTM#forFrameIndex">forFrameIndex</A></I>
+&#09;<I><A HREF="RMRF0013.HTM#logicalConnectivity">logicalConnectivity</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0005.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0018.HTM#property">property</A> | <A HREF="RMRF0025.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0013.HTM#logicalConnectivity">logicalConnectivity</A>  
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I> is a frame whose contents are repeated a specified number of times during hierarchy expansion. <I><A HREF="RMRF0018.HTM#repetitionCount">RepetitionCount</A></I> specifies the number of times to repeat the <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I>. Each repetition of <I><A HREF="RMRF0007.HTM#frameNameDef">frameNameDef</A></I> is called an "element". <I><A HREF="RMRF0007.HTM#forFrameIndex">ForFrameIndex</A></I> specifies the index number given to each element created. The index number enables different annotation to be attached to each element. The index number can also be referred to in <I><A HREF="RMRF0010.HTM#integerExpression">integerExpressions</A></I> by using <I><A HREF="RMRF0007.HTM#forFrameIndexRef">forFrameIndexRef</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(forFrame F1 (repetitionCount 32)</B>
+<B>   (forFrameIndex J (indexStart 0) (indexStep 1))</B>
+<B>   (logicalConnectivity ...)</B>
+<B>)</B>
+</PRE>
+<P>In this example, 32 repetitions of <B>F1</B> are created. They have the associated index values J = 0, 1, ...31.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0002.HTM#connectivityFrameStructure">connectivityFrameStructure</A>  <A HREF="RMRF0007.HTM#forFrameAnnotate">forFrameAnnotate</A>  <A HREF="RMRF0009.HTM#ifFrame">ifFrame</A>  <A HREF="RMRF0015.HTM#otherwiseFrame">otherwiseFrame</A>  <A HREF="RMRF0019.HTM#schematicForFrameImplementation">schematicForFrameImplementation</A>
+</I>
+<P><HR>
+<H1><A NAME="forFrameAnnotate">forFrameAnnotate</A></H1>
+<PRE>
+<I>forFrameAnnotate ::= '(' 'forFrameAnnotate'</I>
+&#09;<I><A HREF="RMRF0006.HTM#extendForFrameMemberDef">extendForFrameMemberDef</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0007.HTM#forFrameAnnotate">forFrameAnnotate</A> | <A HREF="RMRF0009.HTM#ifFrameAnnotate">ifFrameAnnotate</A> | <A HREF="RMRF0010.HTM#interconnectAnnotate">interconnectAnnotate</A> | 
+&#09;<A HREF="RMRF0012.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A> | <A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A> | <A HREF="RMRF0015.HTM#otherwiseFrameAnnotate">otherwiseFrameAnnotate</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#forFrameAnnotate">forFrameAnnotate</A>  <A HREF="RMRF0009.HTM#ifFrameAnnotate">ifFrameAnnotate</A>  <A HREF="RMRF0015.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  <A HREF="RMRF0015.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  <A HREF="RMRF0015.HTM#otherwiseFrameAnnotate">otherwiseFrameAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P>This enables annotation to be attached to a specific element of an expanded <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(forFrameAnnotate </B>
+<B>   (forFrameMemberRef F1 (indexValue 3))</B>
+<B>   ...)</B>
+</PRE>
+<P>Here, the element with index value <B>3</B> within <B>F1</B> is to have annotation attached. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrame">forFrame</A>
+</I>
+<P><HR>
+<H1><A NAME="forFrameIndex">forFrameIndex</A></H1>
+<PRE>
+<I>forFrameIndex ::= '(' 'forFrameIndex'</I>
+&#09;<I><A HREF="RMRF0009.HTM#indexNameDef">indexNameDef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0009.HTM#indexStart">indexStart</A>&gt; | &lt;<A HREF="RMRF0009.HTM#indexStep">indexStep</A>&gt; | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#forFrame">forFrame</A>  
+</I>
+<H3>Description:</H3>
+<P>This specifies the sequence of integer values to be used for the index of a <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I> expansion. <I><A HREF="RMRF0009.HTM#indexNameDef">IndexNameDef</A></I> defines the name of the index. 
+<P>The default value for the index start value is zero. The default value for the index step value is one.
+<H3>Example:</H3>
+<PRE>
+<B>(forFrame F1 (repetitionCount 32)</B>
+<B>   (forFrameIndex I (indexStart 1) (indexStep 2))</B>
+<B>   (logicalConnectivity ...)</B>
+<B>)</B>
+</PRE>
+<P>In this example, the index starts from one and increases by two for each new element.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrameIndexDisplay">forFrameIndexDisplay</A>
+</I>
+<P><HR>
+<H1><A NAME="forFrameIndexDisplay">forFrameIndexDisplay</A></H1>
+<PRE>
+<I>forFrameIndexDisplay ::= '(' 'forFrameIndexDisplay'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0009.HTM#indexEndDisplay">indexEndDisplay</A>&gt; | &lt;<A HREF="RMRF0009.HTM#indexNameDisplay">indexNameDisplay</A>&gt; | &lt;<A HREF="RMRF0009.HTM#indexStartDisplay">indexStartDisplay</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0009.HTM#indexStepDisplay">indexStepDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicForFrameBorder">schematicForFrameBorder</A>  <A HREF="RMRF0019.HTM#schematicForFrameBorderTemplate">schematicForFrameBorderTemplate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrameIndexDisplay">ForFrameIndexDisplay</A></I> enables you to display the index name and other details of the index of a <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I>. 
+<H3>Example:</H3>
+<PRE>
+<B>(forFrameIndexDisplay</B>
+<B>   (indexStartDisplay</B>
+<B>      (addDisplay</B>
+<B>         (display </B>
+<B>            (figureGroupOverride Green</B>
+<B>               (displayAttributes ...)) </B>
+<B>            (transform (origin (pt 25 30)) </B>
+<B>               (rotation 90))))))</B>
+</PRE>
+<P>In this example, only the index start is displayed.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrameIndex">forFrameIndex</A>  
+</I>
+<P><HR>
+<H1><A NAME="forFrameIndexNameCaseSensitive">forFrameIndexNameCaseSensitive</A></H1>
+<PRE>
+<I>forFrameIndexNameCaseSensitive ::= '(' 'forFrameIndexNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrameIndexNameCaseSensitive">ForFrameIndexNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for a for frame index name are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I>  for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  <A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>
+</I>
+<P><HR>
+<H1><A NAME="forFrameIndexRef">forFrameIndexRef</A></H1>
+<PRE>
+<I>forFrameIndexRef ::= '(' 'forFrameIndexRef'</I>
+&#09;<I><A HREF="RMRF0009.HTM#indexNameRef">indexNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrameIndexRef">ForFrameIndexRef</A></I> references a for frame index by name. It is used in <I><A HREF="RMRF0010.HTM#integerExpression">integerExpression</A></I> and returns the value of the for frame index referenced. It may only be used in the context of a for frame or its implementation.
+<H3>Example:</H3>
+<PRE>
+<B>(instanceNameGenerator</B>
+<B>   (stringConcatenate</B>
+<B>      (stringParameterRef instanceNameStem)</B>
+<B>      (decimalToString </B>
+<B>         (integerSum 1</B>
+<B>            (forFrameIndexRef J)))))</B>
+</PRE>
+<P>In this example, the name of the <I><A HREF="RMRF0009.HTM#instance">instance</A></I> is created by concatenating the <I><A HREF="RMRF0024.HTM#stringParameter">stringParameters</A></I> <B>instanceNameStem</B> and the for frame index <B>J</B>, with <B>1</B> added and converted to a string.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrameIndex">forFrameIndex</A>
+</I>
+<P><HR>
+<H1><A NAME="forFrameMemberRef">forFrameMemberRef</A></H1>
+<PRE>
+<I>forFrameMemberRef ::= '(' 'forFrameMemberRef'</I>
+&#09;<I><A HREF="RMRF0007.HTM#frameNameRef">frameNameRef</A></I>
+&#09;<I><A HREF="RMRF0009.HTM#indexValue">indexValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#extendForFrameMemberDef">extendForFrameMemberDef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrameMemberRef">ForFrameMemberRef</A></I> references a member of a <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I>. The <I><A HREF="RMRF0009.HTM#indexValue">indexValue</A></I> must be valid in the context of the expanded <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I>. It is only possible to reference a member of a <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I> in the context of an expanded occurrence hierarchy, when the value of the <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I> <I><A HREF="RMRF0018.HTM#repetitionCount">repetitionCount</A></I> and <I><A HREF="RMRF0007.HTM#forFrameIndex">forFrameIndex</A></I> are known.
+<H3>Example:</H3>
+<PRE>
+<B>(forFrame F1</B>
+<B>   (repetitionCount 4)</B>
+<B>   (forFrameIndex INDEX1) ...)</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 0))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 1))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 2))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 3))</B>
+</PRE>
+<P>In this first example, the <I><A HREF="RMRF0009.HTM#indexValue">indexValues</A></I> shown are the only valid ones.
+<PRE>
+<B>(forFrame F1</B>
+<B>   (repetitionCount 4)</B>
+<B>   (forFrameIndex INDEX1</B>
+<B>      (indexStart 10) (indexStep 2)) ...)</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 10))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 12))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 14))</B>
+<B>...</B>
+<B>(forFrameMemberRef F1 (indexValue 16))</B>
+</PRE>
+<P>In this second example, the <I><A HREF="RMRF0009.HTM#indexValue">indexValues</A></I> shown are the only valid ones.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrame">forFrame</A>
+</I>
+<P><HR>
+<H1><A NAME="forFrameRef">forFrameRef</A></H1>
+<PRE>
+<I>forFrameRef ::= '(' 'forFrameRef'</I>
+&#09;<I><A HREF="RMRF0007.HTM#frameNameRef">frameNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0019.HTM#schematicForFrameImplementation">schematicForFrameImplementation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrameRef">ForFrameRef</A></I> references a <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(schematicForFrameImplementation</B>
+<B>   FF1_IMP</B>
+<B>   (forFrameRef FF1_LOGICAL) ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#frameNameDef">frameNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="frameConfiguration">frameConfiguration</A></H1>
+<PRE>
+<I>frameConfiguration ::= '(' 'frameConfiguration'</I>
+&#09;<I><A HREF="RMRF0007.HTM#frameNameRef">frameNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0007.HTM#frameConfiguration">frameConfiguration</A> | <A HREF="RMRF0009.HTM#instanceConfiguration">instanceConfiguration</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#clusterConfiguration">clusterConfiguration</A>  <A HREF="RMRF0007.HTM#frameConfiguration">frameConfiguration</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#frameConfiguration">FrameConfiguration</A></I> identifies a frame and specifies the configuration of the instances within the frame. 
+<P>Each repetition of the same instance within a for frame will have the same configuration (when the for frame is expanded).
+<P>Nested <I><A HREF="RMRF0007.HTM#frameConfiguration">frameConfigurations</A></I> refer to nested frames.
+<H3>Example:</H3>
+<PRE>
+<B>(frameConfiguration FOR1</B>
+<B>   (instanceConfiguration INST1 ...)</B>
+<B>   ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#forFrame">forFrame</A>  <A HREF="RMRF0009.HTM#ifFrame">ifFrame</A>  <A HREF="RMRF0015.HTM#otherwiseFrame">otherwiseFrame</A>
+</I>
+<P><HR>
+<H1><A NAME="frameNameCaseSensitive">frameNameCaseSensitive</A></H1>
+<PRE>
+<I>frameNameCaseSensitive ::= '(' 'frameNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#frameNameCaseSensitive">FrameNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for a frame name are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>.  
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I>  for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>  <A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>
+</I>
+<P><HR>
+<H1><A NAME="frameNameDef">frameNameDef</A></H1>
+<PRE>
+<I>frameNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#forFrame">forFrame</A>  <A HREF="RMRF0009.HTM#ifFrame">ifFrame</A>  <A HREF="RMRF0015.HTM#otherwiseFrame">otherwiseFrame</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies the name of a <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I>, <I><A HREF="RMRF0009.HTM#ifFrame">ifFrame</A></I> or <I><A HREF="RMRF0015.HTM#otherwiseFrame">otherwiseFrame</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#frameNameRef">frameNameRef</A>
+</I>
+<P><HR>
+<H1><A NAME="frameNameRef">frameNameRef</A></H1>
+<PRE>
+<I>frameNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0006.HTM#extendFrameDef">extendFrameDef</A>  <A HREF="RMRF0007.HTM#forFrameMemberRef">forFrameMemberRef</A>  <A HREF="RMRF0007.HTM#forFrameRef">forFrameRef</A>  <A HREF="RMRF0007.HTM#frameConfiguration">frameConfiguration</A>  <A HREF="RMRF0007.HTM#frameRef">frameRef</A>  <A HREF="RMRF0009.HTM#ifFrameRef">ifFrameRef</A>  <A HREF="RMRF0015.HTM#otherwiseFrameRef">otherwiseFrameRef</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#frameNameRef">FrameNameRef</A></I> is a reference to a <I><A HREF="RMRF0007.HTM#frameNameDef">frameNameDef</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#frameNameDef">frameNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="frameRef">frameRef</A></H1>
+<PRE>
+<I>frameRef ::= '(' 'frameRef'</I>
+&#09;<I><A HREF="RMRF0007.HTM#frameNameRef">frameNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#connectivityFrameStructure">connectivityFrameStructure</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#frameRef">FrameRef</A></I> references an <I><A HREF="RMRF0009.HTM#ifFrame">ifFrame</A></I>, <I><A HREF="RMRF0007.HTM#forFrame">forFrame</A></I> or <I><A HREF="RMRF0015.HTM#otherwiseFrame">otherwiseFrame</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(connectivityFrameStructure FRAME1</B>
+<B>   (frameRef FRAME1_LOGICAL)</B>
+<B>   (connectivityNet NET1 ...)</B>
+<B>   (connectivityBus BUS1 ...) ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#frameNameDef">frameNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="frequencyValue">frequencyValue</A></H1>
+<PRE>
+<I>frequencyValue ::= <A HREF="RMRF0014.HTM#miNoMaxValue">miNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#schematicPortAcPowerRecommendedFrequency">schematicPortAcPowerRecommendedFrequency</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#frequencyValue">FrequencyValue</A></I> is a frequency value in units specified by <I><A HREF="RMRF0023.HTM#setFrequency">setFrequency</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0023.HTM#setFrequency">setFrequency</A>
+</I>
+<P><HR>
+<H1><A NAME="fromBottom">fromBottom</A></H1>
+<PRE>
+<I>fromBottom ::= '(' 'fromBottom'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0008.HTM#hotspotConnectDirection">hotspotConnectDirection</A>  
+</I>
+<H3>Description:</H3>
+<P>A hotspot may prefer connections to be made to it from one or more specific directions. <I><A HREF="RMRF0007.HTM#fromBottom">FromBottom</A></I> specifies that a preferred direction is from the bottom of the hotspot.
+<H3>Example:</H3>
+<PRE>
+<B>(hotspotConnectDirection (fromBottom) (fromRight))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#fromLeft">fromLeft</A>  <A HREF="RMRF0008.HTM#fromRight">fromRight</A>  <A HREF="RMRF0008.HTM#fromTop">fromTop</A>
+</I>
+<P><HR>
+<H1><A NAME="fromInteger">fromInteger</A></H1>
+<PRE>
+<I>fromInteger ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0022.HTM#sequence">sequence</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0007.HTM#fromInteger">FromInteger</A></I> specifies the beginning of a sequence of integers.
+<H3>Example:</H3>
+<PRE>
+<B>(sequence 7 2 (step 1))</B>
+</PRE>
+<P>Here, the sequence starts at 7, the value specified by <I><A HREF="RMRF0007.HTM#fromInteger">fromInteger</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0025.HTM#toInteger">toInteger</A>  <A HREF="RMRF0023.HTM#step">step</A>
+</I>
+<P><HR>
+<H1><A NAME="fromLeft">fromLeft</A></H1>
+<PRE>
+<I>fromLeft ::= '(' 'fromLeft'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0008.HTM#hotspotConnectDirection">hotspotConnectDirection</A>  
+</I>
+<H3>Description:</H3>
+<P>A hotspot may prefer connections to be made to it from one or more specific directions. <I><A HREF="RMRF0007.HTM#fromLeft">FromLeft</A></I> specifies that a preferred direction is from the left of the hotspot.
+<H3>Example:</H3>
+<PRE>
+<B>(hotspotConnectDirection (fromLeft) )</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#fromBottom">fromBottom</A> <A HREF="RMRF0008.HTM#fromRight">fromRight</A>  <A HREF="RMRF0008.HTM#fromTop">fromTop</A>
+</I>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

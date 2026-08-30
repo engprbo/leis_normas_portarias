@@ -1,0 +1,763 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="pcbIncorrectNet">pcbIncorrectNet</A></H1>
+<PRE>
+<I>pcbIncorrectNet ::= '(' 'pcbIncorrectNet'</I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetNameDef">pcbAssembledPhysicalNetNameDef</A></I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetHeader">pcbAssembledPhysicalNetHeader</A></I>
+&#09;<I><A HREF="RMRF0021.HTM#pcbComponentSignalRef">pcbComponentSignalRef</A></I>
+&#09;<I><A HREF="RMRF0022.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0034.HTM#pcbInstanceNets">pcbInstanceNets</A>&gt; | &lt;<A HREF="RMRF0034.HTM#pcbJoinedJumperComponent">pcbJoinedJumperComponent</A>&gt; | 
+&#09;<A HREF="RMRF0034.HTM#pcbJumperConnection">pcbJumperConnection</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0016.HTM#pcbAnalyzedAssembledPhysicalNets">pcbAnalyzedAssembledPhysicalNets</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0021.HTM#pcbComponentSignal">pcbComponentSignal</A></I> may be implemented by one and only one of the following combinations: 1. By zero, one or more <I><A HREF="RMRF0040.HTM#pcbNonAnalyzedAssembledPhysicalNets">pcbNonAnalyzedAssembledPhysicalNets</A></I>, 2. By exactly one <I><A HREF="RMRF0022.HTM#pcbCorrectNet">pcbCorrectNet</A></I>, 3. By zero, one or more <I><A HREF="RMRF0034.HTM#pcbIncorrectNet">pcbIncorrectNet</A></I>, 4. By zero, one or more <I><A HREF="RMRF0049.HTM#pcbShortingNet">pcbShortingNet</A></I>.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0022.HTM#pcbCorrectNet">pcbCorrectNet</A></I>, <I><A HREF="RMRF0040.HTM#pcbNonAnalyzedAssembledPhysicalNets">pcbNonAnalyzedAssembledPhysicalNets</A></I>, <I><A HREF="RMRF0049.HTM#pcbShortingNet">pcbShortingNet</A></I>)
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0034.HTM#pcbIncorrectNet">pcbIncorrectNet</A></I> may join extra component terminals which are not specified in the referenced <I><A HREF="RMRF0021.HTM#pcbComponentSignal">pcbComponentSignal</A></I>. However, as it is not a <I><A HREF="RMRF0049.HTM#pcbShortingNet">pcbShortingNet</A></I>, the extra terminals must not be referenced by any <I><A HREF="RMRF0021.HTM#pcbComponentSignal">pcbComponentSignal</A></I>.
+<BR><BR><DT>3. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0034.HTM#pcbIncorrectNet">pcbIncorrectNet</A></I> must not join exactly the same set of terminals as specified in the referenced <I><A HREF="RMRF0021.HTM#pcbComponentSignal">pcbComponentSignal</A></I>.
+</DL>
+<H3>Description:</H3>
+<P>Describes an assembled physical net which has had its connectivity checked by the sending system. The connectivity in the physical net does not match the connectivity specified by the referenced component signal, but the mismatch is not due to two or more signals being shorted together. For example, a component net would be incorrect if one of the terminals in the component signal is not in the assembled physical net.
+<P><I><A HREF="RMRF0022.HTM#pcbComponentTerminalJoined">PcbComponentTerminalJoined</A></I> specifies the component terminals that are connected together by the assembled physical net.
+<P>An assembled physical net can only include instance nets that are on the bare board that the assembled board is based upon.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbIncorrectNet NET_FOR_SIG1</B>
+<B>   (pcbAssembledPhysicalNetHeader)</B>
+<B>   (pcbComponentSignalRef SIG1)</B>
+<B>   (pcbComponentTerminalJoined ...)</B>
+<B>   (pcbInstanceNets</B>
+<B>      (pcbSubLayoutInstancePhysicalNetRef</B>
+<B>         NET2 (pcbSubLayoutInstanceRef BB)))</B>
+<B>   (pcbJumperConnection JUMPER1</B>
+<B>      (pcbJumperConnectionHeader)</B>
+<B>      (pcbJumperConnectionDiscreteWire</B>
+<B>         (pcbJumperConnectionDiscreteWireConnectionPoints</B>
+<B>            (pcbPadstackInstanceRef JPAD1)</B>
+<B>            (pcbPadstackInstanceRef JPAD2)))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbInitialGeometricShapes">pcbInitialGeometricShapes</A></H1>
+<PRE>
+<I>pcbInitialGeometricShapes ::= <A HREF="RMRF0032.HTM#pcbFabricateFigureCollectorRef">pcbFabricateFigureCollectorRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0025.HTM#pcbDifferencedFabricateFigureCollector">pcbDifferencedFabricateFigureCollector</A>  !<A HREF="RMRF0038.HTM#pcbMirroredFabricateFigureCollector">pcbMirroredFabricateFigureCollector</A>  !<A HREF="RMRF0049.HTM#pcbResizedFabricateFigureCollector">pcbResizedFabricateFigureCollector</A>  !<A HREF="RMRF0049.HTM#pcbRotatedFabricateFigureCollector">pcbRotatedFabricateFigureCollector</A>  !<A HREF="RMRF0051.HTM#pcbTranslatedFabricateFigureCollector">pcbTranslatedFabricateFigureCollector</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0050.HTM#pcbSubtrahendGeometricShapes">pcbSubtrahendGeometricShapes</A> 
+</I>
+<H3>Description:</H3>
+<P>References the figure collector that is to have an operation performed on it.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDifferencedFabricateFigureCollector GG6</B>
+<B>   (pcbFabricateFigureCollectorRef GG1)</B>
+<B>   (pcbFabricateFigureCollectorRef GG3))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbInstanceNets">pcbInstanceNets</A></H1>
+<PRE>
+<I>pcbInstanceNets ::= '(' 'pcbInstanceNets'</I>
+&#09;<I>{ <A HREF="RMRF0018.HTM#pcbBareBoardPhysicalNetRef">pcbBareBoardPhysicalNetRef</A> | <A HREF="RMRF0049.HTM#pcbSubLayoutInstancePhysicalNetRef">pcbSubLayoutInstancePhysicalNetRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0018.HTM#pcbBareBoardPhysicalNet">pcbBareBoardPhysicalNet</A>  &lt;<A HREF="RMRF0022.HTM#pcbCorrectNet">pcbCorrectNet</A>  &lt;<A HREF="RMRF0034.HTM#pcbIncorrectNet">pcbIncorrectNet</A>  &lt;<A HREF="RMRF0040.HTM#pcbNonAnalyzedNet">pcbNonAnalyzedNet</A>  &lt;<A HREF="RMRF0046.HTM#pcbPhysicalNet">pcbPhysicalNet</A>  &lt;<A HREF="RMRF0049.HTM#pcbShortingNet">pcbShortingNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0009.HTM#instance">instance</A> 
+</I>
+<H3>Description:</H3>
+<P>References an instance net, which is a reference to a physical net within a sublayout instance.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPhysicalNet NET1</B>
+<B>   (pcbPhysicalNetHeader)</B>
+<B>   (pcbInstanceNets</B>
+<B>      (pcbSubLayoutInstancePhysicalNetRef </B>
+<B>         NET1 (pcbSubLayoutInstanceRef VIA2))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbIntendedUseBarcode">pcbIntendedUseBarcode</A></H1>
+<PRE>
+<I>pcbIntendedUseBarcode ::= '(' 'pcbIntendedUseBarcode'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0041.HTM#pcbNonSpecificSubLayoutIntendedUse">pcbNonSpecificSubLayoutIntendedUse</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbIntendedUseFiducial">pcbIntendedUseFiducial</A> <A HREF="RMRF0034.HTM#pcbIntendedUseLogo">pcbIntendedUseLogo</A> <A HREF="RMRF0044.HTM#pcbPadIntendedUse">pcbPadIntendedUse</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the item is intended to be used as a barcode.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbNonSpecificSubLayoutDefinition BARCODE</B>
+<B>   (pcbSubLayoutDefinitionHeader ...)</B>
+<B>   (pcbNonSpecificSubLayoutIntendedUse</B>
+<B>      (pcbIntendedUseBarcode)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbIntendedUseFiducial">pcbIntendedUseFiducial</A></H1>
+<PRE>
+<I>pcbIntendedUseFiducial ::= '(' 'pcbIntendedUseFiducial'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0041.HTM#pcbNonSpecificSubLayoutIntendedUse">pcbNonSpecificSubLayoutIntendedUse</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbIntendedUseBarcode">pcbIntendedUseBarcode</A> <A HREF="RMRF0034.HTM#pcbIntendedUseLogo">pcbIntendedUseLogo</A> <A HREF="RMRF0044.HTM#pcbPadIntendedUse">pcbPadIntendedUse</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the item is intended to be used as a fiducial.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbNonSpecificSubLayoutDefinition FIDUCIALMARK1</B>
+<B>   (pcbSubLayoutDefinitionHeader ...)</B>
+<B>   (pcbNonSpecificSubLayoutIntendedUse</B>
+<B>      (pcbIntendedUseFiducial)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbIntendedUseLogo">pcbIntendedUseLogo</A></H1>
+<PRE>
+<I>pcbIntendedUseLogo ::= '(' 'pcbIntendedUseLogo'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0041.HTM#pcbNonSpecificSubLayoutIntendedUse">pcbNonSpecificSubLayoutIntendedUse</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbIntendedUseBarcode">pcbIntendedUseBarcode</A> <A HREF="RMRF0034.HTM#pcbIntendedUseFiducial">pcbIntendedUseFiducial</A> <A HREF="RMRF0044.HTM#pcbPadIntendedUse">pcbPadIntendedUse</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the item is intended to be used as a logo.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbNonSpecificSubLayoutDefinition LOGO</B>
+<B>   (pcbSubLayoutDefinitionHeader ...)</B>
+<B>   (pcbNonSpecificSubLayoutIntendedUse</B>
+<B>      (pcbIntendedUseLogo)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbIntendedUseMountingPlace">pcbIntendedUseMountingPlace</A></H1>
+<PRE>
+<I>pcbIntendedUseMountingPlace ::= '(' 'pcbIntendedUseMountingPlace'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0041.HTM#pcbNonSpecificSubLayoutIntendedUse">pcbNonSpecificSubLayoutIntendedUse</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies that the item is intended to be used as a mounting place, e.g. a footprint.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbNonSpecificSubLayoutDefinition SMD_RES_FOOT</B>
+<B>   (pcbSubLayoutDefinitionHeader ...)</B>
+<B>   (pcbNonSpecificSubLayoutIntendedUse</B>
+<B>      (pcbIntendedUseMountingPlace)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbIntendedUseNothingSpecial">pcbIntendedUseNothingSpecial</A></H1>
+<PRE>
+<I>pcbIntendedUseNothingSpecial ::= '(' 'pcbIntendedUseNothingSpecial'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0041.HTM#pcbNonSpecificSubLayoutIntendedUse">pcbNonSpecificSubLayoutIntendedUse</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies that the intended use of the item is not being declared.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbNonSpecificSubLayoutDefinition I_Shape</B>
+<B>   (pcbSubLayoutDefinitionHeader ...)</B>
+<B>   (pcbNonSpecificSubLayoutIntendedUse</B>
+<B>      (pcbIntendedUseNothingSpecial)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbIntendedUseTestPoint">pcbIntendedUseTestPoint</A></H1>
+<PRE>
+<I>pcbIntendedUseTestPoint ::= '(' 'pcbIntendedUseTestPoint'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0041.HTM#pcbNonSpecificSubLayoutIntendedUse">pcbNonSpecificSubLayoutIntendedUse</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0052.HTM#point">point</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the item is intended to be used as a test point.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbNonSpecificSubLayoutDefinition TESTPOINT</B>
+<B>   (pcbSubLayoutDefinitionHeader ...)</B>
+<B>   (pcbNonSpecificSubLayoutIntendedUse</B>
+<B>      (pcbIntendedUseTestPoint)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbIsMadeOfMaterial">pcbIsMadeOfMaterial</A></H1>
+<PRE>
+<I>pcbIsMadeOfMaterial ::= '(' 'pcbIsMadeOfMaterial'</I>
+&#09;<I><A HREF="RMRF0036.HTM#pcbMaterialRef">pcbMaterialRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0046.HTM#pcbPhysicalLayer">pcbPhysicalLayer</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0036.HTM#pcbMaterial">pcbMaterial</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>References the material that an item is made from.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbIsMadeOfMaterial</B>
+<B>   (pcbMaterialRef EpoxyGlass))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJoinedJumperComponent">pcbJoinedJumperComponent</A></H1>
+<PRE>
+<I>pcbJoinedJumperComponent ::= '(' 'pcbJoinedJumperComponent'</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbJumperComponentRef">pcbJumperComponentRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0022.HTM#pcbCorrectNet">pcbCorrectNet</A>  &lt;<A HREF="RMRF0034.HTM#pcbIncorrectNet">pcbIncorrectNet</A>  &lt;<A HREF="RMRF0040.HTM#pcbNonAnalyzedNet">pcbNonAnalyzedNet</A>  &lt;<A HREF="RMRF0049.HTM#pcbShortingNet">pcbShortingNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0022.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A> <A HREF="RMRF0034.HTM#pcbJumperComponent">pcbJumperComponent</A> <A HREF="RMRF0034.HTM#pcbJumperComponentImplementation">pcbJumperComponentImplementation</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0034.HTM#pcbJumperComponent">pcbJumperComponent</A></I> referenced by a <I><A HREF="RMRF0034.HTM#pcbJoinedJumperComponent">pcbJoinedJumperComponent</A></I> must not be referenced by any <I><A HREF="RMRF0021.HTM#pcbComponentSignal">pcbComponentSignal</A></I> nor by any different assembled physical net.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0021.HTM#pcbComponentSignal">pcbComponentSignal</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>References jumper components which are joined within an assembled physical net, in an analogous manner to jumper connections. 
+<P><HR>
+<H1><A NAME="pcbJumperComponent">pcbJumperComponent</A></H1>
+<PRE>
+<I>pcbJumperComponent ::= '(' 'pcbJumperComponent'</I>
+&#09;<I><A HREF="RMRF0021.HTM#pcbComponentNameDef">pcbComponentNameDef</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbJumperPartRef">pcbJumperPartRef</A></I>
+&#09;<I><A HREF="RMRF0020.HTM#pcbComponentHeader">pcbComponentHeader</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0036.HTM#pcbMcmImplementation">pcbMcmImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJoinedJumperComponent">pcbJoinedJumperComponent</A> <A HREF="RMRF0034.HTM#pcbJumperComponentImplementation">pcbJumperComponentImplementation</A> <A HREF="RMRF0034.HTM#pcbJumperComponentRef">pcbJumperComponentRef</A> <A HREF="RMRF0034.HTM#pcbJumperComponentTerminalImplementation">pcbJumperComponentTerminalImplementation</A> <A HREF="RMRF0034.HTM#pcbJumperComponentTerminalRef">pcbJumperComponentTerminalRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies a jumper component which is defined by a <I><A HREF="RMRF0034.HTM#pcbJumperPart">pcbJumperPart</A></I>. Jumper components are often used to make connections between tracks on single-sided boards.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperComponent J6</B>
+<B>   (pcbJumperPartRef JUMP4PIN (libraryRef JUMPERS))</B>
+<B>   (pcbComponentHeader (designator "J6"))) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperComponentImplementation">pcbJumperComponentImplementation</A></H1>
+<PRE>
+<I>pcbJumperComponentImplementation ::= '(' 'pcbJumperComponentImplementation'</I>
+&#09;<I><A HREF="RMRF0021.HTM#pcbComponentImplementationNameDef">pcbComponentImplementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbJumperComponentRef">pcbJumperComponentRef</A></I>
+&#09;<I><A HREF="RMRF0039.HTM#pcbMountablePackageRef">pcbMountablePackageRef</A></I>
+&#09;<I><A HREF="RMRF0061.HTM#unscaledTransform">unscaledTransform</A></I>
+&#09;<I><A HREF="RMRF0033.HTM#pcbFootprintInstanceRef">pcbFootprintInstanceRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0021.HTM#pcbComponentPropertyFabrication">pcbComponentPropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0022.HTM#pcbDesignatorFabricationOverride">pcbDesignatorFabricationOverride</A>&gt; | &lt;<A HREF="RMRF0029.HTM#pcbDrawingInformation">pcbDrawingInformation</A>&gt; | 
+&#09;<A HREF="RMRF0034.HTM#pcbJumperComponentTerminalImplementation">pcbJumperComponentTerminalImplementation</A> | 
+&#09;<A HREF="RMRF0039.HTM#pcbMountableMechanicalFixingImplementation">pcbMountableMechanicalFixingImplementation</A> | 
+&#09;&lt;<A HREF="RMRF0039.HTM#pcbMountablePackagePropertyFabrication">pcbMountablePackagePropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0039.HTM#pcbMountablePackagePropertyOverride">pcbMountablePackagePropertyOverride</A>&gt; | 
+&#09;<A HREF="RMRF0039.HTM#pcbMountablePackageTerminalImplementation">pcbMountablePackageTerminalImplementation</A> | 
+&#09;&lt;<A HREF="RMRF0044.HTM#pcbPackagePropertyFabrication">pcbPackagePropertyFabrication</A>&gt; | &lt;<A HREF="RMRF0045.HTM#pcbPartPropertyFabrication">pcbPartPropertyFabrication</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0017.HTM#pcbAssembledBoard">pcbAssembledBoard</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0021.HTM#pcbComponentImplementationRef">pcbComponentImplementationRef</A> <A HREF="RMRF0023.HTM#pcbDieComponentImplementation">pcbDieComponentImplementation</A> <A HREF="RMRF0032.HTM#pcbEmbeddedComponentImplementation">pcbEmbeddedComponentImplementation</A> <A HREF="RMRF0034.HTM#pcbJoinedJumperComponent">pcbJoinedJumperComponent</A> <A HREF="RMRF0034.HTM#pcbJumperComponent">pcbJumperComponent</A> <A HREF="RMRF0036.HTM#pcbMechanicalComponentImplementation">pcbMechanicalComponentImplementation</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A mountable package terminal may be referenced at most once within a component implementation, i.e. it can have at most one implementation.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0041.HTM#pcbPackagedConnectorComponentImplementation">pcbPackagedConnectorComponentImplementation</A></I>, <I><A HREF="RMRF0042.HTM#pcbPackagedElectricalComponentImplementation">pcbPackagedElectricalComponentImplementation</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Defines how the jumper component referenced by <I><A HREF="RMRF0034.HTM#pcbJumperComponentRef">pcbJumperComponentRef</A></I> is mounted onto the bare board.
+<P><I><A HREF="RMRF0039.HTM#pcbMountablePackageRef">PcbMountablePackageRef</A></I> specifies the mountable package that is used when mounting the component on the bare board.
+<P><I><A HREF="RMRF0061.HTM#unscaledTransform">UnscaledTransform</A></I> specifies the position of the component on the bare board.
+<P><I><A HREF="RMRF0033.HTM#pcbFootprintInstanceRef">PcbFootprintInstanceRef</A></I> specifies the footprint on which the component is placed. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperComponentImplementation J6_IMP</B>
+<B>   (pcbJumperComponentRef J6)</B>
+<B>   (pcbMountablePackageRef DIP_Dip_Top</B>
+<B>      (libraryRef MOUNTABLE_PACKAGES))</B>
+<B>   (unscaledTransform ...)</B>
+<B>   (pcbFootprintInstanceRef FOOTP21)) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperComponentRef">pcbJumperComponentRef</A></H1>
+<PRE>
+<I>pcbJumperComponentRef ::= '(' 'pcbJumperComponentRef'</I>
+&#09;<I><A HREF="RMRF0021.HTM#pcbComponentNameRef">pcbComponentNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0034.HTM#pcbJoinedJumperComponent">pcbJoinedJumperComponent</A>  !<A HREF="RMRF0034.HTM#pcbJumperComponentImplementation">pcbJumperComponentImplementation</A>  !<A HREF="RMRF0034.HTM#pcbJumperComponentTerminalRef">pcbJumperComponentTerminalRef</A>  *<A HREF="RMRF0041.HTM#pcbNonPrintedComponentSet">pcbNonPrintedComponentSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0021.HTM#pcbComponentImplementationRef">pcbComponentImplementationRef</A> <A HREF="RMRF0021.HTM#pcbComponentRef">pcbComponentRef</A> <A HREF="RMRF0021.HTM#pcbComponentSignalRef">pcbComponentSignalRef</A> <A HREF="RMRF0021.HTM#pcbComponentSymbolRef">pcbComponentSymbolRef</A> <A HREF="RMRF0034.HTM#pcbJumperComponent">pcbJumperComponent</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionRef">pcbJumperConnectionRef</A> <A HREF="RMRF0034.HTM#pcbJumperPartRef">pcbJumperPartRef</A> <A HREF="RMRF0036.HTM#pcbMechanicalComponentRef">pcbMechanicalComponentRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a jumper component. 
+<P><HR>
+<H1><A NAME="pcbJumperComponentTerminalImplementation">pcbJumperComponentTerminalImplementation</A></H1>
+<PRE>
+<I>pcbJumperComponentTerminalImplementation ::= '(' 
+&#09;'pcbJumperComponentTerminalImplementation'</I>
+&#09;<I><A HREF="RMRF0021.HTM#pcbComponentTerminalImplementationNameDef">pcbComponentTerminalImplementationNameDef</A></I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbJumperPartTerminalRef">pcbJumperPartTerminalRef</A></I>
+&#09;<I><A HREF="RMRF0051.HTM#pcbToeprintPadstackInstanceRef">pcbToeprintPadstackInstanceRef</A></I>
+&#09;<I><A HREF="RMRF0040.HTM#pcbMountablePackageTerminalRef">pcbMountablePackageTerminalRef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0029.HTM#pcbDrawingInformation">pcbDrawingInformation</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0040.HTM#pcbMountablePackageTerminalPropertyFabrication">pcbMountablePackageTerminalPropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0044.HTM#pcbPackageTerminalPropertyFabrication">pcbPackageTerminalPropertyFabrication</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0046.HTM#pcbPartTerminalPropertyFabrication">pcbPartTerminalPropertyFabrication</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0034.HTM#pcbJumperComponentImplementation">pcbJumperComponentImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0021.HTM#pcbComponentTerminalImplementationRef">pcbComponentTerminalImplementationRef</A> <A HREF="RMRF0023.HTM#pcbDieComponentTerminalImplementation">pcbDieComponentTerminalImplementation</A> <A HREF="RMRF0034.HTM#pcbJumperComponent">pcbJumperComponent</A> <A HREF="RMRF0034.HTM#pcbJumperComponentTerminalRef">pcbJumperComponentTerminalRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines how a jumper part terminal is implemented on the board. It relates the part terminal (<I><A HREF="RMRF0035.HTM#pcbJumperPartTerminalRef">pcbJumperPartTerminalRef</A></I>) to a toeprint padstack (<I><A HREF="RMRF0051.HTM#pcbToeprintPadstackInstanceRef">pcbToeprintPadstackInstanceRef</A></I>) and a mountable package terminal (<I><A HREF="RMRF0040.HTM#pcbMountablePackageTerminalRef">pcbMountablePackageTerminalRef</A></I>) which is on the mountable package referenced by the enclosing jumper component implementation. 
+<P><I><A HREF="RMRF0035.HTM#pcbJumperPartTerminalRef">PcbJumperPartTerminalRef</A></I> is a reference to the corresponding terminal in the jumper component's part. This could be derived, but is also stated here for convenience.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperComponentTerminalImplementation T1</B>
+<B>   (pcbJumperPartTerminalRef TERM1)</B>
+<B>   (pcbToeprintPadstackInstanceRef TP4</B>
+<B>      (pcbFootprintToeprintInstanceRef TI1))</B>
+<B>   (pcbMountablePackageTerminalRef MP_TERM1))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperComponentTerminalRef">pcbJumperComponentTerminalRef</A></H1>
+<PRE>
+<I>pcbJumperComponentTerminalRef ::= '(' 'pcbJumperComponentTerminalRef'</I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbJumperPartTerminalNameRef">pcbJumperPartTerminalNameRef</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbJumperComponentRef">pcbJumperComponentRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0022.HTM#pcbComponentTerminalJoined">pcbComponentTerminalJoined</A>  *<A HREF="RMRF0022.HTM#pcbComponentTerminalList">pcbComponentTerminalList</A>  *<A HREF="RMRF0022.HTM#pcbComponentTerminalSet">pcbComponentTerminalSet</A>  *<A HREF="RMRF0034.HTM#pcbJumperConnectionDiscreteWireConnectionPoints">pcbJumperConnectionDiscreteWireConnectionPoints</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0021.HTM#pcbComponentRef">pcbComponentRef</A> <A HREF="RMRF0021.HTM#pcbComponentTerminalImplementationRef">pcbComponentTerminalImplementationRef</A> <A HREF="RMRF0022.HTM#pcbConnectorComponentTerminalRef">pcbConnectorComponentTerminalRef</A> <A HREF="RMRF0031.HTM#pcbElectricalComponentTerminalRef">pcbElectricalComponentTerminalRef</A> <A HREF="RMRF0034.HTM#pcbJumperComponent">pcbJumperComponent</A> <A HREF="RMRF0034.HTM#pcbJumperComponentTerminalImplementation">pcbJumperComponentTerminalImplementation</A> <A HREF="RMRF0035.HTM#pcbJumperPartTerminalRef">pcbJumperPartTerminalRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a terminal of a jumper component. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbComponentTerminalJoined</B>
+<B>   (pcbJumperComponentTerminalRef P1</B>
+<B>      (pcbJumperComponentRef J6))</B>
+<B>   ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperConnection">pcbJumperConnection</A></H1>
+<PRE>
+<I>pcbJumperConnection ::= '(' 'pcbJumperConnection'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbJumperConnectionNameDef">pcbJumperConnectionNameDef</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbJumperConnectionHeader">pcbJumperConnectionHeader</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbJumperConnectionType">pcbJumperConnectionType</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0029.HTM#pcbDrawingInformation">pcbDrawingInformation</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0022.HTM#pcbCorrectNet">pcbCorrectNet</A>  *<A HREF="RMRF0034.HTM#pcbIncorrectNet">pcbIncorrectNet</A>  *<A HREF="RMRF0040.HTM#pcbNonAnalyzedNet">pcbNonAnalyzedNet</A>  *<A HREF="RMRF0049.HTM#pcbShortingNet">pcbShortingNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnectionDiscreteWire">pcbJumperConnectionDiscreteWire</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionDiscreteWireConnectionPoints">pcbJumperConnectionDiscreteWireConnectionPoints</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionNameRef">pcbJumperConnectionNameRef</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionRef">pcbJumperConnectionRef</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionWirebond">pcbJumperConnectionWirebond</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionWirebondConnectionPoints">pcbJumperConnectionWirebondConnectionPoints</A> <A HREF="RMRF0045.HTM#pcbPadstackInstanceJumperConnectionAttachmentPlace">pcbPadstackInstanceJumperConnectionAttachmentPlace</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a jumper connection; that is, a physical link (e.g. wire) between component terminals and/or padstack instances and/or toeprint instances.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperConnection JUMPER1</B>
+<B>   (pcbJumperConnectionHeader)</B>
+<B>   (pcbJumperConnectionDiscreteWire</B>
+<B>      (pcbJumperConnectionDiscreteWireConnectionPoints</B>
+<B>         (pcbPadstackInstanceRef JPAD1)</B>
+<B>         (pcbPadstackInstanceRef JPAD2))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperConnectionDiscreteWire">pcbJumperConnectionDiscreteWire</A></H1>
+<PRE>
+<I>pcbJumperConnectionDiscreteWire ::= '(' 'pcbJumperConnectionDiscreteWire'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbJumperConnectionDiscreteWireConnectionPoints">pcbJumperConnectionDiscreteWireConnectionPoints</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnectionType">pcbJumperConnectionType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnection">pcbJumperConnection</A> 
+</I>
+<H3>Description:</H3>
+<P>Indicates that the jumper connection is a discrete wire. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperConnection JUMPER1</B>
+<B>   (pcbJumperConnectionHeader)</B>
+<B>   (pcbJumperConnectionDiscreteWire</B>
+<B>      (pcbJumperConnectionDiscreteWireConnectionPoints</B>
+<B>         (pcbPadstackInstanceRef JPAD1)</B>
+<B>         (pcbPadstackInstanceRef JPAD2))))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperConnectionDiscreteWireConnectionPoints">pcbJumperConnectionDiscreteWireConnectionPoints</A></H1>
+<PRE>
+<I>pcbJumperConnectionDiscreteWireConnectionPoints ::= '(' 
+&#09;'pcbJumperConnectionDiscreteWireConnectionPoints'</I>
+&#09;<I>{ <A HREF="RMRF0022.HTM#pcbConnectorComponentTerminalRef">pcbConnectorComponentTerminalRef</A> | 
+&#09;<A HREF="RMRF0031.HTM#pcbElectricalComponentTerminalRef">pcbElectricalComponentTerminalRef</A> | <A HREF="RMRF0034.HTM#pcbJumperComponentTerminalRef">pcbJumperComponentTerminalRef</A> | 
+&#09;<A HREF="RMRF0045.HTM#pcbPadstackInstanceRef">pcbPadstackInstanceRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbJumperConnectionDiscreteWire">pcbJumperConnectionDiscreteWire</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnection">pcbJumperConnection</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0034.HTM#pcbJumperConnectionDiscreteWire">pcbJumperConnectionDiscreteWire</A></I> may not connect to a terminal of a die electrical component.
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The same object cannot be referenced more than once in an occurrence of this construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0034.HTM#pcbJumperConnectionWirebondConnectionPoints">pcbJumperConnectionWirebondConnectionPoints</A></I>)
+<BR><BR><DT>3. The following constraint applies to this context:  All contexts  
+<DD>There must be at least two items referenced within this construct.
+</DL>
+<H3>Description:</H3>
+<P>Indicates the connection points which are shorted together by a discrete-wire jumper. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperConnection JUMPER1</B>
+<B>   (pcbJumperConnectionHeader)</B>
+<B>   (pcbJumperConnectionDiscreteWire</B>
+<B>      (pcbJumperConnectionDiscreteWireConnectionPoints</B>
+<B>         (pcbPadstackInstanceRef JPAD1)</B>
+<B>         (pcbPadstackInstanceRef JPAD2))))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperConnectionHeader">pcbJumperConnectionHeader</A></H1>
+<PRE>
+<I>pcbJumperConnectionHeader ::= '(' 'pcbJumperConnectionHeader'</I>
+&#09;<I>{ <A HREF="RMRF0053.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbJumperConnection">pcbJumperConnection</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnectionRef">pcbJumperConnectionRef</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionType">pcbJumperConnectionType</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionWirebond">pcbJumperConnectionWirebond</A> 
+</I>
+<H3>Description:</H3>
+<P>Gathers together data relating to the jumper connection as a whole. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperConnection JUMPER1</B>
+<B>   (pcbJumperConnectionHeader</B>
+<B>       (property date_added (string "Added 29Nov95 by RLF")))</B>
+<B>   (pcbJumperConnectionDiscreteWire</B>
+<B>      (pcbJumperConnectionDiscreteWireConnectionPoints</B>
+<B>         (pcbPadstackInstanceRef JPAD1)</B>
+<B>         (pcbPadstackInstanceRef JPAD2))))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperConnectionNameDef">pcbJumperConnectionNameDef</A></H1>
+<PRE>
+<I>pcbJumperConnectionNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbJumperConnection">pcbJumperConnection</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnectionNameRef">pcbJumperConnectionNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of the jumper connection.
+<P><HR>
+<H1><A NAME="pcbJumperConnectionNameRef">pcbJumperConnectionNameRef</A></H1>
+<PRE>
+<I>pcbJumperConnectionNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbJumperConnectionRef">pcbJumperConnectionRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnection">pcbJumperConnection</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionNameDef">pcbJumperConnectionNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a previously-defined <I><A HREF="RMRF0034.HTM#pcbJumperConnectionNameDef">pcbJumperConnectionNameDef</A></I>. 
+<P><HR>
+<H1><A NAME="pcbJumperConnectionRef">pcbJumperConnectionRef</A></H1>
+<PRE>
+<I>pcbJumperConnectionRef ::= '(' 'pcbJumperConnectionRef'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbJumperConnectionNameRef">pcbJumperConnectionNameRef</A></I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetRef">pcbAssembledPhysicalNetRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0026.HTM#pcbDimensionedObjectSet">pcbDimensionedObjectSet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperComponentRef">pcbJumperComponentRef</A> <A HREF="RMRF0034.HTM#pcbJumperConnection">pcbJumperConnection</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionHeader">pcbJumperConnectionHeader</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionType">pcbJumperConnectionType</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionWirebond">pcbJumperConnectionWirebond</A> <A HREF="RMRF0034.HTM#pcbJumperPartRef">pcbJumperPartRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a jumper connection.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbDimensionedObjectSet</B>
+<B>   (pcbJumperConnectionRef JUMP1</B>
+<B>      (pcbAssembledPhysicalNetRef NET1))</B>
+<B>   (pcbJumperConnectionRef JUMP2</B>
+<B>      (pcbAssembledPhysicalNetRef NET3)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperConnectionType">pcbJumperConnectionType</A></H1>
+<PRE>
+<I>pcbJumperConnectionType ::= ( <A HREF="RMRF0034.HTM#pcbJumperConnectionDiscreteWire">pcbJumperConnectionDiscreteWire</A> | 
+&#09;<A HREF="RMRF0034.HTM#pcbJumperConnectionWirebond">pcbJumperConnectionWirebond</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbJumperConnection">pcbJumperConnection</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnectionHeader">pcbJumperConnectionHeader</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionRef">pcbJumperConnectionRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the type of a jumper connection. 
+<P><HR>
+<H1><A NAME="pcbJumperConnectionWirebond">pcbJumperConnectionWirebond</A></H1>
+<PRE>
+<I>pcbJumperConnectionWirebond ::= '(' 'pcbJumperConnectionWirebond'</I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbJumperConnectionWirebondConnectionPoints">pcbJumperConnectionWirebondConnectionPoints</A></I>
+&#09;<I><A HREF="RMRF0051.HTM#pcbWirebondTemplateRef">pcbWirebondTemplateRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnectionType">pcbJumperConnectionType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnection">pcbJumperConnection</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionHeader">pcbJumperConnectionHeader</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionRef">pcbJumperConnectionRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Indicates that the jumper connection is a wirebond. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperConnection JUMPER1</B>
+<B>   (pcbJumperConnectionHeader)</B>
+<B>   (pcbJumperConnectionWireBond</B>
+<B>      (pcbJumperConnectionWireBondConnectionPoints</B>
+<B>         (pcbElectricalComponentTerminalRef DT1</B>
+<B>            (pcbDieElectricalComponentRef DIE1))</B>
+<B>         (pcbElectricalComponentTerminalRef DT1</B>
+<B>            (pcbDieElectricalComponentRef DIE2)))</B>
+<B>      (pcbWirebondTemplateRef ...)))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperConnectionWirebondConnectionPoints">pcbJumperConnectionWirebondConnectionPoints</A></H1>
+<PRE>
+<I>pcbJumperConnectionWirebondConnectionPoints ::= '(' 
+&#09;'pcbJumperConnectionWirebondConnectionPoints'</I>
+&#09;<I>( <A HREF="RMRF0031.HTM#pcbElectricalComponentTerminalRef">pcbElectricalComponentTerminalRef</A> | <A HREF="RMRF0045.HTM#pcbPadstackInstanceRef">pcbPadstackInstanceRef</A> )</I>
+&#09;<I>( <A HREF="RMRF0031.HTM#pcbElectricalComponentTerminalRef">pcbElectricalComponentTerminalRef</A> | <A HREF="RMRF0045.HTM#pcbPadstackInstanceRef">pcbPadstackInstanceRef</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbJumperConnectionWirebond">pcbJumperConnectionWirebond</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperConnection">pcbJumperConnection</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0034.HTM#pcbJumperConnectionWirebond">pcbJumperConnectionWirebond</A></I> connects either two terminals of a die electrical component or two padstack instances.
+<BR><BR><DT>2. The following constraint applies to this context:  All contexts  
+<DD>The same object cannot be referenced more than once in an occurrence of this construct.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0034.HTM#pcbJumperConnectionDiscreteWireConnectionPoints">pcbJumperConnectionDiscreteWireConnectionPoints</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>Indicates the connection points which are shorted together by a discrete-wire jumper. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperConnection JUMPER1</B>
+<B>   (pcbJumperConnectionHeader)</B>
+<B>   (pcbJumperConnectionWireBond</B>
+<B>      (pcbJumperConnectionWireBondConnectionPoints</B>
+<B>         (pcbElectricalComponentTerminalRef DT1</B>
+<B>            (pcbDieElectricalComponentRef DIE1))</B>
+<B>         (pcbElectricalComponentTerminalRef DT1</B>
+<B>            (pcbDieElectricalComponentRef DIE2)))</B>
+<B>      (pcbWirebondTemplateRef ...))) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperPart">pcbJumperPart</A></H1>
+<PRE>
+<I>pcbJumperPart ::= '(' 'pcbJumperPart'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0045.HTM#pcbPartHeader">pcbPartHeader</A></I>
+&#09;<I>( <A HREF="RMRF0047.HTM#pcbPinPackageRef">pcbPinPackageRef</A> | <A HREF="RMRF0017.HTM#pcbBallPackageRef">pcbBallPackageRef</A> | <A HREF="RMRF0007.HTM#externalNoData">externalNoData</A> )</I>
+&#09;<I>{ <A HREF="RMRF0034.HTM#pcbJumperPartTerminal">pcbJumperPartTerminal</A> | &lt;<A HREF="RMRF0045.HTM#pcbPartCharacteristic">pcbPartCharacteristic</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperPartRef">pcbJumperPartRef</A> <A HREF="RMRF0034.HTM#pcbJumperPartTerminalHeader">pcbJumperPartTerminalHeader</A> <A HREF="RMRF0034.HTM#pcbJumperPartTerminalNameCaseSensitive">pcbJumperPartTerminalNameCaseSensitive</A> <A HREF="RMRF0035.HTM#pcbJumperPartTerminalNameDef">pcbJumperPartTerminalNameDef</A> <A HREF="RMRF0035.HTM#pcbJumperPartTerminalNameRef">pcbJumperPartTerminalNameRef</A> <A HREF="RMRF0035.HTM#pcbJumperPartTerminalRef">pcbJumperPartTerminalRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>An electrical, connector or jumper part must have at least one terminal.
+<BR>(See also similar constraint in: <I><A HREF="RMRF0023.HTM#pcbDieElectricalPart">pcbDieElectricalPart</A></I>, <I><A HREF="RMRF0041.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A></I>, <I><A HREF="RMRF0042.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A></I>, <I><A HREF="RMRF0048.HTM#pcbPrintedConnectorPart">pcbPrintedConnectorPart</A></I>, <I><A HREF="RMRF0048.HTM#pcbPrintedElectricalPart">pcbPrintedElectricalPart</A></I>)
+</DL>
+<H3>Description:</H3>
+<P>A jumper part is a packaged part which has all its terminals electrically connected together and has no other electrical functionality. A jumper part is used in the definition of a <I><A HREF="RMRF0034.HTM#pcbJumperComponent">pcbJumperComponent</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperPart JUMP4PIN</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbPinPackageRef DIP4PIN (libraryRef DIP_PACKAGES))</B>
+<B>   (pcbJumperPartTerminal P1</B>
+<B>      (pcbJumperPartTerminalHeader)</B>
+<B>      (pcbConnectedPackageTerminal </B>
+<B>         (pcbPackageTerminalPinRef P1)))</B>
+<B>   (pcbJumperPartTerminal P2</B>
+<B>      (pcbJumperPartTerminalHeader)</B>
+<B>      (pcbConnectedPackageTerminal </B>
+<B>         (pcbPackageTerminalPinRef P2)))</B>
+<B>   ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperPartRef">pcbJumperPartRef</A></H1>
+<PRE>
+<I>pcbJumperPartRef ::= '(' 'pcbJumperPartRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbJumperComponent">pcbJumperComponent</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperComponentRef">pcbJumperComponentRef</A> <A HREF="RMRF0034.HTM#pcbJumperConnectionRef">pcbJumperConnectionRef</A> <A HREF="RMRF0034.HTM#pcbJumperPart">pcbJumperPart</A> <A HREF="RMRF0034.HTM#pcbJumperPartTerminal">pcbJumperPartTerminal</A> <A HREF="RMRF0035.HTM#pcbJumperPartTerminalNameRef">pcbJumperPartTerminalNameRef</A> <A HREF="RMRF0035.HTM#pcbJumperPartTerminalRef">pcbJumperPartTerminalRef</A> <A HREF="RMRF0037.HTM#pcbMechanicalPartRef">pcbMechanicalPartRef</A> <A HREF="RMRF0045.HTM#pcbPartRef">pcbPartRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a jumper part. 
+<P><HR>
+<H1><A NAME="pcbJumperPartTerminal">pcbJumperPartTerminal</A></H1>
+<PRE>
+<I>pcbJumperPartTerminal ::= '(' 'pcbJumperPartTerminal'</I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbJumperPartTerminalNameDef">pcbJumperPartTerminalNameDef</A></I>
+&#09;<I><A HREF="RMRF0034.HTM#pcbJumperPartTerminalHeader">pcbJumperPartTerminalHeader</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0022.HTM#pcbConnectedPackageTerminal">pcbConnectedPackageTerminal</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0034.HTM#pcbJumperPart">pcbJumperPart</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0034.HTM#pcbJumperPartRef">pcbJumperPartRef</A> <A HREF="RMRF0034.HTM#pcbJumperPartTerminalNameCaseSensitive">pcbJumperPartTerminalNameCaseSensitive</A> <A HREF="RMRF0035.HTM#pcbJumperPartTerminalNameRef">pcbJumperPartTerminalNameRef</A> <A HREF="RMRF0035.HTM#pcbJumperPartTerminalRef">pcbJumperPartTerminalRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a terminal for a jumper part and optionally indicates the package terminal to which it is connected. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbJumperPart JUMP4PIN</B>
+<B>   (pcbPartHeader ...)</B>
+<B>   (pcbPinPackageRef DIP4PIN (libraryRef DIP_PACKAGES))</B>
+<B>   (pcbJumperPartTerminal P1</B>
+<B>      (pcbJumperPartTerminalHeader)</B>
+<B>      (pcbConnectedPackageTerminal </B>
+<B>         (pcbPackageTerminalPinRef P1)))</B>
+<B>   (pcbJumperPartTerminal P2</B>
+<B>      (pcbJumperPartTerminalHeader)</B>
+<B>      (pcbConnectedPackageTerminal </B>
+<B>         (pcbPackageTerminalPinRef P2)))</B>
+<B>   ...) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbJumperPartTerminalHeader">pcbJumperPartTerminalHeader</A></H1>
+<PRE>
+<I>pcbJumperPartTerminalHeader ::= '(' 'pcbJumperPartTerminalHeader'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0053.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbJumperPartTerminal">pcbJumperPartTerminal</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0022.HTM#pcbConnectorPartTerminalHeader">pcbConnectorPartTerminalHeader</A> <A HREF="RMRF0032.HTM#pcbElectricalPartTerminalHeader">pcbElectricalPartTerminalHeader</A> <A HREF="RMRF0034.HTM#pcbJumperPart">pcbJumperPart</A> <A HREF="RMRF0035.HTM#pcbJumperPartTerminalRef">pcbJumperPartTerminalRef</A> <A HREF="RMRF0045.HTM#pcbPartHeader">pcbPartHeader</A> 
+</I>
+<H3>Description:</H3>
+<P>Collects together data relating to the jumper part terminal as a whole. 
+<P><HR>
+<H1><A NAME="pcbJumperPartTerminalNameCaseSensitive">pcbJumperPartTerminalNameCaseSensitive</A></H1>
+<PRE>
+<I>pcbJumperPartTerminalNameCaseSensitive ::= '(' 
+&#09;'pcbJumperPartTerminalNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0022.HTM#pcbConnectorPartTerminalNameCaseSensitive">pcbConnectorPartTerminalNameCaseSensitive</A> <A HREF="RMRF0032.HTM#pcbElectricalPartTerminalNameCaseSensitive">pcbElectricalPartTerminalNameCaseSensitive</A> <A HREF="RMRF0034.HTM#pcbJumperPart">pcbJumperPart</A> <A HREF="RMRF0034.HTM#pcbJumperPartTerminal">pcbJumperPartTerminal</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for items with a <I><A HREF="RMRF0035.HTM#pcbJumperPartTerminalNameDef">pcbJumperPartTerminalNameDef</A></I> are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0006.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. 
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

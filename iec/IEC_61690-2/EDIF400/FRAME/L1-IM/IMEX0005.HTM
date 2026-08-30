@@ -1,0 +1,330 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="design_management_model">design_management_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0005.HTM#design_management_model">design_management_model</A> schema provides the design management
+ information.  It records a history of modifications.  It provides the
+ information needed to trace back to the origin or the owner of the data, and
+ also identifies the software or program name which was responsible for
+ creating the data.
+</P><HR>
+<!-- Start of ENTITY: copyright -->
+<H2><A NAME="copyright">copyright</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0005.HTM#copyright">copyright</A>;
+    strings : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#string_token">string_token</A>;
+    year    : SET OF <A HREF="IMEX0034.HTM#positive_integer_token">positive_integer_token</A>;
+  WHERE
+    <A NAME="copyright.containment_constraint">containment_constraint</A> :
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,[
+      '<A HREF="IMEX0004.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0004.HTM#design">design</A>.status_of_copyright',
+      '<A HREF="IMEX0007.HTM#documentation_model">documentation_model</A>.<A HREF="IMEX0007.HTM#documentation">documentation</A>.status_of_copyright',
+      '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.status_of_copyright',
+      '<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#library">library</A>.status_of_copyright',
+      '<A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0012.HTM#cell_representation">cell_representation</A>.status_of_copyright',
+      '<A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0012.HTM#cluster">cluster</A>.status_of_copyright',
+      '<A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0012.HTM#cell">cell</A>.status_of_copyright',
+      '<A HREF="IMEX0013.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0013.HTM#geometry_macro_template">geometry_macro_template</A>.status_of_copyright',
+      '<A HREF="IMEX0013.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0013.HTM#schematic_template">schematic_template</A>.status_of_copyright',
+      <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0024.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                     '<A HREF="IMEX0024.HTM#pcb_drawing_template">pcb_drawing_template</A>', 'status_of_copyright'),
+      '<A HREF="IMEX0024.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>.<A HREF="IMEX0024.HTM#pcb_template">pcb_template</A>.status_of_copyright',
+      '<A HREF="IMEX0032.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0032.HTM#page">page</A>.status_of_copyright']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0005.HTM#copyright">copyright</A> is used to indicate the copyright restrictions on the use of
+ the EDIF file, or associated with a particular object within the file. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0012.HTM#cell">cell</A> <A HREF="IMEX0012.HTM#cell_representation">cell_representation</A> <A HREF="IMEX0012.HTM#cluster">cluster</A> <A HREF="IMEX0004.HTM#design">design</A> <A HREF="IMEX0007.HTM#documentation">documentation</A> <A HREF="IMEX0008.HTM#edif">edif</A> <A HREF="IMEX0013.HTM#geometry_macro_template">geometry_macro_template</A> <A HREF="IMEX0014.HTM#library">library</A> <A HREF="IMEX0032.HTM#page">page</A> <A HREF="IMEX0024.HTM#pcb_drawing_template">pcb_drawing_template</A> <A HREF="IMEX0024.HTM#pcb_template">pcb_template</A> <A HREF="IMEX0013.HTM#schematic_template">schematic_template</A> </P>
+<HR>
+<!-- Start of ENTITY: written -->
+<H2><A NAME="written">written</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0005.HTM#written">written</A>;
+    author      : OPTIONAL <A HREF="IMEX0034.HTM#string_token">string_token</A>;
+    date        : <A HREF="IMEX0005.HTM#time_stamp">time_stamp</A>;
+    data_origin : OPTIONAL <A HREF="IMEX0005.HTM#version_information">version_information</A>;
+    program     : OPTIONAL <A HREF="IMEX0005.HTM#version_information">version_information</A>;
+  WHERE
+   <A NAME="written.containment_constraint">containment_constraint</A> :
+   <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, [
+   '<A HREF="IMEX0004.HTM#design_hierarchy_model">design_hierarchy_model</A>.<A HREF="IMEX0004.HTM#design">design</A>.status_of_written',
+   '<A HREF="IMEX0007.HTM#documentation_model">documentation_model</A>.<A HREF="IMEX0007.HTM#documentation">documentation</A>.status_of_written',
+   '<A HREF="IMEX0008.HTM#edif_information_model">edif_information_model</A>.<A HREF="IMEX0008.HTM#edif">edif</A>.status_of_written',
+   '<A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0012.HTM#cell">cell</A>.status_of_written',
+   '<A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0012.HTM#cell_representation">cell_representation</A>.status_of_written',
+   '<A HREF="IMEX0012.HTM#hierarchy_model">hierarchy_model</A>.<A HREF="IMEX0012.HTM#cluster">cluster</A>.status_of_written',
+   '<A HREF="IMEX0013.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0013.HTM#geometry_macro_template">geometry_macro_template</A>.status_of_written',
+   '<A HREF="IMEX0013.HTM#instantiatable_object_model">instantiatable_object_model</A>.<A HREF="IMEX0013.HTM#schematic_template">schematic_template</A>.status_of_written',
+   '<A HREF="IMEX0014.HTM#library_model">library_model</A>.<A HREF="IMEX0014.HTM#library">library</A>.status_of_written',
+   '<A HREF="IMEX0016.HTM#mcm_die_physical_model">mcm_die_physical_model</A>.<A HREF="IMEX0016.HTM#die_physical_template">die_physical_template</A>.written_status',
+   <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0017.HTM#mcm_mountable_die_physical_model">mcm_mountable_die_physical_model</A>',
+                  '<A HREF="IMEX0017.HTM#mountable_die_physical_template">mountable_die_physical_template</A>', 'written_status'),
+   '<A HREF="IMEX0021.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A>.status_of_written',
+   '<A HREF="IMEX0023.HTM#pcb_material_model">pcb_material_model</A>.<A HREF="IMEX0023.HTM#material">material</A>.written_status',
+   '<A HREF="IMEX0024.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>.<A HREF="IMEX0024.HTM#pcb_drawing_template">pcb_drawing_template</A>.status_of_written',
+   '<A HREF="IMEX0024.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>.<A HREF="IMEX0024.HTM#pcb_template">pcb_template</A>.status_of_written',
+   '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#mountable_package">mountable_package</A>.written_status',
+   '<A HREF="IMEX0026.HTM#pcb_mountable_package_model">pcb_mountable_package_model</A>.<A HREF="IMEX0026.HTM#mounting_method">mounting_method</A>.written_status',
+   '<A HREF="IMEX0027.HTM#pcb_package_model">pcb_package_model</A>.<A HREF="IMEX0027.HTM#package">package</A>.written_status',
+   '<A HREF="IMEX0028.HTM#pcb_part_model">pcb_part_model</A>.<A HREF="IMEX0028.HTM#part">part</A>.written_status',
+   '<A HREF="IMEX0029.HTM#pcb_sub_layout_model">pcb_sub_layout_model</A>.<A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A>.written_status',
+   '<A HREF="IMEX0030.HTM#pcb_technology_model">pcb_technology_model</A>.<A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A>.written_status',
+   '<A HREF="IMEX0032.HTM#schematic_implementation_model">schematic_implementation_model</A>.<A HREF="IMEX0032.HTM#page">page</A>.status_of_written']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0005.HTM#written">written</A> includes information relating to the writer or generator of the 
+ object with which the written is associated.  It must include a <A HREF="IMEX0005.HTM#time_stamp">time_stamp</A>
+ and may include program identification, human or organisation
+ identification, or location information to help the reader trace the origin 
+ of a particular part of an EDIF file.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A> <A HREF="IMEX0012.HTM#cell">cell</A> <A HREF="IMEX0012.HTM#cell_representation">cell_representation</A> <A HREF="IMEX0012.HTM#cluster">cluster</A> <A HREF="IMEX0004.HTM#design">design</A> <A HREF="IMEX0016.HTM#die_physical_template">die_physical_template</A> <A HREF="IMEX0007.HTM#documentation">documentation</A> <A HREF="IMEX0008.HTM#edif">edif</A> <A HREF="IMEX0013.HTM#geometry_macro_template">geometry_macro_template</A> <A HREF="IMEX0014.HTM#library">library</A> <A HREF="IMEX0023.HTM#material">material</A> <A HREF="IMEX0017.HTM#mountable_die_physical_template">mountable_die_physical_template</A> <A HREF="IMEX0026.HTM#mountable_package">mountable_package</A> <A HREF="IMEX0026.HTM#mounting_method">mounting_method</A> <A HREF="IMEX0027.HTM#package">package</A> <A HREF="IMEX0032.HTM#page">page</A> <A HREF="IMEX0028.HTM#part">part</A> <A HREF="IMEX0021.HTM#pcb_drawing">pcb_drawing</A> <A HREF="IMEX0024.HTM#pcb_drawing_template">pcb_drawing_template</A> <A HREF="IMEX0024.HTM#pcb_template">pcb_template</A> <A HREF="IMEX0013.HTM#schematic_template">schematic_template</A> <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> </P>
+<HR>
+<!-- Start of ENTITY: version_information -->
+<H2><A NAME="version_information">version_information</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0005.HTM#version_information">version_information</A>;
+    name    : <A HREF="IMEX0034.HTM#string_token">string_token</A>;
+    version : OPTIONAL <A HREF="IMEX0034.HTM#string_token">string_token</A>;
+  WHERE
+    <A NAME="version_information.containment_constraint">containment_constraint</A> :
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF, 
+        ['<A HREF="IMEX0005.HTM#design_management_model">design_management_model</A>.<A HREF="IMEX0005.HTM#written">written</A>.data_origin', 
+         '<A HREF="IMEX0005.HTM#design_management_model">design_management_model</A>.<A HREF="IMEX0005.HTM#written">written</A>.program']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0005.HTM#version_information">version_information</A> is used to provide a revision code which can be used 
+ to keep track of the source and creator of the written EDIF data.  It is
+ intended for human interpretation and should serve as an aid in problem
+ analysis.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0005.HTM#written">written</A> </P>
+<HR>
+<!-- Start of ENTITY: time_stamp -->
+<H2><A NAME="time_stamp">time_stamp</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0005.HTM#time_stamp">time_stamp</A>;
+    recorded_date : <A HREF="IMEX0005.HTM#date">date</A>;
+    recorded_time : <A HREF="IMEX0005.HTM#time">time</A>;
+  WHERE
+    <A NAME="time_stamp.valid_existence">valid_existence</A> :
+      (* A time_stamp belongs to one written. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0005.HTM#design_management_model">design_management_model</A>.<A HREF="IMEX0005.HTM#written">written</A>.<A HREF="IMEX0005.HTM#date">date</A>');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0005.HTM#time_stamp">time_stamp</A> identifies when the data was created or last modified.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0005.HTM#written">written</A> </P>
+<HR>
+<!-- Start of ENTITY: time -->
+<H2><A NAME="time">time</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0005.HTM#time">time</A>;
+    hour   : <A HREF="IMEX0034.HTM#integer_token">integer_token</A>;
+    minute : <A HREF="IMEX0034.HTM#integer_token">integer_token</A>;
+    second : <A HREF="IMEX0034.HTM#integer_token">integer_token</A>;
+  WHERE
+    <A NAME="time.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0005.HTM#design_management_model">design_management_model</A>.<A HREF="IMEX0005.HTM#time_stamp">time_stamp</A>.recorded_time');
+
+    <A NAME="time.valid_hour">valid_hour</A> :
+      (* Twenty four hours each day. *)
+      { 0 &lt;= hour &lt;= 23 };
+
+    <A NAME="time.valid_minute">valid_minute</A> :
+      (* Sixty minutes each hour. *)
+      { 0 &lt;= minute &lt;= 59 };
+
+    <A NAME="time.valid_second">valid_second</A> :
+      (* Sixty seconds each minute. *)
+      { 0 &lt;= second &lt;= 59 };
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0005.HTM#time">time</A> specifies the time in hours, minutes and seconds. The time is
+ specified in Universal Time Coordinated.
+</P>
+<P>
+ NOTE: The current definition of <A HREF="IMEX0005.HTM#time">time</A> does not cover leap second.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0005.HTM#time_stamp">time_stamp</A> </P>
+<HR>
+<!-- Start of ENTITY: date -->
+<H2><A NAME="date">date</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0005.HTM#date">date</A>;
+    year  : <A HREF="IMEX0034.HTM#positive_integer_token">positive_integer_token</A>;
+    month : <A HREF="IMEX0034.HTM#positive_integer_token">positive_integer_token</A>;
+    day   : <A HREF="IMEX0034.HTM#positive_integer_token">positive_integer_token</A>;
+  WHERE
+    <A NAME="date.valid_existence">valid_existence</A> :
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+        ['<A HREF="IMEX0005.HTM#design_management_model">design_management_model</A>.<A HREF="IMEX0005.HTM#time_stamp">time_stamp</A>.recorded_date',
+         '<A HREF="IMEX0021.HTM#pcb_drawing_model">pcb_drawing_model</A>.<A HREF="IMEX0021.HTM#drawing_title_block">drawing_title_block</A>.overriding_drawing_date',
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0013.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0013.HTM#internal_page_title_block_template">internal_page_title_block_template</A>',
+                        'approved_date'),
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0013.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0013.HTM#internal_page_title_block_template">internal_page_title_block_template</A>',
+                        'checked_date'),
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0013.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0013.HTM#internal_page_title_block_template">internal_page_title_block_template</A>',
+                        'drawing_date'),
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0013.HTM#instantiatable_object_model">instantiatable_object_model</A>',
+                        '<A HREF="IMEX0013.HTM#internal_page_title_block_template">internal_page_title_block_template</A>',
+                        'engineering_date'),
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0024.HTM#pcb_mcm_instantiatable_object_model">pcb_mcm_instantiatable_object_model</A>',
+                        '<A HREF="IMEX0024.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A>',
+                        'drawing_date'),
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0032.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0032.HTM#page_title_block">page_title_block</A>',
+                        'overriding_approved_date'),
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0032.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0032.HTM#page_title_block">page_title_block</A>',
+                        'overriding_checked_date'),
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0032.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0032.HTM#page_title_block">page_title_block</A>',
+                        'overriding_drawing_date'),
+         <A HREF="IMEX0034.HTM#specified_role">specified_role</A>('<A HREF="IMEX0032.HTM#schematic_implementation_model">schematic_implementation_model</A>',
+                        '<A HREF="IMEX0032.HTM#page_title_block">page_title_block</A>',
+                        'overriding_engineering_date')]);
+
+    <A NAME="date.check_valid_date">check_valid_date</A> :
+      <A HREF="IMEX0005.HTM#valid_date">valid_date</A>(year, month, day);
+
+    <A NAME="date.valid_year">valid_year</A> :
+      (* The value of the year must lie between 1900 and 3000. *)
+      { 1900 &lt;= year &lt;= 3000 };
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0005.HTM#date">date</A> specifies the date as three integers representing the year, month
+ and day.  These should be consistent with each other to form a valid date.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0021.HTM#drawing_title_block">drawing_title_block</A> <A HREF="IMEX0024.HTM#internal_drawing_title_block_template">internal_drawing_title_block_template</A> <A HREF="IMEX0013.HTM#internal_page_title_block_template">internal_page_title_block_template</A> <A HREF="IMEX0032.HTM#page_title_block">page_title_block</A> <A HREF="IMEX0005.HTM#time_stamp">time_stamp</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_date -->
+<H2><A NAME="valid_date">valid_date</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0005.HTM#valid_date">valid_date</A> 
+    (yy, mm, dd : <A HREF="IMEX0034.HTM#positive_integer_token">positive_integer_token</A>) : LOGICAL;
+    LOCAL
+      leap_year : LOGICAL;
+      valid     : LOGICAL;
+    END_LOCAL;
+    leap_year := (yy mod 4 = 0) AND ((yy mod 100 &lt;&gt; 0) OR (yy mod 400 = 0)); 
+    CASE mm OF  
+      1, 3, 5, 7, 8, 10, 12 : valid := dd &lt;= 31;
+      4, 6, 9, 11           : valid := dd &lt;= 30;
+      2                     : IF leap_year THEN
+                                 valid := dd &lt;= 29;
+                              ELSE
+                                 valid := dd &lt;= 28;
+                              END_IF;
+      OTHERWISE             : valid := false;
+    END_CASE;
+    RETURN(valid);        
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0005.HTM#valid_date">valid_date</A> function checks every instance of date.  It is used to
+ check whether the day, month and year fields constitute a valid date or not.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0005.HTM#date">date</A> </P>
+<HR>
+<!-- Start of FUNCTION: valid_timestamp_in_previous_version -->
+<H2><A NAME="valid_timestamp_in_previous_version">valid_timestamp_in_previous_version</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0005.HTM#valid_timestamp_in_previous_version">valid_timestamp_in_previous_version</A>
+    (current, previous : SET OF <A HREF="IMEX0005.HTM#written">written</A>) : BOOLEAN;
+    LOCAL
+      earliestTime, latestTime : <A HREF="IMEX0005.HTM#time_stamp">time_stamp</A>;
+    END_LOCAL;
+    IF EXISTS(current) AND EXISTS(previous) THEN
+       earliestTime := current[1].<A HREF="IMEX0005.HTM#date">date</A>;
+       REPEAT i := 2 TO SIZEOF(current);
+         IF <A HREF="IMEX0005.HTM#compare_timestamp">compare_timestamp</A>(current[i].<A HREF="IMEX0005.HTM#date">date</A>, earliestTime) &lt; 0 THEN
+            earliestTime := current[i].<A HREF="IMEX0005.HTM#date">date</A>;
+         END_IF;
+       END_REPEAT;
+
+       latestTime := previous[1].<A HREF="IMEX0005.HTM#date">date</A>;
+       REPEAT i := 2 TO SIZEOF(previous);
+         IF <A HREF="IMEX0005.HTM#compare_timestamp">compare_timestamp</A>(previous[i].<A HREF="IMEX0005.HTM#date">date</A>, latestTime) &gt; 0 THEN
+            latestTime := previous[i].<A HREF="IMEX0005.HTM#date">date</A>;
+         END_IF;
+       END_REPEAT;
+
+       RETURN(<A HREF="IMEX0005.HTM#compare_timestamp">compare_timestamp</A>(earliestTime, latestTime) &gt;= 0);
+    ELSE
+       RETURN(TRUE);
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0005.HTM#valid_timestamp_in_previous_version">valid_timestamp_in_previous_version</A> function accepts two sets of
+ <A HREF="IMEX0005.HTM#written">written</A> as arguments.  It returns true if the earliest timestamp in the
+ first argument (i.e. current) is later than the latest timestamp in the
+ second argument (i.e. previous).
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0030.HTM#bare_board_technology">bare_board_technology</A> <A HREF="IMEX0012.HTM#cell_representation">cell_representation</A> <A HREF="IMEX0016.HTM#die_physical_template">die_physical_template</A> <A HREF="IMEX0026.HTM#mounting_method">mounting_method</A> <A HREF="IMEX0027.HTM#package">package</A> <A HREF="IMEX0028.HTM#part">part</A> <A HREF="IMEX0029.HTM#sub_layout_definition">sub_layout_definition</A> </P>
+<HR>
+<!-- Start of FUNCTION: compare_timestamp -->
+<H2><A NAME="compare_timestamp">compare_timestamp</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0005.HTM#compare_timestamp">compare_timestamp</A>
+    (d1, d2 : <A HREF="IMEX0005.HTM#time_stamp">time_stamp</A>) : REAL;
+    RETURN((d1.recorded_date.year   - d2.recorded_date.year)   * 1.E10 +
+           (d1.recorded_date.month  - d2.recorded_date.month)  * 1.E8  +
+           (d1.recorded_date.day    - d2.recorded_date.day)    * 1.E6  +
+           (d1.recorded_time.hour   - d2.recorded_time.hour)   * 1.E4  +
+           (d1.recorded_time.minute - d2.recorded_time.minute) * 1.E2  +
+           (d1.recorded_time.second - d2.recorded_time.second));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0005.HTM#compare_timestamp">compare_timestamp</A> compares two <A HREF="IMEX0005.HTM#time_stamp">time_stamps</A>.  It returns a negative
+ number if d1 is earlier than d2, 0 if d1 is equal to d2 and a positive
+ number if d1 is later than d2.
+</P>
+<HR>
+
+<!-- Start of schema: display_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

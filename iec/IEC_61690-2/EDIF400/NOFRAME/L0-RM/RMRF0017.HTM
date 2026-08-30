@@ -1,0 +1,716 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 4 0 0 - Level 0 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMSTART.HTM">General Introduction</A>
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 400 Top Page</A>
+<HR>
+<H1><A NAME="pcbAssembledBoard">pcbAssembledBoard</A></H1>
+<PRE>
+<I>pcbAssembledBoard ::= '(' 'pcbAssembledBoard'</I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbBareBoard">pcbBareBoard</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0017.HTM#pcbAssembledPhysicalNets">pcbAssembledPhysicalNets</A>&gt; | <A HREF="RMRF0018.HTM#pcbBoardSubsetDefinition">pcbBoardSubsetDefinition</A> | 
+&#09;<A HREF="RMRF0018.HTM#pcbBoardSubsetExtraDetail">pcbBoardSubsetExtraDetail</A> | <A HREF="RMRF0020.HTM#pcbComponentAssemblyRule">pcbComponentAssemblyRule</A> | 
+&#09;&lt;<A HREF="RMRF0021.HTM#pcbComponentOrientationRule">pcbComponentOrientationRule</A>&gt; | <A HREF="RMRF0021.HTM#pcbComponentRealizationRule">pcbComponentRealizationRule</A> | 
+&#09;<A HREF="RMRF0021.HTM#pcbComponentSignalRealizationRule">pcbComponentSignalRealizationRule</A> | 
+&#09;&lt;<A HREF="RMRF0022.HTM#pcbDefaultMaximumComponentHeight">pcbDefaultMaximumComponentHeight</A>&gt; | <A HREF="RMRF0023.HTM#pcbDieComponentImplementation">pcbDieComponentImplementation</A> 
+&#09;| <A HREF="RMRF0027.HTM#pcbDrawing">pcbDrawing</A> | <A HREF="RMRF0032.HTM#pcbEmbeddedComponentImplementation">pcbEmbeddedComponentImplementation</A> | 
+&#09;<A HREF="RMRF0034.HTM#pcbJumperComponentImplementation">pcbJumperComponentImplementation</A> | 
+&#09;<A HREF="RMRF0036.HTM#pcbMechanicalComponentImplementation">pcbMechanicalComponentImplementation</A> | 
+&#09;<A HREF="RMRF0041.HTM#pcbPackagedConnectorComponentImplementation">pcbPackagedConnectorComponentImplementation</A> | 
+&#09;<A HREF="RMRF0042.HTM#pcbPackagedElectricalComponentImplementation">pcbPackagedElectricalComponentImplementation</A> | 
+&#09;<A HREF="RMRF0048.HTM#pcbPrintedConnectorComponentImplementation">pcbPrintedConnectorComponentImplementation</A> | 
+&#09;<A HREF="RMRF0048.HTM#pcbPrintedElectricalComponentImplementation">pcbPrintedElectricalComponentImplementation</A> | &lt;<A HREF="RMRF0051.HTM#pcbWirebondLength">pcbWirebondLength</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0036.HTM#pcbMcmImplementation">pcbMcmImplementation</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAssembledBoardNameFabrication">pcbAssembledBoardNameFabrication</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>There may be at most one implementation for each component.
+<BR><BR><DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0017.HTM#pcbAssembledBoard">pcbAssembledBoard</A></I> construct describes a complete physical assembly for a particular printed circuit board or multi-chip module. It includes a reference to a bare board definition, on which the assembled board is based, and optionally:
+<P>1. The implementations (assembly details) of components that are mounted on or in the bare board, and of components that are printed as part of the bare board.
+<P>2. The assembly of physical nets within the bare board (with special jumpers) into assembled physical nets.
+<P>3. PCB/MCM drawings (documentation of the assembled board).
+<P>4. Some technology rules that pertain to the assembled board. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAssembledBoard</B>
+<B>   (pcbBareBoard ...)</B>
+<B>   (pcbPackagedElectricalComponentImplementation ...)</B>
+<B>   (pcbPackagedConnectorComponentImplementation ...)</B>
+<B>   (pcbAssembledPhysicalNets ...) ...)</B>
+</PRE>
+<P>For more detailed examples of each keyword, see the keyword descriptions.
+<P><HR>
+<H1><A NAME="pcbAssembledBoardNameFabrication">pcbAssembledBoardNameFabrication</A></H1>
+<PRE>
+<I>pcbAssembledBoardNameFabrication ::= '(' 'pcbAssembledBoardNameFabrication'</I>
+&#09;<I>{ <A HREF="RMRF0032.HTM#pcbFabricateTextAppearance">pcbFabricateTextAppearance</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0018.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAssembledBoard">pcbAssembledBoard</A> <A HREF="RMRF0040.HTM#pcbNameFabrication">pcbNameFabrication</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>Specifies display positions and appearances for an assembled board name.
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNetHeader">pcbAssembledPhysicalNetHeader</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNetHeader ::= '(' 'pcbAssembledPhysicalNetHeader'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0053.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0022.HTM#pcbCorrectNet">pcbCorrectNet</A>  !<A HREF="RMRF0034.HTM#pcbIncorrectNet">pcbIncorrectNet</A>  !<A HREF="RMRF0040.HTM#pcbNonAnalyzedNet">pcbNonAnalyzedNet</A>  !<A HREF="RMRF0049.HTM#pcbShortingNet">pcbShortingNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetRef">pcbAssembledPhysicalNetRef</A> <A HREF="RMRF0046.HTM#pcbPhysicalNet">pcbPhysicalNet</A> <A HREF="RMRF0046.HTM#pcbPhysicalNetHeader">pcbPhysicalNetHeader</A> 
+</I>
+<H3>Description:</H3>
+<P>Gathers together data relating to the assembled physical net as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAssembledPhysicalNetHeader</B>
+<B>   (nameInformation (primaryName "GND")) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNetNameCaseSensitive">pcbAssembledPhysicalNetNameCaseSensitive</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNetNameCaseSensitive ::= '(' 
+&#09;'pcbAssembledPhysicalNetNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0046.HTM#pcbPhysicalNet">pcbPhysicalNet</A> <A HREF="RMRF0046.HTM#pcbPhysicalNetNameCaseSensitive">pcbPhysicalNetNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for items with a <I><A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetNameDef">pcbAssembledPhysicalNetNameDef</A></I> are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0006.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example. 
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNetNameDef">pcbAssembledPhysicalNetNameDef</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNetNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0022.HTM#pcbCorrectNet">pcbCorrectNet</A>  !<A HREF="RMRF0034.HTM#pcbIncorrectNet">pcbIncorrectNet</A>  !<A HREF="RMRF0040.HTM#pcbNonAnalyzedNet">pcbNonAnalyzedNet</A>  !<A HREF="RMRF0049.HTM#pcbShortingNet">pcbShortingNet</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetNameRef">pcbAssembledPhysicalNetNameRef</A> <A HREF="RMRF0046.HTM#pcbPhysicalNet">pcbPhysicalNet</A> <A HREF="RMRF0046.HTM#pcbPhysicalNetNameDef">pcbPhysicalNetNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a name for an assembled physical net.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAssembledPhysicalNets</B>
+<B>   (pcbAnalyzedAssembledPhysicalNets</B>
+<B>      (pcbCorrectNet NET_FOR_SIG1 ...)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNetNameRef">pcbAssembledPhysicalNetNameRef</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNetNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetRef">pcbAssembledPhysicalNetRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetNameDef">pcbAssembledPhysicalNetNameDef</A> <A HREF="RMRF0046.HTM#pcbPhysicalNet">pcbPhysicalNet</A> <A HREF="RMRF0046.HTM#pcbPhysicalNetNameRef">pcbPhysicalNetNameRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a <I><A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetNameDef">pcbAssembledPhysicalNetNameDef</A></I>. 
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNetRef">pcbAssembledPhysicalNetRef</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNetRef ::= '(' 'pcbAssembledPhysicalNetRef'</I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetNameRef">pcbAssembledPhysicalNetNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbJumperConnectionRef">pcbJumperConnectionRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAssembledPhysicalNetHeader">pcbAssembledPhysicalNetHeader</A> <A HREF="RMRF0046.HTM#pcbPhysicalNet">pcbPhysicalNet</A> <A HREF="RMRF0046.HTM#pcbPhysicalNetNameRef">pcbPhysicalNetNameRef</A> <A HREF="RMRF0046.HTM#pcbPhysicalNetOccurrenceRef">pcbPhysicalNetOccurrenceRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References an assembled physical net, e.g. a <I><A HREF="RMRF0022.HTM#pcbCorrectNet">pcbCorrectNet</A></I>.   
+<P><HR>
+<H1><A NAME="pcbAssembledPhysicalNets">pcbAssembledPhysicalNets</A></H1>
+<PRE>
+<I>pcbAssembledPhysicalNets ::= '(' 'pcbAssembledPhysicalNets'</I>
+&#09;<I>( <A HREF="RMRF0016.HTM#pcbAnalyzedAssembledPhysicalNets">pcbAnalyzedAssembledPhysicalNets</A> | 
+&#09;<A HREF="RMRF0040.HTM#pcbNonAnalyzedAssembledPhysicalNets">pcbNonAnalyzedAssembledPhysicalNets</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0017.HTM#pcbAssembledBoard">pcbAssembledBoard</A>  
+</I>
+<H3>Description:</H3>
+<P>Describes how the physical nets on the bare board are assembled. In other words, it describes the connectivity between physical nets on the bare board.
+<P>The assembled physical nets are categorised as either analyzed or not analyzed to specify whether or not the sending system has checked their connectivity against the connectivity of signals.
+<P>An assembled physical net is a collection of instance nets on the bare board, electrical component terminals and jumpers that are intended to be electrically connected and electrically disjoint from other assembled physical nets. EDIF does not guarantee that an assembled physical net fulfils this criterion.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAssembledPhysicalNets</B>
+<B>   (pcbAnalyzedAssembledPhysicalNets</B>
+<B>      (pcbCorrectNet NET_FOR_SIG1</B>
+<B>         (pcbAssembledPhysicalNetHeader)</B>
+<B>         (pcbComponentSignalRef SIG1)</B>
+<B>         (pcbInstanceNets</B>
+<B>            (pcbSubLayoutInstancePhysicalNetRef </B>
+<B>               NET1 (pcbSubLayoutInstanceRef BB))</B>
+<B>            (pcbSubLayoutInstancePhysicalNetRef</B>
+<B>               NET2 (pcbSubLayoutInstanceRef BB)))</B>
+<B>         (pcbJumperConnection JUMPER1</B>
+<B>            (pcbJumperConnectionHeader)</B>
+<B>            (pcbJumperConnectionDiscreteWire</B>
+<B>               (pcbJumperConnectionDiscreteWireConnectionPoints</B>
+<B>                  (pcbPadstackInstanceRef JPAD1)</B>
+<B>                  (pcbPadstackInstanceRef JPAD2)))))))</B>
+</PRE>
+<P>In this example, the connectivity defined by SIG1 is implemented by NET1, NET2 and a jumper, JUMPER1. JUMPER1 could be the physical mechanism that is used to join the two physical nets together.
+<P><HR>
+<H1><A NAME="pcbAssemblySideBoth">pcbAssemblySideBoth</A></H1>
+<PRE>
+<I>pcbAssemblySideBoth ::= '(' 'pcbAssemblySideBoth'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0020.HTM#pcbComponentAssemblyRuleCriterion">pcbComponentAssemblyRuleCriterion</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAssemblySideBottom">pcbAssemblySideBottom</A> <A HREF="RMRF0017.HTM#pcbAssemblySideTop">pcbAssemblySideTop</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that a component assembly rule criterion applies to both sides of an assembled board. 
+<P><HR>
+<H1><A NAME="pcbAssemblySideBottom">pcbAssemblySideBottom</A></H1>
+<PRE>
+<I>pcbAssemblySideBottom ::= '(' 'pcbAssemblySideBottom'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0020.HTM#pcbComponentAssemblyRuleCriterion">pcbComponentAssemblyRuleCriterion</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAssemblySideBoth">pcbAssemblySideBoth</A> <A HREF="RMRF0017.HTM#pcbAssemblySideTop">pcbAssemblySideTop</A> <A HREF="RMRF0024.HTM#pcbDieSideBottom">pcbDieSideBottom</A> <A HREF="RMRF0035.HTM#pcbLayerSideBottom">pcbLayerSideBottom</A> <A HREF="RMRF0040.HTM#pcbMountingSideBottom">pcbMountingSideBottom</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that a component assembly rule criterion applies to the bottom side of an assembled board. 
+<P><HR>
+<H1><A NAME="pcbAssemblySideTop">pcbAssemblySideTop</A></H1>
+<PRE>
+<I>pcbAssemblySideTop ::= '(' 'pcbAssemblySideTop'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0020.HTM#pcbComponentAssemblyRuleCriterion">pcbComponentAssemblyRuleCriterion</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAssemblySideBoth">pcbAssemblySideBoth</A> <A HREF="RMRF0017.HTM#pcbAssemblySideBottom">pcbAssemblySideBottom</A> <A HREF="RMRF0024.HTM#pcbDieSideTop">pcbDieSideTop</A> <A HREF="RMRF0035.HTM#pcbLayerSideTop">pcbLayerSideTop</A> <A HREF="RMRF0040.HTM#pcbMountingSideTop">pcbMountingSideTop</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that a component assembly rule criterion applies to the top side of an assembled board. 
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponent">pcbAuxiliaryComponent</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponent ::= '(' 'pcbAuxiliaryComponent'</I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentNameDef">pcbAuxiliaryComponentNameDef</A></I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentType">pcbAuxiliaryComponentType</A></I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethod">pcbAuxiliaryComponentPlacementMethod</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0053.HTM#property">property</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0038.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A>  *<A HREF="RMRF0038.HTM#pcbMountableDiePhysicalTemplate">pcbMountableDiePhysicalTemplate</A>  *<A HREF="RMRF0039.HTM#pcbMountableMechanicalPackage">pcbMountableMechanicalPackage</A>  *<A HREF="RMRF0040.HTM#pcbMountablePinPackage">pcbMountablePinPackage</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentConnector">pcbAuxiliaryComponentConnector</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentMechanical">pcbAuxiliaryComponentMechanical</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentNameCaseSensitive">pcbAuxiliaryComponentNameCaseSensitive</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodAbove">pcbAuxiliaryComponentPlacementMethodAbove</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodAlongside">pcbAuxiliaryComponentPlacementMethodAlongside</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodBelow">pcbAuxiliaryComponentPlacementMethodBelow</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodType">pcbAuxiliaryComponentPlacementMethodType</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>An auxiliary component is used as an additional component when mounting a package or template in a particular way; for example, a socket, securing clip, etc.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAuxiliaryComponent TYPE21HEATSINK</B>
+<B>   (pcbAuxiliaryComponentMechanical </B>
+<B>      (pcbMechanicalPartRef HS21))</B>
+<B>   (pcbAuxiliaryComponentPlacementMethod</B>
+<B>      (pcbAuxiliaryComponentPlacementMethodAbove)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponentConnector">pcbAuxiliaryComponentConnector</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponentConnector ::= '(' 'pcbAuxiliaryComponentConnector'</I>
+&#09;<I><A HREF="RMRF0041.HTM#pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentType">pcbAuxiliaryComponentType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentMechanical">pcbAuxiliaryComponentMechanical</A> <A HREF="RMRF0041.HTM#pcbPackagedConnectorComponent">pcbPackagedConnectorComponent</A> <A HREF="RMRF0048.HTM#pcbPrintedConnectorComponent">pcbPrintedConnectorComponent</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the auxiliary component to be a discrete connector (e.g. a socket). The library part to be used is referenced in <I><A HREF="RMRF0041.HTM#pcbPackagedConnectorPartRef">pcbPackagedConnectorPartRef</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAuxiliaryComponent &amp;14PINSOCKET</B>
+<B>   (pcbAuxiliaryComponentConnector </B>
+<B>      (pcbPackagedConnectorPartRef S_14DIL))</B>
+<B>   (pcbAuxiliaryComponentPlacementMethod</B>
+<B>      (pcbAuxiliaryComponentPlacementMethodBelow)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponentMechanical">pcbAuxiliaryComponentMechanical</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponentMechanical ::= '(' 'pcbAuxiliaryComponentMechanical'</I>
+&#09;<I><A HREF="RMRF0037.HTM#pcbMechanicalPartRef">pcbMechanicalPartRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentType">pcbAuxiliaryComponentType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentConnector">pcbAuxiliaryComponentConnector</A> <A HREF="RMRF0036.HTM#pcbMechanicalComponent">pcbMechanicalComponent</A> <A HREF="RMRF0036.HTM#pcbMechanicalComponentImplementation">pcbMechanicalComponentImplementation</A> <A HREF="RMRF0036.HTM#pcbMechanicalComponentRef">pcbMechanicalComponentRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the auxiliary component to be mechanical (e.g. a heatsink). The library part to be used is referenced in <I><A HREF="RMRF0037.HTM#pcbMechanicalPartRef">pcbMechanicalPartRef</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAuxiliaryComponent TYPE21HEATSINK</B>
+<B>   (pcbAuxiliaryComponentMechanical </B>
+<B>      (pcbMechanicalPartRef HS21))</B>
+<B>   (pcbAuxiliaryComponentPlacementMethod</B>
+<B>      (pcbAuxiliaryComponentPlacementMethodAbove)))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponentNameCaseSensitive">pcbAuxiliaryComponentNameCaseSensitive</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponentNameCaseSensitive ::= '(' 
+&#09;'pcbAuxiliaryComponentNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0014.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A> <A HREF="RMRF0021.HTM#pcbComponentNameCaseSensitive">pcbComponentNameCaseSensitive</A> <A HREF="RMRF0021.HTM#pcbComponentSignalNameCaseSensitive">pcbComponentSignalNameCaseSensitive</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether or not the strings contained within <I><A HREF="RMRF0014.HTM#nameInformation">nameInformation</A></I> for items with a <I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentNameDef">pcbAuxiliaryComponentNameDef</A></I> are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0006.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0012.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0002.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example. 
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponentNameDef">pcbAuxiliaryComponentNameDef</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponentNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0021.HTM#pcbComponentImplementationNameDef">pcbComponentImplementationNameDef</A> <A HREF="RMRF0021.HTM#pcbComponentNameDef">pcbComponentNameDef</A> <A HREF="RMRF0021.HTM#pcbComponentSignalNameDef">pcbComponentSignalNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of a <I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAuxiliaryComponent TYPE21HEATSINK</B>
+<B>   (pcbAuxiliaryComponentMechanical </B>
+<B>      (pcbMechanicalPartRef HS21))</B>
+<B>   (pcbAuxiliaryComponentPlacementMethod</B>
+<B>      (pcbAuxiliaryComponentPlacementMethodAbove)))</B>
+</PRE>
+<P>Here, the <I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A></I> is named TYPE21HEATSINK.
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponentPlacementMethod">pcbAuxiliaryComponentPlacementMethod</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponentPlacementMethod ::= '(' 'pcbAuxiliaryComponentPlacementMethod'</I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodType">pcbAuxiliaryComponentPlacementMethodType</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodAbove">pcbAuxiliaryComponentPlacementMethodAbove</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodAlongside">pcbAuxiliaryComponentPlacementMethodAlongside</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodBelow">pcbAuxiliaryComponentPlacementMethodBelow</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies how an auxiliary component is to be placed relative to the main component, e.g. above, below or alongside. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAuxiliaryComponentPlacementMethod</B>
+<B>   (pcbAuxiliaryComponentPlacementMethodAbove)) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponentPlacementMethodAbove">pcbAuxiliaryComponentPlacementMethodAbove</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponentPlacementMethodAbove ::= '(' 
+&#09;'pcbAuxiliaryComponentPlacementMethodAbove'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodType">pcbAuxiliaryComponentPlacementMethodType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethod">pcbAuxiliaryComponentPlacementMethod</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodAlongside">pcbAuxiliaryComponentPlacementMethodAlongside</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodBelow">pcbAuxiliaryComponentPlacementMethodBelow</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that an auxiliary component is to be placed above the main component. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAuxiliaryComponentPlacementMethod</B>
+<B>   (pcbAuxiliaryComponentPlacementMethodAbove))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponentPlacementMethodAlongside">pcbAuxiliaryComponentPlacementMethodAlongside</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponentPlacementMethodAlongside ::= '(' 
+&#09;'pcbAuxiliaryComponentPlacementMethodAlongside'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodType">pcbAuxiliaryComponentPlacementMethodType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethod">pcbAuxiliaryComponentPlacementMethod</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodAbove">pcbAuxiliaryComponentPlacementMethodAbove</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodBelow">pcbAuxiliaryComponentPlacementMethodBelow</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that an auxiliary component is to be placed alongside the main component. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAuxiliaryComponentPlacementMethod</B>
+<B>     (pcbAuxiliaryComponentPlacementMethodAlongside))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponentPlacementMethodBelow">pcbAuxiliaryComponentPlacementMethodBelow</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponentPlacementMethodBelow ::= '(' 
+&#09;'pcbAuxiliaryComponentPlacementMethodBelow'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodType">pcbAuxiliaryComponentPlacementMethodType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethod">pcbAuxiliaryComponentPlacementMethod</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodAbove">pcbAuxiliaryComponentPlacementMethodAbove</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodAlongside">pcbAuxiliaryComponentPlacementMethodAlongside</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that an auxiliary component is to be placed below the main component. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAuxiliaryComponentPlacementMethod</B>
+<B>     (pcbAuxiliaryComponentPlacementMethodBelow))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponentPlacementMethodType">pcbAuxiliaryComponentPlacementMethodType</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponentPlacementMethodType ::= ( 
+&#09;<A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodAbove">pcbAuxiliaryComponentPlacementMethodAbove</A> | 
+&#09;<A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodBelow">pcbAuxiliaryComponentPlacementMethodBelow</A> | 
+&#09;<A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodAlongside">pcbAuxiliaryComponentPlacementMethodAlongside</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethod">pcbAuxiliaryComponentPlacementMethod</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A> <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentType">pcbAuxiliaryComponentType</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies how an auxiliary component is to be placed relative to the main component.  
+<P><HR>
+<H1><A NAME="pcbAuxiliaryComponentType">pcbAuxiliaryComponentType</A></H1>
+<PRE>
+<I>pcbAuxiliaryComponentType ::= ( <A HREF="RMRF0017.HTM#pcbAuxiliaryComponentConnector">pcbAuxiliaryComponentConnector</A> | 
+&#09;<A HREF="RMRF0017.HTM#pcbAuxiliaryComponentMechanical">pcbAuxiliaryComponentMechanical</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0017.HTM#pcbAuxiliaryComponent">pcbAuxiliaryComponent</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbAuxiliaryComponentPlacementMethodType">pcbAuxiliaryComponentPlacementMethodType</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines whether the auxiliary component is a discrete connector (e.g. a socket) or mechanical (e.g. a heatsink).
+<H3>Example:</H3>
+<PRE>
+<B>(pcbAuxiliaryComponent TYPE21HEATSINK</B>
+<B>   (pcbAuxiliaryComponentMechanical </B>
+<B>      (pcbMechanicalPartRef HS21)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbBallPackage">pcbBallPackage</A></H1>
+<PRE>
+<I>pcbBallPackage ::= '(' 'pcbBallPackage'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0042.HTM#pcbPackageHeader">pcbPackageHeader</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0001.HTM#bodyVolume">bodyVolume</A>&gt; | &lt;<A HREF="RMRF0010.HTM#jedecDetailedInformation">jedecDetailedInformation</A>&gt; | &lt;<A HREF="RMRF0015.HTM#occupiedSpace">occupiedSpace</A>&gt; | 
+&#09;<A HREF="RMRF0036.HTM#pcbMechanicalFixing">pcbMechanicalFixing</A> | &lt;<A HREF="RMRF0041.HTM#pcbPackageBallPitch">pcbPackageBallPitch</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0041.HTM#pcbPackageBodyMaterial">pcbPackageBodyMaterial</A>&gt; | &lt;<A HREF="RMRF0044.HTM#pcbPackageShape">pcbPackageShape</A>&gt; | 
+&#09;<A HREF="RMRF0044.HTM#pcbPackageTerminalSolderBall">pcbPackageTerminalSolderBall</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0007.HTM#external">external</A>  *<A HREF="RMRF0012.HTM#library">library</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbBallPackageRef">pcbBallPackageRef</A> <A HREF="RMRF0038.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A> <A HREF="RMRF0040.HTM#pcbMountablePackageTerminalSolderBall">pcbMountablePackageTerminalSolderBall</A> <A HREF="RMRF0044.HTM#pcbPackageTerminalSolderBallRef">pcbPackageTerminalSolderBallRef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a ball package. A ball package represents a Ball Grid Array (BGA), which has solder balls for connection.
+<P>Some of the information specified within <I><A HREF="RMRF0017.HTM#pcbBallPackage">pcbBallPackage</A></I> can be overridden by <I><A HREF="RMRF0038.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A></I>, which describes a way of mounting the package on a board. The actual specification of how an instance of a package is mounted on the assembled board is specified by the component implementation, which references a <I><A HREF="RMRF0038.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBallPackage BP1</B>
+<B>   (pcbPackageHeader</B>
+<B>      (pcbLayoutUnits ...) ...)</B>
+<B>   (bodyVolume ...)</B>
+<B>   (occupiedSpace ...)</B>
+<B>   (pcbPackageBodyMaterial ...)</B>
+<B>   (pcbPackageShape ...)</B>
+<B>   (pcbPackageBallPitch 20)</B>
+<B>   (pcbPackageTerminalSolderBall T1</B>
+<B>      (pcbPackageTerminalElectrical)</B>
+<B>      (pcbSolderBumpTemplateRef SBT1)</B>
+<B>      (origin (pt 30 40)))</B>
+<B>   (pcbPackageTerminalSolderBall T2</B>
+<B>      (pcbPackageTerminalElectrical)</B>
+<B>      (pcbSolderBumpTemplateRef SBT1)</B>
+<B>      (origin (pt 50 40))) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbBallPackageRef">pcbBallPackageRef</A></H1>
+<PRE>
+<I>pcbBallPackageRef ::= '(' 'pcbBallPackageRef'</I>
+&#09;<I><A HREF="RMRF0012.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0034.HTM#pcbJumperPart">pcbJumperPart</A>  !<A HREF="RMRF0038.HTM#pcbMountableBallPackage">pcbMountableBallPackage</A>  !<A HREF="RMRF0041.HTM#pcbPackagedConnectorPart">pcbPackagedConnectorPart</A>  !<A HREF="RMRF0042.HTM#pcbPackagedElectricalPart">pcbPackagedElectricalPart</A>  !<A HREF="RMRF0044.HTM#pcbPackagePreviousVersion">pcbPackagePreviousVersion</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbBallPackage">pcbBallPackage</A> <A HREF="RMRF0041.HTM#pcbPackageBallPitch">pcbPackageBallPitch</A> <A HREF="RMRF0044.HTM#pcbPackageTerminalSolderBallRef">pcbPackageTerminalSolderBallRef</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0044.HTM#pcbPackagePreviousVersion">pcbPackagePreviousVersion</A></I> &lt;<I><A HREF="RMRF0042.HTM#pcbPackageHeader">pcbPackageHeader</A></I> &lt;<I><A HREF="RMRF0037.HTM#pcbMechanicalPackage">pcbMechanicalPackage</A>
+<BR><BR></I>
+<DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0044.HTM#pcbPackagePreviousVersion">pcbPackagePreviousVersion</A></I> &lt;<I><A HREF="RMRF0042.HTM#pcbPackageHeader">pcbPackageHeader</A></I> &lt;<I><A HREF="RMRF0047.HTM#pcbPinPackage">pcbPinPackage</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>References a previously-defined ball package. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbMountableBallPackage MBP1</B>
+<B>   (pcbMountablePackageHeader ...)</B>
+<B>   (pcbBallPackageRef BP1) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbBareBoard">pcbBareBoard</A></H1>
+<PRE>
+<I>pcbBareBoard ::= '(' 'pcbBareBoard'</I>
+&#09;<I><A HREF="RMRF0018.HTM#pcbBareBoardDefinitionRef">pcbBareBoardDefinitionRef</A></I>
+&#09;<I>{ <A HREF="RMRF0053.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0017.HTM#pcbAssembledBoard">pcbAssembledBoard</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbBareBoardCavity">pcbBareBoardCavity</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityNameDef">pcbBareBoardCavityNameDef</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityNameRef">pcbBareBoardCavityNameRef</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityRef">pcbBareBoardCavityRef</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityWell">pcbBareBoardCavityWell</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityWellBottomArea">pcbBareBoardCavityWellBottomArea</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellDiePlacementArea">pcbBareBoardCavityWellDiePlacementArea</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellNameDef">pcbBareBoardCavityWellNameDef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellNameRef">pcbBareBoardCavityWellNameRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellRef">pcbBareBoardCavityWellRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellSurfaceArea">pcbBareBoardCavityWellSurfaceArea</A> <A HREF="RMRF0018.HTM#pcbBareBoardConstraint">pcbBareBoardConstraint</A> <A HREF="RMRF0018.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A> <A HREF="RMRF0018.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A> <A HREF="RMRF0018.HTM#pcbBareBoardLayerTechnologyRule">pcbBareBoardLayerTechnologyRule</A> <A HREF="RMRF0018.HTM#pcbBareBoardOutline">pcbBareBoardOutline</A> <A HREF="RMRF0018.HTM#pcbBareBoardPhysicalNet">pcbBareBoardPhysicalNet</A> <A HREF="RMRF0018.HTM#pcbBareBoardPhysicalNetRef">pcbBareBoardPhysicalNetRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardProbePoint">pcbBareBoardProbePoint</A> <A HREF="RMRF0018.HTM#pcbBareBoardProbePointNameDef">pcbBareBoardProbePointNameDef</A> <A HREF="RMRF0018.HTM#pcbBareBoardProbePointNameRef">pcbBareBoardProbePointNameRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardProbePointRef">pcbBareBoardProbePointRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardRegionTechnologyRule">pcbBareBoardRegionTechnologyRule</A> <A HREF="RMRF0018.HTM#pcbBareBoardTechnology">pcbBareBoardTechnology</A> <A HREF="RMRF0018.HTM#pcbBareBoardTechnologyHeader">pcbBareBoardTechnologyHeader</A> <A HREF="RMRF0018.HTM#pcbBareBoardTechnologyPreviousVersion">pcbBareBoardTechnologyPreviousVersion</A> <A HREF="RMRF0018.HTM#pcbBareBoardTechnologyRef">pcbBareBoardTechnologyRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardTechnologyRule">pcbBareBoardTechnologyRule</A> <A HREF="RMRF0026.HTM#pcbDimensionedObjectBareBoardOutline">pcbDimensionedObjectBareBoardOutline</A> <A HREF="RMRF0049.HTM#pcbSubLayoutBareBoardTechnology">pcbSubLayoutBareBoardTechnology</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the bare board on which the assembled board is based.
+<P>A bare board is a composition of laminated sheets of conductive material, separated by insulation sheets and usually interconnected at several places. Components are mounted or printed onto the bare board.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoard</B>
+<B>   (pcbBareBoardDefinitionRef BB_TYPE1))</B>
+</PRE>
+<P>This bare board references the bare board definition BB_TYPE1. 
+<P><HR>
+<H1><A NAME="pcbBareBoardCavity">pcbBareBoardCavity</A></H1>
+<PRE>
+<I>pcbBareBoardCavity ::= '(' 'pcbBareBoardCavity'</I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbBareBoardCavityNameDef">pcbBareBoardCavityNameDef</A></I>
+&#09;<I><A HREF="RMRF0046.HTM#pcbPhysicalLayerRef">pcbPhysicalLayerRef</A></I>
+&#09;<I><A HREF="RMRF0035.HTM#pcbLayerSide">pcbLayerSide</A></I>
+&#09;<I><A HREF="RMRF0002.HTM#closedAreaElement">closedAreaElement</A></I>
+&#09;<I>{ <A HREF="RMRF0017.HTM#pcbBareBoardCavityWell">pcbBareBoardCavityWell</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0018.HTM#pcbBareBoardDefinition">pcbBareBoardDefinition</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbBareBoard">pcbBareBoard</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityNameRef">pcbBareBoardCavityNameRef</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityRef">pcbBareBoardCavityRef</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityWellBottomArea">pcbBareBoardCavityWellBottomArea</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellDiePlacementArea">pcbBareBoardCavityWellDiePlacementArea</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellNameDef">pcbBareBoardCavityWellNameDef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellNameRef">pcbBareBoardCavityWellNameRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellRef">pcbBareBoardCavityWellRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellSurfaceArea">pcbBareBoardCavityWellSurfaceArea</A> <A HREF="RMRF0018.HTM#pcbBareBoardConstraint">pcbBareBoardConstraint</A> <A HREF="RMRF0018.HTM#pcbBareBoardLayers">pcbBareBoardLayers</A> <A HREF="RMRF0018.HTM#pcbBareBoardOutline">pcbBareBoardOutline</A> <A HREF="RMRF0018.HTM#pcbBareBoardTechnology">pcbBareBoardTechnology</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>A <I><A HREF="RMRF0017.HTM#pcbBareBoardCavity">pcbBareBoardCavity</A></I> must have at least one <I><A HREF="RMRF0017.HTM#pcbBareBoardCavityWell">pcbBareBoardCavityWell</A></I>.
+<BR><BR><DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0007.HTM#external">external</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P>A bare board cavity is a cavity on a layer of a bare board in which dies are placed. A cavity can contain more than one bare board cavity well, as specified by <I><A HREF="RMRF0017.HTM#pcbBareBoardCavityWell">pcbBareBoardCavityWell</A></I>, which may not have uniform depths. See diagram under the keyword <I><A HREF="RMRF0018.HTM#pcbBareBoardTechnologyRule">pcbBareBoardTechnologyRule</A></I>.
+<P><I><A HREF="RMRF0046.HTM#pcbPhysicalLayerRef">PcbPhysicalLayerRef</A></I> specifies the physical layer in which a cavity is formed.
+<P><I><A HREF="RMRF0035.HTM#pcbLayerSide">PcbLayerSide</A></I> specifies whether the cavity is formed on the top side or bottom side of the layer.
+<P><I><A HREF="RMRF0002.HTM#closedAreaElement">ClosedAreaElement</A></I> specifies the surface area of the cavity.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardCavity BBCAV1</B>
+<B>   (pcbPhysicalLayerRef LAYER2)</B>
+<B>   (pcbLayerSide (pcbLayerSideTop))</B>
+<B>   (rectangle (pt 0 0)(pt 8000 6000))</B>
+<B>   (pcbBareBoardCavityWell WELL1</B>
+<B>      (depth (mnm 500 600 700))</B>
+<B>      (pcbBareBoardCavityWellDiePlacementArea</B>
+<B>         (rectangle (pt 1000 1000)(pt 3000 5000))))</B>
+<B>   (pcbBareBoardCavityWell WELL2</B>
+<B>      (depth (mnm 500 600 700))</B>
+<B>      (pcbBareBoardCavityWellDiePlacementArea</B>
+<B>         (rectangle (pt 5000 1000)(pt 7000 5000)))))</B>
+</PRE>
+<P>In this example, the cavity has two wells: WELL1 and WELL2. 
+<P><HR>
+<H1><A NAME="pcbBareBoardCavityNameDef">pcbBareBoardCavityNameDef</A></H1>
+<PRE>
+<I>pcbBareBoardCavityNameDef ::= <A HREF="RMRF0014.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0017.HTM#pcbBareBoardCavity">pcbBareBoardCavity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbBareBoard">pcbBareBoard</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityNameRef">pcbBareBoardCavityNameRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellNameDef">pcbBareBoardCavityWellNameDef</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the name of a bare board cavity. 
+<P><HR>
+<H1><A NAME="pcbBareBoardCavityNameRef">pcbBareBoardCavityNameRef</A></H1>
+<PRE>
+<I>pcbBareBoardCavityNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0017.HTM#pcbBareBoardCavityRef">pcbBareBoardCavityRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbBareBoard">pcbBareBoard</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavity">pcbBareBoardCavity</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityNameDef">pcbBareBoardCavityNameDef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellNameRef">pcbBareBoardCavityWellNameRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellRef">pcbBareBoardCavityWellRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a previously-defined bare board cavity. 
+<P><HR>
+<H1><A NAME="pcbBareBoardCavityRef">pcbBareBoardCavityRef</A></H1>
+<PRE>
+<I>pcbBareBoardCavityRef ::= '(' 'pcbBareBoardCavityRef'</I>
+&#09;<I><A HREF="RMRF0017.HTM#pcbBareBoardCavityNameRef">pcbBareBoardCavityNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0018.HTM#pcbBareBoardCavityWellRef">pcbBareBoardCavityWellRef</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbBareBoard">pcbBareBoard</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavity">pcbBareBoardCavity</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityWell">pcbBareBoardCavityWell</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellNameRef">pcbBareBoardCavityWellNameRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardDefinitionRef">pcbBareBoardDefinitionRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardTechnologyRef">pcbBareBoardTechnologyRef</A> 
+</I>
+<H3>Description:</H3>
+<P>References a bare board cavity. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardCavityWellRef CAVW1</B>
+<B>   (pcbBareBoardCavityRef CAV1)) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="pcbBareBoardCavityWell">pcbBareBoardCavityWell</A></H1>
+<PRE>
+<I>pcbBareBoardCavityWell ::= '(' 'pcbBareBoardCavityWell'</I>
+&#09;<I><A HREF="RMRF0018.HTM#pcbBareBoardCavityWellNameDef">pcbBareBoardCavityWellNameDef</A></I>
+&#09;<I><A HREF="RMRF0004.HTM#depth">depth</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0017.HTM#pcbBareBoardCavityWellBottomArea">pcbBareBoardCavityWellBottomArea</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0018.HTM#pcbBareBoardCavityWellDiePlacementArea">pcbBareBoardCavityWellDiePlacementArea</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0018.HTM#pcbBareBoardCavityWellSurfaceArea">pcbBareBoardCavityWellSurfaceArea</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0017.HTM#pcbBareBoardCavity">pcbBareBoardCavity</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbBareBoard">pcbBareBoard</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavityRef">pcbBareBoardCavityRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellNameRef">pcbBareBoardCavityWellNameRef</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellRef">pcbBareBoardCavityWellRef</A> 
+</I>
+<H3>Description:</H3>
+<P>A bare board cavity well is a well inside a bare board cavity. See diagram under the keyword <I><A HREF="RMRF0018.HTM#pcbBareBoardTechnologyRule">pcbBareBoardTechnologyRule</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardCavityWell WELL1</B>
+<B>   (depth (mnm 500 600 700))</B>
+<B>   (pcbBareBoardCavityWellDiePlacementArea</B>
+<B>      (rectangle (pt 1000 1000) (pt 3000 5000))))</B>
+</PRE>
+<P>&#09;This example defines the cavity well WELL1. 
+<P><HR>
+<H1><A NAME="pcbBareBoardCavityWellBottomArea">pcbBareBoardCavityWellBottomArea</A></H1>
+<PRE>
+<I>pcbBareBoardCavityWellBottomArea ::= '(' 'pcbBareBoardCavityWellBottomArea'</I>
+&#09;<I><A HREF="RMRF0002.HTM#closedAreaElement">closedAreaElement</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0017.HTM#pcbBareBoardCavityWell">pcbBareBoardCavityWell</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0017.HTM#pcbBareBoard">pcbBareBoard</A> <A HREF="RMRF0017.HTM#pcbBareBoardCavity">pcbBareBoardCavity</A> <A HREF="RMRF0018.HTM#pcbBareBoardCavityWellSurfaceArea">pcbBareBoardCavityWellSurfaceArea</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the area of the bottom of the well as seen from the layer surface. If it is not specified, then the surface area of the containing cavity well should be used.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbBareBoardCavityWell WELL1</B>
+<B>   (depth (mnm 500 600 700))</B>
+<B>   (pcbBareBoardCavityWellBottomArea</B>
+<B>      (rectangle (pt 1000 1000)(pt 3000 5000)))) </B>
+</PRE>
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

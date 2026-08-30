@@ -1,0 +1,688 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 1 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="expression_model">expression_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0009.HTM#expression_model">expression_model</A> schema describes different types of expressions
+ supported by Level 1 EDIF.  That includes definitions of
+ <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>, <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>, <A HREF="IMEX0009.HTM#number_expression">number_expression</A> and
+ <A HREF="IMEX0009.HTM#string_expression">string_expression</A>. 
+</P><HR>
+<!-- Start of TYPE: expression -->
+<H2><A NAME="expression">expression</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0009.HTM#expression">expression</A>
+    = SELECT (<A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>, <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>, <A HREF="IMEX0009.HTM#number_expression">number_expression</A>,
+              <A HREF="IMEX0009.HTM#string_expression">string_expression</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ An <A HREF="IMEX0009.HTM#expression">expression</A> can be either a <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>, an
+ <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>, a <A HREF="IMEX0009.HTM#number_expression">number_expression</A> or a <A HREF="IMEX0009.HTM#string_expression">string_expression</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0016.HTM#parameter">parameter</A> <A HREF="IMEX0016.HTM#parameter_assign">parameter_assign</A> </P>
+<HR>
+<!-- Start of TYPE: boolean_expression -->
+<H2><A NAME="boolean_expression">boolean_expression</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>
+    = SELECT (<A HREF="IMEX0009.HTM#and_expression">and_expression</A>, <A HREF="IMEX0016.HTM#boolean_parameter">boolean_parameter</A>, <A HREF="IMEX0020.HTM#boolean_token">boolean_token</A>,
+              <A HREF="IMEX0009.HTM#integer_equal_expression">integer_equal_expression</A>, <A HREF="IMEX0009.HTM#less_than_expression">less_than_expression</A>, 
+              <A HREF="IMEX0009.HTM#less_than_or_equal_to_expression">less_than_or_equal_to_expression</A>, <A HREF="IMEX0009.HTM#not_expression">not_expression</A>, <A HREF="IMEX0009.HTM#or_expression">or_expression</A>,
+              <A HREF="IMEX0009.HTM#string_equal_expression">string_equal_expression</A>, <A HREF="IMEX0009.HTM#xor_expression">xor_expression</A>); 
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> describes an expression that evaluates to a boolean.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#and_expression">and_expression</A> <A HREF="IMEX0016.HTM#boolean_parameter">boolean_parameter</A> <A HREF="IMEX0016.HTM#boolean_parameter_assign">boolean_parameter_assign</A> <A HREF="IMEX0020.HTM#boolean_property">boolean_property</A> <A HREF="IMEX0020.HTM#boolean_property_override">boolean_property_override</A> <A HREF="IMEX0009.HTM#expression">expression</A> <A HREF="IMEX0010.HTM#if_frame">if_frame</A> <A HREF="IMEX0009.HTM#not_expression">not_expression</A> <A HREF="IMEX0009.HTM#or_expression">or_expression</A> <A HREF="IMEX0009.HTM#xor_expression">xor_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: and_expression -->
+<H2><A NAME="and_expression">and_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#and_expression">and_expression</A>;
+    arguments : BAG OF <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ An <A HREF="IMEX0009.HTM#and_expression">and_expression</A> represents a <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> that when evaluated 
+ returns the logical conjunction of its arguments.  It is false if any of its
+ arguments evaluate to false; otherwise it returns true.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: not_expression -->
+<H2><A NAME="not_expression">not_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#not_expression">not_expression</A>;
+    argument  : <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#not_expression">not_expression</A> represents a <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> that when evaluated
+ returns the logical negation of its argument.  It is true if its argument
+ evaluates to false; otherwise it returns false.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: or_expression -->
+<H2><A NAME="or_expression">or_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#or_expression">or_expression</A>;
+    arguments : BAG OF <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ An <A HREF="IMEX0009.HTM#or_expression">or_expression</A> represents a boolean_expression that when evaluated
+ returns the logical disjunction of its arguments.  It is true if any of its
+ arguments evaluate to true; otherwise it returns false. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: xor_expression -->
+<H2><A NAME="xor_expression">xor_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#xor_expression">xor_expression</A>;
+    arguments : BAG OF <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#xor_expression">xor_expression</A> represents a <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> that when evaluated
+ returns the exclusive or of its arguments.  It is true if an odd number of
+ the arguments evaluate to true; otherwise it returns false.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: integer_equal_expression -->
+<H2><A NAME="integer_equal_expression">integer_equal_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#integer_equal_expression">integer_equal_expression</A>;
+    arguments : BAG [2:2] OF <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ An <A HREF="IMEX0009.HTM#integer_equal_expression">integer_equal_expression</A> represents a <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> that when 
+ evaluated returns true if its arguments are numerically the same; it returns
+ false otherwise.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: string_equal_expression -->
+<H2><A NAME="string_equal_expression">string_equal_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#string_equal_expression">string_equal_expression</A>;
+    arguments : BAG [2:2] OF <A HREF="IMEX0009.HTM#string_expression">string_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#string_equal_expression">string_equal_expression</A> represents a <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> that when
+ evaluated returns true if its arguments have the same string length and the
+ same characters in corresponding positions (the strings are compared in a
+ case sensitive manner); it returns false otherwise.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: less_than_expression -->
+<H2><A NAME="less_than_expression">less_than_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#less_than_expression">less_than_expression</A>;
+    arguments : LIST OF <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#less_than_expression">less_than_expression</A> represents a <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> that when
+ evaluated returns true if its arguments are monotonically increasing; it
+ returns false otherwise. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: less_than_or_equal_to_expression -->
+<H2><A NAME="less_than_or_equal_to_expression">less_than_or_equal_to_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#less_than_or_equal_to_expression">less_than_or_equal_to_expression</A>;
+    arguments : LIST OF <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#less_than_or_equal_to_expression">less_than_or_equal_to_expression</A> represents a <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> that
+ when evaluated returns true if its arguments are monotonically
+ nondecreasing; it returns false otherwise.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A> </P>
+<HR>
+<!-- Start of TYPE: integer_expression -->
+<H2><A NAME="integer_expression">integer_expression</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>
+    = SELECT (<A HREF="IMEX0009.HTM#absolute_expression">absolute_expression</A>, <A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A>, <A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A>,
+              <A HREF="IMEX0009.HTM#quotient_expression">quotient_expression</A>, <A HREF="IMEX0009.HTM#instance_index">instance_index</A>, <A HREF="IMEX0016.HTM#integer_parameter">integer_parameter</A>,
+              <A HREF="IMEX0020.HTM#integer_token">integer_token</A>, <A HREF="IMEX0009.HTM#integer_product_expression">integer_product_expression</A>,
+              <A HREF="IMEX0009.HTM#integer_subtract_expression">integer_subtract_expression</A>, <A HREF="IMEX0009.HTM#integer_sum_expression">integer_sum_expression</A>,
+              <A HREF="IMEX0009.HTM#remainder_expression">remainder_expression</A>, <A HREF="IMEX0009.HTM#port_index">port_index</A>, <A HREF="IMEX0009.HTM#signal_index">signal_index</A>,
+              <A HREF="IMEX0009.HTM#string_length_expression">string_length_expression</A>);   
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ An <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> describes an expression that evaluates to an
+ integer.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#absolute_expression">absolute_expression</A> <A HREF="IMEX0009.HTM#decimal_to_string_expression">decimal_to_string_expression</A> <A HREF="IMEX0009.HTM#expression">expression</A> <A HREF="IMEX0010.HTM#for_frame">for_frame</A> <A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A> <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> <A HREF="IMEX0012.HTM#instance">instance</A> <A HREF="IMEX0015.HTM#instance_port_expression">instance_port_expression</A> <A HREF="IMEX0009.HTM#integer_equal_expression">integer_equal_expression</A> <A HREF="IMEX0016.HTM#integer_parameter">integer_parameter</A> <A HREF="IMEX0016.HTM#integer_parameter_assign">integer_parameter_assign</A> <A HREF="IMEX0009.HTM#integer_product_expression">integer_product_expression</A> <A HREF="IMEX0020.HTM#integer_property">integer_property</A> <A HREF="IMEX0020.HTM#integer_property_override">integer_property_override</A> <A HREF="IMEX0020.HTM#integer_sequence">integer_sequence</A> <A HREF="IMEX0009.HTM#integer_subtract_expression">integer_subtract_expression</A> <A HREF="IMEX0009.HTM#integer_sum_expression">integer_sum_expression</A> <A HREF="IMEX0009.HTM#less_than_expression">less_than_expression</A> <A HREF="IMEX0009.HTM#less_than_or_equal_to_expression">less_than_or_equal_to_expression</A> <A HREF="IMEX0012.HTM#master_port">master_port</A> <A HREF="IMEX0020.HTM#name_dimension_index">name_dimension_index</A> <A HREF="IMEX0009.HTM#quotient_expression">quotient_expression</A> <A HREF="IMEX0009.HTM#remainder_expression">remainder_expression</A> <A HREF="IMEX0015.HTM#signal">signal</A> <A HREF="IMEX0009.HTM#string_prefix_expression">string_prefix_expression</A> <A HREF="IMEX0009.HTM#string_suffix_expression">string_suffix_expression</A> <A HREF="IMEX0009.HTM#substring_expression">substring_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: absolute_expression -->
+<H2><A NAME="absolute_expression">absolute_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#absolute_expression">absolute_expression</A>;
+    argument    : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ An <A HREF="IMEX0009.HTM#absolute_expression">absolute_expression</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> that when evaluated
+ returns the absolute value of the argument.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: integer_product_expression -->
+<H2><A NAME="integer_product_expression">integer_product_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#integer_product_expression">integer_product_expression</A>;
+    arguments   : BAG OF <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ An <A HREF="IMEX0009.HTM#integer_product_expression">integer_product_expression</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> that when
+ evaluated returns the product of the arguments.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: integer_subtract_expression -->
+<H2><A NAME="integer_subtract_expression">integer_subtract_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#integer_subtract_expression">integer_subtract_expression</A>;
+    minuend     : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+    subtrahend  : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<PRE>
+ LEVEL 1
+ =======
+</PRE>
+<P> An <A HREF="IMEX0009.HTM#integer_subtract_expression">integer_subtract_expression</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> that when
+ evaluated subtracts the subtrahend from the minuend.
+
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: integer_sum_expression -->
+<H2><A NAME="integer_sum_expression">integer_sum_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#integer_sum_expression">integer_sum_expression</A>;
+    arguments   : BAG OF <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<PRE>
+ LEVEL 1
+ =======
+</PRE>
+<P> An <A HREF="IMEX0009.HTM#integer_sum_expression">integer_sum_expression</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> that when evaluated
+ returns the sum of the arguments.
+
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: quotient_expression -->
+<H2><A NAME="quotient_expression">quotient_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#quotient_expression">quotient_expression</A>;
+    dividend    : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+    divisor     : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#quotient_expression">quotient_expression</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> that when evaluated
+ returns the integer quotient obtained in a division of the dividend by the
+ divisor.  After design expansion, the divisor must evaluate to a positive
+ integer.
+</P>
+<P>
+ The quotient value must satisfy the following conditions: 
+<PRE>
+   a. dividend = quotient * divisor + remainder
+   b. 0 &lt;= remainder &lt; divisor
+</PRE>
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: remainder_expression -->
+<H2><A NAME="remainder_expression">remainder_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#remainder_expression">remainder_expression</A>;
+    dividend    : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+    divisor     : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#remainder_expression">remainder_expression</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> that when evaluated
+ returns the integer remainder obtained in a division of the dividend by the
+ divisor.  After design expansion, the divisor must evaluate to a positive
+ integer. 
+</P>
+<P>
+ The remainder value must satisfy the following conditions: 
+<PRE>
+   a. dividend = quotient * divisor + remainder
+   b. 0 &lt;= remainder &lt; divisor
+</PRE>
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: string_length_expression -->
+<H2><A NAME="string_length_expression">string_length_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#string_length_expression">string_length_expression</A>;
+    argument    : <A HREF="IMEX0009.HTM#string_expression">string_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#string_length_expression">string_length_expression</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>.  It has a single
+ argument of type <A HREF="IMEX0009.HTM#string_expression">string_expression</A>.  On expansion it yields the number of 
+ characters in the string which results from the evaluation of the
+ <A HREF="IMEX0009.HTM#string_expression">string_expression</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: instance_index -->
+<H2><A NAME="instance_index">instance_index</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#instance_index">instance_index</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ An <A HREF="IMEX0009.HTM#instance_index">instance_index</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> that when evaluated returns a
+ different integer for each expanded instance occurrence.  It is used in the
+ definition of the instance_name_generator attribute of a variable width
+ instance.  For example, if the width expression of an <A HREF="IMEX0012.HTM#instance">instance</A> is 3,
+ during the expansion 3 <A HREF="IMEX0012.HTM#instance">instance</A> occurrences will be created and each has
+ different <A HREF="IMEX0009.HTM#instance_index">instance_index</A> value, i.e. 0, 1 and 2.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: port_index -->
+<H2><A NAME="port_index">port_index</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#port_index">port_index</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#port_index">port_index</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> that when evaluated returns a
+ different integer for each expanded port occurrence.  It is used in the
+ definition of the port_name_generator attribute of a variable width
+ <A HREF="IMEX0012.HTM#master_port">master_port</A>.  For example, if the width expression of a <A HREF="IMEX0012.HTM#master_port">master_port</A> is
+ 3, during the expansion 3 port occurrences will be created and each has
+ different <A HREF="IMEX0009.HTM#port_index">port_index</A> value, i.e. 0, 1 and 2.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: signal_index -->
+<H2><A NAME="signal_index">signal_index</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#signal_index">signal_index</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#signal_index">signal_index</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> that when evaluated returns a
+ different integer for each expanded <A HREF="IMEX0015.HTM#signal">signal</A> occurrence.  It is used in the 
+ definition of the connectivity_tag_generator attribute of a variable width
+ signal.  For example, if the width expression of a signal is 3, during the
+ expansion, 3 <A HREF="IMEX0015.HTM#signal">signal</A> occurrences will be created and each has different
+ <A HREF="IMEX0009.HTM#signal_index">signal_index</A> value, i.e. 0, 1 and 2.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: frame_signal_index -->
+<H2><A NAME="frame_signal_index">frame_signal_index</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A> is an <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> that when evaluated
+ returns a different integer for each expanded <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> occurrence.  It
+ is used in the definition of the connectivity_tag_generator attribute of a
+ variable width <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>.  For example, if the width expression of a
+ <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> is 3, during the expansion, 3 <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> occurrences will
+ be created and each has different <A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A> value, i.e. 0, 1 and
+ 2. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of TYPE: number_expression -->
+<H2><A NAME="number_expression">number_expression</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0009.HTM#number_expression">number_expression</A>
+    = SELECT (<A HREF="IMEX0016.HTM#number_parameter">number_parameter</A>, <A HREF="IMEX0020.HTM#number_token">number_token</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#number_expression">number_expression</A> describes an <A HREF="IMEX0009.HTM#expression">expression</A> that evaluates to a number.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#expression">expression</A> <A HREF="IMEX0016.HTM#number_parameter">number_parameter</A> <A HREF="IMEX0016.HTM#number_parameter_assign">number_parameter_assign</A> <A HREF="IMEX0020.HTM#number_property">number_property</A> <A HREF="IMEX0020.HTM#number_property_override">number_property_override</A> </P>
+<HR>
+<!-- Start of TYPE: string_expression -->
+<H2><A NAME="string_expression">string_expression</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0009.HTM#string_expression">string_expression</A>
+    = SELECT (<A HREF="IMEX0009.HTM#decimal_to_string_expression">decimal_to_string_expression</A>, <A HREF="IMEX0009.HTM#string_prefix_expression">string_prefix_expression</A>,
+              <A HREF="IMEX0016.HTM#string_parameter">string_parameter</A>, <A HREF="IMEX0020.HTM#string_token">string_token</A>, <A HREF="IMEX0009.HTM#string_concatenate_expression">string_concatenate_expression</A>,
+              <A HREF="IMEX0009.HTM#substring_expression">substring_expression</A>, <A HREF="IMEX0009.HTM#string_suffix_expression">string_suffix_expression</A>); 
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#string_expression">string_expression</A> describes an expression that evaluates to a string. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#expression">expression</A> <A HREF="IMEX0010.HTM#frame_mergeable_signal">frame_mergeable_signal</A> <A HREF="IMEX0012.HTM#instance">instance</A> <A HREF="IMEX0012.HTM#master_port">master_port</A> <A HREF="IMEX0015.HTM#mergeable_signal">mergeable_signal</A> <A HREF="IMEX0020.HTM#name_string">name_string</A> <A HREF="IMEX0009.HTM#string_concatenate_expression">string_concatenate_expression</A> <A HREF="IMEX0009.HTM#string_equal_expression">string_equal_expression</A> <A HREF="IMEX0009.HTM#string_length_expression">string_length_expression</A> <A HREF="IMEX0016.HTM#string_parameter">string_parameter</A> <A HREF="IMEX0016.HTM#string_parameter_assign">string_parameter_assign</A> <A HREF="IMEX0009.HTM#string_prefix_expression">string_prefix_expression</A> <A HREF="IMEX0020.HTM#string_property">string_property</A> <A HREF="IMEX0020.HTM#string_property_override">string_property_override</A> <A HREF="IMEX0009.HTM#string_suffix_expression">string_suffix_expression</A> <A HREF="IMEX0009.HTM#substring_expression">substring_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: string_concatenate_expression -->
+<H2><A NAME="string_concatenate_expression">string_concatenate_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#string_concatenate_expression">string_concatenate_expression</A>;
+    arguments : LIST OF <A HREF="IMEX0009.HTM#string_expression">string_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#string_concatenate_expression">string_concatenate_expression</A> is a <A HREF="IMEX0009.HTM#string_expression">string_expression</A> which
+ concatenates the arguments together.  The first argument contributes to the
+ left of the resulting string, the last to the right.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#string_expression">string_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: substring_expression -->
+<H2><A NAME="substring_expression">substring_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#substring_expression">substring_expression</A>;
+    argument     : <A HREF="IMEX0009.HTM#string_expression">string_expression</A>;
+    given_length : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+    offset       : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#substring_expression">substring_expression</A> is a <A HREF="IMEX0009.HTM#string_expression">string_expression</A>.  On expansion, it returns
+ a string of the given length with the given offset, extracted from the value
+ of the argument.  The result is less than the given length if the argument
+ is of insufficient size. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#string_expression">string_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: string_prefix_expression -->
+<H2><A NAME="string_prefix_expression">string_prefix_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#string_prefix_expression">string_prefix_expression</A>;
+    argument     : <A HREF="IMEX0009.HTM#string_expression">string_expression</A>;
+    given_length : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#string_prefix_expression">string_prefix_expression</A> is a <A HREF="IMEX0009.HTM#string_expression">string_expression</A>.  On expansion, it
+ returns a string of the given length which is a prefix of the argument.  If
+ the length is evaluated to be a non-positive integer, it returns the empty 
+ string.  On the other hand, if the length is evaluated to be a value greater
+ than the length of the argument string, then the argument is returned.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#string_expression">string_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: string_suffix_expression -->
+<H2><A NAME="string_suffix_expression">string_suffix_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#string_suffix_expression">string_suffix_expression</A>;
+    argument  : <A HREF="IMEX0009.HTM#string_expression">string_expression</A>;
+    offset    : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#string_suffix_expression">string_suffix_expression</A> is a <A HREF="IMEX0009.HTM#string_expression">string_expression</A>.  On expansion, it
+ returns a string which is a suffix of the argument.  The offset argument
+ specifies the number of characters to remove from the left. If the offset is
+ evaluated to be a non-positive integer, it returns the argument.  On the
+ other hand, if the offset is evaluated to be a value greater than the length
+ of the argument string, then the empty string is returned.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#string_expression">string_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: decimal_to_string_expression -->
+<H2><A NAME="decimal_to_string_expression">decimal_to_string_expression</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0009.HTM#decimal_to_string_expression">decimal_to_string_expression</A>;
+    argument             : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+    minimum_field_length : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0009.HTM#decimal_to_string_expression">decimal_to_string_expression</A> is a <A HREF="IMEX0009.HTM#string_expression">string_expression</A>.  On expansion, it
+ returns a string which is the unsigned decimal representation of the value
+ of the argument.  The argument gives a non-negative integer when evaluated.
+ The result string contains no sign character and is padded with zero
+ characters on the left if necessary.    
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0009.HTM#string_expression">string_expression</A> </P>
+
+<HR>
+
+<!-- Start of schema: frame_model -->
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

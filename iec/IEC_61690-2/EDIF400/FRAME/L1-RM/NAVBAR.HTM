@@ -1,0 +1,72 @@
+<HTML>
+
+<BODY BGCOLOR="#ffffff">
+<form name="buttonbar">
+<script>
+document.write('<CENTER><B>RM (Level 1)</B></CENTER><HR>');
+
+// state 40: home page
+
+if (parent.state == 40) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Introduction" onClick="parent.state=43; parent.DisplayArea.location=parent.currentdir+\'RMINTRO.HTM\'; history.go(0)">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Syntax Only" onClick="parent.state=41; parent.DisplayArea.location=parent.lastSyntaxURL; history.go(0)">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Syntax + Index" onClick="parent.state=44; parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\'; history.go(0)">')
+}
+
+
+// state 41: syntax only
+
+else if (parent.state == 41) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Introduction" onClick="parent.state=43; parent.setSyntaxURL(parent.DisplayArea.location); parent.DisplayArea.location=parent.currentdir+\'RMINTRO.HTM\'; history.go(0)">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Index" onClick="parent.state=44; parent.setSyntaxURL(parent.DisplayArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\'; history.go(0)">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Permuted Index" onClick="parent.state=42; parent.setSyntaxURL(parent.DisplayArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\'; history.go(0)">')
+}
+
+
+// state 42: top frame    - permuted index
+//           bottom frame - syntax
+
+else if (parent.state == 42) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Introduction" onClick="parent.state=43; parent.setSyntaxURL(parent.DisplayArea.SyntaxArea.location); parent.DisplayArea.location=parent.currentdir+\'RMINTRO.HTM\'; history.go(0)">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Index" onClick="parent.state=44; parent.setSyntaxURL(parent.DisplayArea.SyntaxArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\'; history.go(0)">')
+   document.write('<BR><BR>');
+   document.write('<B>Hide</B><BR>');
+   document.write('<input type="button" value="Permuted Index" onClick="parent.state=41; parent.DisplayArea.location=parent.DisplayArea.SyntaxArea.location; history.go(0)">')
+}
+
+
+// state 43: introduction only
+
+else if (parent.state == 43) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Syntax Only" onClick="parent.state=41; parent.DisplayArea.location=parent.lastSyntaxURL; history.go(0)">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Syntax + Index" onClick="parent.state=44; parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\'; history.go(0)">')
+}
+
+
+// state 44: top frame    - index
+//           bottom frame - syntax
+
+else if (parent.state == 44) {
+   document.write('<B>Show</B><BR>');
+   document.write('<input type="button" value="Introduction" onClick="parent.state=43; parent.setSyntaxURL(parent.DisplayArea.SyntaxArea.location); parent.DisplayArea.location=parent.currentdir+\'RMINTRO.HTM\'; history.go(0)">')
+   document.write('<BR>');
+   document.write('<input type="button" value="Permuted Index" onClick="parent.state=42; parent.setSyntaxURL(parent.DisplayArea.SyntaxArea.location); parent.DisplayArea.location=parent.currentdir+\'CONTENT.HTM\'; history.go(0)">')
+   document.write('<BR><BR>');
+   document.write('<B>Hide</B><BR>');
+   document.write('<input type="button" value="Index" onClick="parent.state=41; parent.DisplayArea.location=parent.DisplayArea.SyntaxArea.location; history.go(0)">')
+}
+</SCRIPT>
+</form>
+</BODY>
+
+</HTML>

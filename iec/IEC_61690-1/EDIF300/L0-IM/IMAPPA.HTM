@@ -1,0 +1,465 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Information Model</H2>
+</CENTER>
+
+<B>Go to :</B> 
+- <A HREF="IMHOME.HTM">How to use</A>
+- <A HREF="IMTOC.HTM">Contents</A>
+- <A HREF="IMEXPTOC.HTM">EXPRESS Model</A>
+- <A HREF="IMIX.HTM">Index</A>
+- <A HREF="IMIND.HTM">Permuted Index</A>
+- <A HREF="IMLOF.HTM">List Of Figures</A>
+- <A HREF="IMLOT.HTM">List Of Tables</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1>Appendix A</H1>
+<H1><A NAME="SECTION05100000000000000000">Introduction to EXPRESS and EXPRESS-G</A></H1>
+<P>
+<A NAME="chapterintroductionexpress">&#160;</A>
+<P>
+The information modelling language <I>EXPRESS</I> has been developed in recent years
+to describe information in such a way that it is independent of the
+implementation language. <I>EXPRESS</I> describes neither data structures nor the
+structure of a data base. The background for the development of <I>EXPRESS</I> is
+the intention of standardizing product data which is carried forward by the
+STEP initiative, formally identified as ISO 10303.  <I>EXPRESS</I> is a part of the
+standard ISO 10303-11.
+<P>
+This chapter describes the basic elements of the <I>EXPRESS</I> language, known as
+data types and entities.  The concepts of the <I>SUBTYPE</I> and <I>SUPERTYPE</I>
+relationship are also explained.  The whole area of expressions and executable
+statements of <I>EXPRESS</I> is not covered. A section on <I>EXPRESS-G</I>, the graphical
+representation of the <I>EXPRESS</I> elements is also included.
+
+<H1><A NAME="SECTION05110000000000000000">A.1 Schema</A></H1>
+<P>
+A <I>SCHEMA</I> defines a universe of discourse in which the objects declared have a
+related meaning and purpose.  It provides a context for the definition of the
+objects of interest.  The order in which objects are declared is never relevant
+to the meaning of a schema.  An information model may consist of one or more
+schemas.  For example, an information model of a company may comprise several
+schemas, such as <TT>employee_record</TT> and <TT>payroll_system</TT>.  The <TT>
+employee_record</TT> schema contains declarations of objects including executive,
+manager, staff_member.  Objects declared in the <TT>employee_record</TT> schema
+are not visible in the <TT>payroll_system</TT> schema and vice versa.  In order
+to access declarations made in other schemas, <I>EXPRESS</I> provides a facility to
+establish an interface between two schemas.  For example, if the <TT>
+payroll_system</TT> schema needs to access an object (e.g. entity <TT>
+staff_member</TT>) defined in the <TT>employee_record</TT> schema, it would state
+the required schema name and the foreign declaration name.  In
+figure&nbsp;<A HREF="#figexpressexpschema">A.1</A>, the <TT>payroll_system</TT> schema has a
+<I>REFERENCE</I> specification which permits access to entity <TT>staff_member</TT> in
+the <TT>employee_record</TT> schema.
+
+<P><A NAME="12904">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+  SCHEMA employee_record;
+    ENTITY staff_member;
+    END_ENTITY;
+  END_SCHEMA;
+
+  SCHEMA payroll_system;
+    REFERENCE FROM employee_record (staff_member);
+  END_SCHEMA;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure A.1:</STRONG> <A NAME="figexpressexpschema">&#160;</A>
+         An example of a <I>SCHEMA</I><BR>
+</CENTER>
+<H1><A NAME="SECTION05120000000000000000">A.2 Data types</A></H1>
+<P>
+This section describes the data types provided in the <I>EXPRESS</I> language.
+Types are used to represent domains of instance values.
+
+<H2><A NAME="SECTION05121000000000000000">A.2.1 Simple types</A></H2>
+<P>
+The simple types represent the ``atomic'' units of data which cannot be further
+subdivided.  Table&nbsp;<A HREF="#figexpressexpsimpletypes">A.1</A> lists the simple types
+available in <I>EXPRESS</I>.
+
+<P><A NAME="12905">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR><TD>BINARY</TD>  <TD>represents a sequence of bits which may have a value of 0 or 1.</TD></TR>
+<TR><TD>BOOLEAN</TD>  <TD>represents a TRUE or FALSE value.</TD></TR>
+<TR><TD>INTEGER</TD>  <TD>represents an integer.</TD></TR>
+<TR><TD>LOGICAL</TD>  <TD>represents a TRUE, FALSE or UNKNOWN value.</TD></TR>
+<TR><TD>NUMBER</TD>   <TD>can be either a REAL or an INTEGER.</TD></TR>
+<TR><TD>STRING</TD>   <TD>represents a sequence of zero or more characters.</TD></TR>
+<TR><TD>REAL</TD>     <TD>represents a real number.</TD></TR>
+</TABLE>
+<STRONG>Table A.1:</STRONG> <A NAME="figexpressexpsimpletypes">&#160;</A>
+         <I>EXPRESS</I> simple types<BR>
+</CENTER>
+<H2><A NAME="SECTION05122000000000000000">A.2.2 Aggregation data type</A></H2>
+<P>
+Aggregation types are used to represent ordered or unordered collections of
+elements of some basic type.  These collections can have fixed or varying sizes
+depending on the class of the aggregation type.  <I>EXPRESS</I> supports four
+different classes of aggregation which are listed in
+table&nbsp;<A HREF="#figexpressexpaggregationtypes">A.2</A>.
+
+<P><A NAME="12907">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR><TD>ARRAY</TD>     <TD>represents an ordered, fixed-size collection of elements of a
+	              given type.  Each array element may be addressed by a subscript. 
+        	      For example, a transformation matrix in geometry may be
+	              represented as a two-dimensional array of numbers.</TD></TR>
+<TR><TD>BAG</TD>       <TD>represents an unordered collection of elements of a given type.
+	              The number of elements that can be held in a bag may be
+        	      specified.  Duplicate elements are allowed in a bag. For example,
+		      the collection of coins in a wallet may be a bag.</TD></TR>
+<TR><TD>LIST</TD>      <TD>represents an ordered collection of elements of a given type.
+	              The number of elements that can be held in a list may be
+        	      specified.  Duplicate elements are allowed in a list.  For
+	              example, a poem may be represented by a list of strings. </TD></TR>
+<TR><TD>SET</TD>       <TD>represents an unordered collection of elements of a given type.
+	              The number of elements that can be held in a set may be
+        	      specified.  No two elements of a set can have the same value.
+	              For example, the population of people in the world is a set.</TD></TR>
+</TABLE>
+<STRONG>Table A.2:</STRONG> <A NAME="figexpressexpaggregationtypes">&#160;</A>
+         <I>EXPRESS</I> aggregation types<BR>
+</CENTER>
+<H2><A NAME="SECTION05123000000000000000">A.2.3 Defined data type</A></H2>
+<P>
+A defined data type is a user extension to the predefined simple types.  It is
+defined by a <I>TYPE</I> declaration.  For example, the concept of money can be
+represented by a real number, as shown in
+figure&nbsp;<A HREF="#figexpressexpdefinedtype">A.2</A>.  The <TT>amount_of_money</TT> type
+helps to clarify the meaning and context of the real number.  Furthermore, it
+has a domain rule which constrains the value of an occurrence of the type.  The
+<I>SELF</I> keyword refers to the occurrence of the type being declared.  All domain
+rules are stated after the <I>WHERE</I> keyword.  An explanation of the domain rule
+is stated inside a comment.  Any text between the character pair ( and
+the character pair ) is regarded as a comment.
+
+<P><A NAME="12908">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+  TYPE amount_of_money
+    = real;
+  WHERE
+    meaningful_amount :
+      (* The amount of money must be greater than or equal to zero. *)
+      SELF &#62;= 0;
+  END_TYPE;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure A.2:</STRONG> <A NAME="figexpressexpdefinedtype">&#160;</A>An example of a defined data type<BR>
+</CENTER>
+<H2><A NAME="SECTION05124000000000000000">A.2.4 Enumeration data type</A></H2>
+<P>
+An <I>ENUMERATION</I> data type is an ordered set of values represented by names.
+For example, the title of a person may be either Mr, Miss, Mrs, Ms or Dr, as
+shown in figure&nbsp;<A HREF="#figexpressexpenumerationtype">A.3</A>.
+
+<P><A NAME="12909">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+  TYPE person_title
+    = ENUMERATION OF (Mr, Miss, Mrs, Ms, Dr);
+  END_TYPE;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure A.3:</STRONG> <A NAME="figexpressexpenumerationtype">&#160;</A>
+         An example of an <I>ENUMERATION</I> data type<BR>
+</CENTER>
+<H2><A NAME="SECTION05125000000000000000">A.2.5 Select data type</A></H2>
+<P>
+A <I>SELECT</I> data type defines a named collection of other types.  An occurrence
+of a select data type is an occurrence of one of the types specified in the
+selection list.  For example, office equipment can be chosen from a selection
+of computer, printer, telephone or typewriter, as shown in
+figure&nbsp;<A HREF="#figexpressexpselecttype">A.4</A>.
+
+<P><A NAME="12910">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+  TYPE office_equipment
+    = SELECT (computer, printer, telephone, typewriter);
+  END_TYPE;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure A.4:</STRONG> <A NAME="figexpressexpselecttype">&#160;</A>
+         An example of a <I>SELECT</I> data type<BR>
+</CENTER>
+<H1><A NAME="SECTION05130000000000000000">A.3 Entity</A></H1>
+<P>
+An <I>ENTITY</I> defines an object of interest.  An object is described by its
+attributes.  Each attribute represents a characteristic of the entity.  The
+value of each attribute has an associated domain which can be a type or an
+entity.  An attribute can be either required or optional.  If an attribute is
+required, every occurrence of the entity shall have a value for that attribute.
+On the other hand, if an attribute is optional, the attribute need not have a
+value in order for an occurrence of that entity to be valid.  Moreover, an
+entity may have derived attributes.  A derived attribute represents information
+which is computed from the values of other attributes in the entity.
+<P>
+In figure&nbsp;<A HREF="#figexpressexpentity">A.5</A>, the <TT>name</TT> attribute of entity <TT>
+staff_member</TT> describes the name of a staff member.  Every staff member has a
+name, so it is a required attribute.  A staff member may have a number of
+pieces of office equipment.  This is represented by a set of <TT>
+office_equipment</TT> in the <TT>equipment</TT> attribute.  Furthermore, every staff
+member must have a salary, so the <TT>salary</TT> attribute is a required
+attribute, too.  The derived attribute, <TT>tax_payable</TT>, is declared after
+the <I>DERIVE</I> keyword.  As for other attributes, the derived attribute also has
+an associated domain.  In addition, an expression is stated to define the
+derivation of the derived attribute.  In this example, the amount of tax
+payable to the inland revenue is 25 percent of the salary.
+
+<P><A NAME="12911">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+  ENTITY staff_member;
+    name             : person_name;
+    equipment        : SET OF office_equipment;
+    salary           : amount_of_money;
+  DERIVE
+    tax_payable      : amount_of_money
+                       := 0.25 * salary;
+  END_ENTITY;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure A.5:</STRONG> <A NAME="figexpressexpentity">&#160;</A>
+        An example of an <I>ENTITY</I> type<BR>
+</CENTER>
+
+<P>
+In addition, <I>EXPRESS</I> allows domain rules to be stated which constrain the
+value of individual attributes or a combination of attributes for every entity
+instance.  Also, global rules can be applied for coordination of attributes
+that exist in different entities.
+<P>
+In figure&nbsp;<A HREF="#figexpressexpentityconstraint">A.6</A>, the <TT>surname</TT> and the
+<TT>first_name</TT> attributes of entity <TT>person_name</TT> are required, whereas
+the <TT>middle_name</TT> attribute is <I>OPTIONAL</I>.  This is because every person
+must have a surname and a first name, but not necessarily a middle name.
+Entity <TT>person_name</TT> has a domain rule (<TT>meaningful_name</TT>) which
+requires the <TT>surname</TT>, the <TT>first_name</TT> and the <TT>middle_name</TT>
+attributes to be distinct.
+
+<P><A NAME="12912">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+  ENTITY person_name;
+    title            : person_title;
+    surname          : string;
+    first_name       : string;
+    middle_name      : OPTIONAL string;
+  WHERE
+    meaningful_name :
+      (surname &#60;&#62; first_name) AND 
+      (first_name &#60;&#62; middle_name) AND
+      (surname &#60;&#62; middle_name);
+  END_ENTITY;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure A.6:</STRONG> <A NAME="figexpressexpentityconstraint">&#160;</A>
+         An example of an <I>ENTITY</I> with a constraint<BR>
+</CENTER>
+<H1><A NAME="SECTION05140000000000000000">A.4 Supertype and subtype relationships</A></H1>
+<P>
+<I>EXPRESS</I> allows for the classification of entities.  It provides a mechanism
+of specialisation and generalisation of entities.  An entity may be defined as
+a generalisation (i.e. <I>SUPERTYPE</I>) of other entities.  An entity may also be
+defined as a specialisation (i.e. <I>SUBTYPE</I>) of other entities.  All attributes
+and constraints stated in a supertype are inherited by its subtypes.  The
+subtype/supertype relationship is transitive.
+<P>
+In figure&nbsp;<A HREF="#figexpressexpabstractsupertype">A.7</A>, entity <TT>
+electronic_equipment</TT> is a supertype of entity <TT>printer</TT>, and entity <TT>
+printer</TT> is a supertype of entity <TT>laser_printer</TT>, hence entity <TT>
+electronic_equipment</TT> is a supertype of entity <TT>laser_printer</TT>.  Entity
+<TT>laser_printer</TT> inherits the <TT>manufacturer</TT> attribute from entity <TT>
+electronic_equipment</TT> and the <TT>printing_speed</TT> attribute from entity <TT>
+printer</TT>.  Entity <TT>printer</TT> is defined as an <I>ABSTRACT</I> <I>SUPERTYPE</I> of
+entity <TT>laser_printer</TT> or entity <TT>dot_matrix_printer</TT>.  This means
+that an occurrence of a <TT>printer</TT> must be an occurrence of one of the
+subtypes.
+
+<P><A NAME="12913">&#160;</A><BR>
+<CENTER>
+<TABLE BORDER=1>
+<TR>
+<TD>
+<PRE>
+
+  ENTITY electronic_equipment
+      ABSTRACT SUPERTYPE OF (ONEOF(computer, printer, fax_machine));
+    manufacturer   : ...
+  END_ENTITY;
+
+  ENTITY printer
+      ABSTRACT SUPERTYPE OF (ONEOF(laser_printer, dot_matrix_printer))
+      SUBTYPE OF (electronic_equipment);
+    printing_speed : ...
+  END_ENTITY;
+
+  ENTITY laser_printer 
+      SUBTYPE OF (printer);
+    toner          : ...
+  END_ENTITY;
+
+  ENTITY dot_matrix_printer
+      SUBTYPE OF (printer);
+    number_of_pins : ...
+  END_ENTITY;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<STRONG>Figure A.7:</STRONG> <A NAME="figexpressexpabstractsupertype">&#160;</A>
+         An example of <I>SUBTYPE</I>/<I>SUPERTYPE</I> relationships<BR>
+</CENTER>
+<H1><A NAME="SECTION05150000000000000000">A.5 EXPRESS-G</A></H1>
+<P>
+<I>EXPRESS-G</I> is a graphical notation for the display of information models.  It
+is defined in ISO 10303-11.  The notation only supports a subset of the
+<I>EXPRESS</I> language.  It cannot be used to display constraints provided by the
+<I>EXPRESS</I> language.
+<P>
+<H2><A NAME="SECTION05151000000000000000">A.5.1 Definition symbols</A></H2>
+<P>
+Definition symbols denote the objects which form the basis of the information
+model.
+<P>
+<UL><LI> Simple types - the symbol for a simple type is a rectangular solid box
+with a double vertical line at the <EM>right</EM> hand end of the box.  The name
+of the type is enclosed within the box, as shown in
+figure&nbsp;<A HREF="#figsymbolsimpletype">A.8</A>.
+
+<P><A NAME="13007">&#160;</A><A NAME="figsymbolsimpletype">&#160;</A><BR>
+<CENTER>
+<IMG SRC="FIG_A_8.GIF"><BR>
+<STRONG>Figure A.8:</STRONG> <I>EXPRESS-G</I> symbols for simple types<BR>
+</CENTER>
+<P><LI> Defined data type - the symbol is a dashed box enclosing the name of the
+type, as shown in figure&nbsp;<A HREF="#figsymboldefinedtype">A.9</A>.
+
+<P><A NAME="13026">&#160;</A><A NAME="figsymboldefinedtype">&#160;</A><BR>
+<CENTER>
+<IMG SRC="FIG_A_9.GIF"><BR>
+<STRONG>Figure A.9:</STRONG> <I>EXPRESS-G</I> symbol for a defined data type<BR>
+</CENTER>
+<P><LI> Enumeration data type - the symbol is a dashed box with a double vertical
+line at the <EM>right</EM> hand end.  The name of the type is enclosed within the
+box, as shown in figure&nbsp;<A HREF="#figsymbolenumerationtype">A.10</A>.
+
+<P><A NAME="13046">&#160;</A><A NAME="figsymbolenumerationtype">&#160;</A><BR>
+<CENTER>
+<IMG SRC="FIG_A_10.GIF"><BR>
+<STRONG>Figure A.10:</STRONG> <I>EXPRESS-G</I> symbol for an <I>ENUMERATION</I> data type<BR>
+</CENTER>
+<P><LI> Select data type - the symbol is a dashed box with a double vertical line
+at the <EM>left</EM> hand end.  The name of the type is enclosed within the box,
+as shown in figure&nbsp;<A HREF="#figsymbolselecttype">A.11</A>.
+
+<P><A NAME="13067">&#160;</A><A NAME="figsymbolselecttype">&#160;</A><BR>
+<CENTER>
+<IMG SRC="FIG_A_11.GIF"><BR>
+<STRONG>Figure A.11:</STRONG> <I>EXPRESS-G</I> symbol for a <I>SELECT</I> type<BR>
+</CENTER>
+<P><LI> Entity - the symbol is a rectangular solid box enclosing the name of the
+entity, as shown in figure&nbsp;<A HREF="#figsymbolentitytype">A.12</A>.
+
+<P><A NAME="13087">&#160;</A><A NAME="figsymbolentitytype">&#160;</A><BR>
+<CENTER>
+<IMG SRC="FIG_A_12.GIF"><BR>
+<STRONG>Figure A.12:</STRONG> <I>EXPRESS-G</I> symbol for an <I>ENTITY</I><BR>
+</CENTER>
+</UL><H2><A NAME="SECTION05152000000000000000">A.5.2 Relationship symbols</A></H2>
+<P>
+Relationship symbols describe different types of relationship that exist
+between the definition symbols.
+<P>
+<UL><LI> Required attribute
+<P>
+If entity <TT>A</TT> has a <EM>required</EM> attribute <TT>x</TT> which is entity <TT>
+B</TT>, then a <EM>solid</EM> line is drawn between the two entity symbols.  The
+attribute name is indicated on the line; its circled end denotes the direction
+of the relationship, as shown in figure&nbsp;<A HREF="#figsymbolrequiredattribute">A.13</A>.
+
+<P><A NAME="13115">&#160;</A><A NAME="figsymbolrequiredattribute">&#160;</A><BR>
+<CENTER>
+<IMG SRC="FIG_A_13.GIF"><BR>
+<STRONG>Figure A.13:</STRONG> <I>EXPRESS-G</I> symbol representing a required relationship<BR>
+</CENTER>
+<P><LI> Optional attribute
+<P>
+If entity <TT>A</TT> has an <EM>optional</EM> attribute <TT>x</TT> which is entity <TT>
+B</TT>, then a <EM>dashed</EM> line is drawn between the entity symbols.  The
+attribute name is indicated on the line; its circled end denotes the direction
+of the relationship, as shown in figure&nbsp;<A HREF="#figsymboloptionalattribute">A.14</A>.
+
+<P><A NAME="13139">&#160;</A><A NAME="figsymboloptionalattribute">&#160;</A><BR>
+<CENTER>
+<IMG SRC="FIG_A_14.GIF"><BR>
+<STRONG>Figure A.14:</STRONG> <I>EXPRESS-G</I> symbol representing an optional relationship<BR>
+</CENTER>
+<P><LI> <I>SUPERTYPE</I>/<I>SUBTYPE</I> relationships
+<P>
+If entity <TT>A</TT> is declared as a <I>SUPERTYPE</I> of entities <TT>B</TT> and <TT>C</TT>,
+then a <EM>thick</EM> line is drawn between the supertype entity and each of its
+subtype entities.  The <I>ONEOF</I> relationship may be indicated by a ``T
+branching'' relationship line.  The circled end of the relationship line
+denotes the subtype end of the relationship, as shown in
+figure&nbsp;<A HREF="#figsymbolsupertypesubtype">A.15</A>.
+
+<P><A NAME="13166">&#160;</A><A NAME="figsymbolsupertypesubtype">&#160;</A><BR>
+<CENTER>
+<IMG SRC="FIG_A_15.GIF"><BR>
+<STRONG>Figure A.15:</STRONG> <I>EXPRESS-G</I> symbol representing a <I>SUPERTYPE</I>/<I>SUBTYPE</I> relationship<BR>
+</CENTER>
+</UL>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

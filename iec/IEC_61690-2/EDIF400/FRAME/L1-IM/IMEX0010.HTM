@@ -1,0 +1,647 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="frame_model">frame_model</A></H1>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#frame_model">frame_model</A> schema is used to define <A HREF="IMEX0010.HTM#frame">frames</A>.  The usage of
+ <A HREF="IMEX0010.HTM#frame">frames</A> is to provide users the ability to repeatedly or conditionally
+ include a circuit in a design.  A <A HREF="IMEX0010.HTM#frame">frame</A> may contain <A HREF="IMEX0012.HTM#instance">instances</A> and nested 
+ <A HREF="IMEX0010.HTM#frame">frames</A>.  Its logical connectivity is defined by <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> and
+ <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>.
+</P><HR>
+<!-- Start of ENTITY: frame -->
+<H2><A NAME="frame">frame</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#frame">frame</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0010.HTM#for_frame">for_frame</A>,
+                                   <A HREF="IMEX0010.HTM#if_frame">if_frame</A>,
+                                   <A HREF="IMEX0010.HTM#otherwise_frame">otherwise_frame</A>));
+    document            : OPTIONAL SET [1:?] OF <A HREF="IMEX0007.HTM#documentation">documentation</A>;
+    frame_signals       : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>;
+    frame_signal_groups : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>;
+    instances           : OPTIONAL SET [1:?] OF <A HREF="IMEX0012.HTM#instance">instance</A>;
+    nested_frames       : OPTIONAL SET [1:?] OF <A HREF="IMEX0010.HTM#frame">frame</A>;
+    properties          : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+  DERIVE
+    containing_frame : <A HREF="IMEX0010.HTM#frame">frame</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,'<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame">frame</A>.nested_frames');
+    containing_view  : <A HREF="IMEX0012.HTM#cell_representation">cell_representation</A> -- reference
+      := <A HREF="IMEX0010.HTM#containing_view_of_frame">containing_view_of_frame</A>(SELF);
+  WHERE
+    <A NAME="frame.containment_constraint">containment_constraint</A> :
+      (* A frame may either belong to one internal_connectivity_view, one
+         internal_schematic_view, or another frame. *)
+      <A HREF="IMEX0034.HTM#either_belongs_to_one">either_belongs_to_one</A>(SELF,
+       ['<A HREF="IMEX0003.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A>.frames',
+        '<A HREF="IMEX0033.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0033.HTM#internal_schematic_view">internal_schematic_view</A>.frames',
+        '<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame">frame</A>.nested_frames']);
+
+    <A NAME="frame.valid_frame_signals">valid_frame_signals</A> :
+      (* All frame_signals are disjoint.  That is only one frame_signal may
+         connect to a particular global_port, instance_member_port_member,
+         instance_port, master_port or master_port_member.  Also, the same port
+         cannot be referenced by more than one frame_signal.  Therefore, if a
+         wide port has been referenced by a frame_signal, it is illegal to
+         reference members of that wide port by other frame_signals.
+         Conversely, if a member port has been referenced by a frame_signal, it
+         is illegal to reference the wide port containing that member port by
+         another frame_signal. *)   
+
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(sig1 &lt;* frame_signals |
+        <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(sig2 &lt;* frame_signals - sig1 |
+          <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(sig1.joined_global_ports * sig2.joined_global_ports)
+       OR <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(sig1.joined_instance_member_port_members 
+                       * sig2.joined_instance_member_port_members)
+       OR <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(sig1.joined_instance_ports * sig2.joined_instance_ports)
+       OR <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(sig1.joined_master_ports * sig2.joined_master_ports)
+       OR <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(sig1.joined_master_port_members 
+                       * sig2.joined_master_port_members)))));
+
+    <A NAME="frame.valid_nested_frames">valid_nested_frames</A> :
+      (* A frame cannot contain itself directly or indirectly. *)
+      <A HREF="IMEX0010.HTM#non_recursive_frame">non_recursive_frame</A>(SELF, nested_frames);
+
+    <A NAME="frame.valid_optional_attributes">valid_optional_attributes</A> :
+       (* The dependencies of these optional attributes are stated as follows:
+          1. Signal groups cannot be defined if there are no signals defined. *)
+       EXISTS(frame_signals) OR NOT EXISTS(frame_signal_groups);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0010.HTM#frame">frame</A> can be either a <A HREF="IMEX0010.HTM#for_frame">for_frame</A>, an <A HREF="IMEX0010.HTM#if_frame">if_frame</A> or an
+ <A HREF="IMEX0010.HTM#otherwise_frame">otherwise_frame</A>.  The contents of a <A HREF="IMEX0010.HTM#frame">frame</A> may include <A HREF="IMEX0012.HTM#instance">instances</A>,
+ <A HREF="IMEX0010.HTM#frame_signal">frame_signals</A>, <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_groups</A> and nested <A HREF="IMEX0010.HTM#frame">frames</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_structure">connectivity_frame_structure</A> <A HREF="IMEX0010.HTM#frame">frame</A> <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> <A HREF="IMEX0012.HTM#instance">instance</A> <A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A> <A HREF="IMEX0033.HTM#internal_schematic_view">internal_schematic_view</A> <A HREF="IMEX0031.HTM#schematic_frame_implementation">schematic_frame_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: for_frame -->
+<H2><A NAME="for_frame">for_frame</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#for_frame">for_frame</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#frame">frame</A>);
+    index            : <A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A>;
+    repetition_count : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0010.HTM#for_frame">for_frame</A> is a frame.  The contents of a <A HREF="IMEX0010.HTM#for_frame">for_frame</A> are to be repeated
+ a specified number of times in the expansion.    
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_for_frame_implementation">schematic_for_frame_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: for_frame_index -->
+<H2><A NAME="for_frame_index">for_frame_index</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A>;
+    index_name  : OPTIONAL <A HREF="IMEX0034.HTM#string_token">string_token</A>;
+    index_start : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+    index_step  : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  WHERE
+    <A NAME="for_frame_index.containment_constraint">containment_constraint</A>:
+      (* A for_frame_index belongs to one for_frame. *)
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#for_frame">for_frame</A>.index');
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A> represents the sequence of integer values taken by the 
+ index during the expansion of a <A HREF="IMEX0010.HTM#for_frame">for_frame</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#for_frame">for_frame</A> <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A> </P>
+<HR>
+<!-- Start of ENTITY: if_frame -->
+<H2><A NAME="if_frame">if_frame</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#if_frame">if_frame</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#frame">frame</A>);
+    condition : <A HREF="IMEX0009.HTM#boolean_expression">boolean_expression</A>; 
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ An <A HREF="IMEX0010.HTM#if_frame">if_frame</A> is a <A HREF="IMEX0010.HTM#frame">frame</A>.  The contents of an <A HREF="IMEX0010.HTM#if_frame">if_frame</A> are conditionally
+ included in the expansion.  If the condition evaluates to FALSE when the
+ <A HREF="IMEX0010.HTM#if_frame">if_frame</A> is evaluated, its contents will not be included in the expansion.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#otherwise_frame">otherwise_frame</A> <A HREF="IMEX0031.HTM#schematic_if_frame_implementation">schematic_if_frame_implementation</A> </P>
+<HR>
+<!-- Start of ENTITY: otherwise_frame -->
+<H2><A NAME="otherwise_frame">otherwise_frame</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#otherwise_frame">otherwise_frame</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#frame">frame</A>);
+    related_frames : SET [1:?] OF <A HREF="IMEX0010.HTM#if_frame">if_frame</A>; -- reference
+  WHERE
+    <A NAME="otherwise_frame.valid_related_frames">valid_related_frames</A> :
+      (* All related_frames are directly defined in the containing frame, or in
+         the containing view if there is no containing frame. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(memberFrame &lt;* related_frames |
+        NOT ((USEDIN(SELF, '<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame">frame</A>.nested_frames')
+              = USEDIN(memberFrame, '<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame">frame</A>.nested_frames'))
+             OR
+             (USEDIN(SELF, 
+               '<A HREF="IMEX0003.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A>.frames')
+              = USEDIN(memberFrame,
+               '<A HREF="IMEX0003.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A>.frames'))
+             OR
+             (USEDIN(SELF, 
+               '<A HREF="IMEX0033.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0033.HTM#internal_schematic_view">internal_schematic_view</A>.frames')
+              = USEDIN(memberFrame,
+               '<A HREF="IMEX0033.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0033.HTM#internal_schematic_view">internal_schematic_view</A>.frames')))));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ An <A HREF="IMEX0010.HTM#otherwise_frame">otherwise_frame</A> is a <A HREF="IMEX0010.HTM#frame">frame</A>.  The contents of an <A HREF="IMEX0010.HTM#otherwise_frame">otherwise_frame</A> are 
+ conditionally included in the expansion if the conditions of all related
+ <A HREF="IMEX0010.HTM#if_frame">if_frames</A> evaluate to FALSE.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0031.HTM#schematic_otherwise_frame_implementation">schematic_otherwise_frame_implementation</A> </P>
+<HR>
+<!-- Start of FUNCTION: containing_view_of_frame -->
+<H2><A NAME="containing_view_of_frame">containing_view_of_frame</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0010.HTM#containing_view_of_frame">containing_view_of_frame</A>
+    (nestedFrame : <A HREF="IMEX0010.HTM#frame">frame</A>) : <A HREF="IMEX0012.HTM#cell_representation">cell_representation</A>;
+    IF EXISTS(nestedFrame.containing_frame) THEN
+       RETURN(nestedFrame.containing_frame.containing_view);
+    ELSE
+       RETURN(<A HREF="IMEX0034.HTM#usedin_any_one_role">usedin_any_one_role</A>(nestedFrame,
+              ['<A HREF="IMEX0003.HTM#connectivity_view_model">connectivity_view_model</A>.<A HREF="IMEX0003.HTM#internal_connectivity_view">internal_connectivity_view</A>.frames', 
+               '<A HREF="IMEX0033.HTM#schematic_view_model">schematic_view_model</A>.<A HREF="IMEX0033.HTM#internal_schematic_view">internal_schematic_view</A>.frames']));
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ The <A HREF="IMEX0010.HTM#containing_view_of_frame">containing_view_of_frame</A> returns the view containing the <A HREF="IMEX0010.HTM#frame">frame</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#frame">frame</A> </P>
+<HR>
+<!-- Start of ENTITY: frame_signal -->
+<H2><A NAME="frame_signal">frame_signal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>
+      ABSTRACT SUPERTYPE OF (ONEOF(<A HREF="IMEX0010.HTM#frame_mergeable_signal">frame_mergeable_signal</A>,
+                                   <A HREF="IMEX0010.HTM#frame_non_mergeable_signal">frame_non_mergeable_signal</A>));
+    joined_global_ports                 : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0008.HTM#global_port">global_port</A>;
+    joined_instance_member_port_members : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0012.HTM#instance_member_port_member">instance_member_port_member</A>;
+    joined_instance_ports               : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0012.HTM#instance_port">instance_port</A>; 
+    joined_master_ports                 : OPTIONAL SET [1:?] OF -- reference
+                                          <A HREF="IMEX0012.HTM#master_port">master_port</A>;
+    joined_master_port_members          : OPTIONAL SET [1:?] OF
+                                          <A HREF="IMEX0012.HTM#master_port_member">master_port_member</A>;
+    instance_port_expressions           : OPTIONAL SET [1:?] OF 
+                                          <A HREF="IMEX0015.HTM#instance_port_expression">instance_port_expression</A>; 
+    name                                : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;  
+    properties                          : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#property">property</A>;
+    width                               : <A HREF="IMEX0009.HTM#integer_expression">integer_expression</A>;
+  DERIVE
+    containing_frame      : <A HREF="IMEX0010.HTM#frame">frame</A>   -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,'<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame">frame</A>.frame_signals');
+    containing_cluster    : <A HREF="IMEX0012.HTM#cluster">cluster</A> -- reference
+      := containing_frame.containing_view.containing_cluster;
+    containing_edif       : <A HREF="IMEX0008.HTM#edif">edif</A>    -- reference
+      := containing_cluster.containing_cell.containing_library.containing_edif;
+  WHERE
+    <A NAME="frame_signal.containment_constraint">containment_constraint</A> :
+      (* A frame_signal belongs to one frame. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame">frame</A>.frame_signals');
+
+    <A NAME="frame_signal.valid_joined_global_ports">valid_joined_global_ports</A> :
+      (* All joined global_ports are defined in the containing edif of the
+         frame_signal. *) 
+      joined_global_ports &lt;= containing_edif.global_ports;
+
+    <A NAME="frame_signal.valid_joined_instance_member_port_members">valid_joined_instance_member_port_members</A> :
+      (* All joined instance_member_port_members refer to the instances defined
+         directly in the immediately containing frame.  *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(port &lt;* joined_instance_member_port_members |
+        NOT (port.referenced_instance IN containing_frame.instances)));
+
+    <A NAME="frame_signal.valid_joined_instance_ports">valid_joined_instance_ports</A> :
+      (* All joined instance_ports refer to the instances defined directly
+         inside the immediately containing frame. *)  
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(port &lt;* joined_instance_ports |
+        NOT (port.referenced_instance IN containing_frame.instances)));
+
+    <A NAME="frame_signal.valid_joined_master_ports">valid_joined_master_ports</A> :
+      (* All joined master_ports are defined in the interface of the cluster
+         containing the frame_signal.  No joined master_port is unused
+         internally. *) 
+      (joined_master_ports &lt;= containing_cluster.interface.ports)
+        AND
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(port &lt;* joined_master_ports | port.unused_internally));
+
+    <A NAME="frame_signal.valid_joined_master_port_members">valid_joined_master_port_members</A> :
+      (* All joined master_port_members refer to the master_ports defined in
+         the interface of the cluster containing the frame_signal.  No joined
+         master_port_member is unused internally. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(port &lt;* joined_master_port_members |
+        NOT (port.referenced_master_port 
+             IN containing_cluster.interface.ports)));
+
+    <A NAME="frame_signal.valid_joined_wide_instance_ports">valid_joined_wide_instance_ports</A> :
+      (* The same port cannot be referenced more than once within a signal.
+         Therefore if a wide instance_port has been referenced, it is illegal
+         to reference members of that wide instance_port.  Conversely, if a
+         member port has been referenced, it is illegal to reference the wide
+         instance_port containing that member port. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(joinedWidePort &lt;* joined_instance_ports |
+        <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(joinedMemberPort 
+                           &lt;* joined_instance_member_port_members |
+          joinedWidePort :=: joinedMemberPort.referenced_instance_port))));
+
+    <A NAME="frame_signal.valid_joined_wide_master_ports">valid_joined_wide_master_ports</A> :
+      (* The same port cannot be referenced more than once within a signal.
+         Therefore if a wide master_port has been referenced, it is illegal to
+         reference members of that wide master_port.  Conversely, if a member
+         port has been referenced, it is illegal to reference the wide
+         master_port containing that member port. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(joinedWidePort &lt;* joined_master_ports |
+        <A HREF="IMEX0034.HTM#there_exists">there_exists</A>(QUERY(joinedMemberPort &lt;* joined_master_port_members |
+          joinedWidePort :=: joinedMemberPort.referenced_master_port))));
+
+    <A NAME="frame_signal.valid_width">valid_width</A> :
+      (* The width expression may reference the for_frame_indexes of any
+         containing for_frames or the parameters defined in the interface of
+         the containing_view. *)  
+      <A HREF="IMEX0009.HTM#valid_integer_expression">valid_integer_expression</A>([width],
+        containing_cluster.interface.parameters,
+        <A HREF="IMEX0010.HTM#find_nested_for_frame_index">find_nested_for_frame_index</A>(containing_frame),
+        ['<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#frame_signal_index">frame_signal_index</A>',
+         '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#instance_index">instance_index</A>',
+         '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#port_index">port_index</A>',
+         '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#signal_index">signal_index</A>']);
+
+    <A NAME="frame_signal.valid_optional_attributes">valid_optional_attributes</A> :
+       (* The dependencies of these optional attributes are stated as follows:
+          1. A <A HREF="IMEX0015.HTM#signal">signal</A> cannot join any global_ports if there are no global_ports
+             defined in the containing <A HREF="IMEX0008.HTM#edif">edif</A>.  
+          2. A <A HREF="IMEX0015.HTM#signal">signal</A> cannot join any instance_ports or
+             instance_member_port_members if there are no instances defined in
+             the containing <A HREF="IMEX0010.HTM#frame">frame</A>. 
+          3. A <A HREF="IMEX0015.HTM#signal">signal</A> cannot join any master_ports or master_port_members if
+             there are no master_ports defined in the containing <A HREF="IMEX0012.HTM#cluster">cluster</A>. *)
+       (EXISTS(containing_edif.global_ports) OR NOT EXISTS(joined_global_ports))
+        AND
+       (EXISTS(containing_frame.instances) OR
+          NOT EXISTS(joined_instance_ports) AND
+          NOT EXISTS(joined_instance_member_port_members))
+        AND
+       (EXISTS(containing_cluster.interface.ports) OR 
+          NOT EXISTS(joined_master_ports) AND
+          NOT EXISTS(joined_master_port_members));
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> describes a signal defined within a <A HREF="IMEX0010.HTM#frame">frame</A>.  It is defined
+ as a named object which lists all the <A HREF="IMEX0008.HTM#global_port">global_ports</A>, <A HREF="IMEX0012.HTM#instance_port">instance_ports</A>,
+ <A HREF="IMEX0012.HTM#instance_member_port_member">instance_member_port_members</A>, <A HREF="IMEX0012.HTM#master_port">master_ports</A> and <A HREF="IMEX0012.HTM#master_port_member">master_port_members</A>
+ which are electrically common at a given level of hierarchy.  However, it
+ can join <A HREF="IMEX0012.HTM#instance_port">instance_ports</A> on <A HREF="IMEX0012.HTM#instance">instances</A> directly inside the containing
+ <A HREF="IMEX0010.HTM#frame">frame</A> only. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_generic_net">connectivity_frame_generic_net</A> <A HREF="IMEX0010.HTM#frame">frame</A> <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> <A HREF="IMEX0010.HTM#frame_signal_or_frame_signal_group">frame_signal_or_frame_signal_group</A> <A HREF="IMEX0031.HTM#schematic_frame_generic_net">schematic_frame_generic_net</A> </P>
+<HR>
+<!-- Start of ENTITY: frame_mergeable_signal -->
+<H2><A NAME="frame_mergeable_signal">frame_mergeable_signal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#frame_mergeable_signal">frame_mergeable_signal</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>);
+    connectivity_tag_generator : <A HREF="IMEX0009.HTM#string_expression">string_expression</A>;
+  UNIQUE
+    unique_connectivity_tag_generator :
+      (* All frame_mergeable_signals defined in the same containing_frame must
+         have unique connectivity_tag_generator. *)
+      connectivity_tag_generator, SELF\<A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>.containing_frame;
+  WHERE
+    <A NAME="frame_mergeable_signal.valid_connectivity_tag_generator">valid_connectivity_tag_generator</A> :
+      (* The connectivity_tag_generator expression may reference the
+         frame_signal_index of the frame_signal, the for_frame_indexes of any
+         containing for_frames, or the parameters defined in the
+         cluster_interface of the containing view. *) 
+      <A HREF="IMEX0009.HTM#valid_string_expression">valid_string_expression</A>([connectivity_tag_generator],
+                               containing_cluster.interface.parameters,
+                               <A HREF="IMEX0010.HTM#find_nested_for_frame_index">find_nested_for_frame_index</A>(containing_frame),
+                               ['<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#instance_index">instance_index</A>',
+                                '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#port_index">port_index</A>',
+                                '<A HREF="IMEX0009.HTM#expression_model">expression_model</A>.<A HREF="IMEX0009.HTM#signal_index">signal_index</A>']);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#frame_mergeable_signal">frame_mergeable_signal</A> is a <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> which can be merged with
+ other <A HREF="IMEX0015.HTM#mergeable_signal">mergeable_signals</A> or <A HREF="IMEX0010.HTM#frame_mergeable_signal">frame_mergeable_signals</A>.  It has a
+ connectivity_tag_generator which is vital for the merging process in the
+ expansion of a design.  After the expansion, the connectivity_tag_generator 
+ expression will be evaluated to a tag and all <A HREF="IMEX0015.HTM#mergeable_signal">mergeable_signals</A> or
+ <A HREF="IMEX0010.HTM#frame_mergeable_signal">frame_mergeable_signals</A> with the same tag are merged together.  Within a
+ <A HREF="IMEX0010.HTM#frame">frame</A>, all <A HREF="IMEX0010.HTM#frame_mergeable_signal">frame_mergeable_signals</A> must have unique
+ connectivity_tag_generator.  The connectivity_tag_generator expression may 
+ reference to the index of the <A HREF="IMEX0010.HTM#frame_mergeable_signal">frame_mergeable_signal</A>, the
+ <A HREF="IMEX0010.HTM#for_frame_index">for_frame_indexes</A> of any containing <A HREF="IMEX0010.HTM#for_frame">for_frame</A> or any <A HREF="IMEX0018.HTM#parameter">parameter</A> defined
+ in the <A HREF="IMEX0012.HTM#cluster_interface">cluster_interface</A> of the containing view.
+</P><HR>
+<!-- Start of ENTITY: frame_non_mergeable_signal -->
+<H2><A NAME="frame_non_mergeable_signal">frame_non_mergeable_signal</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#frame_non_mergeable_signal">frame_non_mergeable_signal</A>
+      SUBTYPE OF (<A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>);
+  END_ENTITY;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#frame_non_mergeable_signal">frame_non_mergeable_signal</A> is a <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> which is not subject to
+ merging. 
+</P><HR>
+<!-- Start of ENTITY: frame_signal_group -->
+<H2><A NAME="frame_signal_group">frame_signal_group</A></H2>
+<PRE>
+  ENTITY <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>;
+    members    : LIST [1:?] OF <A HREF="IMEX0010.HTM#frame_signal_or_frame_signal_group">frame_signal_or_frame_signal_group</A>;  -- reference
+    name       : OPTIONAL <A HREF="IMEX0034.HTM#name_information">name_information</A>;  
+    properties : OPTIONAL SET [1:?] OF <A HREF="IMEX0034.HTM#private_property">private_property</A>;
+  DERIVE
+    containing_frame : <A HREF="IMEX0010.HTM#frame">frame</A> -- reference
+      := <A HREF="IMEX0034.HTM#usedin_one_role">usedin_one_role</A>(SELF,'<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame">frame</A>.frame_signal_groups');
+    flattened_signal_list : LIST OF <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> -- reference
+                            := <A HREF="IMEX0010.HTM#flatten_frame_signal_group">flatten_frame_signal_group</A>(members);
+  UNIQUE
+    unique_members :
+      (* No two frame_signal_groups have the same structure of members. *)
+      members;
+  WHERE
+    <A NAME="frame_signal_group.containment_constraint">containment_constraint</A> :
+      (* A frame_signal_group belongs to one frame. *) 
+      <A HREF="IMEX0034.HTM#belongs_to_one">belongs_to_one</A>(SELF, '<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame">frame</A>.frame_signal_groups');
+
+    <A NAME="frame_signal_group.valid_members">valid_members</A> :
+      (* All member frame_signals or frame_signal_groups are defined in the
+         immediately containing frame. *)
+      <A HREF="IMEX0034.HTM#not_exists">not_exists</A>(QUERY(member &lt;* members |
+        NOT ((member IN containing_frame.frame_signals) 
+             OR (member IN containing_frame.frame_signal_groups))));
+
+    <A NAME="frame_signal_group.non_recursive_constraint">non_recursive_constraint</A> :
+      (* A frame_signal_group cannot contain itself directly or indirectly. *)
+      <A HREF="IMEX0010.HTM#not_recursive_frame_signal_group">not_recursive_frame_signal_group</A>([SELF], [SELF]);
+  END_ENTITY;                                                             
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ A <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> describes a structure of <A HREF="IMEX0010.HTM#frame_signal">frame_signals</A> or
+ <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_groups</A>.  
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_generic_bus">connectivity_frame_generic_bus</A> <A HREF="IMEX0010.HTM#frame">frame</A> <A HREF="IMEX0010.HTM#frame_signal_or_frame_signal_group">frame_signal_or_frame_signal_group</A> <A HREF="IMEX0031.HTM#schematic_frame_generic_bus">schematic_frame_generic_bus</A> </P>
+<HR>
+<!-- Start of TYPE: frame_signal_or_frame_signal_group -->
+<H2><A NAME="frame_signal_or_frame_signal_group">frame_signal_or_frame_signal_group</A></H2>
+<PRE>
+  TYPE <A HREF="IMEX0010.HTM#frame_signal_or_frame_signal_group">frame_signal_or_frame_signal_group</A>
+    = SELECT (<A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>, <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>);
+  END_TYPE;
+</PRE>
+<H3>Description:</H3>
+<P> A <A HREF="IMEX0010.HTM#frame_signal_or_frame_signal_group">frame_signal_or_frame_signal_group</A> can be either a <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> or a 
+ <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>.  It is used in the definition of <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> </P>
+<HR>
+<!-- Start of FUNCTION: flatten_frame_signal_group -->
+<H2><A NAME="flatten_frame_signal_group">flatten_frame_signal_group</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0010.HTM#flatten_frame_signal_group">flatten_frame_signal_group</A>
+    (signal_group_members : LIST OF <A HREF="IMEX0010.HTM#frame_signal_or_frame_signal_group">frame_signal_or_frame_signal_group</A>) 
+    : LIST OF <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>;
+    LOCAL
+      position    : INTEGER := 1;
+      signal_list : LIST OF <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> := [ ];
+      member_list : LIST OF <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> := [ ];
+    END_LOCAL;
+
+    REPEAT i := 1 TO HIINDEX(signal_group_members);
+     IF '<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame_signal">frame_signal</A>' IN TYPEOF(signal_group_members[i]) THEN
+       INSERT(signal_list, signal_group_members[i], position);
+       position := position + 1;
+     ELSE
+       member_list := <A HREF="IMEX0010.HTM#flatten_frame_signal_group">flatten_frame_signal_group</A>
+                      (signal_group_members[i].members);
+       REPEAT j := 1 TO SIZEOF(member_list);
+         INSERT(signal_list, member_list[j], position);
+         position := position + 1;
+       END_REPEAT;
+     END_IF;
+    END_REPEAT;
+    RETURN(signal_list);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ The <A HREF="IMEX0010.HTM#flatten_frame_signal_group">flatten_frame_signal_group</A> function returns the flattened list of
+ <A HREF="IMEX0010.HTM#frame_signal">frame_signals</A> of a <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> </P>
+<HR>
+<!-- Start of FUNCTION: not_recursive_frame_signal_group -->
+<H2><A NAME="not_recursive_frame_signal_group">not_recursive_frame_signal_group</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0010.HTM#not_recursive_frame_signal_group">not_recursive_frame_signal_group</A> 
+    (parents, invalid_ancestors : SET OF <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>) : BOOLEAN;
+    LOCAL
+      i, j        : INTEGER;
+      descendants : SET OF <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> := [ ];
+    END_LOCAL;
+    REPEAT i := 1 TO HIINDEX(parents);
+      REPEAT j := 1 TO HIINDEX(parents[i].members);
+        IF '<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>' 
+           IN TYPEOF(parents[i].members[j]) THEN
+         descendants := descendants + parents[i].members[j];
+        END_IF;
+      END_REPEAT;
+    END_REPEAT;
+    RETURN
+     (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(descendants) OR
+      (<A HREF="IMEX0034.HTM#not_exists">not_exists</A>(descendants * invalid_ancestors) AND
+       <A HREF="IMEX0010.HTM#not_recursive_frame_signal_group">not_recursive_frame_signal_group</A>(descendants, 
+                                        parents+invalid_ancestors)));
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P><PRE>
+ LEVEL 1
+ =======
+</PRE>
+ The <A HREF="IMEX0010.HTM#not_recursive_frame_signal_group">not_recursive_frame_signal_group</A> function returns true if a
+ <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> does not contain members which reference itself.  It 
+ prevents cyclic definition of a <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> </P>
+<HR>
+<!-- Start of FUNCTION: frame_signal_group_member -->
+<H2><A NAME="frame_signal_group_member">frame_signal_group_member</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0010.HTM#frame_signal_group_member">frame_signal_group_member</A>
+    (member, parent : <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>) : BOOLEAN;
+    LOCAL
+      is_member : BOOLEAN := FALSE;
+      i         : INTEGER;
+    END_LOCAL;
+    IF member IN parent.members THEN
+       RETURN(TRUE);
+    ELSE
+       i := 1;
+       REPEAT WHILE (is_member = FALSE) AND (i &lt;= SIZEOF(parent.members));
+         IF ('<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>' 
+             IN TYPEOF(parent.members[i])) THEN
+            is_member := <A HREF="IMEX0010.HTM#frame_signal_group_member">frame_signal_group_member</A>(member, parent.members[i]);
+         ELSE
+            i := i + 1;
+         END_IF;
+       END_REPEAT;
+       RETURN(is_member);
+    END_IF;
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#frame_signal_group_member">frame_signal_group_member</A> function returns true if a
+ <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A> is a member of another <A HREF="IMEX0010.HTM#frame_signal_group">frame_signal_group</A>, either
+ directly or indirectly.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0001.HTM#connectivity_frame_bus_slice">connectivity_frame_bus_slice</A> <A HREF="IMEX0031.HTM#schematic_frame_bus_slice">schematic_frame_bus_slice</A> </P>
+<HR>
+<!-- Start of FUNCTION: non_recursive_frame -->
+<H2><A NAME="non_recursive_frame">non_recursive_frame</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0010.HTM#non_recursive_frame">non_recursive_frame</A>
+    (parentFrame  : <A HREF="IMEX0010.HTM#frame">frame</A>;
+     nestedFrames : SET OF <A HREF="IMEX0010.HTM#frame">frame</A>) : BOOLEAN;
+     REPEAT i := 1 TO SIZEOF(nestedFrames);
+       IF parentFrame :=: nestedFrames[i] THEN
+          RETURN(FALSE);
+       ELSE
+       IF '<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#otherwise_frame">otherwise_frame</A>' IN TYPEOF(nestedFrames[i]) THEN
+          IF NOT <A HREF="IMEX0010.HTM#non_recursive_frame">non_recursive_frame</A>(parentFrame,
+                 nestedFrames[i]\<A HREF="IMEX0010.HTM#otherwise_frame">otherwise_frame</A>.related_frames) THEN
+             RETURN(FALSE);
+          END_IF;
+       END_IF;
+       END_IF;
+     END_REPEAT;
+     RETURN(TRUE);     
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#non_recursive_frame">non_recursive_frame</A> returns true if a <A HREF="IMEX0010.HTM#frame">frame</A> does not contain itself,
+ either directly or indirectly.
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0010.HTM#frame">frame</A> </P>
+<HR>
+<!-- Start of FUNCTION: find_nested_for_frame_index -->
+<H2><A NAME="find_nested_for_frame_index">find_nested_for_frame_index</A></H2>
+<PRE>
+  FUNCTION <A HREF="IMEX0010.HTM#find_nested_for_frame_index">find_nested_for_frame_index</A>
+    (fr : <A HREF="IMEX0010.HTM#frame">frame</A>) : SET OF <A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A>;
+    LOCAL
+      indexes : SET OF <A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A> := [ ];
+    END_LOCAL;
+    IF '<A HREF="IMEX0010.HTM#frame_model">frame_model</A>.<A HREF="IMEX0010.HTM#for_frame">for_frame</A>' IN TYPEOF(fr) THEN
+       indexes := indexes + fr\<A HREF="IMEX0010.HTM#for_frame">for_frame</A>.index;
+    END_IF;
+    IF EXISTS(fr.containing_frame) THEN
+       indexes := indexes + <A HREF="IMEX0010.HTM#find_nested_for_frame_index">find_nested_for_frame_index</A>(fr.containing_frame);
+    END_IF;
+    RETURN(indexes);
+  END_FUNCTION;
+</PRE>
+<H3>Description:</H3>
+<P> The <A HREF="IMEX0010.HTM#find_nested_for_frame_index">find_nested_for_frame_index</A> function returns all <A HREF="IMEX0010.HTM#for_frame_index">for_frame_index</A>
+ defined in the current <A HREF="IMEX0010.HTM#for_frame">for_frame</A> and also in any <A HREF="IMEX0010.HTM#for_frame">for_frames</A> containing
+ the current <A HREF="IMEX0010.HTM#for_frame">for_frame</A> either directly or indirectly. 
+</P><H3>
+Used by:
+</H3>
+<P>
+<A HREF="IMEX0018.HTM#boolean_parameter_assign">boolean_parameter_assign</A> <A HREF="IMEX0010.HTM#frame_mergeable_signal">frame_mergeable_signal</A> <A HREF="IMEX0010.HTM#frame_signal">frame_signal</A> <A HREF="IMEX0012.HTM#instance">instance</A> <A HREF="IMEX0018.HTM#integer_parameter_assign">integer_parameter_assign</A> <A HREF="IMEX0018.HTM#string_parameter_assign">string_parameter_assign</A> </P>
+
+<HR>
+
+<!-- Start of schema: geometry_model -->
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

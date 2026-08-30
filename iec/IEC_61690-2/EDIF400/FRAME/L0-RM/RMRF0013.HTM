@@ -1,0 +1,578 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 4 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<H1><A NAME="logicNameRef">logicNameRef</A></H1>
+<PRE>
+<I>logicNameRef ::= <A HREF="RMRF0014.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0000.HTM#becomes">becomes</A>  *<A HREF="RMRF0002.HTM#compound">compound</A>  *<A HREF="RMRF0005.HTM#dominates">dominates</A>  *<A HREF="RMRF0012.HTM#logicList">logicList</A>  *<A HREF="RMRF0013.HTM#logicOneOf">logicOneOf</A>  !<A HREF="RMRF0013.HTM#logicRef">logicRef</A>  <A HREF="RMRF0053.HTM#presentLogicValue">presentLogicValue</A>  <A HREF="RMRF0053.HTM#previousLogicValue">previousLogicValue</A>  *<A HREF="RMRF0054.HTM#resolves">resolves</A>  !<A HREF="RMRF0059.HTM#strong">strong</A>  !<A HREF="RMRF0062.HTM#weak">weak</A>  
+</I>
+<H3>Description:</H3>
+<P>A <I><A HREF="RMRF0013.HTM#logicNameRef">logicNameRef</A></I> is a name used to refer to logic values, which must have been previously defined by a corresponding <I><A HREF="RMRF0012.HTM#logicNameDef">logicNameDef</A></I>. 
+<P><HR>
+<H1><A NAME="logicOneOf">logicOneOf</A></H1>
+<PRE>
+<I>logicOneOf ::= '(' 'logicOneOf'</I>
+&#09;<I>{ <A HREF="RMRF0012.HTM#logicList">logicList</A> | <A HREF="RMRF0013.HTM#logicNameRef">logicNameRef</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0000.HTM#becomes">becomes</A>  *<A HREF="RMRF0012.HTM#logicList">logicList</A>  <A HREF="RMRF0053.HTM#presentLogicValue">presentLogicValue</A>  <A HREF="RMRF0053.HTM#previousLogicValue">previousLogicValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#logicOneOf">LogicOneOf</A></I> supplies a list of alternative logic values or logic lists. Where <I><A HREF="RMRF0012.HTM#logicList">logicList</A></I> is used, the sizes of the <I><A HREF="RMRF0012.HTM#logicList">logicLists</A></I> must all be equal. When used, any match in <I><A HREF="RMRF0013.HTM#logicOneOf">logicOneOf</A></I> is considered as a match for the containing construct. It may thus act as a specific "don't care" condition. 
+<H3>Example:</H3>
+<PRE>
+<B>(logicList A B C (logicOneOf D E F))</B>
+</PRE>
+<P>This expression indicates a list A, B, C, (D or E or F).
+<P> 
+<PRE>
+<B>(logicOneOf</B>
+<B>   (logicList A B C D)</B>
+<B>   (logicList A B C E)</B>
+<B>   (logicList A B C F))</B>
+</PRE>
+<P>The second expression indicates a list which is one of three lists: (A, B, C, D), (A, B, C, E), or (A, B, C, F). The two examples are therefore equivalent.
+<P><HR>
+<H1><A NAME="logicRef">logicRef</A></H1>
+<PRE>
+<I>logicRef ::= '(' 'logicRef'</I>
+&#09;<I><A HREF="RMRF0013.HTM#logicNameRef">logicNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0012.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0012.HTM#logicMapInput">logicMapInput</A>  *<A HREF="RMRF0012.HTM#logicMapOutput">logicMapOutput</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#logicRef">LogicRef</A></I> is used to reference a logic value by name. The library reference is for use within the context of <I><A HREF="RMRF0012.HTM#logicMapInput">logicMapInput</A></I> and <I><A HREF="RMRF0012.HTM#logicMapOutput">logicMapOutput</A></I> to reference other libraries.
+<P><HR>
+<H1><A NAME="logicValue">logicValue</A></H1>
+<PRE>
+<I>logicValue ::= '(' 'logicValue'</I>
+&#09;<I><A HREF="RMRF0012.HTM#logicNameDef">logicNameDef</A></I>
+&#09;<I>{ &lt;<A HREF="RMRF0001.HTM#booleanMap">booleanMap</A>&gt; | <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0002.HTM#compound">compound</A>&gt; | &lt;<A HREF="RMRF0003.HTM#currentMap">currentMap</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0005.HTM#dominates">dominates</A>&gt; | &lt;<A HREF="RMRF0010.HTM#isolated">isolated</A>&gt; | &lt;<A HREF="RMRF0012.HTM#logicMapInput">logicMapInput</A>&gt; | &lt;<A HREF="RMRF0012.HTM#logicMapOutput">logicMapOutput</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0053.HTM#property">property</A> | <A HREF="RMRF0054.HTM#resolves">resolves</A> | &lt;<A HREF="RMRF0059.HTM#strong">strong</A>&gt; | &lt;<A HREF="RMRF0062.HTM#voltageMap">voltageMap</A>&gt; | 
+&#09;&lt;<A HREF="RMRF0062.HTM#weak">weak</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0012.HTM#logicDefinitions">logicDefinitions</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0053.HTM#presentLogicValue">presentLogicValue</A> <A HREF="RMRF0053.HTM#previousLogicValue">previousLogicValue</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#logicValue">LogicValue</A></I> is used within <I><A HREF="RMRF0012.HTM#logicDefinitions">logicDefinitions</A></I> to define a logic value to use for modeling in the <I><A HREF="RMRF0012.HTM#logicModelView">logicModelView</A></I>. A value can be specified by name and also by specifying the characteristics of the value. The characteristics can be electrical, boolean, relational between other logic values, and relational between logic values specified in previously-defined libraries. 
+<H3>Example:</H3>
+<PRE>
+<B>(logicValue ST</B>
+<B>   (voltageMap (mnm 25 48 50)) </B>
+<B>   (currentMap (mnm 10 15 20))</B>
+<B>   (booleanMap (true))</B>
+<B>   (strong T) </B>
+<B>   (dominates T Z WT WF)</B>
+<B>   (logicMapOutput (logicRef HI (libraryRef MyLib))))</B>
+</PRE>
+<P>This example defines a logic value ST, giving explicit electrical and boolean mappings and wiring contention information.
+<P><HR>
+<H1><A NAME="lsbToMsb">lsbToMsb</A></H1>
+<PRE>
+<I>lsbToMsb ::= '(' 'lsbToMsb'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0000.HTM#bitOrder">bitOrder</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#msbToLsb">msbToLsb</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#lsbToMsb">LsbToMsb</A></I> specifies that the bit order is from the least-significant bit to the most-significant bit.
+<H3>Example:</H3>
+<PRE>
+<B>(nameInformation</B>
+<B>   (primaryName "a[5:1:-2]"</B>
+<B>      (nameStructure</B>
+<B>         (complexName "a"</B>
+<B>            (nameDimension</B>
+<B>               (nameDimensionStructure</B>
+<B>                  (sequence 5 1 (step 2)))</B>
+<B>               (bitOrder (lsbToMsb)))))))</B>
+</PRE>
+<P>Here, the one-dimensional object "a" is specified to be a three-bit object with bit 5 being the least significant and bit 1 being the most significant.
+<P><HR>
+<H1><A NAME="mantissa">mantissa</A></H1>
+<PRE>
+<I>mantissa ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0006.HTM#e">e</A>  
+</I>
+<H3>Description:</H3>
+<P>The mantissa of a scaled integer. See <I><A HREF="RMRF0006.HTM#e">e</A></I> for an example.
+<P><HR>
+<H1><A NAME="mark">mark</A></H1>
+<PRE>
+<I>mark ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0006.HTM#edifVersion">edifVersion</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateCenteringMark">pcbDrawingBorderTemplateCenteringMark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateOrientationMark">pcbDrawingBorderTemplateOrientationMark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTemplateTrimmingMark">pcbDrawingBorderTemplateTrimmingMark</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTrimmingMarkStroke">pcbDrawingBorderTrimmingMarkStroke</A> <A HREF="RMRF0028.HTM#pcbDrawingBorderTrimmingMarkTriangular">pcbDrawingBorderTrimmingMarkTriangular</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Numeric constraints: 
+<DD>Equal to: 4 
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#mark">Mark</A></I> is the first value in the definition of <I><A HREF="RMRF0006.HTM#edifVersion">edifVersion</A></I>. See <I><A HREF="RMRF0006.HTM#edifVersion">edifVersion</A></I> for examples and allowed values.
+<P><HR>
+<H1><A NAME="maskLayoutUnits">maskLayoutUnits</A></H1>
+<PRE>
+<I>maskLayoutUnits ::= '(' 'maskLayoutUnits'</I>
+&#09;<I>{ &lt;<A HREF="RMRF0057.HTM#setAngle">setAngle</A>&gt; | &lt;<A HREF="RMRF0057.HTM#setCapacitance">setCapacitance</A>&gt; | &lt;<A HREF="RMRF0058.HTM#setDistance">setDistance</A>&gt; | &lt;<A HREF="RMRF0058.HTM#setTime">setTime</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0052.HTM#physicalScaling">physicalScaling</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#maskLayoutUnits">MaskLayoutUnits</A></I> defines the units for <I><A HREF="RMRF0013.HTM#maskLayoutView">maskLayoutViews</A></I>. Refer to <I><A HREF="RMRF0003.HTM#connectivityUnits">connectivityUnits</A></I> for a full example.
+<P><HR>
+<H1><A NAME="maskLayoutView">maskLayoutView</A></H1>
+<PRE>
+<I>maskLayoutView ::= '(' 'maskLayoutView'</I>
+&#09;<I><A HREF="RMRF0061.HTM#viewNameDef">viewNameDef</A></I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0014.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0061.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>*<A HREF="RMRF0002.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#maskLayoutView">MaskLayoutView</A></I> is provided only as a stub in this version of EDIF. It is to be completed in a later version. 
+<P><HR>
+<H1><A NAME="maximumDuration">maximumDuration</A></H1>
+<PRE>
+<I>maximumDuration ::= '(' 'maximumDuration'</I>
+&#09;<I><A HREF="RMRF0060.HTM#timeValue">timeValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0023.HTM#pcbDieEnvironmentalConditions">pcbDieEnvironmentalConditions</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0006.HTM#duration">duration</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines a maximum duration.
+<P><HR>
+<H1><A NAME="maximumHeight">maximumHeight</A></H1>
+<PRE>
+<I>maximumHeight ::= <A HREF="RMRF0012.HTM#lengthValue">lengthValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0059.HTM#stringExtent">stringExtent</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0021.HTM#pcbComponentMaximumHeight">pcbComponentMaximumHeight</A> <A HREF="RMRF0022.HTM#pcbDefaultMaximumComponentHeight">pcbDefaultMaximumComponentHeight</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the maximum height of an item.
+<H3>Example:</H3>
+<PRE>
+<B>(stringExtent 10 1)</B>
+</PRE>
+<P>Here, <I><A HREF="RMRF0013.HTM#maximumHeight">maximumHeight</A></I> has the value 1.
+<P><HR>
+<H1><A NAME="maximumLength">maximumLength</A></H1>
+<PRE>
+<I>maximumLength ::= <A HREF="RMRF0012.HTM#lengthValue">lengthValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0059.HTM#stringExtent">stringExtent</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0012.HTM#length">length</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines the maximum length of an item.
+<H3>Example:</H3>
+<PRE>
+<B>(stringExtent 10 1)</B>
+</PRE>
+<P>Here, <I><A HREF="RMRF0013.HTM#maximumLength">maximumLength</A></I> has the value 10.
+<P><HR>
+<H1><A NAME="maximumTemperature">maximumTemperature</A></H1>
+<PRE>
+<I>maximumTemperature ::= <A HREF="RMRF0059.HTM#temperatureValue">temperatureValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0024.HTM#pcbDieStorageConditions">pcbDieStorageConditions</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a maximum temperature value.
+<P><HR>
+<H1><A NAME="measured">measured</A></H1>
+<PRE>
+<I>measured ::= '(' 'measured'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#derivation">derivation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#measured">Measured</A></I> specifies that a value has been derived by measurement.
+<H3>Example:</H3>
+<PRE>
+<B>(portDelay PD1 (measured) (delay ...) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="metalMaterial">metalMaterial</A></H1>
+<PRE>
+<I>metalMaterial ::= '(' 'metalMaterial'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0041.HTM#pcbPackageBodyMaterialType">pcbPackageBodyMaterialType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#metalSealedCofiredCeramicMaterial">metalSealedCofiredCeramicMaterial</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the package is predominantly metal.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage MFP20 ...</B>
+<B>   (pcbPackageBodyMaterial</B>
+<B>      (metalMaterial)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="metalSealedCofiredCeramicMaterial">metalSealedCofiredCeramicMaterial</A></H1>
+<PRE>
+<I>metalSealedCofiredCeramicMaterial ::= '(' 'metalSealedCofiredCeramicMaterial'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0041.HTM#pcbPackageBodyMaterialType">pcbPackageBodyMaterialType</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#metalMaterial">metalMaterial</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies that the package is predominantly cofired ceramic and is hermetically sealed using metal.
+<H3>Example:</H3>
+<PRE>
+<B>(pcbPinPackage MSCC20 ...</B>
+<B>   (pcbPackageBodyMaterial</B>
+<B>      (metalSealedCofiredCeramicMaterial)) ...)</B>
+</PRE>
+<P><HR>
+<H1><A NAME="meter">meter</A></H1>
+<PRE>
+<I>meter ::= '(' 'meter'</I>
+&#09;<I><A HREF="RMRF0061.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0061.HTM#unit">unit</A>  &lt;<A HREF="RMRF0061.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#meter">Meter</A></I> is used to specify a user-defined unit in terms of the SI distance unit, meter. See <I><A HREF="RMRF0061.HTM#unit">unit</A></I> for examples of the definition of units.
+<P><HR>
+<H1><A NAME="middleJustify">middleJustify</A></H1>
+<PRE>
+<I>middleJustify ::= '(' 'middleJustify'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0061.HTM#verticalJustification">verticalJustification</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#middleJustify">MiddleJustify</A></I> indicates that the Y origin point of the text is at the middle of the text bounding box. See <I><A HREF="RMRF0061.HTM#verticalJustification">verticalJustification</A></I> for more details.
+<P><HR>
+<H1><A NAME="minimalWidth">minimalWidth</A></H1>
+<PRE>
+<I>minimalWidth ::= '(' 'minimalWidth'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0001.HTM#borderWidth">borderWidth</A>  !<A HREF="RMRF0016.HTM#pathWidth">pathWidth</A>  !<A HREF="RMRF0049.HTM#pcbStrokeWidth">pcbStrokeWidth</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0062.HTM#width">width</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. This construct is illegal in this context:  <I><A HREF="RMRF0033.HTM#pcbGeometricAttributeDefault">pcbGeometricAttributeDefault</A>
+<BR><BR></I>
+<DT>2. This construct is illegal in this context:  <I><A HREF="RMRF0050.HTM#pcbTextAppearance">pcbTextAppearance</A>
+<BR><BR></I>
+<DT>3. This construct is illegal in this context:  <I><A HREF="RMRF0033.HTM#pcbFigureAttributeOverride">pcbFigureAttributeOverride</A>
+</I>
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#minimalWidth">MinimalWidth</A></I> is used to define a border width or path width of minimum width, i.e. minimum displayable width depending on the display medium.
+<H3>Example:</H3>
+<PRE>
+<B>(pathWidth (minimalWidth))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="minimumTemperature">minimumTemperature</A></H1>
+<PRE>
+<I>minimumTemperature ::= <A HREF="RMRF0059.HTM#temperatureValue">temperatureValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0024.HTM#pcbDieStorageConditions">pcbDieStorageConditions</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies a minimum temperature value.
+<P><HR>
+<H1><A NAME="miNoMax">miNoMax</A></H1>
+<PRE>
+<I>miNoMax ::= '(' 'miNoMax'</I>
+&#09;<I><A HREF="RMRF0013.HTM#miNoMaxValue">miNoMaxValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0060.HTM#typedValue">typedValue</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#nonNegativeMiNoMaxValue">nonNegativeMiNoMaxValue</A> 
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#miNoMax">MiNoMax</A></I> provides a value of type <I><A HREF="RMRF0013.HTM#miNoMax">miNoMax</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(property node (miNoMax (mnm 0 (e 55 -1) 10)))</B>
+</PRE>
+<P>In this example, the property node is assumed to have been declared to be of type <I><A HREF="RMRF0013.HTM#miNoMax">miNoMax</A></I>. A value of (mnm 0 (e 55 -1) 10) is also specified.
+<P><HR>
+<H1><A NAME="miNoMaxValue">miNoMaxValue</A></H1>
+<PRE>
+<I>miNoMaxValue ::= ( <A HREF="RMRF0015.HTM#numberValue">numberValue</A> | <A HREF="RMRF0013.HTM#mnm">mnm</A> )</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0003.HTM#currentValue">currentValue</A>  <A HREF="RMRF0008.HTM#frequencyValue">frequencyValue</A>  !<A HREF="RMRF0013.HTM#miNoMax">miNoMax</A>  <A HREF="RMRF0014.HTM#nonNegativeMiNoMaxValue">nonNegativeMiNoMaxValue</A>  !<A HREF="RMRF0059.HTM#temperatureRange">temperatureRange</A>  <A HREF="RMRF0060.HTM#timeValue">timeValue</A>  <A HREF="RMRF0062.HTM#voltageValue">voltageValue</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#miNoMaxValue">MiNoMaxValue</A></I> describes the primitive set of constructs used to specify a minimal-nominal-maximal value set. A single <I><A HREF="RMRF0015.HTM#numberValue">numberValue</A></I> is equivalent to: 
+<BR>&#09;(mnm (undefined) <I><A HREF="RMRF0015.HTM#numberValue">numberValue</A></I> (undefined)) 
+<H3>Example:</H3>
+<PRE>
+<B> (mnm 2 (e 55 -1) (e 755 -2))</B>
+</PRE>
+<P>In the above example, a <I><A HREF="RMRF0013.HTM#miNoMaxValue">miNoMaxValue</A></I> of 2 minimum, 5.5 nominal and 7.55 maximum is specified.
+<P><HR>
+<H1><A NAME="minuteNumber">minuteNumber</A></H1>
+<PRE>
+<I>minuteNumber ::= <A HREF="RMRF0010.HTM#integerToken">integerToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0059.HTM#time">time</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0014.HTM#number">number</A> 
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. Numeric constraints: 
+<DD>Minimum value: 0   Maximum value: 59   
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#minuteNumber">MinuteNumber</A></I> represents a number of minutes within <I><A HREF="RMRF0059.HTM#time">time</A></I>. 
+<P><HR>
+<H1><A NAME="mirroredText">mirroredText</A></H1>
+<PRE>
+<I>mirroredText ::= '(' 'mirroredText'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0030.HTM#pcbDrawingTextDisplay">pcbDrawingTextDisplay</A>  &lt;<A HREF="RMRF0050.HTM#pcbTextAppearance">pcbTextAppearance</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies that each letter of the text is mirrored and the string is reversed, as shown in the following diagram. The string bounding box remains unchanged.
+<P>The default value is (mirroredText (false)). 
+<P><CENTER><IMG SRC="FIG0063.GIF">
+</CENTER>
+<H3>Example:</H3>
+<PRE>
+<B>(mirroredText (TRUE))</B>
+</PRE>
+<P><HR>
+<H1><A NAME="mirroring">mirroring</A></H1>
+<PRE>
+<I>mirroring ::= '(' 'mirroring'</I>
+&#09;<I>( <A HREF="RMRF0013.HTM#mirrorX">mirrorX</A> | <A HREF="RMRF0013.HTM#mirrorY">mirrorY</A> | <A HREF="RMRF0014.HTM#noMirroring">noMirroring</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0007.HTM#fixedScaleTransform">fixedScaleTransform</A>  &lt;<A HREF="RMRF0060.HTM#uniformScaleTransform">uniformScaleTransform</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#mirroringAxis">mirroringAxis</A> 
+</I>
+<H3>Description:</H3>
+<P>Specifies the mirroring of a transformed object, before any rotation or translation takes place.
+<P>The default is (mirroring (noMirroring)). 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbTestCouponInstance TC1</B>
+<B>   (pcbTestCouponDefinitionRef TC_TYPE2)</B>
+<B>   (fixedScaleTransform </B>
+<B>      (mirroring (mirrorX))</B>
+<B>      (origin (pt 100 100)))</B>
+<B>   (pcbLayoutFeatureFixed))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="mirroringAxis">mirroringAxis</A></H1>
+<PRE>
+<I>mirroringAxis ::= '(' 'mirroringAxis'</I>
+&#09;<I><A HREF="RMRF0059.HTM#startPoint">startPoint</A></I>
+&#09;<I><A HREF="RMRF0006.HTM#endPoint">endPoint</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0038.HTM#pcbMirroredFabricateFigureCollector">pcbMirroredFabricateFigureCollector</A>  
+</I>
+<H3>Similar Keywords:</H3>
+<P><I><A HREF="RMRF0013.HTM#mirroring">mirroring</A> 
+</I>
+<H3>Description:</H3>
+<P>Defines an axis for a mirroring operation. The axis is an infinite straight line that passes through <I><A HREF="RMRF0059.HTM#startPoint">startPoint</A></I> and <I><A HREF="RMRF0006.HTM#endPoint">endPoint</A></I>.
+<P><HR>
+<H1><A NAME="mirrorX">mirrorX</A></H1>
+<PRE>
+<I>mirrorX ::= '(' 'mirrorX'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0013.HTM#mirroring">mirroring</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies that an object is to be mirrored about the X axis. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbTestCouponInstance TC1</B>
+<B>   (pcbTestCouponDefinitionRef TC_TYPE2)</B>
+<B>   (fixedScaleTransform </B>
+<B>      (mirroring (mirrorX))</B>
+<B>      (origin (pt 100 100)))</B>
+<B>   (pcbLayoutFeatureFixed)) </B>
+</PRE>
+<P><HR>
+<H1><A NAME="mirrorY">mirrorY</A></H1>
+<PRE>
+<I>mirrorY ::= '(' 'mirrorY'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>!<A HREF="RMRF0013.HTM#mirroring">mirroring</A>  
+</I>
+<H3>Description:</H3>
+<P>Specifies that an object is to be mirrored about the Y axis. 
+<H3>Example:</H3>
+<PRE>
+<B>(pcbTestCouponInstance TC1</B>
+<B>   (pcbTestCouponDefinitionRef TC_TYPE2)</B>
+<B>   (fixedScaleTransform </B>
+<B>      (mirroring (mirrorY))</B>
+<B>      (origin (pt 100 100)))</B>
+<B>   (pcbLayoutFeatureFixed))  </B>
+</PRE>
+<P><HR>
+<H1><A NAME="mixedDirection">mixedDirection</A></H1>
+<PRE>
+<I>mixedDirection ::= '(' 'mixedDirection'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0052.HTM#portDirectionIndicator">portDirectionIndicator</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#mixedDirection">MixedDirection</A></I> is a <I><A HREF="RMRF0052.HTM#portDirectionIndicator">portDirectionIndicator</A></I> which specifies that a particular template is suitable for use with <I><A HREF="RMRF0052.HTM#portBundle">portBundles</A></I> of mixed direction, i.e. containing ports with different directions. 
+<H3>Example:</H3>
+<PRE>
+<B>(schematicSymbolPortTemplate </B>
+<B>   MIXED_PORTBUNDLE</B>
+<B>   (schematicTemplateHeader ...)</B>
+<B>   (hotspot ...)</B>
+<B>   (mixedDirection)</B>
+<B>   ...)</B>
+<B>(cell C1</B>
+<B>   ...</B>
+<B>   (cluster CL1</B>
+<B>      (interface (interfaceUnits)</B>
+<B>         (port P1 (inputPort))</B>
+<B>         (port P2 (outputPort))</B>
+<B>         (portBundle PB </B>
+<B>            (portList (portRef P1) (portRef P2 )))</B>
+<B>         ...)</B>
+<B>      ...</B>
+<B>      (schematicSymbol SYMBOL</B>
+<B>         (schematicSymbolHeader ...)</B>
+<B>         (schematicSymbolPortImplementation IN</B>
+<B>            (portRef PB)</B>
+<B>            (schematicSymbolPortTemplateRef </B>
+<B>               MIXED_PORTBUNDLE)</B>
+<B>            (transform ...)</B>
+<B>            ...))))</B>
+</PRE>
+<P>The <I><A HREF="RMRF0057.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A></I> MIXED_PORTBUNDLE has a <I><A HREF="RMRF0052.HTM#portDirectionIndicator">portDirectionIndicator</A></I> of <I><A HREF="RMRF0013.HTM#mixedDirection">mixedDirection</A></I> which matches the specification of the port PB in <I><A HREF="RMRF0002.HTM#cluster">cluster</A></I> CL1 of <I><A HREF="RMRF0001.HTM#cell">cell</A></I> C1. The use of this template in the <I><A HREF="RMRF0057.HTM#schematicSymbolPortImplementation">schematicSymbolPortImplementation</A></I> of PB is consistent with this. 
+<P><HR>
+<H1><A NAME="mnm">mnm</A></H1>
+<PRE>
+<I>mnm ::= '(' 'mnm'</I>
+&#09;<I>( <A HREF="RMRF0015.HTM#numberValue">numberValue</A> | <A HREF="RMRF0060.HTM#undefined">undefined</A> | <A HREF="RMRF0060.HTM#unconstrained">unconstrained</A> )</I>
+&#09;<I>( <A HREF="RMRF0015.HTM#numberValue">numberValue</A> | <A HREF="RMRF0060.HTM#undefined">undefined</A> | <A HREF="RMRF0060.HTM#unconstrained">unconstrained</A> )</I>
+&#09;<I>( <A HREF="RMRF0015.HTM#numberValue">numberValue</A> | <A HREF="RMRF0060.HTM#undefined">undefined</A> | <A HREF="RMRF0060.HTM#unconstrained">unconstrained</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0013.HTM#miNoMaxValue">miNoMaxValue</A>  
+</I>
+<H3>Constraints: </H3>
+<DL>
+<DT>1. The following constraint applies to this context:  All contexts  
+<DD>Any numeric values associated with <I><A HREF="RMRF0013.HTM#mnm">mnm</A></I> should be in non-descending order.
+</DL>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#mnm">Mnm</A></I> is used to specify a minimum, nominal and maximum range of values. The <I><A HREF="RMRF0060.HTM#unconstrained">unconstrained</A></I> construct states that there is no restriction specified. The <I><A HREF="RMRF0060.HTM#undefined">undefined</A></I> construct states that no information is provided and no value should be assumed.
+<H3>Example:</H3>
+<PRE>
+<B> (mnm 25 30 (e 335 -1))</B>
+</PRE>
+<P>This example specifies a range of 25 minimum and 33.5 maximum, with a nominal value of 30. 
+<PRE>
+<B> (mnm (unconstrained) (undefined) 60)</B>
+</PRE>
+<P>The above example specifies a range of values with an upper limit of 60, no lower limit, and an undefined nominal value.
+<P><HR>
+<H1><A NAME="mole">mole</A></H1>
+<PRE>
+<I>mole ::= '(' 'mole'</I>
+&#09;<I><A HREF="RMRF0061.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I>&lt;<A HREF="RMRF0061.HTM#unit">unit</A>  &lt;<A HREF="RMRF0061.HTM#unitDimensions">unitDimensions</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0013.HTM#mole">Mole</A></I> is used to specify a user-defined unit in terms of the SI unit, mole. See <I><A HREF="RMRF0061.HTM#unit">unit</A></I> for examples of the definition of units.
+<BR><BR>
+<HR>
+61690-2 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>

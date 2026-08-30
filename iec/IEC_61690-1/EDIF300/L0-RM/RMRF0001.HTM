@@ -1,0 +1,788 @@
+<HTML>
+
+<HEAD>
+<TITLE>EDIF Version 3 0 0</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#ffffff">
+<CENTER>
+<H2>EDIF Version 3 0 0 - Level 0 Reference Manual</H2>
+</CENTER>
+
+<B>Go to:</B> 
+- <A HREF="RMINTRO.HTM">Syntax Introduction</A>
+- <A HREF="RMRF0000.HTM">Reference Manual</A>
+- <A HREF="RMPIND.HTM">Permuted Index</A>
+- <A HREF="RMLOP.HTM">Index</A>
+- <A HREF="../NOFRAME.HTM">EDIF 300 Top Page</A>
+<HR>
+<H1><A NAME="booleanValue">booleanValue</A></H1>
+<PRE>
+<I>booleanValue ::= <A HREF="RMRF0000.HTM#booleanToken">booleanToken</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#boolean">boolean</A>  <A HREF="RMRF0000.HTM#booleanMap">booleanMap</A>  <A HREF="RMRF0001.HTM#borderPatternVisible">borderPatternVisible</A>  <A HREF="RMRF0006.HTM#fillPatternVisible">fillPatternVisible</A>  <A HREF="RMRF0022.HTM#visible">visible</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#booleanValue">BooleanValue</A> </I>is used to describe the primitive boolean set. The set for Level 0 includes the boolean values <I><A HREF="RMRF0021.HTM#true">true</A> </I>and <I><A HREF="RMRF0005.HTM#false">false</A>.</I> 
+<H3>Example:</H3>
+<PRE>
+<B>(property threeState (boolean (true)))</B>
+</PRE>
+<P>This statement could be used in an instance to assign the value <I><A HREF="RMRF0021.HTM#true">true</A> </I>to the property named <B>threeState. 
+</B>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#false">false</A>  <A HREF="RMRF0015.HTM#property">property</A>  <A HREF="RMRF0021.HTM#true">true</A>
+</I>
+<P><HR>
+<H1><A NAME="borderPattern">borderPattern</A></H1>
+<PRE>
+<I>borderPattern ::= '(' 'borderPattern'</I>
+&#09;<I><A HREF="RMRF0014.HTM#pixelPattern">pixelPattern</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#displayAttributes">displayAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#borderPattern">BorderPattern</A> </I>is used to specify the stipple or pixel pattern for a border, or the perimeter of a <I><A HREF="RMRF0013.HTM#path">path</A></I>, <I><A HREF="RMRF0012.HTM#openShape">openShape</A></I>, <I><A HREF="RMRF0001.HTM#circle">circle</A></I>, <I><A HREF="RMRF0014.HTM#polygon">polygon</A></I>, <I><A HREF="RMRF0015.HTM#rectangle">rectangle</A></I> or <I><A HREF="RMRF0019.HTM#shape">shape</A></I>. 
+<P><I><A HREF="RMRF0001.HTM#borderPattern">BorderPattern</A> </I>may be specified in <I><A HREF="RMRF0005.HTM#figureGroup">figureGroup</A> </I>within the <I><A HREF="RMRF0004.HTM#displayAttributes">displayAttributes</A> </I>form in the technology block of a library. In this case, the pattern is the default border pattern to be used to outline all figures in the figure group with which the display attributes are associated. <I><A HREF="RMRF0001.HTM#borderPattern">BorderPattern</A> </I>may also be specified in the <I><A HREF="RMRF0004.HTM#displayAttributes">displayAttributes</A> </I>form in <I><A HREF="RMRF0006.HTM#figureGroupOverride">figureGroupOverride</A></I> within the <I><A HREF="RMRF0005.HTM#figure">figure</A> </I>itself. In this case, the border pattern specified is used to override the default border pattern. 
+<P>The pattern only affects the display of figures, not their fabrication. 
+<P>The default <I><A HREF="RMRF0001.HTM#borderPattern">borderPattern</A></I> is:
+<PRE>
+<B>(borderPattern (pixelPattern 1 (pixelRow (true))))</B>
+</PRE>
+<H3>Example:</H3>
+<PRE>
+<B>(borderPattern </B>
+<B>   (pixelPattern 4</B>
+<B>      (pixelRow (false) (false) (false) (false))</B>
+<B>      (pixelRow (false) (true) (true) (true))</B>
+<B>      (pixelRow (false) (false) (true) (false))</B>
+<B>      (pixelRow (false) (false) (true) (false))</B>
+<B>      (pixelRow (true) (false) (true) (false))</B>
+<B>      (pixelRow (true) (true) (true) (false))))</B>
+</PRE>
+<P>The above example specifies a border pattern which would fill the border with <B>J </B>character patterns, as shown in the following diagram.
+<P><CENTER><IMG SRC="FIG0024.GIF">
+</CENTER>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#booleanValue">booleanValue</A>  <A HREF="RMRF0001.HTM#borderWidth">borderWidth</A>  <A HREF="RMRF0002.HTM#color">color</A>  <A HREF="RMRF0005.HTM#false">false</A>  <A HREF="RMRF0005.HTM#figure">figure</A>  <A HREF="RMRF0006.HTM#fillPattern">fillPattern</A>  <A HREF="RMRF0021.HTM#true">true</A>  <A HREF="RMRF0022.HTM#visible">visible</A>
+</I>
+<P><HR>
+<H1><A NAME="borderPatternVisible">borderPatternVisible</A></H1>
+<PRE>
+<I>borderPatternVisible ::= '(' 'borderPatternVisible'</I>
+&#09;<I><A HREF="RMRF0001.HTM#booleanValue">booleanValue</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#displayAttributes">displayAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#borderPatternVisible">BorderPatternVisible</A></I> defines whether or not the border pattern is visible. The default is that the border pattern is visible.
+<H3>Example:</H3>
+<PRE>
+<B>(figureGroup filled_shapes</B>
+<B>   (displayAttributes (borderPatternVisible (false))))</B>
+</PRE>
+<P>In this example, the <I><A HREF="RMRF0005.HTM#figureGroup">figureGroup</A></I> <B>filled_shapes</B> has no visible display of the border pattern.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0006.HTM#fillPatternVisible">fillPatternVisible</A>  <A HREF="RMRF0001.HTM#borderPattern">borderPattern</A>
+</I>
+<P><HR>
+<H1><A NAME="borderWidth">borderWidth</A></H1>
+<PRE>
+<I>borderWidth ::= '(' 'borderWidth'</I>
+&#09;<I>( <A HREF="RMRF0010.HTM#lengthValue">lengthValue</A> | <A HREF="RMRF0011.HTM#minimalWidth">minimalWidth</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#displayAttributes">displayAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0001.HTM#borderWidth">borderWidth</A> </I>construct is used to define the display or plot width of the border or edge of all figures in a figure group. <I><A HREF="RMRF0011.HTM#minimalWidth">MinimalWidth</A></I> is used to draw a border width of minimum-displayable width.
+<P><I><A HREF="RMRF0001.HTM#borderWidth">BorderWidth</A> </I>may be specified in the <I><A HREF="RMRF0005.HTM#figureGroup">figureGroup</A> </I>construct (in the <I><A HREF="RMRF0004.HTM#displayAttributes">displayAttributes</A> </I>form) in the technology block of a library. In this case, the width is the default width to be used in all figures in the figure group with which the display attributes are associated. <I><A HREF="RMRF0001.HTM#borderWidth">BorderWidth</A> </I>may also be specified in the <I><A HREF="RMRF0004.HTM#displayAttributes">displayAttributes</A> </I>form in the <I><A HREF="RMRF0006.HTM#figureGroupOverride">figureGroupOverride</A> </I>construct in the <I><A HREF="RMRF0005.HTM#figure">figure</A> </I>itself. In this case, the width value is used to override temporarily the default width value.
+<P>The default value for <I><A HREF="RMRF0001.HTM#borderWidth">borderWidth</A></I> is <I><A HREF="RMRF0011.HTM#minimalWidth">minimalWidth</A></I>.
+<H3>Example:</H3>
+<PRE>
+<B>(physicalScaling</B>
+<B>   (documentationUnits (setDistance (unitRef mm))) ...)</B>
+<B>...</B>
+<B>(figureGroup Display</B>
+<B>      (displayAttributes</B>
+<B>         (borderWidth 10) ...))</B>
+</PRE>
+<P>The first example defines a default border width of <B>10 mm </B>in the <I><A HREF="RMRF0020.HTM#technology">technology</A> </I>section when the figureGroup is used in documentation.
+<PRE>
+<B>(figure</B>
+<B>   (figureGroupOverride Display</B>
+<B>      (displayAttributes (borderWidth 15) ...))...)</B>
+</PRE>
+<P>The second example overrides the default border width with a value of <B>15 mm </B>for this use.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#borderPattern">borderPattern</A>  <A HREF="RMRF0005.HTM#figure">figure</A> <A HREF="RMRF0013.HTM#pathWidth">pathWidth</A>  <A HREF="RMRF0020.HTM#technology">technology</A>
+</I>
+<P><HR>
+<H1><A NAME="bottomJustify">bottomJustify</A></H1>
+<PRE>
+<I>bottomJustify ::= '(' 'bottomJustify'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#verticalJustification">verticalJustification</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#bottomJustify">BottomJustify</A></I> indicates that the Y origin point of the text is at the bottom edge of the text bounding box. See <I><A HREF="RMRF0021.HTM#verticalJustification">verticalJustification</A></I> for more details.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#horizontalJustification">horizontalJustification</A>
+</I>
+<P><HR>
+<H1><A NAME="calculated">calculated</A></H1>
+<PRE>
+<I>calculated ::= '(' 'calculated'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0003.HTM#derivation">derivation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#calculated">Calculated</A></I> specifies that a value has been derived by calculation.
+<H3>Example:</H3>
+<PRE>
+<B>(portDelay  PD1 (calculated) (delay ...) ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0011.HTM#measured">measured</A>  <A HREF="RMRF0015.HTM#required">required</A>
+</I>
+<P><HR>
+<H1><A NAME="candela">candela</A></H1>
+<PRE>
+<I>candela ::= '(' 'candela'</I>
+&#09;<I><A HREF="RMRF0021.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#unit">unit</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#candela">Candela</A> </I>is used to specify a user-defined unit in terms of the SI unit, candela (luminous intensity). See <I><A HREF="RMRF0021.HTM#unit">unit</A></I> for examples of the definition of units.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#ampere">ampere</A> <A HREF="RMRF0001.HTM#celsius">celsius</A>  <A HREF="RMRF0003.HTM#coulomb">coulomb</A>  <A HREF="RMRF0003.HTM#degree">degree</A>  <A HREF="RMRF0005.HTM#fahrenheit">fahrenheit</A>  <A HREF="RMRF0005.HTM#farad">farad</A>  <A HREF="RMRF0007.HTM#henry">henry</A>  <A HREF="RMRF0007.HTM#hertz">hertz</A>  <A HREF="RMRF0009.HTM#joule">joule</A>  <A HREF="RMRF0010.HTM#kelvin">kelvin</A>  <A HREF="RMRF0010.HTM#kilogram">kilogram</A>  <A HREF="RMRF0011.HTM#meter">meter</A>  <A HREF="RMRF0011.HTM#mole">mole</A>  <A HREF="RMRF0012.HTM#ohm">ohm</A>  <A HREF="RMRF0015.HTM#radian">radian</A>  <A HREF="RMRF0019.HTM#second">second</A>  <A HREF="RMRF0019.HTM#siemens">siemens</A>  <A HREF="RMRF0022.HTM#volt">volt</A>  <A HREF="RMRF0022.HTM#watt">watt</A>  <A HREF="RMRF0022.HTM#weber">weber</A>
+</I>
+<P><HR>
+<H1><A NAME="capacitanceValue">capacitanceValue</A></H1>
+<PRE>
+<I>capacitanceValue ::= <A HREF="RMRF0011.HTM#miNoMaxValue">miNoMaxValue</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0000.HTM#acLoad">acLoad</A>  <A HREF="RMRF0000.HTM#acLoadFactorCapacitance">acLoadFactorCapacitance</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#capacitanceValue">CapacitanceValue</A></I> defines a value representing capacitance. Its units are determined by the units referenced by <I><A HREF="RMRF0019.HTM#setCapacitance">setCapacitance</A>,</I> or the SI units of farads if <I><A HREF="RMRF0019.HTM#setCapacitance">setCapacitance</A></I> is not present. It must be greater than or equal to zero.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0019.HTM#setCapacitance">setCapacitance</A>
+</I>
+<P><HR>
+<H1><A NAME="caplineJustify">caplineJustify</A></H1>
+<PRE>
+<I>caplineJustify ::= '(' 'caplineJustify'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#verticalJustification">verticalJustification</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#caplineJustify">CaplineJustify</A></I> indicates that the Y origin point of the text is at the capline of the top line of text. See <I><A HREF="RMRF0021.HTM#verticalJustification">verticalJustification</A></I> for more details.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0007.HTM#horizontalJustification">horizontalJustification</A>
+</I>
+<P><HR>
+<H1><A NAME="cell">cell</A></H1>
+<PRE>
+<I>cell ::= '(' 'cell'</I>
+&#09;<I><A HREF="RMRF0010.HTM#libraryObjectNameDef">libraryObjectNameDef</A></I>
+&#09;<I><A HREF="RMRF0001.HTM#cellHeader">cellHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0001.HTM#cluster">cluster</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0021.HTM#userData">userData</A> | <A HREF="RMRF0021.HTM#viewGroup">viewGroup</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#external">external</A>  <A HREF="RMRF0010.HTM#library">library</A>  
+</I>
+<H3>Description:</H3>
+<P>The <I><A HREF="RMRF0001.HTM#cell">cell</A> </I>construct is used to define a cell in terms of one or more views which are grouped together according to their interface definition into <I><A HREF="RMRF0001.HTM#cluster">clusters</A></I>. A cluster of this cell may be instantiated later in another cell view to build a design hierarchy.
+<P>Instances may occur in any order in certain views of other <I><A HREF="RMRF0001.HTM#cell">cells</A></I>, but only if the referenced <I><A HREF="RMRF0001.HTM#cell">cells</A> </I>were defined earlier in the file, or if they belong to external libraries and have already been declared as such in an <I><A HREF="RMRF0005.HTM#external">external</A> </I>construct.
+<P><I><A HREF="RMRF0001.HTM#cell">Cell</A></I> names, which are in the library-object-name class, must be unique within a <I><A HREF="RMRF0010.HTM#library">library</A></I>, and must be different from other library objects which have names in the samescope.
+<H3>Example:</H3>
+<PRE>
+<B>(external FOREIGN_LIBRARY</B>
+<B>   (libraryHeader </B>
+<B>      (edifLevel 0) </B>
+<B>      (nameCaseSensitivity)</B>
+<B>      (technology ...))</B>
+<B>   (cell LS04 (cellHeader ...)</B>
+<B>      (cluster C1</B>
+<B>         (interface ...)</B>
+<B>         (clusterHeader ...)</B>
+<B>         (schematicSymbol ANSI ...))))</B>
+<B>(library CMOS2M </B>
+<B>   (libraryHeader  </B>
+<B>      (edifLevel 0) </B>
+<B>      (nameCaseSensitivity)</B>
+<B>      (technology ...))</B>
+<B>   (cell MUX (cellHeader ...)</B>
+<B>      (cluster C1 </B>
+<B>         (interface ...)</B>
+<B>         (clusterHeader ...)</B>
+<B>         (schematicView SCHEM1 ...)</B>
+<B>         (maskLayoutView MIL_MASK ...))))</B>
+</PRE>
+<P>The above examples illustrate the use of the <I><A HREF="RMRF0001.HTM#cell">cell</A> </I>construct in the context of a <I><A HREF="RMRF0010.HTM#library">library</A> </I>and an <I><A HREF="RMRF0005.HTM#external">external</A> </I>library.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellRef">cellRef</A>  <A HREF="RMRF0008.HTM#instance">instance</A>  <A HREF="RMRF0022.HTM#viewRef">viewRef</A> <A HREF="RMRF0006.HTM#geometryMacro">geometryMacro</A>  <A HREF="RMRF0016.HTM#schematicGlobalPortTemplate">schematicGlobalPortTemplate</A>  <A HREF="RMRF0016.HTM#schematicFigureMacro">schematicFigureMacro</A> <A HREF="RMRF0017.HTM#schematicJunctionTemplate">schematicJunctionTemplate</A> <A HREF="RMRF0017.HTM#schematicMasterPortTemplate">schematicMasterPortTemplate</A>  <A HREF="RMRF0017.HTM#schematicOffPageConnectorTemplate">schematicOffPageConnectorTemplate</A> <A HREF="RMRF0017.HTM#schematicOnPageConnectorTemplate">schematicOnPageConnectorTemplate</A>  <A HREF="RMRF0013.HTM#pageBorderTemplate">pageBorderTemplate</A>  <A HREF="RMRF0018.HTM#schematicRipperTemplate">schematicRipperTemplate</A> <A HREF="RMRF0018.HTM#schematicSymbolBorderTemplate">schematicSymbolBorderTemplate</A>  <A HREF="RMRF0018.HTM#schematicSymbolPortTemplate">schematicSymbolPortTemplate</A>  <A HREF="RMRF0013.HTM#pageTitleBlockTemplate">pageTitleBlockTemplate</A>  
+</I>
+<P><HR>
+<H1><A NAME="cellHeader">cellHeader</A></H1>
+<PRE>
+<I>cellHeader ::= '(' 'cellHeader'</I>
+&#09;<I>{ <A HREF="RMRF0004.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0012.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0015.HTM#property">property</A> | &lt;<A HREF="RMRF0020.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cell">cell</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellHeader">CellHeader</A></I> gathers together data relating to the cell as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(cell foo </B>
+<B>   (cellHeader </B>
+<B>      (status </B>
+<B>         (written </B>
+<B>            (timeStamp </B>
+<B>               (date 1992 4 29) (time 12 0 0))))</B>
+<B>   ...) ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0010.HTM#libraryHeader">libraryHeader</A>
+</I>
+<P><HR>
+<H1><A NAME="cellNameDisplay">cellNameDisplay</A></H1>
+<PRE>
+<I>cellNameDisplay ::= '(' 'cellNameDisplay'</I>
+&#09;<I>{ <A HREF="RMRF0004.HTM#display">display</A> | <A HREF="RMRF0004.HTM#displayNameOverride">displayNameOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  <A HREF="RMRF0018.HTM#schematicSymbol">schematicSymbol</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellNameDisplay">CellNameDisplay</A></I> is used to define display positions for the name of an associated cell.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#cell">cell</A>  <A HREF="RMRF0012.HTM#nameInformation">nameInformation</A>
+</I>
+<P><HR>
+<H1><A NAME="cellPropertyDisplay">cellPropertyDisplay</A></H1>
+<PRE>
+<I>cellPropertyDisplay ::= '(' 'cellPropertyDisplay'</I>
+&#09;<I><A HREF="RMRF0015.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>{ <A HREF="RMRF0004.HTM#display">display</A> | &lt;<A HREF="RMRF0015.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0013.HTM#page">page</A>  <A HREF="RMRF0018.HTM#schematicSymbol">schematicSymbol</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellPropertyDisplay">CellPropertyDisplay</A></I> is used to define the display positions for a cell property. There may be no more than one for each cell property.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#cell">cell</A>
+</I>
+<P><HR>
+<H1><A NAME="cellPropertyDisplayOverride">cellPropertyDisplayOverride</A></H1>
+<PRE>
+<I>cellPropertyDisplayOverride ::= '(' 'cellPropertyDisplayOverride'</I>
+&#09;<I><A HREF="RMRF0015.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0015.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0015.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>{ &lt;<A HREF="RMRF0015.HTM#propertyNameDisplay">propertyNameDisplay</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0016.HTM#schematicInstanceImplementation">schematicInstanceImplementation</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellPropertyDisplayOverride">CellPropertyDisplayOverride</A></I> is used to override the display positions for a cell property. There may be no more than one for each cell property.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellPropertyDisplay">cellPropertyDisplay</A>  <A HREF="RMRF0001.HTM#cell">cell</A>
+</I>
+<P><HR>
+<H1><A NAME="cellPropertyOverride">cellPropertyOverride</A></H1>
+<PRE>
+<I>cellPropertyOverride ::= '(' 'cellPropertyOverride'</I>
+&#09;<I><A HREF="RMRF0015.HTM#propertyNameRef">propertyNameRef</A></I>
+&#09;<I>( <A HREF="RMRF0021.HTM#typedValue">typedValue</A> | <A HREF="RMRF0021.HTM#untyped">untyped</A> )</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | &lt;<A HREF="RMRF0006.HTM#fixed">fixed</A>&gt; | <A HREF="RMRF0015.HTM#propertyOverride">propertyOverride</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0008.HTM#instance">instance</A>  <A HREF="RMRF0010.HTM#leafOccurrenceAnnotate">leafOccurrenceAnnotate</A>  <A HREF="RMRF0012.HTM#occurrenceAnnotate">occurrenceAnnotate</A>  <A HREF="RMRF0012.HTM#occurrenceHierarchyAnnotate">occurrenceHierarchyAnnotate</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellPropertyOverride">CellPropertyOverride</A></I> is used to override the value of a cell property, either on instantiation or on back annotation from within <I><A HREF="RMRF0003.HTM#design">design</A>.
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(cell MUX </B>
+<B>   (cellHeader  (property P1 (integer 3)) ...)</B>
+<B>   (cluster C1 </B>
+<B>      (interface ...)</B>
+<B>      (clusterHeader ...)</B>
+<B>      (schematicView SCHEM1 ...)</B>
+<B>      (maskLayoutView MIL_MASK ...)))</B>
+<B>...</B>
+<B>(cell MUX_USER (cellHeader ...)</B>
+<B>   (cluster C1 </B>
+<B>      (interface ...)</B>
+<B>      (clusterHeader ...)</B>
+<B>      (schematicView SCHEM1 </B>
+<B>         (schematicViewHeader ...)</B>
+<B>         (logicalConnectivity</B>
+<B>            (instance I1 </B>
+<B>               (clusterRef C1 (cellRef MUX))</B>
+<B>               (cellPropertyOverride P1</B>
+<B>                  (integer 4))) ...) ...)))</B>
+</PRE>
+<P>In this example, the property <B>P1</B> of cell <B>MUX</B> is overridden and given a different value when used in cell <B>MUX_USER</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0002.HTM#clusterPropertyOverride">clusterPropertyOverride</A> <A HREF="RMRF0015.HTM#propertyOverride">propertyOverride</A>  
+</I>
+<P><HR>
+<H1><A NAME="cellRef">cellRef</A></H1>
+<PRE>
+<I>cellRef ::= '(' 'cellRef'</I>
+&#09;<I><A HREF="RMRF0010.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>
+&#09;<I>[ <A HREF="RMRF0010.HTM#libraryRef">libraryRef</A> ]</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0002.HTM#clusterRef">clusterRef</A>  <A HREF="RMRF0003.HTM#design">design</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellRef">CellRef</A></I> is used to reference a previously-defined <I><A HREF="RMRF0001.HTM#cell">cell</A></I>. It contains a reference to the name of a cell (<I><A HREF="RMRF0010.HTM#libraryObjectNameRef">libraryObjectNameRef</A></I>)defined by the <I><A HREF="RMRF0001.HTM#cell">cell</A></I> construct and an optional <I><A HREF="RMRF0010.HTM#libraryRef">libraryRef</A></I>. 
+<P>If the cell being referenced belongs to a different <I><A HREF="RMRF0010.HTM#library">library</A></I>, then <I><A HREF="RMRF0001.HTM#cellRef">cellRef</A></I> is required to have the <I><A HREF="RMRF0010.HTM#libraryRef">libraryRef</A></I> specified. <I><A HREF="RMRF0010.HTM#libraryRef">LibraryRef</A></I> must not be used when the cell is in the same library. The <I><A HREF="RMRF0001.HTM#cellRef">cellRef</A></I> is part of the generic-name-referencing mechanism in EDIF that provides indirect referencing and extends accessibility to an object from beyond its immediate range.
+<H3>Example:</H3>
+<PRE>
+<B>(design ALU_32 </B>
+<B>   (cellRef ALU_CMOS_32</B>
+<B>      (libraryRef CMOS2M))</B>
+<B>   (designHeader ...) ...)</B>
+</PRE>
+<P>In this first example, the design named <B>ALU_32</B> references the cell named <B>ALU_CMOS_32</B>, which is defined in the <I><A HREF="RMRF0010.HTM#library">library</A></I> named <B>CMOS2M</B>. <I><A HREF="RMRF0010.HTM#libraryRef">LibraryRef</A></I> is required here as <I><A HREF="RMRF0003.HTM#design">design</A></I> is not in the context of a <I><A HREF="RMRF0010.HTM#library">library</A></I>.
+<PRE>
+<B>(instance I1</B>
+<B>   (clusterRef C1 (cellRef MUX))...)</B>
+</PRE>
+<P>In the second example, the <I><A HREF="RMRF0001.HTM#cell">cell</A></I> referenced, namely <B>MUX</B>, is defined in the current <I><A HREF="RMRF0010.HTM#library">library</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0008.HTM#instance">instance</A>  
+</I>
+<P><HR>
+<H1><A NAME="celsius">celsius</A></H1>
+<PRE>
+<I>celsius ::= '(' 'celsius'</I>
+&#09;<I><A HREF="RMRF0021.HTM#unitExponent">unitExponent</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0021.HTM#unit">unit</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#celsius">Celsius</A></I> is used to specify a user-defined temperature unit in terms of degrees celsius. Celsius is not an SI unit. See <I><A HREF="RMRF0021.HTM#unit">unit</A></I> for examples of the definition of units.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#fahrenheit">fahrenheit</A>  <A HREF="RMRF0010.HTM#kelvin">kelvin</A> 
+</I>
+<P><HR>
+<H1><A NAME="centerJustify">centerJustify</A></H1>
+<PRE>
+<I>centerJustify ::= '(' 'centerJustify'</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0007.HTM#horizontalJustification">horizontalJustification</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#centerJustify">CenterJustify</A></I> indicates that the X origin point of the text is at the center of the text bounding box. See <I><A HREF="RMRF0021.HTM#verticalJustification">verticalJustification</A></I> for more details.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0021.HTM#verticalJustification">verticalJustification</A>
+</I>
+<P><HR>
+<H1><A NAME="characterEncoding">characterEncoding</A></H1>
+<PRE>
+<I>characterEncoding ::= '(' 'characterEncoding'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#ascii">ascii</A> | <A HREF="RMRF0009.HTM#iso8859">iso8859</A> | <A HREF="RMRF0009.HTM#jisx0201">jisx0201</A> | <A HREF="RMRF0009.HTM#jisx0208">jisx0208</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#characterEncoding">CharacterEncoding</A></I> allows the user to specify the interpretation of the data contained within percent (%) delimiters in quoted strings. While EDIF is itself represented as ASCII, the data may be from another character set, like one of the ISO 8859 sets, or a 16-bit Japanese Kanji encoding, such as JIS X 208. 
+<P>If <I><A HREF="RMRF0001.HTM#characterEncoding">characterEncoding</A></I> is not used, ASCII is assumed to be the encoding scheme in use throughout the EDIF data.
+<P>Note: Although <I><A HREF="RMRF0001.HTM#characterEncoding">characterEncoding</A></I> makes direct reference to specific external standards, it is intended that this will be replaced by a more general mechanism for handling references to external standards.
+<H3>Example:</H3>
+<PRE>
+<B>(characterEncoding (iso8859 5))</B>
+</PRE>
+<P>Specifies that the codes in quoted strings specify characters in the ISO 8859-5 character set (Part 5: Latin/Cyrillic alphabet).
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0005.HTM#encodedCharacter">encodedCharacter</A> <A HREF="RMRF0020.HTM#stringToken">stringToken</A>
+</I>
+<P><HR>
+<H1><A NAME="checkDate">checkDate</A></H1>
+<PRE>
+<I>checkDate ::= '(' 'checkDate'</I>
+&#09;<I><A HREF="RMRF0003.HTM#date">date</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0013.HTM#pageTitleBlockAttributes">pageTitleBlockAttributes</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#checkDate">CheckDate</A></I> defines the date when a drawing or revision of a drawing was checked.
+<H3>Example:</H3>
+<PRE>
+<B>(checkDate (date 1992 1 20))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#originalDrawingDate">originalDrawingDate</A> <A HREF="RMRF0000.HTM#approvedDate">approvedDate</A>
+</I>
+<P><HR>
+<H1><A NAME="checkDateDisplay">checkDateDisplay</A></H1>
+<PRE>
+<I>checkDateDisplay ::= '(' 'checkDateDisplay'</I>
+&#09;<I>( <A HREF="RMRF0000.HTM#addDisplay">addDisplay</A> | <A HREF="RMRF0015.HTM#replaceDisplay">replaceDisplay</A> | <A HREF="RMRF0015.HTM#removeDisplay">removeDisplay</A> )</I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0013.HTM#pageTitleBlockAttributeDisplay">pageTitleBlockAttributeDisplay</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#checkDateDisplay">CheckDateDisplay</A></I> is used to define display positions for <I><A HREF="RMRF0001.HTM#checkDate">checkDate</A></I>. When used in the context of <I><A HREF="RMRF0013.HTM#pageTitleBlock">pageTitleBlock</A></I>, it may add, replace or remove displays. Within the context of a template definition, only <I><A HREF="RMRF0000.HTM#addDisplay">addDisplay</A></I> may be used.
+<H3>Example:</H3>
+<PRE>
+<B>(checkDateDisplay (addDisplay ...))</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#checkDate">checkDate</A>
+</I>
+<P><HR>
+<H1><A NAME="circle">circle</A></H1>
+<PRE>
+<I>circle ::= '(' 'circle'</I>
+&#09;<I><A HREF="RMRF0015.HTM#pt1">pt1</A></I>
+&#09;<I><A HREF="RMRF0015.HTM#pt2">pt2</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0005.HTM#figure">figure</A>  <A HREF="RMRF0006.HTM#geometryMacro">geometryMacro</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#circle">Circle</A> </I>is used to describe a circle. The specified points are at the ends of a diameter of the circle. It is a special case of <I><A HREF="RMRF0019.HTM#shape">shape</A>. 
+</I>
+<H3>Example:</H3>
+<PRE>
+<B>(circle (pt 0 0) (pt 10 0))</B>
+</PRE>
+<P>This example produces a circle of radius <B>5 </B>distance units whose center is at (5, 0), as shown in the figure below.
+<P><CENTER><IMG SRC="FIG0034.GIF">
+</CENTER>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0000.HTM#arc">arc</A>  <A HREF="RMRF0019.HTM#shape">shape</A>
+</I>
+<P><HR>
+<H1><A NAME="cluster">cluster</A></H1>
+<PRE>
+<I>cluster ::= '(' 'cluster'</I>
+&#09;<I><A HREF="RMRF0001.HTM#clusterNameDef">clusterNameDef</A></I>
+&#09;<I><A HREF="RMRF0009.HTM#interface">interface</A></I>
+&#09;<I><A HREF="RMRF0001.HTM#clusterHeader">clusterHeader</A></I>
+&#09;<I>{ <A HREF="RMRF0000.HTM#behaviorView">behaviorView</A> | <A HREF="RMRF0001.HTM#clusterConfiguration">clusterConfiguration</A> | <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0002.HTM#connectivityView">connectivityView</A> | 
+&#09;&lt;<A HREF="RMRF0003.HTM#defaultClusterConfiguration">defaultClusterConfiguration</A>&gt; | <A HREF="RMRF0011.HTM#logicModelView">logicModelView</A> | <A HREF="RMRF0011.HTM#maskLayoutView">maskLayoutView</A> | 
+&#09;<A HREF="RMRF0013.HTM#pcbLayoutView">pcbLayoutView</A> | <A HREF="RMRF0018.HTM#schematicSymbol">schematicSymbol</A> | <A HREF="RMRF0019.HTM#schematicView">schematicView</A> | <A HREF="RMRF0020.HTM#symbolicLayoutView">symbolicLayoutView</A> | 
+&#09;<A HREF="RMRF0021.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cell">cell</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#cluster">Cluster</A></I> provides a mechanism for grouping together views and symbols that share a common <I><A HREF="RMRF0009.HTM#interface">interface</A></I>. <I><A HREF="RMRF0001.HTM#cluster">Cluster</A></I> is a named object within a <I><A HREF="RMRF0001.HTM#cell">cell</A></I>.
+<P>Within a <I><A HREF="RMRF0001.HTM#cluster">cluster</A></I>, any number of views of each type are allowed together with an unlimited number of symbols. 
+<P>Views and symbols within a <I><A HREF="RMRF0001.HTM#cluster">cluster</A></I> share the same name space, so no view or symbol may have the same name as another. 
+<H3>Example:</H3>
+<PRE>
+<B>(cell INVERTER (cellHeader ...)</B>
+<B>   (cluster BASIC </B>
+<B>      (interface ... (port IN ...) (port OUT ...))</B>
+<B>      (clusterHeader ...)</B>
+<B>      (schematicSymbol ANSI ...)</B>
+<B>      (schematicSymbol IEEE ...)</B>
+<B>      (connectivityView NET ...)</B>
+<B>      ...)</B>
+<B>   (cluster WITH_POWER_AND_GROUND</B>
+<B>      (interface ... (port IN ...) (port OUT ...)</B>
+<B>         (port VCC ...) (port GND ...))</B>
+<B>      (clusterHeader ...)</B>
+<B>      (schematicSymbol ANSI ...)</B>
+<B>      (schematicSymbol IEEE ...)</B>
+<B>      (connectivityView NET ...)</B>
+<B>      ...))</B>
+</PRE>
+<P>In this example of a cell named <B>INVERTER</B>, the <I><A HREF="RMRF0001.HTM#cluster">cluster</A></I> <B>BASIC</B> contains the definition of the inverter with its input port and output port only. <I><A HREF="RMRF0001.HTM#cluster">Cluster</A></I> <B>WITH_POWER_AND_GROUND</B> has <B>VCC</B> and <B>GND</B> ports defined also. Both <I><A HREF="RMRF0001.HTM#cluster">clusters</A></I> have a connectivity view and two schematic symbols.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0022.HTM#viewRef">viewRef</A>
+</I>
+<P><HR>
+<H1><A NAME="clusterConfiguration">clusterConfiguration</A></H1>
+<PRE>
+<I>clusterConfiguration ::= '(' 'clusterConfiguration'</I>
+&#09;<I><A HREF="RMRF0001.HTM#clusterConfigurationNameDef">clusterConfigurationNameDef</A></I>
+&#09;<I>( <A HREF="RMRF0022.HTM#viewRef">viewRef</A> | <A HREF="RMRF0010.HTM#leaf">leaf</A> | <A HREF="RMRF0021.HTM#unconfigured">unconfigured</A> )</I>
+&#09;<I>{ <A HREF="RMRF0002.HTM#comment">comment</A> | <A HREF="RMRF0007.HTM#globalPortScope">globalPortScope</A> | <A HREF="RMRF0008.HTM#instanceConfiguration">instanceConfiguration</A> | &lt;<A HREF="RMRF0012.HTM#nameInformation">nameInformation</A>&gt; 
+&#09;| <A HREF="RMRF0015.HTM#property">property</A> | <A HREF="RMRF0021.HTM#userData">userData</A> } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#clusterConfiguration">ClusterConfiguration</A></I> defines a configuration for a cluster. There may be multiple configurations defined for each view. Each configuration identifies the view to which it relates.
+<P>When an instance is defined, it references a cluster of a cell. In order to define the full hierarchy for a design, it is necessary to indicate, for each instance, which view is to be used for the design hierarchy and in turn the configuration for all instances within this view. This is achieved by <I><A HREF="RMRF0001.HTM#clusterConfiguration">clusterConfiguration</A></I> and <I><A HREF="RMRF0008.HTM#instanceConfiguration">instanceConfiguration</A></I>. 
+<P>Each <I><A HREF="RMRF0001.HTM#clusterConfiguration">clusterConfiguration</A></I> defines a configuration to be used for instances within the view. By following this through each level, a full design hierarchy is defined.
+<P>The view referenced by <I><A HREF="RMRF0022.HTM#viewRef">viewRef</A></I> must not be a <I><A HREF="RMRF0018.HTM#schematicSymbol">schematicSymbol</A></I>. The <I><A HREF="RMRF0022.HTM#viewRef">viewRef</A></I> must not contain a nested <I><A HREF="RMRF0002.HTM#clusterRef">clusterRef</A></I>.
+<P><I><A HREF="RMRF0010.HTM#leaf">Leaf</A></I> means that the cluster is to be treated as a leaf, i.e. the hierarchy expansion goes no further. This is an explicit decision to terminate the hierarchy at this cluster.
+<P><I><A HREF="RMRF0021.HTM#unconfigured">Unconfigured</A></I> means that the configuration of the cluster has not yet been fully specified. Further expansion or termination of the hierarchy has not yet been decided. This could be used to transfer incomplete work.
+<P>There are no constraints on the number of cluster configurations (including unconfigured and leaf) in a cluster.
+<H3>Example:</H3>
+<P>In the following diagram each box with a thick border represents  the definition of a view. The annotation in the box indicates the name of the view, e.g. <B>VIEWA1 </B>(for the purposes of the this example, each of the cells is assumed to have one cluster named <B>C</B>).
+<P>The other boxes represent instances of other cell clusters within the view with the annotation in the box representing the instance identifier and the name of the cell instanced, e.g. <B>B_1</B> indicates the first instance of cell <B>B</B>.
+<P><CENTER><IMG SRC="FIG0035.GIF">
+</CENTER>
+<P>The above diagram represents views of cells <B>A</B>, <B>B</B>, <B>D</B> and <B>X</B> which instance clusters of cells <B>B</B>, <B>D</B> and <B>X</B> (for the purposes of this example <B>X</B> is considered to be a 'leaf' cluster with no further instances below it). This is represented in the following EDIF fragment:
+<PRE>
+<B>(cell X ... (cluster C (interface ...)  (clusterHeader ...)))</B>
+<B>(cell D ...</B>
+<B>   (cluster C (interface ...) ...</B>
+<B>      (schematicView VIEWD1 (schematicViewHeader ...)</B>
+<B>         (logicalConnectivity</B>
+<B>            (instance X_1 (clusterRef C (cellRef X)))</B>
+<B>            (instance X_2 (clusterRef C (cellRef X)))) </B>
+<B>         ...)))</B>
+<B>(cell B ...</B>
+<B>   (cluster C (interface ...) ...</B>
+<B>      (schematicView VIEWB1 (schematicViewHeader ...)</B>
+<B>         (logicalConnectivity</B>
+<B>            (instance D_1 (clusterRef C (cellRef D)))</B>
+<B>            (instance X_1 (clusterRef C (cellRef X)))</B>
+<B>            (instance X_2 (clusterRef C (cellRef X))) ...)</B>
+<B>         ...)</B>
+<B>      (schematicView VIEWB2 (schematicViewHeader ...)</B>
+<B>         (logicalConnectivity</B>
+<B>            (instance X_1 (clusterRef C (cellRef X))) ...) </B>
+<B>         ...)))</B>
+<B>(cell A ...</B>
+<B>   (cluster C (interface ...) ...</B>
+<B>      (schematicView VIEWA1 (schematicViewHeader ...)</B>
+<B>         (logicalConnectivity</B>
+<B>            (instance B_1 (clusterRef C (cellRef B)))</B>
+<B>            (instance B_2 (clusterRef C (cellRef B)))</B>
+<B>            (instance X_1 (clusterRef C (cellRef X))))</B>
+<B>         ...)))</B>
+</PRE>
+<P>Now the definitions of the cells are specified,  the configurations for each can be specified.
+<P>For cell <B>X</B> there is a default cluster configuration which indicates that this cluster is a leaf:
+<PRE>
+<B>(cell X ... </B>
+<B>   (cluster C (interface ...)  </B>
+<B>      (clusterHeader ...) </B>
+<B>      (clusterConfiguration X (leaf))</B>
+<B>      (defaultClusterConfiguration X)))</B>
+</PRE>
+<P>For cell <B>D</B> a configuration needs to be defined to indicate that the default cluster configuration of <B>X</B> is to be used for both instances of <B>X</B>. Another configuration could specify that the cluster may be used as a leaf item.  
+<PRE>
+<B>(cell D ...</B>
+<B>   (cluster C ...</B>
+<B>      (schematicView VIEWD1 ...)</B>
+<B>      (clusterConfiguration DV1C1 (viewRef  VIEWD1))</B>
+<B>      (clusterConfiguration DV1C2 (leaf))</B>
+<B>      (defaultClusterConfiguration DV1C1)))</B>
+</PRE>
+<P>Likewise for view <B>VIEWB2 </B>of cell <B>B</B> only one configuration is needed. Let this be called <B>BV2C1</B>, defined as:
+<PRE>
+<B>(cell B ...</B>
+<B>   (cluster C ...</B>
+<B>      (schematicView VIEWB1 ...)</B>
+<B>      (schematicView VIEWB2 ...)</B>
+<B>      (clusterConfiguration BV2C1 (viewRef  VIEWB2))))</B>
+</PRE>
+<P>For cell <B>B</B>, view <B>VIEWB1</B>, two configurations could be defined. One would point to the configuration <B>DV1C1</B> for the instance of <B>D</B>. The other would indicate that for this instance of <B>D</B> no further expansion was to take place. Let these configurations be called <B>BV1C1</B> and <B>BV1C2</B>:
+<PRE>
+<B>(cell B ...</B>
+<B>   (cluster C ...</B>
+<B>      (schematicView VIEWB1 ...)</B>
+<B>      (schematicView VIEWB2 ...)</B>
+<B>      (clusterConfiguration BV1C1 (viewRef  VIEWB1)</B>
+<B>         (instanceConfiguration D_1</B>
+<B>            (clusterConfigurationRef DV1C1)))</B>
+<B>      (clusterConfiguration BV1C2 (viewRef VIEWB1)</B>
+<B>         (instanceConfiguration D_1</B>
+<B>            (clusterConfigurationRef DV1C2)))</B>
+<B>      (defaultClusterConfiguration BV1C1)))</B>
+</PRE>
+<P>For cell <B>A</B>, view <B>VIEWA1</B> many different configurations could be defined. For each configuration, a choice must be made for each of the instances of clusters within cell <B>B</B> as to the configuration to be selected. The choice for each instance is one of the following: <B>BV1C1</B>, <B>BV1C2</B> or <B>BV2C1</B>. Each choice uniquely defines the full expansion down through the hierarchy.
+<PRE>
+<B>(cell A ...</B>
+<B>   (cluster C ...</B>
+<B>      (schematicView VIEWA1 ...)</B>
+<B>      (clusterConfiguration CONFIG1 (viewRef VIEWA1)</B>
+<B>         (instanceConfiguration B_1 </B>
+<B>            (clusterConfigurationRef BV1C1))</B>
+<B>         (instanceConfiguration B_2 </B>
+<B>            (clusterConfigurationRef BV1C2)))</B>
+<B>      (defaultClusterConfiguration CONFIG1)))</B>
+</PRE>
+<P>In this example, for each of the instances <B>B_1</B> and <B>B_2</B>, a different configuration of the cluster is selected.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0003.HTM#defaultClusterConfiguration">defaultClusterConfiguration</A>  <A HREF="RMRF0003.HTM#design">design</A> 
+</I>
+<P><HR>
+<H1><A NAME="clusterConfigurationNameCaseSensitive">clusterConfigurationNameCaseSensitive</A></H1>
+<PRE>
+<I>clusterConfigurationNameCaseSensitive ::= '(' 'clusterConfigurationNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0000.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#clusterConfigurationNameCaseSensitive">ClusterConfigurationNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0012.HTM#nameInformation">nameInformation</A></I> for <I><A HREF="RMRF0001.HTM#clusterConfiguration">clusterConfigurations</A></I> are to be considered as case sensitive. The default is that names are case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0010.HTM#libraryHeader">libraryHeader</A></I>. 
+<P>See <I><A HREF="RMRF0001.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A></I> for an example.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#nameInformation">nameInformation</A>  <A HREF="RMRF0001.HTM#clusterNameCaseSensitive">clusterNameCaseSensitive</A>
+</I>
+<P><HR>
+<H1><A NAME="clusterConfigurationNameDef">clusterConfigurationNameDef</A></H1>
+<PRE>
+<I>clusterConfigurationNameDef ::= <A HREF="RMRF0012.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#clusterConfiguration">clusterConfiguration</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#clusterConfigurationNameDef">ClusterConfigurationNameDef</A></I> defines the name of a cluster configuration.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#clusterConfigurationNameRef">clusterConfigurationNameRef</A>
+</I>
+<P><HR>
+<H1><A NAME="clusterConfigurationNameRef">clusterConfigurationNameRef</A></H1>
+<PRE>
+<I>clusterConfigurationNameRef ::= <A HREF="RMRF0012.HTM#nameRef">nameRef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#clusterConfigurationRef">clusterConfigurationRef</A>  <A HREF="RMRF0003.HTM#defaultClusterConfiguration">defaultClusterConfiguration</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#clusterConfigurationNameRef">ClusterConfigurationNameRef</A></I> references a previously-defined <I><A HREF="RMRF0001.HTM#clusterConfigurationNameDef">clusterConfigurationNameDef</A></I>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#clusterConfigurationNameDef">clusterConfigurationNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="clusterConfigurationRef">clusterConfigurationRef</A></H1>
+<PRE>
+<I>clusterConfigurationRef ::= '(' 'clusterConfigurationRef'</I>
+&#09;<I><A HREF="RMRF0001.HTM#clusterConfigurationNameRef">clusterConfigurationNameRef</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0004.HTM#designHierarchy">designHierarchy</A>  <A HREF="RMRF0008.HTM#instanceConfiguration">instanceConfiguration</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#clusterConfigurationRef">ClusterConfigurationRef</A></I> references a cluster configuration within a cell. 
+<P>The cell is defined by the context in which <I><A HREF="RMRF0001.HTM#clusterConfigurationRef">clusterConfigurationRef</A></I> is used. When used in <I><A HREF="RMRF0004.HTM#designHierarchy">designHierarchy</A></I>, the cell is the cell referenced by the enclosing <I><A HREF="RMRF0003.HTM#design">design</A></I> construct.
+<H3>Example:</H3>
+<PRE>
+<B>(design CPU</B>
+<B>   (cellRef CPU (libraryRef LIB1))</B>
+<B>   (designHeader ...)</B>
+<B>   (designHierarchy CPU </B>
+<B>      (clusterRef C1)</B>
+<B>      (clusterConfigurationRef CONFIG1) ...) ...)</B>
+</PRE>
+<P>In this example, the cluster configuration named <B>CONFIG1</B> will be found in the cluster <B>C1</B> of cell <B>CPU</B> in library <B>LIB1</B>.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellRef">cellRef</A>  <A HREF="RMRF0003.HTM#design">design</A>
+</I>
+<P><HR>
+<H1><A NAME="clusterHeader">clusterHeader</A></H1>
+<PRE>
+<I>clusterHeader ::= '(' 'clusterHeader'</I>
+&#09;<I>{ <A HREF="RMRF0004.HTM#documentation">documentation</A> | &lt;<A HREF="RMRF0012.HTM#nameInformation">nameInformation</A>&gt; | <A HREF="RMRF0015.HTM#property">property</A> | &lt;<A HREF="RMRF0020.HTM#status">status</A>&gt; } </I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#clusterHeader">ClusterHeader</A></I> gathers together data relating to the cluster as a whole.
+<H3>Example:</H3>
+<PRE>
+<B>(cluster C1 (interface ...) </B>
+<B>   (clusterHeader </B>
+<B>      (status </B>
+<B>         (written </B>
+<B>            (timeStamp </B>
+<B>               (date 1992 4 29) (time 12 0 0))))</B>
+<B>   ...) ...)</B>
+</PRE>
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0001.HTM#cellHeader">cellHeader</A>
+</I>
+<P><HR>
+<H1><A NAME="clusterNameCaseSensitive">clusterNameCaseSensitive</A></H1>
+<PRE>
+<I>clusterNameCaseSensitive ::= '(' 'clusterNameCaseSensitive'</I>
+&#09;<I><A HREF="RMRF0000.HTM#booleanToken">booleanToken</A></I>
+&#09;<I>')'</I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0012.HTM#nameCaseSensitivity">nameCaseSensitivity</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#clusterNameCaseSensitive">ClusterNameCaseSensitive</A></I> defines whether or not the strings contained within <I><A HREF="RMRF0012.HTM#nameInformation">nameInformation</A></I> for clusters are to be considered as case sensitive. Following normal precedence rules, this applies to the entire EDIF data if this form occurs in <I><A HREF="RMRF0005.HTM#edifHeader">edifHeader</A></I>, or to the entire library if it occurs in <I><A HREF="RMRF0010.HTM#libraryHeader">libraryHeader</A></I>. The default is that names are case sensitive. 
+<H3>Example:</H3>
+<PRE>
+<B>(clusterNameCaseSensitive (false))</B>
+</PRE>
+<P>This example indicates that two clusters with system names "foo" and "Foo" are to be considered the same, i.e. it would be a semantic error to have two such names in the same name scope.
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0012.HTM#nameInformation">nameInformation</A>  <A HREF="RMRF0001.HTM#clusterNameDef">clusterNameDef</A>
+</I>
+<P><HR>
+<H1><A NAME="clusterNameDef">clusterNameDef</A></H1>
+<PRE>
+<I>clusterNameDef ::= <A HREF="RMRF0012.HTM#nameDef">nameDef</A> </I>
+</PRE>
+<H3>Used by:  </H3>
+<P><I><A HREF="RMRF0001.HTM#cluster">cluster</A>  
+</I>
+<H3>Description:</H3>
+<P><I><A HREF="RMRF0001.HTM#clusterNameDef">ClusterNameDef</A></I> is the name definition of a <I><A HREF="RMRF0001.HTM#cluster">cluster</A></I>. 
+<H3>See also:</H3>
+<P><I><A HREF="RMRF0002.HTM#clusterNameRef">clusterNameRef</A>  <A HREF="RMRF0012.HTM#nameInformation">nameInformation</A>  <A HREF="RMRF0022.HTM#viewRef">viewRef</A>  <A HREF="RMRF0022.HTM#viewNameDef">viewNameDef</A>  
+</I>
+<BR><BR>
+<HR>
+61690-1 &copy; IEC:2000(E)
+<HR>
+</BODY>
+</HTML>
